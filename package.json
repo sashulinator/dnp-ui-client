@@ -29,7 +29,8 @@
     "react-router5": "8.0.1",
     "router5": "8.0.1",
     "router5-plugin-browser": "8.0.1",
-    "router5-plugin-logger": "8.0.1"
+    "router5-plugin-logger": "8.0.1",
+    "valibot": "0.33.3"
   },
   "devDependencies": {
     "@types/node": "20.14.2",

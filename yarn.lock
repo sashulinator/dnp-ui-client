@@ -2954,6 +2954,11 @@ use-sidecar@^1.1.2:
     detect-node-es "^1.1.0"
     tslib "^2.0.0"
 
+valibot@0.33.3:
+  version "0.33.3"
+  resolved "https://registry.yarnpkg.com/valibot/-/valibot-0.33.3.tgz#7c0e2ab2d6e294be672c3c1b763543660612ef13"
+  integrity sha512-/fuY1DlX8uiQ7aphlzrrI2DbG0YJk84JMgvz2qKpUIdXRNsS53varfo4voPjSrjUr5BSV2K0miSEJUOlA5fQFg==
+
 vite-plugin-checker@0.6.4:
   version "0.6.4"
   resolved "https://registry.yarnpkg.com/vite-plugin-checker/-/vite-plugin-checker-0.6.4.tgz#aca186ab605aa15bd2c5dd9cc6d7c8fdcbe214ec"
