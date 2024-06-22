@@ -1,0 +1,60 @@
+:root {
+  --header-height: 60px;
+  --nav-width: 60px;
+}
+
+#root,
+html,
+body,
+.ui-Layout-v-Root {
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr;
+  height: 100vh;
+  width: 100vw;
+}
+
+.ui-Layout-v-Root {
+  display: grid;
+
+  nav {
+    grid-area: nav;
+  }
+
+  header {
+    grid-area: header;
+  }
+
+  main {
+    grid-area: main;
+  }
+
+  /* 
+  * -layoutConfiguration--default
+  * конфигурация по умолчанию
+  */
+
+  &.-layoutConfiguration--default {
+    &.-elements--main {
+      grid-template-areas: 'main';
+      grid-template-rows: 1fr;
+      grid-template-columns: 1fr;
+    }
+
+    &.-elements--header-main {
+      grid-template-areas:
+        'header header header'
+        'main main main';
+      grid-template-rows: var(--header-height) 1fr;
+      grid-template-columns: var(--nav-width) 1fr;
+    }
+
+    &.-elements--header-main-nav {
+      grid-template-areas:
+        'nav header'
+        'nav main';
+      grid-template-rows: var(--header-height) 1fr;
+      grid-template-columns:var(--nav-width) 1fr;
+    }
+  }
+}

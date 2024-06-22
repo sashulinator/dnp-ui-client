@@ -1,0 +1,12 @@
+.ui-Button {
+  &.--round {
+    width: var(--base-button-height);
+    padding: 0;
+    border-radius: var(--base-button-height);
+  }
+
+  &.--square {
+    width: var(--base-button-height);
+    padding: 0;
+  }
+}
