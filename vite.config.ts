@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import react from '@vitejs/plugin-react'
 import path from 'path'
@@ -12,14 +13,14 @@ export default defineConfig(({ mode }) => {
     plugins: [react(), checker({ typescript: true })],
     resolve: {
       alias: {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         '~': path.resolve(__dirname, './src'),
       },
     },
     server: {
       proxy: {
-        '/api/1.0': env.UNI,
-        '/api/0.6': env.CEH,
+        '/api/v1': env.API_URL,
       },
     },
   }

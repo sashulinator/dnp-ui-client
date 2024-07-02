@@ -1,6 +1,8 @@
 import { lazy } from 'react'
 import { type Route } from '../lib/route'
 import Main from '../pages/main'
+import NormalizationConfigs from '~/pages/normalization-configs'
+import NormalizationConfigs_name from '~/pages/normalization-configs/name'
 import Header from '~/ui/header'
 import Nav from '~/ui/nav'
 
@@ -15,6 +17,24 @@ export const routes = {
     renderHeader: Header,
     renderNav: Nav,
     navigatable: false,
+  },
+
+  normalizationConfigs: {
+    path: '/normalization-configs',
+    renderMain: NormalizationConfigs,
+    renderHeader: Header,
+    renderNav: Nav,
+    getName: (): string => 'Конфигурации нормализации',
+    navigatable: true,
+  },
+
+  normalizationConfigs_name: {
+    path: '/normalization-configs/:name',
+    renderMain: NormalizationConfigs_name,
+    renderHeader: Header,
+    renderNav: Nav,
+    getName: (): string => 'Конфигурация нормализации',
+    navigatable: true,
   },
 
   storybook: {

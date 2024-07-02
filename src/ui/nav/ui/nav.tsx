@@ -19,7 +19,7 @@ export default function Component(): JSX.Element {
       <div className='logo'>
         <Card variant='ghost' asChild style={{ display: 'grid', width: '5rem', height: '3rem' }}>
           <Link routeName='main'>
-            <span style={{ placeSelf: 'center' }}>RDS</span>
+            <span style={{ placeSelf: 'center' }}>DNP</span>
           </Link>
         </Card>
       </div>

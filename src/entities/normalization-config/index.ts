@@ -26,5 +26,5 @@ export {
 /**
  * ui
  */
-// export { default as Item, List, type ItemProps, type ListProps } from './ui/item'
+export { default as Item, type ItemProps } from './ui/item'
 // export { default as Form, type FormProps, type FormValues, defaultValues } from './ui/form'
