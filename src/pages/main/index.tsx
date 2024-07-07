@@ -26,6 +26,9 @@ export default function Component(): JSX.Element {
             <Link routeName='normalizationConfigs'>Конфиги нормализации</Link>
           </Card>
           <Card asChild style={{ width: '12rem', height: '5rem' }}>
+            <Link routeName='normalizationConfigsArchive'>Архив конфигураций нормализации</Link>
+          </Card>
+          <Card asChild style={{ width: '12rem', height: '5rem' }}>
             <Link routeName='processes'>Процессы</Link>
           </Card>
           {/* <Card asChild={true} style={{ width: '12rem', height: '4rem' }}>

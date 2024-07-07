@@ -2,6 +2,7 @@ import { lazy } from 'react'
 import { type Route } from '../lib/route'
 import Main from '../pages/main'
 import NormalizationConfigs from '~/pages/normalization-configs'
+import NormalizationConfigsArchive from '~/pages/normalization-configs-archive'
 import NormalizationConfigs_name from '~/pages/normalization-configs/name'
 import Processes from '~/pages/processes'
 import Header from '~/ui/header'
@@ -44,6 +45,15 @@ export const routes = {
     renderHeader: Header,
     renderNav: Nav,
     getName: (): string => 'Процессы',
+    navigatable: true,
+  },
+
+  normalizationConfigsArchive: {
+    path: '/configs-archive',
+    renderMain: NormalizationConfigsArchive,
+    renderHeader: Header,
+    renderNav: Nav,
+    getName: (): string => 'Конфигурации нормализации',
     navigatable: true,
   },
 
