@@ -7,7 +7,6 @@ export * as getByName from './api/get-by-name'
 export * as create from './api/create'
 export * as update from './api/update'
 export * as remove from './api/remove'
-export * as run from '../process/run'
 
 /**
  * types

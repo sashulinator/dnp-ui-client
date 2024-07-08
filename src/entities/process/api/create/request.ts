@@ -10,10 +10,6 @@ export async function request(requestData: RequestData): Promise<Response<Respon
     normalizationConfigId: requestData.id,
   }
 
-  try {
-    const response = await api<ResponseData, Response<ResponseData>>(buildURL(), { method: 'post', data: body })
-    return response
-  } catch (error) {
-    throw error
-  }
+  const response = await api<ResponseData, Response<ResponseData>>(buildURL(), { method: 'post', data: body })
+  return response
 }
