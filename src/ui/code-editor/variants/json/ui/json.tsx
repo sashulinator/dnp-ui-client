@@ -12,7 +12,7 @@ const displayName = 'ui-CodeEditor-v-Json'
  * ui-CodeEditor-v-Json
  */
 export default function Component(props: Props): JSX.Element {
-  return <CodeEditor className={c(displayName, props.className)} mode='json' />
+  return <CodeEditor {...props} className={c(displayName, props.className)} mode='json' />
 }
 
 Component.displayName = displayName
