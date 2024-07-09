@@ -1,5 +1,6 @@
 import type { Story } from '~/ui/storybook'
 
+import normalizationConfigForm from '~/entities/normalization-config/ui/form/story'
 import uiButton from '~/ui/button/story'
 import uiCodeEditor from '~/ui/code-editor/story'
 import uiCodeEditorVJson from '~/ui/code-editor/variants/json/story'
@@ -14,6 +15,7 @@ import uiTagPickerWTag from '~/ui/tag-picker/widgets/tag/story'
 import uiTextHighlighter from '~/ui/text-highlighter/story'
 
 export const storyList: Story<any>[] = [
+  normalizationConfigForm,
   uiButton,
   uiCodeEditor,
   uiCodeEditorVJson,
