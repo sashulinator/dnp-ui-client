@@ -22,10 +22,17 @@ export default function Component(props: Props): JSX.Element {
     <Field<string> name={name} validate={validate}>
       {({ input, meta }) => {
         return (
-          <Text as='label' style={{ width: '100%' }} className={c(props.className, displayName)}>
+          <Text as='label' size='2' style={{ width: '100%' }} className={c(props.className, displayName)}>
             <Flex direction={'column'} gap='1' width='100%'>
               {label}
-              <JsonEditor {...jsonEditorProps} {...input} />
+              <JsonEditor
+                {...jsonEditorProps}
+                {...input}
+                setOptions={{
+                  maxLines: Infinity,
+                  minLines: 4,
+                }}
+              />
               {(meta.error || meta.submitError) && meta.dirty && (
                 <Text color='red'>{meta.error?.message || meta.submitError.message}</Text>
               )}

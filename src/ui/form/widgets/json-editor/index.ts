@@ -1,7 +1,7 @@
 /**
  * ui
  */
-import { default as CodeEditor } from './ui/json-editor'
+import { default as JsonEditor } from './ui/json-editor'
 
-export default CodeEditor
-export type { Props as CodeEditorProps } from './ui/json-editor'
+export default JsonEditor
+export type { Props as JsonEditorProps } from './ui/json-editor'

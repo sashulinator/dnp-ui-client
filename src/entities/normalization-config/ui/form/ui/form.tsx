@@ -1,5 +1,7 @@
 import { memo } from 'react'
-import { TextField } from '~/ui/form'
+import Flex from '~/ui/flex'
+
+import { JsonEditor, TextField } from '~/ui/form'
 import { c } from '~/utils/core'
 
 export interface Props {
@@ -13,9 +15,10 @@ export const displayName = 'normalizationConfig-Form'
  */
 export function Component(props: Props): JSX.Element {
   return (
-    <div style={{ width: '100%' }} className={c(props.className, displayName)}>
+    <Flex className={c(props.className, displayName)} direction='column' style={{ width: '100%' }} gap='4'>
       <TextField name='name' label='Название' />
-    </div>
+      <JsonEditor name='data.sdk' label='sdk' />
+    </Flex>
   )
 }
 
