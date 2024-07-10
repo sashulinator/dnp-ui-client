@@ -28,7 +28,7 @@ export default {
             // eslint-disable-next-line react-hooks/exhaustive-deps
             render={render}
           />
-          <button disabled={!fState.dirty && !fState.invalid}>Submit</button>
+          <button disabled={!fState.dirty || fState.invalid}>Submit</button>
         </Flex>
         <code style={{ whiteSpace: 'pre-wrap', width: '50%' }}>{JSON.stringify(form.getState()?.values, null, 2)}</code>
       </Flex>

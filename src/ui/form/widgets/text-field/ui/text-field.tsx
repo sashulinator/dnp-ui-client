@@ -1,6 +1,6 @@
-import { Field } from 'react-final-form'
+import Field from '../../field'
 import './text-field.scss'
-
+import Flex from '~/ui/flex'
 import Text from '~/ui/text'
 import TextField, { TextFieldProps } from '~/ui/text-field'
 import { c } from '~/utils/core'
@@ -23,12 +23,17 @@ export default function Component(props: Props): JSX.Element {
 
   return (
     <Field name={name} validate={validate}>
-      {({ input }) => {
+      {({ input, meta }) => {
         return (
-          <Text className={c(className, displayName)} as='label' size='2'>
-            {label}
-            <TextField.Root className='textField' {...textFieldProps} {...input} type={type} />
-          </Text>
+          <Flex direction='column'>
+            <Text className={c(className, displayName)} as='label' size='2'>
+              {label}
+              <TextField.Root className='textField' {...textFieldProps} {...input} type={type} />
+            </Text>
+            {(meta.error || meta.submitError) && meta.dirty && (
+              <Text color='red'>{meta.error?.message || meta.submitError.message}</Text>
+            )}
+          </Flex>
         )
       }}
     </Field>
