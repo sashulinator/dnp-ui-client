@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react'
-import { Item, fetchList } from '~/entities/normalization-config'
+import { Item } from '~/entities/normalization-config'
+import { fetchList } from '~/entities/normalization-config-archive'
 import { routes } from '~/shared/routes'
 
 import Container from '~/ui/container'
 import Flex from '~/ui/flex'
 import Heading from '~/ui/heading'
-import Pagination from '~/ui/pagination'
 
 import Section from '~/ui/section'
 
@@ -19,29 +18,13 @@ const displayName = 'page-Main'
  * page-Main
  */
 export default function Component(): JSX.Element {
-  const [page, setPage] = useState(1)
-  const [skip, setSkip] = useState(0)
-  const take = 10
-
-  // Update skip when page changes
-  useEffect(() => {
-    setSkip((page - 1) * take)
-  }, [page])
-  const fetcherList = fetchList.useCache({ take, skip })
+  const fetcherList = fetchList.useCache({ take: 20, skip: 0 })
 
   return (
     <main className={displayName}>
       <Container p='1.5rem'>
         <Section size='1'>
-          <Heading>{routes.normalizationConfigs.getName()}</Heading>
-        </Section>
-        <Section size='1'>
-          <Pagination
-            currentPage={page}
-            limit='10'
-            totalElements={fetcherList.data?.total.toString()}
-            onChange={setPage}
-          />
+          <Heading>{routes.normalizationConfigsArchive.getName()}</Heading>
         </Section>
         <Section size='1'>
           <Flex gap='4' direction={'column'}>

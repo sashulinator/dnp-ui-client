@@ -22,11 +22,11 @@
     "strict": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    
+
     /* Resolve */
     "baseUrl": "./src",
     "paths": {
-      "~/*": ["./*"],
+      "~/*": ["./*"]
     }
   },
   "include": ["./src/vite-env.d.ts", "src/**/*"],
