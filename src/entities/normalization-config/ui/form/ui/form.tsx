@@ -18,6 +18,7 @@ export function Component(props: Props): JSX.Element {
   return (
     <Flex className={c(props.className, displayName)} direction='column' style={{ width: '100%' }} gap='4'>
       <TextField name='name' label='Название' validate={assertNotEmpty} />
+      <JsonEditor name='data.executables' label='executables' />
       <JsonEditor name='data.sdk' label='sdk' />
     </Flex>
   )
