@@ -26,10 +26,7 @@
     "react-final-form": "6.5.9",
     "react-final-form-arrays": "3.1.4",
     "react-query": "3.39.3",
-    "react-router5": "8.0.1",
-    "router5": "8.0.1",
-    "router5-plugin-browser": "8.0.1",
-    "router5-plugin-logger": "8.0.1",
+    "react-router-dom": "6.25.0",
     "valibot": "0.33.3"
   },
   "devDependencies": {

@@ -1,5 +1,6 @@
-import { Link } from 'react-router5'
+import { Link } from 'react-router-dom'
 import './nav.scss'
+import { routes } from '~/shared/routes'
 import Card from '~/ui/card'
 import Flex from '~/ui/flex'
 import { c } from '~/utils/core'
@@ -18,7 +19,7 @@ export default function Component(): JSX.Element {
     <nav className={c(displayName)}>
       <div className='logo'>
         <Card variant='ghost' asChild style={{ display: 'grid', width: '5rem', height: '3rem' }}>
-          <Link routeName='main'>
+          <Link to={routes.main.getURL()}>
             <span style={{ placeSelf: 'center' }}>DNP</span>
           </Link>
         </Card>

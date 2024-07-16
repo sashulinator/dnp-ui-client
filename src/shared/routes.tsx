@@ -14,6 +14,7 @@ const Storybook = lazy(() => import('../pages/storybook/index'))
 export const routes = {
   main: {
     path: '/',
+    getURL: (): string => '/',
     renderMain: Main,
     getName: (): string => 'main',
     renderHeader: Header,
@@ -23,6 +24,7 @@ export const routes = {
 
   normalizationConfigs: {
     path: '/normalization-configs',
+    getURL: (): string => '/normalization-configs',
     renderMain: NormalizationConfigs,
     renderHeader: Header,
     renderNav: Nav,
@@ -32,6 +34,7 @@ export const routes = {
 
   normalizationConfigs_name: {
     path: '/normalization-configs/:name',
+    getURL: (name: string): string => `/normalization-configs/${name}`,
     renderMain: NormalizationConfigs_name,
     renderHeader: Header,
     renderNav: Nav,
@@ -41,6 +44,7 @@ export const routes = {
 
   processes: {
     path: '/processes',
+    getURL: (): string => '/processes',
     renderMain: Processes,
     renderHeader: Header,
     renderNav: Nav,
@@ -50,6 +54,7 @@ export const routes = {
 
   normalizationConfigsArchive: {
     path: '/configs-archive',
+    getURL: (): string => '/configs-archive',
     renderMain: NormalizationConfigsArchive,
     renderHeader: Header,
     renderNav: Nav,
@@ -59,6 +64,7 @@ export const routes = {
 
   storybook: {
     path: '/storybook',
+    getURL: (): string => '/storybook',
     renderMain: Storybook as unknown as () => JSX.Element,
     getName: (): string => 'storybook',
     navigatable: false,
@@ -66,6 +72,7 @@ export const routes = {
 
   notFound: {
     path: '/not-found',
+    getURL: (): string => '/not-found',
     renderMain: () => 'Not Found',
     getName: () => 'not found',
     navigatable: false,

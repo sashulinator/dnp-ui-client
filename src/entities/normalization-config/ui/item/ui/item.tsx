@@ -1,6 +1,7 @@
-import { Link } from 'react-router5'
+import { Link } from 'react-router-dom'
 import { NormalizationConfig } from '../../../types/normalization-config'
 import './item.scss'
+import { routes } from '~/shared/routes'
 import Button from '~/ui/button'
 import Card from '~/ui/card'
 import { TrashIcon } from '~/ui/icon'
@@ -23,7 +24,7 @@ export default function Component(props: Props): JSX.Element {
 
   return (
     <Card key={item.name} asChild={true} className={c(displayName, className)}>
-      <Link routeName='normalizationConfigs_name' routeParams={{ name: item.name }}>
+      <Link to={routes.normalizationConfigs_name.getURL(item.name)}>
         <TextHighlighter tooltipContent='Название'>{item.name}</TextHighlighter>
         <Button round={true} color='red' className='trash-button' variant='soft'>
           <TrashIcon onClick={fns<[React.MouseEvent]>(stopPropagation, preventDefault)} />

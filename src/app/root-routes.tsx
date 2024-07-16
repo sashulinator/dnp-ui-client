@@ -1,20 +1,26 @@
-import { useRouteNode } from 'react-router5'
-import { routes } from '../shared/routes'
-import { RootLayout } from '~/ui/layout'
+import React from 'react'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { type Route as LibRoute } from '~/lib/route'
 
-const displayName = 'Root-Routes'
+import { routes } from '~/shared/routes'
 
-/**
- * root-routes
- */
-export default function Component(): React.ReactNode {
-  const routeContext = useRouteNode('')
+RootRoutes.displayName = 'app-Routes'
 
-  const name = routeContext.route?.name?.split('.')[0]
-
-  const route = routes?.[name as keyof typeof routes]
-
-  return <RootLayout route={route || routes.notFound} />
+export interface Props {
+  className?: string
+  renderLayout: (props: { route: LibRoute }) => JSX.Element | null
 }
 
-Component.displayName = displayName
+export default function RootRoutes(props: Props): JSX.Element {
+  const Layout = props.renderLayout
+
+  return (
+    <BrowserRouter>
+      <Routes>
+        {Object.entries(routes).map(([key, route]) => (
+          <Route key={key} {...route} element={React.createElement(Layout, { route })} />
+        ))}
+      </Routes>
+    </BrowserRouter>
+  )
+}

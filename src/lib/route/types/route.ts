@@ -10,6 +10,12 @@ export type Route = {
   getName: () => string
 
   /**
+   * Получить URL
+   */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  getURL: (...args: any[]) => string
+
+  /**
    * Компонент Main
    */
   renderMain: () => React.ReactNode

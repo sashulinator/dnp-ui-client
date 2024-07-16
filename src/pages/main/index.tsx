@@ -1,4 +1,5 @@
-import { Link } from 'react-router5'
+import { Link } from 'react-router-dom'
+import { routes } from '~/shared/routes'
 import Card from '~/ui/card'
 import Container from '~/ui/container'
 import Flex from '~/ui/flex'
@@ -23,13 +24,13 @@ export default function Component(): JSX.Element {
         </Section>
         <Flex gap='4'>
           <Card asChild style={{ width: '12rem', height: '5rem' }}>
-            <Link routeName='normalizationConfigs'>Конфиги нормализации</Link>
+            <Link to={routes.normalizationConfigs.getURL()}>Конфиги нормализации</Link>
           </Card>
           <Card asChild style={{ width: '12rem', height: '5rem' }}>
-            <Link routeName='normalizationConfigsArchive'>Архив конфигураций нормализации</Link>
+            <Link to={routes.normalizationConfigsArchive.getURL()}>Архив конфигураций нормализации</Link>
           </Card>
           <Card asChild style={{ width: '12rem', height: '5rem' }}>
-            <Link routeName='processes'>Процессы</Link>
+            <Link to={routes.processes.getURL()}>Процессы</Link>
           </Card>
           {/* <Card asChild={true} style={{ width: '12rem', height: '4rem' }}>
             <Link routeName='uni'>Uni</Link>

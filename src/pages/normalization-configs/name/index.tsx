@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { useRouteNode } from 'react-router5'
+import { useParams } from 'react-router-dom'
 import { safeParse } from 'valibot'
 import {
   Form,
@@ -25,9 +25,7 @@ const displayName = 'page-NormalizationConfigs_name'
  * page-Main
  */
 export default function Component(): JSX.Element {
-  const { route } = useRouteNode('')
-
-  const name = route.params.name
+  const { name = '' } = useParams<{ name: string }>()
 
   const form = useCreateForm<FormValues>(
     {

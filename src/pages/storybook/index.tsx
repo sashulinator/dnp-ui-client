@@ -1,4 +1,4 @@
-import { useRouteNode } from 'react-router5'
+import { useSearchParams } from 'react-router-dom'
 import { storyList } from './story-list'
 import Storybook from '~/ui/storybook'
 import { c } from '~/utils/core'
@@ -15,15 +15,16 @@ const STORY_QUERY = 'story'
  * page-Storybook
  */
 export default function Component(): JSX.Element {
-  const { route, router } = useRouteNode('storybook')
+  const [params, setParams] = useSearchParams()
+  const query = params.get(STORY_QUERY) || ''
 
   return (
     <main className={c(displayName)}>
       <Storybook
         stories={storyList}
-        activeStoryName={route.params[STORY_QUERY]}
+        activeStoryName={query}
         setActiveStoryName={(activeStoryName) => {
-          router.navigate('storybook', { [STORY_QUERY]: activeStoryName }, { force: true })
+          setParams({ [STORY_QUERY]: activeStoryName })
         }}
       />
     </main>
