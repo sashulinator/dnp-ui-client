@@ -4,6 +4,7 @@ import normalizationConfigForm from '~/entities/normalization-config/ui/form/sto
 import uiButton from '~/ui/button/story'
 import uiCodeEditor from '~/ui/code-editor/story'
 import uiCodeEditorVJson from '~/ui/code-editor/variants/json/story'
+import uiCollapse from '~/ui/collapse/story'
 import uiFormWJsonEditor from '~/ui/form/widgets/json-editor/story'
 import uiFormWKeyValue from '~/ui/form/widgets/key-value/story'
 import uiFormWTextField from '~/ui/form/widgets/text-field/story'
@@ -19,6 +20,7 @@ export const storyList: Story<any>[] = [
   uiButton,
   uiCodeEditor,
   uiCodeEditorVJson,
+  uiCollapse,
   uiTextHighlighter,
   uiTagPicker,
   uiTagPickerWTag,
