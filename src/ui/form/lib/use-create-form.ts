@@ -2,7 +2,7 @@ import { Config, FormApi, FormSubscription, createForm } from 'final-form'
 import { useMemo } from 'react'
 
 import { Any } from '~/utils/core'
-import { useForceUpdate, useUpdate } from '~/utils/hooks'
+import { useForceUpdate, useUpdate } from '~/utils/core-hooks'
 
 export function useCreateForm<FormValues = Record<string, Any>, InitialFormValues = Partial<FormValues>>(
   config: Config<FormValues>,
