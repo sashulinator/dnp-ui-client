@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import Toast, { displayName } from '../ui/toast'
 import { Provider, Viewport } from '@radix-ui/react-toast'
-import Collapse from '~/ui/collapse'
 import { type Story, type Props } from '~/ui/storybook'
 interface State {
   //

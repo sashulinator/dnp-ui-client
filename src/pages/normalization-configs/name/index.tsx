@@ -12,6 +12,7 @@ import {
   toFormValues,
   update,
 } from '~/entities/normalization-config'
+import { notify } from '~/shared/notification-list-store'
 import { routes } from '~/shared/routes'
 import Button from '~/ui/button'
 import Container from '~/ui/container'
@@ -36,9 +37,8 @@ export default function Component(): JSX.Element {
 
   const form = useCreateForm<FormValues>(
     {
-      onSubmit: (data) => {
-        console.log('data', data)
-        updateMutator.mutate({ input: fromFormValues(form.getState().values) })
+      onSubmit: (values) => {
+        updateMutator.mutate({ input: fromFormValues(values) })
       },
       validate: (values) => {
         const normalizationConfig = fromFormValues(values)
@@ -52,19 +52,19 @@ export default function Component(): JSX.Element {
 
   const updateMutator = update.useCache({
     onSuccess: (data) => {
-      // notify({ data: 'Сохранено', type: 'success' })
+      notify({ title: 'Сохранено', type: 'success' })
       getByName.setCache({ name }, data.data)
       form.initialize(toFormValues(data.data))
     },
-    // onError: () => notify({ data: 'Ошибка', type: 'error' }),
+    onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
   })
 
   const removeMutator = remove.useCache({
     onSuccess: () => {
       navigate(routes.normalizationConfigs.getURL())
-      // notify({ data: 'Сохранено', type: 'success' })
+      notify({ title: 'Сохранено', type: 'success' })
     },
-    // onError: () => notify({ data: 'Ошибка', type: 'error' }),
+    onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
   })
 
   const fetcher = getByName.useCache(

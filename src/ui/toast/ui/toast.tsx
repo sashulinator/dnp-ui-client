@@ -10,6 +10,8 @@ export const displayName = 'ui-Toast'
 
 /**
  * ui-Toast
+ *
+ * Стандартный Toast компонент
  */
 export default function Component(props: Props): JSX.Element {
   const { ...restProps } = props

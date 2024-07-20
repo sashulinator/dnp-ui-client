@@ -15,6 +15,7 @@ import uiTagPicker from '~/ui/tag-picker/story/index'
 import uiTagPickerWTag from '~/ui/tag-picker/widgets/tag/story'
 import uiTextHighlighter from '~/ui/text-highlighter/story'
 import uiToast from '~/ui/toast/story'
+import uiNotificationToastList from '~/ui/toast/variants/notification/list/story'
 
 export const storyList: Story<any>[] = [
   normalizationConfigForm,
@@ -32,4 +33,5 @@ export const storyList: Story<any>[] = [
   uiPaginationWInfo,
   uiPaginationWSwitcher,
   uiToast,
+  uiNotificationToastList,
 ]
