@@ -24,13 +24,16 @@ export default function Component(): JSX.Element {
         </Section>
         <Flex gap='4'>
           <Card asChild style={{ width: '12rem', height: '5rem' }}>
-            <Link to={routes.normalizationConfigs.getURL()}>Конфиги нормализации</Link>
+            <Link to={routes.normalizationConfigs.getURL()}>{routes.normalizationConfigs.getName()}</Link>
           </Card>
           <Card asChild style={{ width: '12rem', height: '5rem' }}>
-            <Link to={routes.normalizationConfigsArchive.getURL()}>Архив конфигураций нормализации</Link>
+            <Link to={routes.normalizationConfigsArchive.getURL()}>{routes.normalizationConfigsArchive.getName()}</Link>
           </Card>
           <Card asChild style={{ width: '12rem', height: '5rem' }}>
-            <Link to={routes.processes.getURL()}>Процессы</Link>
+            <Link to={routes.processes.getURL()}>{routes.processes.getName()}</Link>
+          </Card>
+          <Card asChild style={{ width: '12rem', height: '5rem' }}>
+            <Link to={routes.storeConfigs.getURL()}>{routes.storeConfigs.getName()}</Link>
           </Card>
           {/* <Card asChild={true} style={{ width: '12rem', height: '4rem' }}>
             <Link routeName='uni'>Uni</Link>

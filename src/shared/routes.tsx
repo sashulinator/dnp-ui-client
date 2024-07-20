@@ -5,6 +5,7 @@ import NormalizationConfigs from '~/pages/normalization-configs'
 import NormalizationConfigsArchive from '~/pages/normalization-configs-archive'
 import NormalizationConfigs_name from '~/pages/normalization-configs/name'
 import Processes from '~/pages/processes'
+import StoreConfigs from '~/pages/store-config'
 import Header from '~/ui/header'
 import Nav from '~/ui/nav'
 
@@ -58,7 +59,17 @@ export const routes = {
     renderMain: NormalizationConfigsArchive,
     renderHeader: Header,
     renderNav: Nav,
-    getName: (): string => 'Конфигурации нормализации',
+    getName: (): string => 'Архив конфигураций',
+    navigatable: true,
+  },
+
+  storeConfigs: {
+    path: '/store-configs',
+    getURL: (): string => '/store-configs',
+    renderMain: StoreConfigs,
+    renderHeader: Header,
+    renderNav: Nav,
+    getName: (): string => 'Конфигурации хранилищ',
     navigatable: true,
   },
 

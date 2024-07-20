@@ -1,4 +1,4 @@
-.uni-Item {
+.normalizationConfig-Item {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -9,7 +9,7 @@
     cursor: pointer;
   }
 
-  &:hover >  .trash-button {
+  &:hover > .trash-button {
     opacity: 1;
   }
 }

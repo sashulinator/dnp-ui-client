@@ -1,10 +1,11 @@
 import { type Create } from '~/lib/api'
 
-import { type NormalizationConfig } from '../../../../../../../dnp-ui-client/src/entities/normalization-config/types/normalization-config'
+import { type NormalizationConfig } from '../../../types/normalization-config'
 
 export const defaultValues: Create<NormalizationConfig> = {
   name: '',
   v: 1,
+  sourceConfigKeyName: 'none',
   data: {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore

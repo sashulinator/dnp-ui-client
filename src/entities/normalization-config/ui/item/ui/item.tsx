@@ -14,10 +14,10 @@ export interface Props {
   item: NormalizationConfig
 }
 
-const displayName = 'uni-Item'
+const displayName = 'normalizationConfig-Item'
 
 /**
- * uni-Item
+ * normalizationConfig-Item
  */
 export default function Component(props: Props): JSX.Element {
   const { className, item } = props
