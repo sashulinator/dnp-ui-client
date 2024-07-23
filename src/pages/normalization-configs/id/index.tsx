@@ -6,12 +6,13 @@ import {
   Form,
   FormValues,
   fromFormValues,
-  getByName,
+  getById,
   normalizationConfigSchema,
   remove,
   toFormValues,
   update,
 } from '~/entities/normalization-config'
+import { create as createProcess } from '~/entities/process'
 import { notify } from '~/shared/notification-list-store'
 import { routes } from '~/shared/routes'
 import Button from '~/ui/button'
@@ -32,7 +33,7 @@ const displayName = 'page-NormalizationConfigs_name'
  * page-Main
  */
 export default function Component(): JSX.Element {
-  const { name = '' } = useParams<{ name: string }>()
+  const { id = '' } = useParams<{ id: string }>()
   const navigate = useNavigate()
 
   const form = useCreateForm<FormValues>(
@@ -45,7 +46,7 @@ export default function Component(): JSX.Element {
         const { issues } = safeParse(normalizationConfigSchema, normalizationConfig)
         return toNestedErrors(issues)
       },
-      initialValues: { name },
+      initialValues: { name: id },
     },
     { values: true },
   )
@@ -53,7 +54,7 @@ export default function Component(): JSX.Element {
   const updateMutator = update.useCache({
     onSuccess: (data) => {
       notify({ title: 'Сохранено', type: 'success' })
-      getByName.setCache({ name }, data.data)
+      getById.setCache({ id }, data.data)
       form.initialize(toFormValues(data.data))
     },
     onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
@@ -67,8 +68,15 @@ export default function Component(): JSX.Element {
     onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
   })
 
-  const fetcher = getByName.useCache(
-    { name },
+  const createProcessMutator = createProcess.useCache({
+    onSuccess: () => {
+      notify({ title: 'Запущено', type: 'success' })
+    },
+    onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
+  })
+
+  const fetcher = getById.useCache(
+    { id },
     {
       onSuccess: (data) => form.initialize(toFormValues(data)),
     },
@@ -94,6 +102,19 @@ export default function Component(): JSX.Element {
             <Section size='1'>
               <Heading>{routes.normalizationConfigs.getName()}</Heading>
             </Section>
+
+            <Flex width='100%' justify='end'>
+              <Flex align='center' gap='4'>
+                Версия: {fetcher.data?.v}
+                <Button
+                  loading={createProcessMutator.isLoading}
+                  onClick={() => createProcessMutator.mutate({ normalizationConfigId: fetcher.data.id })}
+                >
+                  Запустить
+                </Button>
+              </Flex>
+            </Flex>
+
             <Section size='1'>
               <FForm
                 form={form}
@@ -105,12 +126,19 @@ export default function Component(): JSX.Element {
               <Button color='red' round={true} onClick={() => removeMutator.mutate({ id: fetcher.data.id })}>
                 <TrashIcon />
               </Button>
-              <Flex gap='2'>
-                <Button variant='outline' onClick={() => form.reset()} disabled={!form.getState().dirty} round={true}>
+              <Flex gap='2' align='center'>
+                <Button
+                  size='1'
+                  variant='outline'
+                  onClick={() => form.reset()}
+                  disabled={!form.getState().dirty}
+                  round={true}
+                >
                   <SymbolIcon />
                 </Button>
                 <Button
-                  disabled={updateMutator.isLoading || !form.getState().dirty || form.getState().invalid}
+                  loading={updateMutator.isLoading}
+                  disabled={!form.getState().dirty || form.getState().invalid}
                   onClick={form.submit}
                 >
                   Сохранить

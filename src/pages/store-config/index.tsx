@@ -46,7 +46,7 @@ export default function Component(): JSX.Element {
         <Section size='1'>
           <Flex gap='4' direction={'column'}>
             {fetcherList.data?.items?.map((item) => {
-              return <Item key={item.keyName} item={item} />
+              return <Item key={item.keyname} item={item} />
             })}
           </Flex>
         </Section>

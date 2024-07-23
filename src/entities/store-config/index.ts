@@ -14,7 +14,7 @@ export {
   type StoreConfig,
   type UpdateStoreConfig,
   type CreateStoreConfig,
-  StoreConfigSchema,
+  storeConfigSchema,
   createStoreConfigSchema,
   updateStoreConfigSchema,
 } from './types/store-config'

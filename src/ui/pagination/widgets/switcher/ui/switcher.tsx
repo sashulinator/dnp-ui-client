@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import './switcher.scss'
 import Button from '~/ui/button'
 import { ArrowLeftIcon, ArrowRightIcon, DoubleArrowLeftIcon, DoubleArrowRightIcon } from '~/ui/icon'
+import Spinner from '~/ui/spinner'
 import TextField from '~/ui/text-field'
 import { c } from '~/utils/core'
 
@@ -10,6 +11,7 @@ export interface Props {
   totalPages: number
   currentPage: number
   onChange: (newPage: number) => void
+  loading?: boolean | undefined
   root?: React.HTMLAttributes<HTMLDivElement>
 }
 
@@ -46,12 +48,14 @@ export default function Component(props: Props): JSX.Element {
         className='input'
         onKeyUp={(e) => {
           if (e.key !== 'Enter') return
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           handleChange(Number((e.target as any).value))()
         }}
         onChange={(e) => {
           setLocalCurrentPage(Number(e.target.value))
         }}
         onBlur={(e) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           handleChange(Number((e.target as any).value))()
         }}
         style={{ width: '50px', textAlign: 'center' }}
@@ -73,6 +77,7 @@ export default function Component(props: Props): JSX.Element {
       <Button variant='soft' round={true} disabled={props.currentPage >= totalPages} onClick={handleChange(totalPages)}>
         <DoubleArrowRightIcon />
       </Button>
+      {props.loading && <Spinner size='2' />}
     </div>
   )
 

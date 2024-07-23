@@ -8,6 +8,7 @@ export interface Props {
   totalElements: string | undefined
   limit: string | undefined
   currentPage: string | number | undefined
+  loading?: boolean | undefined
   root?: React.HTMLAttributes<HTMLDivElement>
   onChange: (newPage: number) => void
 }
@@ -25,7 +26,12 @@ export default function Component(props: Props): JSX.Element {
 
   return (
     <div className={c(props.className, displayName)} {...props.root}>
-      <Switcher onChange={props.onChange} currentPage={currentPage || 1} totalPages={totalPages || 1} />
+      <Switcher
+        loading={props.loading}
+        onChange={props.onChange}
+        currentPage={currentPage || 1}
+        totalPages={totalPages || 1}
+      />
       <Info totalElements={totalElements} totalPages={totalPages} />
     </div>
   )

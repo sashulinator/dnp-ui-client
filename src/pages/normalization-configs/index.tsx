@@ -27,7 +27,7 @@ export default function Component(): JSX.Element {
   useEffect(() => {
     setSkip((page - 1) * take)
   }, [page])
-  const fetcherList = fetchList.useCache({ take, skip })
+  const fetcherList = fetchList.useCache({ take, skip }, { keepPreviousData: true })
 
   return (
     <main className={displayName}>
@@ -37,6 +37,7 @@ export default function Component(): JSX.Element {
         </Section>
         <Section size='1'>
           <Pagination
+            loading={fetcherList.isFetching}
             currentPage={page}
             limit='10'
             totalElements={fetcherList.data?.total.toString()}
@@ -46,7 +47,7 @@ export default function Component(): JSX.Element {
         <Section size='1'>
           <Flex gap='4' direction={'column'}>
             {fetcherList.data?.items?.map((item) => {
-              return <Item key={item.name} item={item} />
+              return <Item key={item.id} item={item} />
             })}
           </Flex>
         </Section>

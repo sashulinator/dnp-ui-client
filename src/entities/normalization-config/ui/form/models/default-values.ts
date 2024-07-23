@@ -5,7 +5,7 @@ import { type NormalizationConfig } from '../../../types/normalization-config'
 export const defaultValues: Create<NormalizationConfig> = {
   name: '',
   v: 1,
-  sourceConfigKeyName: 'none',
+  current: true,
   data: {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
