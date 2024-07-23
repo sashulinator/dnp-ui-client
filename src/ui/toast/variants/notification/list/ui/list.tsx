@@ -1,7 +1,7 @@
+import { Provider, Viewport } from '@radix-ui/react-toast'
 import { useEffect } from 'react'
 import NotificationToast from '../../ui/notification'
 import './list.scss'
-import { Provider, Viewport } from '@radix-ui/react-toast'
 import { useNotificationListStore } from '~/shared/notification-list-store'
 import { c } from '~/utils/core'
 
