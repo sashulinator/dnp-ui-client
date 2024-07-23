@@ -12,6 +12,7 @@
     "preview": "vite preview",
     "prepare": "husky install",
     "postinstall": "husky install",
+    "test": "echo 'there is no test'",
     "prepack": "pinst --disable",
     "postpack": "pinst --enable"
   },

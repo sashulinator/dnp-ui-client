@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  client-ui:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: dnp-client-ui:latest
+    ports:
+      - "${UI_CLIENT_PORT:-8000}:80"
+      - "${UI_STATUS_PORT:-8080}:8080"
+    healthcheck:
+      test: curl --fail --silent --output /dev/null http://localhost:8080/health
+      interval: 20s
+      timeout: 1s
+      retries: 5
+      start_period: 10s

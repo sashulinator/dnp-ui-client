@@ -1,0 +1,102 @@
+workflow:
+  name: "Pipeline for branch: $CI_COMMIT_BRANCH"
+  rules:
+    - if: $CI_PIPELINE_SOURCE =~ /merge_request_event|web/
+    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
+      when: never
+    - if: $CI_COMMIT_REF_NAME == "main"
+    - if: $CI_COMMIT_REF_NAME == "develop"
+      variables:
+        DEPLOY: "true"
+
+stages:
+  - install
+  - build
+  - test
+  - deploy
+
+variables:
+  NODE_IMAGE: "nexus.inno.tech:19120/node:22.2.0-bookworm"
+  DOCKER_IMAGE: "nexus.inno.tech:19120/docker:24.0.4"
+  IMAGE_NAME: "dnp-client-ui"
+  DOCKERFILE: "Dockerfile"
+  TAG: "0.${CI_PIPELINE_IID}"
+
+.yarn:
+  image: $NODE_IMAGE
+  tags:
+    - common
+    - docker
+  before_script:
+    - yarn --version
+    - yarn config set "strict-ssl" false -g
+    - yarn config set registry "https://nexus.inno.tech/repository/dbp-group-npm-development"
+    - corepack enable
+    - yarn set version 1.22.22
+
+install:
+  extends: .yarn
+  stage: install
+  script:
+    - yarn install --immutable --inline-builds
+  artifacts:
+    paths:
+      - node_modules/
+    expire_in: 1 hour
+
+build:
+  extends: .yarn
+  stage: build
+  script:
+    - yarn build
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 1 hour
+
+build-image:
+  stage: build
+  image: $DOCKER_IMAGE
+  tags:
+    - common
+    - dind
+  needs:
+    - job: build
+      artifacts: true
+  services:
+    - name: $DOCKER_IMAGE
+      alias: docker
+      command: ["--tls=false", "--host=tcp://0.0.0.0:2375"]
+  variables:
+    DOCKER_DRIVER: overlay2
+    DOCKER_CERT_PATH: ""
+    DOCKER_TLS_CERTDIR: ""
+    DOCKER_TLS_VERIFY: ""
+  script:
+    - docker build -f ${DOCKERFILE} -t ${IMAGE_NAME}:${TAG} .
+    - mkdir -p images
+    - docker save -o images/${IMAGE_NAME}.tar ${IMAGE_NAME}:${TAG}
+    - echo "DNP_CLIENT_UI_IMAGE_TAG=${TAG}" >> build.env
+    - echo "DNP_CLIENT_UI_IMAGE_REF=${CI_COMMIT_REF_NAME}" >> build.env
+  artifacts:
+    name: ${IMAGE_NAME}
+    paths:
+      - images/*.tar
+    expire_in: 1 week
+    reports:
+      dotenv: build.env
+
+test:
+  extends: .yarn
+  stage: test
+  script:
+    - yarn test
+
+deploy:
+  stage: deploy
+  rules:
+    - if: $DEPLOY
+  trigger:
+    project: dnp_team/deployment
+    branch: main
+    strategy: depend
