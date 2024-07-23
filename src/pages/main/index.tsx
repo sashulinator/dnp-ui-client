@@ -27,9 +27,6 @@ export default function Component(): JSX.Element {
             <Link to={routes.normalizationConfigs.getURL()}>{routes.normalizationConfigs.getName()}</Link>
           </Card>
           <Card asChild style={{ width: '12rem', height: '5rem' }}>
-            <Link to={routes.normalizationConfigsArchive.getURL()}>{routes.normalizationConfigsArchive.getName()}</Link>
-          </Card>
-          <Card asChild style={{ width: '12rem', height: '5rem' }}>
             <Link to={routes.processes.getURL()}>{routes.processes.getName()}</Link>
           </Card>
           <Card asChild style={{ width: '12rem', height: '5rem' }}>
