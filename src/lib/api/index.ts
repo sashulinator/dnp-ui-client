@@ -9,4 +9,5 @@ export type { Pageable } from './types/pageable'
 export type { Create } from './types/create'
 export type { Update } from './types/update'
 
+export { querify } from './querify'
 export { validate } from './validate'

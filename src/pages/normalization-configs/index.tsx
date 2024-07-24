@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Item, fetchList } from '~/entities/normalization-config'
 import { routes } from '~/shared/routes'
+import Button from '~/ui/button'
 
 import Container from '~/ui/container'
 import Flex from '~/ui/flex'
@@ -23,17 +25,25 @@ export default function Component(): JSX.Element {
   const [skip, setSkip] = useState(0)
   const take = 10
 
-  // Update skip when page changes
   useEffect(() => {
     setSkip((page - 1) * take)
   }, [page])
-  const fetcherList = fetchList.useCache({ take, skip }, { keepPreviousData: true })
+
+  const fetcherList = fetchList.useCache(
+    { take, skip, select: { id: true, name: true, v: true, current: true } },
+    { keepPreviousData: true },
+  )
 
   return (
     <main className={displayName}>
-      <Container p='1.5rem'>
+      <Container p='8'>
         <Section size='1'>
-          <Heading>{routes.normalizationConfigs.getName()}</Heading>
+          <Flex width='100%' justify='between'>
+            <Heading>{routes.normalizationConfigs.getName()}</Heading>
+            <Button asChild>
+              <Link to={routes.normalizationConfigs_create.getURL()}>Создать</Link>
+            </Button>
+          </Flex>
         </Section>
         <Section size='1'>
           <Pagination

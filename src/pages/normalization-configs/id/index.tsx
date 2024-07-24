@@ -1,14 +1,14 @@
-import { SymbolIcon, TrashIcon } from '@radix-ui/react-icons'
+import { SymbolIcon } from '@radix-ui/react-icons'
 import { useCallback } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { safeParse } from 'valibot'
 import {
   Form,
   FormValues,
+  Version,
   fromFormValues,
   getById,
   normalizationConfigSchema,
-  remove,
   toFormValues,
   update,
 } from '~/entities/normalization-config'
@@ -16,24 +16,29 @@ import { create as createProcess } from '~/entities/process'
 import { notify } from '~/shared/notification-list-store'
 import { routes } from '~/shared/routes'
 import Button from '~/ui/button'
+import Card from '~/ui/card'
 import Container from '~/ui/container'
 import Flex from '~/ui/flex'
 import FForm, { toNestedErrors, useCreateForm } from '~/ui/form'
 import Heading from '~/ui/heading'
 import Section from '~/ui/section'
 import Spinner from '~/ui/spinner'
+import TextHighlighter from '~/ui/text-highlighter'
+import Tooltip from '~/ui/tooltip'
 
 export interface Props {
   className?: string | undefined
 }
 
-const displayName = 'page-NormalizationConfigs_name'
+const displayName = 'page-NormalizationConfigs_id'
 
 /**
  * page-Main
  */
 export default function Component(): JSX.Element {
   const { id = '' } = useParams<{ id: string }>()
+  const [searchParams] = useSearchParams({ name: '' })
+  const name = searchParams.get('name') || ''
   const navigate = useNavigate()
 
   const form = useCreateForm<FormValues>(
@@ -46,24 +51,23 @@ export default function Component(): JSX.Element {
         const { issues } = safeParse(normalizationConfigSchema, normalizationConfig)
         return toNestedErrors(issues)
       },
-      initialValues: { name: id },
+      initialValues: { name },
     },
     { values: true },
   )
+
+  const values = form.getState().values
+  const isCurrent = form.getState().values.current
 
   const updateMutator = update.useCache({
     onSuccess: (data) => {
       notify({ title: 'Сохранено', type: 'success' })
       getById.setCache({ id }, data.data)
-      form.initialize(toFormValues(data.data))
-    },
-    onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
-  })
-
-  const removeMutator = remove.useCache({
-    onSuccess: () => {
-      navigate(routes.normalizationConfigs.getURL())
-      notify({ title: 'Сохранено', type: 'success' })
+      if (data.data.v !== form.getState().values.v) {
+        navigate(routes.normalizationConfigs_id.getURL(data.data.id))
+      } else {
+        form.initialize(toFormValues(data.data))
+      }
     },
     onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
   })
@@ -82,38 +86,50 @@ export default function Component(): JSX.Element {
     },
   )
 
-  const render = useCallback(() => <Form />, [])
+  const render = useCallback(() => <Form readonly={!isCurrent} />, [isCurrent])
 
   return (
     <main className={displayName}>
-      <Container p='1.5rem'>
-        {fetcher.isLoading && (
-          <Flex width='100%' justify='center'>
-            <Spinner />
-          </Flex>
-        )}
+      <Container p='8'>
         {fetcher.isError && (
           <Flex width='100%' justify='center' gap='2' align='center'>
             Ошибка <Button onClick={() => fetcher.refetch()}>Перезагрузить</Button>
           </Flex>
         )}
+
+        {!fetcher.isError && (
+          <Section size='1'>
+            <Heading>
+              {routes.normalizationConfigs_id.getName()}{' '}
+              {values.name && <TextHighlighter tooltipContent='Название'>{values.name}</TextHighlighter>}{' '}
+              {values.v && (
+                <TextHighlighter color='yellow' tooltipContent='Версия'>
+                  {values.v}
+                </TextHighlighter>
+              )}
+            </Heading>
+          </Section>
+        )}
+
+        {fetcher.isLoading && (
+          <Flex width='100%' justify='center'>
+            <Spinner />
+          </Flex>
+        )}
+
         {fetcher.isSuccess && (
           <>
             <Section size='1'>
-              <Heading>{routes.normalizationConfigs.getName()}</Heading>
+              <Card>
+                <Version
+                  item={fetcher.data}
+                  isProcessCreating={createProcessMutator.isLoading}
+                  onCreateProcessButtonClick={() =>
+                    createProcessMutator.mutate({ normalizationConfigId: fetcher.data.id })
+                  }
+                />
+              </Card>
             </Section>
-
-            <Flex width='100%' justify='end'>
-              <Flex align='center' gap='4'>
-                Версия: {fetcher.data?.v}
-                <Button
-                  loading={createProcessMutator.isLoading}
-                  onClick={() => createProcessMutator.mutate({ normalizationConfigId: fetcher.data.id })}
-                >
-                  Запустить
-                </Button>
-              </Flex>
-            </Flex>
 
             <Section size='1'>
               <FForm
@@ -122,29 +138,35 @@ export default function Component(): JSX.Element {
                 render={render}
               />
             </Section>
-            <Flex gap='2' justify='between'>
-              <Button color='red' round={true} onClick={() => removeMutator.mutate({ id: fetcher.data.id })}>
-                <TrashIcon />
-              </Button>
-              <Flex gap='2' align='center'>
-                <Button
-                  size='1'
-                  variant='outline'
-                  onClick={() => form.reset()}
-                  disabled={!form.getState().dirty}
-                  round={true}
-                >
-                  <SymbolIcon />
-                </Button>
-                <Button
-                  loading={updateMutator.isLoading}
-                  disabled={!form.getState().dirty || form.getState().invalid}
-                  onClick={form.submit}
-                >
-                  Сохранить
-                </Button>
-              </Flex>
-            </Flex>
+
+            <Card asChild>
+              <Section size='1'>
+                <Flex gap='2' direction='row' justify='end'>
+                  <Flex gap='2' align='center'>
+                    <Tooltip content='Сбросить'>
+                      <span>
+                        <Button
+                          size='1'
+                          variant='outline'
+                          onClick={() => form.reset()}
+                          disabled={!form.getState().dirty}
+                          round={true}
+                        >
+                          <SymbolIcon />
+                        </Button>
+                      </span>
+                    </Tooltip>
+                    <Button
+                      loading={updateMutator.isLoading}
+                      disabled={!form.getState().dirty || form.getState().invalid}
+                      onClick={form.submit}
+                    >
+                      Сохранить
+                    </Button>
+                  </Flex>
+                </Flex>
+              </Section>
+            </Card>
           </>
         )}
       </Container>

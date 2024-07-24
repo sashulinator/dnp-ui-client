@@ -1,14 +1,13 @@
 import { Link } from 'react-router-dom'
 import { NormalizationConfig } from '../../../types/normalization-config'
 import './item.scss'
+import { querify } from '~/lib/api'
 import { routes } from '~/shared/routes'
-import Button from '~/ui/button'
+import Badge from '~/ui/badge'
 import Card from '~/ui/card'
 import Flex from '~/ui/flex'
-import { TrashIcon } from '~/ui/icon'
 import TextHighlighter from '~/ui/text-highlighter'
-import { c, fns } from '~/utils/core'
-import { preventDefault, stopPropagation } from '~/utils/core-client'
+import { c } from '~/utils/core'
 
 export interface Props {
   className?: string | undefined
@@ -26,15 +25,17 @@ export default function Component(props: Props): JSX.Element {
   return (
     <Card key={item.name} asChild={true} className={c(displayName, className)}>
       <Flex justify='between' asChild>
-        <Link to={routes.normalizationConfigs_id.getURL(item.id)}>
-          <TextHighlighter tooltipContent='Название'>{item.name}</TextHighlighter>
+        <Link to={`${routes.normalizationConfigs_id.getURL(item.id)}${querify({ name: item.name })}`}>
+          <Flex gap='2'>
+            <TextHighlighter tooltipContent='Название'>{item.name}</TextHighlighter>
+            <TextHighlighter tooltipContent='Версия' color='yellow'>
+              {item.v}
+            </TextHighlighter>
+          </Flex>
           <Flex gap='2' align='center'>
-            <div>
-              {item.current && 'текущая'} версия {item.v}
-            </div>
-            <Button round={true} color='red' className={`${displayName}_trashButton`} variant='soft'>
-              <TrashIcon onClick={fns<[React.MouseEvent]>(stopPropagation, preventDefault)} />
-            </Button>
+            <Flex direction='column' align='end'>
+              {item.current ? <Badge color='green'>Текущий</Badge> : <Badge color='red'>Архивный</Badge>}
+            </Flex>
           </Flex>
         </Link>
       </Flex>

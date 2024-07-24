@@ -7,6 +7,7 @@ import { c } from '~/utils/core'
 
 export interface Props {
   className?: string | undefined
+  readonly?: boolean
 }
 
 export const displayName = 'normalizationConfig-Form'
@@ -17,12 +18,19 @@ export const displayName = 'normalizationConfig-Form'
 export function Component(props: Props): JSX.Element {
   const form = useForm()
   const state = form.getState()
+  const { readonly = false } = props
 
   return (
     <Flex className={c(props.className, displayName)} direction='column' style={{ width: '100%' }} gap='4'>
-      <TextField disabled={state.values.id} name='name' label='Название' validate={assertNotEmpty} />
-      <JsonEditor name='data.executables' label='executables' />
-      <JsonEditor name='data.sdk' label='sdk' />
+      <TextField
+        readOnly={readonly}
+        disabled={state.values.id}
+        name='name'
+        label='Название'
+        validate={assertNotEmpty}
+      />
+      <JsonEditor readOnly={readonly} name='data.executables' label='executables' />
+      <JsonEditor readOnly={readonly} name='data.sdk' label='sdk' />
     </Flex>
   )
 }

@@ -2,6 +2,7 @@ import { lazy } from 'react'
 import { type Route } from '../lib/route'
 import Main from '../pages/main'
 import NormalizationConfigs from '~/pages/normalization-configs'
+import NormalizationConfigs_create from '~/pages/normalization-configs/create'
 import NormalizationConfigs_id from '~/pages/normalization-configs/id'
 import Processes from '~/pages/processes'
 import StoreConfigs from '~/pages/store-config'
@@ -24,7 +25,7 @@ export const routes = {
 
   normalizationConfigs: {
     path: '/normalization-configs',
-    getURL: (): string => '/normalization-configs',
+    getURL: (): string => routes.normalizationConfigs.path,
     renderMain: NormalizationConfigs,
     renderHeader: Header,
     renderNav: Nav,
@@ -32,9 +33,19 @@ export const routes = {
     navigatable: true,
   },
 
+  normalizationConfigs_create: {
+    path: '/normalization-configs/create',
+    getURL: (): string => routes.normalizationConfigs_create.path,
+    renderMain: NormalizationConfigs_create,
+    renderHeader: Header,
+    renderNav: Nav,
+    getName: (): string => 'Создать конфигурацию нормализации',
+    navigatable: true,
+  },
+
   normalizationConfigs_id: {
     path: '/normalization-configs/:id',
-    getURL: (id: string): string => `/normalization-configs/${id}`,
+    getURL: (id: string): string => `${routes.normalizationConfigs.path}/${id}`,
     renderMain: NormalizationConfigs_id,
     renderHeader: Header,
     renderNav: Nav,

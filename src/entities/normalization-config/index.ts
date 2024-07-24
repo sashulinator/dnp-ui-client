@@ -34,3 +34,4 @@ export {
   fromValues as fromFormValues,
   toValues as toFormValues,
 } from './ui/form'
+export { default as Version, type VersionProps } from './ui/version'

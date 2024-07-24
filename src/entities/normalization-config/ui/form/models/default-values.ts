@@ -48,7 +48,7 @@ export const defaultValues: Create<NormalizationConfig> = {
     executables: [
       {
         'computable-config': {
-          'computable-name': '',
+          'computable-name': 'string',
           version: '0.0.1',
         },
         'sdk-config': {
