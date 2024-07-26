@@ -1,0 +1,17 @@
+{
+  "React Component Imports": {
+    "prefix": "rci",
+    "description": "Functional Component Imports",
+    "body": [
+      "/**",
+      " * ui",
+      "*/",
+      "",
+      "import { default as $1 } from './ui/${1/(.*)/${1:/downcase}/}'",
+      "",
+      "export default $1",
+      "export type { Props as $1Props } from './ui/${1/(.*)/${1:/downcase}/}'",
+      ""
+    ]
+  }
+}
