@@ -21,8 +21,8 @@ export default function Component(props: Props): JSX.Element {
   const { className, item } = props
 
   return (
-    <Card key={item.keyname} asChild={false} className={c(displayName, className)}>
-      <TextHighlighter tooltipContent='Название'>{item.keyname}</TextHighlighter>
+    <Card key={item.kn} asChild={false} className={c(displayName, className)}>
+      <TextHighlighter tooltipContent='Название'>{item.kn}</TextHighlighter>
       <Button round={true} color='red' className='trash-button' variant='soft'>
         <TrashIcon onClick={fns<[React.MouseEvent]>(stopPropagation, preventDefault)} />
       </Button>
