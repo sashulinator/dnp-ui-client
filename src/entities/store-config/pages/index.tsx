@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Item, fetchList } from '~/entities/store-config'
 import { routes } from '~/shared/routes'
+import Button from '~/ui/button'
 
 import Container from '~/ui/container'
 import Flex from '~/ui/flex'
@@ -33,7 +35,12 @@ export default function Component(): JSX.Element {
     <main className={displayName}>
       <Container p='1.5rem'>
         <Section size='1'>
-          <Heading>{routes.storeConfigs.getName()}</Heading>
+          <Flex width='100%' justify='between'>
+            <Heading>{routes.storeConfigs.getName()}</Heading>
+            <Button asChild>
+              <Link to={routes.storeConfigs_create.getURL()}>Создать</Link>
+            </Button>
+          </Flex>
         </Section>
         <Section size='1'>
           <Pagination

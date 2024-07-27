@@ -6,6 +6,7 @@ import NormalizationConfigs from '~/pages/normalization-configs'
 import NormalizationConfigs_create from '~/pages/normalization-configs/create'
 import NormalizationConfigs_id from '~/pages/normalization-configs/id'
 import Processes from '~/pages/processes'
+import StoreConfigs_create from '~/pages/store-configs/create'
 import StoreConfigs_kn from '~/pages/store-configs/kn'
 import Header from '~/ui/header'
 import Nav from '~/ui/nav'
@@ -30,7 +31,7 @@ export const routes = {
     renderMain: NormalizationConfigs,
     renderHeader: Header,
     renderNav: Nav,
-    getName: (): string => 'Конфигурации нормализации',
+    getName: (): string => 'Нормализации',
     navigatable: true,
   },
 
@@ -40,7 +41,7 @@ export const routes = {
     renderMain: NormalizationConfigs_create,
     renderHeader: Header,
     renderNav: Nav,
-    getName: (): string => 'Создать конфигурацию нормализации',
+    getName: (): string => 'Создать Нормализацию',
     navigatable: true,
   },
 
@@ -50,7 +51,7 @@ export const routes = {
     renderMain: NormalizationConfigs_id,
     renderHeader: Header,
     renderNav: Nav,
-    getName: (): string => 'Конфигурация нормализации',
+    getName: (): string => 'Нормализации',
     navigatable: true,
   },
 
@@ -71,6 +72,16 @@ export const routes = {
     renderHeader: Header,
     renderNav: Nav,
     getName: (): string => 'Хранилища',
+    navigatable: true,
+  },
+
+  storeConfigs_create: {
+    path: '/store-configs/create',
+    getURL: (): string => routes.storeConfigs_create.path,
+    renderMain: StoreConfigs_create,
+    renderHeader: Header,
+    renderNav: Nav,
+    getName: (): string => 'Создать Хранилище',
     navigatable: true,
   },
 
