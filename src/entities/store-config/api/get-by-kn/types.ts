@@ -1,7 +1,7 @@
 import { type StoreConfig } from '../../types/store-config'
 
 export interface RequestData {
-  keyName: string
+  kn: string
   select?: Partial<Record<keyof StoreConfig, boolean>> | undefined
 }
 

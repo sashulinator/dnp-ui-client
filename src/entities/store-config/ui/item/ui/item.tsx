@@ -1,11 +1,11 @@
+import { Link } from 'react-router-dom'
 import { StoreConfig } from '../../../types/store-config'
 import './item.scss'
-import Button from '~/ui/button'
+import { routes } from '~/shared/routes'
 import Card from '~/ui/card'
-import { TrashIcon } from '~/ui/icon'
+import Flex from '~/ui/flex'
 import TextHighlighter from '~/ui/text-highlighter'
-import { c, fns } from '~/utils/core'
-import { preventDefault, stopPropagation } from '~/utils/core-client'
+import { c } from '~/utils/core'
 
 export interface Props {
   className?: string | undefined
@@ -21,11 +21,15 @@ export default function Component(props: Props): JSX.Element {
   const { className, item } = props
 
   return (
-    <Card key={item.kn} asChild={false} className={c(displayName, className)}>
-      <TextHighlighter tooltipContent='Название'>{item.kn}</TextHighlighter>
-      <Button round={true} color='red' className='trash-button' variant='soft'>
-        <TrashIcon onClick={fns<[React.MouseEvent]>(stopPropagation, preventDefault)} />
-      </Button>
+    <Card key={item.kn} asChild={true} className={c(displayName, className)}>
+      <Flex justify='between' asChild>
+        <Link to={`${routes.storeConfigs_kn.getURL(item.kn)}`}>
+          <Flex gap='2'>
+            <TextHighlighter tooltipContent='Название'>{item.kn}</TextHighlighter>
+          </Flex>
+          <Flex gap='2' align='center'></Flex>
+        </Link>
+      </Flex>
     </Card>
   )
 }

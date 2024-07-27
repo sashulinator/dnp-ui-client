@@ -1,11 +1,12 @@
 import { lazy } from 'react'
 import { type Route } from '../lib/route'
 import Main from '../pages/main'
+import StoreConfigs from '~/entities/store-config/pages'
 import NormalizationConfigs from '~/pages/normalization-configs'
 import NormalizationConfigs_create from '~/pages/normalization-configs/create'
 import NormalizationConfigs_id from '~/pages/normalization-configs/id'
 import Processes from '~/pages/processes'
-import StoreConfigs from '~/pages/store-config'
+import StoreConfigs_kn from '~/pages/store-configs/kn'
 import Header from '~/ui/header'
 import Nav from '~/ui/nav'
 
@@ -44,7 +45,7 @@ export const routes = {
   },
 
   normalizationConfigs_id: {
-    path: '/normalization-configs/:id',
+    path: '${routes.normalizationConfigs.path}/:id',
     getURL: (id: string): string => `${routes.normalizationConfigs.path}/${id}`,
     renderMain: NormalizationConfigs_id,
     renderHeader: Header,
@@ -69,7 +70,17 @@ export const routes = {
     renderMain: StoreConfigs,
     renderHeader: Header,
     renderNav: Nav,
-    getName: (): string => 'Конфигурации хранилищ',
+    getName: (): string => 'Хранилища',
+    navigatable: true,
+  },
+
+  storeConfigs_kn: {
+    path: '/store-configs/:kn',
+    getURL: (kn: string): string => `${routes.storeConfigs.path}/${kn}`,
+    renderMain: StoreConfigs_kn,
+    renderHeader: Header,
+    renderNav: Nav,
+    getName: (): string => 'Хранилище',
     navigatable: true,
   },
 

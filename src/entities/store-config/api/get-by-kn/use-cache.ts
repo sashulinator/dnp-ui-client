@@ -18,7 +18,7 @@ export function useCache<TData = ResponseData>(
     select: (axiosResponse) => axiosResponse.data as TData,
     // Ошибку о том что id не передан отрисовываем на странице
     // но т.к. хуки не могут быть вызваны после if, то делаем проверку на обязательный параметр
-    enabled: Boolean(requestData.keyName),
+    enabled: Boolean(requestData.kn),
     ...preferedOptions,
   }
 
