@@ -1,5 +1,6 @@
 import type { Story } from '~/ui/storybook'
 
+import explorerViewer from '~/entities/explorer/ui/viewer/story'
 import normalizationConfigForm from '~/entities/normalization-config/ui/form/story'
 import storeConfigForm from '~/entities/store-config/ui/form/story'
 import uiButton from '~/ui/button/story'
@@ -20,6 +21,7 @@ import uiNotificationToastList from '~/ui/toast/variants/notification/list/story
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const storyList: Story<any>[] = [
+  explorerViewer,
   normalizationConfigForm,
   storeConfigForm,
   uiButton,
