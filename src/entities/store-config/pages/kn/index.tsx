@@ -1,7 +1,8 @@
 import { SymbolIcon } from '@radix-ui/react-icons'
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { safeParse } from 'valibot'
+import { Path, Viewer, api } from '~/entities/explorer'
 import {
   Form,
   FormValues,
@@ -69,6 +70,16 @@ export default function Component(): JSX.Element {
     },
   )
 
+  const [paths, setPaths] = useState<Path[]>([])
+
+  const explorerFetcher = api.fetchList.useCache(
+    {
+      paths: paths,
+      storeConfigData: { type: values.type as 'jdbc', data: values.data },
+    },
+    { enabled: paths.length !== 0, keepPreviousData: true },
+  )
+
   const render = useCallback(() => <Form />, [])
 
   return (
@@ -105,8 +116,8 @@ export default function Component(): JSX.Element {
               />
             </Section>
 
-            <Card asChild>
-              <Section size='1'>
+            <Section size='1'>
+              <Card>
                 <Flex gap='2' direction='row' justify='end'>
                   <Flex gap='2' align='center'>
                     <Tooltip content='Сбросить'>
@@ -131,8 +142,33 @@ export default function Component(): JSX.Element {
                     </Button>
                   </Flex>
                 </Flex>
-              </Section>
-            </Card>
+              </Card>
+            </Section>
+
+            <Section size='1'>
+              <Card>
+                <Flex gap='4' direction='column'>
+                  <Flex>
+                    <Button
+                      onClick={() => {
+                        setPaths([{ type: fetcher.data.type, name: fetcher.data.data.database }])
+                      }}
+                    >
+                      Просмотреть данные
+                    </Button>
+                  </Flex>
+                  {paths.length !== 0 && (
+                    <Viewer
+                      listHeight='300px'
+                      onPathChange={setPaths}
+                      loading={explorerFetcher.isFetching}
+                      paths={paths}
+                      data={explorerFetcher.data}
+                    />
+                  )}
+                </Flex>
+              </Card>
+            </Section>
           </>
         )}
       </Container>

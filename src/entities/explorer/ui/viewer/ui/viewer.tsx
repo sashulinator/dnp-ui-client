@@ -1,15 +1,17 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons'
+import React from 'react'
 import { Explorer, Path } from '../../../types/explorer'
 import Item from '../widgets/item'
 import Type from '../widgets/type'
 import Button from '~/ui/button'
 import Flex from '~/ui/flex'
+import ScrollArea from '~/ui/scroll-area'
 import { c } from '~/utils/core'
-
 export interface Props {
   className?: string | undefined
   data: Explorer | undefined
   loading?: boolean | undefined
+  listHeight?: string | undefined
   paths: Path[] | undefined
   onPathChange: (paths: Path[]) => void
 }
@@ -20,15 +22,15 @@ export const NAME = 'explorer-Viewer'
  * explorer-Viewer
  */
 export default function Component(props: Props): JSX.Element {
-  const { data, loading = false, paths = [] } = props
+  const { data, loading = false, paths = [], listHeight: height } = props
 
   return (
-    <Flex direction='column' gap='4' width='100%' height='100%' className={c(props.className, NAME)}>
-      <Flex gap='4' align='center' className={`${NAME}_header`}>
+    <Flex direction='column' gap='4' width='100%' className={c(props.className, NAME)}>
+      <Flex gap='4' align='center' height='var(--space-7)' className={`${NAME}_header`}>
         <Button
           square={true}
           loading={loading}
-          disabled={paths.length === 0}
+          disabled={paths.length <= 1}
           variant='outline'
           onClick={() => {
             paths.pop()
@@ -42,7 +44,7 @@ export default function Component(props: Props): JSX.Element {
           <>
             <Flex gap='3' align='center'>
               {paths.map((path, i) => (
-                <>
+                <React.Fragment key={i}>
                   <Flex gap='2' align='center' asChild>
                     <Button
                       key={i}
@@ -58,7 +60,7 @@ export default function Component(props: Props): JSX.Element {
                     </Button>
                   </Flex>
                   {paths.length - 1 !== i && <ChevronRightIcon />}
-                </>
+                </React.Fragment>
               ))}
             </Flex>
           </>
@@ -66,22 +68,29 @@ export default function Component(props: Props): JSX.Element {
       </Flex>
       <Flex direction='column' gap='1'>
         {data && (
-          <>
-            {data.items.map((item) => {
-              return (
-                <Item
-                  style={{ cursor: item.type !== 'record' ? 'pointer' : 'default' }}
-                  onDoubleClick={
-                    item.type === 'record'
-                      ? undefined
-                      : () => props.onPathChange([...paths, { name: item.name, type: item.type }])
-                  }
-                  key={item.name}
-                  item={item}
-                />
-              )
-            })}
-          </>
+          <ScrollArea>
+            <div style={{ height }}>
+              <Flex direction='column' gap='1' style={{ padding: '0 0 30px 0' }}>
+                {data.items.map((item) => {
+                  return (
+                    <Item
+                      key={item.name}
+                      style={{ cursor: item.type !== 'record' ? 'pointer' : 'default' }}
+                      onDoubleClick={
+                        item.type === 'record'
+                          ? undefined
+                          : () => {
+                              if (props.loading) return
+                              props.onPathChange([...paths, { name: item.name, type: item.type }])
+                            }
+                      }
+                      item={item}
+                    />
+                  )
+                })}
+              </Flex>
+            </div>
+          </ScrollArea>
         )}
       </Flex>
     </Flex>
