@@ -46,7 +46,7 @@ export const routes = {
   },
 
   normalizationConfigs_id: {
-    path: '${routes.normalizationConfigs.path}/:id',
+    path: '/normalization-configs/:id',
     getURL: (id: string): string => `${routes.normalizationConfigs.path}/${id}`,
     renderMain: NormalizationConfigs_id,
     renderHeader: Header,

@@ -34,7 +34,7 @@ export default function Component(props: Props): JSX.Element {
           </Flex>
           <Flex gap='2' align='center'>
             <Flex direction='column' align='end'>
-              {item.current ? <Badge color='green'>Текущий</Badge> : <Badge color='red'>Архивный</Badge>}
+              {item.last ? <Badge color='green'>Текущий</Badge> : <Badge color='red'>Архивный</Badge>}
             </Flex>
           </Flex>
         </Link>

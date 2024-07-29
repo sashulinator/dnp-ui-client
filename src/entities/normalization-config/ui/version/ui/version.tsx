@@ -7,7 +7,7 @@ import { c } from '~/utils/core'
 
 export interface Props {
   className?: string | undefined
-  item: Pick<NormalizationConfig, 'current' | 'v'>
+  item: Pick<NormalizationConfig, 'last' | 'v'>
   isProcessCreating?: boolean | undefined
   onCreateProcessButtonClick?: (e: React.MouseEvent) => void
 }
@@ -26,7 +26,7 @@ export default function Component(props: Props): JSX.Element {
         <Text size='2' color='gray'>
           Версия: {item.v}
         </Text>
-        {item.current ? (
+        {item.last ? (
           <Badge color='green'>Текущий</Badge>
         ) : (
           <>

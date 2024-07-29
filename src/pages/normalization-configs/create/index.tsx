@@ -52,7 +52,7 @@ export default function Component(): JSX.Element {
   )
 
   const values = form.getState().values
-  const isCurrent = form.getState().values.current
+  const isCurrent = form.getState().values.last
 
   const createMutator = create.useCache({
     onSuccess: (data) => {

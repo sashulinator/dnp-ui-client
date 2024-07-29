@@ -30,7 +30,7 @@ export default function Component(): JSX.Element {
   }, [page])
 
   const fetcherList = fetchList.useCache(
-    { take, skip, select: { id: true, name: true, v: true, current: true } },
+    { take, skip, select: { id: true, name: true, v: true, last: true } },
     { keepPreviousData: true },
   )
 
