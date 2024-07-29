@@ -1,1 +1,1 @@
-export * from '~/common/store-config'
+export * from '~/common/entities/store-config'

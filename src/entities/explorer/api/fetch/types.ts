@@ -1,5 +1,5 @@
 import { Explorer, Path } from '../../types/explorer'
-import { JdbcData } from '~/common/store-config'
+import { JdbcData } from '~/common/entities/store-config'
 
 export type RequestData = {
   paths: Path[]

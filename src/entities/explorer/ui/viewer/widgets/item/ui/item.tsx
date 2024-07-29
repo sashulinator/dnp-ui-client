@@ -1,5 +1,5 @@
+import { type Item } from '../../../../../types/explorer'
 import Type from '../../type'
-import { type Item } from '~/common/explorer'
 import Flex from '~/ui/flex'
 import TextHighlighter from '~/ui/text-highlighter'
 import Tooltip from '~/ui/tooltip'
