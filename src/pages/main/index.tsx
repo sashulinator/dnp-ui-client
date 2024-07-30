@@ -22,7 +22,7 @@ export default function Component(): JSX.Element {
         <Section size='1'>
           <Heading>DNP</Heading>
         </Section>
-        <Flex gap='4'>
+        <Flex gap='4' wrap={'wrap'}>
           <Card asChild style={{ width: '12rem', height: '5rem' }}>
             <Link to={routes.normalizationConfigs.getURL()}>{routes.normalizationConfigs.getName()}</Link>
           </Card>
@@ -32,9 +32,9 @@ export default function Component(): JSX.Element {
           <Card asChild style={{ width: '12rem', height: '5rem' }}>
             <Link to={routes.storeConfigs.getURL()}>{routes.storeConfigs.getName()}</Link>
           </Card>
-          {/* <Card asChild={true} style={{ width: '12rem', height: '4rem' }}>
-            <Link routeName='uni'>Uni</Link>
-          </Card> */}
+          <Card asChild style={{ width: '12rem', height: '5rem' }}>
+            <Link to={routes.entities.getURL()}>{routes.entities.getName()}</Link>
+          </Card>
         </Flex>
         <Section></Section>
       </Container>

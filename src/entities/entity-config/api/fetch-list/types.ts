@@ -1,4 +1,4 @@
-import { Entity } from '../../types/entities'
+import { EntityConfig } from '../../types/entities'
 import { List } from '~/lib/api'
 import { StringFilter } from '~/lib/api/types/string-filter'
 
@@ -9,7 +9,7 @@ export type RequestData = {
     name?: string | StringFilter | undefined
     nav?: boolean | undefined
   }
-  select?: Partial<Record<keyof Entity, boolean>> | undefined
+  select?: Partial<Record<keyof EntityConfig, boolean>> | undefined
 }
 
-export type ResponseData = List<Entity>
+export type ResponseData = List<EntityConfig>

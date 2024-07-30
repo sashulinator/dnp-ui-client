@@ -1,7 +1,7 @@
 import { StarIcon } from '@radix-ui/react-icons'
 import { Link } from 'react-router-dom'
 import './nav.scss'
-import { api } from '~/entities/entity'
+import { api } from '~/entities/entity-config'
 import { routes } from '~/shared/routes'
 import Card from '~/ui/card'
 import Flex from '~/ui/flex'

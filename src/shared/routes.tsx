@@ -1,11 +1,12 @@
 import { lazy } from 'react'
 import { type Route } from '../lib/route'
 import Main from '../pages/main'
-import StoreConfigs from '~/entities/store-config/pages'
+import Entities from '~/pages/entities'
 import NormalizationConfigs from '~/pages/normalization-configs'
 import NormalizationConfigs_create from '~/pages/normalization-configs/create'
 import NormalizationConfigs_id from '~/pages/normalization-configs/id'
 import Processes from '~/pages/processes'
+import StoreConfigs from '~/pages/store-configs'
 import StoreConfigs_create from '~/pages/store-configs/create'
 import StoreConfigs_kn from '~/pages/store-configs/kn'
 import Header from '~/ui/header'
@@ -23,6 +24,16 @@ export const routes = {
     renderHeader: Header,
     renderNav: Nav,
     navigatable: false,
+  },
+
+  entities: {
+    path: '/entities',
+    getURL: (): string => routes.entities.path,
+    renderMain: Entities,
+    renderHeader: Header,
+    renderNav: Nav,
+    getName: (): string => 'Сущности',
+    navigatable: true,
   },
 
   normalizationConfigs: {
