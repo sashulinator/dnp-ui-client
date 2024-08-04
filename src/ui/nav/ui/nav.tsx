@@ -1,7 +1,7 @@
 import { StarIcon } from '@radix-ui/react-icons'
 import { Link } from 'react-router-dom'
 import './nav.scss'
-import { api } from '~/entities/entity-config'
+import { api } from '~/entities/target-table'
 import { routes } from '~/shared/routes'
 import Card from '~/ui/card'
 import Flex from '~/ui/flex'
@@ -17,7 +17,7 @@ const displayName = 'ui-Nav'
  * ui-Nav
  */
 export default function Component(): JSX.Element {
-  const entitiesFetcher = api.fetchList.useCache({ where: { nav: true } })
+  const targetTableListFetcher = api.fetchList.useCache({ where: { nav: true } })
 
   return (
     <nav className={c(displayName)}>
@@ -29,9 +29,9 @@ export default function Component(): JSX.Element {
         </Card>
       </div>
       <Flex direction='column' gap='6'>
-        {entitiesFetcher.data?.items.map((entity) => {
+        {targetTableListFetcher.data?.items.map((targetTable) => {
           return (
-            <Tooltip key={entity.kn} content={entity.name}>
+            <Tooltip key={targetTable.kn} content={targetTable.name}>
               <Card variant='ghost' asChild={true} style={{ display: 'grid', width: '5rem', height: '3rem' }}>
                 <Link to='#'>
                   <span style={{ placeSelf: 'center' }}>

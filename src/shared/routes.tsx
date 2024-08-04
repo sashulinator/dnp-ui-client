@@ -1,7 +1,6 @@
 import { lazy } from 'react'
 import { type Route } from '../lib/route'
 import Main from '../pages/main'
-import Entities from '~/pages/entities'
 import NormalizationConfigs from '~/pages/normalization-configs'
 import NormalizationConfigs_create from '~/pages/normalization-configs/create'
 import NormalizationConfigs_id from '~/pages/normalization-configs/id'
@@ -9,6 +8,7 @@ import Processes from '~/pages/processes'
 import StoreConfigs from '~/pages/store-configs'
 import StoreConfigs_create from '~/pages/store-configs/create'
 import StoreConfigs_kn from '~/pages/store-configs/kn'
+import TargetTable from '~/pages/target-table'
 import Header from '~/ui/header'
 import Nav from '~/ui/nav'
 
@@ -26,13 +26,13 @@ export const routes = {
     navigatable: false,
   },
 
-  entities: {
-    path: '/entities',
-    getURL: (): string => routes.entities.path,
-    renderMain: Entities,
+  targetTables: {
+    path: '/target-tables',
+    getURL: (): string => routes.targetTables.path,
+    renderMain: TargetTable,
     renderHeader: Header,
     renderNav: Nav,
-    getName: (): string => 'Сущности',
+    getName: (): string => 'Целевые таблицы',
     navigatable: true,
   },
 

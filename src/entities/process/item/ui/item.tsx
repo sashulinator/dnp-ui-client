@@ -30,7 +30,7 @@ export default function Component(props: Props): JSX.Element {
       <Text as='div' size='2' weight='bold'>
         Пользователь:{' '}
         <Text as='div' size='2' weight='bold'>
-          {item.createdBy}
+          {item.createdBy.name}
         </Text>
       </Text>
       <Text as='div' size='2' weight='bold'>

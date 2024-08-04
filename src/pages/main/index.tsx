@@ -33,7 +33,7 @@ export default function Component(): JSX.Element {
             <Link to={routes.storeConfigs.getURL()}>{routes.storeConfigs.getName()}</Link>
           </Card>
           <Card asChild style={{ width: '12rem', height: '5rem' }}>
-            <Link to={routes.entities.getURL()}>{routes.entities.getName()}</Link>
+            <Link to={routes.targetTables.getURL()}>{routes.targetTables.getName()}</Link>
           </Card>
         </Flex>
         <Section></Section>

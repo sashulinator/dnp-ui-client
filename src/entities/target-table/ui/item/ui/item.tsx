@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { EntityConfig } from '../../../types/entities'
+import { TargetTable } from '../../../types/target-table'
 import './item.scss'
 import Badge from '~/ui/badge'
 // import { routes } from '~/shared/routes'
@@ -10,13 +10,13 @@ import { c } from '~/utils/core'
 
 export interface Props {
   className?: string | undefined
-  item: EntityConfig
+  item: TargetTable
 }
 
-const displayName = 'entity-Item'
+const displayName = 'targetTable-Item'
 
 /**
- * entity-Item
+ * targetTable-Item
  */
 export default function Component(props: Props): JSX.Element {
   const { className, item } = props
@@ -24,7 +24,7 @@ export default function Component(props: Props): JSX.Element {
   return (
     <Flex justify='between' direction='row' asChild={true}>
       <Card key={item.kn} asChild={true} className={c(displayName, className)}>
-        {/* <Link to={`${routes.entitys_kn.getURL(item.kn)}`}> */}
+        {/* <Link to={`${routes.targetTables_kn.getURL(item.kn)}`}> */}
         <Link to={'#'}>
           <Flex gap='2'>
             <TextHighlighter tooltipContent='Название'>{item.kn}</TextHighlighter>

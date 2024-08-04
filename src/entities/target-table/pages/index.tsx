@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 // import { Link } from 'react-router-dom'
-import { api, Item } from '~/entities/entity-config'
+import { api, Item } from '~/entities/target-table'
 import { routes } from '~/shared/routes'
 // import Button from '~/ui/button'
 import Container from '~/ui/container'
@@ -13,10 +13,10 @@ export interface Props {
   className?: string | undefined
 }
 
-const displayName = 'page-EntityConfig'
+const displayName = 'page-TargetTable'
 
 /**
- * page-EntityConfig
+ * page-TargetTable
  */
 export default function Component(): JSX.Element {
   const [page, setPage] = useState(1)
@@ -35,7 +35,7 @@ export default function Component(): JSX.Element {
       <Container p='1.5rem'>
         <Section size='1'>
           <Flex width='100%' justify='between'>
-            <Heading>{routes.entities.getName()}</Heading>
+            <Heading>{routes.targetTables.getName()}</Heading>
             {/* <Button asChild>
               <Link to={routes.entities_create.getURL()}>Создать</Link>
             </Button> */}

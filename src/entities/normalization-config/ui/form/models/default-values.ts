@@ -1,10 +1,7 @@
-import { type Create } from '~/lib/api'
+import { type CreateNormalizationConfig } from '../../../types/normalization-config'
 
-import { type NormalizationConfig } from '../../../types/normalization-config'
-
-export const defaultValues: Create<NormalizationConfig> = {
+export const defaultValues: CreateNormalizationConfig = {
   name: '',
-  v: 1,
   last: true,
   data: {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment

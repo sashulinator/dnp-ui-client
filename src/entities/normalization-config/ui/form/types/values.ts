@@ -1,6 +1,7 @@
-import { NormalizationConfig } from '../../../types/normalization-config'
-import { Create } from '~/lib/api'
+import { NormalizationConfig, type CreateNormalizationConfig } from '../../../types/normalization-config'
 
-type _Data = Omit<Create<NormalizationConfig>['data'], 'sdk' | 'executables'> & { sdk: string; executables: string }
+type _Data = Omit<CreateNormalizationConfig['data'], 'sdk' | 'executables'> & { sdk: string; executables: string }
 
-export type Values = Omit<Create<NormalizationConfig>, 'data'> & { data: _Data }
+export type Values = Omit<CreateNormalizationConfig, 'data'> & { data: _Data } & Partial<
+    Omit<NormalizationConfig, 'data'>
+  >
