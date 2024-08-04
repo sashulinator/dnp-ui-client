@@ -1,3 +1,4 @@
+import { BarChartIcon, LapTimerIcon, LayersIcon, TargetIcon } from '@radix-ui/react-icons'
 import { lazy } from 'react'
 import { type Route } from '../lib/route'
 import Main from '../pages/main'
@@ -26,16 +27,6 @@ export const routes = {
     navigatable: false,
   },
 
-  targetTables: {
-    path: '/target-tables',
-    getURL: (): string => routes.targetTables.path,
-    renderMain: TargetTable,
-    renderHeader: Header,
-    renderNav: Nav,
-    getName: (): string => 'Целевые таблицы',
-    navigatable: true,
-  },
-
   normalizationConfigs: {
     path: '/normalization-configs',
     getURL: (): string => routes.normalizationConfigs.path,
@@ -44,6 +35,8 @@ export const routes = {
     renderNav: Nav,
     getName: (): string => 'Нормализации',
     navigatable: true,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    renderIcon: BarChartIcon as any,
   },
 
   normalizationConfigs_create: {
@@ -53,7 +46,7 @@ export const routes = {
     renderHeader: Header,
     renderNav: Nav,
     getName: (): string => 'Создать Нормализацию',
-    navigatable: true,
+    navigatable: false,
   },
 
   normalizationConfigs_id: {
@@ -63,7 +56,7 @@ export const routes = {
     renderHeader: Header,
     renderNav: Nav,
     getName: (): string => 'Нормализации',
-    navigatable: true,
+    navigatable: false,
   },
 
   processes: {
@@ -74,6 +67,8 @@ export const routes = {
     renderNav: Nav,
     getName: (): string => 'Процессы',
     navigatable: true,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    renderIcon: LapTimerIcon as any,
   },
 
   storeConfigs: {
@@ -84,6 +79,8 @@ export const routes = {
     renderNav: Nav,
     getName: (): string => 'Хранилища',
     navigatable: true,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    renderIcon: LayersIcon as any,
   },
 
   storeConfigs_create: {
@@ -93,7 +90,7 @@ export const routes = {
     renderHeader: Header,
     renderNav: Nav,
     getName: (): string => 'Создать Хранилище',
-    navigatable: true,
+    navigatable: false,
   },
 
   storeConfigs_kn: {
@@ -103,8 +100,32 @@ export const routes = {
     renderHeader: Header,
     renderNav: Nav,
     getName: (): string => 'Хранилище',
-    navigatable: true,
+    navigatable: false,
   },
+
+  targetTables: {
+    path: '/target-tables',
+    getURL: (): string => routes.targetTables.path,
+    renderMain: TargetTable,
+    renderHeader: Header,
+    renderNav: Nav,
+    getName: (): string => 'Целевые таблицы',
+    navigatable: true,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    renderIcon: TargetIcon as any,
+  },
+
+  targetTables_id: {
+    path: '/target-tables/:kn',
+    getURL: (kn: string): string => `${routes.targetTables.path}/${kn}`,
+    renderMain: () => 'TargetTable',
+    renderHeader: Header,
+    renderNav: Nav,
+    getName: (): string => 'Целевые таблицы',
+    navigatable: false,
+  },
+
+  // Misc
 
   storybook: {
     path: '/storybook',

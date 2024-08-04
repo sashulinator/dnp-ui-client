@@ -1,10 +1,13 @@
 import { StarIcon } from '@radix-ui/react-icons'
+import { createElement } from 'react'
 import { Link } from 'react-router-dom'
 import './nav.scss'
 import { api } from '~/entities/target-table'
 import { routes } from '~/shared/routes'
+import Button from '~/ui/button'
 import Card from '~/ui/card'
 import Flex from '~/ui/flex'
+import Logo from '~/ui/logo'
 import Tooltip from '~/ui/tooltip'
 import { c } from '~/utils/core'
 export interface Props {
@@ -22,31 +25,49 @@ export default function Component(): JSX.Element {
   return (
     <nav className={c(displayName)}>
       <div className='logo'>
-        <Card variant='ghost' asChild style={{ display: 'grid', width: '5rem', height: '3rem' }}>
+        <Card
+          variant='ghost'
+          asChild
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '60px',
+            borderRadius: '0',
+            height: '60px',
+          }}
+        >
           <Link to={routes.main.getURL()}>
-            <span style={{ placeSelf: 'center' }}>DNP</span>
+            <Logo />
           </Link>
         </Card>
       </div>
-      <Flex direction='column' gap='6'>
-        {targetTableListFetcher.data?.items.map((targetTable) => {
+      <Flex direction='column' gap='3'>
+        {Object.entries(routes).map(([key, route]) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          if (!route.navigatable || !(route as any).renderIcon) return null
           return (
-            <Tooltip key={targetTable.kn} content={targetTable.name}>
-              <Card variant='ghost' asChild={true} style={{ display: 'grid', width: '5rem', height: '3rem' }}>
-                <Link to='#'>
-                  <span style={{ placeSelf: 'center' }}>
-                    <StarIcon />
-                  </span>
-                </Link>
-              </Card>
+            <Tooltip key={key} content={route.getName()}>
+              <Button size='3' square={true} asChild variant='soft'>
+                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                <Link to={(route.getURL as any)()}>{createElement((route as any).renderIcon)}</Link>
+              </Button>
             </Tooltip>
           )
         })}
-        {/* <Card variant='ghost' asChild={true} style={{ display: 'grid', width: '5rem', height: '3rem' }}>
-          <Link routeName='uni'>
-            <span style={{ placeSelf: 'center' }}>Uni</span>
-          </Link>
-        </Card> */}
+      </Flex>
+      <Flex direction='column' gap='3'>
+        {targetTableListFetcher.data?.items.map((targetTable) => {
+          return (
+            <Tooltip key={targetTable.kn} content={targetTable.name}>
+              <Button size='3' square={true} asChild variant='soft'>
+                <Link to={routes.targetTables_id.getURL(targetTable.kn)}>
+                  <StarIcon />
+                </Link>
+              </Button>
+            </Tooltip>
+          )
+        })}
       </Flex>
     </nav>
   )

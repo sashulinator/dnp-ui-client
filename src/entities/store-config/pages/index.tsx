@@ -37,7 +37,7 @@ export default function Component(): JSX.Element {
         <Section size='1'>
           <Flex width='100%' justify='between'>
             <Heading>{routes.storeConfigs.getName()}</Heading>
-            <Button asChild>
+            <Button size='1' asChild>
               <Link to={routes.storeConfigs_create.getURL()}>Создать</Link>
             </Button>
           </Flex>

@@ -15,7 +15,7 @@ export interface Props {
   className?: string | undefined
 }
 
-const displayName = 'page-Main'
+const displayName = 'page-NormalizationConfigs'
 
 /**
  * page-Main
@@ -36,11 +36,11 @@ export default function Component(): JSX.Element {
 
   return (
     <main className={displayName}>
-      <Container p='8'>
+      <Container p='1.5rem'>
         <Section size='1'>
           <Flex width='100%' justify='between'>
             <Heading>{routes.normalizationConfigs.getName()}</Heading>
-            <Button asChild>
+            <Button size='1' asChild>
               <Link to={routes.normalizationConfigs_create.getURL()}>Создать</Link>
             </Button>
           </Flex>
