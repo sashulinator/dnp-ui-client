@@ -1,5 +1,5 @@
-import { BarChartIcon, LapTimerIcon, LayersIcon, TargetIcon } from '@radix-ui/react-icons'
-import { lazy } from 'react'
+import { BarChartIcon, LapTimerIcon, LayersIcon, StarIcon, TargetIcon } from '@radix-ui/react-icons'
+import { Suspense, lazy } from 'react'
 import { type Route } from '../lib/route'
 import Main from '../pages/main'
 import NormalizationConfigs from '~/pages/normalization-configs'
@@ -12,6 +12,7 @@ import StoreConfigs_kn from '~/pages/store-configs/kn'
 import TargetTable from '~/pages/target-table'
 import Header from '~/ui/header'
 import Nav from '~/ui/nav'
+import { isDev } from '~/utils/core'
 
 // eslint-disable-next-line react-refresh/only-export-components
 const Storybook = lazy(() => import('../pages/storybook/index'))
@@ -130,9 +131,15 @@ export const routes = {
   storybook: {
     path: '/storybook',
     getURL: (): string => '/storybook',
-    renderMain: Storybook as unknown as () => JSX.Element,
+    renderMain: () => (
+      <Suspense fallback='loading...'>
+        <Storybook />
+      </Suspense>
+    ),
     getName: (): string => 'storybook',
-    navigatable: false,
+    navigatable: isDev(),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    renderIcon: StarIcon as any,
   },
 
   notFound: {
