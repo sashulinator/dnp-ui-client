@@ -21,6 +21,7 @@ const displayName = 'ui-Nav'
  */
 export default function Component(): JSX.Element {
   const targetTableListFetcher = api.fetchList.useCache({ where: { nav: true } })
+  const navigatables = Object.entries(routes).filter(([, route]) => route.navigatable)
 
   return (
     <nav className={c(displayName)}>
@@ -43,15 +44,16 @@ export default function Component(): JSX.Element {
         </Card>
       </div>
       <Flex direction='column' gap='3'>
-        {Object.entries(routes).map(([key, route]) => {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          if (!route.navigatable || !(route as any).renderIcon) return null
+        {navigatables.map(([key, route]) => {
           return (
             <Tooltip key={key} content={route.getName()}>
-              <Button size='3' square={true} asChild variant='soft'>
-                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                <Link to={(route.getURL as any)()}>{createElement((route as any).renderIcon)}</Link>
-              </Button>
+              {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+              <Link to={(route.getURL as any)()}>
+                <Button size='3' square={true} variant='soft'>
+                  {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                  {createElement((route as any).renderIcon)}
+                </Button>
+              </Link>
             </Tooltip>
           )
         })}
@@ -60,11 +62,11 @@ export default function Component(): JSX.Element {
         {targetTableListFetcher.data?.items.map((targetTable) => {
           return (
             <Tooltip key={targetTable.kn} content={targetTable.name}>
-              <Button size='3' square={true} asChild variant='soft'>
-                <Link to={routes.targetTables_id.getURL(targetTable.kn)}>
+              <Link to={routes.targetTables_id.getURL(targetTable.kn)}>
+                <Button size='3' square={true} variant='soft'>
                   <StarIcon />
-                </Link>
-              </Button>
+                </Button>
+              </Link>
             </Tooltip>
           )
         })}
@@ -72,4 +74,5 @@ export default function Component(): JSX.Element {
     </nav>
   )
 }
+
 Component.displayName = displayName
