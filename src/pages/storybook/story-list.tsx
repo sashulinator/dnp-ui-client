@@ -3,6 +3,7 @@ import type { Story } from '~/ui/storybook'
 import explorerViewer from '~/entities/explorer/ui/viewer/story'
 import normalizationConfigForm from '~/entities/normalization-config/ui/form/story'
 import storeConfigForm from '~/entities/store-config/ui/form/story'
+import targetTableForm from '~/entities/target-table/ui/form/story'
 import uiButton from '~/ui/button/story'
 import uiCodeEditor from '~/ui/code-editor/story'
 import uiCodeEditorVJson from '~/ui/code-editor/variants/json/story'
@@ -24,6 +25,7 @@ export const storyList: Story<any>[] = [
   explorerViewer,
   normalizationConfigForm,
   storeConfigForm,
+  targetTableForm,
   uiButton,
   uiCodeEditor,
   uiCodeEditorVJson,
