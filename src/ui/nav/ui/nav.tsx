@@ -62,7 +62,7 @@ export default function Component(): JSX.Element {
         {targetTableListFetcher.data?.items.map((targetTable) => {
           return (
             <Tooltip key={targetTable.kn} content={targetTable.name}>
-              <Link to={routes.targetTables_id.getURL(targetTable.kn)}>
+              <Link to={routes.targetTables_kn.getURL(targetTable.kn)}>
                 <Button size='3' square={true} variant='soft'>
                   <StarIcon />
                 </Button>

@@ -44,6 +44,7 @@ export default function Component(): JSX.Element {
         <Section size='1'>
           <Pagination
             currentPage={page}
+            loading={fetcherList.isFetching}
             limit='10'
             totalElements={fetcherList.data?.total.toString()}
             onChange={setPage}

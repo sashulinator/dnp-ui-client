@@ -10,6 +10,7 @@ import StoreConfigs from '~/pages/store-configs'
 import StoreConfigs_create from '~/pages/store-configs/create'
 import StoreConfigs_kn from '~/pages/store-configs/kn'
 import TargetTable from '~/pages/target-table'
+import TargetTable_kn from '~/pages/target-table/kn'
 import Header from '~/ui/header'
 import Nav from '~/ui/nav'
 import { isDev } from '~/utils/core'
@@ -116,10 +117,10 @@ export const routes = {
     renderIcon: TargetIcon as any,
   },
 
-  targetTables_id: {
+  targetTables_kn: {
     path: '/target-tables/:kn',
     getURL: (kn: string): string => `${routes.targetTables.path}/${kn}`,
-    renderMain: () => 'TargetTable',
+    renderMain: TargetTable_kn,
     renderHeader: Header,
     renderNav: Nav,
     getName: (): string => 'Целевые таблицы',

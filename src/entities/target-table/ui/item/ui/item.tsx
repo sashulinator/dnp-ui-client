@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { TargetTable } from '../../../types/target-table'
 import './item.scss'
+import { routes } from '~/shared/routes'
 import Badge from '~/ui/badge'
 // import { routes } from '~/shared/routes'
 import Card from '~/ui/card'
@@ -25,7 +26,7 @@ export default function Component(props: Props): JSX.Element {
     <Flex justify='between' direction='row' asChild={true}>
       <Card key={item.kn} asChild={true} className={c(displayName, className)}>
         {/* <Link to={`${routes.targetTables_kn.getURL(item.kn)}`}> */}
-        <Link to={'#'}>
+        <Link to={`${routes.targetTables_kn.getURL(item.kn)}`}>
           <Flex gap='2'>
             <TextHighlighter tooltipContent='Название'>{item.kn}</TextHighlighter>
           </Flex>
