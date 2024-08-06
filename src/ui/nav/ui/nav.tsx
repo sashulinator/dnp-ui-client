@@ -46,11 +46,7 @@ export default function Component(): JSX.Element {
       <Flex direction='column' gap='3'>
         {navigatables.map(([key, route]) => {
           return (
-<<<<<<< HEAD
             <Tooltip side='right' key={key} content={route.getName()}>
-=======
-            <Tooltip key={key} content={route.getName()}>
->>>>>>> d69795b (refactor(ui-Nav): убрать ошибку в консоле DGR-0)
               {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
               <Link to={(route.getURL as any)()}>
                 <Button size='3' square={true} variant='soft'>
@@ -65,13 +61,8 @@ export default function Component(): JSX.Element {
       <Flex direction='column' gap='3'>
         {targetTableListFetcher.data?.items.map((targetTable) => {
           return (
-<<<<<<< HEAD
             <Tooltip side='right' key={targetTable.kn} content={targetTable.name}>
               <Link to={routes.targetTables_kn.getURL(targetTable.kn)}>
-=======
-            <Tooltip key={targetTable.kn} content={targetTable.name}>
-              <Link to={routes.targetTables_id.getURL(targetTable.kn)}>
->>>>>>> d69795b (refactor(ui-Nav): убрать ошибку в консоле DGR-0)
                 <Button size='3' square={true} variant='soft'>
                   <StarIcon />
                 </Button>
