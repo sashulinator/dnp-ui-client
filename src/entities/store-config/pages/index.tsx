@@ -29,6 +29,7 @@ export default function Component(): JSX.Element {
   useEffect(() => {
     setSkip((page - 1) * take)
   }, [page])
+
   const fetcherList = fetchList.useCache({ take, skip })
 
   return (
@@ -48,6 +49,7 @@ export default function Component(): JSX.Element {
             limit='10'
             totalElements={fetcherList.data?.total.toString()}
             onChange={setPage}
+            loading={fetcherList.isFetching}
           />
         </Section>
         <Section size='1'>

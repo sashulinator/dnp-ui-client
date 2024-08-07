@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-// import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { api, Item } from '~/entities/target-table'
 import { routes } from '~/shared/routes'
-// import Button from '~/ui/button'
+import Button from '~/ui/button'
 import Container from '~/ui/container'
 import Flex from '~/ui/flex'
 import Heading from '~/ui/heading'
@@ -36,9 +36,9 @@ export default function Component(): JSX.Element {
         <Section size='1'>
           <Flex width='100%' justify='between'>
             <Heading>{routes.targetTables.getName()}</Heading>
-            {/* <Button asChild>
-              <Link to={routes.entities_create.getURL()}>Создать</Link>
-            </Button> */}
+            <Button size='1' asChild>
+              <Link to={routes.targetTables_create.getURL()}>Создать</Link>
+            </Button>
           </Flex>
         </Section>
         <Section size='1'>

@@ -10,6 +10,7 @@ import StoreConfigs from '~/pages/store-configs'
 import StoreConfigs_create from '~/pages/store-configs/create'
 import StoreConfigs_kn from '~/pages/store-configs/kn'
 import TargetTable from '~/pages/target-table'
+import TargetTable_create from '~/pages/target-table/create'
 import TargetTable_kn from '~/pages/target-table/kn'
 import Header from '~/ui/header'
 import Nav from '~/ui/nav'
@@ -28,6 +29,10 @@ export const routes = {
     renderNav: Nav,
     navigatable: false,
   },
+
+  /**
+   * normaliztionConfigs
+   */
 
   normalizationConfigs: {
     path: '/normalization-configs',
@@ -61,6 +66,10 @@ export const routes = {
     navigatable: false,
   },
 
+  /**
+   * processes
+   */
+
   processes: {
     path: '/processes',
     getURL: (): string => '/processes',
@@ -72,6 +81,10 @@ export const routes = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     renderIcon: LapTimerIcon as any,
   },
+
+  /**
+   * storeConfigs
+   */
 
   storeConfigs: {
     path: '/store-configs',
@@ -105,6 +118,10 @@ export const routes = {
     navigatable: false,
   },
 
+  /**
+   * targetTables
+   */
+
   targetTables: {
     path: '/target-tables',
     getURL: (): string => routes.targetTables.path,
@@ -115,6 +132,16 @@ export const routes = {
     navigatable: true,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     renderIcon: TargetIcon as any,
+  },
+
+  targetTables_create: {
+    path: '/target-tables/create',
+    getURL: (): string => routes.targetTables_create.path,
+    renderMain: TargetTable_create,
+    renderHeader: Header,
+    renderNav: Nav,
+    getName: (): string => 'Создать целевую таблицу',
+    navigatable: false,
   },
 
   targetTables_kn: {

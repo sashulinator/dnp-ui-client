@@ -46,7 +46,7 @@ export default function Component(): JSX.Element {
       <Flex direction='column' gap='3'>
         {navigatables.map(([key, route]) => {
           return (
-            <Tooltip key={key} content={route.getName()}>
+            <Tooltip side='right' key={key} content={route.getName()}>
               {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
               <Link to={(route.getURL as any)()}>
                 <Button size='3' square={true} variant='soft'>
@@ -61,7 +61,7 @@ export default function Component(): JSX.Element {
       <Flex direction='column' gap='3'>
         {targetTableListFetcher.data?.items.map((targetTable) => {
           return (
-            <Tooltip key={targetTable.kn} content={targetTable.name}>
+            <Tooltip side='right' key={targetTable.kn} content={targetTable.name}>
               <Link to={routes.targetTables_kn.getURL(targetTable.kn)}>
                 <Button size='3' square={true} variant='soft'>
                   <StarIcon />
