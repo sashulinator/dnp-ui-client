@@ -24,13 +24,16 @@ export default function Component(): JSX.Element {
         </Section>
         <Flex gap='4' wrap={'wrap'}>
           <Card asChild style={{ width: '12rem', height: '5rem' }}>
+            <Link to={routes.operationalTables.getURL()}>{routes.operationalTables.getName()}</Link>
+          </Card>
+          <Card asChild style={{ width: '12rem', height: '5rem' }}>
             <Link to={routes.normalizationConfigs.getURL()}>{routes.normalizationConfigs.getName()}</Link>
           </Card>
           <Card asChild style={{ width: '12rem', height: '5rem' }}>
-            <Link to={routes.processes.getURL()}>{routes.processes.getName()}</Link>
+            <Link to={routes.storeConfigs.getURL()}>{routes.storeConfigs.getName()}</Link>
           </Card>
           <Card asChild style={{ width: '12rem', height: '5rem' }}>
-            <Link to={routes.storeConfigs.getURL()}>{routes.storeConfigs.getName()}</Link>
+            <Link to={routes.processes.getURL()}>{routes.processes.getName()}</Link>
           </Card>
           <Card asChild style={{ width: '12rem', height: '5rem' }}>
             <Link to={routes.targetTables.getURL()}>{routes.targetTables.getName()}</Link>

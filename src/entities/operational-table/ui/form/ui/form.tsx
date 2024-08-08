@@ -11,10 +11,10 @@ export interface Props {
   readonly?: boolean
 }
 
-export const displayName = 'targetTable-Form'
+export const displayName = 'operationalTable-Form'
 
 /**
- * targetTable-Form
+ * operationalTable-Form
  */
 export function Component(props: Props): JSX.Element {
   const form = useForm<Values, Values>()

@@ -5,6 +5,9 @@ import Main from '../pages/main'
 import NormalizationConfigs from '~/pages/normalization-configs'
 import NormalizationConfigs_create from '~/pages/normalization-configs/create'
 import NormalizationConfigs_id from '~/pages/normalization-configs/id'
+import OperationalTable from '~/pages/operational-table'
+import OperationalTable_create from '~/pages/operational-table/create'
+import OperationalTable_kn from '~/pages/operational-table/kn'
 import Processes from '~/pages/processes'
 import StoreConfigs from '~/pages/store-configs'
 import StoreConfigs_create from '~/pages/store-configs/create'
@@ -63,6 +66,42 @@ export const routes = {
     renderHeader: Header,
     renderNav: Nav,
     getName: (): string => 'Нормализации',
+    navigatable: false,
+  },
+
+  /**
+   * operationalTables
+   */
+
+  operationalTables: {
+    path: '/operational-tables',
+    getURL: (): string => routes.operationalTables.path,
+    renderMain: OperationalTable,
+    renderHeader: Header,
+    renderNav: Nav,
+    getName: (): string => 'Промежуточные таблицы',
+    navigatable: true,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    renderIcon: TargetIcon as any,
+  },
+
+  operationalTables_create: {
+    path: '/operational-tables/create',
+    getURL: (): string => routes.operationalTables_create.path,
+    renderMain: OperationalTable_create,
+    renderHeader: Header,
+    renderNav: Nav,
+    getName: (): string => 'Создать промежуточную таблицу',
+    navigatable: false,
+  },
+
+  operationalTables_kn: {
+    path: '/operational-tables/:kn',
+    getURL: (kn: string): string => `${routes.operationalTables.path}/${kn}`,
+    renderMain: OperationalTable_kn,
+    renderHeader: Header,
+    renderNav: Nav,
+    getName: (): string => 'Промежуточная таблица',
     navigatable: false,
   },
 
@@ -150,7 +189,7 @@ export const routes = {
     renderMain: TargetTable_kn,
     renderHeader: Header,
     renderNav: Nav,
-    getName: (): string => 'Целевые таблицы',
+    getName: (): string => 'Целевая таблица',
     navigatable: false,
   },
 
