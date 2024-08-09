@@ -20,7 +20,7 @@ const displayName = 'ui-Nav'
  * ui-Nav
  */
 export default function Component(): JSX.Element {
-  const targetTableListFetcher = api.fetchList.useCache({ where: { nav: true } })
+  const operationalTableListFetcher = api.fetchList.useCache({ where: { nav: true } })
   const navigatables = Object.entries(routes).filter(([, route]) => route.navigatable)
 
   return (
@@ -59,10 +59,10 @@ export default function Component(): JSX.Element {
         })}
       </Flex>
       <Flex direction='column' gap='3'>
-        {targetTableListFetcher.data?.items.map((targetTable) => {
+        {operationalTableListFetcher.data?.items.map((operationalTable) => {
           return (
-            <Tooltip side='right' key={targetTable.kn} content={targetTable.name}>
-              <Link to={routes.targetTables_kn.getURL(targetTable.kn)}>
+            <Tooltip side='right' key={operationalTable.kn} content={operationalTable.name}>
+              <Link to={routes.operationalTables_kn_explorer.getURL(operationalTable.kn)}>
                 <Button size='3' square={true} variant='soft'>
                   <StarIcon />
                 </Button>

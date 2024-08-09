@@ -95,6 +95,16 @@ export const routes = {
     navigatable: false,
   },
 
+  operationalTables_kn_explorer: {
+    path: '/operational-tables/:kn/explorer',
+    getURL: (kn: string): string => routes.operationalTables_kn_explorer.path.replace(':kn', kn),
+    renderMain: OperationalTable_kn,
+    renderHeader: Header,
+    renderNav: Nav,
+    getName: (): string => 'Промежуточная таблица',
+    navigatable: false,
+  },
+
   operationalTables_kn: {
     path: '/operational-tables/:kn',
     getURL: (kn: string): string => `${routes.operationalTables.path}/${kn}`,
