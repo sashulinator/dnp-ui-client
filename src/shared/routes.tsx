@@ -8,6 +8,7 @@ import NormalizationConfigs_id from '~/pages/normalization-configs/id'
 import OperationalTable from '~/pages/operational-table'
 import OperationalTable_create from '~/pages/operational-table/create'
 import OperationalTable_kn from '~/pages/operational-table/kn'
+import OperationalTable_kn_explorer from '~/pages/operational-table/kn/explorer'
 import Processes from '~/pages/processes'
 import StoreConfigs from '~/pages/store-configs'
 import StoreConfigs_create from '~/pages/store-configs/create'
@@ -98,7 +99,7 @@ export const routes = {
   operationalTables_kn_explorer: {
     path: '/operational-tables/:kn/explorer',
     getURL: (kn: string): string => routes.operationalTables_kn_explorer.path.replace(':kn', kn),
-    renderMain: OperationalTable_kn,
+    renderMain: OperationalTable_kn_explorer,
     renderHeader: Header,
     renderNav: Nav,
     getName: (): string => 'Промежуточная таблица',

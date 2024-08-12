@@ -55,6 +55,10 @@ const tableListMock: Explorer[] = Array(7)
   .fill(undefined)
   .map((_, i) => {
     const tableMock: Explorer = {
+      paths: [
+        { type: 'jdbc', name: 'jdbc-Mock' },
+        { type: 'table', name: `table-${i}` },
+      ],
       name: `table-${i}`,
       type: 'table',
       items: Array(7)
@@ -73,6 +77,7 @@ const tableListMock: Explorer[] = Array(7)
   })
 
 const jdbcMock: Explorer = {
+  paths: [{ type: 'jdbc', name: 'jdbc-Mock' }],
   name: 'jdbc-Mock',
   type: 'jdbc',
   items: Array(7)

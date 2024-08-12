@@ -3,6 +3,7 @@
  */
 
 import * as create from './api/create'
+import * as explore from './api/explore'
 import * as fetchList from './api/fetch-list'
 import * as getByKn from './api/get-by-kn'
 import * as update from './api/update'
@@ -12,6 +13,7 @@ export const api = {
   getByKn,
   update,
   create,
+  explore,
 }
 
 /**

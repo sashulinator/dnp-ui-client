@@ -74,8 +74,14 @@ export default function Component(): JSX.Element {
 
   const explorerFetcher = api.fetchList.useCache(
     {
-      paths: paths,
-      storeConfigData: { type: values.type as 'jdbc', data: values.data },
+      paths: paths.map((path) => path.name),
+      type: values?.type as 'jdbc',
+      storeConfig: {
+        host: values?.data?.host,
+        port: values?.data?.port,
+        username: values?.data?.username,
+        password: values?.data?.password,
+      },
     },
     { enabled: paths.length !== 0, keepPreviousData: true },
   )

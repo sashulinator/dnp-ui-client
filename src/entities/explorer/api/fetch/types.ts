@@ -1,9 +1,9 @@
-import { Explorer, Path } from '../../types/explorer'
-import { JdbcData } from '~/common/entities/store-config'
+import { Explorer, StoreConfig } from '../../types/explorer'
 
 export type RequestData = {
-  paths: Path[]
-  storeConfigData: { type: 'jdbc'; data: JdbcData }
+  paths: string[]
+  type: 'jdbc'
+  storeConfig: StoreConfig
 }
 
 export type ResponseData = Explorer
