@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { CSSProperties, useEffect, useState } from 'react'
 import './switcher.scss'
 import Button from '~/ui/button'
 import { ArrowLeftIcon, ArrowRightIcon, DoubleArrowLeftIcon, DoubleArrowRightIcon } from '~/ui/icon'
@@ -58,7 +58,7 @@ export default function Component(props: Props): JSX.Element {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           handleChange(Number((e.target as any).value))()
         }}
-        style={{ width: '50px', textAlign: 'center' }}
+        style={{ width: '50px', textAlign: 'center', '--text-field-border-width': '0' } as CSSProperties}
         value={localCurrentPage}
         onFocus={(): void => {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
