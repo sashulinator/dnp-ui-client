@@ -7,6 +7,11 @@ import Heading from '~/ui/heading'
 
 import Section from '~/ui/section'
 
+import { getUserRole } from '~/shared/roles/lib/get-user-role'
+
+import { UserRole } from '~/shared/roles/types'
+import { AccessGuard } from '~/shared/roles/widgets/access-guard'
+
 export interface Props {
   className?: string | undefined
 }
@@ -15,7 +20,7 @@ const displayName = 'page-Processes'
 /**
  * page-Processes
  */
-export default function Component(): JSX.Element {
+function Page(): JSX.Element {
   const fetcherList = fetchList.useCache({ take: 20, skip: 0 })
   return (
     <main className={displayName}>
@@ -37,3 +42,13 @@ export default function Component(): JSX.Element {
 }
 
 Component.displayName = displayName
+
+export default function Component() {
+  const role = getUserRole()
+
+  return (
+    <AccessGuard allowedRoles={[UserRole.Admin, UserRole.Operator]} currentRole={role} roleIsChecking={false}>
+      <Page />
+    </AccessGuard>
+  )
+}

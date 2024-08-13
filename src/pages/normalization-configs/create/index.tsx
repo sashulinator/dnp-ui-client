@@ -13,6 +13,9 @@ import {
   createNormalizationConfigSchema,
 } from '~/entities/normalization-config'
 import { notify } from '~/shared/notification-list-store'
+import { getUserRole } from '~/shared/roles/lib/get-user-role'
+import { UserRole } from '~/shared/roles/types'
+import { AccessGuard } from '~/shared/roles/widgets/access-guard'
 import { routes } from '~/shared/routes'
 import Button from '~/ui/button'
 import Card from '~/ui/card'
@@ -33,7 +36,7 @@ const displayName = 'page-NormalizationConfigs_create'
 /**
  * page-Main
  */
-export default function Component(): JSX.Element {
+function Page(): JSX.Element {
   const navigate = useNavigate()
 
   const form = useCreateForm<FormValues>(
@@ -116,4 +119,14 @@ export default function Component(): JSX.Element {
   )
 }
 
-Component.displayName = displayName
+Page.displayName = displayName
+
+export default function Component() {
+  const role = getUserRole()
+
+  return (
+    <AccessGuard allowedRoles={[UserRole.Admin]} currentRole={role} roleIsChecking={false}>
+      <Page />
+    </AccessGuard>
+  )
+}

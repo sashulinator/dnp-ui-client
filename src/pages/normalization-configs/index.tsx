@@ -9,6 +9,10 @@ import Flex from '~/ui/flex'
 import Heading from '~/ui/heading'
 import Pagination from '~/ui/pagination'
 
+import { AccessGuard } from '~/shared/roles//widgets/access-guard'
+import { getUserRole } from '~/shared/roles/lib/get-user-role'
+import { useRole } from '~/shared/roles/lib/useRole'
+import { UserRole } from '~/shared/roles/types/roles'
 import Section from '~/ui/section'
 
 export interface Props {
@@ -20,7 +24,9 @@ const displayName = 'page-NormalizationConfigs'
 /**
  * page-Main
  */
-export default function Component(): JSX.Element {
+function Page(): JSX.Element {
+  const { isAdmin } = useRole()
+
   const [page, setPage] = useState(1)
   const [skip, setSkip] = useState(0)
   const take = 10
@@ -40,9 +46,11 @@ export default function Component(): JSX.Element {
         <Section size='1'>
           <Flex width='100%' justify='between'>
             <Heading>{routes.normalizationConfigs.getName()}</Heading>
-            <Button size='1' asChild>
-              <Link to={routes.normalizationConfigs_create.getURL()}>Создать</Link>
-            </Button>
+            {isAdmin && (
+              <Button size='1' asChild>
+                <Link to={routes.normalizationConfigs_create.getURL()}>Создать</Link>
+              </Button>
+            )}
           </Flex>
         </Section>
         <Section size='1'>
@@ -67,4 +75,14 @@ export default function Component(): JSX.Element {
   )
 }
 
-Component.displayName = displayName
+Page.displayName = displayName
+
+export default function Component() {
+  const role = getUserRole()
+
+  return (
+    <AccessGuard allowedRoles={[UserRole.Admin, UserRole.Operator]} currentRole={role} roleIsChecking={false}>
+      <Page />
+    </AccessGuard>
+  )
+}
