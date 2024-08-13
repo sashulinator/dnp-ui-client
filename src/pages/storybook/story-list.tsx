@@ -5,6 +5,7 @@ import normalizationConfigForm from '~/entities/normalization-config/ui/form/sto
 import storeConfigForm from '~/entities/store-config/ui/form/story'
 import targetTableForm from '~/entities/target-table/ui/form/story'
 import uiButton from '~/ui/button/story'
+import uiCard from '~/ui/card/story'
 import uiCodeEditor from '~/ui/code-editor/story'
 import uiCodeEditorVJson from '~/ui/code-editor/variants/json/story'
 import uiCollapse from '~/ui/collapse/story'
@@ -27,6 +28,7 @@ export const storyList: Story<any>[] = [
   storeConfigForm,
   targetTableForm,
   uiButton,
+  uiCard,
   uiCodeEditor,
   uiCodeEditorVJson,
   uiCollapse,

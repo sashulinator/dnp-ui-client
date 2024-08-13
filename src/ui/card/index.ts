@@ -1,7 +1,8 @@
 /**
  * ui
  */
-import { Card } from '@radix-ui/themes'
+
+import { default as Card } from './ui/card'
 
 export default Card
-export type { CardProps } from '@radix-ui/themes'
+export { NAME, type Props as CardProps } from './ui/card'
