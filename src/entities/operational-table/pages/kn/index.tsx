@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import { NAME_ONE } from '../../constants/name'
 import { api, Form, FormValues, fromFormValues, toFormValues } from '~/entities/operational-table'
 import { notify } from '~/shared/notification-list-store'
+import { queryClient } from '~/shared/react-query'
 import { routes } from '~/shared/routes'
 import Button from '~/ui/button'
 import Card from '~/ui/card'
@@ -53,6 +54,8 @@ export default function Component(): JSX.Element {
       notify({ title: 'Сохранено', type: 'success' })
       api.getByKn.setCache({ kn }, data.data)
       form.initialize(toFormValues(data.data))
+      // 👷 TODO убрать когда навигация будет настраиваться отдельно
+      queryClient.invalidateQueries('oper')
     },
     onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
   })

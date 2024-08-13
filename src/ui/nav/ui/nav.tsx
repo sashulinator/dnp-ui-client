@@ -1,5 +1,6 @@
 import { StarIcon } from '@radix-ui/react-icons'
 import { createElement } from 'react'
+import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
 import './nav.scss'
 import { api } from '~/entities/operational-table'
@@ -10,6 +11,7 @@ import Flex from '~/ui/flex'
 import Logo from '~/ui/logo'
 import Tooltip from '~/ui/tooltip'
 import { c } from '~/utils/core'
+
 export interface Props {
   className?: string | undefined
 }
@@ -20,7 +22,10 @@ const displayName = 'ui-Nav'
  * ui-Nav
  */
 export default function Component(): JSX.Element {
-  const operationalTableListFetcher = api.fetchList.useCache({ where: { nav: true } })
+  const operationalTableListFetcher = useQuery('oper', () => api.fetchList.request({ where: { nav: true } }), {
+    keepPreviousData: true,
+  })
+
   const navigatables = Object.entries(routes).filter(([, route]) => route.navigatable)
 
   return (
@@ -59,7 +64,7 @@ export default function Component(): JSX.Element {
         })}
       </Flex>
       <Flex direction='column' gap='3'>
-        {operationalTableListFetcher.data?.items.map((operationalTable) => {
+        {operationalTableListFetcher.data?.data.items.map((operationalTable) => {
           return (
             <Tooltip side='right' key={operationalTable.kn} content={operationalTable.name}>
               <Link to={routes.operationalTables_kn_explorer.getURL(operationalTable.kn)}>
