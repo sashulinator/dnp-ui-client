@@ -1,3 +1,5 @@
-import { CreateStoreConfig } from '../../../types/store-config'
+import { BaseStoreConfig, CreateStoreConfig } from '../../../types/store-config'
 
-export type Values = CreateStoreConfig
+type FormStoreConfig = CreateStoreConfig & Partial<BaseStoreConfig>
+
+export type Values = FormStoreConfig

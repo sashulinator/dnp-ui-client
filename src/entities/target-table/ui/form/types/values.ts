@@ -1,3 +1,5 @@
 import { CreateTargetTable, BaseTargetTable } from '../../../types/target-table'
 
-export type Values = CreateTargetTable & Partial<BaseTargetTable>
+type FormTargetTable = CreateTargetTable & Partial<BaseTargetTable>
+
+export type Values = FormTargetTable

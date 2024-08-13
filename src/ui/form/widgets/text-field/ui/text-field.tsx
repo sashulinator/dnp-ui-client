@@ -25,7 +25,7 @@ export default function Component(props: Props): JSX.Element {
     <Field name={name} validate={validate}>
       {({ input, meta }) => {
         return (
-          <Flex direction='column'>
+          <Flex direction='column' width='100%'>
             <Text className={c(className, displayName)} as='label' size='2'>
               {label}
               <TextField.Root className='textField' {...textFieldProps} {...input} type={type} />
