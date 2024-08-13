@@ -8,8 +8,9 @@ import Container from '~/ui/container'
 import Flex from '~/ui/flex'
 import Heading from '~/ui/heading'
 import Section from '~/ui/section'
-import Spinner from '~/ui/spinner'
 
+import { useEffect, useState } from 'react'
+import Pagination from '~/ui/pagination'
 import { emptyFn } from '~/utils/function'
 
 export interface Props {
@@ -24,32 +25,45 @@ const displayName = `page-${NAME_ONE.replace(/ /, '')}_id`
 export default function Component(): JSX.Element {
   const { kn = '' } = useParams<{ kn: string }>()
 
-  const explorerFetcher = api.explore.useCache({ kn })
+  const [page, setPage] = useState(1)
+  const [skip, setSkip] = useState(0)
+  const take = 10
+
+  const exploreFetcher = api.explore.useCache({ kn, skip, take }, { keepPreviousData: true })
+
+  // Update skip when page changes
+  useEffect(() => {
+    setSkip((page - 1) * take)
+  }, [page])
 
   return (
     <main className={displayName}>
       <Container p='1.5rem'>
-        {explorerFetcher.isError && (
+        {exploreFetcher.isError && (
           <Flex width='100%' justify='center' gap='2' align='center'>
-            Ошибка <Button onClick={() => explorerFetcher.refetch()}>Перезагрузить</Button>
+            Ошибка <Button onClick={() => exploreFetcher.refetch()}>Перезагрузить</Button>
           </Flex>
         )}
 
-        {!explorerFetcher.isError && (
+        {!exploreFetcher.isError && (
           <Section size='1'>
             <Heading>{routes.operationalTables_kn.getName()} </Heading>
           </Section>
         )}
 
-        {explorerFetcher.isLoading && (
-          <Flex width='100%' justify='center'>
-            <Spinner />
-          </Flex>
-        )}
+        <Section size='1'>
+          <Pagination
+            currentPage={page}
+            loading={exploreFetcher.isFetching}
+            limit={take.toString()}
+            totalElements={exploreFetcher.data?.total?.toString()}
+            onChange={setPage}
+          />
+        </Section>
 
-        {explorerFetcher.isSuccess && (
+        {exploreFetcher.isSuccess && (
           <Section size='1'>
-            <Viewer onPathChange={emptyFn} paths={explorerFetcher.data.paths} data={explorerFetcher.data} />
+            <Viewer onPathChange={emptyFn} paths={exploreFetcher.data.paths} data={exploreFetcher.data} />
           </Section>
         )}
       </Container>

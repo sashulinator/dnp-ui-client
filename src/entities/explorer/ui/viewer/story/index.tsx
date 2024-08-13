@@ -59,6 +59,7 @@ const tableListMock: Explorer[] = Array(7)
         { type: 'jdbc', name: 'jdbc-Mock' },
         { type: 'table', name: `table-${i}` },
       ],
+      total: 7,
       name: `table-${i}`,
       type: 'table',
       items: Array(7)
@@ -77,6 +78,7 @@ const tableListMock: Explorer[] = Array(7)
   })
 
 const jdbcMock: Explorer = {
+  total: 1,
   paths: [{ type: 'jdbc', name: 'jdbc-Mock' }],
   name: 'jdbc-Mock',
   type: 'jdbc',

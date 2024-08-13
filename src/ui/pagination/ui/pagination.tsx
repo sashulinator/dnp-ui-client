@@ -5,11 +5,11 @@ import { c } from '~/utils/core'
 
 export interface Props {
   className?: string | undefined
-  totalElements: string | undefined
+  root?: React.HTMLAttributes<HTMLDivElement>
   limit: string | undefined
+  totalElements: string | undefined
   currentPage: string | number | undefined
   loading?: boolean | undefined
-  root?: React.HTMLAttributes<HTMLDivElement>
   onChange: (newPage: number) => void
 }
 
@@ -22,6 +22,7 @@ export default function Component(props: Props): JSX.Element {
   const totalElements = Number(props.totalElements)
   const limit = Number(props.limit)
   const currentPage = Number(props.currentPage)
+
   const totalPages = totalElements !== undefined && limit !== undefined ? Math.ceil(totalElements / limit) : undefined
 
   return (
