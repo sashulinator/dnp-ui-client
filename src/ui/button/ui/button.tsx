@@ -1,4 +1,5 @@
 import { Button, ButtonProps } from '@radix-ui/themes'
+import { ForwardedRef, forwardRef } from 'react'
 import './button.scss'
 import { c } from '~/utils/core'
 
@@ -12,11 +13,18 @@ const displayName = 'ui-Button'
 /**
  * ui-Button
  */
-export default function Component(props: Props): JSX.Element {
+export function Component(props: Props, ref: ForwardedRef<HTMLButtonElement>): JSX.Element {
   const { round, square, ...buttonProps } = props
 
   return (
-    <Button {...buttonProps} className={c(props.className, displayName, round && '--round', square && '--square')} />
+    <Button
+      {...buttonProps}
+      ref={ref}
+      className={c(props.className, displayName, round && '--round', square && '--square')}
+    />
   )
 }
-Component.displayName = displayName
+
+const ForwardRef = forwardRef(Component)
+ForwardRef.displayName = displayName
+export default ForwardRef

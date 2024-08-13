@@ -27,14 +27,10 @@ export default function Component(props: Props): JSX.Element {
             <Item
               key={item.name}
               style={{ cursor: item.type !== 'record' ? 'pointer' : 'default' }}
-              onDoubleClick={
-                item.type === 'record'
-                  ? undefined
-                  : () => {
-                      if (loading) return
-                      onPathChange?.([...(paths || []), { name: item.name, type: item.type }])
-                    }
-              }
+              onDoubleClick={() => {
+                if (loading) return
+                onPathChange?.([...(paths || []), { name: item.name, type: item.type }])
+              }}
               item={item}
             />
           )
