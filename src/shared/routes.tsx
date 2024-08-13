@@ -2,6 +2,7 @@ import { BarChartIcon, LapTimerIcon, LayersIcon, StarIcon, TargetIcon } from '@r
 import { Suspense, lazy } from 'react'
 import { type Route } from '../lib/route'
 import Main from '../pages/main'
+import Admin from '~/pages/admin'
 import NormalizationConfigs from '~/pages/normalization-configs'
 import NormalizationConfigs_create from '~/pages/normalization-configs/create'
 import NormalizationConfigs_id from '~/pages/normalization-configs/id'
@@ -201,6 +202,16 @@ export const routes = {
     renderHeader: Header,
     renderNav: Nav,
     getName: (): string => 'Целевая таблица',
+    navigatable: false,
+  },
+
+  admin: {
+    path: '/admin',
+    getURL: (): string => routes.admin.path,
+    renderMain: Admin,
+    renderHeader: Header,
+    renderNav: Nav,
+    getName: (): string => 'Управление пользователем',
     navigatable: false,
   },
 
