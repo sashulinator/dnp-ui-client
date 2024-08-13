@@ -18,7 +18,9 @@ export default {
 
     return (
       <div style={{ width: '100%', height: '100%', border: '1px solid red' }}>
-        <Viewer paths={paths} loading={isFetching} onPathChange={setPath} data={data} {...state} />
+        <Viewer.Root paths={paths} loading={isFetching} onPathChange={setPath} data={data} {...state}>
+          <Viewer.Breadscrums />
+        </Viewer.Root>
       </div>
     )
   },

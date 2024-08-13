@@ -63,7 +63,14 @@ export default function Component(): JSX.Element {
 
         {exploreFetcher.isSuccess && (
           <Section size='1'>
-            <Viewer onPathChange={emptyFn} paths={exploreFetcher.data.paths} data={exploreFetcher.data} />
+            <Viewer.Root
+              loading={exploreFetcher.isFetching}
+              onPathChange={emptyFn}
+              paths={exploreFetcher.data.paths}
+              data={exploreFetcher.data}
+            >
+              <Viewer.List />
+            </Viewer.Root>
           </Section>
         )}
       </Container>

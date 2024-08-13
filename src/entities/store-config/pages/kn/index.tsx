@@ -164,13 +164,15 @@ export default function Component(): JSX.Element {
                     </Button>
                   </Flex>
                   {paths.length !== 0 && (
-                    <Viewer
-                      listHeight='300px'
+                    <Viewer.Root
                       onPathChange={setPaths}
                       loading={explorerFetcher.isFetching}
                       paths={paths}
                       data={explorerFetcher.data}
-                    />
+                    >
+                      <Viewer.Breadscrums />
+                      <Viewer.List />
+                    </Viewer.Root>
                   )}
                 </Flex>
               </Card>
