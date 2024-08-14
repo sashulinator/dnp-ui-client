@@ -70,7 +70,7 @@ function Page(): JSX.Element {
 
   return (
     <main className={displayName}>
-      <Container p='8'>
+      <Container p='1.5rem'>
         <Section size='1'>
           <Heading>
             {routes.normalizationConfigs_create.getName()}{' '}

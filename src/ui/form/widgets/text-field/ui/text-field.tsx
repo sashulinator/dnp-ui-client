@@ -1,6 +1,6 @@
 import Field from '../../field'
 import './text-field.scss'
-import Flex from '~/ui/flex'
+import Flex, { FlexProps } from '~/ui/flex'
 import Text from '~/ui/text'
 import TextField, { TextFieldProps } from '~/ui/text-field'
 import { c } from '~/utils/core'
@@ -10,6 +10,7 @@ export interface Props extends Omit<TextFieldProps, 'name' | 'value'> {
   className?: string | undefined
   name: string
   label?: string | undefined
+  rootProps?: FlexProps | undefined
   validate?: ((v: string) => unknown) | undefined
 }
 
@@ -19,13 +20,13 @@ const displayName = 'ui-Form-w-TextField'
  * ui-Form-w-TextField
  */
 export default function Component(props: Props): JSX.Element {
-  const { className, name, validate = emptyFn, label, type = 'text', ...textFieldProps } = props
+  const { className, name, validate = emptyFn, label, type = 'text', rootProps, ...textFieldProps } = props
 
   return (
     <Field name={name} validate={validate}>
       {({ input, meta }) => {
         return (
-          <Flex direction='column' width='100%'>
+          <Flex direction='column' width='100%' {...rootProps}>
             <Text className={c(className, displayName)} as='label' size='2'>
               {label}
               <TextField.Root className='textField' {...textFieldProps} {...input} type={type} />

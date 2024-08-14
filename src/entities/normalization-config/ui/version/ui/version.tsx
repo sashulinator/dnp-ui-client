@@ -36,7 +36,7 @@ export default function Component(props: Props): JSX.Element {
         )}
       </Flex>
       <Flex align='center' gap='4'>
-        <Button color='yellow' loading={isProcessCreating} onClick={onCreateProcessButtonClick}>
+        <Button size='1' color='yellow' loading={isProcessCreating} onClick={onCreateProcessButtonClick}>
           Запустить процесс
         </Button>
       </Flex>
