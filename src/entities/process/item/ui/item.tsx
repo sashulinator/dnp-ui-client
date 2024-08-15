@@ -1,13 +1,14 @@
-// import { Link } from 'react-router5'
+import { Avatar } from '@radix-ui/themes'
+import dayjs from 'dayjs'
 import { Process } from '../../types/process'
 import './item.scss'
-import Button from '~/ui/button'
+import Badge from '~/ui/badge'
 import Card from '~/ui/card'
-import { TrashIcon } from '~/ui/icon'
+import Flex from '~/ui/flex'
 import Text from '~/ui/text'
 import TextHighlighter from '~/ui/text-highlighter'
-import { c, fns } from '~/utils/core'
-import { preventDefault, stopPropagation } from '~/utils/core-client'
+import Tooltip from '~/ui/tooltip'
+import { c } from '~/utils/core'
 
 export interface Props {
   className?: string | undefined
@@ -24,24 +25,29 @@ export default function Component(props: Props): JSX.Element {
 
   return (
     <Card key={item.id} asChild={false} className={c(displayName, className)}>
-      <TextHighlighter tooltipContent='Название'>{item.id}</TextHighlighter>
-      <TextHighlighter tooltipContent='Конфиг ID'>{item.normalizationConfigId}</TextHighlighter>
-
-      <Text as='div' size='2' weight='bold'>
-        Пользователь:{' '}
-        <Text as='div' size='2' weight='bold'>
-          {item.createdBy.name}
-        </Text>
-      </Text>
-      <Text as='div' size='2' weight='bold'>
-        Дата и время:{' '}
-        <Text as='div' size='2' weight='bold'>
-          {item.createdAt}
-        </Text>
-      </Text>
-      <Button round={true} color='red' className='trash-button' variant='soft'>
-        <TrashIcon onClick={fns<[React.MouseEvent]>(stopPropagation, preventDefault)} />
-      </Button>
+      <Flex>
+        <TextHighlighter size='4' tooltipContent='Название конфига нормализации'>
+          {item.normalizationConfig.name}
+        </TextHighlighter>
+      </Flex>
+      <Flex gap='4'>
+        <Flex align='center' gap='2'>
+          {item.normalizationConfig.last ? <Badge color='green'>Текущий</Badge> : <Badge color='red'>Архивный</Badge>}
+          <TextHighlighter color='yellow' tooltipContent='Версия конфига нормализации'>
+            {item.normalizationConfig.v}
+          </TextHighlighter>
+        </Flex>
+        <Flex gap='2' align='center'>
+          <Tooltip content={item.createdBy.name}>
+            <Avatar radius='full' size='1' fallback='a' src={item.createdBy.avatar} />
+          </Tooltip>
+          <Tooltip content='Создано'>
+            <Text color='gray' as='div' size='2'>
+              {dayjs(item?.createdAt).format('DD.MM.YYYY HH:mm')}
+            </Text>
+          </Tooltip>
+        </Flex>
+      </Flex>
     </Card>
   )
 }
