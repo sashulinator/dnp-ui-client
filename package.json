@@ -23,6 +23,7 @@
     "@react-spring/web": "9.7.3",
     "@types/qs": "6.9.15",
     "axios": "1.7.2",
+    "dayjs": "1.11.12",
     "eslint": "8.57.0",
     "final-form": "4.20.10",
     "final-form-arrays": "3.1.0",
