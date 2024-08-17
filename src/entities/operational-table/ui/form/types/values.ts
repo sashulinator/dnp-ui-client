@@ -1,6 +1,6 @@
 import { CreateOperationalTable, BaseOperationalTable } from '../../../types/operational-table'
-import { Replace } from '~/utils/types/object'
+import { Update } from '~/utils/types/object'
 
 type FormOperationalTable = CreateOperationalTable & Partial<BaseOperationalTable>
 
-export type Values = Replace<FormOperationalTable, 'tableSchema', string>
+export type Values = Update<FormOperationalTable, 'tableSchema', string>
