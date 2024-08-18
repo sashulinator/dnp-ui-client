@@ -1,8 +1,17 @@
 import { SymbolIcon } from '@radix-ui/react-icons'
 import { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { safeParse } from 'valibot'
 import { NAME_ONE } from '../../constants/name'
-import { Form, FormValues, api, defaultValues, fromFormValues, toFormValues } from '~/entities/operational-table'
+import {
+  Form,
+  FormValues,
+  api,
+  createOperationalTableSchema,
+  defaultValues,
+  fromFormValues,
+  toFormValues,
+} from '~/entities/operational-table'
 import { notify } from '~/shared/notification-list-store'
 import { queryClient } from '~/shared/react-query'
 import { routes } from '~/shared/routes'
@@ -10,7 +19,7 @@ import Button from '~/ui/button'
 import Card from '~/ui/card'
 import Container from '~/ui/container'
 import Flex from '~/ui/flex'
-import FForm, { useCreateForm } from '~/ui/form'
+import FForm, { toNestedErrors, useCreateForm } from '~/ui/form'
 import Heading from '~/ui/heading'
 import Section from '~/ui/section'
 import TextHighlighter from '~/ui/text-highlighter'
@@ -33,11 +42,11 @@ export default function Component(): JSX.Element {
       onSubmit: (values) => {
         createMutator.mutate({ input: fromFormValues(values) })
       },
-      // validate: (values) => {
-      //   const createStoreConfig = fromFormValues(values)
-      //   const { issues } = safeParse(createStoreConfigSchema, createStoreConfig)
-      //   return toNestedErrors(issues)
-      // },
+      validate: (values) => {
+        const createStoreConfig = fromFormValues(values)
+        const { issues } = safeParse(createOperationalTableSchema, createStoreConfig)
+        return toNestedErrors(issues)
+      },
       initialValues: toFormValues(defaultValues),
     },
     { values: true },

@@ -1,8 +1,16 @@
 import { SymbolIcon } from '@radix-ui/react-icons'
 import { useCallback } from 'react'
 import { useParams } from 'react-router-dom'
+import { safeParse } from 'valibot'
 import { NAME_ONE } from '../../constants/name'
-import { api, Form, FormValues, fromFormValues, toFormValues } from '~/entities/operational-table'
+import {
+  api,
+  Form,
+  FormValues,
+  fromFormValues,
+  toFormValues,
+  updateOperationalTableSchema,
+} from '~/entities/operational-table'
 import { notify } from '~/shared/notification-list-store'
 import { queryClient } from '~/shared/react-query'
 import { routes } from '~/shared/routes'
@@ -10,7 +18,7 @@ import Button from '~/ui/button'
 import Card from '~/ui/card'
 import Container from '~/ui/container'
 import Flex from '~/ui/flex'
-import FForm, { useCreateForm } from '~/ui/form'
+import FForm, { toNestedErrors, useCreateForm } from '~/ui/form'
 import Heading from '~/ui/heading'
 import Section from '~/ui/section'
 import Spinner from '~/ui/spinner'
@@ -36,12 +44,11 @@ export default function Component(): JSX.Element {
 
         updateMutator.mutate({ input: fromFormValues(values) })
       },
-      // TODO: валидация
-      // validate: (values) => {
-      //   const operationalTable = fromFormValues(values)
-      //   const { issues } = safeParse(updateOperationalTableSchema, operationalTable)
-      //   return toNestedErrors(issues)
-      // },
+      validate: (values) => {
+        const operationalTable = fromFormValues(values)
+        const { issues } = safeParse(updateOperationalTableSchema, operationalTable)
+        return toNestedErrors(issues)
+      },
       initialValues: { kn },
     },
     { values: true },

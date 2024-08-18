@@ -31,7 +31,7 @@ export default function Component(props: Props): JSX.Element {
               {label}
               <TextField.Root className='textField' {...textFieldProps} {...input} type={type} />
             </Text>
-            {(meta.error || meta.submitError) && meta.dirty && (
+            {(meta.error || meta.submitError) && meta.touched && (
               <Text color='red'>{meta.error?.message || meta.submitError.message}</Text>
             )}
           </Flex>

@@ -2,6 +2,8 @@ import type { Story } from '~/ui/storybook'
 
 import explorerViewer from '~/entities/explorer/ui/viewer/story'
 import normalizationConfigForm from '~/entities/normalization-config/ui/form/story'
+import operationalTableForm from '~/entities/operational-table/ui/form/story'
+import operationalTableFormWColumn from '~/entities/operational-table/ui/form/widgets/columns/story'
 import storeConfigForm from '~/entities/store-config/ui/form/story'
 import targetTableForm from '~/entities/target-table/ui/form/story'
 import uiButton from '~/ui/button/story'
@@ -25,6 +27,8 @@ import uiNotificationToastList from '~/ui/toast/variants/notification/list/story
 export const storyList: Story<any>[] = [
   explorerViewer,
   normalizationConfigForm,
+  operationalTableForm,
+  operationalTableFormWColumn,
   storeConfigForm,
   targetTableForm,
   uiButton,
