@@ -1,4 +1,4 @@
-import { BarChartIcon, LapTimerIcon, LayersIcon, StarIcon, TargetIcon } from '@radix-ui/react-icons'
+import { BarChartIcon, GroupIcon, LapTimerIcon, LayersIcon, StarIcon, TargetIcon } from '@radix-ui/react-icons'
 import { Suspense, lazy } from 'react'
 import { type Route } from '../lib/route'
 import Main from '../pages/main'
@@ -18,6 +18,7 @@ import TargetTable from '~/pages/target-table'
 import TargetTable_create from '~/pages/target-table/create'
 import TargetTable_kn from '~/pages/target-table/kn'
 import Header from '~/ui/header'
+import Logo from '~/ui/logo'
 import Nav from '~/ui/nav'
 import { isDev } from '~/utils/core'
 
@@ -29,10 +30,16 @@ export const routes = {
     path: '/',
     getURL: (): string => '/',
     renderMain: Main,
-    getName: (): string => 'main',
+    getName: (): string => 'НСИ',
     renderHeader: Header,
     renderNav: Nav,
     navigatable: false,
+    renderIcon: () =>
+      (
+        <svg style={{ padding: '0.4rem' }}>
+          <Logo />
+        </svg>
+      ) as any,
   },
 
   /**
@@ -84,7 +91,7 @@ export const routes = {
     getName: (): string => 'Промежуточные таблицы',
     navigatable: true,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    renderIcon: TargetIcon as any,
+    renderIcon: GroupIcon as any,
   },
 
   operationalTables_create: {
