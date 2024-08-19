@@ -19,10 +19,9 @@ import Card from '~/ui/card'
 import Container from '~/ui/container'
 import Flex from '~/ui/flex'
 import FForm, { toNestedErrors, useCreateForm } from '~/ui/form'
-import Heading from '~/ui/heading'
+import Heading from '~/ui/layout/variants/heading'
 import Section from '~/ui/section'
-import Spinner from '~/ui/spinner'
-import TextHighlighter from '~/ui/text-highlighter'
+import Separator from '~/ui/separator'
 import Tooltip from '~/ui/tooltip'
 
 export interface Props {
@@ -37,6 +36,15 @@ const displayName = `page-${NAME_ONE.replace(/ /, '')}_id`
 export default function Component(): JSX.Element {
   const { kn = '' } = useParams<{ kn: string }>()
 
+  const fetcher = api.getByKn.useCache(
+    { kn },
+    {
+      onSuccess: (data) => {
+        form.initialize(toFormValues(data))
+      },
+    },
+  )
+
   const form = useCreateForm<FormValues>(
     {
       onSubmit: (values) => {
@@ -49,7 +57,7 @@ export default function Component(): JSX.Element {
         const { issues } = safeParse(updateOperationalTableSchema, operationalTable)
         return toNestedErrors(issues)
       },
-      initialValues: { kn },
+      initialValues: fetcher.data || { kn },
     },
     { values: true },
   )
@@ -67,13 +75,6 @@ export default function Component(): JSX.Element {
     onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
   })
 
-  const fetcher = api.getByKn.useCache(
-    { kn },
-    {
-      onSuccess: (data) => form.initialize(toFormValues(data)),
-    },
-  )
-
   const render = useCallback(() => <Form />, [])
 
   return (
@@ -87,17 +88,17 @@ export default function Component(): JSX.Element {
 
         {!fetcher.isError && (
           <Section size='1'>
-            <Heading>
-              {routes.operationalTables_kn.getName()}{' '}
-              {values.name && <TextHighlighter tooltipContent='Название'>{values.name}</TextHighlighter>}{' '}
-            </Heading>
+            <Heading.Root
+              loading={fetcher.isFetching}
+              route={routes.operationalTables_kn}
+              backRoute={routes.operationalTables}
+              renderIcon={routes.operationalTables.renderIcon}
+            >
+              <Heading.BackToParent />
+              <Heading.Name />
+              <Heading.Uniq string={values.name} tooltipContent='Название' />
+            </Heading.Root>
           </Section>
-        )}
-
-        {fetcher.isLoading && (
-          <Flex width='100%' justify='center'>
-            <Spinner />
-          </Flex>
         )}
 
         {fetcher.isSuccess && (
@@ -107,32 +108,35 @@ export default function Component(): JSX.Element {
             </Section>
 
             <Section size='1'>
-              <Card>
-                <Flex gap='2' direction='row' justify='end'>
-                  <Flex gap='2' align='center'>
-                    <Tooltip content='Сбросить'>
-                      <span>
-                        <Button
-                          size='1'
-                          variant='outline'
-                          onClick={() => form.reset()}
-                          disabled={!form.getState().dirty}
-                          round={true}
-                        >
-                          <SymbolIcon />
-                        </Button>
-                      </span>
-                    </Tooltip>
-                    <Button
-                      // loading={updateMutator.isLoading}
-                      disabled={!form.getState().dirty || form.getState().invalid}
-                      onClick={form.submit}
-                    >
-                      Сохранить
-                    </Button>
+              <Flex justify='end'>
+                <Card>
+                  <Flex gap='2' direction='row' justify='end'>
+                    <Flex gap='2' align='center'>
+                      <Tooltip content='Сбросить'>
+                        <span>
+                          <Button
+                            size='1'
+                            variant='outline'
+                            onClick={() => form.reset()}
+                            disabled={!form.getState().dirty}
+                            round={true}
+                          >
+                            <SymbolIcon />
+                          </Button>
+                        </span>
+                      </Tooltip>
+                      <Separator orientation='vertical' />
+                      <Button
+                        // loading={updateMutator.isLoading}
+                        disabled={!form.getState().dirty || form.getState().invalid}
+                        onClick={form.submit}
+                      >
+                        Сохранить
+                      </Button>
+                    </Flex>
                   </Flex>
-                </Flex>
-              </Card>
+                </Card>
+              </Flex>
             </Section>
           </>
         )}

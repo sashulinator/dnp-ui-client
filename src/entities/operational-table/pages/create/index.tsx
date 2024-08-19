@@ -20,9 +20,9 @@ import Card from '~/ui/card'
 import Container from '~/ui/container'
 import Flex from '~/ui/flex'
 import FForm, { toNestedErrors, useCreateForm } from '~/ui/form'
-import Heading from '~/ui/heading'
+import Heading from '~/ui/layout/variants/heading'
 import Section from '~/ui/section'
-import TextHighlighter from '~/ui/text-highlighter'
+import Separator from '~/ui/separator'
 import Tooltip from '~/ui/tooltip'
 
 export interface Props {
@@ -71,10 +71,16 @@ export default function Component(): JSX.Element {
     <main className={displayName}>
       <Container p='1.5rem'>
         <Section size='1'>
-          <Heading>
-            {routes.operationalTables_create.getName()}{' '}
-            {values.kn && <TextHighlighter tooltipContent='Название'>{values.kn}</TextHighlighter>}{' '}
-          </Heading>
+          <Heading.Root
+            loading={false}
+            route={routes.operationalTables_create}
+            backRoute={routes.operationalTables}
+            renderIcon={routes.operationalTables.renderIcon}
+          >
+            <Heading.BackToParent />
+            <Heading.Name />
+            <Heading.Uniq string={values.name} tooltipContent='Название' />
+          </Heading.Root>
         </Section>
 
         <Section size='1'>
@@ -85,34 +91,37 @@ export default function Component(): JSX.Element {
           />
         </Section>
 
-        <Card asChild>
-          <Section size='1'>
-            <Flex gap='2' direction='row' justify='end'>
-              <Flex gap='2' align='center'>
-                <Tooltip content='Сбросить'>
-                  <span>
-                    <Button
-                      size='1'
-                      variant='outline'
-                      onClick={() => form.reset()}
-                      disabled={!form.getState().dirty}
-                      round={true}
-                    >
-                      <SymbolIcon />
-                    </Button>
-                  </span>
-                </Tooltip>
-                <Button
-                  loading={createMutator.isLoading}
-                  disabled={!form.getState().dirty || form.getState().invalid}
-                  onClick={form.submit}
-                >
-                  Создать
-                </Button>
+        <Section size='1'>
+          <Flex justify='end'>
+            <Card>
+              <Flex gap='2' direction='row' justify='end'>
+                <Flex gap='2' align='center'>
+                  <Tooltip content='Сбросить'>
+                    <span>
+                      <Button
+                        size='1'
+                        variant='outline'
+                        onClick={() => form.reset()}
+                        disabled={!form.getState().dirty}
+                        round={true}
+                      >
+                        <SymbolIcon />
+                      </Button>
+                    </span>
+                  </Tooltip>
+                  <Separator orientation='vertical' />
+                  <Button
+                    loading={createMutator.isLoading}
+                    disabled={!form.getState().dirty || form.getState().invalid}
+                    onClick={form.submit}
+                  >
+                    Создать
+                  </Button>
+                </Flex>
               </Flex>
-            </Flex>
-          </Section>
-        </Card>
+            </Card>
+          </Flex>
+        </Section>
       </Container>
     </main>
   )

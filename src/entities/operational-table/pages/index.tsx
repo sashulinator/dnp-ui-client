@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import { NAME_ONE } from '../constants/name'
 import { api, Item } from '~/entities/operational-table'
@@ -6,7 +7,7 @@ import { routes } from '~/shared/routes'
 import Button from '~/ui/button'
 import Container from '~/ui/container'
 import Flex from '~/ui/flex'
-import Heading from '~/ui/heading'
+import Heading from '~/ui/layout/variants/heading'
 import Pagination from '~/ui/pagination'
 import Section from '~/ui/section'
 
@@ -29,15 +30,23 @@ export default function Component(): JSX.Element {
     setSkip((page - 1) * take)
   }, [page])
 
-  const fetcherList = api.fetchList.useCache({ take, skip })
+  const fetcherList = api.fetchList.useCache({ take, skip }, { keepPreviousData: true })
 
   return (
     <main className={displayName}>
       <Container p='1.5rem'>
         <Section size='1'>
           <Flex width='100%' justify='between'>
-            <Heading>{routes.operationalTables.getName()}</Heading>
-            <Button size='1' asChild>
+            <Heading.Root
+              loading={fetcherList.isLoading && fetcherList.data === undefined}
+              route={routes.operationalTables}
+              backRoute={routes.main}
+              renderIcon={routes.operationalTables.renderIcon}
+            >
+              <Heading.BackToParent />
+              <Heading.Name />
+            </Heading.Root>
+            <Button asChild>
               <Link to={routes.operationalTables_create.getURL()}>Создать</Link>
             </Button>
           </Flex>

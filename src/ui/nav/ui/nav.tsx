@@ -7,7 +7,6 @@ import { api } from '~/entities/operational-table'
 import { getCurrent } from '~/lib/route/get-current'
 import { routes } from '~/shared/routes'
 import Button from '~/ui/button'
-import Card from '~/ui/card'
 import Flex from '~/ui/flex'
 import Logo from '~/ui/logo'
 import Tooltip from '~/ui/tooltip'
@@ -36,22 +35,13 @@ export default function Component(): JSX.Element {
   return (
     <nav className={c(displayName)}>
       <div className='logo'>
-        <Card
-          variant='ghost'
-          asChild
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '60px',
-            borderRadius: '0',
-            height: '60px',
-          }}
-        >
+        <Button variant='outline' size='4' square={true} asChild>
           <Link to={routes.main.getURL()}>
-            <Logo />
+            <svg style={{ padding: 'var(--space-3)' }}>
+              <Logo />
+            </svg>
           </Link>
-        </Card>
+        </Button>
       </div>
       <Flex direction='column' gap='3'>
         {navigatables.map(([key, route]) => {

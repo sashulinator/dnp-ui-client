@@ -1,11 +1,15 @@
+import dayjs from 'dayjs'
 import { Link } from 'react-router-dom'
 import { OperationalTable } from '../../../types/operational-table'
 import './item.scss'
 import { routes } from '~/shared/routes'
-import Badge from '~/ui/badge'
+import Avatar from '~/ui/avatar'
 import Card from '~/ui/card'
 import Flex from '~/ui/flex'
+import Separator from '~/ui/separator'
+import Text from '~/ui/text'
 import TextHighlighter from '~/ui/text-highlighter'
+import Tooltip from '~/ui/tooltip'
 import { c } from '~/utils/core'
 
 export interface Props {
@@ -23,13 +27,47 @@ export default function Component(props: Props): JSX.Element {
 
   return (
     <Flex justify='between' direction='row' asChild={true}>
-      <Card key={item.kn} asChild={true} className={c(displayName, className)}>
+      <Card asChild={true} className={c(displayName, className)}>
         <Link to={`${routes.operationalTables_kn.getURL(item.kn)}`}>
-          <Flex gap='2'>
-            <TextHighlighter tooltipContent='Название'>{item.kn}</TextHighlighter>
+          <Flex direction='column'>
+            <TextHighlighter tooltipContent='Название конфига нормализации'>{item.name}</TextHighlighter>
+            <Text style={{ marginLeft: 'var(--space-1)' }} color='gray' size='2'>
+              {item.kn}
+            </Text>
           </Flex>
-          <Flex gap='2' align='center'>
-            {item.nav && <Badge color='green'>Навигация</Badge>}
+          <Flex gap='4' align='center'>
+            <Flex align='center' gap='2'></Flex>
+            <Separator orientation='vertical' />
+            <Flex gap='2' align='center'>
+              <Flex style={{ position: 'relative', width: '1rem', height: '1rem', marginRight: 'var(--space-1)' }}>
+                <Avatar
+                  style={{ position: 'absolute', top: '-70%', left: '-50%' }}
+                  radius='full'
+                  size='1'
+                  fallback='a'
+                  src={item.createdBy.avatar}
+                />
+                <Avatar
+                  style={{ position: 'absolute', top: 0, left: 0 }}
+                  radius='full'
+                  size='1'
+                  fallback='a'
+                  src={item.updatedBy.avatar}
+                />
+              </Flex>
+              <Flex direction='column'>
+                <Tooltip content={`Создал пользователь: ${item.createdBy.name}`}>
+                  <Text color='gray' as='div' size='1'>
+                    {dayjs(item?.createdAt).format('DD.MM.YYYY HH:mm')}
+                  </Text>
+                </Tooltip>
+                <Tooltip content={`Изменил пользователь: ${item.updatedBy.name}`}>
+                  <Text color='gray' as='div' size='1'>
+                    {dayjs(item?.updatedAt).format('DD.MM.YYYY HH:mm')}
+                  </Text>
+                </Tooltip>
+              </Flex>
+            </Flex>
           </Flex>
         </Link>
       </Card>

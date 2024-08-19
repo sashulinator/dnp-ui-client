@@ -1,3 +1,4 @@
+import { ChevronLeftIcon } from '@radix-ui/react-icons'
 import { useContext } from 'react'
 import React from 'react'
 import { Link } from 'react-router-dom'
@@ -52,7 +53,7 @@ export function BackToParent(props: { className?: string | undefined }): JSX.Ele
     >
       {loading
         ? renderIcon && React.createElement(renderIcon)
-        : backRoute && renderIcon && <Link to={backRoute.getURL()}>{React.createElement(renderIcon)}</Link>}
+        : backRoute && renderIcon && <Link to={backRoute.getURL()}>{React.createElement(ChevronLeftIcon)}</Link>}
     </Button>
   )
 }
