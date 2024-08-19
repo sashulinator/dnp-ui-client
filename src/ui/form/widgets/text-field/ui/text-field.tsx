@@ -1,5 +1,7 @@
+import { InfoCircledIcon } from '@radix-ui/react-icons'
+import { useId } from 'react'
 import Field from '../../field'
-import './text-field.scss'
+import Label from '../../label/ui/label'
 import Flex, { FlexProps } from '~/ui/flex'
 import Text from '~/ui/text'
 import TextField, { TextFieldProps } from '~/ui/text-field'
@@ -14,25 +16,38 @@ export interface Props extends Omit<TextFieldProps, 'name' | 'value'> {
   validate?: ((v: string) => unknown) | undefined
 }
 
-const displayName = 'ui-Form-w-TextField'
+const NAME = 'ui-Form-w-TextField'
 
 /**
  * ui-Form-w-TextField
  */
 export default function Component(props: Props): JSX.Element {
   const { className, name, validate = emptyFn, label, type = 'text', rootProps, ...textFieldProps } = props
+  const id = useId()
 
   return (
     <Field name={name} validate={validate}>
       {({ input, meta }) => {
+        const showError = (meta.error || meta.submitError) && meta.touched
+
         return (
-          <Flex direction='column' width='100%' {...rootProps}>
-            <Text className={c(className, displayName)} as='label' size='2'>
-              {label}
-              <TextField.Root className='textField' {...textFieldProps} {...input} type={type} />
-            </Text>
-            {(meta.error || meta.submitError) && meta.touched && (
-              <Text color='red'>{meta.error?.message || meta.submitError.message}</Text>
+          <Flex className={c(className, NAME, rootProps?.className)} direction='column' width='100%' {...rootProps}>
+            <Label className={`${NAME}_label}`} content={label} htmlFor={id} />
+            <TextField.Root
+              color={showError}
+              id={id}
+              {...textFieldProps}
+              {...input}
+              className={c(`${NAME}_textField`)}
+              type={type}
+            />
+            {showError && (
+              <Text size='1' color='red' asChild>
+                <Flex align='center' gap='1'>
+                  <InfoCircledIcon />
+                  {meta.error?.message || meta.submitError.message}
+                </Flex>
+              </Text>
             )}
           </Flex>
         )
@@ -40,4 +55,5 @@ export default function Component(props: Props): JSX.Element {
     </Field>
   )
 }
-Component.displayName = displayName
+
+Component.displayName = NAME
