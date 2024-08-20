@@ -1,5 +1,6 @@
 import { InfoCircledIcon } from '@radix-ui/react-icons'
 import { useId } from 'react'
+import { FieldRenderProps } from 'react-final-form'
 import Field from '../../field'
 import Label from '../../label/ui/label'
 import Flex, { FlexProps } from '~/ui/flex'
@@ -21,12 +22,14 @@ const NAME = 'ui-Form-w-TextField'
 /**
  * ui-Form-w-TextField
  */
-export default function Component(props: Props): JSX.Element {
+export default function Component<FieldValue, RP extends FieldRenderProps<FieldValue, HTMLInputElement, string>>(
+  props: Props,
+): JSX.Element {
   const { className, name, validate = emptyFn, label, type = 'text', rootProps, ...textFieldProps } = props
   const id = useId()
 
   return (
-    <Field name={name} validate={validate}>
+    <Field<FieldValue, RP, HTMLInputElement, string> name={name} validate={validate}>
       {({ input, meta }) => {
         const showError = (meta.error || meta.submitError) && meta.touched
 

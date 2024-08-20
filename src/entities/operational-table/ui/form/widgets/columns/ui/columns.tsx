@@ -154,9 +154,9 @@ function _renderColumn(props: _renderColumnProps) {
         </Flex>
         <DataList.Root size='2'>
           <DataList.Item>
-            <Label content='Ключ' />
+            <Label content='Колонка' />
             <DataList.Value>
-              <TextField size='1' variant='soft' name={`${name}.key`} />
+              <TextField size='1' variant='soft' name={`${name}.columnName`} />
             </DataList.Value>
           </DataList.Item>
           <DataList.Item>
@@ -208,13 +208,13 @@ function _renderColumn(props: _renderColumnProps) {
                 <DataList.Item>
                   <Label content='Таблица' />
                   <DataList.Value>
-                    <TextField size='1' variant='soft' name={`${name}.relation.table`} />
+                    <TextField size='1' variant='soft' name={`${name}.relation.tableName`} />
                   </DataList.Value>
                 </DataList.Item>
                 <DataList.Item>
-                  <Label content='Ключ' />
+                  <Label content='Колонка' />
                   <DataList.Value>
-                    <TextField size='1' variant='soft' name={`${name}.relation.key`} />
+                    <TextField size='1' variant='soft' name={`${name}.relation.columnName`} />
                   </DataList.Value>
                 </DataList.Item>
               </>
