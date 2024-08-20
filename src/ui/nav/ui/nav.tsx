@@ -31,6 +31,7 @@ export default function Component(): JSX.Element {
 
   const current = getCurrent(`/${location.pathname.split('/')[1]}`)
   const currentOper = location.pathname.split('/')[2]
+  const isExplorer = location.pathname.split('/')[3] === 'explorer'
 
   return (
     <nav className={c(displayName)}>
@@ -45,7 +46,7 @@ export default function Component(): JSX.Element {
       </div>
       <Flex direction='column' gap='3'>
         {navigatables.map(([key, route]) => {
-          const isCurrent = current === route
+          const isCurrent = current === route && !isExplorer
 
           return (
             <Tooltip side='right' key={key} content={route.getName()}>
@@ -62,7 +63,7 @@ export default function Component(): JSX.Element {
       </Flex>
       <Flex direction='column' gap='3'>
         {operationalTableListFetcher.data?.data.items.map((operationalTable) => {
-          const isCurrent = currentOper === operationalTable.kn
+          const isCurrent = currentOper === operationalTable.kn && isExplorer
           return (
             <Tooltip side='right' key={operationalTable.kn} content={operationalTable.name}>
               <Link to={routes.operationalTables_kn_explorer.getURL(operationalTable.kn)}>
