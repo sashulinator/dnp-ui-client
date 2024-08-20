@@ -1,6 +1,6 @@
 import Button from '~/ui/button'
 import Flex, { FlexProps } from '~/ui/flex'
-import { TrashIcon } from '~/ui/icon'
+import Icon from '~/ui/icon'
 import TextField from '~/ui/text-field'
 import { c } from '~/utils/core'
 
@@ -30,7 +30,7 @@ export default function Component(props: Props): JSX.Element {
         <TextField.Slot side='left'>#</TextField.Slot>
         <TextField.Slot side='right'>
           <Button color='red' round={true} size={'1'} onClick={onTrashClick}>
-            <TrashIcon />
+            <Icon name='Trash' />
           </Button>
         </TextField.Slot>
       </TextField.Root>

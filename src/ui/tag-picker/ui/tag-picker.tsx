@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import Tag from '../widgets/tag'
 import Button from '~/ui/button'
 import Flex from '~/ui/flex'
-import { PlusIcon } from '~/ui/icon'
+import Icon from '~/ui/icon'
 
 import TextField from '~/ui/text-field'
 import { useControlledState } from '~/utils/core-hooks'
@@ -55,7 +55,7 @@ export default function Component(props: Props): JSX.Element {
                 submitNewTag()
               }}
             >
-              <PlusIcon />
+              <Icon name='Plus' />
             </Button>
           </TextField.Slot>
           <TextField.Slot side='left'>#</TextField.Slot>

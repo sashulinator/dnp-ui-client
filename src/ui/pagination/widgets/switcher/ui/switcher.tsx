@@ -1,7 +1,7 @@
 import { CSSProperties, useEffect, useState } from 'react'
 import './switcher.scss'
 import Button from '~/ui/button'
-import { ArrowLeftIcon, ArrowRightIcon, DoubleArrowLeftIcon, DoubleArrowRightIcon } from '~/ui/icon'
+import Icon from '~/ui/icon'
 import Spinner from '~/ui/spinner'
 import TextField from '~/ui/text-field'
 import { c } from '~/utils/core'
@@ -33,7 +33,7 @@ export default function Component(props: Props): JSX.Element {
   return (
     <div {...props.root} className={c(props.className, displayName)}>
       <Button variant='soft' round={true} disabled={props.currentPage === 1} onClick={handleChange(1)}>
-        <DoubleArrowLeftIcon />
+        <Icon name='DoubleChevronLeft' />
       </Button>
       <Button
         variant='soft'
@@ -41,7 +41,7 @@ export default function Component(props: Props): JSX.Element {
         disabled={props.currentPage === 1}
         onClick={handleChange(props.currentPage - 1)}
       >
-        <ArrowLeftIcon />
+        <Icon name='ChevronLeft' />
       </Button>
       <TextField.Root
         color={localCurrentPage > totalPages || localCurrentPage < 1 ? 'red' : undefined}
@@ -72,10 +72,10 @@ export default function Component(props: Props): JSX.Element {
         disabled={props.currentPage >= totalPages}
         onClick={handleChange(props.currentPage + 1)}
       >
-        <ArrowRightIcon />
+        <Icon name='ChevronRight' />
       </Button>
       <Button variant='soft' round={true} disabled={props.currentPage >= totalPages} onClick={handleChange(totalPages)}>
-        <DoubleArrowRightIcon />
+        <Icon name='DoubleChevronRight' />
       </Button>
       {props.loading && <Spinner size='2' />}
     </div>

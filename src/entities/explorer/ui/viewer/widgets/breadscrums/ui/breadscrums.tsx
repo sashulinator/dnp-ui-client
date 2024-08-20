@@ -4,7 +4,7 @@ import { NAME as ROOT_NAME } from '../../../ui/viewer'
 import Type from '../../type'
 import Button from '~/ui/button'
 import Flex from '~/ui/flex'
-import { ChevronLeftIcon, ChevronRightIcon } from '~/ui/icon'
+import Icon from '~/ui/icon'
 import { c } from '~/utils/core'
 
 export interface Props {
@@ -33,7 +33,7 @@ export default function Component(props: Props): JSX.Element {
           onPathChange?.([...paths])
         }}
       >
-        <ChevronLeftIcon />
+        <Icon name='ChevronLeft' />
       </Button>
 
       <Flex gap='3' align='center'>
@@ -53,7 +53,7 @@ export default function Component(props: Props): JSX.Element {
                 <div className={`${NAME}_name`}>{path.name}</div>
               </Button>
             </Flex>
-            {paths.length - 1 !== i && <ChevronRightIcon />}
+            {paths.length - 1 !== i && <Icon name='ChevronRight' />}
           </React.Fragment>
         ))}
       </Flex>

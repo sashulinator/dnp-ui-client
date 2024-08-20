@@ -5,6 +5,9 @@ import ChevronDown from '../widgets/chevron-down'
 import ChevronLeft from '../widgets/chevron-left'
 import ChevronRight from '../widgets/chevron-right'
 import ChevronUp from '../widgets/chevron-up'
+import Database from '../widgets/database'
+import DoubleChevronLeft from '../widgets/double-chevron-left'
+import DoubleChevronRight from '../widgets/double-chevron-right'
 import Plus from '../widgets/plus'
 import Trash from '../widgets/trash'
 
@@ -15,6 +18,9 @@ const iconNames = {
   ChevronLeft,
   ChevronRight,
   ChevronUp,
+  Database,
+  DoubleChevronLeft,
+  DoubleChevronRight,
   Plus,
   Trash,
 } satisfies Record<string, React.FC<React.SVGAttributes<SVGSVGElement>>>

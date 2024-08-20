@@ -3,7 +3,7 @@ import React from 'react'
 import Button from '~/ui/button'
 import Flex from '~/ui/flex'
 import { Field } from '~/ui/form'
-import { PlusIcon, TrashIcon } from '~/ui/icon'
+import Icon from '~/ui/icon'
 import Text from '~/ui/text'
 import Input from '~/ui/text-field'
 import { c } from '~/utils/core'
@@ -64,14 +64,14 @@ function Component(props: Props): JSX.Element {
                         input.onChange(remove(input.value, key))
                       }}
                     >
-                      <TrashIcon />
+                      <Icon name='Trash' />
                     </Button>
                   </Flex>
                 )
               })}
               <Flex>
                 <Button size='1' onClick={() => input.onChange({ ...input.value, '': '' })}>
-                  <PlusIcon />
+                  <Icon name='Plus' />
                   Добавить
                 </Button>
               </Flex>

@@ -5,7 +5,7 @@ export interface ContextProps {
   route?: Route
   backRoute?: Route | undefined
   loading?: boolean | undefined
-  renderIcon?: () => JSX.Element
+  renderIcon?: (props: React.SVGAttributes<SVGSVGElement>) => JSX.Element
 }
 
 export const context = createContext<ContextProps>({})

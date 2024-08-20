@@ -1,4 +1,6 @@
 .ui-Button {
+  --cursor-button: pointer;
+
   &.--round {
     width: var(--base-button-height);
     padding: 0;

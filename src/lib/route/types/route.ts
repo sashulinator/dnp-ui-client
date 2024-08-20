@@ -33,7 +33,7 @@ export type Route = {
   /**
    * Иконка которую обычно можно видеть в Nav
    */
-  renderIcon?: () => React.ReactNode
+  renderIcon?: (props: React.SVGAttributes<SVGSVGElement>) => React.ReactNode
 
   /**
    * Отображать ли в Nav

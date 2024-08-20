@@ -1,7 +1,8 @@
-import { BarChartIcon, GroupIcon, LapTimerIcon, LayersIcon, StarIcon, TargetIcon } from '@radix-ui/react-icons'
+import { BarChartIcon, LapTimerIcon, StarIcon, TargetIcon } from '@radix-ui/react-icons'
 import { Suspense, lazy } from 'react'
 import { type Route } from '../lib/route'
 import Main from '../pages/main'
+import { Icon as OperationalTableIcon } from '~/entities/operational-table'
 import Admin from '~/pages/admin'
 import NormalizationConfigs from '~/pages/normalization-configs'
 import NormalizationConfigs_create from '~/pages/normalization-configs/create'
@@ -18,6 +19,7 @@ import TargetTable from '~/pages/target-table'
 import TargetTable_create from '~/pages/target-table/create'
 import TargetTable_kn from '~/pages/target-table/kn'
 import Header from '~/ui/header'
+import Icon from '~/ui/icon'
 import Logo from '~/ui/logo'
 import Nav from '~/ui/nav'
 import { isDev } from '~/utils/core'
@@ -90,8 +92,7 @@ export const routes = {
     renderNav: Nav,
     getName: (): string => 'Промежуточные таблицы',
     navigatable: true,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    renderIcon: GroupIcon as any,
+    renderIcon: OperationalTableIcon,
   },
 
   operationalTables_create: {
@@ -152,8 +153,7 @@ export const routes = {
     renderNav: Nav,
     getName: (): string => 'Хранилища',
     navigatable: true,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    renderIcon: LayersIcon as any,
+    renderIcon: (props: React.SVGAttributes<SVGSVGElement>) => <Icon {...props} name='Database' />,
   },
 
   storeConfigs_create: {
