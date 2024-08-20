@@ -1,8 +1,8 @@
-import { InfoCircledIcon } from '@radix-ui/react-icons'
 import { useId } from 'react'
 import Field from '../../field'
 import Label from '../../label/ui/label'
 import Flex, { FlexProps } from '~/ui/flex'
+import Icon from '~/ui/icon'
 import Select, { SelectRootProps, SelectItemProps } from '~/ui/select'
 import Text from '~/ui/text'
 import { c } from '~/utils/core'
@@ -52,7 +52,7 @@ export default function Component(props: Props): JSX.Element {
             {showError && (
               <Text size='1' color='red' asChild>
                 <Flex align='center' gap='1'>
-                  <InfoCircledIcon />
+                  <Icon name='InfoCircled' />
                   {meta.error?.message || meta.submitError.message}
                 </Flex>
               </Text>

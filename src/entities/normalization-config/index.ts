@@ -1,6 +1,7 @@
 /**
  * api
  */
+
 export * as fetchList from './api/fetch-list'
 export * as getById from './api/get-by-id'
 export * as getByName from './api/get-by-name'
@@ -11,6 +12,7 @@ export * as remove from './api/remove'
 /**
  * types
  */
+
 export {
   type Executable,
   type NormalizationConfig,
@@ -25,7 +27,9 @@ export {
 /**
  * ui
  */
+
 export { default as Item, type ItemProps } from './ui/item'
+export { default as Icon } from './ui/icon'
 export {
   default as Form,
   type FormProps,

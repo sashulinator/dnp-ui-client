@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import { Process } from '../../types/process'
+import { Process } from '../../../types/process'
 import './item.scss'
 import Avatar from '~/ui/avatar'
 import Badge from '~/ui/badge'

@@ -1,4 +1,3 @@
-import { StarIcon } from '@radix-ui/react-icons'
 import { createElement } from 'react'
 import { useQuery } from 'react-query'
 import { Link, useLocation } from 'react-router-dom'
@@ -8,6 +7,7 @@ import { getCurrent } from '~/lib/route/get-current'
 import { routes } from '~/shared/routes'
 import Button from '~/ui/button'
 import Flex from '~/ui/flex'
+import Icon, { map as iconMap } from '~/ui/icon'
 import Logo from '~/ui/logo'
 import Tooltip from '~/ui/tooltip'
 import { c } from '~/utils/core'
@@ -64,12 +64,18 @@ export default function Component(): JSX.Element {
       <Flex direction='column' gap='3'>
         {operationalTableListFetcher.data?.data.items.map((operationalTable) => {
           const isCurrent = currentOper === operationalTable.kn && isExplorer
+          const iconName = ((operationalTable as any).iconName as keyof typeof iconMap) ?? 'Star'
+
           return (
             <Tooltip side='right' key={operationalTable.kn} content={operationalTable.name}>
               <Link to={routes.operationalTables_kn_explorer.getURL(operationalTable.kn)}>
-                <Button size='3' square={true} variant={isCurrent ? 'solid' : 'soft'}>
-                  <StarIcon />
-                </Button>
+                {iconMap[iconName] ? (
+                  <Button size='3' square={true} variant={isCurrent ? 'solid' : 'soft'}>
+                    <Icon name={iconName} />
+                  </Button>
+                ) : (
+                  <Button dangerouslySetInnerHTML={{ __html: iconName }} />
+                )}
               </Link>
             </Tooltip>
           )

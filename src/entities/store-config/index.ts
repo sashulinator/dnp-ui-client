@@ -23,6 +23,7 @@ export {
  * ui
  */
 export { default as Item, type ItemProps } from './ui/item'
+export { default as Icon } from './ui/icon'
 export {
   default as Form,
   type FormProps,

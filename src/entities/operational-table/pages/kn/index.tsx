@@ -1,4 +1,3 @@
-import { SymbolIcon } from '@radix-ui/react-icons'
 import { useCallback } from 'react'
 import { useParams } from 'react-router-dom'
 import { safeParse } from 'valibot'
@@ -119,9 +118,8 @@ export default function Component(): JSX.Element {
                             variant='outline'
                             onClick={() => form.reset()}
                             disabled={!form.getState().dirty}
-                            round={true}
                           >
-                            <SymbolIcon />
+                            Сбросить изменения
                           </Button>
                         </span>
                       </Tooltip>

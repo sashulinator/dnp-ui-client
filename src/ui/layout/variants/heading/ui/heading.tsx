@@ -1,10 +1,10 @@
-import { ChevronLeftIcon } from '@radix-ui/react-icons'
 import { useContext } from 'react'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { ContextProps, context } from '../models/context'
 import Button from '~/ui/button'
 import Heading from '~/ui/heading'
+import Icon from '~/ui/icon'
 import TextHighlighter from '~/ui/text-highlighter'
 import { c } from '~/utils/core'
 
@@ -53,7 +53,7 @@ export function BackToParent(props: { className?: string | undefined }): JSX.Ele
     >
       {loading
         ? renderIcon && React.createElement(renderIcon)
-        : backRoute && renderIcon && <Link to={backRoute.getURL()}>{React.createElement(ChevronLeftIcon)}</Link>}
+        : backRoute && renderIcon && <Link to={backRoute.getURL()}>{<Icon name='ChevronLeft' />}</Link>}
     </Button>
   )
 }

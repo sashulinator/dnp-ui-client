@@ -1,4 +1,3 @@
-import { SymbolIcon } from '@radix-ui/react-icons'
 import { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { safeParse } from 'valibot'
@@ -89,14 +88,8 @@ export default function Component(): JSX.Element {
               <Flex gap='2' align='center'>
                 <Tooltip content='Сбросить'>
                   <span>
-                    <Button
-                      size='1'
-                      variant='outline'
-                      onClick={() => form.reset()}
-                      disabled={!form.getState().dirty}
-                      round={true}
-                    >
-                      <SymbolIcon />
+                    <Button size='1' variant='outline' onClick={() => form.reset()} disabled={!form.getState().dirty}>
+                      Сбросить изменения
                     </Button>
                   </span>
                 </Tooltip>

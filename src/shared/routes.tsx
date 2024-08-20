@@ -1,8 +1,11 @@
-import { BarChartIcon, LapTimerIcon, StarIcon, TargetIcon } from '@radix-ui/react-icons'
 import { Suspense, lazy } from 'react'
 import { type Route } from '../lib/route'
 import Main from '../pages/main'
+import { Icon as NormalizationConfigIcon } from '~/entities/normalization-config'
 import { Icon as OperationalTableIcon } from '~/entities/operational-table'
+import { Icon as ProcessIcon } from '~/entities/process'
+import { Icon as StoreConfigIcon } from '~/entities/store-config'
+import { Icon as TargetTableIcon } from '~/entities/target-table'
 import Admin from '~/pages/admin'
 import NormalizationConfigs from '~/pages/normalization-configs'
 import NormalizationConfigs_create from '~/pages/normalization-configs/create'
@@ -56,8 +59,7 @@ export const routes = {
     renderNav: Nav,
     getName: (): string => 'Нормализации',
     navigatable: true,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    renderIcon: BarChartIcon as any,
+    renderIcon: NormalizationConfigIcon,
   },
 
   normalizationConfigs_create: {
@@ -137,8 +139,7 @@ export const routes = {
     renderNav: Nav,
     getName: (): string => 'Процессы',
     navigatable: true,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    renderIcon: LapTimerIcon as any,
+    renderIcon: ProcessIcon,
   },
 
   /**
@@ -153,7 +154,7 @@ export const routes = {
     renderNav: Nav,
     getName: (): string => 'Хранилища',
     navigatable: true,
-    renderIcon: (props: React.SVGAttributes<SVGSVGElement>) => <Icon {...props} name='Database' />,
+    renderIcon: StoreConfigIcon,
   },
 
   storeConfigs_create: {
@@ -188,8 +189,7 @@ export const routes = {
     renderNav: Nav,
     getName: (): string => 'Целевые таблицы',
     navigatable: true,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    renderIcon: TargetIcon as any,
+    renderIcon: TargetTableIcon,
   },
 
   targetTables_create: {
@@ -219,7 +219,8 @@ export const routes = {
     renderHeader: Header,
     renderNav: Nav,
     getName: (): string => 'Управление пользователем',
-    navigatable: false,
+    navigatable: isDev(),
+    renderIcon: (props) => <Icon {...props} name='User' />,
   },
 
   // Misc
@@ -234,8 +235,7 @@ export const routes = {
     ),
     getName: (): string => 'storybook',
     navigatable: isDev(),
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    renderIcon: StarIcon as any,
+    renderIcon: (props) => <Icon {...props} name='Star' />,
   },
 
   notFound: {
