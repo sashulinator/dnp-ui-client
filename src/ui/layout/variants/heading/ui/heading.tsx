@@ -79,7 +79,10 @@ Name.displayName = NAME_NAME
 
 export const UNIQ_NAME = 'ui-Layout-v-Heading_Uniq'
 
-export function Uniq(props: { string: string; tooltipContent?: string | undefined }): JSX.Element | undefined | string {
+export function Uniq(props: {
+  string: string | undefined
+  tooltipContent?: string | undefined
+}): JSX.Element | undefined | string {
   return (
     props.string && (
       <TextHighlighter tooltipContent={props.tooltipContent} style={{ marginLeft: 'var(--space-2)' }}>
