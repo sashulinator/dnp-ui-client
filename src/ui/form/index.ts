@@ -25,7 +25,7 @@ export {
   Field,
 } from 'react-final-form'
 
-export { type FormSubscription, type FormApi } from 'final-form'
+export { type FormSubscription, type FormApi, getIn, setIn } from 'final-form'
 
 export { default as arrayMutators, type Mutators } from 'final-form-arrays'
 export { type FieldArrayRenderProps, type RenderableProps, FieldArray } from 'react-final-form-arrays'

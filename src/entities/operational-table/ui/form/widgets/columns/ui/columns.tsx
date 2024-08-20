@@ -1,19 +1,10 @@
-import {
-  ArrowLeftIcon,
-  ArrowRightIcon,
-  ChevronDownIcon,
-  ChevronUpIcon,
-  PlusIcon,
-  TrashIcon,
-} from '@radix-ui/react-icons'
-import { DataList } from '@radix-ui/themes'
-import { getIn } from 'final-form'
 import React, { useState } from 'react'
-import { FieldArray } from 'react-final-form-arrays'
 import Button from '~/ui/button'
 import Card from '~/ui/card'
+import DataList from '~/ui/data-list'
 import Flex from '~/ui/flex'
-import { Field, Label, Select, TextField, useForm } from '~/ui/form'
+import { Field, Label, Select, TextField, useForm, FieldArray, getIn } from '~/ui/form'
+import Icon from '~/ui/icon'
 import Separator from '~/ui/separator'
 import Text from '~/ui/text'
 import { c, generateUniqId, isDev } from '~/utils/core'
@@ -80,7 +71,7 @@ export default function Component(props: Props): JSX.Element {
                 }}
               >
                 <Flex align='center' justify='center'>
-                  <PlusIcon style={{ scale: '3' }} />
+                  <Icon name='Plus' style={{ scale: '3' }} />
                 </Flex>
               </Button>
             </>
@@ -133,7 +124,7 @@ function _renderColumn(props: _renderColumnProps) {
             </Field>
           )}
           <Button disabled={index === 0} onClick={() => move(index, index - 1)} size='1' variant='outline' round={true}>
-            <ArrowLeftIcon />
+            <Icon name='ArrowLeft' />
           </Button>
           <Text color='gray' size='1'>
             {index}
@@ -145,11 +136,11 @@ function _renderColumn(props: _renderColumnProps) {
             variant='outline'
             round={true}
           >
-            <ArrowRightIcon />
+            <Icon name='ArrowRight' />
           </Button>
           <Separator orientation='vertical' />
           <Button onClick={() => remove(index)} variant='outline' color='red' round={true}>
-            <TrashIcon />
+            <Icon name='Trash' />
           </Button>
         </Flex>
         <DataList.Root size='2'>
@@ -198,7 +189,7 @@ function _renderColumn(props: _renderColumnProps) {
                     round={true}
                     type='button'
                   >
-                    {hasRelation ? <ChevronUpIcon /> : <ChevronDownIcon />}
+                    <Icon name={hasRelation ? 'ChevronUp' : 'ChevronDown'} />
                   </Button>
                 </Flex>
               </DataList.Value>
