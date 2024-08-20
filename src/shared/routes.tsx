@@ -113,7 +113,7 @@ export const routes = {
     renderMain: OperationalTable_kn_explorer,
     renderHeader: Header,
     renderNav: Nav,
-    getName: (): string => 'Промежуточная таблица',
+    getName: (): string => 'Данные промежуточной таблицы',
     navigatable: false,
   },
 

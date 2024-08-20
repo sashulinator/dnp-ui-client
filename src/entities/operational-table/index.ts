@@ -26,6 +26,8 @@ export {
   type UpdateOperationalTable,
   type CreateOperationalTable,
   type OperationalTableRelations,
+  type TableSchema,
+  type TableSchemaItem,
   operationalTableSchema,
   createOperationalTableSchema,
   updateOperationalTableSchema,

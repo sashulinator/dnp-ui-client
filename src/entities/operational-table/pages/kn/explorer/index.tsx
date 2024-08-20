@@ -1,16 +1,18 @@
 import { Dialog } from '@radix-ui/themes'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { NAME_ONE } from '../../../constants/name'
 import { Item, Viewer } from '~/entities/explorer'
+import { TableSchemaItem } from '~/entities/operational-table'
 import { api } from '~/entities/operational-table'
 import { routes } from '~/shared/routes'
 import Button from '~/ui/button'
 import Container from '~/ui/container'
 import Flex from '~/ui/flex'
-import Heading from '~/ui/heading'
+import Heading from '~/ui/layout/variants/heading'
 import Pagination from '~/ui/pagination'
 import Section from '~/ui/section'
+import { TableListColumn } from '~/ui/table'
 import Text from '~/ui/text'
 import TextHighlighter from '~/ui/text-highlighter'
 import { isInteger, isString } from '~/utils/core'
@@ -39,6 +41,11 @@ export default function Component(): JSX.Element {
   useEffect(() => {
     setSkip((page - 1) * take)
   }, [page])
+
+  const columns = useMemo(
+    () => (exploreFetcher.data ? tableSchemaToColumns(exploreFetcher.data.operationalTable.tableSchema.items) : []),
+    [exploreFetcher.data],
+  )
 
   return (
     <main className={displayName}>
@@ -82,7 +89,18 @@ export default function Component(): JSX.Element {
 
           {!exploreFetcher.isError && (
             <Section size='1'>
-              <Heading>{routes.operationalTables_kn.getName()} </Heading>
+              <Heading.Root
+                loading={exploreFetcher.isFetching}
+                route={routes.operationalTables_kn_explorer}
+                backRoute={routes.operationalTables}
+                renderIcon={routes.operationalTables.renderIcon}
+              >
+                <Heading.BackToParent />
+                <Heading.Uniq
+                  string={exploreFetcher.data?.operationalTable.name}
+                  tooltipContent={routes.operationalTables_kn_explorer.getName()}
+                />
+              </Heading.Root>
             </Section>
           )}
 
@@ -109,7 +127,7 @@ export default function Component(): JSX.Element {
                 paths={exploreFetcher.data.paths}
                 data={exploreFetcher.data}
               >
-                <Viewer.Table />
+                <Viewer.Table columns={columns} />
               </Viewer.Root>
             </Section>
           )}
@@ -120,3 +138,19 @@ export default function Component(): JSX.Element {
 }
 
 Component.displayName = displayName
+
+/**
+ * Private
+ */
+
+function tableSchemaToColumns(tableSchemaItems: TableSchemaItem[]): TableListColumn<Record<string, unknown>>[] {
+  return tableSchemaItems.map((item) => {
+    return {
+      key: item.columnName,
+      renderCell: ({ value }) => {
+        return value as string
+      },
+      renderHeader: () => item.name,
+    }
+  })
+}

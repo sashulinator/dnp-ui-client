@@ -1,11 +1,16 @@
 import { Table } from '@radix-ui/themes'
+import { type RootProps } from '@radix-ui/themes/dist/esm/components/table.d.ts'
 import { useContext } from 'react'
+import React from 'react'
+import { type Item } from '../../../../../types/explorer'
 import { context } from '../../../models/context'
 import { NAME as ROOT_NAME } from '../../../ui/viewer'
+import { type TableListColumn } from '~/ui/table'
 import { c } from '~/utils/core'
 
-export interface Props {
+export type Props = RootProps & {
   className?: string | undefined
+  columns: TableListColumn<Record<string, unknown>>[]
 }
 
 export const NAME = `${ROOT_NAME}-w-Table`
@@ -14,33 +19,46 @@ export const NAME = `${ROOT_NAME}-w-Table`
  * explorer-Viewer-w-Table
  */
 export default function Component(props: Props): JSX.Element {
-  const { className } = props
+  const { className, columns: propsColumns, ...rootTableProps } = props
 
   const { data, loading, onPathChange, paths } = useContext(context)
 
+  const columns = propsColumns as unknown as TableListColumn<Item>[] /* иначе никак */
+
   return (
-    <Table.Root className={c(className, NAME)}>
+    <Table.Root className={c(className, NAME)} {...rootTableProps}>
       <Table.Header>
         <Table.Row>
-          {data?.items[0] &&
-            Object.keys(data?.items[0].data).map((key) => {
-              return <Table.ColumnHeaderCell key={key}>{key}</Table.ColumnHeaderCell>
-            })}
+          {columns.map((column, i) => {
+            return (
+              <Table.ColumnHeaderCell key={i}>
+                {React.createElement(column.renderHeader, { key: column.key })}
+              </Table.ColumnHeaderCell>
+            )
+          })}
         </Table.Row>
       </Table.Header>
-
       <Table.Body>
-        {data?.items.map((item) => {
+        {data?.items.map((item, i) => {
           return (
             <Table.Row
-              key={item.name}
+              key={i}
               onClick={() => {
                 if (loading || isSelected()) return
                 onPathChange?.([...(paths || []), { name: item.name, type: item.type }])
               }}
             >
-              {Object.values(item.data).map((value, i) => {
-                return <Table.Cell key={i}>{String(value)}</Table.Cell>
+              {columns.map((column, i) => {
+                return (
+                  <Table.Cell key={i}>
+                    {React.createElement(column.renderCell, {
+                      key: column.key,
+                      item,
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                      value: (item.data as any)[column.key],
+                    })}
+                  </Table.Cell>
+                )
               })}
             </Table.Row>
           )

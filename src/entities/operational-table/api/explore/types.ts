@@ -1,5 +1,6 @@
 import { Explorer } from '../../../explorer/types/explorer'
 import { NAME_ONE } from '../../constants/name'
+import { OperationalTable } from '../../types/operational-table'
 
 export const keyName = `${NAME_ONE}.explore`
 
@@ -9,4 +10,4 @@ export type RequestData = {
   take?: number
 }
 
-export type ResponseData = Explorer
+export type ResponseData = Explorer & { operationalTable: OperationalTable }
