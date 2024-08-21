@@ -14,6 +14,7 @@ import FForm, { useCreateForm } from '~/ui/form'
 import Icon from '~/ui/icon'
 import Heading from '~/ui/layout/variants/heading'
 import Pagination from '~/ui/pagination'
+import ScrollArea from '~/ui/scroll-area'
 import Section from '~/ui/section'
 import { isEmpty } from '~/utils/core'
 
@@ -209,19 +210,21 @@ export default function Component(): JSX.Element {
 
           {exploreFetcher.isSuccess && (
             <Section size='1'>
-              <Viewer.Root
-                loading={exploreFetcher.isFetching}
-                onPathChange={(paths) => {
-                  const last = paths[paths.length - 1]
-                  const item = exploreFetcher.data.explorer.items.find((item) => item.name === last.name)
-                  if (!item) return
-                  formToUpdate.initialize(item.data)
-                }}
-                paths={exploreFetcher.data.explorer.paths}
-                data={exploreFetcher.data.explorer}
-              >
-                <Viewer.Table columns={columns} />
-              </Viewer.Root>
+              <ScrollArea>
+                <Viewer.Root
+                  loading={exploreFetcher.isFetching}
+                  onPathChange={(paths) => {
+                    const last = paths[paths.length - 1]
+                    const item = exploreFetcher.data.explorer.items.find((item) => item.name === last.name)
+                    if (!item) return
+                    formToUpdate.initialize(item.data)
+                  }}
+                  paths={exploreFetcher.data.explorer.paths}
+                  data={exploreFetcher.data.explorer}
+                >
+                  <Viewer.Table columns={columns} />
+                </Viewer.Root>
+              </ScrollArea>
             </Section>
           )}
         </Container>
