@@ -3,8 +3,8 @@ import { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { NAME_ONE } from '../../../constants/name'
 import { Item, Viewer } from '~/entities/explorer'
-import { TableSchemaItem } from '~/entities/operational-table'
 import { api } from '~/entities/operational-table'
+import { toColumns } from '~/entities/table-schema'
 import { routes } from '~/shared/routes'
 import Button from '~/ui/button'
 import Container from '~/ui/container'
@@ -12,7 +12,6 @@ import Flex from '~/ui/flex'
 import Heading from '~/ui/layout/variants/heading'
 import Pagination from '~/ui/pagination'
 import Section from '~/ui/section'
-import { TableListColumn } from '~/ui/table'
 import Text from '~/ui/text'
 import TextHighlighter from '~/ui/text-highlighter'
 import { isInteger, isString } from '~/utils/core'
@@ -43,7 +42,7 @@ export default function Component(): JSX.Element {
   }, [page])
 
   const columns = useMemo(
-    () => (exploreFetcher.data ? tableSchemaToColumns(exploreFetcher.data.operationalTable.tableSchema.items) : []),
+    () => (exploreFetcher.data ? toColumns(exploreFetcher.data.operationalTable.tableSchema.items) : []),
     [exploreFetcher.data],
   )
 
@@ -109,7 +108,7 @@ export default function Component(): JSX.Element {
               currentPage={page}
               loading={exploreFetcher.isFetching}
               limit={take.toString()}
-              totalElements={exploreFetcher.data?.total?.toString()}
+              totalElements={exploreFetcher.data?.explorer.total?.toString()}
               onChange={setPage}
             />
           </Section>
@@ -120,12 +119,12 @@ export default function Component(): JSX.Element {
                 loading={exploreFetcher.isFetching}
                 onPathChange={(paths) => {
                   const last = paths[paths.length - 1]
-                  const item = exploreFetcher.data.items.find((item) => item.name === last.name)
+                  const item = exploreFetcher.data.explorer.items.find((item) => item.name === last.name)
                   if (!item) return
                   setItem(item)
                 }}
-                paths={exploreFetcher.data.paths}
-                data={exploreFetcher.data}
+                paths={exploreFetcher.data.explorer.paths}
+                data={exploreFetcher.data.explorer}
               >
                 <Viewer.Table columns={columns} />
               </Viewer.Root>
@@ -138,19 +137,3 @@ export default function Component(): JSX.Element {
 }
 
 Component.displayName = displayName
-
-/**
- * Private
- */
-
-function tableSchemaToColumns(tableSchemaItems: TableSchemaItem[]): TableListColumn<Record<string, unknown>>[] {
-  return tableSchemaItems.map((item) => {
-    return {
-      key: item.columnName,
-      renderCell: ({ value }) => {
-        return value as string
-      },
-      renderHeader: () => item.name,
-    }
-  })
-}

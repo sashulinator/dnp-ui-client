@@ -10,4 +10,7 @@ export type RequestData = {
   take?: number
 }
 
-export type ResponseData = Explorer & { operationalTable: OperationalTable }
+export type ResponseData = {
+  explorer: Explorer
+  operationalTable: OperationalTable
+}

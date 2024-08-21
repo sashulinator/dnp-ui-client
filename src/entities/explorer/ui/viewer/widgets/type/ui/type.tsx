@@ -1,7 +1,7 @@
 import { Tooltip } from '@radix-ui/themes'
 import React from 'react'
 import { Type } from '../../../../../types/explorer'
-import JdbcIcon from '../../icons/jdbc'
+import DbIcon from '../../icons/db'
 import RowIcon from '../../icons/row'
 import TableIcon from '../../icons/table'
 import { map } from '~/ui/icon'
@@ -13,8 +13,8 @@ export interface Props {
 }
 
 const typeIconMap = {
-  jdbc: JdbcIcon,
-  record: RowIcon,
+  postgres: DbIcon,
+  row: RowIcon,
   s3: map['Star'],
   table: TableIcon,
 }

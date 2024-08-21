@@ -29,7 +29,7 @@ export default function Component<FieldValue, RP extends FieldRenderProps<FieldV
   const id = useId()
 
   return (
-    <Field<FieldValue, RP, HTMLInputElement, string> name={name} validate={validate}>
+    <Field<FieldValue, RP, HTMLInputElement, string> type={type} name={name} validate={validate}>
       {({ input, meta }) => {
         const showError = (meta.error || meta.submitError) && meta.touched
 

@@ -74,7 +74,7 @@ export default function Component(): JSX.Element {
   const explorerFetcher = api.fetchList.useCache(
     {
       paths: paths.map((path) => path.name),
-      type: values?.type as 'jdbc',
+      type: values?.type as 'postgres',
       storeConfig: {
         host: values?.data?.host,
         port: values?.data?.port,
@@ -155,7 +155,7 @@ export default function Component(): JSX.Element {
                   <Flex>
                     <Button
                       onClick={() => {
-                        setPaths([{ type: fetcher.data.type, name: fetcher.data.data.database }])
+                        setPaths([{ type: fetcher.data.type, name: fetcher.data.data.dbName }])
                       }}
                     >
                       Просмотреть данные

@@ -13,7 +13,7 @@ export default {
   render: function Element(props: Props<State>): JSX.Element {
     const { state } = props
 
-    const [paths, setPath] = useState<Path[]>([{ type: jdbcMock.type, name: jdbcMock.name }])
+    const [paths, setPath] = useState<Path[]>([{ type: postgresMock.type, name: postgresMock.name }])
     const { data, isFetching } = useQuery([paths], () => getMock(paths), { keepPreviousData: true })
 
     return (
@@ -48,7 +48,7 @@ function getMock(paths: Path[]): Promise<Explorer> {
     setTimeout(() => {
       const [, tablePath] = paths
       if (tablePath) resolve(tableListMock.find((item) => item.name === tablePath.name) as Explorer)
-      return resolve(jdbcMock)
+      return resolve(postgresMock)
     }, 1000)
   })
 }
@@ -58,7 +58,7 @@ const tableListMock: Explorer[] = Array(7)
   .map((_, i) => {
     const tableMock: Explorer = {
       paths: [
-        { type: 'jdbc', name: 'jdbc-Mock' },
+        { type: 'postgres', name: 'postgres-Mock' },
         { type: 'table', name: `table-${i}` },
       ],
       total: 7,
@@ -67,8 +67,8 @@ const tableListMock: Explorer[] = Array(7)
       items: Array(7)
         .fill(undefined)
         .map((_, k) => ({
-          name: `record-${i}${k}`,
-          type: 'record',
+          name: `row-${i}${k}`,
+          type: 'row',
           data: {
             atr1: `atr-${i}${k}1`,
             atr2: `atr-${i}${k}2`,
@@ -79,11 +79,11 @@ const tableListMock: Explorer[] = Array(7)
     return tableMock
   })
 
-const jdbcMock: Explorer = {
+const postgresMock: Explorer = {
   total: 1,
-  paths: [{ type: 'jdbc', name: 'jdbc-Mock' }],
-  name: 'jdbc-Mock',
-  type: 'jdbc',
+  paths: [{ type: 'postgres', name: 'postgres-Mock' }],
+  name: 'postgres-Mock',
+  type: 'postgres',
   items: Array(7)
     .fill(undefined)
     .map((_, i) => ({

@@ -26,7 +26,7 @@ export default function Component(props: Props): JSX.Element {
           return (
             <Item
               key={item.name}
-              style={{ cursor: item.type !== 'record' ? 'pointer' : 'default' }}
+              style={{ cursor: item.type !== 'row' ? 'pointer' : 'default' }}
               onDoubleClick={() => {
                 if (loading) return
                 onPathChange?.([...(paths || []), { name: item.name, type: item.type }])
