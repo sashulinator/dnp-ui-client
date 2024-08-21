@@ -6,6 +6,7 @@ import { type Item } from '../../../../../types/explorer'
 import { context } from '../../../models/context'
 import { NAME as ROOT_NAME } from '../../../ui/viewer'
 import { type TableListColumn } from '~/ui/table'
+import Text from '~/ui/text'
 import { c } from '~/utils/core'
 
 export type Props = RootProps & {
@@ -32,7 +33,7 @@ export default function Component(props: Props): JSX.Element {
           {columns.map((column, i) => {
             return (
               <Table.ColumnHeaderCell key={i} {...column.headerProps}>
-                {React.createElement(column.renderHeader, { key: column.key })}
+                <Text style={{ opacity: '0.4' }}>{React.createElement(column.renderHeader, { key: column.key })}</Text>
               </Table.ColumnHeaderCell>
             )
           })}

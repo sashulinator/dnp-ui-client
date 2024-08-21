@@ -16,6 +16,7 @@ import Heading from '~/ui/layout/variants/heading'
 import Pagination from '~/ui/pagination'
 import ScrollArea from '~/ui/scroll-area'
 import Section from '~/ui/section'
+import Spinner from '~/ui/spinner'
 import { isEmpty } from '~/utils/core'
 
 export interface Props {
@@ -44,19 +45,70 @@ export default function Component(): JSX.Element {
   const columns = useMemo(() => {
     if (!exploreFetcher.data) return []
     const ret = toColumns(exploreFetcher.data.operationalTable.tableSchema.items)
+
+    ret.push({
+      key: '_status',
+      renderHeader: () => 'Согласование',
+      cellProps: { align: 'right' },
+      headerProps: { align: 'right' },
+      renderCell: ({ item }) => {
+        // eslint-disable-next-line react-hooks/rules-of-hooks, @typescript-eslint/no-explicit-any
+        const [approved, setApproved] = useState((item.data as any)._status === '1')
+
+        const explorerUpdateMutator = api.explorerUpdate.useCache({
+          onSuccess: () => {
+            setApproved((s) => !s)
+          },
+          onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
+        })
+
+        return (
+          <Flex height='100%' width='100%' align='center' justify='end'>
+            {explorerUpdateMutator.isLoading ? (
+              <Spinner />
+            ) : (
+              <Button
+                size={'1'}
+                color={approved ? 'green' : 'red'}
+                onClick={(e) => {
+                  e.stopPropagation()
+
+                  if (!exploreFetcher.data) return
+                  explorerUpdateMutator.mutate({
+                    kn: exploreFetcher.data?.operationalTable.kn,
+                    input: {
+                      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                      // @ts-ignore
+                      ...item.data,
+                      _status: approved ? '0' : '1',
+                    },
+                  })
+                }}
+              >
+                {approved ? 'Согласован' : 'Не согласован'}
+              </Button>
+            )}
+          </Flex>
+        )
+      },
+    })
     ret.push({
       key: 'action',
       renderHeader: () => 'Действия',
       cellProps: { width: '1rem', align: 'right' },
+      headerProps: { align: 'right' },
       renderCell: ({ item }) => (
         <Button
           round={true}
           color='red'
           onClick={(e) => {
             e.stopPropagation()
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            explorerRemoveMutator.mutate({ kn: exploreFetcher.data?.operationalTable.kn, where: { id: item.data.id } })
+            explorerRemoveMutator.mutate({
+              kn: exploreFetcher.data?.operationalTable.kn,
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              where: { id: item.data.id },
+            })
           }}
         >
           <Icon name='Trash' />
@@ -64,6 +116,7 @@ export default function Component(): JSX.Element {
       ),
     })
     return ret
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [exploreFetcher.data])
 
   const formToCreate = useCreateForm<Record<string, unknown>>(
