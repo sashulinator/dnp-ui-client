@@ -12,7 +12,7 @@ export const api = {
  * types
  */
 
-export { type Explorer, type Path, type Item, type Type } from './types/explorer'
+export { type Explorer, type Path, type Item, type Type, type StoreConfig } from './types/explorer'
 
 /**
  * ui

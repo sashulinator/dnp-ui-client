@@ -72,13 +72,16 @@ export default function Component(props: Props): JSX.Element {
    */
 
   function isSelected() {
-    const selection = window.getSelection() as Selection
-    const selRange = selection.getRangeAt(0)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const text = (selRange.startContainer as any).data as string
-    const start = selRange.startOffset
-    const end = selRange.endOffset
-    return Boolean(text.substring(start, end))
+    try {
+      const selection = window.getSelection() as Selection
+      const selRange = selection?.getRangeAt(0)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const text = (selRange.startContainer as any).data as string
+      const start = selRange.startOffset
+      const end = selRange.endOffset
+      return Boolean(text.substring(start, end))
+      // eslint-disable-next-line no-empty
+    } catch (e) {}
   }
 }
 
