@@ -1,9 +1,10 @@
-import { Table } from '@radix-ui/themes'
-import { RootProps } from '@radix-ui/themes/dist/esm/components/table.d.ts'
+import Table, { RootProps, CellProps } from '~/ui/table'
 import { c } from '~/utils/core'
 
 export interface Column<TDataItem extends Record<string, unknown>> {
   key: keyof TDataItem
+  cellProps?: CellProps | undefined
+  headerProps?: CellProps | undefined
   renderCell: (props: { key: keyof TDataItem; value: TDataItem[keyof TDataItem]; item: TDataItem }) => React.ReactNode
   renderHeader: (props: { key: keyof TDataItem }) => React.ReactNode
 }
@@ -27,7 +28,11 @@ export default function Component<TDataItem extends Record<string, unknown>>(pro
       <Table.Header>
         <Table.Row>
           {columns.map((column, i) => {
-            return <Table.ColumnHeaderCell key={i}>{column.renderHeader({ key: column.key })}</Table.ColumnHeaderCell>
+            return (
+              <Table.ColumnHeaderCell key={i} {...column.headerProps}>
+                {column.renderHeader({ key: column.key })}
+              </Table.ColumnHeaderCell>
+            )
           })}
         </Table.Row>
       </Table.Header>
@@ -37,7 +42,7 @@ export default function Component<TDataItem extends Record<string, unknown>>(pro
             <Table.Row key={i}>
               {props.columns.map((column, i) => {
                 return (
-                  <Table.Cell key={i}>
+                  <Table.Cell key={i} {...column.cellProps}>
                     {column.renderCell({ key: column.key, item, value: item[column.key] })}
                   </Table.Cell>
                 )

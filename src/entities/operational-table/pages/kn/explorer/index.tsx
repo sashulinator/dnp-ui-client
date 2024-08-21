@@ -46,6 +46,7 @@ export default function Component(): JSX.Element {
     ret.push({
       key: 'action',
       renderHeader: () => 'Действия',
+      cellProps: { width: '1rem', align: 'right' },
       renderCell: ({ item }) => (
         <Button
           round={true}

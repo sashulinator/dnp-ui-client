@@ -31,7 +31,7 @@ export default function Component(props: Props): JSX.Element {
         <Table.Row>
           {columns.map((column, i) => {
             return (
-              <Table.ColumnHeaderCell key={i}>
+              <Table.ColumnHeaderCell key={i} {...column.headerProps}>
                 {React.createElement(column.renderHeader, { key: column.key })}
               </Table.ColumnHeaderCell>
             )
@@ -50,7 +50,7 @@ export default function Component(props: Props): JSX.Element {
             >
               {columns.map((column, i) => {
                 return (
-                  <Table.Cell key={i}>
+                  <Table.Cell key={i} {...column.cellProps}>
                     {React.createElement(column.renderCell, {
                       key: column.key,
                       item,
