@@ -23,6 +23,7 @@ import uiTagPickerWTag from '~/ui/tag-picker/widgets/tag/story'
 import uiTextHighlighter from '~/ui/text-highlighter/story'
 import uiToast from '~/ui/toast/story'
 import uiNotificationToastList from '~/ui/toast/variants/notification/list/story'
+import uiTree from '~/ui/tree/story'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const storyList: Story<any>[] = [
@@ -33,6 +34,7 @@ export const storyList: Story<any>[] = [
   storeConfigForm,
   targetTableForm,
   uiButton,
+  uiTree,
   uiCard,
   uiCodeEditor,
   uiCodeEditorVJson,

@@ -17,6 +17,7 @@
     "postpack": "pinst --enable"
   },
   "dependencies": {
+    "@atlaskit/tree": "8.9.0",
     "@radix-ui/react-toast": "1.2.1",
     "@radix-ui/themes": "3.0.5",
     "@react-spring/web": "9.7.3",
