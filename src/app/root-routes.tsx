@@ -1,7 +1,8 @@
 import React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { QueryParamProvider } from 'use-query-params'
+import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6'
 import { type Route as LibRoute } from '~/lib/route'
-
 import { routes } from '~/shared/routes'
 
 RootRoutes.displayName = 'app-Routes'
@@ -16,11 +17,13 @@ export default function RootRoutes(props: Props): JSX.Element {
 
   return (
     <BrowserRouter>
-      <Routes>
-        {Object.entries(routes).map(([key, route]) => (
-          <Route key={key} {...route} element={React.createElement(Layout, { route })} />
-        ))}
-      </Routes>
+      <QueryParamProvider adapter={ReactRouter6Adapter}>
+        <Routes>
+          {Object.entries(routes).map(([key, route]) => (
+            <Route key={key} {...route} element={React.createElement(Layout, { route })} />
+          ))}
+        </Routes>
+      </QueryParamProvider>
     </BrowserRouter>
   )
 }

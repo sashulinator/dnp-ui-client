@@ -1,7 +1,9 @@
 import { Dialog } from '@radix-ui/themes'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { NAME_ONE } from '../../../constants/name'
+import { NumberParam, withDefault } from 'serialize-query-params'
+import { useQueryParams } from 'use-query-params'
 import { Viewer } from '~/entities/explorer'
 import { api } from '~/entities/operational-table'
 import { SchemaTable, toColumns } from '~/entities/table-schema'
@@ -31,16 +33,15 @@ const displayName = `page-${NAME_ONE.replace(/ /, '')}_id`
 export default function Component(): JSX.Element {
   const { kn = '' } = useParams<{ kn: string }>()
 
-  const [page, setPage] = useState(1)
-  const [skip, setSkip] = useState(0)
-  const take = 10
+  const [{ page = 1, take = 10 }, setPaginationParams] = useQueryParams({
+    page: withDefault(NumberParam, 1),
+    take: withDefault(NumberParam, 10),
+  })
 
-  const exploreFetcher = api.explorerFetchList.useCache({ kn, skip, take }, { keepPreviousData: true })
-
-  // Update skip when page changes
-  useEffect(() => {
-    setSkip((page - 1) * take)
-  }, [page])
+  const exploreFetcher = api.explorerFetchList.useCache(
+    { kn, skip: (page - 1) * take, take },
+    { keepPreviousData: true },
+  )
 
   const columns = useMemo(() => {
     if (!exploreFetcher.data) return []
@@ -254,10 +255,10 @@ export default function Component(): JSX.Element {
           <Section size='1'>
             <Pagination
               currentPage={page}
+              limit={take}
               loading={exploreFetcher.isFetching}
-              limit={take.toString()}
-              totalElements={exploreFetcher.data?.explorer.total?.toString()}
-              onChange={setPage}
+              totalElements={exploreFetcher.data?.explorer.total}
+              onChange={(page) => setPaginationParams({ page }, 'replace')}
             />
           </Section>
 

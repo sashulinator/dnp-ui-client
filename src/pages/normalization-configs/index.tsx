@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Item, fetchList } from '~/entities/normalization-config'
 import { routes } from '~/shared/routes'
@@ -9,6 +8,7 @@ import Flex from '~/ui/flex'
 import Heading from '~/ui/heading'
 import Pagination from '~/ui/pagination'
 
+import { NumberParam, useQueryParams, withDefault } from 'use-query-params'
 import { AccessGuard } from '~/shared/roles//widgets/access-guard'
 import { getUserRole } from '~/shared/roles/lib/get-user-role'
 import { useRole } from '~/shared/roles/lib/useRole'
@@ -27,16 +27,13 @@ const displayName = 'page-NormalizationConfigs'
 function Page(): JSX.Element {
   const { isAdmin } = useRole()
 
-  const [page, setPage] = useState(1)
-  const [skip, setSkip] = useState(0)
-  const take = 10
-
-  useEffect(() => {
-    setSkip((page - 1) * take)
-  }, [page])
+  const [{ page = 1, take = 10 }, setPaginationParams] = useQueryParams({
+    page: withDefault(NumberParam, 1),
+    take: withDefault(NumberParam, 10),
+  })
 
   const fetcherList = fetchList.useCache(
-    { take, skip, select: { id: true, name: true, v: true, last: true } },
+    { take, skip: (page - 1) * take, select: { id: true, name: true, v: true, last: true } },
     { keepPreviousData: true },
   )
 
@@ -57,9 +54,9 @@ function Page(): JSX.Element {
           <Pagination
             loading={fetcherList.isFetching}
             currentPage={page}
-            limit='10'
-            totalElements={fetcherList.data?.total.toString()}
-            onChange={setPage}
+            limit={take}
+            totalElements={fetcherList.data?.total}
+            onChange={(page) => setPaginationParams({ page }, 'replace')}
           />
         </Section>
         <Section size='1'>

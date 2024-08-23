@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { useQueryParams, NumberParam, withDefault } from 'use-query-params'
 import { NAME_ONE } from '../constants/name'
 import { api, Item } from '~/entities/operational-table'
 import { routes } from '~/shared/routes'
@@ -21,16 +21,12 @@ const displayName = `page-${NAME_ONE.replace(/ /, '')}`
  * page-OperationalTable
  */
 export default function Component(): JSX.Element {
-  const [page, setPage] = useState(1)
-  const [skip, setSkip] = useState(0)
-  const take = 10
+  const [{ page = 1, take = 10 }, setPaginationParams] = useQueryParams({
+    page: withDefault(NumberParam, 1),
+    take: withDefault(NumberParam, 10),
+  })
 
-  // Update skip when page changes
-  useEffect(() => {
-    setSkip((page - 1) * take)
-  }, [page])
-
-  const fetcherList = api.fetchList.useCache({ take, skip }, { keepPreviousData: true })
+  const fetcherList = api.fetchList.useCache({ take, skip: (page - 1) * take }, { keepPreviousData: true })
 
   return (
     <main className={displayName}>
@@ -54,10 +50,10 @@ export default function Component(): JSX.Element {
         <Section size='1'>
           <Pagination
             currentPage={page}
+            limit={take}
             loading={fetcherList.isFetching}
-            limit='10'
-            totalElements={fetcherList.data?.total.toString()}
-            onChange={setPage}
+            totalElements={fetcherList.data?.total}
+            onChange={(page) => setPaginationParams({ page }, 'replace')}
           />
         </Section>
         <Section size='1'>

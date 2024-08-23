@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 import { QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import RootRoutes from './root-routes'
+
 import { queryClient } from '~/shared/react-query'
 import { RootLayout } from '~/ui/layout'
 import Theme from '~/ui/theme'

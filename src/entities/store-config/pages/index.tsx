@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { NumberParam, withDefault } from 'serialize-query-params'
+import { useQueryParams } from 'use-query-params'
 import { Item, fetchList } from '~/entities/store-config'
 import { routes } from '~/shared/routes'
 import Button from '~/ui/button'
@@ -21,16 +22,12 @@ const displayName = 'page-StoreConfig'
  * page-storeConfig
  */
 export default function Component(): JSX.Element {
-  const [page, setPage] = useState(1)
-  const [skip, setSkip] = useState(0)
-  const take = 10
+  const [{ page = 1, take = 10 }, setPaginationParams] = useQueryParams({
+    page: withDefault(NumberParam, 1),
+    take: withDefault(NumberParam, 10),
+  })
 
-  // Update skip when page changes
-  useEffect(() => {
-    setSkip((page - 1) * take)
-  }, [page])
-
-  const fetcherList = fetchList.useCache({ take, skip })
+  const fetcherList = fetchList.useCache({ take, skip: (page - 1) * take })
 
   return (
     <main className={displayName}>
@@ -46,9 +43,9 @@ export default function Component(): JSX.Element {
         <Section size='1'>
           <Pagination
             currentPage={page}
-            limit='10'
-            totalElements={fetcherList.data?.total.toString()}
-            onChange={setPage}
+            limit={take}
+            totalElements={fetcherList.data?.total}
+            onChange={(page) => setPaginationParams({ page }, 'replace')}
             loading={fetcherList.isFetching}
           />
         </Section>

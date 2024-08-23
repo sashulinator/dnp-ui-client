@@ -6,8 +6,8 @@ import { c } from '~/utils/core'
 export interface Props {
   className?: string | undefined
   root?: React.HTMLAttributes<HTMLDivElement>
-  limit: string | undefined
-  totalElements: string | undefined
+  limit: string | number | undefined
+  totalElements: number | string | undefined
   currentPage: string | number | undefined
   loading?: boolean | undefined
   onChange: (newPage: number) => void

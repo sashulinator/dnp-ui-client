@@ -34,7 +34,9 @@
     "react-final-form": "6.5.9",
     "react-final-form-arrays": "3.1.4",
     "react-query": "3.39.3",
-    "react-router-dom": "6.25.0",
+    "react-router-dom": "6.8.1",
+    "serialize-query-params": "2.0.2",
+    "use-query-params": "2.2.1",
     "valibot": "0.33.3",
     "zustand": "4.5.4"
   },
