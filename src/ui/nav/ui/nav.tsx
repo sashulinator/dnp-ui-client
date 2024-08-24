@@ -8,7 +8,7 @@ import { routes } from '~/shared/routes'
 import Button from '~/ui/button'
 import Flex from '~/ui/flex'
 import Icon, { map as iconMap } from '~/ui/icon'
-import Logo from '~/ui/logo'
+import Logo from '~/ui/logo-icon'
 import Tooltip from '~/ui/tooltip'
 import { c } from '~/utils/core'
 
@@ -38,9 +38,7 @@ export default function Component(): JSX.Element {
       <div className='logo'>
         <Button variant='outline' size='4' square={true} asChild>
           <Link to={routes.main.getURL()}>
-            <svg style={{ padding: 'var(--space-3)' }}>
-              <Logo />
-            </svg>
+            <Logo height='2rem' width='2rem' />
           </Link>
         </Button>
       </div>
