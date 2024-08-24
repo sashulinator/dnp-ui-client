@@ -42,9 +42,14 @@ export default function Component(): JSX.Element {
               <Heading.BackToParent />
               <Heading.Name />
             </Heading.Root>
-            <Button asChild>
-              <Link to={routes.operationalTables_create.getURL()}>Создать</Link>
-            </Button>
+            <Flex align='center' gap='2'>
+              <Button size='1' variant='outline' asChild>
+                <Link to={routes.storeConfigs_kn.getURL('operational-tables')}>Хранилище</Link>
+              </Button>
+              <Button asChild>
+                <Link to={routes.operationalTables_create.getURL()}>Создать</Link>
+              </Button>
+            </Flex>
           </Flex>
         </Section>
         <Section size='1'>
