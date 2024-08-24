@@ -64,7 +64,22 @@ export default function Component(): JSX.Element {
     onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
   })
 
-  const render = useCallback(() => <Form />, [])
+  const render = useCallback(
+    () => (
+      <Form
+        isKnUniq={(kn) =>
+          api.getByKn
+            .request({ kn })
+            .then(() => false)
+            .catch((res) => {
+              if (res.response.status === 404) return true
+              throw res
+            })
+        }
+      />
+    ),
+    [],
+  )
 
   return (
     <main className={displayName}>
