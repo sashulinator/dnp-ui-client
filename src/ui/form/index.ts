@@ -44,3 +44,4 @@ export { default as JsonEditor, type JsonEditorProps } from './widgets/json-edit
 export { default as Row, type RowProps } from './widgets/row'
 export { default as Card, type CardProps } from './widgets/card'
 export { default as Column, type ColumnProps } from './widgets/column'
+export { default as Hint, type HintProps } from './widgets/hint'
