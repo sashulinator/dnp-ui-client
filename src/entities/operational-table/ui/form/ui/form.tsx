@@ -1,8 +1,8 @@
 import { memo, useEffect } from 'react'
 import Columns from '../widgets/columns'
-import Card from '~/ui/card'
+
 import Flex from '~/ui/flex'
-import { Checkbox, Label, Select, TextField, TextFieldProps, useForm } from '~/ui/form'
+import { Checkbox, Card, Column, Label, Row, Select, TextField, TextFieldProps, useForm } from '~/ui/form'
 import { c } from '~/utils/core'
 import { useForceUpdate } from '~/utils/core-hooks'
 
@@ -19,40 +19,52 @@ export const displayName = 'operationalTable-Form'
 export function Component(props: Props): JSX.Element {
   return (
     <Flex className={c(props.className, displayName)} direction='column' width='100%' gap='6'>
-      <Card size='4'>
-        <Flex direction='column' gap='4'>
-          <Flex direction='row' style={{ width: '100%' }} gap='6'>
-            <TextField variant='soft' name='name' label='Название' rootProps={{ flexBasis: '50%' }} />
-            <_KnField variant='soft' name='kn' label='Системное название' rootProps={{ flexBasis: '50%' }} />
-          </Flex>
-          <Flex direction='row' style={{ width: '100%' }} gap='6'>
-            <Checkbox variant='soft' name='nav' label='Отображать в навигационной панеле' />
-          </Flex>
-        </Flex>
+      <Card>
+        <Column>
+          <Row style={{ width: '100%' }}>
+            <_KnField variant='soft' name='kn' label='Системное название' rootProps={{ flexBasis: '25%' }} />
+            <Flex width='75%' />
+          </Row>
+          <Row style={{ width: '100%' }}>
+            <Checkbox variant='soft' name='nav' label='Отображать в навигационной панели' />
+          </Row>
+        </Column>
       </Card>
 
-      <Card size='4'>
-        <Flex direction='column' gap='4'>
-          <Flex direction='row' width='100%' gap='6'>
-            <TextField variant='soft' name='tableName' label='Название таблицы' rootProps={{ width: '50%' }} />
-            <Flex width='50%'>
-              <Select
-                label='Представление по умолчанию'
-                name='tableSchema.defaultView'
-                defaultValue='table'
-                rootProps={{ width: '50%' }}
-                options={[
-                  { value: 'table', display: 'Таблица' },
-                  { value: 'tree', display: 'Дерево' },
-                ]}
-              />
+      <Card>
+        <Row>
+          <Column width='25%'>
+            <TextField variant='soft' name='name' label='Название' rootProps={{ width: '100%' }} />
+            <Select
+              label='Представление по умолчанию'
+              name='tableSchema.defaultView'
+              defaultValue='table'
+              rootProps={{ width: '100%' }}
+              options={[
+                { value: 'table', display: 'Таблица' },
+                { value: 'tree', display: 'Дерево' },
+              ]}
+            />
+          </Column>
+          <Flex width='75%' />
+        </Row>
+      </Card>
+
+      <Card>
+        <Column>
+          <Row>
+            <Column width='25%'>
+              <TextField variant='soft' name='tableName' label='Таблица' rootProps={{ width: '100%' }} />
+            </Column>
+            <Flex width='75%' />
+          </Row>
+          <Column>
+            <Flex direction='column'>
+              <Label content='Колонки' />
+              <Columns name='tableSchema.items' />
             </Flex>
-          </Flex>
-          <Flex direction='column'>
-            <Label content='Колонки' />
-            <Columns name='tableSchema.items' />
-          </Flex>
-        </Flex>
+          </Column>
+        </Column>
       </Card>
     </Flex>
   )
