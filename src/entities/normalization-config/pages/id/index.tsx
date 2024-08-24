@@ -12,10 +12,9 @@ import {
   update,
 } from '~/entities/normalization-config'
 import { create as createProcess } from '~/entities/process'
+import { roles } from '~/entities/user'
+import { getRole } from '~/entities/user/lib'
 import { notify } from '~/shared/notification-list-store'
-import { getUserRole, useRole } from '~/shared/roles/lib'
-import { UserRole } from '~/shared/roles/types'
-import { AccessGuard } from '~/shared/roles/widgets/access-guard'
 import { routes } from '~/shared/routes'
 import Button from '~/ui/button'
 import Card from '~/ui/card'
@@ -36,14 +35,14 @@ const displayName = 'page-NormalizationConfigs_id'
 /**
  * page-Main
  */
-function Page(): JSX.Element {
+export default function Component(): JSX.Element {
   const { id = '' } = useParams<{ id: string }>()
   const [searchParams] = useSearchParams({ name: '' })
   const name = searchParams.get('name') || ''
   const navigate = useNavigate()
 
-  const { isAdmin } = useRole()
-  const hasPermittedToEdit = isAdmin
+  const isAdmin = getRole() === roles.Admin
+  const hasPermissionToEdit = isAdmin
 
   const form = useCreateForm<FormValues>(
     {
@@ -91,8 +90,8 @@ function Page(): JSX.Element {
   )
 
   const render = useCallback(
-    () => <Form readonly={!isCurrent || !hasPermittedToEdit} />,
-    [isCurrent, hasPermittedToEdit],
+    () => <Form readonly={!isCurrent || !hasPermissionToEdit} />,
+    [isCurrent, hasPermissionToEdit],
   )
 
   return (
@@ -180,14 +179,4 @@ function Page(): JSX.Element {
   )
 }
 
-Page.displayName = displayName
-
-export default function Component() {
-  const role = getUserRole()
-
-  return (
-    <AccessGuard allowedRoles={[UserRole.Admin, UserRole.Operator]} currentRole={role} roleIsChecking={false}>
-      <Page />
-    </AccessGuard>
-  )
-}
+Component.displayName = displayName

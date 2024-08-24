@@ -45,4 +45,6 @@ export type Route = {
    * @default '-configuration--app'
    */
   layoutConfiguration?: string | undefined
+
+  rolesAllowed?: string[]
 }

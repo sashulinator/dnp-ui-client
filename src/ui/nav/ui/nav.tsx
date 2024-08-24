@@ -3,6 +3,8 @@ import { useQuery } from 'react-query'
 import { Link, useLocation } from 'react-router-dom'
 import './nav.scss'
 import { api } from '~/entities/operational-table'
+import { getRole } from '~/entities/user'
+import { Route } from '~/lib/route'
 import { getCurrent } from '~/lib/route/get-current'
 import { routes } from '~/shared/routes'
 import Button from '~/ui/button'
@@ -26,8 +28,13 @@ export default function Component(): JSX.Element {
     keepPreviousData: true,
   })
 
+  const role = getRole() || ''
+
   const location = useLocation()
-  const navigatables = Object.entries(routes).filter(([, route]) => route.navigatable)
+  const navigatables = Object.entries(routes).filter(([, route]) => {
+    if (!(route as Route).rolesAllowed) return route.navigatable
+    return (route as Route).rolesAllowed?.includes(role) && route.navigatable
+  })
 
   const current = getCurrent(`/${location.pathname.split('/')[1]}`)
   const currentOper = location.pathname.split('/')[2]

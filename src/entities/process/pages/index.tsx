@@ -1,9 +1,6 @@
 import { NumberParam, withDefault } from 'serialize-query-params'
 import { useQueryParams } from 'use-query-params'
 import { Item, fetchList } from '~/entities/process'
-import { getUserRole } from '~/shared/roles/lib/get-user-role'
-import { UserRole } from '~/shared/roles/types'
-import { AccessGuard } from '~/shared/roles/widgets/access-guard'
 import { routes } from '~/shared/routes'
 import Container from '~/ui/container'
 import Flex from '~/ui/flex'
@@ -19,7 +16,7 @@ const displayName = 'page-Processes'
 /**
  * page-Processes
  */
-function Page(): JSX.Element {
+export default function Component(): JSX.Element {
   const [{ page = 1, take = 10 }, setPaginationParams] = useQueryParams({
     page: withDefault(NumberParam, 1),
     take: withDefault(NumberParam, 10),
@@ -56,13 +53,3 @@ function Page(): JSX.Element {
 }
 
 Component.displayName = displayName
-
-export default function Component() {
-  const role = getUserRole()
-
-  return (
-    <AccessGuard allowedRoles={[UserRole.Admin, UserRole.Operator]} currentRole={role} roleIsChecking={false}>
-      <Page />
-    </AccessGuard>
-  )
-}

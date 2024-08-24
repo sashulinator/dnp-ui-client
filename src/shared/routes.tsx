@@ -2,25 +2,26 @@ import { Suspense, lazy } from 'react'
 import { type Route } from '../lib/route'
 import Main from '../pages/main'
 import { Icon as NormalizationConfigIcon } from '~/entities/normalization-config'
+import NormalizationConfigs from '~/entities/normalization-config/pages'
+import NormalizationConfigs_create from '~/entities/normalization-config/pages/create'
+import NormalizationConfigs_id from '~/entities/normalization-config/pages/id'
 import { Icon as OperationalTableIcon } from '~/entities/operational-table'
+import OperationalTable from '~/entities/operational-table/pages'
+import OperationalTable_create from '~/entities/operational-table/pages/create'
+import OperationalTable_kn from '~/entities/operational-table/pages/kn'
+import OperationalTable_kn_explorer from '~/entities/operational-table/pages/kn/explorer'
 import { Icon as ProcessIcon } from '~/entities/process'
+import Processes from '~/entities/process/pages'
 import { Icon as StoreConfigIcon } from '~/entities/store-config'
+import StoreConfigs from '~/entities/store-config/pages'
+import StoreConfigs_create from '~/entities/store-config/pages/create'
+import StoreConfigs_kn from '~/entities/store-config/pages/kn'
 import { Icon as TargetTableIcon } from '~/entities/target-table'
+import TargetTable from '~/entities/target-table/pages'
+import TargetTable_create from '~/entities/target-table/pages/create'
+import TargetTable_kn from '~/entities/target-table/pages/kn'
+import { roles } from '~/entities/user'
 import Admin from '~/pages/admin'
-import NormalizationConfigs from '~/pages/normalization-configs'
-import NormalizationConfigs_create from '~/pages/normalization-configs/create'
-import NormalizationConfigs_id from '~/pages/normalization-configs/id'
-import OperationalTable from '~/pages/operational-table'
-import OperationalTable_create from '~/pages/operational-table/create'
-import OperationalTable_kn from '~/pages/operational-table/kn'
-import OperationalTable_kn_explorer from '~/pages/operational-table/kn/explorer'
-import Processes from '~/pages/processes'
-import StoreConfigs from '~/pages/store-configs'
-import StoreConfigs_create from '~/pages/store-configs/create'
-import StoreConfigs_kn from '~/pages/store-configs/kn'
-import TargetTable from '~/pages/target-table'
-import TargetTable_create from '~/pages/target-table/create'
-import TargetTable_kn from '~/pages/target-table/kn'
 import Header from '~/ui/header'
 import Icon from '~/ui/icon'
 import Logo from '~/ui/logo-icon'
@@ -59,6 +60,7 @@ export const routes = {
     getName: (): string => 'Нормализации',
     navigatable: true,
     renderIcon: NormalizationConfigIcon,
+    rolesAllowed: [roles.Admin, roles.Operator],
   },
 
   normalizationConfigs_create: {
@@ -71,6 +73,7 @@ export const routes = {
     renderNav: Nav,
     getName: (): string => 'Создать Нормализацию',
     navigatable: false,
+    rolesAllowed: [roles.Admin, roles.Operator],
   },
 
   normalizationConfigs_id: {
@@ -83,6 +86,7 @@ export const routes = {
     renderNav: Nav,
     getName: (): string => 'Нормализации',
     navigatable: false,
+    rolesAllowed: [roles.Admin, roles.Operator],
   },
 
   /**
@@ -153,6 +157,7 @@ export const routes = {
     getName: (): string => 'Процессы',
     navigatable: true,
     renderIcon: ProcessIcon,
+    rolesAllowed: [roles.Admin, roles.Operator],
   },
 
   /**
@@ -170,6 +175,7 @@ export const routes = {
     getName: (): string => 'Хранилища',
     navigatable: true,
     renderIcon: StoreConfigIcon,
+    rolesAllowed: [roles.Admin],
   },
 
   storeConfigs_create: {
@@ -182,6 +188,7 @@ export const routes = {
     renderNav: Nav,
     getName: (): string => 'Создать Хранилище',
     navigatable: false,
+    rolesAllowed: [roles.Admin],
   },
 
   storeConfigs_kn: {
@@ -194,6 +201,7 @@ export const routes = {
     renderNav: Nav,
     getName: (): string => 'Хранилище',
     navigatable: false,
+    rolesAllowed: [roles.Admin],
   },
 
   /**

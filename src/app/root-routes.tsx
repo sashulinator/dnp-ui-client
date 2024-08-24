@@ -2,28 +2,54 @@ import React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { QueryParamProvider } from 'use-query-params'
 import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6'
-import { type Route as LibRoute } from '~/lib/route'
+import { getRole } from '~/entities/user'
+import AccessGuard from '~/entities/user/ui/access-guard'
+import { type Route as IRoute } from '~/lib/route'
 import { routes } from '~/shared/routes'
 
 RootRoutes.displayName = 'app-Routes'
 
 export interface Props {
   className?: string
-  renderLayout: (props: { route: LibRoute }) => JSX.Element | null
+  renderLayout: (props: { route: IRoute }) => JSX.Element | null
 }
 
 export default function RootRoutes(props: Props): JSX.Element {
-  const Layout = props.renderLayout
-
   return (
     <BrowserRouter>
       <QueryParamProvider adapter={ReactRouter6Adapter}>
         <Routes>
           {Object.entries(routes).map(([key, route]) => (
-            <Route key={key} path={route.getPath()} {...route} element={React.createElement(Layout, { route })} />
+            <Route
+              key={key}
+              path={route.getPath()}
+              {...route}
+              element={<_RoleGuard renderLayout={props.renderLayout} route={route} />}
+            />
           ))}
         </Routes>
       </QueryParamProvider>
     </BrowserRouter>
+  )
+}
+
+/**
+ * Private
+ */
+
+function _RoleGuard(props: {
+  route: IRoute
+  renderLayout: (props: { route: IRoute }) => JSX.Element | null
+}): JSX.Element | null {
+  const role = getRole()
+
+  if (!props.route.rolesAllowed?.length) {
+    return React.createElement(props.renderLayout, { route: props.route })
+  }
+
+  return (
+    <AccessGuard allowed={props.route.rolesAllowed} current={role} isChecking={false}>
+      {React.createElement(props.renderLayout, { route: props.route })}
+    </AccessGuard>
   )
 }
