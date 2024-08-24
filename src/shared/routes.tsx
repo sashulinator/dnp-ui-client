@@ -23,7 +23,7 @@ import TargetTable_create from '~/pages/target-table/create'
 import TargetTable_kn from '~/pages/target-table/kn'
 import Header from '~/ui/header'
 import Icon from '~/ui/icon'
-import Logo from '~/ui/logo'
+import Logo from '~/ui/logo-icon'
 import Nav from '~/ui/nav'
 import { isDev } from '~/utils/core'
 
@@ -32,19 +32,16 @@ const Storybook = lazy(() => import('../pages/storybook/index'))
 
 export const routes = {
   main: {
-    path: '/',
-    getURL: (): string => '/',
+    getPath: () => '/',
+    getURL(): string {
+      return this.getPath()
+    },
     renderMain: Main,
     getName: (): string => 'НСИ',
     renderHeader: Header,
     renderNav: Nav,
     navigatable: false,
-    renderIcon: () =>
-      (
-        <svg style={{ padding: '0.4rem' }}>
-          <Logo />
-        </svg>
-      ) as any,
+    renderIcon: Logo,
   },
 
   /**
@@ -52,8 +49,10 @@ export const routes = {
    */
 
   normalizationConfigs: {
-    path: '/normalization-configs',
-    getURL: (): string => routes.normalizationConfigs.path,
+    getPath: () => '/normalization-configs',
+    getURL() {
+      return this.getPath()
+    },
     renderMain: NormalizationConfigs,
     renderHeader: Header,
     renderNav: Nav,
@@ -63,8 +62,10 @@ export const routes = {
   },
 
   normalizationConfigs_create: {
-    path: '/normalization-configs/create',
-    getURL: (): string => routes.normalizationConfigs_create.path,
+    getPath: () => '/normalization-configs/create',
+    getURL() {
+      return this.getPath()
+    },
     renderMain: NormalizationConfigs_create,
     renderHeader: Header,
     renderNav: Nav,
@@ -73,8 +74,10 @@ export const routes = {
   },
 
   normalizationConfigs_id: {
-    path: '/normalization-configs/:id',
-    getURL: (id: string): string => `${routes.normalizationConfigs.path}/${id}`,
+    getPath: () => '/normalization-configs/:id',
+    getURL(id: string) {
+      return this.getPath().replace(':id', id)
+    },
     renderMain: NormalizationConfigs_id,
     renderHeader: Header,
     renderNav: Nav,
@@ -87,8 +90,10 @@ export const routes = {
    */
 
   operationalTables: {
-    path: '/operational-tables',
-    getURL: (): string => routes.operationalTables.path,
+    getPath: () => '/operational-tables',
+    getURL() {
+      return this.getPath()
+    },
     renderMain: OperationalTable,
     renderHeader: Header,
     renderNav: Nav,
@@ -98,8 +103,10 @@ export const routes = {
   },
 
   operationalTables_create: {
-    path: '/operational-tables/create',
-    getURL: (): string => routes.operationalTables_create.path,
+    getPath: () => '/operational-tables/create',
+    getURL() {
+      return this.getPath()
+    },
     renderMain: OperationalTable_create,
     renderHeader: Header,
     renderNav: Nav,
@@ -108,8 +115,10 @@ export const routes = {
   },
 
   operationalTables_kn_explorer: {
-    path: '/operational-tables/:kn/explorer',
-    getURL: (kn: string): string => routes.operationalTables_kn_explorer.path.replace(':kn', kn),
+    getPath: () => '/operational-tables/:kn/explorer',
+    getURL(kn: string) {
+      return this.getPath().replace(':kn', kn)
+    },
     renderMain: OperationalTable_kn_explorer,
     renderHeader: Header,
     renderNav: Nav,
@@ -118,8 +127,10 @@ export const routes = {
   },
 
   operationalTables_kn: {
-    path: '/operational-tables/:kn',
-    getURL: (kn: string): string => `${routes.operationalTables.path}/${kn}`,
+    getPath: () => '/operational-tables/:kn',
+    getURL(kn: string) {
+      return this.getPath().replace(':kn', kn)
+    },
     renderMain: OperationalTable_kn,
     renderHeader: Header,
     renderNav: Nav,
@@ -132,8 +143,10 @@ export const routes = {
    */
 
   processes: {
-    path: '/processes',
-    getURL: (): string => '/processes',
+    getPath: () => '/processes',
+    getURL() {
+      return this.getPath()
+    },
     renderMain: Processes,
     renderHeader: Header,
     renderNav: Nav,
@@ -147,8 +160,10 @@ export const routes = {
    */
 
   storeConfigs: {
-    path: '/store-configs',
-    getURL: (): string => '/store-configs',
+    getPath: () => '/store-configs',
+    getURL() {
+      return this.getPath()
+    },
     renderMain: StoreConfigs,
     renderHeader: Header,
     renderNav: Nav,
@@ -158,8 +173,10 @@ export const routes = {
   },
 
   storeConfigs_create: {
-    path: '/store-configs/create',
-    getURL: (): string => routes.storeConfigs_create.path,
+    getPath: () => '/store-configs/create',
+    getURL() {
+      return this.getPath()
+    },
     renderMain: StoreConfigs_create,
     renderHeader: Header,
     renderNav: Nav,
@@ -168,8 +185,10 @@ export const routes = {
   },
 
   storeConfigs_kn: {
-    path: '/store-configs/:kn',
-    getURL: (kn: string): string => `${routes.storeConfigs.path}/${kn}`,
+    getPath: () => '/store-configs/:kn',
+    getURL(kn: string) {
+      return this.getPath().replace(':kn', kn)
+    },
     renderMain: StoreConfigs_kn,
     renderHeader: Header,
     renderNav: Nav,
@@ -182,8 +201,10 @@ export const routes = {
    */
 
   targetTables: {
-    path: '/target-tables',
-    getURL: (): string => routes.targetTables.path,
+    getPath: () => '/target-tables',
+    getURL() {
+      return this.getPath()
+    },
     renderMain: TargetTable,
     renderHeader: Header,
     renderNav: Nav,
@@ -193,8 +214,10 @@ export const routes = {
   },
 
   targetTables_create: {
-    path: '/target-tables/create',
-    getURL: (): string => routes.targetTables_create.path,
+    getPath: () => '/target-tables/create',
+    getURL() {
+      return this.getPath()
+    },
     renderMain: TargetTable_create,
     renderHeader: Header,
     renderNav: Nav,
@@ -203,8 +226,10 @@ export const routes = {
   },
 
   targetTables_kn: {
-    path: '/target-tables/:kn',
-    getURL: (kn: string): string => `${routes.targetTables.path}/${kn}`,
+    getPath: () => '/target-tables/:kn',
+    getURL(kn: string) {
+      return this.getPath().replace(':kn', kn)
+    },
     renderMain: TargetTable_kn,
     renderHeader: Header,
     renderNav: Nav,
@@ -213,8 +238,10 @@ export const routes = {
   },
 
   admin: {
-    path: '/admin',
-    getURL: (): string => routes.admin.path,
+    getPath: () => '/admin',
+    getURL() {
+      return this.getPath()
+    },
     renderMain: Admin,
     renderHeader: Header,
     renderNav: Nav,
@@ -226,8 +253,10 @@ export const routes = {
   // Misc
 
   storybook: {
-    path: '/storybook',
-    getURL: (): string => '/storybook',
+    getPath: () => '/storybook',
+    getURL() {
+      return this.getPath()
+    },
     renderMain: () => (
       <Suspense fallback='loading...'>
         <Storybook />
@@ -239,8 +268,10 @@ export const routes = {
   },
 
   notFound: {
-    path: '/not-found',
-    getURL: (): string => '/not-found',
+    getPath: () => '/not-found',
+    getURL() {
+      return this.getPath()
+    },
     renderMain: () => 'Not Found',
     getName: () => 'not found',
     navigatable: false,

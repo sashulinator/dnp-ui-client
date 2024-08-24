@@ -2,7 +2,7 @@ export type Route = {
   /**
    * Путь
    */
-  path: string
+  getPath: () => string
 
   /**
    * Получить бизнес название раута

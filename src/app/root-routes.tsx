@@ -20,7 +20,7 @@ export default function RootRoutes(props: Props): JSX.Element {
       <QueryParamProvider adapter={ReactRouter6Adapter}>
         <Routes>
           {Object.entries(routes).map(([key, route]) => (
-            <Route key={key} {...route} element={React.createElement(Layout, { route })} />
+            <Route key={key} path={route.getPath()} {...route} element={React.createElement(Layout, { route })} />
           ))}
         </Routes>
       </QueryParamProvider>
