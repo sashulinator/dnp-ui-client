@@ -1,66 +1,70 @@
-import { useId } from 'react'
-import Field from '../../field'
+import React, { useId } from 'react'
+import { FieldInputProps, FieldMetaState } from 'react-final-form'
+import { _checkErrorVisible } from '../../../lib/_check-error-visible'
+import { _renderHint } from '../../../lib/_render-hint'
+import { NAME as PARENT_NAME } from '../../../ui/form'
 import Label from '../../label/ui/label'
 import Flex, { FlexProps } from '~/ui/flex'
-import Icon from '~/ui/icon'
-import Select, { SelectRootProps, SelectItemProps } from '~/ui/select'
-import Text from '~/ui/text'
-import { c } from '~/utils/core'
-import { emptyFn } from '~/utils/function'
+import Select, { SelectItemProps, SelectRootProps } from '~/ui/select'
+import { c, fns } from '~/utils/core'
 
-export interface Props extends Omit<SelectRootProps, 'name' | 'value'> {
+export const NAME = `${PARENT_NAME}-w-TextField`
+
+export type Props<FieldValue> = Omit<SelectRootProps, 'name' | 'value'> & {
   className?: string | undefined
-  name: string
   label?: string | undefined
   rootProps?: FlexProps | undefined
-  validate?: ((v: string) => unknown) | undefined
-  options: (Omit<SelectItemProps, 'children'> & { display: React.ReactNode })[]
+  variant?: 'soft'
+  input: FieldInputProps<string, HTMLElement>
+  meta: FieldMetaState<FieldValue>
+  options?: (Omit<SelectItemProps, 'children'> & { display: React.ReactNode })[]
+  renderHint?: (props: {
+    input: FieldInputProps<string, HTMLElement>
+    meta: FieldMetaState<FieldValue>
+    isErrorVisible: boolean
+  }) => React.ReactNode
+  checkIsErrorVisible?: (props: {
+    input: FieldInputProps<string, HTMLElement>
+    meta: FieldMetaState<FieldValue>
+  }) => boolean
 }
 
-export const NAME = 'ui-Form-w-Select'
+export default function Component<FieldValue>(props: Props<FieldValue>) {
+  const {
+    input,
+    meta,
+    renderHint = _renderHint,
+    label,
+    className,
+    rootProps,
+    options = [],
+    checkIsErrorVisible = _checkErrorVisible,
+    variant = 'soft',
+    ...selectRootProps
+  } = props
 
-/**
- * ui-Form-w-Select'
- */
-export default function Component(props: Props): JSX.Element {
-  const { className, name, validate = emptyFn, label, rootProps, options, ...selectRootProps } = props
   const id = useId()
+  const isErrorVisible = checkIsErrorVisible({ input, meta })
 
   return (
-    <Field name={name} validate={validate}>
-      {({ input, meta }) => {
-        const showError = (meta.error || meta.submitError) && meta.touched
-        const { onChange, ...restInput } = input
-
-        return (
-          <Flex className={c(className, NAME, rootProps?.className)} direction='column' width='100%' {...rootProps}>
-            <Label className={`${NAME}_label}`} content={label} htmlFor={id} />
-            <Select.Root onValueChange={onChange} {...restInput} {...selectRootProps}>
-              <Select.Trigger variant='soft' />
-              <Select.Content variant='soft'>
-                <Select.Group>
-                  {options.map((option, i) => {
-                    return (
-                      <Select.Item key={i} {...option}>
-                        {option.display}
-                      </Select.Item>
-                    )
-                  })}
-                </Select.Group>
-              </Select.Content>
-            </Select.Root>
-            {showError && (
-              <Text size='1' color='red' asChild>
-                <Flex align='center' gap='1'>
-                  <Icon name='InfoCircled' />
-                  {meta.error?.message || meta.submitError.message}
-                </Flex>
-              </Text>
-            )}
-          </Flex>
-        )
-      }}
-    </Field>
+    <Flex className={c(className, rootProps?.className, NAME)} direction='column' width='100%' {...rootProps}>
+      <Label content={label} htmlFor={id} />
+      <Select.Root onValueChange={fns(input.onChange)} value={input.value} {...selectRootProps}>
+        <Select.Trigger onBlur={fns(input.onBlur)} variant={variant} />
+        <Select.Content variant={variant}>
+          <Select.Group>
+            {options.map((option, i) => {
+              return (
+                <Select.Item key={i} {...option}>
+                  {option.display}
+                </Select.Item>
+              )
+            })}
+          </Select.Group>
+        </Select.Content>
+      </Select.Root>
+      {React.createElement(renderHint, { input, meta, isErrorVisible })}
+    </Flex>
   )
 }
 

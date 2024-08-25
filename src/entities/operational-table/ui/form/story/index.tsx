@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { toValues } from '../lib/to-values'
 import { defaultValues } from '../models/default-values'
-import Form, { displayName } from '../ui/form'
+import Form, { NAME } from '../ui/form'
 import Flex from '~/ui/flex'
 import FForm, { useCreateForm } from '~/ui/form'
 import { type Story, type Props } from '~/ui/storybook'
@@ -50,5 +50,5 @@ export default {
     // { name: 'name', input: 'checkbox', defaultValue: false },
   ],
 
-  getName: (): string => displayName,
+  getName: (): string => NAME,
 } satisfies Story<State>

@@ -1,8 +1,6 @@
 import { memo } from 'react'
 import Flex from '~/ui/flex'
-
-import { TextField, useForm } from '~/ui/form'
-import { assertNotEmpty } from '~/utils/assertions'
+import { Field, TextField, useForm } from '~/ui/form'
 import { c } from '~/utils/core'
 
 export interface Props {
@@ -24,12 +22,12 @@ export function Component(props: Props): JSX.Element {
 
   return (
     <Flex className={c(props.className, displayName)} direction='column' style={{ width: '100%' }} gap='4'>
-      <TextField readOnly={readonly} disabled={isCreated} name='kn' label='Название' validate={assertNotEmpty} />
-      <TextField readOnly={readonly} name='data.host' label='Хост' validate={assertNotEmpty} />
-      <TextField readOnly={readonly} type='number' name='data.port' label='Порт' validate={assertNotEmpty} />
-      <TextField readOnly={readonly} name='data.username' label='Пользователь' validate={assertNotEmpty} />
-      <TextField readOnly={readonly} name='data.password' label='Пароль' validate={assertNotEmpty} />
-      <TextField readOnly={readonly} name='data.dbName' label='База данных' validate={assertNotEmpty} />
+      <Field component={TextField} readOnly={readonly} disabled={isCreated} name='kn' label='Название' />
+      <Field component={TextField} readOnly={readonly} name='data.host' label='Хост' />
+      <Field component={TextField} readOnly={readonly} type='number' name='data.port' label='Порт' />
+      <Field component={TextField} readOnly={readonly} name='data.username' label='Пользователь' />
+      <Field component={TextField} readOnly={readonly} name='data.password' label='Пароль' />
+      <Field component={TextField} readOnly={readonly} name='data.dbName' label='База данных' />
     </Flex>
   )
 }

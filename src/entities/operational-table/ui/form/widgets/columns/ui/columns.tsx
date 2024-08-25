@@ -147,19 +147,20 @@ function _renderColumn(props: _renderColumnProps) {
           <DataList.Item>
             <Label content='Колонка' />
             <DataList.Value>
-              <TextField size='1' variant='soft' name={`${name}.columnName`} />
+              <Field component={TextField} size='1' variant='soft' name={`${name}.columnName`} />
             </DataList.Value>
           </DataList.Item>
           <DataList.Item>
             <Label content='Название' />
             <DataList.Value>
-              <TextField size='1' variant='soft' name={`${name}.name`} />
+              <Field component={TextField} size='1' variant='soft' name={`${name}.name`} />
             </DataList.Value>
           </DataList.Item>
           <DataList.Item>
             <Label content='Тип' />
             <DataList.Value>
-              <Select
+              <Field
+                component={Select}
                 size='1'
                 name={`${name}.type`}
                 defaultValue='string'
@@ -199,13 +200,13 @@ function _renderColumn(props: _renderColumnProps) {
                 <DataList.Item>
                   <Label content='Таблица' />
                   <DataList.Value>
-                    <TextField size='1' variant='soft' name={`${name}.relation.tableName`} />
+                    <Field component={TextField} size='1' variant='soft' name={`${name}.relation.tableName`} />
                   </DataList.Value>
                 </DataList.Item>
                 <DataList.Item>
                   <Label content='Колонка' />
                   <DataList.Value>
-                    <TextField size='1' variant='soft' name={`${name}.relation.columnName`} />
+                    <Field component={TextField} size='1' variant='soft' name={`${name}.relation.columnName`} />
                   </DataList.Value>
                 </DataList.Item>
               </>

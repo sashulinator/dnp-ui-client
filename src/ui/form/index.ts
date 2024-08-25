@@ -33,7 +33,12 @@ export { type FieldArrayRenderProps, type RenderableProps, FieldArray } from 're
 /**
  * widgets
  */
-export { default as TextField, type TextFieldProps } from './widgets/text-field'
+export {
+  default as TextField,
+  type TextFieldProps,
+  UniqueTextField,
+  type UniqueTextFieldProps,
+} from './widgets/text-field'
 export { default as KeyValue, type KeyValueProps } from './widgets/key-value'
 export { default as TagPicker, type TagPickerProps } from './widgets/tag-picker'
 export { default as Checkbox, type CheckboxProps } from './widgets/checkbox'

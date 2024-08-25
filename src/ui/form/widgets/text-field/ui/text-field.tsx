@@ -1,53 +1,63 @@
-import { useId } from 'react'
-import { FieldRenderProps } from 'react-final-form'
-import Field from '../../field'
-import Hint from '../../hint'
+import React, { useId } from 'react'
+import { FieldInputProps, FieldMetaState } from 'react-final-form'
+import { NAME as PARENT_NAME } from '../../../ui/form'
 import Label from '../../label/ui/label'
 import Flex, { FlexProps } from '~/ui/flex'
+import { _checkErrorVisible } from '~/ui/form/lib/_check-error-visible'
+import { _renderHint } from '~/ui/form/lib/_render-hint'
 import TextField, { TextFieldProps } from '~/ui/text-field'
-import { c } from '~/utils/core'
-import { emptyFn } from '~/utils/function'
+import { c, fns } from '~/utils/core'
 
-export interface Props extends Omit<TextFieldProps, 'name' | 'value'> {
-  className?: string | undefined
-  name: string
+export const NAME = `${PARENT_NAME}-w-TextField`
+
+export type Props<FieldValue> = Omit<TextFieldProps, 'name' | 'value'> & {
   label?: string | undefined
   rootProps?: FlexProps | undefined
-  validate?: ((v: string) => unknown) | undefined
+  input: FieldInputProps<string, HTMLInputElement>
+  meta: FieldMetaState<FieldValue>
+  renderHint?: (props: {
+    input: FieldInputProps<string, HTMLInputElement>
+    meta: FieldMetaState<FieldValue>
+    isErrorVisible: boolean
+  }) => React.ReactNode
+  checkIsErrorVisible?: (props: {
+    input: FieldInputProps<string, HTMLInputElement>
+    meta: FieldMetaState<FieldValue>
+  }) => boolean
 }
 
-const NAME = 'ui-Form-w-TextField'
+export default function Component<FieldValue>(props: Props<FieldValue>) {
+  const {
+    input,
+    meta,
+    className,
+    renderHint = _renderHint,
+    label,
+    rootProps,
+    checkIsErrorVisible = _checkErrorVisible,
+    variant = 'soft',
+    ...textFieldProps
+  } = props
 
-/**
- * ui-Form-w-TextField
- */
-export default function Component<FieldValue, RP extends FieldRenderProps<FieldValue, HTMLInputElement, string>>(
-  props: Props,
-): JSX.Element {
-  const { className, name, validate = emptyFn, label, type = 'text', rootProps, ...textFieldProps } = props
   const id = useId()
+  const isErrorVisible = checkIsErrorVisible({ input, meta })
 
   return (
-    <Field<FieldValue, RP, HTMLInputElement, string> type={type} name={name} validate={validate}>
-      {({ input, meta }) => {
-        const showError = (meta.error || meta.submitError) && meta.touched
-
-        return (
-          <Flex className={c(className, NAME, rootProps?.className)} direction='column' width='100%' {...rootProps}>
-            <Label className={`${NAME}_label}`} content={label} htmlFor={id} />
-            <TextField.Root
-              color={showError ? 'red' : undefined}
-              id={id}
-              {...textFieldProps}
-              {...input}
-              className={c(`${NAME}_textField`)}
-              type={type}
-            />
-            {showError && <Hint type='error' content={meta.error.message || meta.submitError.message} />}
-          </Flex>
-        )
-      }}
-    </Field>
+    <Flex className={c(className, rootProps?.className, NAME)} direction='column' width='100%' {...rootProps}>
+      <Label content={label} htmlFor={id} />
+      <TextField.Root
+        color={isErrorVisible ? 'red' : undefined}
+        {...textFieldProps}
+        id={id}
+        variant={variant}
+        value={input.value}
+        type={input.type as 'text'}
+        onChange={fns(input.onChange, textFieldProps.onChange)}
+        onBlur={fns(input.onBlur, textFieldProps.onBlur)}
+        onFocus={fns(input.onFocus, textFieldProps.onFocus)}
+      />
+      {React.createElement(renderHint, { input, meta, isErrorVisible })}
+    </Flex>
   )
 }
 

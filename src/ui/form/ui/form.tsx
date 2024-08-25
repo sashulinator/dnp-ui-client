@@ -11,7 +11,7 @@ export interface Props<FormValues = Record<string, Any>, InitialFormValues = Par
   form: FormApi<FormValues, InitialFormValues>
 }
 
-const displayName = 'ui-Form'
+export const NAME = 'ui-Form'
 
 /**
  * ui-Form
@@ -32,4 +32,4 @@ export default function Component<FormValues = Record<string, Any>, InitialFormV
   )
 }
 
-Component.displayName = displayName
+Component.displayName = NAME

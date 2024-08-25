@@ -1,8 +1,6 @@
 import { memo } from 'react'
 import Flex from '~/ui/flex'
-
-import { JsonEditor, TextField, useForm } from '~/ui/form'
-import { assertNotEmpty } from '~/utils/assertions'
+import { Field, JsonEditor, TextField, useForm } from '~/ui/form'
 import { c } from '~/utils/core'
 
 export interface Props {
@@ -22,13 +20,7 @@ export function Component(props: Props): JSX.Element {
 
   return (
     <Flex className={c(props.className, displayName)} direction='column' style={{ width: '100%' }} gap='4'>
-      <TextField
-        readOnly={readonly}
-        disabled={state.values.id}
-        name='name'
-        label='Название'
-        validate={assertNotEmpty}
-      />
+      <Field component={TextField} readOnly={readonly} disabled={state.values.id} name='name' label='Название' />
       <JsonEditor readOnly={readonly} name='data.executables' label='executables' />
       <JsonEditor readOnly={readonly} name='data.sdk' label='sdk' />
     </Flex>

@@ -1,15 +1,22 @@
-import { memo, useId } from 'react'
-import { useField } from 'react-final-form'
-import { useQuery } from 'react-query'
+import { memo } from 'react'
+import { FieldInputProps, FieldMetaState, useField } from 'react-final-form'
+import { NAME_ONE as ENTITY_NAME } from '../../../constants/name'
 import { Values } from '../types/values'
 import Columns from '../widgets/columns'
 import Flex from '~/ui/flex'
-import { Checkbox, Card, Column, Label, Row, Select, TextField, TextFieldProps, Field, Hint } from '~/ui/form'
-import Spinner from '~/ui/spinner'
-import Text from '~/ui/text'
-import UiTextField from '~/ui/text-field'
-import { c, fns } from '~/utils/core'
-import { useDebounce } from '~/utils/core-hooks'
+import {
+  Checkbox,
+  Card,
+  Column,
+  Label,
+  Row,
+  Select,
+  TextField,
+  TextFieldProps,
+  Field,
+  UniqueTextField,
+} from '~/ui/form'
+import { c } from '~/utils/core'
 
 export interface Props {
   className?: string | undefined
@@ -17,23 +24,24 @@ export interface Props {
   isKnUniq?: ((kn: string) => Promise<boolean>) | undefined
 }
 
-export const displayName = 'operationalTable-Form'
+export const NAME = `${ENTITY_NAME}-Form`
 
 /**
  * operationalTable-Form
  */
 export function Component(props: Props): JSX.Element {
   return (
-    <Flex className={c(props.className, displayName)} direction='column' width='100%' gap='6'>
+    <Flex className={c(props.className, NAME)} direction='column' width='100%' gap='6'>
       <Card>
         <Column>
           <Row style={{ width: '100%' }}>
-            <_KnField
-              isKnUniq={props.isKnUniq}
-              variant='soft'
+            <Field<string>
+              component={_KnField}
               name='kn'
-              label='Системное название'
+              checkUnique={props.isKnUniq}
               rootProps={{ flexBasis: '25%' }}
+              variant='soft'
+              label='Системное название'
             />
             <Flex width='75%' />
           </Row>
@@ -46,12 +54,12 @@ export function Component(props: Props): JSX.Element {
       <Card>
         <Row>
           <Column width='25%'>
-            <TextField variant='soft' name='name' label='Название' rootProps={{ width: '100%' }} />
-            <Select
+            <Field component={TextField} name='name' label='Название' variant='soft' />
+            <Field
+              component={Select}
               label='Представление по умолчанию'
               name='tableSchema.defaultView'
               defaultValue='table'
-              rootProps={{ width: '100%' }}
               options={[
                 { value: 'table', display: 'Таблица' },
                 { value: 'tree', display: 'Дерево' },
@@ -66,7 +74,7 @@ export function Component(props: Props): JSX.Element {
         <Column>
           <Row>
             <Column width='25%'>
-              <TextField variant='soft' name='tableName' label='Таблица' rootProps={{ width: '100%' }} />
+              <Field component={TextField} name='tableName' label='Таблица' variant='soft' />
             </Column>
             <Flex width='75%' />
           </Row>
@@ -83,71 +91,24 @@ export function Component(props: Props): JSX.Element {
 }
 
 const Memoed = memo(Component)
-Memoed.displayName = displayName
+Memoed.displayName = NAME
 export default Memoed
 
 /**
  * Private
  */
-interface _KnFieldProps extends TextFieldProps {
-  isKnUniq?: ((kn: string) => Promise<boolean>) | undefined
+
+type _KnFieldProps = Omit<TextFieldProps<string>, 'name' | 'value' | 'type'> & {
+  input: FieldInputProps<string, HTMLInputElement>
+  meta: FieldMetaState<string>
+  checkUnique?: ((kn: string) => Promise<boolean>) | undefined
 }
 
 function _KnField(props: _KnFieldProps) {
-  const { isKnUniq, rootProps, ...textFieldProps } = props
+  const { checkUnique, ...textFieldProps } = props
 
   const createdAtValue = useField<Values>('createdAt', { subscription: { value: true } })
   const readOnly = Boolean(createdAtValue.input.value)
 
-  console.log('createdAtValue', createdAtValue.input.value)
-
-  const id = useId()
-  const [valueToCheck, setValueToCheckWithDelay] = useDebounce('', 500)
-
-  const uniqChecker = useQuery(['operationTable.uniqChecker', valueToCheck], () => isKnUniq?.(valueToCheck), {
-    enabled: !readOnly && Boolean(valueToCheck),
-    keepPreviousData: true,
-    retry: false,
-  })
-
-  return (
-    <Field<string, HTMLInputElement, string> name={props.name}>
-      {({ input, meta }) => {
-        const showError = (meta.error || meta.submitError) && meta.touched
-
-        return (
-          <Flex direction='column' width='100%' {...rootProps}>
-            <Label content='Системное название' htmlFor={id} />
-            <UiTextField.Root
-              id={id}
-              readOnly={readOnly}
-              color={showError ? 'red' : undefined}
-              {...textFieldProps}
-              {...input}
-              onChange={fns(input.onChange, (e) => setValueToCheckWithDelay(e.target.value))}
-              type='text'
-            />
-            <Flex>
-              {showError ? (
-                <Hint type='error' content={meta.error.message || meta.submitError.message} />
-              ) : (
-                <>
-                  {uniqChecker.isError && !readOnly && input.value && (
-                    <Text color='red'>Ошибка запроса: Не удалось проверить</Text>
-                  )}
-                  {uniqChecker.isSuccess && !readOnly && input.value && (
-                    <Hint
-                      type={uniqChecker.data ? 'success' : 'error'}
-                      content={uniqChecker.data ? 'Уникальное название' : 'Такое название уже существует'}
-                    />
-                  )}
-                  {uniqChecker.isFetching && <Spinner />}
-                </>
-              )}
-            </Flex>
-          </Flex>
-        )
-      }}
-    </Field>
-  )
+  return <UniqueTextField entityName={ENTITY_NAME} checkUnique={checkUnique} readOnly={readOnly} {...textFieldProps} />
 }
