@@ -12,7 +12,7 @@ export default {
   render: function Element(props: Props<State>): JSX.Element {
     const { state } = props
 
-    const form = useCreateForm({ onSubmit: console.log }, { values: true })
+    const form = useCreateForm({ onSubmit: console.log }, { values: true, initialValues: true })
 
     return (
       <Flex width='100%' direction={'column'} p='8' gap='4'>

@@ -19,7 +19,7 @@ export default {
           return { test: new Error('this error shown when JsonEditor has no its own errors') }
         },
       },
-      { values: true },
+      { values: true, initialValues: true },
     )
 
     return (

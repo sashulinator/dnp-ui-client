@@ -16,7 +16,10 @@ export default {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const render = useCallback(() => <Form {...state} />, [])
 
-    const form = useCreateForm({ initialValues: toValues(defaultValues), onSubmit: console.log }, { values: true })
+    const form = useCreateForm(
+      { initialValues: toValues(defaultValues), onSubmit: console.log },
+      { values: true, initialValues: true },
+    )
 
     const fState = form.getState()
 

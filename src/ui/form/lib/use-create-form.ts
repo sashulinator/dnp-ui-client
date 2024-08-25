@@ -1,8 +1,8 @@
 import { Config, FormApi, FormSubscription, createForm } from 'final-form'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 
-import { Any } from '~/utils/core'
-import { useForceUpdate, useUpdate } from '~/utils/core-hooks'
+import { Any, fns } from '~/utils/core'
+import { useForceUpdate } from '~/utils/core-hooks'
 import { useCurrent } from '~/utils/core-hooks/current'
 
 export function useCreateForm<FormValues = Record<string, Any>, InitialFormValues = Partial<FormValues>>(
@@ -12,20 +12,32 @@ export function useCreateForm<FormValues = Record<string, Any>, InitialFormValue
   const update = useForceUpdate()
 
   const onSubmitRef = useCurrent(config.onSubmit)
-  config.onSubmit = (...args) => onSubmitRef.current?.(...args)
+  const validateRef = useCurrent(config.validate)
 
-  const form = useMemo(() => createForm<FormValues, InitialFormValues>(config), [])
+  const form = useMemo(
+    () =>
+      createForm<FormValues, InitialFormValues>({
+        ...config,
+        // Делаем так чтобы функции были всегда актуальными
+        // иначе все замкнутые внутри них переменные будут с неактуальными данными
+        onSubmit: (...a) => onSubmitRef.current?.(...a),
+        validate: (...a) => validateRef.current?.(...a),
+      }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  )
 
-  const origInitialize = form.initialize
-  form.initialize = _initialize
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(subscribe, [])
 
-  useUpdate((update) => form.subscribe(update, subscription), [form.getState().initialValues])
+  // при вызове функции form.initialize происходит сброс подисок
+  // поэтому переподписываемся
+  const _initialize = form.initialize
+  form.initialize = fns(_initialize, subscribe)
 
   return form
 
-  function _initialize(values: Any): void {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    origInitialize(values)
-    update()
+  function subscribe() {
+    form.subscribe(update, subscription)
   }
 }

@@ -58,7 +58,7 @@ export default function Component(): JSX.Element {
       },
       initialValues: fetcher.data || { kn },
     },
-    { values: true },
+    { values: true, initialValues: true },
   )
 
   const values = form.getState().values

@@ -49,7 +49,7 @@ export default {
         },
         onSubmit: console.log,
       },
-      { values: true },
+      { values: true, initialValues: true },
     )
     const render = useCallback(() => <Columns name='story' {...state} />, [])
 

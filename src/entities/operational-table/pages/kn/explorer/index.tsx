@@ -129,7 +129,7 @@ export default function Component(): JSX.Element {
       },
       initialValues: {},
     },
-    { values: true },
+    { values: true, initialValues: true },
   )
 
   const formToUpdate = useCreateForm<Record<string, unknown>>(
@@ -140,7 +140,7 @@ export default function Component(): JSX.Element {
       },
       initialValues: {},
     },
-    { values: true },
+    { values: true, initialValues: true },
   )
 
   const explorerCreateMutator = api.explorerCreate.useCache({

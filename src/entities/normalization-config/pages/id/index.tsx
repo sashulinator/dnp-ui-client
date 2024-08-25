@@ -56,7 +56,7 @@ export default function Component(): JSX.Element {
       },
       initialValues: { name },
     },
-    { values: true },
+    { values: true, initialValues: true },
   )
 
   const values = form.getState().values
