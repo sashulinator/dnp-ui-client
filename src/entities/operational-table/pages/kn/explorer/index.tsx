@@ -3,7 +3,7 @@ import { useCallback, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { NumberParam, withDefault } from 'serialize-query-params'
 import { useQueryParams } from 'use-query-params'
-import { NAME_ONE } from '../../../constants/name'
+import { NAME_ONE as ENTITY_NAME } from '../../../constants/name'
 import { Viewer } from '~/entities/explorer'
 import { api } from '~/entities/operational-table'
 import { SchemaTable, toColumns } from '~/entities/table-schema'
@@ -20,15 +20,16 @@ import ScrollArea from '~/ui/scroll-area'
 import Section from '~/ui/section'
 import Spinner from '~/ui/spinner'
 import { isEmpty } from '~/utils/core'
+import { unspace, uncapitalize } from '~/utils/string'
 
 export interface Props {
   className?: string | undefined
 }
 
-const displayName = `page-${NAME_ONE.replace(/ /, '')}_id`
+const NAME = `${uncapitalize(unspace(ENTITY_NAME))}-Page_id_explorer`
 
 /**
- * page-Main
+ * operationalTable-Page_id_explorer
  */
 export default function Component(): JSX.Element {
   const { kn = '' } = useParams<{ kn: string }>()
@@ -176,7 +177,7 @@ export default function Component(): JSX.Element {
   const itemToUpdate = formToUpdate.getState().values
 
   return (
-    <main className={displayName}>
+    <main className={NAME}>
       <Dialog.Root open={!isEmpty(itemToCreate) || !isEmpty(itemToUpdate)}>
         <Dialog.Content maxWidth='450px'>
           <Dialog.Title>
@@ -287,4 +288,4 @@ export default function Component(): JSX.Element {
   )
 }
 
-Component.displayName = displayName
+Component.displayName = NAME
