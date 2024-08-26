@@ -13,8 +13,9 @@ import {
   Select,
   TextField,
   TextFieldProps,
-  Field,
   UniqueTextField,
+  TypedField,
+  SelectProps,
 } from '~/ui/form'
 import { c } from '~/utils/core'
 
@@ -35,7 +36,7 @@ export function Component(props: Props): JSX.Element {
       <Card>
         <Column>
           <Row style={{ width: '100%' }}>
-            <Field<string>
+            <TypedField<Values, 'kn', string, string, _KnFieldProps, HTMLInputElement>
               component={_KnField}
               name='kn'
               checkUnique={props.isKnUniq}
@@ -54,12 +55,17 @@ export function Component(props: Props): JSX.Element {
       <Card>
         <Row>
           <Column width='25%'>
-            <Field component={TextField} name='name' label='Название' variant='soft' />
-            <Field
+            <TypedField<Values, 'name', string, string, TextFieldProps<string>, HTMLInputElement>
+              component={TextField}
+              name='name'
+              label='Название'
+              variant='soft'
+            />
+            <TypedField<Values, 'tableSchema.defaultView', string, string, SelectProps<string>, HTMLInputElement>
               component={Select}
               label='Представление по умолчанию'
               name='tableSchema.defaultView'
-              defaultValue='table'
+              defaultValue={'table'}
               options={[
                 { value: 'table', display: 'Таблица' },
                 { value: 'tree', display: 'Дерево' },
@@ -74,7 +80,11 @@ export function Component(props: Props): JSX.Element {
         <Column>
           <Row>
             <Column width='25%'>
-              <Field component={TextField} name='tableName' label='Таблица' variant='soft' />
+              <TypedField<Values, 'tableName', string, string, TextFieldProps<string>, HTMLInputElement>
+                component={TextField}
+                name='tableName'
+                variant='soft'
+              />
             </Column>
             <Flex width='75%' />
           </Row>

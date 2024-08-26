@@ -1,6 +1,7 @@
 import { memo } from 'react'
+import { Values } from '../types/values'
 import Flex from '~/ui/flex'
-import { Field, TextField, useForm } from '~/ui/form'
+import { TextField, TextFieldProps, TypedField, useForm } from '~/ui/form'
 import { c } from '~/utils/core'
 
 export interface Props {
@@ -22,12 +23,44 @@ export function Component(props: Props): JSX.Element {
 
   return (
     <Flex className={c(props.className, displayName)} direction='column' style={{ width: '100%' }} gap='4'>
-      <Field component={TextField} readOnly={readonly} disabled={isCreated} name='kn' label='Название' />
-      <Field component={TextField} readOnly={readonly} name='data.host' label='Хост' />
-      <Field component={TextField} readOnly={readonly} type='number' name='data.port' label='Порт' />
-      <Field component={TextField} readOnly={readonly} name='data.username' label='Пользователь' />
-      <Field component={TextField} readOnly={readonly} name='data.password' label='Пароль' />
-      <Field component={TextField} readOnly={readonly} name='data.dbName' label='База данных' />
+      <TypedField<Values, 'kn', string, string, TextFieldProps<string>, HTMLInputElement>
+        component={TextField}
+        readOnly={readonly}
+        disabled={isCreated}
+        name='kn'
+        label='Название'
+      />
+      <TypedField<Values, 'data.host', string, string, TextFieldProps<string>, HTMLInputElement>
+        component={TextField}
+        readOnly={readonly}
+        name='data.host'
+        label='Хост'
+      />
+      <TypedField<Values, 'data.port', string, string, TextFieldProps<string>, HTMLInputElement>
+        component={TextField}
+        readOnly={readonly}
+        type='number'
+        name='data.port'
+        label='Порт'
+      />
+      <TypedField<Values, 'data.username', string, string, TextFieldProps<string>, HTMLInputElement>
+        component={TextField}
+        readOnly={readonly}
+        name='data.username'
+        label='Пользователь'
+      />
+      <TypedField<Values, 'data.password', string, string, TextFieldProps<string>, HTMLInputElement>
+        component={TextField}
+        readOnly={readonly}
+        name='data.password'
+        label='Пароль'
+      />
+      <TypedField<Values, 'data.dbName', string, string, TextFieldProps<string>, HTMLInputElement>
+        component={TextField}
+        readOnly={readonly}
+        name='data.dbName'
+        label='База данных'
+      />
     </Flex>
   )
 }

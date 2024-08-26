@@ -22,7 +22,6 @@ export {
   type FieldRenderProps,
   type UseFieldConfig,
   useForm,
-  Field,
 } from 'react-final-form'
 
 export { type FormSubscription, type FormApi, getIn, setIn } from 'final-form'
@@ -48,5 +47,7 @@ export { default as CodeEditor, type CodeEditorProps } from './widgets/code-edit
 export { default as JsonEditor, type JsonEditorProps } from './widgets/json-editor'
 export { default as Row, type RowProps } from './widgets/row'
 export { default as Card, type CardProps } from './widgets/card'
+export { default as Field, type FieldProps } from './widgets/field'
 export { default as Column, type ColumnProps } from './widgets/column'
 export { default as Hint, type HintProps } from './widgets/hint'
+export { default as TypedField, type TypedFieldProps } from './widgets/typed-field'

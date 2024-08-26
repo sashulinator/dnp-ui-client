@@ -2,7 +2,7 @@ import { Tooltip } from '@radix-ui/themes'
 import React from 'react'
 import Button from '~/ui/button'
 import Flex from '~/ui/flex'
-import { Field } from '~/ui/form'
+import { Field, FieldRenderProps } from '~/ui/form'
 import Icon from '~/ui/icon'
 import Text from '~/ui/text'
 import Input from '~/ui/text-field'
@@ -22,7 +22,9 @@ const displayName = 'ui-Form-w-KeyValue'
  */
 function Component(props: Props): JSX.Element {
   return (
-    <Field<Record<string, string>> name={props.name}>
+    <Field<Record<string, string>, FieldRenderProps<Record<string, string>, HTMLElement, Record<string, string>>>
+      name={props.name}
+    >
       {({ input }) => {
         const entries = Object.entries(input.value)
 

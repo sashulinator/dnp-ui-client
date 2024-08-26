@@ -1,5 +1,5 @@
 import Flex from '~/ui/flex'
-import { Field } from '~/ui/form'
+import { Field, FieldRenderProps } from '~/ui/form'
 import TagPicker, { TagPickerProps } from '~/ui/tag-picker'
 import Text from '~/ui/text'
 import { c } from '~/utils/core'
@@ -19,7 +19,7 @@ export default function Component(props: Props): JSX.Element {
   const { name, label, className, ...tagPickerProps } = props
 
   return (
-    <Field<string[]> name={name} initialValue={initialValue}>
+    <Field<string[], FieldRenderProps<string[], HTMLElement, string[]>> name={name} initialValue={initialValue}>
       {({ input }) => {
         return (
           <Text as='div' className={c(className, displayName)} size='2'>

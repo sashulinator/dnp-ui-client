@@ -1,6 +1,6 @@
 import { type Story, Props } from '~/ui/storybook'
 
-import TextField from '../'
+import TextField, { TextFieldProps } from '../'
 import Flex from '~/ui/flex'
 import Form, { Field, useCreateForm } from '~/ui/form'
 
@@ -16,7 +16,16 @@ export default {
 
     return (
       <Flex width='100%' direction={'column'} p='8' gap='4'>
-        <Form form={form}>{() => <Field component={TextField} label='test' name='test' {...state} />}</Form>
+        <Form form={form}>
+          {() => (
+            <Field<string, TextFieldProps<string>, HTMLInputElement>
+              component={TextField}
+              label='test'
+              name='test'
+              {...state}
+            />
+          )}
+        </Form>
         <code>{JSON.stringify(form.getState()?.values, null, 2)}</code>
       </Flex>
     )

@@ -1,13 +1,26 @@
 import React, { useState } from 'react'
+import { Values } from '../../../types/values'
 import Button from '~/ui/button'
 import Card from '~/ui/card'
 import DataList from '~/ui/data-list'
 import Flex from '~/ui/flex'
-import { Field, Label, Select, TextField, useForm, FieldArray, getIn } from '~/ui/form'
+import {
+  Field,
+  Label,
+  Select,
+  TypedField,
+  TextField,
+  useForm,
+  FieldArray,
+  getIn,
+  TextFieldProps,
+  SelectProps,
+} from '~/ui/form'
 import Icon from '~/ui/icon'
 import Separator from '~/ui/separator'
 import Text from '~/ui/text'
 import { c, generateUniqId, isDev } from '~/utils/core'
+import { NonNullableFlat } from '~/utils/types/object/non-nullable'
 
 type Item = {
   id: string
@@ -94,6 +107,7 @@ interface _renderColumnProps {
 
 function _renderColumn(props: _renderColumnProps) {
   const { name, index, move, remove, length } = props
+  const typedName = name as unknown as number
   const form = useForm()
   const value = getIn(form.getState().values, `${name}.relation`)
 
@@ -113,7 +127,7 @@ function _renderColumn(props: _renderColumnProps) {
       <Flex direction='column' gap='4'>
         <Flex gap='2' width='100%' justify='end' align='center'>
           {isDev() && (
-            <Field name={`${name}.id`}>
+            <Field<string, TextFieldProps<string>, HTMLInputElement> name={`${name}.id`}>
               {({ input }) => {
                 return (
                   <Text color='gray' size='1'>
@@ -147,22 +161,53 @@ function _renderColumn(props: _renderColumnProps) {
           <DataList.Item>
             <Label content='Колонка' />
             <DataList.Value>
-              <Field component={TextField} size='1' variant='soft' name={`${name}.columnName`} />
+              <TypedField<
+                Values['tableSchema']['items'],
+                `${number}.columnName`,
+                string,
+                string,
+                TextFieldProps<string>,
+                HTMLInputElement
+              >
+                component={TextField}
+                size='1'
+                variant='soft'
+                name={`${typedName}.columnName`}
+              />
             </DataList.Value>
           </DataList.Item>
           <DataList.Item>
             <Label content='Название' />
             <DataList.Value>
-              <Field component={TextField} size='1' variant='soft' name={`${name}.name`} />
+              <TypedField<
+                Values['tableSchema']['items'],
+                `${number}.name`,
+                string,
+                string,
+                TextFieldProps<string>,
+                HTMLInputElement
+              >
+                component={TextField}
+                size='1'
+                variant='soft'
+                name={`${typedName}.name`}
+              />
             </DataList.Value>
           </DataList.Item>
           <DataList.Item>
             <Label content='Тип' />
             <DataList.Value>
-              <Field
+              <TypedField<
+                Values['tableSchema']['items'],
+                `${number}.type`,
+                string,
+                string,
+                SelectProps<string>,
+                HTMLInputElement
+              >
                 component={Select}
                 size='1'
-                name={`${name}.type`}
+                name={`${typedName}.type`}
                 defaultValue='string'
                 options={[
                   { value: 'string', display: 'Строка' },
@@ -200,13 +245,37 @@ function _renderColumn(props: _renderColumnProps) {
                 <DataList.Item>
                   <Label content='Таблица' />
                   <DataList.Value>
-                    <Field component={TextField} size='1' variant='soft' name={`${name}.relation.tableName`} />
+                    <TypedField<
+                      Required<NonNullableFlat<Values['tableSchema']['items'][number]>>[],
+                      `${number}.relation.tableName`,
+                      string,
+                      string,
+                      TextFieldProps<string>,
+                      HTMLInputElement
+                    >
+                      component={TextField}
+                      size='1'
+                      variant='soft'
+                      name={`${typedName}.relation.tableName`}
+                    />
                   </DataList.Value>
                 </DataList.Item>
                 <DataList.Item>
                   <Label content='Колонка' />
                   <DataList.Value>
-                    <Field component={TextField} size='1' variant='soft' name={`${name}.relation.columnName`} />
+                    <TypedField<
+                      Required<NonNullableFlat<Values['tableSchema']['items'][number]>>[],
+                      `${number}.relation.columnName`,
+                      string,
+                      string,
+                      TextFieldProps<string>,
+                      HTMLInputElement
+                    >
+                      component={TextField}
+                      size='1'
+                      variant='soft'
+                      name={`${typedName}.relation.columnName`}
+                    />
                   </DataList.Value>
                 </DataList.Item>
               </>

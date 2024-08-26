@@ -1,7 +1,7 @@
 import { memo } from 'react'
 import { Values } from '../types/values'
 import Flex from '~/ui/flex'
-import { Checkbox, Field, TextField, useForm } from '~/ui/form'
+import { Checkbox, TextField, TextFieldProps, useForm, TypedField } from '~/ui/form'
 import { c } from '~/utils/core'
 
 export interface Props {
@@ -23,10 +23,29 @@ export function Component(props: Props): JSX.Element {
 
   return (
     <Flex className={c(props.className, displayName)} direction='column' style={{ width: '100%' }} gap='4'>
-      <Field component={TextField} name='name' label='Название' />
-      <Field component={TextField} readOnly={readonly} disabled={isCreated} name='kn' label='Системное название' />
-      <Field component={TextField} name='tableName' label='Название таблицы' />
-      <Field component={TextField} readOnly={readonly} name='tableSchemaKn' label='Схема таблицы' />
+      <TypedField<Values, 'kn', string, string, TextFieldProps<string>, HTMLInputElement>
+        component={TextField}
+        readOnly={readonly}
+        disabled={isCreated}
+        name='kn'
+        label='Системное название'
+      />
+      <TypedField<Values, 'name', string, string, TextFieldProps<string>, HTMLInputElement>
+        component={TextField}
+        name='name'
+        label='Название'
+      />
+      <TypedField<Values, 'tableName', string, string, TextFieldProps<string>, HTMLInputElement>
+        component={TextField}
+        name='tableName'
+        label='Название таблицы'
+      />
+      <TypedField<Values, 'tableSchemaKn', string, string, TextFieldProps<string>, HTMLInputElement>
+        component={TextField}
+        readOnly={readonly}
+        name='tableSchemaKn'
+        label='Схема таблицы'
+      />
       <Checkbox name='nav' label='Отображать в навигационной панеле' />
     </Flex>
   )
