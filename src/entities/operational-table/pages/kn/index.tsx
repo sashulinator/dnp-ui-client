@@ -1,4 +1,3 @@
-import { useCallback } from 'react'
 import { useParams } from 'react-router-dom'
 import { safeParse } from 'valibot'
 import { NAME_ONE } from '../../constants/name'
@@ -17,7 +16,7 @@ import Button from '~/ui/button'
 import Card from '~/ui/card'
 import Container from '~/ui/container'
 import Flex from '~/ui/flex'
-import FForm, { toNestedErrors, useCreateForm } from '~/ui/form'
+import UiForm, { toNestedErrors, useCreateForm } from '~/ui/form'
 import Heading from '~/ui/layout/variants/heading'
 import Section from '~/ui/section'
 import Separator from '~/ui/separator'
@@ -74,8 +73,6 @@ export default function Component(): JSX.Element {
     onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
   })
 
-  const render = useCallback(() => <Form />, [])
-
   return (
     <main className={displayName}>
       <Container p='1.5rem'>
@@ -103,7 +100,7 @@ export default function Component(): JSX.Element {
         {fetcher.isSuccess && (
           <>
             <Section size='1'>
-              <FForm form={form} render={render} />
+              <UiForm form={form} component={Form} />
             </Section>
 
             <Section size='1'>
