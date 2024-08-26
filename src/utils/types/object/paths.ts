@@ -1,37 +1,34 @@
-import type { Cast } from '../any/cast'
-import type { Key } from '../any/key'
-import type { Keys } from '../any/keys'
-import type { Length } from '../list/length'
-import type { List } from '../list/list'
-import type { BuiltIn } from '../misc/builtIn'
-import type { Primitive } from '../misc/primitive'
-import type { NonNullableFlat } from './non-nullable'
-
 /**
- * @hidden
+ * НЕ ОРИГИАЛЬНЫЙ ФАЙЛ ИЗ TS_TOOLBELT
+ *
+ * смотри
+ * Object.Paths broken with TS 4.9
+ * https://github.com/millsp/ts-toolbelt/issues/322
  */
-type UnionOf<A> = A extends List ? A[number] : A[keyof A]
+type DistributedKeyof<Target> = Target extends any ? keyof Target : never
 
-/**
- * @hidden
- */
-type _Paths<O, P extends List = []> = UnionOf<{
-  [K in keyof O]: O[K] extends BuiltIn | Primitive
-    ? NonNullableFlat<[...P, K?]>
-    : [Keys<O[K]>] extends [never]
-      ? NonNullableFlat<[...P, K?]>
-      : 12 extends Length<P>
-        ? NonNullableFlat<[...P, K?]>
-        : _Paths<O[K], [...P, K?]>
-}>
+type DistributedAccess<Target, Key> = Target extends any ? (Key extends keyof Target ? Target[Key] : undefined) : never
 
-/**
- * Get all the possible paths of `O`
- * (⚠️ this won't work with circular-refs)
- * @param O to be inspected
- * @returns [[String]][]
- * @example
- * ```ts
- * ```
- */
-export type Paths<O, P extends List = []> = _Paths<O, P> extends infer X ? Cast<X, List<Key>> : never
+type Leaf = Date | boolean | string | number | symbol | bigint
+
+type DepthCounter = [never, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+export type Paths<Target, Depth extends DepthCounter[number] = 10> = Depth extends never
+  ? never
+  : Target extends never
+    ? never
+    : Target extends Leaf
+      ? never
+      : {
+          [Key in string & DistributedKeyof<Target>]:
+            | [Key]
+            | (NonNullable<DistributedAccess<Target, Key>> extends (infer ArrayItem)[]
+                ?
+                    | [Key, number]
+                    | (Paths<ArrayItem, DepthCounter[Depth]> extends infer V extends any[]
+                        ? [Key, number, ...V]
+                        : never)
+                : Paths<NonNullable<DistributedAccess<Target, Key>>, DepthCounter[Depth]> extends infer V extends any[]
+                  ? [Key, ...V]
+                  : never)
+        }[string & DistributedKeyof<Target>]
