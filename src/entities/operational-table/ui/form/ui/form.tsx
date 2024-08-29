@@ -83,6 +83,7 @@ export function Component(props: Props): JSX.Element {
               <TypedField<Values, 'tableName', string, string, TextFieldProps<string>, HTMLInputElement>
                 component={TextField}
                 name='tableName'
+                label='Таблица'
                 variant='soft'
               />
             </Column>

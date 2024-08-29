@@ -109,10 +109,10 @@ function _renderColumn(props: _renderColumnProps) {
   const { name, index, move, remove, length } = props
   const typedName = name as unknown as number
   const form = useForm()
-  const value = getIn(form.getState().values, `${name}.relation`)
+  const relationValue = getIn(form.getState().values, `${name}.relation`)
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [hasRelation, setHasRelation] = useState(Boolean(value))
+  const [hasRelation, setHasRelation] = useState(Boolean(relationValue))
 
   return (
     <Card
@@ -243,11 +243,33 @@ function _renderColumn(props: _renderColumnProps) {
             {hasRelation && (
               <>
                 <DataList.Item>
+                  <Label content='Тип' />
+                  <DataList.Value>
+                    <TypedField<
+                      Required<NonNullableFlat<Values['tableSchema']['items'][number]>>[],
+                      `${number}.relation.type`,
+                      string,
+                      string,
+                      SelectProps<string>,
+                      HTMLInputElement
+                    >
+                      component={Select}
+                      size='1'
+                      name={`${typedName}.relation.type`}
+                      defaultValue='string'
+                      options={[
+                        { value: 'operationalTable', display: 'Операционная таблица' },
+                        { value: 'dictionary', display: 'Справочник' },
+                      ]}
+                    />
+                  </DataList.Value>
+                </DataList.Item>
+                <DataList.Item>
                   <Label content='Таблица' />
                   <DataList.Value>
                     <TypedField<
                       Required<NonNullableFlat<Values['tableSchema']['items'][number]>>[],
-                      `${number}.relation.tableName`,
+                      `${number}.relation.kn`,
                       string,
                       string,
                       TextFieldProps<string>,
@@ -256,7 +278,7 @@ function _renderColumn(props: _renderColumnProps) {
                       component={TextField}
                       size='1'
                       variant='soft'
-                      name={`${typedName}.relation.tableName`}
+                      name={`${typedName}.relation.kn`}
                     />
                   </DataList.Value>
                 </DataList.Item>

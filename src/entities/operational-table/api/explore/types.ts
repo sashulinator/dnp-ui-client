@@ -8,6 +8,7 @@ export type RequestData = {
   kn: string
   skip?: number
   take?: number
+  searchQuery?: string | undefined
 }
 
 export type ResponseData = {

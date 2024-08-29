@@ -1,8 +1,8 @@
 import { Dialog } from '@radix-ui/themes'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { NumberParam, withDefault } from 'serialize-query-params'
-import { useQueryParams } from 'use-query-params'
+import { NumberParam, StringParam, withDefault } from 'serialize-query-params'
+import { useQueryParam, useQueryParams } from 'use-query-params'
 import { NAME_ONE as ENTITY_NAME } from '../../../constants/name'
 import { Viewer } from '~/entities/explorer'
 import { api } from '~/entities/operational-table'
@@ -19,7 +19,9 @@ import Pagination from '~/ui/pagination'
 import ScrollArea from '~/ui/scroll-area'
 import Section from '~/ui/section'
 import Spinner from '~/ui/spinner'
+import TextField from '~/ui/text-field'
 import { isEmpty } from '~/utils/core'
+import { useDebounceCallback } from '~/utils/core-hooks'
 import { unspace, uncapitalize } from '~/utils/string'
 
 export interface Props {
@@ -39,8 +41,16 @@ export default function Component(): JSX.Element {
     take: withDefault(NumberParam, 10),
   })
 
+  const [searchQuery, setSearchQueryParam] = useQueryParam('q', withDefault(StringParam, ''))
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(_syncSearchValues, [searchQuery])
+
+  const [searchValue, setSearchValue] = useState(searchQuery)
+  const [setSearchQueryWithDelay] = useDebounceCallback((value: string) => setSearchQueryParam(value), 500)
+
   const exploreFetcher = api.explorerFetchList.useCache(
-    { kn, skip: (page - 1) * take, take },
+    { kn, skip: (page - 1) * take, take, searchQuery: searchQuery ? `${searchQuery}%` : '' },
     { keepPreviousData: true },
   )
 
@@ -175,6 +185,7 @@ export default function Component(): JSX.Element {
 
   const itemToCreate = formToCreate.getState().values
   const itemToUpdate = formToUpdate.getState().values
+  const indexedColumns = exploreFetcher.data?.operationalTable.tableSchema.items.filter((item) => item.index)
 
   return (
     <main className={NAME}>
@@ -253,6 +264,23 @@ export default function Component(): JSX.Element {
             </Section>
           )}
 
+          {indexedColumns?.length !== 0 && (
+            <Section size='1'>
+              <Flex width='50%' direction='column'>
+                <TextField.Root
+                  placeholder={indexedColumns?.map((item) => item.name).join(' | ')}
+                  value={searchValue}
+                  onChange={(e) => {
+                    setSearchValue(e.target.value)
+                    setSearchQueryWithDelay(e.target.value)
+                  }}
+                  size='3'
+                  type='search'
+                />
+              </Flex>
+            </Section>
+          )}
+
           <Section size='1'>
             <Pagination
               currentPage={page}
@@ -286,6 +314,14 @@ export default function Component(): JSX.Element {
       </Dialog.Root>
     </main>
   )
+
+  /**
+   * Private
+   */
+
+  function _syncSearchValues(): void {
+    if (searchQuery !== searchValue) setSearchValue(searchQuery)
+  }
 }
 
 Component.displayName = NAME
