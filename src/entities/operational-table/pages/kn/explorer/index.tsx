@@ -1,18 +1,19 @@
 import { Dialog } from '@radix-ui/themes'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+
+import { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { NumberParam, StringParam, withDefault } from 'serialize-query-params'
 import { useQueryParam, useQueryParams } from 'use-query-params'
-import { NAME_ONE as ENTITY_NAME } from '../../../constants/name'
+
 import { Viewer } from '~/entities/explorer'
-import { api } from '~/entities/operational-table'
-import { SchemaTable, toColumns } from '~/entities/table-schema'
+import { TableSchema, api } from '~/entities/operational-table'
+import { SchemaForm, toColumns } from '~/entities/table-schema'
 import { notify } from '~/shared/notification-list-store'
 import { routes } from '~/shared/routes'
 import Button from '~/ui/button'
 import Container from '~/ui/container'
 import Flex from '~/ui/flex'
-import FForm, { useCreateForm } from '~/ui/form'
+import FForm, { FormApi, useCreateForm } from '~/ui/form'
 import Icon from '~/ui/icon'
 import Heading from '~/ui/layout/variants/heading'
 import Pagination from '~/ui/pagination'
@@ -22,7 +23,9 @@ import Spinner from '~/ui/spinner'
 import TextField from '~/ui/text-field'
 import { isEmpty } from '~/utils/core'
 import { useDebounceCallback } from '~/utils/core-hooks'
-import { unspace, uncapitalize } from '~/utils/string'
+import { uncapitalize, unspace } from '~/utils/string'
+
+import { NAME_ONE as ENTITY_NAME } from '../../../constants/name'
 
 export interface Props {
   className?: string | undefined
@@ -119,7 +122,7 @@ export default function Component(): JSX.Element {
               kn: exploreFetcher.data?.operationalTable.kn,
               // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
-              where: { id: item.data.id },
+              where: { _id: item.data._id },
             })
           }}
         >
@@ -178,140 +181,104 @@ export default function Component(): JSX.Element {
     onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
   })
 
-  const renderToCreate = useCallback(
-    () => (exploreFetcher.data ? <SchemaTable tableSchema={exploreFetcher.data.operationalTable.tableSchema} /> : null),
-    [exploreFetcher.data],
-  )
-
-  const itemToCreate = formToCreate.getState().values
-  const itemToUpdate = formToUpdate.getState().values
   const indexedColumns = exploreFetcher.data?.operationalTable.tableSchema.items.filter((item) => item.index)
 
   return (
     <main className={NAME}>
-      <Dialog.Root open={!isEmpty(itemToCreate) || !isEmpty(itemToUpdate)}>
-        <Dialog.Content maxWidth='450px'>
-          <Dialog.Title>
-            Запись
-            {/* <TextHighlighter>{item?.name}</TextHighlighter> */}
-          </Dialog.Title>
-
-          <FForm form={isEmpty(itemToCreate) ? formToUpdate : formToCreate} render={renderToCreate} />
-
-          <Flex gap='4' mt='4' justify='end'>
-            <Button
-              variant='soft'
-              color='gray'
-              onClick={() => {
-                formToCreate.initialize({})
-                formToUpdate.initialize({})
-              }}
-            >
-              Закрыть
-            </Button>
-            <Button
-              loading={explorerCreateMutator.isLoading}
-              disabled={
-                isEmpty(itemToCreate)
-                  ? !formToUpdate.getState().dirty || formToUpdate.getState().invalid
-                  : !formToCreate.getState().dirty || formToCreate.getState().invalid
-              }
-              onClick={() => {
-                if (isEmpty(itemToCreate)) {
-                  formToUpdate.submit()
-                } else {
-                  formToCreate.submit()
-                }
-              }}
-            >
-              Сохранить
-            </Button>
+      <_Dialog
+        form={formToCreate}
+        open={!isEmpty(formToCreate.getState().initialValues)}
+        mutator={explorerCreateMutator}
+        tableSchema={exploreFetcher.data?.operationalTable.tableSchema}
+      />
+      <_Dialog
+        form={formToUpdate}
+        open={!isEmpty(formToUpdate.getState().initialValues)}
+        mutator={explorerUpdateMutator}
+        tableSchema={exploreFetcher.data?.operationalTable.tableSchema}
+      />
+      <Container p='1.5rem'>
+        {exploreFetcher.isError && (
+          <Flex width='100%' justify='center' gap='2' align='center'>
+            Ошибка <Button onClick={() => exploreFetcher.refetch()}>Перезагрузить</Button>
           </Flex>
-        </Dialog.Content>
+        )}
 
-        <Container p='1.5rem'>
-          {exploreFetcher.isError && (
-            <Flex width='100%' justify='center' gap='2' align='center'>
-              Ошибка <Button onClick={() => exploreFetcher.refetch()}>Перезагрузить</Button>
-            </Flex>
-          )}
-
-          {!exploreFetcher.isError && (
-            <Section size='1'>
-              <Flex width='100%' justify='between'>
-                <Heading.Root
-                  loading={exploreFetcher.isFetching}
-                  route={routes.operationalTables_kn_explorer}
-                  backRoute={routes.operationalTables}
-                  renderIcon={routes.operationalTables.renderIcon}
-                >
-                  <Heading.BackToParent />
-                  <Heading.Uniq
-                    string={exploreFetcher.data?.operationalTable.name}
-                    tooltipContent={routes.operationalTables_kn_explorer.getName()}
-                  />
-                </Heading.Root>
-                <Button
-                  onClick={() =>
-                    formToCreate.initialize({
-                      _status: '0',
-                    })
-                  }
-                >
-                  Создать
-                </Button>
-              </Flex>
-            </Section>
-          )}
-
-          {indexedColumns?.length !== 0 && (
-            <Section size='1'>
-              <Flex width='50%' direction='column'>
-                <TextField.Root
-                  placeholder={indexedColumns?.map((item) => item.name).join(' | ')}
-                  value={searchValue}
-                  onChange={(e) => {
-                    setSearchValue(e.target.value)
-                    setSearchQueryWithDelay(e.target.value)
-                  }}
-                  size='3'
-                  type='search'
-                />
-              </Flex>
-            </Section>
-          )}
-
+        {!exploreFetcher.isError && (
           <Section size='1'>
-            <Pagination
-              currentPage={page}
-              limit={take}
-              loading={exploreFetcher.isFetching}
-              totalElements={exploreFetcher.data?.explorer.total}
-              onChange={(page) => setPaginationParams({ page }, 'replace')}
-            />
+            <Flex width='100%' justify='between'>
+              <Heading.Root
+                loading={exploreFetcher.isFetching}
+                route={routes.operationalTables_kn_explorer}
+                backRoute={routes.operationalTables}
+                renderIcon={routes.operationalTables.renderIcon}
+              >
+                <Heading.BackToParent />
+                <Heading.Uniq
+                  string={exploreFetcher.data?.operationalTable.name}
+                  tooltipContent={routes.operationalTables_kn_explorer.getName()}
+                />
+              </Heading.Root>
+              <Button
+                onClick={() =>
+                  formToCreate.initialize({
+                    _status: '0',
+                  })
+                }
+              >
+                Создать
+              </Button>
+            </Flex>
           </Section>
+        )}
 
-          {exploreFetcher.isSuccess && (
-            <Section size='1'>
-              <ScrollArea>
-                <Viewer.Root
-                  loading={exploreFetcher.isFetching}
-                  onPathChange={(paths) => {
-                    const last = paths[paths.length - 1]
-                    const item = exploreFetcher.data.explorer.items.find((item) => item.name === last.name)
-                    if (!item) return
-                    formToUpdate.initialize(item.data)
-                  }}
-                  paths={exploreFetcher.data.explorer.paths}
-                  data={exploreFetcher.data.explorer}
-                >
-                  <Viewer.Table columns={columns} />
-                </Viewer.Root>
-              </ScrollArea>
-            </Section>
-          )}
-        </Container>
-      </Dialog.Root>
+        {indexedColumns?.length !== 0 && (
+          <Section size='1'>
+            <Flex width='50%' direction='column'>
+              <TextField.Root
+                placeholder={indexedColumns?.map((item) => item.name).join(' | ')}
+                value={searchValue}
+                onChange={(e) => {
+                  setSearchValue(e.target.value)
+                  setSearchQueryWithDelay(e.target.value)
+                }}
+                size='3'
+                type='search'
+              />
+            </Flex>
+          </Section>
+        )}
+
+        <Section size='1'>
+          <Pagination
+            currentPage={page}
+            limit={take}
+            loading={exploreFetcher.isFetching}
+            totalElements={exploreFetcher.data?.explorer.total}
+            onChange={(page) => setPaginationParams({ page }, 'replace')}
+          />
+        </Section>
+
+        {exploreFetcher.isSuccess && (
+          <Section size='1'>
+            <ScrollArea>
+              <Viewer.Root
+                loading={exploreFetcher.isFetching}
+                onPathChange={(paths) => {
+                  const last = paths[paths.length - 1]
+                  const item = exploreFetcher.data.explorer.items.find((item) => item.name === last.name)
+                  if (!item) return
+                  formToUpdate.initialize(item.data)
+                }}
+                paths={exploreFetcher.data.explorer.paths}
+                data={exploreFetcher.data.explorer}
+              >
+                <Viewer.Table columns={columns} />
+              </Viewer.Root>
+            </ScrollArea>
+          </Section>
+        )}
+      </Container>
     </main>
   )
 
@@ -325,3 +292,44 @@ export default function Component(): JSX.Element {
 }
 
 Component.displayName = NAME
+
+/**
+ * Private
+ */
+
+interface _DialogProps {
+  open: boolean
+  form: FormApi
+  tableSchema: TableSchema | undefined
+  mutator: { isLoading: boolean }
+}
+
+function _Dialog(props: _DialogProps) {
+  const { open, form, tableSchema, mutator } = props
+
+  return (
+    <Dialog.Root open={open}>
+      <Dialog.Content maxWidth='450px'>
+        <Dialog.Title>
+          Запись
+          {/* <TextHighlighter>{item?.name}</TextHighlighter> */}
+        </Dialog.Title>
+
+        <FForm form={form} tableSchema={tableSchema} component={SchemaForm} />
+
+        <Flex gap='4' mt='4' justify='end'>
+          <Button variant='soft' color='gray' onClick={() => form.initialize({})}>
+            Закрыть
+          </Button>
+          <Button
+            loading={mutator.isLoading}
+            disabled={!form.getState().dirty || form.getState().invalid}
+            onClick={form.submit}
+          >
+            Сохранить
+          </Button>
+        </Flex>
+      </Dialog.Content>
+    </Dialog.Root>
+  )
+}

@@ -1,26 +1,28 @@
 import React, { useState } from 'react'
-import { Values } from '../../../types/values'
+
 import Button from '~/ui/button'
 import Card from '~/ui/card'
 import DataList from '~/ui/data-list'
 import Flex from '~/ui/flex'
 import {
   Field,
+  FieldArray,
   Label,
   Select,
-  TypedField,
-  TextField,
-  useForm,
-  FieldArray,
-  getIn,
-  TextFieldProps,
   SelectProps,
+  TextField,
+  TextFieldProps,
+  TypedField,
+  getIn,
+  useForm,
 } from '~/ui/form'
 import Icon from '~/ui/icon'
 import Separator from '~/ui/separator'
 import Text from '~/ui/text'
 import { c, generateUniqId, isDev } from '~/utils/core'
 import { NonNullableFlat } from '~/utils/types/object/non-nullable'
+
+import { Values } from '../../../types/values'
 
 type Item = {
   id: string

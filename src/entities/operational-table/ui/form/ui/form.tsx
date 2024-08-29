@@ -1,23 +1,25 @@
 import { memo } from 'react'
 import { FieldInputProps, FieldMetaState, useField } from 'react-final-form'
-import { NAME_ONE as ENTITY_NAME } from '../../../constants/name'
-import { Values } from '../types/values'
-import Columns from '../widgets/columns'
+
 import Flex from '~/ui/flex'
 import {
-  Checkbox,
   Card,
+  Checkbox,
   Column,
   Label,
   Row,
   Select,
+  SelectProps,
   TextField,
   TextFieldProps,
-  UniqueTextField,
   TypedField,
-  SelectProps,
+  UniqueTextField,
 } from '~/ui/form'
 import { c } from '~/utils/core'
+
+import { NAME_ONE as ENTITY_NAME } from '../../../constants/name'
+import { Values } from '../types/values'
+import Columns from '../widgets/columns'
 
 export interface Props {
   className?: string | undefined

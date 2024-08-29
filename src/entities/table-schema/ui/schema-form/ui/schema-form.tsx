@@ -6,7 +6,7 @@ import { c } from '~/utils/core'
 export interface Props {
   className?: string | undefined
   // TODO создать отдельный тип для TableSchema, пока что беру какой есть
-  tableSchema: TableSchema
+  tableSchema: TableSchema | undefined
 }
 
 export const NAME = 'tableSchema-SchemaForm'
@@ -16,9 +16,10 @@ export const NAME = 'tableSchema-SchemaForm'
  */
 export default function Component(props: Props): JSX.Element {
   const { tableSchema } = props
+
   return (
     <Flex className={c(props.className, NAME)} direction={'column'} gap='4'>
-      {tableSchema.items.map((item) => {
+      {tableSchema?.items.map((item) => {
         return (
           <Field<string, TextFieldProps<string>, HTMLInputElement>
             component={TextField}
