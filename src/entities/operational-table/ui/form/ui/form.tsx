@@ -16,8 +16,9 @@ import {
   UniqueTextField,
 } from '~/ui/form'
 import { c } from '~/utils/core'
+import { uncapitalize, unspace } from '~/utils/string'
 
-import { NAME_ONE as ENTITY_NAME } from '../../../constants/name'
+import { NAME as ENTITY_NAME } from '../../../constants/name'
 import { Values } from '../types/values'
 import Columns from '../widgets/columns'
 
@@ -27,7 +28,7 @@ export interface Props {
   isKnUniq?: ((kn: string) => Promise<boolean>) | undefined
 }
 
-export const NAME = `${ENTITY_NAME}-Form`
+export const NAME = `${uncapitalize(unspace(ENTITY_NAME))}-Form`
 
 /**
  * operationalTable-Form

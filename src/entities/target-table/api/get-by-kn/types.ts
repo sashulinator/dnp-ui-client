@@ -1,7 +1,9 @@
-import { NAME_ONE } from '../../constants/name'
+import { uncapitalize, unspace } from '~/utils/string'
+
+import { NAME as ENTITY_NAME } from '../../constants/name'
 import { type TargetTable } from '../../types/target-table'
 
-export const keyName = `${NAME_ONE}.getBykn`
+export const keyName = `${uncapitalize(unspace(ENTITY_NAME))}.getBykn`
 
 export interface RequestData {
   kn: string

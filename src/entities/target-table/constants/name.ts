@@ -1,1 +1,1 @@
-export { NAME_ONE, NAME_MANY } from '~/common/entities/target-table/constants'
+export { NAME } from '~/common/entities/target-table/constants'

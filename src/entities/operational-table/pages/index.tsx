@@ -1,8 +1,7 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
-import { useQueryParams, NumberParam, withDefault } from 'use-query-params'
-import { NAME_ONE } from '../constants/name'
-import { api, Item } from '~/entities/operational-table'
+import { NumberParam, useQueryParams, withDefault } from 'use-query-params'
+
+import { Item, api } from '~/entities/operational-table'
 import { routes } from '~/shared/routes'
 import Button from '~/ui/button'
 import Container from '~/ui/container'
@@ -10,12 +9,15 @@ import Flex from '~/ui/flex'
 import Heading from '~/ui/layout/variants/heading'
 import Pagination from '~/ui/pagination'
 import Section from '~/ui/section'
+import { uncapitalize, unspace } from '~/utils/string'
+
+import { NAME as ENTITY_NAME } from '../constants/name'
 
 export interface Props {
   className?: string | undefined
 }
 
-const displayName = `page-${NAME_ONE.replace(/ /, '')}`
+const displayName = `${uncapitalize(unspace(ENTITY_NAME))}-Page_list`
 
 /**
  * page-OperationalTable

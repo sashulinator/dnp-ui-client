@@ -23,7 +23,7 @@ import TextField from '~/ui/text-field'
 import { Id, isEmpty } from '~/utils/core'
 import { uncapitalize, unspace } from '~/utils/string'
 
-import { NAME_ONE as ENTITY_NAME } from '../../../constants/name'
+import { NAME as ENTITY_NAME } from '../../../constants/name'
 
 export interface Props {
   className?: string | undefined

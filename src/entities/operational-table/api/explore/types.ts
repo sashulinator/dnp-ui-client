@@ -1,8 +1,10 @@
+import { uncapitalize, unspace } from '~/utils/string'
+
 import { Explorer } from '../../../explorer/types/explorer'
-import { NAME_ONE } from '../../constants/name'
+import { NAME as ENTITY_NAME } from '../../constants/name'
 import { OperationalTable } from '../../types/operational-table'
 
-export const keyName = `${NAME_ONE}.explore`
+export const keyName = `${uncapitalize(unspace(ENTITY_NAME))}.explore`
 
 export type RequestData = {
   kn: string
