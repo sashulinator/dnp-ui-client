@@ -1,7 +1,9 @@
-import { NAME_ONE } from '../../constants/name'
-import { OperationalTable, CreateOperationalTable } from '../../types/operational-table'
+import { uncapitalize, unspace } from '~/utils/string'
 
-export const keyName = `${NAME_ONE}.create`
+import { NAME as ENTITY_NAME } from '../../constants/name'
+import { CreateOperationalTable, OperationalTable } from '../../types/operational-table'
+
+export const keyName = `${uncapitalize(unspace(ENTITY_NAME))}.create`
 
 export type RequestData = { input: CreateOperationalTable }
 

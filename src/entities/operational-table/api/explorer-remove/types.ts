@@ -1,7 +1,9 @@
-import { NAME_ONE } from '../../constants/name'
+import { uncapitalize, unspace } from '~/utils/string'
+
+import { NAME as ENTITY_NAME } from '../../constants/name'
 import { OperationalTable } from '../../types/operational-table'
 
-export const keyName = `${NAME_ONE}.explorerDelete`
+export const keyName = `${uncapitalize(unspace(ENTITY_NAME))}.explorerDelete`
 
 export type RequestData = { kn: string; where: Record<string, unknown> }
 

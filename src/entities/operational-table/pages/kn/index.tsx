@@ -1,10 +1,10 @@
 import { useParams } from 'react-router-dom'
 import { safeParse } from 'valibot'
-import { NAME_ONE } from '../../constants/name'
+
 import {
-  api,
   Form,
   FormValues,
+  api,
   fromFormValues,
   toFormValues,
   updateOperationalTableSchema,
@@ -21,12 +21,15 @@ import Heading from '~/ui/layout/variants/heading'
 import Section from '~/ui/section'
 import Separator from '~/ui/separator'
 import Tooltip from '~/ui/tooltip'
+import { uncapitalize, unspace } from '~/utils/string'
+
+import { NAME as ENTITY_NAME } from '../../constants/name'
 
 export interface Props {
   className?: string | undefined
 }
 
-const displayName = `page-${NAME_ONE.replace(/ /, '')}_id`
+const NAME = `${uncapitalize(unspace(ENTITY_NAME))}-Page_id`
 
 /**
  * page-Main
@@ -74,7 +77,7 @@ export default function Component(): JSX.Element {
   })
 
   return (
-    <main className={displayName}>
+    <main className={NAME}>
       <Container p='1.5rem'>
         {fetcher.isError && (
           <Flex width='100%' justify='center' gap='2' align='center'>
@@ -140,4 +143,4 @@ export default function Component(): JSX.Element {
   )
 }
 
-Component.displayName = displayName
+Component.displayName = NAME

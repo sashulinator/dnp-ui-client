@@ -1,6 +1,8 @@
-import { NAME_ONE } from '../../constants/name'
+import { uncapitalize, unspace } from '~/utils/string'
+
+import { NAME as ENTITY_NAME } from '../../constants/name'
 import { RequestData } from './types'
 
 export function getKeys(requestData: RequestData): unknown[] {
-  return [`${NAME_ONE}.fetchList`, requestData]
+  return [`${uncapitalize(unspace(ENTITY_NAME))}.fetchList`, requestData]
 }

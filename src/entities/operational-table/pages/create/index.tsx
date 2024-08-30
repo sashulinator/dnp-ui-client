@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { safeParse } from 'valibot'
-import { NAME_ONE } from '../../constants/name'
+
 import {
   Form,
   FormValues,
@@ -23,12 +23,15 @@ import Heading from '~/ui/layout/variants/heading'
 import Section from '~/ui/section'
 import Separator from '~/ui/separator'
 import Tooltip from '~/ui/tooltip'
+import { uncapitalize, unspace } from '~/utils/string'
+
+import { NAME as ENTITY_NAME } from '../../constants/name'
 
 export interface Props {
   className?: string | undefined
 }
 
-const displayName = `page-${NAME_ONE.replace(/ /, '')}_create`
+const NAME = `${uncapitalize(unspace(ENTITY_NAME))}-Page_create`
 
 /**
  * page-operationalTables_id
@@ -82,7 +85,7 @@ export default function Component(): JSX.Element {
   )
 
   return (
-    <main className={displayName}>
+    <main className={NAME}>
       <Container p='1.5rem'>
         <Section size='1'>
           <Heading.Root
@@ -135,4 +138,4 @@ export default function Component(): JSX.Element {
   )
 }
 
-Component.displayName = displayName
+Component.displayName = NAME
