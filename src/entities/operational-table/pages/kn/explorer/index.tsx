@@ -1,28 +1,26 @@
 import { Dialog } from '@radix-ui/themes'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
-import { NumberParam, StringParam, withDefault } from 'serialize-query-params'
-import { useQueryParam, useQueryParams } from 'use-query-params'
+import { NumberParam, withDefault } from 'serialize-query-params'
+import { useQueryParams } from 'use-query-params'
 
-import { Viewer } from '~/entities/explorer'
-import { TableSchema, api } from '~/entities/operational-table'
+import { type Row, type TableSchema, api } from '~/entities/operational-table'
+import ExplorerViewer from '~/entities/operational-table/ui/explorer-viewer'
 import { SchemaForm, toColumns } from '~/entities/table-schema'
+import { useSearch } from '~/lib/search-query-params'
 import { notify } from '~/shared/notification-list-store'
 import { routes } from '~/shared/routes'
 import Button from '~/ui/button'
 import Container from '~/ui/container'
 import Flex from '~/ui/flex'
 import FForm, { FormApi, useCreateForm } from '~/ui/form'
-import Icon from '~/ui/icon'
 import Heading from '~/ui/layout/variants/heading'
 import Pagination from '~/ui/pagination'
 import ScrollArea from '~/ui/scroll-area'
 import Section from '~/ui/section'
-import Spinner from '~/ui/spinner'
 import TextField from '~/ui/text-field'
-import { isEmpty } from '~/utils/core'
-import { useDebounceCallback } from '~/utils/core-hooks'
+import { Id, isEmpty } from '~/utils/core'
 import { uncapitalize, unspace } from '~/utils/string'
 
 import { NAME_ONE as ENTITY_NAME } from '../../../constants/name'
@@ -39,127 +37,27 @@ const NAME = `${uncapitalize(unspace(ENTITY_NAME))}-Page_id_explorer`
 export default function Component(): JSX.Element {
   const { kn = '' } = useParams<{ kn: string }>()
 
+  const [searchQueryParam, searchValue, setSearchValue] = useSearch()
+
   const [{ page = 1, take = 10 }, setPaginationParams] = useQueryParams({
     page: withDefault(NumberParam, 1),
     take: withDefault(NumberParam, 10),
   })
 
-  const [searchQuery, setSearchQueryParam] = useQueryParam('q', withDefault(StringParam, ''))
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(_syncSearchValues, [searchQuery])
-
-  const [searchValue, setSearchValue] = useState(searchQuery)
-  const [setSearchQueryWithDelay] = useDebounceCallback((value: string) => setSearchQueryParam(value), 500)
-
-  const exploreFetcher = api.explorerFetchList.useCache(
-    { kn, skip: (page - 1) * take, take, searchQuery: searchQuery ? `${searchQuery}%` : '' },
+  const explorerListFetcher = api.explorerFetchList.useCache(
+    { kn, skip: (page - 1) * take, take, searchQuery: searchQueryParam ? `${searchQueryParam}%` : '' },
     { keepPreviousData: true },
   )
 
-  const columns = useMemo(() => {
-    if (!exploreFetcher.data) return []
-    const ret = toColumns(exploreFetcher.data.operationalTable.tableSchema.items)
-
-    ret.push({
-      key: '_status',
-      renderHeader: () => 'Согласование',
-      cellProps: { align: 'right' },
-      headerProps: { align: 'right' },
-      renderCell: ({ item }) => {
-        // eslint-disable-next-line react-hooks/rules-of-hooks, @typescript-eslint/no-explicit-any
-        const [approved, setApproved] = useState((item.data as any)._status === '1')
-
-        const explorerUpdateMutator = api.explorerUpdate.useCache({
-          onSuccess: () => {
-            setApproved((s) => !s)
-          },
-          onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
-        })
-
-        return (
-          <Flex height='100%' width='100%' align='center' justify='end'>
-            {explorerUpdateMutator.isLoading ? (
-              <Spinner />
-            ) : (
-              <Button
-                size={'1'}
-                color={approved ? 'green' : 'red'}
-                onClick={(e) => {
-                  e.stopPropagation()
-
-                  if (!exploreFetcher.data) return
-                  explorerUpdateMutator.mutate({
-                    kn: exploreFetcher.data?.operationalTable.kn,
-                    input: {
-                      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                      // @ts-ignore
-                      ...item.data,
-                      _status: approved ? '0' : '1',
-                    },
-                  })
-                }}
-              >
-                {approved ? 'Согласован' : 'Не согласован'}
-              </Button>
-            )}
-          </Flex>
-        )
-      },
-    })
-    ret.push({
-      key: 'action',
-      renderHeader: () => 'Действия',
-      cellProps: { width: '1rem', align: 'right' },
-      headerProps: { align: 'right' },
-      renderCell: ({ item }) => (
-        <Button
-          round={true}
-          color='red'
-          onClick={(e) => {
-            e.stopPropagation()
-            explorerRemoveMutator.mutate({
-              kn: exploreFetcher.data?.operationalTable.kn,
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-ignore
-              where: { _id: item.data._id },
-            })
-          }}
-        >
-          <Icon name='Trash' />
-        </Button>
-      ),
-    })
-    return ret
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [exploreFetcher.data])
-
-  const formToCreate = useCreateForm<Record<string, unknown>>(
-    {
-      onSubmit: (values) => {
-        if (!exploreFetcher.data) return
-        explorerCreateMutator.mutate({ kn: exploreFetcher.data?.operationalTable.kn, input: values })
-      },
-      initialValues: {},
-    },
-    { values: true, initialValues: true },
-  )
-
-  const formToUpdate = useCreateForm<Record<string, unknown>>(
-    {
-      onSubmit: (values) => {
-        if (!exploreFetcher.data) return
-        explorerUpdateMutator.mutate({ kn: exploreFetcher.data?.operationalTable.kn, input: values })
-      },
-      initialValues: {},
-    },
-    { values: true, initialValues: true },
+  const columns = useMemo(
+    () => toColumns(explorerListFetcher.data?.operationalTable.tableSchema.items || []),
+    [explorerListFetcher.data],
   )
 
   const explorerCreateMutator = api.explorerCreate.useCache({
     onSuccess: () => {
       notify({ title: 'Создано', type: 'success' })
-      exploreFetcher.refetch()
+      explorerListFetcher.refetch()
       formToCreate.initialize({})
     },
     onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
@@ -168,7 +66,7 @@ export default function Component(): JSX.Element {
   const explorerRemoveMutator = api.explorerRemove.useCache({
     onSuccess: () => {
       notify({ title: 'Удалено', type: 'success' })
-      exploreFetcher.refetch()
+      explorerListFetcher.refetch()
     },
     onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
   })
@@ -176,12 +74,21 @@ export default function Component(): JSX.Element {
   const explorerUpdateMutator = api.explorerUpdate.useCache({
     onSuccess: () => {
       notify({ title: 'Сохранено', type: 'success' })
-      exploreFetcher.refetch()
+      explorerListFetcher.refetch()
     },
     onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
   })
 
-  const indexedColumns = exploreFetcher.data?.operationalTable.tableSchema.items.filter((item) => item.index)
+  const formToCreate = useCreateRowForm({
+    onSubmit: (values) => explorerCreateMutator.mutateAsync({ kn, input: values }).then((res) => res.data),
+  })
+
+  const formToUpdate = useCreateRowForm({
+    onSubmit: (values) =>
+      explorerUpdateMutator.mutateAsync({ kn, input: values, where: { _id: values._id } }).then((res) => res.data),
+  })
+
+  const indexedColumns = explorerListFetcher.data?.operationalTable.tableSchema.items.filter((item) => item.index)
 
   return (
     <main className={NAME}>
@@ -189,33 +96,33 @@ export default function Component(): JSX.Element {
         form={formToCreate}
         open={!isEmpty(formToCreate.getState().initialValues)}
         mutator={explorerCreateMutator}
-        tableSchema={exploreFetcher.data?.operationalTable.tableSchema}
+        tableSchema={explorerListFetcher.data?.operationalTable.tableSchema}
       />
       <_Dialog
         form={formToUpdate}
         open={!isEmpty(formToUpdate.getState().initialValues)}
         mutator={explorerUpdateMutator}
-        tableSchema={exploreFetcher.data?.operationalTable.tableSchema}
+        tableSchema={explorerListFetcher.data?.operationalTable.tableSchema}
       />
       <Container p='1.5rem'>
-        {exploreFetcher.isError && (
+        {explorerListFetcher.isError && (
           <Flex width='100%' justify='center' gap='2' align='center'>
-            Ошибка <Button onClick={() => exploreFetcher.refetch()}>Перезагрузить</Button>
+            Ошибка <Button onClick={() => explorerListFetcher.refetch()}>Перезагрузить</Button>
           </Flex>
         )}
 
-        {!exploreFetcher.isError && (
+        {!explorerListFetcher.isError && (
           <Section size='1'>
             <Flex width='100%' justify='between'>
               <Heading.Root
-                loading={exploreFetcher.isFetching}
+                loading={explorerListFetcher.isFetching}
                 route={routes.operationalTables_kn_explorer}
                 backRoute={routes.operationalTables}
                 renderIcon={routes.operationalTables.renderIcon}
               >
                 <Heading.BackToParent />
                 <Heading.Uniq
-                  string={exploreFetcher.data?.operationalTable.name}
+                  string={explorerListFetcher.data?.operationalTable.name}
                   tooltipContent={routes.operationalTables_kn_explorer.getName()}
                 />
               </Heading.Root>
@@ -226,7 +133,7 @@ export default function Component(): JSX.Element {
                   })
                 }
               >
-                Создать
+                Сохранить
               </Button>
             </Flex>
           </Section>
@@ -236,12 +143,9 @@ export default function Component(): JSX.Element {
           <Section size='1'>
             <Flex width='50%' direction='column'>
               <TextField.Root
-                placeholder={indexedColumns?.map((item) => item.name).join(' | ')}
+                placeholder={`Индексы: ${indexedColumns?.map((item) => item.name).join(', ')}`}
                 value={searchValue}
-                onChange={(e) => {
-                  setSearchValue(e.target.value)
-                  setSearchQueryWithDelay(e.target.value)
-                }}
+                onChange={(e) => setSearchValue(e.target.value)}
                 size='3'
                 type='search'
               />
@@ -253,42 +157,37 @@ export default function Component(): JSX.Element {
           <Pagination
             currentPage={page}
             limit={take}
-            loading={exploreFetcher.isFetching}
-            totalElements={exploreFetcher.data?.explorer.total}
+            loading={explorerListFetcher.isFetching}
+            totalElements={explorerListFetcher.data?.explorer.total}
             onChange={(page) => setPaginationParams({ page }, 'replace')}
           />
         </Section>
 
-        {exploreFetcher.isSuccess && (
+        {explorerListFetcher.isSuccess && (
           <Section size='1'>
             <ScrollArea>
-              <Viewer.Root
-                loading={exploreFetcher.isFetching}
+              <ExplorerViewer
+                loading={explorerListFetcher.isFetching}
                 onPathChange={(paths) => {
                   const last = paths[paths.length - 1]
-                  const item = exploreFetcher.data.explorer.items.find((item) => item.name === last.name)
+                  const item = explorerListFetcher.data.explorer.items.find((item) => item.name === last.name)
                   if (!item) return
                   formToUpdate.initialize(item.data)
                 }}
-                paths={exploreFetcher.data.explorer.paths}
-                data={exploreFetcher.data.explorer}
-              >
-                <Viewer.Table columns={columns} />
-              </Viewer.Root>
+                remove={(_id: Id) => explorerRemoveMutator.mutateAsync({ kn, where: { _id } }).then((res) => res.data)}
+                update={(row: Row) =>
+                  explorerUpdateMutator.mutateAsync({ kn, input: row, where: { _id: row._id } }).then((res) => res.data)
+                }
+                paths={explorerListFetcher.data.explorer.paths}
+                data={explorerListFetcher.data.explorer}
+                columns={columns}
+              />
             </ScrollArea>
           </Section>
         )}
       </Container>
     </main>
   )
-
-  /**
-   * Private
-   */
-
-  function _syncSearchValues(): void {
-    if (searchQuery !== searchValue) setSearchValue(searchQuery)
-  }
 }
 
 Component.displayName = NAME
@@ -299,7 +198,7 @@ Component.displayName = NAME
 
 interface _DialogProps {
   open: boolean
-  form: FormApi
+  form: FormApi<Row, Partial<Row>>
   tableSchema: TableSchema | undefined
   mutator: { isLoading: boolean }
 }
@@ -331,5 +230,21 @@ function _Dialog(props: _DialogProps) {
         </Flex>
       </Dialog.Content>
     </Dialog.Root>
+  )
+}
+
+interface useCreateRowFormProps {
+  onSubmit: (values: Row) => Promise<unknown>
+}
+
+function useCreateRowForm(props: useCreateRowFormProps) {
+  return useCreateForm<Row>(
+    {
+      onSubmit: (values) => {
+        props.onSubmit(values)
+      },
+      initialValues: {},
+    },
+    { values: true, initialValues: true },
   )
 }

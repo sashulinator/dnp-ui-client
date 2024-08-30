@@ -1,7 +1,9 @@
 import React from 'react'
-import { ContextProps, context } from '../models/context'
+
 import Flex from '~/ui/flex'
 import { c } from '~/utils/core'
+
+import { ContextProps, context } from '../models/context'
 
 export interface Props extends Required<ContextProps> {
   className?: string | undefined

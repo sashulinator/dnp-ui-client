@@ -1,7 +1,6 @@
 /**
  * api
  */
-
 import * as create from './api/create'
 import * as explorerFetchList from './api/explore'
 import * as explorerCreate from './api/explorer-create'
@@ -34,11 +33,13 @@ export {
   type OperationalTableRelations,
   type TableSchema,
   type TableSchemaItem,
+  type Row,
   operationalTableSchema,
   createOperationalTableSchema,
   updateOperationalTableSchema,
   baseOperationalTableSchema,
   operationalTableRelationsSchema,
+  rowSchema,
 } from './types/operational-table'
 
 /**
