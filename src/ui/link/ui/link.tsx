@@ -2,21 +2,17 @@ import { Link, LinkProps } from 'react-router-dom'
 
 import { c } from '~/utils/core'
 
-export interface Props extends LinkProps {
-  className?: string | undefined
-}
+export interface Props extends LinkProps {}
 
 export const NAME = 'ui-Link'
 
 /**
  * ui-Li
  */
-export default function Component({ className, ...rest }: Props): JSX.Element {
-  return (
-    <Link className={c(className, NAME)} {...rest}>
-      {rest.children}
-    </Link>
-  )
+export default function Component(props: Props): JSX.Element {
+  const { className, ...linkProps } = props
+
+  return <Link {...linkProps} className={c(className, NAME)} />
 }
 
 Component.displayName = NAME
