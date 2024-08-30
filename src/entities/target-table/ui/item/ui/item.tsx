@@ -1,11 +1,13 @@
-import { Link } from 'react-router-dom'
-import { TargetTable } from '../../../types/target-table'
 import './item.scss'
+
 import { routes } from '~/shared/routes'
 import Card from '~/ui/card'
 import Flex from '~/ui/flex'
+import Link from '~/ui/link'
 import TextHighlighter from '~/ui/text-highlighter'
 import { c } from '~/utils/core'
+
+import { TargetTable } from '../../../types/target-table'
 
 export interface Props {
   className?: string | undefined

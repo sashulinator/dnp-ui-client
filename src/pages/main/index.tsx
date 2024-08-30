@@ -1,5 +1,4 @@
 import React, { createElement } from 'react'
-import { Link } from 'react-router-dom'
 
 import { getRole } from '~/entities/user'
 import { Route } from '~/lib/route'
@@ -9,6 +8,7 @@ import Card from '~/ui/card'
 import Container from '~/ui/container'
 import Flex from '~/ui/flex'
 import Heading from '~/ui/layout/variants/heading'
+import Link from '~/ui/link'
 import Section from '~/ui/section'
 
 export interface Props {

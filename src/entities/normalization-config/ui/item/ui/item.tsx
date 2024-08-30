@@ -1,13 +1,15 @@
-import { Link } from 'react-router-dom'
-import { NormalizationConfig } from '../../../types/normalization-config'
 import './item.scss'
+
 import { querify } from '~/lib/api'
 import { routes } from '~/shared/routes'
 import Badge from '~/ui/badge'
 import Card from '~/ui/card'
 import Flex from '~/ui/flex'
+import Link from '~/ui/link'
 import TextHighlighter from '~/ui/text-highlighter'
 import { c } from '~/utils/core'
+
+import { NormalizationConfig } from '../../../types/normalization-config'
 
 export interface Props {
   className?: string | undefined

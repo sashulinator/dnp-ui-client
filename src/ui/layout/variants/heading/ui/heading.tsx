@@ -1,12 +1,14 @@
 import { useContext } from 'react'
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { ContextProps, context } from '../models/context'
+
 import Button from '~/ui/button'
 import Heading from '~/ui/heading'
 import Icon from '~/ui/icon'
+import Link from '~/ui/link'
 import TextHighlighter from '~/ui/text-highlighter'
 import { c } from '~/utils/core'
+
+import { ContextProps, context } from '../models/context'
 
 export interface Props extends Required<ContextProps> {
   className?: string | undefined

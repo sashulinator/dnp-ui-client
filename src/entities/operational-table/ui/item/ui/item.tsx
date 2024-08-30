@@ -1,16 +1,19 @@
-import dayjs from 'dayjs'
-import { Link } from 'react-router-dom'
-import { OperationalTable } from '../../../types/operational-table'
 import './item.scss'
+
+import dayjs from 'dayjs'
+
 import { routes } from '~/shared/routes'
 import Avatar from '~/ui/avatar'
 import Card from '~/ui/card'
 import Flex from '~/ui/flex'
+import Link from '~/ui/link'
 import Separator from '~/ui/separator'
 import Text from '~/ui/text'
 import TextHighlighter from '~/ui/text-highlighter'
 import Tooltip from '~/ui/tooltip'
 import { c } from '~/utils/core'
+
+import { OperationalTable } from '../../../types/operational-table'
 
 export interface Props {
   className?: string | undefined

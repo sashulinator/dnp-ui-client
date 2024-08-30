@@ -1,15 +1,17 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { useQueryParams, NumberParam, withDefault } from 'use-query-params'
-import { NAME_ONE } from '../constants/name'
-import { api, Item } from '~/entities/operational-table'
+import { NumberParam, useQueryParams, withDefault } from 'use-query-params'
+
+import { Item, api } from '~/entities/operational-table'
 import { routes } from '~/shared/routes'
 import Button from '~/ui/button'
 import Container from '~/ui/container'
 import Flex from '~/ui/flex'
 import Heading from '~/ui/layout/variants/heading'
+import Link from '~/ui/link'
 import Pagination from '~/ui/pagination'
 import Section from '~/ui/section'
+
+import { NAME_ONE } from '../constants/name'
 
 export interface Props {
   className?: string | undefined

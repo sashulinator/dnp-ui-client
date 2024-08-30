@@ -1,11 +1,12 @@
-import { Link } from 'react-router-dom'
 import { NumberParam, useQueryParams, withDefault } from 'use-query-params'
-import { api, Item } from '~/entities/target-table'
+
+import { Item, api } from '~/entities/target-table'
 import { routes } from '~/shared/routes'
 import Button from '~/ui/button'
 import Container from '~/ui/container'
 import Flex from '~/ui/flex'
 import Heading from '~/ui/heading'
+import Link from '~/ui/link'
 import Pagination from '~/ui/pagination'
 import Section from '~/ui/section'
 
