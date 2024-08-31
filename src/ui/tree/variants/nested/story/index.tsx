@@ -1,11 +1,12 @@
-import Tree, { RenderItemParams, TreeItem, enrichTree } from '../'
-import { TreeData as UiTreeData } from '../../../types/tree-data'
 import Flex from '~/ui/flex'
 import Icon from '~/ui/icon'
-import { type Story, Props } from '~/ui/storybook'
+import { Props, type Story } from '~/ui/storybook'
 import { Id } from '~/utils/core'
 // import { map } from '~/utils/dictionary'
 import { emptyFn } from '~/utils/function'
+
+import Tree, { RenderItemParams, TreeItem, enrichTree } from '../'
+import { TreeData as UiTreeData } from '../../../types/tree-data'
 
 interface State {}
 

@@ -1,7 +1,6 @@
 /**
  * ui
  */
-
 import { Table } from '@radix-ui/themes'
 
 export default Table
@@ -23,3 +22,9 @@ export {
   type TableProps as TableListProps,
   type Column as TableListColumn,
 } from './variants/list'
+
+/**
+ * widgets
+ */
+
+export { default as SortingButton, type Props as SortingButtonProps } from './widgets/sorting-button/ui/sorting-button'

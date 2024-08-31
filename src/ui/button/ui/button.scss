@@ -1,14 +1,17 @@
 .ui-Button {
   --cursor-button: pointer;
 
-  &.--round {
-    width: var(--base-button-height);
-    padding: 0;
-    border-radius: var(--base-button-height);
-  }
-
+  &.--round,
   &.--square {
     width: var(--base-button-height);
+    min-width: var(--base-button-height);
+    max-width: var(--base-button-height);
+    height: var(--base-button-height);
+    min-height: var(--base-button-height);
+    max-height: var(--base-button-height);
     padding: 0;
+  }
+  &.--round {
+    border-radius: var(--base-button-height);
   }
 }
