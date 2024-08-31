@@ -1,6 +1,6 @@
+import qs from 'qs'
 import { Suspense, lazy } from 'react'
-import { type Route } from '../lib/route'
-import Main from '../pages/main'
+
 import { Icon as NormalizationConfigIcon } from '~/entities/normalization-config'
 import NormalizationConfigs from '~/entities/normalization-config/pages'
 import NormalizationConfigs_create from '~/entities/normalization-config/pages/create'
@@ -27,6 +27,9 @@ import Icon from '~/ui/icon'
 import Logo from '~/ui/logo-icon'
 import Nav from '~/ui/nav'
 import { isDev } from '~/utils/core'
+
+import { type Route } from '../lib/route'
+import Main from '../pages/main'
 
 // eslint-disable-next-line react-refresh/only-export-components
 const Storybook = lazy(() => import('../pages/storybook/index'))
@@ -120,8 +123,8 @@ export const routes = {
 
   operationalTables_kn_explorer: {
     getPath: () => '/operational-tables/:kn/explorer',
-    getURL(kn: string) {
-      return this.getPath().replace(':kn', kn)
+    getURL(kn: string, params?: { name: string } | undefined) {
+      return `${this.getPath().replace(':kn', kn)}${qs.stringify(params, { addQueryPrefix: true })}`
     },
     renderMain: OperationalTable_kn_explorer,
     renderHeader: Header,

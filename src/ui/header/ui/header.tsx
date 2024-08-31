@@ -1,9 +1,12 @@
 import './header.scss'
+
+import { Role, getRole, roles, setRole } from '~/entities/user'
 import Checkbox from '~/ui/checkbox'
 import Flex from '~/ui/flex'
+import Select from '~/ui/select'
 import TextHighlighter from '~/ui/text-highlighter'
 import { Switch } from '~/ui/theme'
-import { c } from '~/utils/core'
+import { c, isDev } from '~/utils/core'
 
 export interface Props {
   className?: string | undefined
@@ -16,6 +19,7 @@ const NAME = 'ui-Header'
  */
 export default function Component(): JSX.Element {
   const isProd = localStorage.getItem('env') === 'production'
+  const role = getRole()
 
   return (
     <header className={c(NAME)}>
@@ -43,6 +47,27 @@ export default function Component(): JSX.Element {
         )}
       </div>
       <Flex className={`${NAME}_settings`} gap='4' align='center'>
+        {isDev() && (
+          <Flex gap='4' direction={'column'}>
+            <Select.Root
+              size='1'
+              defaultValue={role as string}
+              onValueChange={(value) => {
+                setRole(value as Role)
+                window.location.reload()
+              }}
+            >
+              <Select.Trigger />
+              <Select.Content>
+                <Select.Group>
+                  <Select.Item value={roles.Admin}>Администратор</Select.Item>
+                  <Select.Item value={roles.Approver}>Согласующий</Select.Item>
+                  <Select.Item value={roles.Operator}>Оператор</Select.Item>
+                </Select.Group>
+              </Select.Content>
+            </Select.Root>
+          </Flex>
+        )}
         <Switch />
       </Flex>
     </header>

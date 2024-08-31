@@ -3,6 +3,7 @@ import { useMutation } from 'react-query'
 
 import { Viewer, ViewerProps } from '~/entities/explorer'
 import { OperationalTable, Row } from '~/entities/operational-table'
+import { getRole, roles } from '~/entities/user'
 import { notify } from '~/shared/notification-list-store'
 import Button from '~/ui/button'
 import Flex from '~/ui/flex'
@@ -14,8 +15,41 @@ import { Id, c } from '~/utils/core'
 export interface Props extends Omit<ViewerProps, 'children'> {
   columns: TableListColumn<Record<string, unknown>>[] | undefined
   remove: (id: Id) => Promise<OperationalTable>
-  update: (row: Row) => Promise<OperationalTable>
+  update: (row: Row) => Promise<Row>
 }
+
+const statusStringMap = {
+  '0': 'В работе',
+  '1': 'На согласовании',
+  '2': 'Согласовано',
+  '3': 'Отменено',
+  '4': 'Целевые данные',
+}
+
+const statusChangeMap = {
+  [roles.Approver]: {
+    '1': '2',
+    '2': '3',
+    '3': '2',
+  },
+  [roles.Admin]: {
+    '2': '3',
+    '3': '2',
+  },
+  [roles.Operator]: {
+    '0': '1',
+    '1': '0',
+    '3': '0',
+  },
+} as const
+
+const statusColorMap = {
+  '0': 'gray',
+  '1': 'yellow',
+  '2': 'green',
+  '3': 'red',
+  '4': 'blue',
+} as const
 
 export const NAME = 'operationlTable-ExplorerViewer'
 
@@ -35,14 +69,15 @@ export default function Component(props: Props): JSX.Element {
       headerProps: { align: 'right' },
       renderCell: ({ item }) => {
         const row = item.data as Row
+        const role = getRole()
 
         // eslint-disable-next-line react-hooks/rules-of-hooks
-        const [approved, setApproved] = useState(row._status === '1')
+        const [status, setStatus] = useState(row._status)
 
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const updateMutator = useMutation([`${NAME}.update`], update, {
-          onSuccess: () => {
-            setApproved((s) => !s)
+          onSuccess: (_, variables) => {
+            setStatus(variables._status)
           },
         })
 
@@ -53,13 +88,13 @@ export default function Component(props: Props): JSX.Element {
             ) : (
               <Button
                 size={'1'}
-                color={approved ? 'green' : 'red'}
+                color={statusColorMap[status as '0']}
                 onClick={(e) => {
                   e.stopPropagation()
-                  updateMutator.mutate({ ...row, _status: approved ? '0' : '1' })
+                  updateMutator.mutate({ ...row, _status: statusChangeMap[role as 'Approver'][status as '2'] as '0' })
                 }}
               >
-                {approved ? 'Согласован' : 'Не согласован'}
+                {statusStringMap[status as '0']}
               </Button>
             )}
           </Flex>
@@ -94,6 +129,18 @@ export default function Component(props: Props): JSX.Element {
             <Icon name='Trash' />
           </Button>
         )
+      },
+    })
+
+    cloned.unshift({
+      key: '_id',
+      renderHeader: () => '_id',
+      cellProps: { width: '1rem', align: 'left' },
+      headerProps: { align: 'left' },
+      renderCell: ({ item }) => {
+        const row = item.data as Row
+
+        return row._id
       },
     })
 

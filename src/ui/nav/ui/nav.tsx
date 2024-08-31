@@ -1,7 +1,9 @@
+import './nav.scss'
+
 import { createElement } from 'react'
 import { useQuery } from 'react-query'
 import { Link, useLocation } from 'react-router-dom'
-import './nav.scss'
+
 import { api } from '~/entities/operational-table'
 import { getRole } from '~/entities/user'
 import { Route } from '~/lib/route'
@@ -73,7 +75,9 @@ export default function Component(): JSX.Element {
 
           return (
             <Tooltip side='right' key={operationalTable.kn} content={operationalTable.name}>
-              <Link to={routes.operationalTables_kn_explorer.getURL(operationalTable.kn)}>
+              <Link
+                to={routes.operationalTables_kn_explorer.getURL(operationalTable.kn, { name: operationalTable.name })}
+              >
                 {iconMap[iconName] ? (
                   <Button size='3' square={true} variant={isCurrent ? 'solid' : 'soft'}>
                     <Icon name={iconName} />

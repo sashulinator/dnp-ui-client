@@ -2,8 +2,8 @@
  * api
  */
 import * as create from './api/create'
-import * as explorerFetchList from './api/explore'
 import * as explorerCreate from './api/explorer-create'
+import * as explorerFetchList from './api/explorer-find-many-and-count-rows'
 import * as explorerRemove from './api/explorer-remove'
 import * as explorerUpdate from './api/explorer-update'
 import * as fetchList from './api/fetch-list'

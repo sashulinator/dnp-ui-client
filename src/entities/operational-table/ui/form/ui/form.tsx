@@ -16,9 +16,8 @@ import {
   UniqueTextField,
 } from '~/ui/form'
 import { c } from '~/utils/core'
-import { uncapitalize, unspace } from '~/utils/string'
 
-import { NAME as ENTITY_NAME } from '../../../constants/name'
+import { SYSNAME } from '../../../constants/name'
 import { Values } from '../types/values'
 import Columns from '../widgets/columns'
 
@@ -28,7 +27,7 @@ export interface Props {
   isKnUniq?: ((kn: string) => Promise<boolean>) | undefined
 }
 
-export const NAME = `${uncapitalize(unspace(ENTITY_NAME))}-Form`
+export const NAME = `${SYSNAME}-Form`
 
 /**
  * operationalTable-Form
@@ -124,5 +123,5 @@ function _KnField(props: _KnFieldProps) {
   const createdAtValue = useField<Values>('createdAt', { subscription: { value: true } })
   const readOnly = Boolean(createdAtValue.input.value)
 
-  return <UniqueTextField entityName={ENTITY_NAME} checkUnique={checkUnique} readOnly={readOnly} {...textFieldProps} />
+  return <UniqueTextField entityName={SYSNAME} checkUnique={checkUnique} readOnly={readOnly} {...textFieldProps} />
 }

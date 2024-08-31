@@ -23,15 +23,14 @@ import Heading from '~/ui/layout/variants/heading'
 import Section from '~/ui/section'
 import Separator from '~/ui/separator'
 import Tooltip from '~/ui/tooltip'
-import { uncapitalize, unspace } from '~/utils/string'
 
-import { NAME as ENTITY_NAME } from '../../constants/name'
+import { SYSNAME } from '../../constants/name'
 
 export interface Props {
   className?: string | undefined
 }
 
-const NAME = `${uncapitalize(unspace(ENTITY_NAME))}-Page_create`
+const NAME = `${SYSNAME}-Page_create`
 
 /**
  * page-operationalTables_id

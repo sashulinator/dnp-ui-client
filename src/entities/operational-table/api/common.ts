@@ -1,1 +1,1 @@
-export const baseUrl = '/api/v1/operational-tables'
+export const url = '/api/v1/operational-tables'

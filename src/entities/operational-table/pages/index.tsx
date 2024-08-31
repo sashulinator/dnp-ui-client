@@ -10,15 +10,14 @@ import Heading from '~/ui/layout/variants/heading'
 import Link from '~/ui/link'
 import Pagination from '~/ui/pagination'
 import Section from '~/ui/section'
-import { uncapitalize, unspace } from '~/utils/string'
 
-import { NAME as ENTITY_NAME } from '../constants/name'
+import { SYSNAME } from '../constants/name'
 
 export interface Props {
   className?: string | undefined
 }
 
-const displayName = `${uncapitalize(unspace(ENTITY_NAME))}-Page_list`
+const displayName = `${SYSNAME}-Page_list`
 
 /**
  * page-OperationalTable

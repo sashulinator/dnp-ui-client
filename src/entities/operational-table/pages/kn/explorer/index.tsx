@@ -2,12 +2,14 @@ import { Dialog } from '@radix-ui/themes'
 
 import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
-import { NumberParam, withDefault } from 'serialize-query-params'
-import { useQueryParams } from 'use-query-params'
+import { NumberParam, StringParam, withDefault } from 'serialize-query-params'
+import { useQueryParam, useQueryParams } from 'use-query-params'
 
 import { type Row, type TableSchema, api } from '~/entities/operational-table'
+import { SYSNAME } from '~/entities/operational-table/constants/name'
 import ExplorerViewer from '~/entities/operational-table/ui/explorer-viewer'
 import { SchemaForm, toColumns } from '~/entities/table-schema'
+import { getRole } from '~/entities/user'
 import { useSearch } from '~/lib/search-query-params'
 import { notify } from '~/shared/notification-list-store'
 import { routes } from '~/shared/routes'
@@ -21,33 +23,40 @@ import ScrollArea from '~/ui/scroll-area'
 import Section from '~/ui/section'
 import TextField from '~/ui/text-field'
 import { Id, isEmpty } from '~/utils/core'
-import { uncapitalize, unspace } from '~/utils/string'
-
-import { NAME as ENTITY_NAME } from '../../../constants/name'
 
 export interface Props {
   className?: string | undefined
 }
 
-const NAME = `${uncapitalize(unspace(ENTITY_NAME))}-Page_id_explorer`
+const NAME = `${SYSNAME}-Page_id_explorer`
 
 /**
  * operationalTable-Page_id_explorer
  */
 export default function Component(): JSX.Element {
   const { kn = '' } = useParams<{ kn: string }>()
+  const role = getRole()
 
   const [searchQueryParam, searchValue, setSearchValue] = useSearch()
+  const [nameQueryParam] = useQueryParam('name', withDefault(StringParam, ''))
 
   const [{ page = 1, take = 10 }, setPaginationParams] = useQueryParams({
     page: withDefault(NumberParam, 1),
     take: withDefault(NumberParam, 10),
   })
 
-  const explorerListFetcher = api.explorerFetchList.useCache(
-    { kn, skip: (page - 1) * take, take, searchQuery: searchQueryParam ? `${searchQueryParam}%` : '' },
-    { keepPreviousData: true },
-  )
+  const where = role === 'Approver' ? { OR: [{ _status: '1' }, { _status: '2' }, { _status: '3' }] } : {}
+
+  const explorerFindManyAndCountParams = {
+    kn,
+    where,
+    skip: (page - 1) * take,
+    take,
+    sort: { _id: 'desc' } as const,
+    searchQuery: { startsWith: searchQueryParam },
+  }
+
+  const explorerListFetcher = api.explorerFetchList.useCache(explorerFindManyAndCountParams, { keepPreviousData: true })
 
   const columns = useMemo(
     () => toColumns(explorerListFetcher.data?.operationalTable.tableSchema.items || []),
@@ -72,9 +81,8 @@ export default function Component(): JSX.Element {
   })
 
   const explorerUpdateMutator = api.explorerUpdate.useCache({
-    onSuccess: () => {
-      notify({ title: 'Сохранено', type: 'success' })
-      explorerListFetcher.refetch()
+    onSuccess: (data) => {
+      api.explorerFetchList.setCache.replaceExplorerItem(explorerFindManyAndCountParams, data.data.row)
     },
     onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
   })
@@ -122,24 +130,16 @@ export default function Component(): JSX.Element {
               >
                 <Heading.BackToParent />
                 <Heading.Uniq
-                  string={explorerListFetcher.data?.operationalTable.name}
+                  string={explorerListFetcher.data?.operationalTable.name ?? nameQueryParam}
                   tooltipContent={routes.operationalTables_kn_explorer.getName()}
                 />
               </Heading.Root>
-              <Button
-                onClick={() =>
-                  formToCreate.initialize({
-                    _status: '0',
-                  })
-                }
-              >
-                Сохранить
-              </Button>
+              <Button onClick={() => formToCreate.initialize({ _status: '0' })}>Создать</Button>
             </Flex>
           </Section>
         )}
 
-        {indexedColumns?.length !== 0 && (
+        {indexedColumns?.length && (
           <Section size='1'>
             <Flex width='50%' direction='column'>
               <TextField.Root
@@ -153,15 +153,17 @@ export default function Component(): JSX.Element {
           </Section>
         )}
 
-        <Section size='1'>
-          <Pagination
-            currentPage={page}
-            limit={take}
-            loading={explorerListFetcher.isFetching}
-            totalElements={explorerListFetcher.data?.explorer.total}
-            onChange={(page) => setPaginationParams({ page }, 'replace')}
-          />
-        </Section>
+        {explorerListFetcher.data && (
+          <Section size='1'>
+            <Pagination
+              currentPage={page}
+              limit={take}
+              loading={explorerListFetcher.isFetching}
+              totalElements={explorerListFetcher.data?.explorer.total}
+              onChange={(page) => setPaginationParams({ page }, 'replace')}
+            />
+          </Section>
+        )}
 
         {explorerListFetcher.isSuccess && (
           <Section size='1'>
@@ -176,7 +178,9 @@ export default function Component(): JSX.Element {
                 }}
                 remove={(_id: Id) => explorerRemoveMutator.mutateAsync({ kn, where: { _id } }).then((res) => res.data)}
                 update={(row: Row) =>
-                  explorerUpdateMutator.mutateAsync({ kn, input: row, where: { _id: row._id } }).then((res) => res.data)
+                  explorerUpdateMutator
+                    .mutateAsync({ kn, input: row, where: { _id: row._id } })
+                    .then((res) => res.data.row)
                 }
                 paths={explorerListFetcher.data.explorer.paths}
                 data={explorerListFetcher.data.explorer}
