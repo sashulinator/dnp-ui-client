@@ -4,13 +4,18 @@ import Flex from '~/ui/flex'
 import { SortingButton } from '~/ui/table'
 import Text from '~/ui/text'
 
-export function toColumns<T extends Record<string, unknown>>(items: TableSchemaItem[]): TableColumn<T>[] {
+type Context = {
+  sort: Record<string, 'asc' | 'desc'> | null
+  setSort: (val: Record<string, 'asc' | 'desc'> | null) => void
+}
+
+export function toColumns<T extends Record<string, unknown>>(items: TableSchemaItem[]): TableColumn<T, Context>[] {
   return items.map((item) => {
     return {
       cellProps: { align: item.type === 'number' ? 'right' : 'left' },
       headerProps: { align: item.type === 'number' ? 'right' : 'left' },
-      key: item.columnName,
-      renderHeader: ({ context }) => {
+      accessorKey: item.columnName,
+      renderHeader: ({ accessorKey, context }) => {
         return (
           <Flex width='100%' justify='between' gap='2' align='center'>
             {item.name}
@@ -18,13 +23,8 @@ export function toColumns<T extends Record<string, unknown>>(items: TableSchemaI
               size='1'
               round={true}
               variant='ghost'
-              onChange={(value) =>
-                context?.setRequestParams?.((s) => ({
-                  ...s,
-                  sort: { [item.columnName]: value },
-                }))
-              }
-              value={context?.requestParams?.sort[item.columnName]}
+              onChange={(value) => context?.setSort?.(value === undefined ? null : { [accessorKey]: value })}
+              value={context?.sort?.[accessorKey]}
             />
           </Flex>
         )

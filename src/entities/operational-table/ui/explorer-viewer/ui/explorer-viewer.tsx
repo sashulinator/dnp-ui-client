@@ -11,15 +11,15 @@ import Flex from '~/ui/flex'
 import Icon from '~/ui/icon'
 import Spinner from '~/ui/spinner'
 import { SortingButton } from '~/ui/table'
-import { Id, SetterOrUpdater, c } from '~/utils/core'
+import { Id, c } from '~/utils/core'
 
 type Context = {
-  requestParams?: { sort: Record<string, 'asc' | 'desc'> } | undefined
-  setRequestParams: SetterOrUpdater<{ sort: Record<string, 'asc' | 'desc'> }>
+  sort: Record<string, 'asc' | 'desc'> | null
+  setSort: (val: Record<string, 'asc' | 'desc'> | null) => void
 }
 
 export interface Props extends Omit<Viewer.ViewerProps, 'children'> {
-  columns: TableColumn<Record<string, unknown>>[] | undefined
+  columns: TableColumn<Record<string, unknown>, Context>[] | undefined
   context: Context | undefined
   remove: (id: Id) => Promise<OperationalTable>
   update: (row: Row) => Promise<Row>
@@ -70,7 +70,7 @@ export default function Component(props: Props): JSX.Element {
     const cloned = [...columns]
 
     cloned.push({
-      key: '_status',
+      accessorKey: '_status',
       renderHeader: () => 'Согласование',
       cellProps: { align: 'right' },
       headerProps: { align: 'right' },
@@ -109,7 +109,7 @@ export default function Component(props: Props): JSX.Element {
       },
     })
     cloned.push({
-      key: 'action',
+      accessorKey: 'action',
       renderHeader: () => 'Действия',
       cellProps: { width: '1rem', align: 'right' },
       headerProps: { align: 'right' },
@@ -140,7 +140,7 @@ export default function Component(props: Props): JSX.Element {
     })
 
     cloned.unshift({
-      key: '_id',
+      accessorKey: '_id',
       renderHeader: ({ context }) => {
         return (
           <Flex gap='2' align='center'>
@@ -149,13 +149,8 @@ export default function Component(props: Props): JSX.Element {
               size='1'
               round={true}
               variant='ghost'
-              onChange={(value) =>
-                context?.setRequestParams?.((s) => ({
-                  ...s,
-                  sort: { ...s.sort, _id: value },
-                }))
-              }
-              value={context?.requestParams?.sort['_id']}
+              onChange={(value) => context?.setSort?.(value === undefined ? null : { _id: value })}
+              value={context?.sort?._id}
             />
           </Flex>
         )

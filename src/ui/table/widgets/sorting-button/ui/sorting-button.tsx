@@ -25,7 +25,7 @@ export default function Component(props: Props): JSX.Element {
       className={c(props.className, NAME)}
       onClick={fns(props.onClick, () => onChange?.(value === 'desc' ? 'asc' : value === 'asc' ? undefined : 'desc'))}
     >
-      <Icon name={value === 'asc' ? 'ChevronUp' : value === 'desc' ? 'ChevronDown' : 'ChevronDown'} />
+      <Icon name={value === 'asc' ? 'ChevronDown' : value === 'desc' ? 'ChevronUp' : 'ChevronDown'} />
     </Button>
   )
 }

@@ -8,11 +8,6 @@ export { default as Root } from './ui/viewer'
  */
 export { default as Breadscrums } from './widgets/breadscrums'
 export { default as List } from './widgets/list'
-export {
-  default as Table,
-  type TableProps,
-  type Column as TableColumn,
-  type Context as TableContext,
-} from './widgets/table'
+export { default as Table, type TableProps, type Column as TableColumn } from './widgets/table'
 
 export { NAME, type Props as ViewerProps } from './ui/viewer'

@@ -14,7 +14,7 @@ export type RequestData = {
   take?: number | undefined
   where?: Where | undefined
   searchQuery?: StringFilter | undefined
-  sort?: Record<string, 'asc' | 'desc'> | undefined
+  sort?: Record<string, 'asc' | 'desc'> | undefined | null
 }
 
 export type ResponseData = {

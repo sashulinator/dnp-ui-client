@@ -4,11 +4,13 @@ import { StringParam, useQueryParam, withDefault } from 'use-query-params'
 import { useDebounceCallback } from '~/utils/core-hooks'
 
 export function useSearch(): [string, string, (value: string) => void] {
-  const [queryParam, setQueryParam] = useQueryParam('q', withDefault(StringParam, ''))
+  const [queryParam, setQueryParam] = useQueryParam('q', withDefault(StringParam, ''), {
+    removeDefaultsFromUrl: true,
+  })
 
   const [value, setValue] = useState(queryParam)
 
-  const [setQueryParamWithDelay] = useDebounceCallback((value: string) => setQueryParam(value), 500)
+  const [setQueryParamWithDelay] = useDebounceCallback(setQueryParam, 500)
 
   return [queryParam, value, handleSet]
 

@@ -2,10 +2,7 @@
  * api
  */
 import * as create from './api/create'
-import * as explorerCreate from './api/explorer/create-row'
-import * as explorerFetchList from './api/explorer/find-many-and-count-rows'
-import * as explorerRemove from './api/explorer/remove-row'
-import * as explorerUpdate from './api/explorer/update-row'
+import * as explorer from './api/explorer'
 import * as fetchList from './api/fetch-list'
 import * as getByKn from './api/get-by-kn'
 import * as update from './api/update'
@@ -15,10 +12,7 @@ export const api = {
   getByKn,
   update,
   create,
-  explorerFetchList,
-  explorerCreate,
-  explorerUpdate,
-  explorerRemove,
+  explorer,
 }
 
 /**
