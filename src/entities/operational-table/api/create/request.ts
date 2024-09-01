@@ -1,8 +1,15 @@
 import { type Response } from '~/lib/api'
 import api from '~/shared/axios'
 
+import { SYSNAME } from '../../constants/name'
+import { CreateOperationalTable, OperationalTable } from '../../types/operational-table'
 import { url } from '../common'
-import { type RequestData, type ResponseData } from './types'
+
+export const NAME = `${SYSNAME}.create`
+
+export type RequestData = { input: CreateOperationalTable }
+
+export type ResponseData = OperationalTable
 
 export const buildURL = (): string => url
 

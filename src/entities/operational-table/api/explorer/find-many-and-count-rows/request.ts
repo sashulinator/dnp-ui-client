@@ -2,9 +2,9 @@ import { Explorer } from '~/entities/explorer/types/explorer'
 import type { Response, StringFilter, Where } from '~/lib/api'
 import api from '~/shared/axios'
 
-import { SYSNAME } from '../../constants/name'
-import { OperationalTable } from '../../types/operational-table'
-import { url } from '../common'
+import { SYSNAME } from '../../../constants/name'
+import { OperationalTable } from '../../../types/operational-table'
+import { url } from '../../common'
 
 export const NAME = `${SYSNAME}.explorerFindManyAndCountRows`
 

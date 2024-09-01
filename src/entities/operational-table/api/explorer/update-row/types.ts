@@ -1,5 +1,5 @@
-import { SYSNAME } from '../../constants/name'
-import { OperationalTable, Row } from '../../types/operational-table'
+import { SYSNAME } from '../../../constants/name'
+import { OperationalTable, Row } from '../../../types/operational-table'
 
 export const keyName = `${SYSNAME}.explorerUpdate`
 

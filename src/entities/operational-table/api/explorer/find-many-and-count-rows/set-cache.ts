@@ -2,7 +2,7 @@ import { Response } from '~/lib/api'
 import { queryClient } from '~/shared/react-query'
 import { assertDefined } from '~/utils/assertions'
 
-import { Row } from '../../types/operational-table'
+import { Row } from '../../../types/operational-table'
 import { NAME, RequestData, ResponseData } from './request'
 
 export function setCache(requestData: RequestData, data: ResponseData): void {
