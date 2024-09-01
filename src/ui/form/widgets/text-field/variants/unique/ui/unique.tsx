@@ -1,12 +1,14 @@
 import { useQuery } from 'react-query'
-import TextField, { TextFieldProps } from '../../..'
-import Hint from '../../../../hint'
-import { NAME as PARENT_NAME } from '../../../ui/text-field'
+
 import Flex from '~/ui/flex'
 import Spinner from '~/ui/spinner'
 import Text from '~/ui/text'
 import { capitalize } from '~/utils/core'
 import { useDebounce } from '~/utils/core-hooks'
+
+import TextField, { type TextFieldProps } from '../../..'
+import Hint from '../../../../hint'
+import { NAME as PARENT_NAME } from '../../../ui/text-field'
 
 export type Props = Omit<TextFieldProps<string>, 'name' | 'value' | 'type'> & {
   entityName: string

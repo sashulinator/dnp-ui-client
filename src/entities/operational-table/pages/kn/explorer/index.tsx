@@ -16,13 +16,13 @@ import { routes } from '~/shared/routes'
 import Button from '~/ui/button'
 import Container from '~/ui/container'
 import Flex from '~/ui/flex'
-import FForm, { FormApi, useCreateForm } from '~/ui/form'
+import FForm, { type FormApi, useCreateForm } from '~/ui/form'
 import Heading from '~/ui/layout/variants/heading'
 import Pagination from '~/ui/pagination'
 import ScrollArea from '~/ui/scroll-area'
 import Section from '~/ui/section'
 import TextField from '~/ui/text-field'
-import { Id, isEmpty } from '~/utils/core'
+import { type Id, isEmpty } from '~/utils/core'
 
 export interface Props {
   className?: string | undefined

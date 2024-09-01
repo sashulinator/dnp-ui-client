@@ -1,6 +1,11 @@
-import Button, { ButtonProps } from '~/ui/button'
+import { type ForwardedRef, forwardRef } from 'react'
+
+import Button, { type ButtonProps } from '~/ui/button'
 import Icon from '~/ui/icon'
+import Text from '~/ui/text'
+import Tooltip from '~/ui/tooltip'
 import { c, fns } from '~/utils/core'
+import { setRefs } from '~/utils/react'
 
 export type Value = 'asc' | 'desc' | undefined
 
@@ -12,22 +17,45 @@ export interface Props extends Omit<ButtonProps, 'onChange'> {
 
 export const NAME = 'ui-Table-w-SortingButton'
 
+const nextValue = {
+  asc: 'desc',
+  desc: undefined,
+  undefined: 'asc',
+} as const
+
 /**
  * ui-Table-w-SortingButton
  */
-export default function Component(props: Props): JSX.Element {
+function Component(props: Props, ref: ForwardedRef<HTMLButtonElement>): JSX.Element {
   const { value, onChange, ...buttonProps } = props
 
   return (
-    <Button
-      {...buttonProps}
-      color={value ? 'amber' : 'gray'}
-      className={c(props.className, NAME)}
-      onClick={fns(props.onClick, () => onChange?.(value === 'desc' ? 'asc' : value === 'asc' ? undefined : 'desc'))}
+    <Tooltip
+      content={
+        nextValue[String(value) as 'desc'] === undefined ? (
+          <Text>Клик чтобы отменить сортировку</Text>
+        ) : (
+          <Text>
+            Клик чтобы сортировать
+            <br />
+            по {nextValue[String(value) as 'asc'] === 'desc' ? 'убыванию' : 'возростанию'}
+          </Text>
+        )
+      }
     >
-      <Icon name={value === 'asc' ? 'ChevronDown' : value === 'desc' ? 'ChevronUp' : 'ChevronDown'} />
-    </Button>
+      <Button
+        {...buttonProps}
+        ref={setRefs(ref)}
+        color={value ? 'amber' : 'gray'}
+        className={c(props.className, NAME)}
+        onClick={fns(props.onClick, () => onChange?.(nextValue[String(value) as 'asc']))}
+      >
+        <Icon name={value === 'asc' ? 'ChevronDown' : value === 'desc' ? 'ChevronUp' : 'ChevronDown'} />
+      </Button>
+    </Tooltip>
   )
 }
 
-Component.displayName = NAME
+const ForwardRef = forwardRef(Component)
+ForwardRef.displayName = NAME
+export default ForwardRef

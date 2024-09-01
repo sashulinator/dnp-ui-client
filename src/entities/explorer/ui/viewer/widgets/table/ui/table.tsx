@@ -5,7 +5,6 @@ import { useContext } from 'react'
 import React from 'react'
 
 import { type CellProps } from '~/ui/table'
-import Text from '~/ui/text'
 import { c } from '~/utils/core'
 
 import { type Item } from '../../../../../types/explorer'
@@ -50,12 +49,10 @@ export default function Component<TContext extends Record<string, unknown>>(prop
           {columns.map((column, i) => {
             return (
               <Table.ColumnHeaderCell key={i} {...column.headerProps}>
-                <Text>
-                  {React.createElement(column.renderHeader, {
-                    accessorKey: column.accessorKey,
-                    context: contextProp as TContext,
-                  })}
-                </Text>
+                {React.createElement(column.renderHeader, {
+                  accessorKey: column.accessorKey,
+                  context: contextProp as TContext,
+                })}
               </Table.ColumnHeaderCell>
             )
           })}

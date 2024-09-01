@@ -2,8 +2,8 @@ import { useMemo, useState } from 'react'
 import { useMutation } from 'react-query'
 
 import { Viewer } from '~/entities/explorer'
-import { TableColumn } from '~/entities/explorer/ui/viewer'
-import { OperationalTable, Row } from '~/entities/operational-table'
+import { type TableColumn } from '~/entities/explorer/ui/viewer'
+import { type OperationalTable, type Row } from '~/entities/operational-table'
 import { getRole, roles } from '~/entities/user'
 import { notify } from '~/shared/notification-list-store'
 import Button from '~/ui/button'
@@ -11,7 +11,7 @@ import Flex from '~/ui/flex'
 import Icon from '~/ui/icon'
 import Spinner from '~/ui/spinner'
 import { SortingButton } from '~/ui/table'
-import { Id, c } from '~/utils/core'
+import { type Id, c } from '~/utils/core'
 
 type Context = {
   sort: Record<string, 'asc' | 'desc'> | null
@@ -72,8 +72,14 @@ export default function Component(props: Props): JSX.Element {
     cloned.push({
       accessorKey: '_status',
       renderHeader: () => 'Согласование',
-      cellProps: { align: 'right' },
-      headerProps: { align: 'right' },
+      cellProps: {
+        style: {
+          // calc(var(--space-2) + var(--space-1)) потом что cellPadding + TextInputPadding
+          padding: '0 calc(var(--space-2) + var(--space-1)) 0 calc(var(--space-4) + var(--space-1))',
+          verticalAlign: 'middle',
+        },
+      },
+      headerProps: { style: { verticalAlign: 'middle' } },
       renderCell: ({ item }) => {
         const row = item.data as Row
         const role = getRole()
@@ -111,8 +117,15 @@ export default function Component(props: Props): JSX.Element {
     cloned.push({
       accessorKey: 'action',
       renderHeader: () => 'Действия',
-      cellProps: { width: '1rem', align: 'right' },
-      headerProps: { align: 'right' },
+      cellProps: {
+        style: {
+          textAlign: 'right',
+          // calc(var(--space-2) + var(--space-1)) потом что cellPadding + TextInputPadding
+          padding: '0 calc(var(--space-2) + var(--space-1)) 0 calc(var(--space-4) + var(--space-1))',
+          verticalAlign: 'middle',
+        },
+      },
+      headerProps: { style: { textAlign: 'right', verticalAlign: 'middle' } },
       renderCell: ({ item }) => {
         const row = item.data as Row
 
@@ -143,8 +156,7 @@ export default function Component(props: Props): JSX.Element {
       accessorKey: '_id',
       renderHeader: ({ context }) => {
         return (
-          <Flex gap='2' align='center'>
-            _id
+          <Flex height='100%' align='center' justify='center'>
             <SortingButton
               size='1'
               round={true}
@@ -156,7 +168,7 @@ export default function Component(props: Props): JSX.Element {
         )
       },
       cellProps: { width: '1rem', align: 'center' },
-      headerProps: { align: 'center' },
+      headerProps: { align: 'center', justify: 'center' },
       renderCell: ({ item }) => {
         const row = item.data as Row
 

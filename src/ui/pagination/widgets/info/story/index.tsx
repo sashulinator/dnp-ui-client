@@ -1,8 +1,8 @@
-import { type Story, Props } from '~/ui/storybook'
+import Flex from '~/ui/flex'
+import { type Props, type Story } from '~/ui/storybook'
 
 import TextField from '..'
 import Info from '..'
-import Flex from '~/ui/flex'
 
 interface State {}
 
@@ -14,7 +14,7 @@ export default {
 
     return (
       <Flex width='100%' direction={'column'} p='8' gap='4'>
-        <Info totalElements='10' totalPages='100' {...state} root={{ style: { border: '1px solid red' } }} />
+        <Info totalElements='10' totalPages='100' {...state} style={{ border: '1px solid red' }} />
       </Flex>
     )
   },
