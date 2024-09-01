@@ -1,8 +1,9 @@
-import { type Story, type Props } from '~/ui/storybook'
-
 import { useState } from 'react'
 import { useQuery } from 'react-query'
-import Viewer, { NAME } from '../'
+
+import { type Props, type Story } from '~/ui/storybook'
+
+import * as Viewer from '../'
 import { Explorer, Path } from '../../../types/explorer'
 
 interface State {
@@ -18,7 +19,7 @@ export default {
 
     return (
       <div style={{ width: '100%', height: '100%', border: '1px solid red' }}>
-        <Viewer.Root paths={paths} loading={isFetching} onPathChange={setPath} data={data} {...state}>
+        <Viewer.Root context={{}} paths={paths} loading={isFetching} onPathChange={setPath} data={data} {...state}>
           <Viewer.Breadscrums />
         </Viewer.Root>
       </div>
@@ -40,7 +41,7 @@ export default {
     // { name: 'name', input: 'checkbox', defaultValue: false },
   ],
 
-  getName: (): string => NAME,
+  getName: (): string => Viewer.NAME,
 } satisfies Story<State>
 
 function getMock(paths: Path[]): Promise<Explorer> {

@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react'
 import { useMutation } from 'react-query'
 
-import { Viewer, ViewerProps } from '~/entities/explorer'
+import { Viewer } from '~/entities/explorer'
+import { TableColumn } from '~/entities/explorer/ui/viewer'
 import { OperationalTable, Row } from '~/entities/operational-table'
 import { getRole, roles } from '~/entities/user'
 import { notify } from '~/shared/notification-list-store'
@@ -9,11 +10,17 @@ import Button from '~/ui/button'
 import Flex from '~/ui/flex'
 import Icon from '~/ui/icon'
 import Spinner from '~/ui/spinner'
-import { TableListColumn } from '~/ui/table'
-import { Id, c } from '~/utils/core'
+import { SortingButton } from '~/ui/table'
+import { Id, SetterOrUpdater, c } from '~/utils/core'
 
-export interface Props extends Omit<ViewerProps, 'children'> {
-  columns: TableListColumn<Record<string, unknown>>[] | undefined
+type Context = {
+  requestParams?: { sort: Record<string, 'asc' | 'desc'> } | undefined
+  setRequestParams: SetterOrUpdater<{ sort: Record<string, 'asc' | 'desc'> }>
+}
+
+export interface Props extends Omit<Viewer.ViewerProps, 'children'> {
+  columns: TableColumn<Record<string, unknown>>[] | undefined
+  context: Context | undefined
   remove: (id: Id) => Promise<OperationalTable>
   update: (row: Row) => Promise<Row>
 }
@@ -134,9 +141,27 @@ export default function Component(props: Props): JSX.Element {
 
     cloned.unshift({
       key: '_id',
-      renderHeader: () => '_id',
-      cellProps: { width: '1rem', align: 'left' },
-      headerProps: { align: 'left' },
+      renderHeader: ({ context }) => {
+        return (
+          <Flex gap='2' align='center'>
+            _id
+            <SortingButton
+              size='1'
+              round={true}
+              variant='ghost'
+              onChange={(value) =>
+                context?.setRequestParams?.((s) => ({
+                  ...s,
+                  sort: { ...s.sort, _id: value },
+                }))
+              }
+              value={context?.requestParams?.sort['_id']}
+            />
+          </Flex>
+        )
+      },
+      cellProps: { width: '1rem', align: 'center' },
+      headerProps: { align: 'center' },
       renderCell: ({ item }) => {
         const row = item.data as Row
 

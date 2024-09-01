@@ -1,6 +1,6 @@
 import { Dialog } from '@radix-ui/themes'
 
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { NumberParam, StringParam, withDefault } from 'serialize-query-params'
 import { useQueryParam, useQueryParams } from 'use-query-params'
@@ -47,16 +47,16 @@ export default function Component(): JSX.Element {
 
   const where = role === 'Approver' ? { OR: [{ _status: '1' }, { _status: '2' }, { _status: '3' }] } : {}
 
-  const explorerFindManyAndCountParams = {
+  const [requestParams, setRequestParams] = useState({
     kn,
     where,
     skip: (page - 1) * take,
     take,
     sort: { _id: 'desc' } as const,
     searchQuery: { startsWith: searchQueryParam },
-  }
+  })
 
-  const explorerListFetcher = api.explorerFetchList.useCache(explorerFindManyAndCountParams, { keepPreviousData: true })
+  const explorerListFetcher = api.explorerFetchList.useCache(requestParams, { keepPreviousData: true })
 
   const columns = useMemo(
     () => toColumns(explorerListFetcher.data?.operationalTable.tableSchema.items || []),
@@ -82,7 +82,7 @@ export default function Component(): JSX.Element {
 
   const explorerUpdateMutator = api.explorerUpdate.useCache({
     onSuccess: (data) => {
-      api.explorerFetchList.setCache.replaceExplorerItem(explorerFindManyAndCountParams, data.data.row)
+      api.explorerFetchList.setCache.replaceExplorerItem(requestParams, data.data.row)
     },
     onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
   })
@@ -170,6 +170,8 @@ export default function Component(): JSX.Element {
             <ScrollArea>
               <ExplorerViewer
                 loading={explorerListFetcher.isFetching}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                context={{ requestParams: { sort: requestParams.sort }, setRequestParams: setRequestParams as any }}
                 onPathChange={(paths) => {
                   const last = paths[paths.length - 1]
                   const item = explorerListFetcher.data.explorer.items.find((item) => item.name === last.name)

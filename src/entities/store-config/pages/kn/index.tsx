@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { safeParse } from 'valibot'
+
 import { Path, Viewer, api } from '~/entities/explorer'
 import {
   Form,
@@ -163,6 +164,7 @@ export default function Component(): JSX.Element {
                   </Flex>
                   {paths.length !== 0 && (
                     <Viewer.Root
+                      context={{}}
                       onPathChange={setPaths}
                       loading={explorerFetcher.isFetching}
                       paths={paths}

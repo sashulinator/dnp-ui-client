@@ -7,7 +7,7 @@ export type Value = 'asc' | 'desc' | undefined
 export interface Props extends Omit<ButtonProps, 'onChange'> {
   className?: string | undefined
   value: Value
-  onChange: (value: Value) => void
+  onChange?: ((value: Value) => void) | undefined
 }
 
 export const NAME = 'ui-Table-w-SortingButton'
@@ -23,7 +23,7 @@ export default function Component(props: Props): JSX.Element {
       {...buttonProps}
       color={value ? 'amber' : 'gray'}
       className={c(props.className, NAME)}
-      onClick={fns(props.onClick, () => onChange(value === 'desc' ? 'asc' : value === 'asc' ? undefined : 'desc'))}
+      onClick={fns(props.onClick, () => onChange?.(value === 'desc' ? 'asc' : value === 'asc' ? undefined : 'desc'))}
     >
       <Icon name={value === 'asc' ? 'ChevronUp' : value === 'desc' ? 'ChevronDown' : 'ChevronDown'} />
     </Button>

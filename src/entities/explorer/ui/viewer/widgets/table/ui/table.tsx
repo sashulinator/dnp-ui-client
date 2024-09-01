@@ -1,17 +1,39 @@
 import { Table } from '@radix-ui/themes'
 import { type RootProps } from '@radix-ui/themes/dist/esm/components/table.d.ts'
+
 import { useContext } from 'react'
 import React from 'react'
+
+import { type CellProps } from '~/ui/table'
+import Text from '~/ui/text'
+import { SetterOrUpdater, c } from '~/utils/core'
+
 import { type Item } from '../../../../../types/explorer'
 import { context } from '../../../models/context'
 import { NAME as ROOT_NAME } from '../../../ui/viewer'
-import { type TableListColumn } from '~/ui/table'
-import Text from '~/ui/text'
-import { c } from '~/utils/core'
+
+export type Context = {
+  requestParams?: { sort: Record<string, 'asc' | 'desc' | undefined> } | undefined
+  setRequestParams?: SetterOrUpdater<{ sort: Record<string, 'asc' | 'desc' | undefined> }> | undefined
+}
+
+export interface Column<TDataItem extends Record<string, unknown>> {
+  key: keyof TDataItem
+  cellProps?: CellProps | undefined
+  headerProps?: CellProps | undefined
+  context?: Context | undefined
+  renderCell: (props: {
+    key: keyof TDataItem
+    value: TDataItem[keyof TDataItem]
+    item: TDataItem
+    context?: Context | undefined
+  }) => React.ReactNode
+  renderHeader: (props: { key: keyof TDataItem; context?: Context | undefined }) => React.ReactNode
+}
 
 export type Props = RootProps & {
   className?: string | undefined
-  columns: TableListColumn<Record<string, unknown>>[]
+  columns: Column<Record<string, unknown>>[]
 }
 
 export const NAME = `${ROOT_NAME}-w-Table`
@@ -22,9 +44,9 @@ export const NAME = `${ROOT_NAME}-w-Table`
 export default function Component(props: Props): JSX.Element {
   const { className, columns: propsColumns, ...rootTableProps } = props
 
-  const { data, loading, onPathChange, paths } = useContext(context)
+  const { data, loading, onPathChange, paths, context: contextProp } = useContext(context)
 
-  const columns = propsColumns as unknown as TableListColumn<Item>[] /* иначе никак */
+  const columns = propsColumns as unknown as Column<Item>[] /* иначе никак */
 
   return (
     <Table.Root className={c(className, NAME)} {...rootTableProps}>
@@ -33,7 +55,12 @@ export default function Component(props: Props): JSX.Element {
           {columns.map((column, i) => {
             return (
               <Table.ColumnHeaderCell key={i} {...column.headerProps}>
-                <Text style={{ opacity: '0.4' }}>{React.createElement(column.renderHeader, { key: column.key })}</Text>
+                <Text>
+                  {React.createElement(column.renderHeader, {
+                    key: column.key,
+                    context: contextProp,
+                  })}
+                </Text>
               </Table.ColumnHeaderCell>
             )
           })}
@@ -55,6 +82,7 @@ export default function Component(props: Props): JSX.Element {
                     {React.createElement(column.renderCell, {
                       key: column.key,
                       item,
+                      context: contextProp,
                       // eslint-disable-next-line @typescript-eslint/no-explicit-any
                       value: (item.data as any)[column.key],
                     })}

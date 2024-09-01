@@ -3,7 +3,7 @@ import { UseQueryOptions, UseQueryResult, useQuery as useReactQuery } from 'reac
 import { Response } from '~/lib/api'
 import { QueryError } from '~/lib/api'
 
-import { request } from './request'
+import { NAME, request } from './request'
 import { RequestData, ResponseData } from './request'
 
 export type Options<TData = ResponseData> = UseQueryOptions<Response<ResponseData>, QueryError, TData, unknown[]>
@@ -20,5 +20,5 @@ export function useCache<TData = ResponseData>(
     ...preferedOptions,
   }
 
-  return useReactQuery([options, requestData] as const, () => request(requestData), options)
+  return useReactQuery([NAME, requestData] as const, () => request(requestData), options)
 }
