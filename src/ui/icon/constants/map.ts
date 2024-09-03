@@ -4,6 +4,7 @@ import ChevronDown from '../widgets/chevron-down'
 import ChevronLeft from '../widgets/chevron-left'
 import ChevronRight from '../widgets/chevron-right'
 import ChevronUp from '../widgets/chevron-up'
+import DotsVertical from '../widgets/dots-vertical'
 import DoubleChevronLeft from '../widgets/double-chevron-left'
 import DoubleChevronRight from '../widgets/double-chevron-right'
 import InfoCircled from '../widgets/info-circled'
@@ -19,6 +20,7 @@ export const map = {
   ChevronLeft,
   ChevronRight,
   ChevronUp,
+  DotsVertical,
   DoubleChevronLeft,
   DoubleChevronRight,
   InfoCircled,
