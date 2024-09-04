@@ -10,7 +10,7 @@ import { SYSNAME } from '~/entities/operational-table/constants/name'
 import ExplorerViewer from '~/entities/operational-table/ui/explorer-viewer'
 import { SchemaForm, toColumns } from '~/entities/table-schema'
 import { getRole } from '~/entities/user'
-import { useSearch, useSort } from '~/lib/search-query-params'
+import { JSONParam, useSearch, useSort } from '~/lib/search-query-params'
 import { notify } from '~/shared/notification-list-store'
 import { routes } from '~/shared/routes'
 import Button from '~/ui/button'
@@ -50,11 +50,13 @@ export default function Component(): JSX.Element {
     { removeDefaultsFromUrl: true },
   )
 
+  const [columnSearchParams, setColumnSearchParams] = useQueryParam('columnSearch', JSONParam)
+
   const where = role === 'Approver' ? { OR: [{ _status: '1' }, { _status: '2' }, { _status: '3' }] } : {}
 
   const requestParams = {
     kn,
-    where,
+    where: { ...where, ...columnSearchParams },
     skip: (page - 1) * take,
     take,
     sort: sortParam,
@@ -175,7 +177,12 @@ export default function Component(): JSX.Element {
             <ScrollArea>
               <ExplorerViewer
                 loading={explorerListFetcher.isFetching}
-                context={{ sort: sortValue, setSort }}
+                context={{
+                  sort: sortValue,
+                  setSort,
+                  searchFilter: columnSearchParams as any,
+                  setSearchFilter: setColumnSearchParams as any,
+                }}
                 onPathChange={(paths) => {
                   const last = paths[paths.length - 1]
                   const item = explorerListFetcher.data.explorer.items.find((item) => item.name === last.name)

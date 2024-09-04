@@ -21,7 +21,12 @@ function Root(props: Props, ref: ForwardedRef<HTMLInputElement>): JSX.Element {
   const { className, variant = 'surface', ...textFieldRootProps } = props
 
   return (
-    <TextField.Root {...textFieldRootProps} ref={setRefs(ref)} className={c(className, NAME, `--variant-${variant}`)} />
+    <TextField.Root
+      {...textFieldRootProps}
+      variant={variant === 'borderless' ? 'surface' : variant}
+      ref={setRefs(ref)}
+      className={c(className, NAME, `--variant-${variant}`)}
+    />
   )
 }
 

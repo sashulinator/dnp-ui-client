@@ -1,15 +1,27 @@
+import { DropdownMenu } from '@radix-ui/themes'
+
+import { useState } from 'react'
+
+import { getStringFilterConfig } from '~/common/lib/api/get-string-filter-config'
 import { type TableColumn } from '~/entities/explorer/ui/viewer'
 import { type TableSchemaItem } from '~/entities/operational-table'
-// import { type StringFilter } from '~/lib/api'
+import { type StringFilter } from '~/lib/api'
+import { type Sort } from '~/lib/search-query-params'
+import Button from '~/ui/button'
 import Flex from '~/ui/flex'
+import Icon from '~/ui/icon'
 import { SortingButton } from '~/ui/table'
+import Text from '~/ui/text'
 import TextField from '~/ui/text-field'
+import { type SetterOrUpdater, assertDefined, isString } from '~/utils/core'
+import { useDebounceCallback } from '~/utils/core-hooks'
+import { remove } from '~/utils/dictionary'
 
-type Context = {
-  sort: Record<string, 'asc' | 'desc'> | null
-  setSort: (val: Record<string, 'asc' | 'desc'> | null) => void
-  // searchQueries: Record<string, StringFilter> | null
-  // setSearchQueries: (val: Record<string, StringFilter> | null) => void
+export type Context = {
+  sort: Sort
+  setSort: (val: Sort) => void
+  searchFilter: Record<string, StringFilter>
+  setSearchFilter: SetterOrUpdater<Record<string, StringFilter>>
 }
 
 export function toColumns<T extends Record<string, unknown>>(items: TableSchemaItem[]): TableColumn<T, Context>[] {
@@ -24,27 +36,238 @@ export function toColumns<T extends Record<string, unknown>>(items: TableSchemaI
           verticalAlign: 'middle',
         },
       },
-      headerProps: { style: { textAlign: item.type === 'number' ? 'right' : 'left', verticalAlign: 'middle' } },
-      accessorKey: item.columnName,
-      renderHeader: ({ accessorKey, context }) => {
-        const value = context?.sort?.[accessorKey] as 'asc'
-
-        return (
-          <Flex width='100%' justify='between' gap='3' align='center'>
-            <TextField.Root variant='borderless' placeholder={item.name} size='1' style={{ width: '100%' }} />
-            <SortingButton
-              size='1'
-              round={true}
-              variant='ghost'
-              onChange={(newValue) => context?.setSort?.(newValue === undefined ? null : { [accessorKey]: newValue })}
-              value={value}
-            />
-          </Flex>
-        )
+      headerProps: {
+        style: { minWidth: '12rem', textAlign: item.type === 'number' ? 'right' : 'left', verticalAlign: 'middle' },
       },
+      accessorKey: item.columnName,
+      name: item.name,
+      renderHeader: _HeaderCell as TableColumn<T, Context>['renderHeader'],
       renderCell: ({ value }) => {
         return value as string
       },
     }
   })
+}
+
+interface _HeaderProps<T> {
+  accessorKey: T
+  context?: Context | undefined
+  name: string
+}
+
+function _HeaderCell<T extends string>({ accessorKey, context, name }: _HeaderProps<T>): JSX.Element {
+  assertDefined(context)
+
+  const sortValue = context?.sort?.[accessorKey] as 'asc'
+
+  const stringFilterConfig = getStringFilterConfig(context.searchFilter[accessorKey])
+
+  const [setSearchWithDebounce] = useDebounceCallback(context?.setSearchFilter, 500)
+  const [searchValue, setSearchValue] = useState(stringFilterConfig.value || '')
+
+  return (
+    <Flex width='100%' justify='between' gap='4' align='center'>
+      {isString(searchValue) && (
+        <TextField.Root
+          value={searchValue || ''}
+          color='amber'
+          variant={searchValue ? 'soft' : 'borderless'}
+          onChange={(e) => {
+            const newValue = e.target.value
+            setSearchValue(e.target.value)
+            if (!newValue) {
+              setSearchWithDebounce((s) => remove(s, accessorKey as string))
+            } else {
+              setSearchWithDebounce((s) => ({ ...s, [accessorKey]: { startsWith: newValue } }))
+            }
+          }}
+          placeholder={name}
+          size='1'
+          style={{ width: '100%' }}
+        />
+      )}
+
+      <DropdownMenu.Root>
+        <DropdownMenu.Trigger>
+          <Button square={true} size='1' variant='ghost'>
+            <Icon name='DotsVertical' />
+          </Button>
+        </DropdownMenu.Trigger>
+        <DropdownMenu.Content>
+          <DropdownMenu.Label>
+            <Text size='1'>Поиск</Text>
+          </DropdownMenu.Label>
+          <DropdownMenu.Item
+            onClick={() => {
+              setSearchWithDebounce((s) => ({ ...s, [accessorKey]: { contains: searchValue as string } }))
+            }}
+          >
+            <Button
+              square={true}
+              size='1'
+              variant='soft'
+              color={
+                (Object.keys(context.searchFilter?.[accessorKey] || {}).includes('contains')
+                  ? 'amber'
+                  : undefined) as 'amber'
+              }
+            >
+              <Icon name='Star' />
+            </Button>
+            Содержит
+          </DropdownMenu.Item>
+          <DropdownMenu.Item
+            onClick={() => {
+              setSearchWithDebounce((s) => ({ ...s, [accessorKey]: { startsWith: searchValue as string } }))
+            }}
+          >
+            <Button
+              square={true}
+              variant='soft'
+              size='1'
+              color={
+                (Object.keys(context.searchFilter?.[accessorKey] || {}).includes('startsWith')
+                  ? 'amber'
+                  : undefined) as 'amber'
+              }
+            >
+              <Icon name='Star' />
+            </Button>
+            Начинается
+          </DropdownMenu.Item>
+          <DropdownMenu.Item
+            onClick={() => {
+              setSearchWithDebounce((s) => ({ ...s, [accessorKey]: { endsWith: searchValue as string } }))
+            }}
+          >
+            <Button
+              square={true}
+              size='1'
+              variant='soft'
+              color={
+                (Object.keys(context.searchFilter?.[accessorKey] || {}).includes('endsWith')
+                  ? 'amber'
+                  : undefined) as 'amber'
+              }
+            >
+              <Icon name='Star' />
+            </Button>
+            Заканчивается
+          </DropdownMenu.Item>
+
+          <DropdownMenu.Item
+            onClick={() => {
+              setSearchWithDebounce((s) => ({ ...s, [accessorKey]: { equals: searchValue as string } }))
+            }}
+          >
+            <Button
+              square={true}
+              size='1'
+              variant='soft'
+              color={
+                (Object.keys(context.searchFilter?.[accessorKey] || {}).includes('equals')
+                  ? 'amber'
+                  : undefined) as 'amber'
+              }
+            >
+              <Icon name='Star' />
+            </Button>
+            Равен
+          </DropdownMenu.Item>
+          <DropdownMenu.Item
+            onClick={() => {
+              setSearchWithDebounce((s) => ({ ...s, [accessorKey]: { gt: searchValue as string } }))
+            }}
+          >
+            <Button
+              square={true}
+              size='1'
+              variant='soft'
+              color={
+                (Object.keys(context.searchFilter?.[accessorKey] || {}).includes('gt') ? 'amber' : undefined) as 'amber'
+              }
+            >
+              <Icon name='Star' />
+            </Button>
+            Больше чем
+          </DropdownMenu.Item>
+          <DropdownMenu.Item
+            onClick={() => {
+              setSearchWithDebounce((s) => ({ ...s, [accessorKey]: { gte: searchValue as string } }))
+            }}
+          >
+            <Button
+              square={true}
+              size='1'
+              variant='soft'
+              color={
+                (Object.keys(context.searchFilter?.[accessorKey] || {}).includes('gte')
+                  ? 'amber'
+                  : undefined) as 'amber'
+              }
+            >
+              <Icon name='Star' />
+            </Button>
+            Больше чем или равен
+          </DropdownMenu.Item>
+          <DropdownMenu.Item
+            onClick={() => {
+              setSearchWithDebounce((s) => ({ ...s, [accessorKey]: { gt: searchValue as string } }))
+            }}
+          >
+            <Button
+              square={true}
+              size='1'
+              variant='soft'
+              color={
+                (Object.keys(context.searchFilter?.[accessorKey] || {}).includes('lt') ? 'amber' : undefined) as 'amber'
+              }
+            >
+              <Icon name='Star' />
+            </Button>
+            Меньше чем
+          </DropdownMenu.Item>
+          <DropdownMenu.Item
+            onClick={() => {
+              setSearchWithDebounce((s) => ({ ...s, [accessorKey]: { gt: searchValue as string } }))
+            }}
+          >
+            <Button
+              square={true}
+              size='1'
+              variant='soft'
+              color={
+                (Object.keys(context.searchFilter?.[accessorKey] || {}).includes('lte')
+                  ? 'amber'
+                  : undefined) as 'amber'
+              }
+            >
+              <Icon name='Star' />
+            </Button>
+            Меньше чем или равен
+          </DropdownMenu.Item>
+          {/* <DropdownMenu.Separator /> */}
+          {/* <DropdownMenu.Item>Регистр</DropdownMenu.Item> */}
+          <DropdownMenu.Separator />
+          <DropdownMenu.Label>
+            <Text size='1'>Нормализация</Text>
+          </DropdownMenu.Label>
+          <DropdownMenu.Item
+            onClick={() => {
+              setSearchWithDebounce((s) => ({ ...s, [accessorKey]: { endsWith: searchValue as string } }))
+            }}
+          >
+            Запуск по колонке
+          </DropdownMenu.Item>
+        </DropdownMenu.Content>
+      </DropdownMenu.Root>
+      <SortingButton
+        size='1'
+        round={true}
+        variant='ghost'
+        onChange={(newValue) => context?.setSort?.(newValue === undefined ? null : { [accessorKey]: newValue })}
+        value={sortValue}
+      />
+    </Flex>
+  )
 }

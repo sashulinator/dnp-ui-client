@@ -4,6 +4,7 @@ import { useMutation } from 'react-query'
 import { Viewer } from '~/entities/explorer'
 import { type TableColumn } from '~/entities/explorer/ui/viewer'
 import { type OperationalTable, type Row } from '~/entities/operational-table'
+import { type ColumnContext } from '~/entities/table-schema'
 import { getRole, roles } from '~/entities/user'
 import { notify } from '~/shared/notification-list-store'
 import Button from '~/ui/button'
@@ -13,14 +14,9 @@ import Spinner from '~/ui/spinner'
 import { SortingButton } from '~/ui/table'
 import { type Id, c } from '~/utils/core'
 
-type Context = {
-  sort: Record<string, 'asc' | 'desc'> | null
-  setSort: (val: Record<string, 'asc' | 'desc'> | null) => void
-}
-
 export interface Props extends Omit<Viewer.ViewerProps, 'children'> {
-  columns: TableColumn<Record<string, unknown>, Context>[] | undefined
-  context: Context | undefined
+  columns: TableColumn<Record<string, unknown>, ColumnContext>[] | undefined
+  context: ColumnContext | undefined
   remove: (id: Id) => Promise<OperationalTable>
   update: (row: Row) => Promise<Row>
 }
@@ -71,15 +67,22 @@ export default function Component(props: Props): JSX.Element {
 
     cloned.push({
       accessorKey: '_status',
-      renderHeader: () => 'Согласование',
+      name: 'Согласование',
+      renderHeader: ({ name }) => name,
       cellProps: {
         style: {
           // calc(var(--space-2) + var(--space-1)) потом что cellPadding + TextInputPadding
           padding: '0 calc(var(--space-2) + var(--space-1)) 0 calc(var(--space-4) + var(--space-1))',
           verticalAlign: 'middle',
+          textAlign: 'right',
         },
       },
-      headerProps: { style: { verticalAlign: 'middle' } },
+      headerProps: {
+        style: {
+          textAlign: 'right',
+          verticalAlign: 'middle',
+        },
+      },
       renderCell: ({ item }) => {
         const row = item.data as Row
         const role = getRole()
@@ -116,7 +119,8 @@ export default function Component(props: Props): JSX.Element {
     })
     cloned.push({
       accessorKey: 'action',
-      renderHeader: () => 'Действия',
+      name: 'Действия',
+      renderHeader: ({ name }) => name,
       cellProps: {
         style: {
           textAlign: 'right',
@@ -154,6 +158,7 @@ export default function Component(props: Props): JSX.Element {
 
     cloned.unshift({
       accessorKey: '_id',
+      name: 'Системный ID',
       renderHeader: ({ context }) => {
         return (
           <Flex height='100%' align='center' justify='center'>

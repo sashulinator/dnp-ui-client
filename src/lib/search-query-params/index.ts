@@ -1,5 +1,5 @@
 export { useSearch } from './search'
-export { useSort } from './sort'
+export { useSort, type Sort } from './sort'
 export { JSONParam } from './json-param'
 
 export {

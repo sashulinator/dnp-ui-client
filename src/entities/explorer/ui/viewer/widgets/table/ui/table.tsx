@@ -13,16 +13,22 @@ import { NAME as ROOT_NAME } from '../../../ui/viewer'
 
 export interface Column<TDataItem extends Record<string, unknown>, TContext extends Record<string, unknown>> {
   accessorKey: keyof TDataItem
+  name: string
   cellProps?: CellProps | undefined
   headerProps?: CellProps | undefined
   context?: TContext | undefined
   renderCell: (props: {
     accessorKey: keyof TDataItem
+    name: string
     value: TDataItem[keyof TDataItem]
     item: TDataItem
     context?: TContext | undefined
   }) => React.ReactNode
-  renderHeader: (props: { accessorKey: keyof TDataItem; context?: TContext | undefined }) => React.ReactNode
+  renderHeader: (props: {
+    accessorKey: keyof TDataItem
+    name: string
+    context?: TContext | undefined
+  }) => React.ReactNode
 }
 
 export type Props<TContext extends Record<string, unknown>> = RootProps & {
@@ -51,6 +57,7 @@ export default function Component<TContext extends Record<string, unknown>>(prop
               <Table.ColumnHeaderCell key={i} {...column.headerProps}>
                 {React.createElement(column.renderHeader, {
                   accessorKey: column.accessorKey,
+                  name: column.name,
                   context: contextProp as TContext,
                 })}
               </Table.ColumnHeaderCell>
@@ -68,11 +75,12 @@ export default function Component<TContext extends Record<string, unknown>>(prop
                 onPathChange?.([...(paths || []), { name: item.name, type: item.type }])
               }}
             >
-              {columns.map((column, i) => {
+              {columns.map((column) => {
                 return (
-                  <Table.Cell key={i} {...column.cellProps}>
+                  <Table.Cell key={column.accessorKey} {...column.cellProps}>
                     {React.createElement(column.renderCell, {
                       accessorKey: column.accessorKey,
+                      name: column.name,
                       item,
                       context: contextProp as TContext,
                       // eslint-disable-next-line @typescript-eslint/no-explicit-any

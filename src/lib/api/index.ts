@@ -12,4 +12,11 @@ export type { Update } from './types/update'
 export { querify } from './querify'
 export { validate } from './validate'
 
-export type { Where, StringFilter, IntFilter, ReplaceValueByFilter as ReplaceValueByWhereFilter } from './types/where'
+export {
+  type Where,
+  type StringFilter,
+  type IntFilter,
+  type ReplaceValueByFilter as ReplaceValueByWhereFilter,
+  type QueryMode,
+  type StringFilterPrimitive,
+} from './types/where'
