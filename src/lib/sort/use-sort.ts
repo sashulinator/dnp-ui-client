@@ -1,13 +1,11 @@
 import { useState } from 'react'
 import { useQueryParam } from 'use-query-params'
 
+import { JSONParam } from '~/lib/use-query-params'
 import { isString } from '~/utils/core'
 import { useDebounceCallback } from '~/utils/core-hooks'
 
-import { type Sort } from '../sort'
-import { JSONParam } from './json-param'
-
-export { Sort }
+import { type Sort } from '.'
 
 export function useSort(): [Sort | undefined, Sort | undefined, (value: Sort | undefined) => void] {
   const [rawQueryParam, setQueryParam] = useQueryParam('sort', JSONParam)
