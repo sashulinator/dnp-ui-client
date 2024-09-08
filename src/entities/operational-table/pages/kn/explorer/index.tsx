@@ -1,13 +1,9 @@
-import { Dialog } from '@radix-ui/themes'
-
 import { useEffect, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 import { NumberParam, StringParam, withDefault } from 'serialize-query-params'
 import { useQueryParam, useQueryParams } from 'use-query-params'
 
-import { type Row, type TableSchema, api } from '~/entities/operational-table'
-import { SYSNAME } from '~/entities/operational-table/constants/name'
-import ExplorerViewer from '~/entities/operational-table/ui/explorer-viewer'
+import { ExplorerViewer, type Row, SYSNAME, type TableSchema, api } from '~/entities/operational-table'
 import { SchemaForm, toColumns } from '~/entities/table-schema'
 import { getRole } from '~/entities/user'
 import { JSONParam, useSearch, useSort } from '~/lib/search-query-params'
@@ -15,6 +11,7 @@ import { notify } from '~/shared/notification-list-store'
 import { routes } from '~/shared/routes'
 import Button from '~/ui/button'
 import Container from '~/ui/container'
+import Dialog from '~/ui/dialog'
 import Flex from '~/ui/flex'
 import FForm, { type FormApi, useCreateForm } from '~/ui/form'
 import Heading from '~/ui/layout/variants/heading'
@@ -79,7 +76,7 @@ export default function Component(): JSX.Element {
     onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
   })
 
-  const explorerRemoveMutator = api.explorer.removeRow.useCache({
+  const explorerRemoveMutator = api.explorer.deleteRow.useCache({
     onSuccess: () => {
       notify({ title: 'Удалено', type: 'success' })
       explorerListFetcher.refetch()

@@ -1,14 +1,20 @@
+import { SYSNAME } from '~/entities/operational-table/constants/name'
 import { type Response } from '~/lib/api'
+import { type Where } from '~/lib/where'
 import api from '~/shared/axios'
 
+import { type OperationalTable } from '../../../types/operational-table'
 import { url } from '../../common'
-import { type RequestData, type ResponseData } from './types'
+
+export const NAME = `${SYSNAME}.explorerDeleteRow`
+
+export type RequestData = { kn: string; where: Where }
+
+export type ResponseData = OperationalTable
 
 export const buildURL = (): string => `${url}/explorer`
 
 export async function request(requestData: RequestData): Promise<Response<ResponseData>> {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   const response = await api<ResponseData, Response<ResponseData>, RequestData>(buildURL(), {
     method: 'DELETE',
     data: requestData,

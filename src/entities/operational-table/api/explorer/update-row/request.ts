@@ -1,8 +1,19 @@
 import { type Response } from '~/lib/api'
+import { type Where } from '~/lib/where'
 import api from '~/shared/axios'
 
+import { SYSNAME } from '../../../constants/name'
+import { type OperationalTable, type Row } from '../../../types/operational-table'
 import { url } from '../../common'
-import { type RequestData, type ResponseData } from './types'
+
+export const NAME = `${SYSNAME}.explorerUpdateRow`
+
+export type RequestData = { kn: string; input: Record<string, unknown>; where: Where }
+
+export type ResponseData = {
+  operationalTable: OperationalTable
+  row: Row
+}
 
 export const buildURL = (): string => `${url}/explorer`
 

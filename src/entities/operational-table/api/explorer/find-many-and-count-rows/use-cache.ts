@@ -1,10 +1,10 @@
-import { UseQueryOptions, UseQueryResult, useQuery as useReactQuery } from 'react-query'
+import { type UseQueryOptions, type UseQueryResult, useQuery as useReactQuery } from 'react-query'
 
-import { Response } from '~/lib/api'
-import { QueryError } from '~/lib/api'
+import { type Response } from '~/lib/api'
+import { type QueryError } from '~/lib/api'
 
 import { NAME, request } from './request'
-import { RequestData, ResponseData } from './request'
+import { type RequestData, type ResponseData } from './request'
 
 export type Options<TData = ResponseData> = UseQueryOptions<Response<ResponseData>, QueryError, TData, unknown[]>
 export type QueryResult<TData = ResponseData> = UseQueryResult<TData, QueryError>

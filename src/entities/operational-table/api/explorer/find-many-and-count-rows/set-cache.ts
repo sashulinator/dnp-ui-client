@@ -1,9 +1,9 @@
-import { Response } from '~/lib/api'
+import { type Response } from '~/lib/api'
 import { queryClient } from '~/shared/react-query'
 import { assertDefined } from '~/utils/assertions'
 
-import { Row } from '../../../types/operational-table'
-import { NAME, RequestData, ResponseData } from './request'
+import { type Row } from '../../../types/operational-table'
+import { NAME, type RequestData, type ResponseData } from './request'
 
 export function setCache(requestData: RequestData, data: ResponseData): void {
   const response: Response<ResponseData> = { data }
