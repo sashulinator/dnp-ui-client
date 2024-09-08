@@ -1,6 +1,11 @@
 import qs from 'qs'
 import { Suspense, lazy } from 'react'
 
+import { Icon as DictionaryTableIcon } from '~/entities/dictionary-table'
+import DictionaryTable from '~/entities/dictionary-table/pages'
+import DictionaryTable_create from '~/entities/dictionary-table/pages/create'
+import DictionaryTable_kn from '~/entities/dictionary-table/pages/kn'
+import DictionaryTable_kn_explorer from '~/entities/dictionary-table/pages/kn/explorer'
 import { Icon as NormalizationConfigIcon } from '~/entities/normalization-config'
 import NormalizationConfigs from '~/entities/normalization-config/pages'
 import NormalizationConfigs_create from '~/entities/normalization-config/pages/create'
@@ -90,6 +95,59 @@ export const routes = {
     getName: (): string => 'Нормализации',
     navigatable: false,
     rolesAllowed: [roles.Admin, roles.Operator],
+  },
+
+  /**
+   *  dictionarytables
+   */
+
+  dictionaryTables: {
+    getPath: () => '/dictionary-tables',
+    getURL() {
+      return this.getPath()
+    },
+    renderMain: DictionaryTable,
+    renderHeader: Header,
+    renderNav: Nav,
+    getName: (): string => 'Справочники',
+    navigatable: true,
+    renderIcon: DictionaryTableIcon,
+  },
+
+  dictionaryTables_create: {
+    getPath: () => '/dictionary-tables/create',
+    getURL() {
+      return this.getPath()
+    },
+    renderMain: DictionaryTable_create,
+    renderHeader: Header,
+    renderNav: Nav,
+    getName: (): string => 'Создать справочник',
+    navigatable: false,
+  },
+
+  dictionaryTables_kn_explorer: {
+    getPath: () => '/dictionary-tables/:kn/explorer',
+    getURL(kn: string, params?: { name: string } | undefined) {
+      return `${this.getPath().replace(':kn', kn)}${qs.stringify(params, { addQueryPrefix: true })}`
+    },
+    renderMain: DictionaryTable_kn_explorer,
+    renderHeader: Header,
+    renderNav: Nav,
+    getName: (): string => 'Данные промежуточной таблицы',
+    navigatable: false,
+  },
+
+  dictionaryTables_kn: {
+    getPath: () => '/dictionary-tables/:kn',
+    getURL(kn: string) {
+      return this.getPath().replace(':kn', kn)
+    },
+    renderMain: DictionaryTable_kn,
+    renderHeader: Header,
+    renderNav: Nav,
+    getName: (): string => 'Справочник',
+    navigatable: false,
   },
 
   /**
