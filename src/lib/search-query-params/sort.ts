@@ -4,11 +4,12 @@ import { useQueryParam } from 'use-query-params'
 import { isString } from '~/utils/core'
 import { useDebounceCallback } from '~/utils/core-hooks'
 
+import { type Sort } from '../sort'
 import { JSONParam } from './json-param'
 
-export type Sort = Record<string, 'asc' | 'desc'> | null
+export { Sort }
 
-export function useSort(): [Sort, Sort, (value: Sort) => void] {
+export function useSort(): [Sort | undefined, Sort | undefined, (value: Sort | undefined) => void] {
   const [rawQueryParam, setQueryParam] = useQueryParam('sort', JSONParam)
 
   const queryParam = formatQueryParamToSort(rawQueryParam)
@@ -19,7 +20,7 @@ export function useSort(): [Sort, Sort, (value: Sort) => void] {
 
   return [queryParam, value, handleSet]
 
-  function handleSet(value: Sort) {
+  function handleSet(value: Sort | undefined) {
     setValue(value)
     setQueryParamWithDelay(value)
   }
@@ -29,23 +30,23 @@ export function useSort(): [Sort, Sort, (value: Sort) => void] {
    */
 
   // Мы не контролируем стейт в урле и пользователь может задать неверное значение
-  function formatQueryParamToSort(input: Record<string, unknown> | undefined | null): Sort {
+  function formatQueryParamToSort(input: Record<string, unknown> | undefined | null): Sort | undefined {
     const values = Object.values(input || {})
 
-    if (input === undefined) {
-      return null
+    if (input === undefined || input === null) {
+      return undefined
     }
 
     if (values.length !== 1) {
-      return null
+      return undefined
     }
 
     if (!isString(values[0])) {
-      return null
+      return undefined
     }
 
     if (!['asc', 'desc'].includes(values[0])) {
-      return null
+      return undefined
     }
 
     return input as Sort

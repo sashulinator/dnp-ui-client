@@ -5,8 +5,8 @@ import { useState } from 'react'
 import { getStringFilterConfig } from '~/common/lib/api/get-string-filter-config'
 import { type TableColumn } from '~/entities/explorer/ui/viewer'
 import { type TableSchemaItem } from '~/entities/operational-table'
-import { type StringFilter } from '~/lib/api'
-import { type Sort } from '~/lib/search-query-params'
+import { type Sort } from '~/lib/sort'
+import { type StringFilter } from '~/lib/where'
 import Button from '~/ui/button'
 import Flex from '~/ui/flex'
 import Icon from '~/ui/icon'
@@ -18,8 +18,8 @@ import { useDebounceCallback } from '~/utils/core-hooks'
 import { remove } from '~/utils/dictionary'
 
 export type Context = {
-  sort: Sort
-  setSort: (val: Sort) => void
+  sort: Sort | undefined
+  setSort: (val: Sort | undefined) => void
   searchFilter: Record<string, StringFilter>
   setSearchFilter: SetterOrUpdater<Record<string, StringFilter>>
 }
@@ -60,7 +60,7 @@ function _HeaderCell<T extends string>({ accessorKey, context, name }: _HeaderPr
 
   const sortValue = context?.sort?.[accessorKey] as 'asc'
 
-  const stringFilterConfig = getStringFilterConfig(context.searchFilter[accessorKey])
+  const stringFilterConfig = getStringFilterConfig(context.searchFilter?.[accessorKey])
 
   const [setSearchWithDebounce] = useDebounceCallback(context?.setSearchFilter, 500)
   const [searchValue, setSearchValue] = useState(stringFilterConfig.value || '')
@@ -265,7 +265,7 @@ function _HeaderCell<T extends string>({ accessorKey, context, name }: _HeaderPr
         size='1'
         round={true}
         variant='ghost'
-        onChange={(newValue) => context?.setSort?.(newValue === undefined ? null : { [accessorKey]: newValue })}
+        onChange={(newValue) => context?.setSort?.({ [accessorKey]: newValue })}
         value={sortValue}
       />
     </Flex>

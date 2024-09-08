@@ -166,7 +166,7 @@ export default function Component(props: Props): JSX.Element {
               size='1'
               round={true}
               variant='ghost'
-              onChange={(value) => context?.setSort?.(value === undefined ? null : { _id: value })}
+              onChange={(value) => context?.setSort?.({ _id: value })}
               value={context?.sort?._id}
             />
           </Flex>

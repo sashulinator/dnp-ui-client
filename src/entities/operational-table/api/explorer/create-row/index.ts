@@ -1,4 +1,2 @@
-export { request } from './request'
+export { request, NAME, type RequestData, type ResponseData } from './request'
 export { useCache } from './use-cache'
-
-export type { RequestData, ResponseData } from './types'

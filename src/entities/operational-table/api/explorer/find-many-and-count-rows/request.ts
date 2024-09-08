@@ -1,9 +1,11 @@
-import { Explorer } from '~/entities/explorer/types/explorer'
-import type { Response, StringFilter, Where } from '~/lib/api'
+import { type Explorer } from '~/entities/explorer/types/explorer'
+import type { Response } from '~/lib/api'
+import type { Sort } from '~/lib/sort'
+import type { StringFilter, Where } from '~/lib/where'
 import api from '~/shared/axios'
 
 import { SYSNAME } from '../../../constants/name'
-import { OperationalTable } from '../../../types/operational-table'
+import { type OperationalTable } from '../../../types/operational-table'
 import { url } from '../../common'
 
 export const NAME = `${SYSNAME}.explorerFindManyAndCountRows`
@@ -14,7 +16,7 @@ export type RequestData = {
   take?: number | undefined
   where?: Where | undefined
   searchQuery?: StringFilter | undefined
-  sort?: Record<string, 'asc' | 'desc'> | undefined | null
+  sort?: Sort | undefined
 }
 
 export type ResponseData = {

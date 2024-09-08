@@ -2,7 +2,7 @@ import { type Response } from '~/lib/api'
 import api from '~/shared/axios'
 
 import { SYSNAME } from '../../constants/name'
-import { CreateOperationalTable, OperationalTable } from '../../types/operational-table'
+import { type CreateOperationalTable, type OperationalTable } from '../../types/operational-table'
 import { url } from '../common'
 
 export const NAME = `${SYSNAME}.create`
