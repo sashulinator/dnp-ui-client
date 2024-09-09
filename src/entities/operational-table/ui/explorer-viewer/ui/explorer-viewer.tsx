@@ -1,19 +1,22 @@
 import { useMemo, useState } from 'react'
 import { useMutation } from 'react-query'
 
-import { Viewer, ViewerProps } from '~/entities/explorer'
-import { OperationalTable, Row } from '~/entities/operational-table'
+import { Viewer } from '~/entities/explorer'
+import { type TableColumn } from '~/entities/explorer/ui/viewer'
+import { type OperationalTable, type Row } from '~/entities/operational-table'
+import { type ColumnContext } from '~/entities/table-schema'
 import { getRole, roles } from '~/entities/user'
 import { notify } from '~/shared/notification-list-store'
 import Button from '~/ui/button'
 import Flex from '~/ui/flex'
 import Icon from '~/ui/icon'
 import Spinner from '~/ui/spinner'
-import { TableListColumn } from '~/ui/table'
-import { Id, c } from '~/utils/core'
+import { SortingButton } from '~/ui/table'
+import { type Id, c } from '~/utils/core'
 
-export interface Props extends Omit<ViewerProps, 'children'> {
-  columns: TableListColumn<Record<string, unknown>>[] | undefined
+export interface Props extends Omit<Viewer.ViewerProps, 'children'> {
+  columns: TableColumn<Record<string, unknown>, ColumnContext>[] | undefined
+  context: ColumnContext | undefined
   remove: (id: Id) => Promise<OperationalTable>
   update: (row: Row) => Promise<Row>
 }
@@ -63,10 +66,23 @@ export default function Component(props: Props): JSX.Element {
     const cloned = [...columns]
 
     cloned.push({
-      key: '_status',
-      renderHeader: () => 'Согласование',
-      cellProps: { align: 'right' },
-      headerProps: { align: 'right' },
+      accessorKey: '_status',
+      name: 'Согласование',
+      renderHeader: ({ name }) => name,
+      cellProps: {
+        style: {
+          // calc(var(--space-2) + var(--space-1)) потом что cellPadding + TextInputPadding
+          padding: '0 calc(var(--space-2) + var(--space-1)) 0 calc(var(--space-4) + var(--space-1))',
+          verticalAlign: 'middle',
+          textAlign: 'right',
+        },
+      },
+      headerProps: {
+        style: {
+          textAlign: 'right',
+          verticalAlign: 'middle',
+        },
+      },
       renderCell: ({ item }) => {
         const row = item.data as Row
         const role = getRole()
@@ -102,10 +118,18 @@ export default function Component(props: Props): JSX.Element {
       },
     })
     cloned.push({
-      key: 'action',
-      renderHeader: () => 'Действия',
-      cellProps: { width: '1rem', align: 'right' },
-      headerProps: { align: 'right' },
+      accessorKey: 'action',
+      name: 'Действия',
+      renderHeader: ({ name }) => name,
+      cellProps: {
+        style: {
+          textAlign: 'right',
+          // calc(var(--space-2) + var(--space-1)) потом что cellPadding + TextInputPadding
+          padding: '0 calc(var(--space-2) + var(--space-1)) 0 calc(var(--space-4) + var(--space-1))',
+          verticalAlign: 'middle',
+        },
+      },
+      headerProps: { style: { textAlign: 'right', verticalAlign: 'middle' } },
       renderCell: ({ item }) => {
         const row = item.data as Row
 
@@ -133,10 +157,23 @@ export default function Component(props: Props): JSX.Element {
     })
 
     cloned.unshift({
-      key: '_id',
-      renderHeader: () => '_id',
-      cellProps: { width: '1rem', align: 'left' },
-      headerProps: { align: 'left' },
+      accessorKey: '_id',
+      name: 'Системный ID',
+      renderHeader: ({ context }) => {
+        return (
+          <Flex height='100%' align='center' justify='center'>
+            <SortingButton
+              size='1'
+              round={true}
+              variant='ghost'
+              onChange={(value) => context?.setSort?.({ _id: value })}
+              value={context?.sort?._id}
+            />
+          </Flex>
+        )
+      },
+      cellProps: { width: '1rem', align: 'center' },
+      headerProps: { align: 'center', justify: 'center' },
       renderCell: ({ item }) => {
         const row = item.data as Row
 

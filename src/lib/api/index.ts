@@ -11,5 +11,3 @@ export type { Update } from './types/update'
 
 export { querify } from './querify'
 export { validate } from './validate'
-
-export type { Where, StringFilter, IntFilter, ReplaceValueByFilter as ReplaceValueByWhereFilter } from './types/where'

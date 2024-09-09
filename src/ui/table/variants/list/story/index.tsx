@@ -1,7 +1,9 @@
-import Table, { NAME } from '..'
-import { Column } from '../ui/list'
 import Flex from '~/ui/flex'
-import { type Story, Props } from '~/ui/storybook'
+import type { Props } from '~/ui/storybook'
+import { type Story } from '~/ui/storybook'
+
+import Table, { NAME } from '..'
+import type { Column } from '../ui/list'
 
 interface State {}
 

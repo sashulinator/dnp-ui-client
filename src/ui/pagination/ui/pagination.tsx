@@ -1,7 +1,9 @@
+import './pagination.scss'
+
+import { c } from '~/utils/core'
+
 import Info from '../widgets/info'
 import Switcher from '../widgets/switcher'
-import './pagination.scss'
-import { c } from '~/utils/core'
 
 export interface Props {
   className?: string | undefined

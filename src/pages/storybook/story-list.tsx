@@ -1,5 +1,3 @@
-import type { Story } from '~/ui/storybook'
-
 import explorerViewer from '~/entities/explorer/ui/viewer/story'
 import normalizationConfigForm from '~/entities/normalization-config/ui/form/story'
 import operationalTableForm from '~/entities/operational-table/ui/form/story'
@@ -17,7 +15,9 @@ import uiFormWTextField from '~/ui/form/widgets/text-field/story'
 import uiPagination from '~/ui/pagination/story'
 import uiPaginationWInfo from '~/ui/pagination/widgets/info/story'
 import uiPaginationWSwitcher from '~/ui/pagination/widgets/switcher/story'
+import type { Story } from '~/ui/storybook'
 import uiTableVList from '~/ui/table/variants/list/story'
+import uiTableWSortingButton from '~/ui/table/widgets/sorting-button/story'
 import uiTagPicker from '~/ui/tag-picker/story/index'
 import uiTagPickerWTag from '~/ui/tag-picker/widgets/tag/story'
 import uiTextHighlighter from '~/ui/text-highlighter/story'
@@ -40,6 +40,7 @@ export const storyList: Story<any>[] = [
   uiCodeEditorVJson,
   uiCollapse,
   uiTableVList,
+  uiTableWSortingButton,
   uiTextHighlighter,
   uiTagPicker,
   uiTagPickerWTag,

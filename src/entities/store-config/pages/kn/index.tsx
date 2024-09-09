@@ -1,16 +1,11 @@
 import { useCallback, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { safeParse } from 'valibot'
-import { Path, Viewer, api } from '~/entities/explorer'
-import {
-  Form,
-  FormValues,
-  fromFormValues,
-  getByKn,
-  toFormValues,
-  update,
-  updateStoreConfigSchema,
-} from '~/entities/store-config'
+
+import type { Path } from '~/entities/explorer'
+import { Viewer, api } from '~/entities/explorer'
+import type { FormValues } from '~/entities/store-config'
+import { Form, fromFormValues, getByKn, toFormValues, update, updateStoreConfigSchema } from '~/entities/store-config'
 import { notify } from '~/shared/notification-list-store'
 import { routes } from '~/shared/routes'
 import Button from '~/ui/button'
@@ -163,6 +158,7 @@ export default function Component(): JSX.Element {
                   </Flex>
                   {paths.length !== 0 && (
                     <Viewer.Root
+                      context={{}}
                       onPathChange={setPaths}
                       loading={explorerFetcher.isFetching}
                       paths={paths}

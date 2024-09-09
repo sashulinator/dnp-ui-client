@@ -1,16 +1,18 @@
 import React, { useId } from 'react'
-import { FieldInputProps, FieldMetaState } from 'react-final-form'
-import { NAME as PARENT_NAME } from '../../../ui/form'
-import Label from '../../label/ui/label'
-import Flex, { FlexProps } from '~/ui/flex'
+import { type FieldInputProps, type FieldMetaState } from 'react-final-form'
+
+import Flex, { type FlexProps } from '~/ui/flex'
 import { _checkErrorVisible } from '~/ui/form/lib/_check-error-visible'
 import { _renderHint } from '~/ui/form/lib/_render-hint'
-import TextField, { TextFieldProps } from '~/ui/text-field'
+import TextField, { type RootProps } from '~/ui/text-field'
 import { c, fns } from '~/utils/core'
+
+import { NAME as PARENT_NAME } from '../../../ui/form'
+import Label from '../../label/ui/label'
 
 export const NAME = `${PARENT_NAME}-w-TextField`
 
-export type Props<FieldValue> = Omit<TextFieldProps, 'name' | 'value'> & {
+export type Props<FieldValue> = Omit<RootProps, 'name' | 'value'> & {
   label?: string | undefined
   rootProps?: FlexProps | undefined
   input: FieldInputProps<string, HTMLInputElement>

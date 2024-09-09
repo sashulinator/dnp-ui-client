@@ -1,7 +1,6 @@
 /**
  * api
  */
-
 import * as fetchList from './api/fetch'
 
 export const api = {
@@ -18,4 +17,4 @@ export { type Explorer, type Path, type Item, type Type, type StoreConfig } from
  * ui
  */
 
-export { default as Viewer, type ViewerProps } from './ui/viewer'
+export * as Viewer from './ui/viewer'

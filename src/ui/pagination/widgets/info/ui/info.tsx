@@ -1,11 +1,12 @@
 import './info.scss'
+
+import Text, { type TextProps } from '~/ui/text'
 import { c } from '~/utils/core'
 
-export interface Props {
+export type Props = TextProps & {
   className?: string | undefined
   totalPages: number | string | undefined
   totalElements: number | string | undefined
-  root?: React.HTMLAttributes<HTMLDivElement>
 }
 
 const displayName = 'ui-Pagination-w-Info'
@@ -14,11 +15,12 @@ const displayName = 'ui-Pagination-w-Info'
  * ui-Pagination-w-Info
  */
 export default function Component(props: Props): JSX.Element {
+  const { totalPages, totalElements, className, ...textProps } = props
+
   return (
-    <div {...props.root} className={c(props.className, displayName)}>
-      <div>страниц: {props.totalPages || '∞'}</div>
-      <div>элементов: {props.totalElements || '∞'}</div>
-    </div>
+    <Text size='2' {...textProps} className={c(className, displayName)}>
+      страниц {totalPages || '∞'}, элементов {totalElements || '∞'}
+    </Text>
   )
 }
 
