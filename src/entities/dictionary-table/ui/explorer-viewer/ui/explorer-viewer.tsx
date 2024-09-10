@@ -1,16 +1,14 @@
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { useMutation } from 'react-query'
 
 import { type DictionaryTable, type Row } from '~/entities/dictionary-table'
 import { Viewer } from '~/entities/explorer'
 import { type TableColumn } from '~/entities/explorer/ui/viewer'
 import { type ColumnContext } from '~/entities/table-schema'
-import { getRole, roles } from '~/entities/user'
 import { notify } from '~/shared/notification-list-store'
 import Button from '~/ui/button'
 import Flex from '~/ui/flex'
 import Icon from '~/ui/icon'
-import Spinner from '~/ui/spinner'
 import { SortingButton } from '~/ui/table'
 import { type Id, c } from '~/utils/core'
 
@@ -21,102 +19,17 @@ export interface Props extends Omit<Viewer.ViewerProps, 'children'> {
   update: (row: Row) => Promise<Row>
 }
 
-const statusStringMap = {
-  '0': 'В работе',
-  '1': 'На согласовании',
-  '2': 'Согласовано',
-  '3': 'Отменено',
-  '4': 'Целевые данные',
-}
-
-const statusChangeMap = {
-  [roles.Approver]: {
-    '1': '2',
-    '2': '3',
-    '3': '2',
-  },
-  [roles.Admin]: {
-    '2': '3',
-    '3': '2',
-  },
-  [roles.Operator]: {
-    '0': '1',
-    '1': '0',
-    '3': '0',
-  },
-} as const
-
-const statusColorMap = {
-  '0': 'gray',
-  '1': 'yellow',
-  '2': 'green',
-  '3': 'red',
-  '4': 'blue',
-} as const
-
 export const NAME = 'dictionaryTable-ExplorerViewer'
 
 /**
  * dictionaryTable-ExplorerViewer
  */
 export default function Component(props: Props): JSX.Element {
-  const { columns = [], update, remove, ...rootProps } = props
+  const { columns = [], remove, ...rootProps } = props
 
   const dictionaryTableColumns = useMemo(() => {
     const cloned = [...columns]
 
-    cloned.push({
-      accessorKey: '_status',
-      name: 'Согласование',
-      renderHeader: ({ name }) => name,
-      cellProps: {
-        style: {
-          // calc(var(--space-2) + var(--space-1)) потом что cellPadding + TextInputPadding
-          padding: '0 calc(var(--space-2) + var(--space-1)) 0 calc(var(--space-4) + var(--space-1))',
-          verticalAlign: 'middle',
-          textAlign: 'right',
-        },
-      },
-      headerProps: {
-        style: {
-          textAlign: 'right',
-          verticalAlign: 'middle',
-        },
-      },
-      renderCell: ({ item }) => {
-        const row = item.data as Row
-        const role = getRole()
-
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const [status, setStatus] = useState(row._status)
-
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const updateMutator = useMutation([`${NAME}.update`], update, {
-          onSuccess: (_, variables) => {
-            setStatus(variables._status)
-          },
-        })
-
-        return (
-          <Flex height='100%' width='100%' align='center' justify='end'>
-            {updateMutator.isLoading ? (
-              <Spinner />
-            ) : (
-              <Button
-                size={'1'}
-                color={statusColorMap[status as '0']}
-                onClick={(e) => {
-                  e.stopPropagation()
-                  updateMutator.mutate({ ...row, _status: statusChangeMap[role as 'Approver'][status as '2'] as '0' })
-                }}
-              >
-                {statusStringMap[status as '0']}
-              </Button>
-            )}
-          </Flex>
-        )
-      },
-    })
     cloned.push({
       accessorKey: 'action',
       name: 'Действия',

@@ -4,9 +4,10 @@ import { createElement } from 'react'
 import { useQuery } from 'react-query'
 import { Link, useLocation } from 'react-router-dom'
 
+import { api as dictionaryApi } from '~/entities/dictionary-table'
 import { api } from '~/entities/operational-table'
 import { getRole } from '~/entities/user'
-import { Route } from '~/lib/route'
+import { type Route } from '~/lib/route'
 import { getCurrent } from '~/lib/route/get-current'
 import { routes } from '~/shared/routes'
 import Button from '~/ui/button'
@@ -29,6 +30,14 @@ export default function Component(): JSX.Element {
   const operationalTableListFetcher = useQuery('oper', () => api.fetchList.request({ where: { nav: true } }), {
     keepPreviousData: true,
   })
+
+  const dictionaryListFetcher = useQuery(
+    'dictionary',
+    () => dictionaryApi.fetchList.request({ where: { nav: true } }),
+    {
+      keepPreviousData: true,
+    },
+  )
 
   const role = getRole() || ''
 
@@ -78,6 +87,26 @@ export default function Component(): JSX.Element {
               <Link
                 to={routes.operationalTables_kn_explorer.getURL(operationalTable.kn, { name: operationalTable.name })}
               >
+                {iconMap[iconName] ? (
+                  <Button size='3' square={true} variant={isCurrent ? 'solid' : 'soft'}>
+                    <Icon name={iconName} />
+                  </Button>
+                ) : (
+                  <Button dangerouslySetInnerHTML={{ __html: iconName }} />
+                )}
+              </Link>
+            </Tooltip>
+          )
+        })}
+      </Flex>
+      <Flex direction='column' gap='3'>
+        {dictionaryListFetcher.data?.data.items.map((dictionaryTable) => {
+          const isCurrent = currentOper === dictionaryTable.kn && isExplorer
+          const iconName = ((dictionaryTable as any).iconName as keyof typeof iconMap) ?? 'Star'
+
+          return (
+            <Tooltip side='right' key={dictionaryTable.kn} content={dictionaryTable.name}>
+              <Link to={routes.dictionaryTables_kn_explorer.getURL(dictionaryTable.kn, { name: dictionaryTable.name })}>
                 {iconMap[iconName] ? (
                   <Button size='3' square={true} variant={isCurrent ? 'solid' : 'soft'}>
                     <Icon name={iconName} />

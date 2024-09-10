@@ -13,7 +13,7 @@ import TextHighlighter from '~/ui/text-highlighter'
 import Tooltip from '~/ui/tooltip'
 import { c } from '~/utils/core'
 
-import { DictionaryTable } from '../../../types/dictionary-table'
+import { type DictionaryTable } from '../../../types/dictionary-table'
 
 export interface Props {
   className?: string | undefined
