@@ -2,11 +2,11 @@ import './item.scss'
 
 import dayjs from 'dayjs'
 
-import { routes } from '~/old-shared/routes'
 import Avatar from '~/shared/avatar'
 import Card from '~/shared/card'
 import Flex from '~/shared/flex'
 import Link from '~/shared/link'
+import { routes } from '~/shared/routes'
 import Separator from '~/shared/separator'
 import Text from '~/shared/text'
 import TextHighlighter from '~/shared/text-highlighter'

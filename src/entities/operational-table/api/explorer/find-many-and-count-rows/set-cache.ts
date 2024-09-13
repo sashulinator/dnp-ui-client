@@ -1,5 +1,5 @@
-import { type Response } from '~/lib/api'
-import { queryClient } from '~/old-shared/react-query'
+import { type Response } from '~/shared/api'
+import { queryClient } from '~/shared/react-query'
 import { assertDefined } from '~/utils/assertions'
 
 import { type Row } from '../../../types/operational-table'

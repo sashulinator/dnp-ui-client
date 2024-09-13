@@ -2,7 +2,7 @@ import { Theme } from '@radix-ui/themes'
 
 import { useEffect, useState } from 'react'
 
-import { eventBus } from '~/old-shared/event-bus'
+import { eventBus } from '~/shared/event-bus'
 
 import { getCurrentName } from '../lib/get-current-name'
 

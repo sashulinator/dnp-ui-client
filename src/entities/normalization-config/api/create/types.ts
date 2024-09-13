@@ -1,5 +1,6 @@
+import { Create } from '~/shared/api'
+
 import { NormalizationConfig } from '../../types/normalization-config'
-import { Create } from '~/lib/api'
 
 export type RequestData = { input: Create<NormalizationConfig> }
 

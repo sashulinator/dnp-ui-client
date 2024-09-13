@@ -1,14 +1,14 @@
 import React, { createElement } from 'react'
 
 import { getRole } from '~/entities/user'
-import { Route } from '~/lib/route'
-import { routes } from '~/old-shared/routes'
 import Button from '~/shared/button'
 import Card from '~/shared/card'
 import Container from '~/shared/container'
 import Flex from '~/shared/flex'
 import Heading from '~/shared/layout/variants/heading'
 import Link from '~/shared/link'
+import { Route } from '~/shared/route'
+import { routes } from '~/shared/routes'
 import Section from '~/shared/section'
 
 export interface Props {

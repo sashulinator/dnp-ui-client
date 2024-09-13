@@ -1,8 +1,8 @@
 import { type Explorer } from '~/entities/explorer/types/explorer'
-import type { Response } from '~/lib/api'
-import type { Sort } from '~/lib/sort'
-import type { StringFilter, Where } from '~/lib/where'
-import api from '~/old-shared/axios'
+import type { Response } from '~/shared/api'
+import api from '~/shared/axios'
+import type { Sort } from '~/shared/sort'
+import type { StringFilter, Where } from '~/shared/where'
 
 import { SYSNAME } from '../../../constants/name'
 import { type OperationalTable } from '../../../types/operational-table'

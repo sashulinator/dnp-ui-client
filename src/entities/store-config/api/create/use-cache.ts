@@ -1,8 +1,10 @@
 import { MutationOptions, UseMutationResult, useMutation } from 'react-query'
+
+import { Response } from '~/shared/api'
+import { QueryError } from '~/shared/api'
+
 import { request } from './request'
 import { RequestData, ResponseData } from './types'
-import { Response } from '~/lib/api'
-import { QueryError } from '~/lib/api'
 
 export function useCache(
   options: MutationOptions<Response<ResponseData>, QueryError, RequestData>,

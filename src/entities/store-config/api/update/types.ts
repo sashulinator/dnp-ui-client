@@ -1,5 +1,6 @@
+import { Update } from '~/shared/api'
+
 import { StoreConfig } from '../../types/store-config'
-import { Update } from '~/lib/api'
 
 export type RequestData = { input: Update<StoreConfig> }
 

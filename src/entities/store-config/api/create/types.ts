@@ -1,5 +1,6 @@
+import { Create } from '~/shared/api'
+
 import { StoreConfig } from '../../types/store-config'
-import { Create } from '~/lib/api'
 
 export type RequestData = { input: Create<StoreConfig> }
 

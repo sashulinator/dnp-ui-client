@@ -1,4 +1,4 @@
-import { notify } from '~/old-shared/notification-list-store'
+import { notify } from '~/shared/notification-list-store'
 import { type Props, type Story } from '~/shared/storybook'
 import { generateId } from '~/utils/core'
 

@@ -33,8 +33,8 @@ import Logo from '~/shared/logo-icon'
 import Nav from '~/shared/nav'
 import { isDev } from '~/utils/core'
 
-import { type Route } from '../lib/route'
 import Main from '../pages/main'
+import { type Route } from './route'
 
 // eslint-disable-next-line react-refresh/only-export-components
 const Storybook = lazy(() => import('../pages/storybook/index'))

@@ -2,11 +2,11 @@ import { NumberParam, withDefault } from 'serialize-query-params'
 import { useQueryParams } from 'use-query-params'
 
 import { Item, fetchList } from '~/entities/process'
-import { routes } from '~/old-shared/routes'
 import Container from '~/shared/container'
 import Flex from '~/shared/flex'
 import Heading from '~/shared/heading'
 import Pagination from '~/shared/pagination'
+import { routes } from '~/shared/routes'
 import Section from '~/shared/section'
 
 export interface Props {

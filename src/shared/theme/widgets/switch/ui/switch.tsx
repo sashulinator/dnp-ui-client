@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import { eventBus } from '~/old-shared/event-bus'
+import { eventBus } from '~/shared/event-bus'
 import Flex from '~/shared/flex'
 import Switch from '~/shared/switch'
 import Text from '~/shared/text'

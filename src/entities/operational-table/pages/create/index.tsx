@@ -11,15 +11,15 @@ import {
   fromFormValues,
   toFormValues,
 } from '~/entities/operational-table'
-import { notify } from '~/old-shared/notification-list-store'
-import { queryClient } from '~/old-shared/react-query'
-import { routes } from '~/old-shared/routes'
 import Button from '~/shared/button'
 import Card from '~/shared/card'
 import Container from '~/shared/container'
 import Flex from '~/shared/flex'
 import FForm, { toNestedErrors, useCreateForm } from '~/shared/form'
 import Heading from '~/shared/layout/variants/heading'
+import { notify } from '~/shared/notification-list-store'
+import { queryClient } from '~/shared/react-query'
+import { routes } from '~/shared/routes'
 import Section from '~/shared/section'
 import Separator from '~/shared/separator'
 import Tooltip from '~/shared/tooltip'

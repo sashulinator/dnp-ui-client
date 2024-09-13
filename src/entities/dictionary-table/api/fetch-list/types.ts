@@ -1,5 +1,5 @@
-import { List } from '~/lib/api'
-import { StringFilter } from '~/lib/api/types/string-filter'
+import { List } from '~/shared/api'
+import { StringFilter } from '~/shared/api/types/string-filter'
 
 import { DictionaryTable } from '../../types/dictionary-table'
 

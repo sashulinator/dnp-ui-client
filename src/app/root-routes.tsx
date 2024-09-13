@@ -5,8 +5,8 @@ import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6'
 
 import { getRole } from '~/entities/user'
 import AccessGuard from '~/entities/user/ui/access-guard'
-import { type Route as IRoute } from '~/lib/route'
-import { routes } from '~/old-shared/routes'
+import { type Route as IRoute } from '~/shared/route'
+import { routes } from '~/shared/routes'
 
 RootRoutes.displayName = 'app-Routes'
 

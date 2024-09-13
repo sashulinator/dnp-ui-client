@@ -12,14 +12,14 @@ import {
   getByKn,
   toFormValues,
 } from '~/entities/store-config'
-import { notify } from '~/old-shared/notification-list-store'
-import { routes } from '~/old-shared/routes'
 import Button from '~/shared/button'
 import Card from '~/shared/card'
 import Container from '~/shared/container'
 import Flex from '~/shared/flex'
 import FForm, { toNestedErrors, useCreateForm } from '~/shared/form'
 import Heading from '~/shared/heading'
+import { notify } from '~/shared/notification-list-store'
+import { routes } from '~/shared/routes'
 import Section from '~/shared/section'
 import TextHighlighter from '~/shared/text-highlighter'
 import Tooltip from '~/shared/tooltip'

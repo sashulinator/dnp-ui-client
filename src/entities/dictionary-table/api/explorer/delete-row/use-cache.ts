@@ -1,7 +1,7 @@
 import { type MutationOptions, type UseMutationResult, useMutation } from 'react-query'
 
-import { type Response } from '~/lib/api'
-import { type QueryError } from '~/lib/api'
+import { type Response } from '~/shared/api'
+import { type QueryError } from '~/shared/api'
 
 import { NAME, type RequestData, type ResponseData, request } from './request'
 

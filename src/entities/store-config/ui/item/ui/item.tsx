@@ -1,9 +1,9 @@
 import './item.scss'
 
-import { routes } from '~/old-shared/routes'
 import Card from '~/shared/card'
 import Flex from '~/shared/flex'
 import Link from '~/shared/link'
+import { routes } from '~/shared/routes'
 import TextHighlighter from '~/shared/text-highlighter'
 import { c } from '~/utils/core'
 

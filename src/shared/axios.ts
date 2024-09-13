@@ -1,8 +1,8 @@
 import axios from 'axios'
 import { stringify } from 'qs'
 
-import { handleUnauthorizedError } from '~/lib/auth/handle-unauthorized-error'
-import { setAuthorizationHeader } from '~/lib/auth/set-authorization-header'
+import { handleUnauthorizedError } from '~/shared/auth/handle-unauthorized-error'
+import { setAuthorizationHeader } from '~/shared/auth/set-authorization-header'
 
 const refreshTokenUrl = '/api/auth/refresh'
 // const loginUrl = '/login'

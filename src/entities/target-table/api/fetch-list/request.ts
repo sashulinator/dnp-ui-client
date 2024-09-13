@@ -1,5 +1,5 @@
-import { Response } from '~/lib/api'
-import api from '~/old-shared/axios'
+import { Response } from '~/shared/api'
+import api from '~/shared/axios'
 
 import { baseUrl } from '../common'
 import { RequestData, ResponseData } from './types'

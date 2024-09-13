@@ -2,7 +2,7 @@ import './root.scss'
 
 import { createElement } from 'react'
 
-import { type Route } from '~/lib/route'
+import { type Route } from '~/shared/route'
 import ScrollArea from '~/shared/scroll-area'
 import { c } from '~/utils/core'
 

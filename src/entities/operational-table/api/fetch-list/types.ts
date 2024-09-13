@@ -1,6 +1,7 @@
+import { List } from '~/shared/api'
+import { StringFilter } from '~/shared/api/types/string-filter'
+
 import { OperationalTable } from '../../types/operational-table'
-import { List } from '~/lib/api'
-import { StringFilter } from '~/lib/api/types/string-filter'
 
 export type RequestData = {
   skip?: number

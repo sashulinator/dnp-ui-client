@@ -1,11 +1,11 @@
 import './item.scss'
 
-import { querify } from '~/lib/api'
-import { routes } from '~/old-shared/routes'
+import { querify } from '~/shared/api'
 import Badge from '~/shared/badge'
 import Card from '~/shared/card'
 import Flex from '~/shared/flex'
 import Link from '~/shared/link'
+import { routes } from '~/shared/routes'
 import TextHighlighter from '~/shared/text-highlighter'
 import { c } from '~/utils/core'
 

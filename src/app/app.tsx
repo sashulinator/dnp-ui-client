@@ -4,8 +4,8 @@ import { createPortal } from 'react-dom'
 import { QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 
-import { queryClient } from '~/old-shared/react-query'
 import { RootLayout } from '~/shared/layout'
+import { queryClient } from '~/shared/react-query'
 import Theme from '~/shared/theme'
 import { NotificationToastList } from '~/shared/toast'
 
