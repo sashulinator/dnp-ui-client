@@ -3,7 +3,7 @@ import { safeParse } from 'valibot'
 
 import {
   Form,
-  FormValues,
+  type FormValues,
   api,
   fromFormValues,
   toFormValues,
@@ -48,8 +48,6 @@ export default function Component(): JSX.Element {
   const form = useCreateForm<FormValues>(
     {
       onSubmit: (values) => {
-        console.log(values)
-
         updateMutator.mutate({ input: fromFormValues(values) })
       },
       validate: (values) => {
@@ -77,7 +75,7 @@ export default function Component(): JSX.Element {
 
   return (
     <main className={NAME}>
-      <Container p='1.5rem'>
+      <Container p='var(--space-4)'>
         {fetcher.isError && (
           <Flex width='100%' justify='center' gap='2' align='center'>
             Ошибка <Button onClick={() => fetcher.refetch()}>Перезагрузить</Button>

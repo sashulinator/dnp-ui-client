@@ -2,7 +2,15 @@
   // background-color: var(--gray-2);
   display: flex;
   align-items: center;
-  padding: 16px 0;
   flex-direction: column;
-  gap: 2rem;
+  gap: var(--space-4);
+
+  & > .navigatables {
+    /* --space-5 это пэдинг секции */
+    padding-top: var(--space-5);
+  }
+
+  & > .logo {
+    height: var(--header-height);
+  }
 }

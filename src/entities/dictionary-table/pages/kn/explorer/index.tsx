@@ -119,7 +119,7 @@ export default function Component(): JSX.Element {
         mutator={explorerUpdateMutator}
         tableSchema={explorerListFetcher.data?.dictionaryTable.tableSchema}
       />
-      <Container p='1.5rem'>
+      <Container p='var(--space-4)'>
         {explorerListFetcher.isError && (
           <Flex width='100%' justify='center' gap='2' align='center'>
             Ошибка <Button onClick={() => explorerListFetcher.refetch()}>Перезагрузить</Button>

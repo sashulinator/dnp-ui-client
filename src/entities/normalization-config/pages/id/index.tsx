@@ -98,7 +98,7 @@ export default function Component(): JSX.Element {
 
   return (
     <main className={displayName}>
-      <Container p='1.5rem'>
+      <Container p='var(--space-4)'>
         {fetcher.isError && (
           <Flex width='100%' justify='center' gap='2' align='center'>
             Ошибка <Button onClick={() => fetcher.refetch()}>Перезагрузить</Button>

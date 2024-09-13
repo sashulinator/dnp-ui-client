@@ -27,7 +27,7 @@ export default function Component(): JSX.Element {
 
   return (
     <main className={displayName}>
-      <Container p='1.5rem'>
+      <Container p='var(--space-4)'>
         <Section size='1'>
           <Heading>{routes.processes.getName()}</Heading>
         </Section>

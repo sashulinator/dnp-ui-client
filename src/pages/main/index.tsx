@@ -30,7 +30,7 @@ export default function Component(): JSX.Element {
 
   return (
     <main className={displayName}>
-      <Container p='1.5rem'>
+      <Container p='var(--space-4)'>
         <Section size='1'>
           <Heading.Root loading={false} route={routes.main} backRoute={routes.main} renderIcon={routes.main.renderIcon}>
             <Button variant='outline' square={true} style={{ marginRight: 'var(--space-4)' }}>

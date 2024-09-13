@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { Form, FormValues, api, fromFormValues, toFormValues } from '~/entities/target-table'
+import { Form, type FormValues, api, fromFormValues, toFormValues } from '~/entities/target-table'
 import Button from '~/shared/button'
 import Card from '~/shared/card'
 import Container from '~/shared/container'
@@ -30,8 +30,6 @@ export default function Component(): JSX.Element {
   const form = useCreateForm<FormValues>(
     {
       onSubmit: (values) => {
-        console.log(values)
-
         updateMutator.mutate({ input: fromFormValues(values) })
       },
       // TODO: валидация
@@ -67,7 +65,7 @@ export default function Component(): JSX.Element {
 
   return (
     <main className={displayName}>
-      <Container p='1.5rem'>
+      <Container p='var(--space-4)'>
         {fetcher.isError && (
           <Flex width='100%' justify='center' gap='2' align='center'>
             Ошибка <Button onClick={() => fetcher.refetch()}>Перезагрузить</Button>

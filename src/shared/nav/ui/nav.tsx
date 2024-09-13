@@ -14,6 +14,7 @@ import Logo from '~/shared/logo-icon'
 import { type Route } from '~/shared/route'
 import { getCurrent } from '~/shared/route/get-current'
 import { routes } from '~/shared/routes'
+import Separator from '~/shared/separator'
 import Tooltip from '~/shared/tooltip'
 import { c } from '~/utils/core'
 
@@ -53,14 +54,14 @@ export default function Component(): JSX.Element {
 
   return (
     <nav className={c(displayName)}>
-      <div className='logo'>
-        <Button variant='outline' size='4' square={true} asChild>
+      <Flex className='logo' align='center' justify='center'>
+        <Button variant='outline' size='2' square={true} asChild>
           <Link to={routes.main.getURL()}>
-            <Logo height='2rem' width='2rem' />
+            <Logo height='1rem' width='2rem' />
           </Link>
         </Button>
-      </div>
-      <Flex direction='column' gap='3'>
+      </Flex>
+      <Flex className='navigatables' direction='column' gap='2'>
         {navigatables.map(([key, route]) => {
           const isCurrent = current === route && !isExplorer
 
@@ -68,7 +69,7 @@ export default function Component(): JSX.Element {
             <Tooltip side='right' key={key} content={route.getName()}>
               {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
               <Link to={(route.getURL as any)()}>
-                <Button size='3' square={true} variant={isCurrent ? 'solid' : 'soft'}>
+                <Button size='2' square={true} variant={isCurrent ? 'solid' : 'soft'}>
                   {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                   {createElement((route as any).renderIcon)}
                 </Button>
@@ -77,6 +78,7 @@ export default function Component(): JSX.Element {
           )
         })}
       </Flex>
+      <Separator />
       <Flex direction='column' gap='3'>
         {operationalTableListFetcher.data?.data.items.map((operationalTable) => {
           const isCurrent = currentOper === operationalTable.kn && isExplorer
@@ -88,7 +90,7 @@ export default function Component(): JSX.Element {
                 to={routes.operationalTables_kn_explorer.getURL(operationalTable.kn, { name: operationalTable.name })}
               >
                 {iconMap[iconName] ? (
-                  <Button size='3' square={true} variant={isCurrent ? 'solid' : 'soft'}>
+                  <Button size='2' square={true} variant={isCurrent ? 'solid' : 'soft'}>
                     <Icon name={iconName} />
                   </Button>
                 ) : (
@@ -99,6 +101,7 @@ export default function Component(): JSX.Element {
           )
         })}
       </Flex>
+      <Separator />
       <Flex direction='column' gap='3'>
         {dictionaryListFetcher.data?.data.items.map((dictionaryTable) => {
           const isCurrent = currentOper === dictionaryTable.kn && isExplorer
@@ -108,7 +111,7 @@ export default function Component(): JSX.Element {
             <Tooltip side='right' key={dictionaryTable.kn} content={dictionaryTable.name}>
               <Link to={routes.dictionaryTables_kn_explorer.getURL(dictionaryTable.kn, { name: dictionaryTable.name })}>
                 {iconMap[iconName] ? (
-                  <Button size='3' square={true} variant={isCurrent ? 'solid' : 'soft'}>
+                  <Button size='2' square={true} variant={isCurrent ? 'solid' : 'soft'}>
                     <Icon name={iconName} />
                   </Button>
                 ) : (
