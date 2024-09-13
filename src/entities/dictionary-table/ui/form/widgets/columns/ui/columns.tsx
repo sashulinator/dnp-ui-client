@@ -4,25 +4,15 @@ import Button from '~/ui/button'
 import Card from '~/ui/card'
 import DataList from '~/ui/data-list'
 import Flex from '~/ui/flex'
-import {
-  Field,
-  FieldArray,
-  Label,
-  Select,
-  SelectProps,
-  TextField,
-  TextFieldProps,
-  TypedField,
-  getIn,
-  useForm,
-} from '~/ui/form'
+import type { SelectProps, TextFieldProps } from '~/ui/form'
+import { Field, FieldArray, Label, Select, TextField, TypedField, getIn, useForm } from '~/ui/form'
 import Icon from '~/ui/icon'
 import Separator from '~/ui/separator'
 import Text from '~/ui/text'
 import { c, generateUniqId, isDev } from '~/utils/core'
-import { NonNullableFlat } from '~/utils/types/object/non-nullable'
+import type { NonNullableFlat } from '~/utils/types/object/non-nullable'
 
-import { Values } from '../../../types/values'
+import type { Values } from '../../../types/values'
 
 type Item = {
   id: string
@@ -213,7 +203,7 @@ function _renderColumn(props: _renderColumnProps) {
                 defaultValue='string'
                 options={[
                   { value: 'string', display: 'Строка' },
-                  { value: 'number', display: 'Число' },
+                  { value: 'integer', display: 'Число' },
                   { value: 'float', display: 'Нецелочисленное' },
                   { value: 'date', display: 'Дата' },
                   { value: 'boolean', display: 'Да/Heт' },
