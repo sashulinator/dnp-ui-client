@@ -1,11 +1,13 @@
 import React, { useContext } from 'react'
+
+import Button from '~/shared/button'
+import Flex from '~/shared/flex'
+import Icon from '~/shared/icon'
+import { c } from '~/utils/core'
+
 import { context } from '../../../models/context'
 import { NAME as ROOT_NAME } from '../../../ui/viewer'
 import Type from '../../type'
-import Button from '~/ui/button'
-import Flex from '~/ui/flex'
-import Icon from '~/ui/icon'
-import { c } from '~/utils/core'
 
 export interface Props {
   className?: string | undefined

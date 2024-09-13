@@ -1,9 +1,10 @@
-import { type NormalizationConfig } from '../../../types/normalization-config'
-import Badge from '~/ui/badge'
-import Button from '~/ui/button'
-import Flex from '~/ui/flex'
-import Text from '~/ui/text'
+import Badge from '~/shared/badge'
+import Button from '~/shared/button'
+import Flex from '~/shared/flex'
+import Text from '~/shared/text'
 import { c } from '~/utils/core'
+
+import { type NormalizationConfig } from '../../../types/normalization-config'
 
 export interface Props {
   className?: string | undefined

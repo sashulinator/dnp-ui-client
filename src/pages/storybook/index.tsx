@@ -1,7 +1,9 @@
 import { useSearchParams } from 'react-router-dom'
-import { storyList } from './story-list'
-import Storybook from '~/ui/storybook'
+
+import Storybook from '~/shared/storybook'
 import { c } from '~/utils/core'
+
+import { storyList } from './story-list'
 
 export interface Props {
   className?: string | undefined

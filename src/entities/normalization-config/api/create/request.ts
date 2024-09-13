@@ -1,6 +1,7 @@
-import { RequestData, ResponseData } from './types'
 import { Response } from '~/lib/api'
-import api from '~/shared/axios'
+import api from '~/old-shared/axios'
+
+import { RequestData, ResponseData } from './types'
 
 export const buildURL = (): string => `/api/v1/normalization-configs`
 

@@ -1,8 +1,10 @@
 import { memo } from 'react'
-import { Values } from '../types/values'
-import Flex from '~/ui/flex'
-import { JsonEditor, TextField, TypedField, TextFieldProps, useForm } from '~/ui/form'
+
+import Flex from '~/shared/flex'
+import { JsonEditor, TextField, TextFieldProps, TypedField, useForm } from '~/shared/form'
 import { c } from '~/utils/core'
+
+import { Values } from '../types/values'
 
 export interface Props {
   className?: string | undefined

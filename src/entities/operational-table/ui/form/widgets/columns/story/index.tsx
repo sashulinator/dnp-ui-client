@@ -1,8 +1,10 @@
 import { useCallback } from 'react'
+
+import Flex from '~/shared/flex'
+import FForm, { useCreateForm } from '~/shared/form'
+import { type Props, type Story } from '~/shared/storybook'
+
 import Columns, { NAME } from '../'
-import Flex from '~/ui/flex'
-import FForm, { useCreateForm } from '~/ui/form'
-import { type Story, type Props } from '~/ui/storybook'
 
 interface State {
   //

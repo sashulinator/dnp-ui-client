@@ -1,13 +1,15 @@
 import '@radix-ui/themes/styles.css'
+
 import { createPortal } from 'react-dom'
 import { QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
-import RootRoutes from './root-routes'
 
-import { queryClient } from '~/shared/react-query'
-import { RootLayout } from '~/ui/layout'
-import Theme from '~/ui/theme'
-import { NotificationToastList } from '~/ui/toast'
+import { queryClient } from '~/old-shared/react-query'
+import { RootLayout } from '~/shared/layout'
+import Theme from '~/shared/theme'
+import { NotificationToastList } from '~/shared/toast'
+
+import RootRoutes from './root-routes'
 
 function App() {
   return (

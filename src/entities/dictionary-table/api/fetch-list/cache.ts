@@ -1,5 +1,5 @@
 import { Response } from '~/lib/api'
-import { queryClient } from '~/shared/react-query'
+import { queryClient } from '~/old-shared/react-query'
 
 import { getKeys } from './get-keys'
 import { request } from './request'

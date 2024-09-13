@@ -1,5 +1,5 @@
 import { type Response } from '~/lib/api'
-import api from '~/shared/axios'
+import api from '~/old-shared/axios'
 
 import { url } from '../common'
 import { type RequestData, type ResponseData } from './types'

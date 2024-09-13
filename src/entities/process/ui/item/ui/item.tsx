@@ -1,15 +1,18 @@
-import dayjs from 'dayjs'
-import { Process } from '../../../types/process'
 import './item.scss'
-import Avatar from '~/ui/avatar'
-import Badge from '~/ui/badge'
-import Card from '~/ui/card'
-import Flex from '~/ui/flex'
-import Separator from '~/ui/separator'
-import Text from '~/ui/text'
-import TextHighlighter from '~/ui/text-highlighter'
-import Tooltip from '~/ui/tooltip'
+
+import dayjs from 'dayjs'
+
+import Avatar from '~/shared/avatar'
+import Badge from '~/shared/badge'
+import Card from '~/shared/card'
+import Flex from '~/shared/flex'
+import Separator from '~/shared/separator'
+import Text from '~/shared/text'
+import TextHighlighter from '~/shared/text-highlighter'
+import Tooltip from '~/shared/tooltip'
 import { c } from '~/utils/core'
+
+import { Process } from '../../../types/process'
 
 export interface Props {
   className?: string | undefined

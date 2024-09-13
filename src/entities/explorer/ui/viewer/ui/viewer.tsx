@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Flex from '~/ui/flex'
+import Flex from '~/shared/flex'
 import { c } from '~/utils/core'
 
 import { ContextProps, context } from '../models/context'

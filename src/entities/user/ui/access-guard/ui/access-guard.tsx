@@ -1,7 +1,8 @@
 import { ReactNode } from 'react'
 import { Navigate } from 'react-router-dom'
-import { routes } from '~/shared/routes'
-import Spinner from '~/ui/spinner'
+
+import { routes } from '~/old-shared/routes'
+import Spinner from '~/shared/spinner'
 
 export interface Props {
   allowed: string[]

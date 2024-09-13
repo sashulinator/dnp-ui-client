@@ -1,9 +1,10 @@
+import Flex from '~/shared/flex'
+import TextHighlighter from '~/shared/text-highlighter'
+import Tooltip from '~/shared/tooltip'
+import { c } from '~/utils/core'
+
 import { type Item } from '../../../../../types/explorer'
 import Type from '../../type'
-import Flex from '~/ui/flex'
-import TextHighlighter from '~/ui/text-highlighter'
-import Tooltip from '~/ui/tooltip'
-import { c } from '~/utils/core'
 
 export interface Props extends React.HTMLAttributes<HTMLDivElement> {
   className?: string | undefined

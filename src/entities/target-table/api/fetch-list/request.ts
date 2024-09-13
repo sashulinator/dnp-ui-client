@@ -1,7 +1,8 @@
+import { Response } from '~/lib/api'
+import api from '~/old-shared/axios'
+
 import { baseUrl } from '../common'
 import { RequestData, ResponseData } from './types'
-import { Response } from '~/lib/api'
-import api from '~/shared/axios'
 
 export const buildURL = (): string => baseUrl
 

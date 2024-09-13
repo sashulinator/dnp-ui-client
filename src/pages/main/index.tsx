@@ -2,14 +2,14 @@ import React, { createElement } from 'react'
 
 import { getRole } from '~/entities/user'
 import { Route } from '~/lib/route'
-import { routes } from '~/shared/routes'
-import Button from '~/ui/button'
-import Card from '~/ui/card'
-import Container from '~/ui/container'
-import Flex from '~/ui/flex'
-import Heading from '~/ui/layout/variants/heading'
-import Link from '~/ui/link'
-import Section from '~/ui/section'
+import { routes } from '~/old-shared/routes'
+import Button from '~/shared/button'
+import Card from '~/shared/card'
+import Container from '~/shared/container'
+import Flex from '~/shared/flex'
+import Heading from '~/shared/layout/variants/heading'
+import Link from '~/shared/link'
+import Section from '~/shared/section'
 
 export interface Props {
   className?: string | undefined

@@ -1,6 +1,6 @@
 import { type Response } from '~/lib/api'
 import { type Where } from '~/lib/where'
-import api from '~/shared/axios'
+import api from '~/old-shared/axios'
 
 import { SYSNAME } from '../../../constants/name'
 import { type DictionaryTable, type Row } from '../../../types/dictionary-table'

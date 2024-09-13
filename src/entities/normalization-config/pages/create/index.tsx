@@ -1,27 +1,28 @@
 import { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { safeParse } from 'valibot'
+
 import {
   Form,
   FormValues,
+  create,
+  createNormalizationConfigSchema,
+  defaultValues,
   fromFormValues,
   getById,
   toFormValues,
-  create,
-  defaultValues,
-  createNormalizationConfigSchema,
 } from '~/entities/normalization-config'
-import { notify } from '~/shared/notification-list-store'
-import { routes } from '~/shared/routes'
-import Button from '~/ui/button'
-import Card from '~/ui/card'
-import Container from '~/ui/container'
-import Flex from '~/ui/flex'
-import FForm, { toNestedErrors, useCreateForm } from '~/ui/form'
-import Heading from '~/ui/heading'
-import Section from '~/ui/section'
-import TextHighlighter from '~/ui/text-highlighter'
-import Tooltip from '~/ui/tooltip'
+import { notify } from '~/old-shared/notification-list-store'
+import { routes } from '~/old-shared/routes'
+import Button from '~/shared/button'
+import Card from '~/shared/card'
+import Container from '~/shared/container'
+import Flex from '~/shared/flex'
+import FForm, { toNestedErrors, useCreateForm } from '~/shared/form'
+import Heading from '~/shared/heading'
+import Section from '~/shared/section'
+import TextHighlighter from '~/shared/text-highlighter'
+import Tooltip from '~/shared/tooltip'
 
 export interface Props {
   className?: string | undefined

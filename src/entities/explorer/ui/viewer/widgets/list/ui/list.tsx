@@ -1,9 +1,11 @@
 import { useContext } from 'react'
+
+import Flex from '~/shared/flex'
+import { c } from '~/utils/core'
+
 import { context } from '../../../models/context'
 import { NAME as ROOT_NAME } from '../../../ui/viewer'
 import Item from '../../item'
-import Flex from '~/ui/flex'
-import { c } from '~/utils/core'
 
 export interface Props {
   className?: string | undefined

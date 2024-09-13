@@ -1,6 +1,6 @@
 import { matchPath } from 'react-router-dom'
 
-import { routes } from '~/shared/routes'
+import { routes } from '~/old-shared/routes'
 
 import { Route } from './types/route'
 

@@ -1,11 +1,14 @@
 import { Tooltip } from '@radix-ui/themes'
+
 import React from 'react'
+
+import { map } from '~/shared/icon'
+import { c } from '~/utils/core'
+
 import { Type } from '../../../../../types/explorer'
 import DbIcon from '../../icons/db'
 import RowIcon from '../../icons/row'
 import TableIcon from '../../icons/table'
-import { map } from '~/ui/icon'
-import { c } from '~/utils/core'
 
 export interface Props {
   className?: string | undefined

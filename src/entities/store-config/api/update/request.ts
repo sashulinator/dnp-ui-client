@@ -1,6 +1,7 @@
-import { type RequestData, type ResponseData } from './types'
 import { type Response } from '~/lib/api'
-import api from '~/shared/axios'
+import api from '~/old-shared/axios'
+
+import { type RequestData, type ResponseData } from './types'
 
 export const buildURL = (): string => `/api/v1/store-configs`
 

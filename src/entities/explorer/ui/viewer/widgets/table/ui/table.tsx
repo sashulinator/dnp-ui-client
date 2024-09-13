@@ -4,7 +4,7 @@ import { type RootProps } from '@radix-ui/themes/dist/esm/components/table.d.ts'
 import { useContext } from 'react'
 import React from 'react'
 
-import { type CellProps } from '~/ui/table'
+import { type CellProps } from '~/shared/table'
 import { c } from '~/utils/core'
 
 import { type Item } from '../../../../../types/explorer'

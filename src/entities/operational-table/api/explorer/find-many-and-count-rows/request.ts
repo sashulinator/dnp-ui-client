@@ -2,7 +2,7 @@ import { type Explorer } from '~/entities/explorer/types/explorer'
 import type { Response } from '~/lib/api'
 import type { Sort } from '~/lib/sort'
 import type { StringFilter, Where } from '~/lib/where'
-import api from '~/shared/axios'
+import api from '~/old-shared/axios'
 
 import { SYSNAME } from '../../../constants/name'
 import { type OperationalTable } from '../../../types/operational-table'

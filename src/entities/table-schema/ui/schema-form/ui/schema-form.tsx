@@ -1,6 +1,6 @@
 import { TableSchema } from '~/entities/operational-table'
-import Flex from '~/ui/flex'
-import { Field, TextField, TextFieldProps } from '~/ui/form'
+import Flex from '~/shared/flex'
+import { Field, TextField, TextFieldProps } from '~/shared/form'
 import { c } from '~/utils/core'
 
 export interface Props {

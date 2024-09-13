@@ -1,12 +1,12 @@
 import './item.scss'
 
 import { querify } from '~/lib/api'
-import { routes } from '~/shared/routes'
-import Badge from '~/ui/badge'
-import Card from '~/ui/card'
-import Flex from '~/ui/flex'
-import Link from '~/ui/link'
-import TextHighlighter from '~/ui/text-highlighter'
+import { routes } from '~/old-shared/routes'
+import Badge from '~/shared/badge'
+import Card from '~/shared/card'
+import Flex from '~/shared/flex'
+import Link from '~/shared/link'
+import TextHighlighter from '~/shared/text-highlighter'
 import { c } from '~/utils/core'
 
 import { NormalizationConfig } from '../../../types/normalization-config'

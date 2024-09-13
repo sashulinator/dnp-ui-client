@@ -1,7 +1,7 @@
 import { memo } from 'react'
 import { FieldInputProps, FieldMetaState, useField } from 'react-final-form'
 
-import Flex from '~/ui/flex'
+import Flex from '~/shared/flex'
 import {
   Card,
   Checkbox,
@@ -14,7 +14,7 @@ import {
   TextFieldProps,
   TypedField,
   UniqueTextField,
-} from '~/ui/form'
+} from '~/shared/form'
 import { c } from '~/utils/core'
 
 import { SYSNAME } from '../../../constants/name'

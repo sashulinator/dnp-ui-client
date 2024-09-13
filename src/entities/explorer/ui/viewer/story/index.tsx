@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useQuery } from 'react-query'
 
-import { type Props, type Story } from '~/ui/storybook'
+import { type Props, type Story } from '~/shared/storybook'
 
 import * as Viewer from '../'
 import type { Explorer, Path } from '../../../types/explorer'

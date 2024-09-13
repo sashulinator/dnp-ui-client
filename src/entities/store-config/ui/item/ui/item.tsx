@@ -1,10 +1,10 @@
 import './item.scss'
 
-import { routes } from '~/shared/routes'
-import Card from '~/ui/card'
-import Flex from '~/ui/flex'
-import Link from '~/ui/link'
-import TextHighlighter from '~/ui/text-highlighter'
+import { routes } from '~/old-shared/routes'
+import Card from '~/shared/card'
+import Flex from '~/shared/flex'
+import Link from '~/shared/link'
+import TextHighlighter from '~/shared/text-highlighter'
 import { c } from '~/utils/core'
 
 import { StoreConfig } from '../../../types/store-config'

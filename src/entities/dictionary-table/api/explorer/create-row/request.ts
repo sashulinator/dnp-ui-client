@@ -1,5 +1,5 @@
 import { type Response } from '~/lib/api'
-import api from '~/shared/axios'
+import api from '~/old-shared/axios'
 
 import { SYSNAME } from '../../../constants/name'
 import { type DictionaryTable } from '../../../types/dictionary-table'
