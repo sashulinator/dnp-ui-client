@@ -1,4 +1,4 @@
-import { type Explorer } from '~/entities/explorer/types/explorer'
+import { type Explorer } from '~/entities/explorer'
 import type { Response } from '~/shared/api'
 import api from '~/shared/axios'
 import type { Sort } from '~/shared/sort'

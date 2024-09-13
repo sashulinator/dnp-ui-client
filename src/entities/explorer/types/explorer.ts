@@ -1,1 +1,1 @@
-export * from '~/common/entities/explorer'
+export * from '~/common/shared/explorer'

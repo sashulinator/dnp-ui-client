@@ -65,7 +65,8 @@ export default function Component(): JSX.Element {
   const explorerListFetcher = api.explorer.findManyAndCountRows.useCache(requestParams, { keepPreviousData: true })
 
   const columns = useMemo(
-    () => toColumns(explorerListFetcher.data?.dictionaryTable.tableSchema.items || []),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    () => toColumns((explorerListFetcher.data?.dictionaryTable.tableSchema.items as any) || []),
     [explorerListFetcher.data],
   )
 
@@ -231,9 +232,8 @@ function _Dialog(props: _DialogProps) {
           Запись
           {/* <TextHighlighter>{item?.name}</TextHighlighter> */}
         </Dialog.Title>
-
-        <FForm form={form} tableSchema={tableSchema} component={SchemaForm} />
-
+        {/*eslint-disable-next-line @typescript-eslint/no-explicit-any*/}
+        <FForm form={form} tableSchema={tableSchema as any} component={SchemaForm} />
         <Flex gap='4' mt='4' justify='end'>
           <Button variant='soft' color='gray' onClick={() => form.initialize({})}>
             Закрыть

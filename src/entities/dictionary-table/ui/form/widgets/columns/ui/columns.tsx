@@ -235,28 +235,6 @@ function _renderColumn(props: _renderColumnProps) {
             {hasRelation && (
               <>
                 <DataList.Item>
-                  <Label content='Тип' />
-                  <DataList.Value>
-                    <TypedField<
-                      Required<NonNullableFlat<Values['tableSchema']['items'][number]>>[],
-                      `${number}.relation.type`,
-                      string,
-                      string,
-                      SelectProps<string>,
-                      HTMLInputElement
-                    >
-                      component={Select}
-                      size='1'
-                      name={`${typedName}.relation.type`}
-                      defaultValue='string'
-                      options={[
-                        { value: 'dictionaryTable', display: 'Операционная таблица' },
-                        { value: 'dictionary', display: 'Справочник' },
-                      ]}
-                    />
-                  </DataList.Value>
-                </DataList.Item>
-                <DataList.Item>
                   <Label content='Таблица' />
                   <DataList.Value>
                     <TypedField<
