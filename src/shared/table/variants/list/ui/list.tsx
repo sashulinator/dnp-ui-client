@@ -1,4 +1,4 @@
-import Table, { CellProps, RootProps } from '~/shared/table'
+import Table, { type CellProps, type RootProps } from '~/shared/table'
 import { c } from '~/utils/core'
 
 export interface Column<TDataItem extends Record<string, unknown>> {

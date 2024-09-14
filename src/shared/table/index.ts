@@ -1,17 +1,8 @@
 /**
- * ui
+ * compound
  */
-import { Table } from '@radix-ui/themes'
-
-export default Table
-export type {
-  RootProps,
-  CellProps,
-  RowProps,
-  BodyProps,
-  HeaderProps,
-  // куча типов...
-} from '@radix-ui/themes/dist/esm/components/table.d.ts'
+export { default } from './compound/table'
+export type { BodyProps, CellProps, HeaderProps, RootProps, RowProps } from './compound/table'
 
 /**
  * variants
