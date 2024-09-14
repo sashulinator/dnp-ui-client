@@ -17,7 +17,7 @@ import uiPaginationWInfo from '~/shared/pagination/widgets/info/story'
 import uiPaginationWSwitcher from '~/shared/pagination/widgets/switcher/story'
 import sortButton from '~/shared/sort/components/button/story'
 import type { Story } from '~/shared/storybook'
-import uiTableVList from '~/shared/table/variants/list/story'
+import tableList from '~/shared/table/components/list/story'
 import uiTagPicker from '~/shared/tag-picker/story/index'
 import uiTagPickerWTag from '~/shared/tag-picker/widgets/tag/story'
 import uiTextHighlighter from '~/shared/text-highlighter/story'
@@ -39,7 +39,7 @@ export const storyList: Story<any>[] = [
   uiCodeEditor,
   uiCodeEditorVJson,
   uiCollapse,
-  uiTableVList,
+  tableList,
   sortButton,
   uiTextHighlighter,
   uiTagPicker,

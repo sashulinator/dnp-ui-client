@@ -1,15 +1,18 @@
 /**
- * compound
+ * compounds
  */
-export { default } from './compound/table'
-export type { BodyProps, CellProps, HeaderProps, RootProps, RowProps } from './compound/table'
+
+export { default } from './compounds/table'
+export type { BodyProps, CellProps, HeaderProps, RootProps, RowProps } from './compounds/table'
 
 /**
- * variants
+ * components
  */
 
 export {
-  default as TableList,
-  type TableProps as TableListProps,
-  type Column as TableListColumn,
-} from './variants/list'
+  default as ListTable,
+  type TableProps as ListTableProps,
+  type Column as ListTableColumn,
+  type RenderCellProps as ListTableRenderCellProps,
+  type RenderHeaderProps as ListTableRenderHeaderProps,
+} from './components/list'

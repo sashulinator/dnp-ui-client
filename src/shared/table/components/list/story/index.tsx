@@ -1,6 +1,6 @@
 import Flex from '~/shared/flex'
-import type { Props } from '~/shared/storybook'
-import { type Story } from '~/shared/storybook'
+import type { Props, Story } from '~/shared/storybook'
+import { type Dictionary } from '~/utils/core'
 
 import Table, { NAME } from '..'
 import type { Column } from '../ui/list'
@@ -13,7 +13,7 @@ export default {
 
     return (
       <Flex width='100%' direction={'column'} p='8' gap='4'>
-        <Table {...state} list={list} columns={columns} />
+        <Table {...state} context={{}} list={list} columns={columns} />
       </Flex>
     )
   },
@@ -62,19 +62,19 @@ const list: User[] = [
   },
 ]
 
-const columns: Column<User>[] = [
+const columns: Column<User, Dictionary>[] = [
   {
-    key: 'id',
+    accessorKey: 'id',
     renderCell: ({ value }) => value,
     renderHeader: () => 'ID',
   },
   {
-    key: 'username',
+    accessorKey: 'username',
     renderHeader: () => 'Имя пользователя',
     renderCell: ({ value }) => value,
   },
   {
-    key: 'age',
+    accessorKey: 'age',
     renderHeader: () => 'Возраст',
     renderCell: ({ value }) => value,
   },
