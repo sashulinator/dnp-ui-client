@@ -5,7 +5,7 @@ import { JSONParam } from '~/shared/use-query-params'
 import { isString } from '~/utils/core'
 import { useDebounceCallback } from '~/utils/core-hooks'
 
-import { type Sort } from '.'
+import { type Sort } from '..'
 
 export function useSort(): [Sort | undefined, Sort | undefined, (value: Sort | undefined) => void] {
   const [rawQueryParam, setQueryParam] = useQueryParam('sort', JSONParam)

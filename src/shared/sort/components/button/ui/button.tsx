@@ -15,7 +15,7 @@ export interface Props extends Omit<ButtonProps, 'onChange'> {
   onChange?: ((value: Value) => void) | undefined
 }
 
-export const NAME = 'ui-Table-w-SortingButton'
+export const NAME = 'sort-Button'
 
 const nextValue = {
   asc: 'desc',
@@ -24,7 +24,7 @@ const nextValue = {
 } as const
 
 /**
- * ui-Table-w-SortingButton
+ * sort-Button
  */
 function Component(props: Props, ref: ForwardedRef<HTMLButtonElement>): JSX.Element {
   const { value, onChange, ...buttonProps } = props

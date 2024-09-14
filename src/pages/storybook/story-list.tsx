@@ -15,9 +15,9 @@ import uiFormWTextField from '~/shared/form/widgets/text-field/story'
 import uiPagination from '~/shared/pagination/story'
 import uiPaginationWInfo from '~/shared/pagination/widgets/info/story'
 import uiPaginationWSwitcher from '~/shared/pagination/widgets/switcher/story'
+import sortButton from '~/shared/sort/components/button/story'
 import type { Story } from '~/shared/storybook'
 import uiTableVList from '~/shared/table/variants/list/story'
-import uiTableWSortingButton from '~/shared/table/widgets/sorting-button/story'
 import uiTagPicker from '~/shared/tag-picker/story/index'
 import uiTagPickerWTag from '~/shared/tag-picker/widgets/tag/story'
 import uiTextHighlighter from '~/shared/text-highlighter/story'
@@ -40,7 +40,7 @@ export const storyList: Story<any>[] = [
   uiCodeEditorVJson,
   uiCollapse,
   uiTableVList,
-  uiTableWSortingButton,
+  sortButton,
   uiTextHighlighter,
   uiTagPicker,
   uiTagPickerWTag,

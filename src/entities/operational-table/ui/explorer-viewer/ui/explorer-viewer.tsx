@@ -10,8 +10,8 @@ import Button from '~/shared/button'
 import Flex from '~/shared/flex'
 import Icon from '~/shared/icon'
 import { notify } from '~/shared/notification-list-store'
+import { SortButton } from '~/shared/sort'
 import Spinner from '~/shared/spinner'
-import { SortingButton } from '~/shared/table'
 import { type Id, c } from '~/utils/core'
 
 export interface Props extends Omit<Viewer.ViewerProps, 'children'> {
@@ -162,7 +162,7 @@ export default function Component(props: Props): JSX.Element {
       renderHeader: ({ context }) => {
         return (
           <Flex height='100%' align='center' justify='center'>
-            <SortingButton
+            <SortButton
               size='1'
               round={true}
               variant='ghost'

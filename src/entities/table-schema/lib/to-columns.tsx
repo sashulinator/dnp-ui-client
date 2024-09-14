@@ -2,16 +2,15 @@ import { DropdownMenu } from '@radix-ui/themes'
 
 import { useState } from 'react'
 
-import { getStringFilterConfig } from '~/common/lib/api/get-string-filter-config'
 import { type TableColumn } from '~/entities/explorer/ui/viewer'
 import { type TableSchemaItem } from '~/entities/operational-table'
 import Button from '~/shared/button'
 import Flex from '~/shared/flex'
 import Icon from '~/shared/icon'
-import { type Sort } from '~/shared/sort'
-import { SortingButton } from '~/shared/table'
+import { type Sort, SortButton } from '~/shared/sort'
 import Text from '~/shared/text'
 import TextField from '~/shared/text-field'
+import { getStringFilterConfig } from '~/shared/where'
 import { type StringFilter } from '~/shared/where'
 import { type SetterOrUpdater, assertDefined, isString } from '~/utils/core'
 import { useDebounceCallback } from '~/utils/core-hooks'
@@ -261,7 +260,7 @@ function _HeaderCell<T extends string>({ accessorKey, context, name }: _HeaderPr
           </DropdownMenu.Item>
         </DropdownMenu.Content>
       </DropdownMenu.Root>
-      <SortingButton
+      <SortButton
         size='1'
         round={true}
         variant='ghost'

@@ -2,8 +2,8 @@ import { useState } from 'react'
 
 import { type Props, type Story } from '~/shared/storybook'
 
-import type { Value } from '../ui/sorting-button'
-import SortingButton, { NAME } from '../ui/sorting-button'
+import type { Value } from '../ui/button'
+import Button, { NAME } from '../ui/button'
 
 interface State {
   //
@@ -16,7 +16,7 @@ export default {
 
     return (
       <div style={{ padding: '2rem' }}>
-        <SortingButton round={true} variant='ghost' {...state} value={value} onChange={setValue} />
+        <Button round={true} variant='ghost' {...state} value={value} onChange={setValue} />
       </div>
     )
   },
