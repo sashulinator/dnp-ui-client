@@ -78,50 +78,62 @@ export default function Component(): JSX.Element {
           )
         })}
       </Flex>
-      <Separator />
-      <Flex direction='column' gap='3'>
-        {operationalTableListFetcher.data?.data.items.map((operationalTable) => {
-          const isCurrent = currentOper === operationalTable.kn && isExplorer
-          const iconName = ((operationalTable as any).iconName as keyof typeof iconMap) ?? 'Star'
+      {operationalTableListFetcher.data && (
+        <>
+          <Separator />
+          <Flex direction='column' gap='3'>
+            {operationalTableListFetcher.data?.data.items.map((operationalTable) => {
+              const isCurrent = currentOper === operationalTable.kn && isExplorer
+              const iconName = ((operationalTable as any).iconName as keyof typeof iconMap) ?? 'Star'
 
-          return (
-            <Tooltip side='right' key={operationalTable.kn} content={operationalTable.name}>
-              <Link
-                to={routes.operationalTables_kn_explorer.getURL(operationalTable.kn, { name: operationalTable.name })}
-              >
-                {iconMap[iconName] ? (
-                  <Button size='2' square={true} variant={isCurrent ? 'solid' : 'soft'}>
-                    <Icon name={iconName} />
-                  </Button>
-                ) : (
-                  <Button dangerouslySetInnerHTML={{ __html: iconName }} />
-                )}
-              </Link>
-            </Tooltip>
-          )
-        })}
-      </Flex>
-      <Separator />
-      <Flex direction='column' gap='3'>
-        {dictionaryListFetcher.data?.data.items.map((dictionaryTable) => {
-          const isCurrent = currentOper === dictionaryTable.kn && isExplorer
-          const iconName = ((dictionaryTable as any).iconName as keyof typeof iconMap) ?? 'Star'
+              return (
+                <Tooltip side='right' key={operationalTable.kn} content={operationalTable.name}>
+                  <Link
+                    to={routes.operationalTables_kn_explorer.getURL(operationalTable.kn, {
+                      name: operationalTable.name,
+                    })}
+                  >
+                    {iconMap[iconName] ? (
+                      <Button size='2' square={true} variant={isCurrent ? 'solid' : 'soft'}>
+                        <Icon name={iconName} />
+                      </Button>
+                    ) : (
+                      <Button dangerouslySetInnerHTML={{ __html: iconName }} />
+                    )}
+                  </Link>
+                </Tooltip>
+              )
+            })}
+          </Flex>
+        </>
+      )}
+      {dictionaryListFetcher.data && (
+        <>
+          <Separator />
+          <Flex direction='column' gap='3'>
+            {dictionaryListFetcher.data?.data.items.map((dictionaryTable) => {
+              const isCurrent = currentOper === dictionaryTable.kn && isExplorer
+              const iconName = ((dictionaryTable as any).iconName as keyof typeof iconMap) ?? 'Star'
 
-          return (
-            <Tooltip side='right' key={dictionaryTable.kn} content={dictionaryTable.name}>
-              <Link to={routes.dictionaryTables_kn_explorer.getURL(dictionaryTable.kn, { name: dictionaryTable.name })}>
-                {iconMap[iconName] ? (
-                  <Button size='2' square={true} variant={isCurrent ? 'solid' : 'soft'}>
-                    <Icon name={iconName} />
-                  </Button>
-                ) : (
-                  <Button dangerouslySetInnerHTML={{ __html: iconName }} />
-                )}
-              </Link>
-            </Tooltip>
-          )
-        })}
-      </Flex>
+              return (
+                <Tooltip side='right' key={dictionaryTable.kn} content={dictionaryTable.name}>
+                  <Link
+                    to={routes.dictionaryTables_kn_explorer.getURL(dictionaryTable.kn, { name: dictionaryTable.name })}
+                  >
+                    {iconMap[iconName] ? (
+                      <Button size='2' square={true} variant={isCurrent ? 'solid' : 'soft'}>
+                        <Icon name={iconName} />
+                      </Button>
+                    ) : (
+                      <Button dangerouslySetInnerHTML={{ __html: iconName }} />
+                    )}
+                  </Link>
+                </Tooltip>
+              )
+            })}
+          </Flex>
+        </>
+      )}
     </nav>
   )
 }
