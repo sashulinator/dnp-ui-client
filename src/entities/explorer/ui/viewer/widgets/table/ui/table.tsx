@@ -72,7 +72,10 @@ export default function Component<TContext extends Record<string, unknown>>(prop
               key={i}
               onClick={() => {
                 if (loading || isSelected()) return
-                onPathChange?.([...(paths || []), { name: item.name, type: item.type }])
+                onPathChange?.([
+                  ...(paths || []),
+                  { name: item[data.idKey as (typeof item.data)[keyof typeof item.data]], type: item.type },
+                ])
               }}
             >
               {columns.map((column) => {

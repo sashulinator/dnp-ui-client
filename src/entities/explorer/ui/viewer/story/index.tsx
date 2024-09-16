@@ -65,10 +65,10 @@ const tableListMock: Explorer[] = Array(7)
       total: 7,
       name: `table-${i}`,
       type: 'table',
+      idKey: 'atr1',
       items: Array(7)
         .fill(undefined)
         .map((_, k) => ({
-          name: `row-${i}${k}`,
           type: 'row',
           data: {
             atr1: `atr-${i}${k}1`,
@@ -85,11 +85,13 @@ const postgresMock: Explorer = {
   paths: [{ type: 'postgres', name: 'postgres-Mock' }],
   name: 'postgres-Mock',
   type: 'postgres',
+  idKey: 'name',
   items: Array(7)
     .fill(undefined)
     .map((_, i) => ({
-      name: `table-${i}`,
       type: 'table',
-      data: {},
+      data: {
+        name: `table-${i}`,
+      },
     })),
 }

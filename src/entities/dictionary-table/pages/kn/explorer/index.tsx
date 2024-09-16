@@ -187,7 +187,10 @@ export default function Component(): JSX.Element {
                 }}
                 onPathChange={(paths) => {
                   const last = paths[paths.length - 1]
-                  const item = explorerListFetcher.data.explorer.items.find((item) => item.name === last.name)
+                  const item = explorerListFetcher.data.explorer.items.find((item) => {
+                    const idKey = explorerListFetcher.data.explorer
+                    return item.data[idKey as (typeof item.data)[keyof typeof item.data]] === last.name
+                  })
                   if (!item) return
                   formToUpdate.initialize(item.data)
                 }}

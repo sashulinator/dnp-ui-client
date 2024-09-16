@@ -9,6 +9,7 @@ import Type from '../../type'
 export interface Props extends React.HTMLAttributes<HTMLDivElement> {
   className?: string | undefined
   item: Item
+  idKey: string | number
 }
 
 export const NAME = 'explorer-Viewer-w-Item'
@@ -17,7 +18,7 @@ export const NAME = 'explorer-Viewer-w-Item'
  * explorer-Viewer-w-Item
  */
 export default function Component(props: Props): JSX.Element {
-  const { item, ...divProps } = props
+  const { item, idKey, ...divProps } = props
 
   return (
     <Flex
@@ -30,7 +31,7 @@ export default function Component(props: Props): JSX.Element {
       <Type value={item.type} />
       <Flex>
         <TextHighlighter style={{ whiteSpace: 'nowrap' }} tooltipContent='pk'>
-          {item.name}
+          {item.data[idKey as (typeof item.data)[keyof typeof item.data]] as string}
         </TextHighlighter>
       </Flex>
       <Flex gap='4' style={{ whiteSpace: 'nowrap' }}>

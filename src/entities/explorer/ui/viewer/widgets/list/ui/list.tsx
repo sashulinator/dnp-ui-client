@@ -27,11 +27,15 @@ export default function Component(props: Props): JSX.Element {
         data.items.map((item) => {
           return (
             <Item
-              key={item.name}
+              idKey={data.idKey}
+              key={item.data[data.idKey as (typeof item.data)[keyof typeof item.data]]}
               style={{ cursor: item.type !== 'row' ? 'pointer' : 'default' }}
               onDoubleClick={() => {
                 if (loading) return
-                onPathChange?.([...(paths || []), { name: item.name, type: item.type }])
+                onPathChange?.([
+                  ...(paths || []),
+                  { name: item.data[data.idKey as (typeof item.data)[keyof typeof item.data]], type: item.type },
+                ])
               }}
               item={item}
             />
