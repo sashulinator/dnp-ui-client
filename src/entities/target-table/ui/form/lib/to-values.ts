@@ -1,7 +1,11 @@
-import { CreateTargetTable } from '../../../types/target-table'
-import { Values } from '../types/values'
+import type { Partial } from '~/utils/types/object'
 
-export function toValues(instance: Partial<CreateTargetTable>): Values {
-  // Можем вернуть Values т.к. значения будут провалидированны в форме
-  return instance as Values
+import type { CreateTargetTable } from '../../../types/target-table'
+import type { Values } from '../types/values'
+
+export function toValues(instance: Partial<CreateTargetTable, 'deep'>): Values {
+  // Можем скастовать as Values т.к. значения будут провалидированны в форме
+  return {
+    ...instance,
+  } as Values
 }

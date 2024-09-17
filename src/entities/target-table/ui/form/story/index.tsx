@@ -6,7 +6,7 @@ import { type Props, type Story } from '~/shared/storybook'
 
 import { toValues } from '../lib/to-values'
 import { defaultValues } from '../models/default-values'
-import Form, { displayName } from '../ui/form'
+import Form, { NAME } from '../ui/form'
 
 interface State {
   //
@@ -16,9 +16,10 @@ export default {
   render: function Element(props: Props<State>): JSX.Element {
     const { state } = props
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    const render = useCallback(() => <Form {...state} />, [])
+    const render = useCallback(() => <Form {...state} isKnUniq={() => Promise.resolve(true)} />, [])
 
     const form = useCreateForm(
+      // eslint-disable-next-line no-console
       { initialValues: toValues(defaultValues), onSubmit: console.log },
       { values: true, initialValues: true },
     )
@@ -55,5 +56,5 @@ export default {
     // { name: 'name', input: 'checkbox', defaultValue: false },
   ],
 
-  getName: (): string => displayName,
+  getName: (): string => NAME,
 } satisfies Story<State>

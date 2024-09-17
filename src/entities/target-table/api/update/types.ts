@@ -1,9 +1,7 @@
-import { uncapitalize, unspace } from '~/utils/string'
+import { SYSNAME } from '../../constants/name'
+import type { TargetTable, UpdateTargetTable } from '../../types/target-table'
 
-import { NAME as ENTITY_NAME } from '../../constants/name'
-import { TargetTable, UpdateTargetTable } from '../../types/target-table'
-
-export const keyName = `${uncapitalize(unspace(ENTITY_NAME))}.update`
+export const keyName = `${SYSNAME}.update`
 
 export type RequestData = { input: UpdateTargetTable }
 

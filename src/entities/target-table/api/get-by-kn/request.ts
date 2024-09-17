@@ -1,10 +1,10 @@
-import { Response } from '~/shared/api'
+import type { Response } from '~/shared/api'
 import api from '~/shared/axios'
 
-import { baseUrl } from '../common'
-import { RequestData, ResponseData } from './types'
+import { url } from '../common'
+import type { RequestData, ResponseData } from './types'
 
-export const buildURL = (requestData: RequestData): string => `${baseUrl}/${requestData.kn}`
+export const buildURL = (requestData: RequestData): string => `${url}/${requestData.kn}`
 
 export async function request(requestData: RequestData): Promise<Response<ResponseData>> {
   const { kn, ...body } = requestData

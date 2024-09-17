@@ -1,4 +1,4 @@
-import { CreateTargetTable, BaseTargetTable } from '../../../types/target-table'
+import type { BaseTargetTable, CreateTargetTable } from '../../../types/target-table'
 
 type FormTargetTable = CreateTargetTable & Partial<BaseTargetTable>
 

@@ -25,6 +25,7 @@ import { Icon as TargetTableIcon } from '~/entities/target-table'
 import TargetTable from '~/entities/target-table/pages'
 import TargetTable_create from '~/entities/target-table/pages/create'
 import TargetTable_kn from '~/entities/target-table/pages/kn'
+import TargetTable_kn_explorer from '~/entities/target-table/pages/kn/explorer'
 import { roles } from '~/entities/user'
 import Admin from '~/pages/admin'
 import Header from '~/shared/header'
@@ -303,6 +304,18 @@ export const routes = {
     renderHeader: Header,
     renderNav: Nav,
     getName: (): string => 'Целевая таблица',
+    navigatable: false,
+  },
+
+  targetTables_kn_explorer: {
+    getPath: () => '/target-tables/:kn/explorer',
+    getURL(kn: string, params?: { name: string } | undefined) {
+      return `${this.getPath().replace(':kn', kn)}${qs.stringify(params, { addQueryPrefix: true })}`
+    },
+    renderMain: TargetTable_kn_explorer,
+    renderHeader: Header,
+    renderNav: Nav,
+    getName: (): string => 'Данные целевой таблицы',
     navigatable: false,
   },
 
