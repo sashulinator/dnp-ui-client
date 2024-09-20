@@ -1,14 +1,18 @@
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { NumberParam, StringParam, withDefault } from 'serialize-query-params'
 import { useQueryParam, useQueryParams } from 'use-query-params'
 
+import * as importApi from '../../../api/explorer/import'
 import { ExplorerViewer, type Row, SYSNAME, type TableSchema, api } from '~/entities/operational-table'
+import { ImportOperationalTableModal } from '~/entities/operational-table/ui/import-modal'
 import { SchemaForm, toColumns } from '~/entities/table-schema'
 import { getRole } from '~/entities/user'
 import Button from '~/shared/button'
 import Container from '~/shared/container'
 import Dialog from '~/shared/dialog'
+import { ErrorPopup } from '~/shared/error-popup'
+import { filesApi } from '~/shared/files-api'
 import Flex from '~/shared/flex'
 import FForm, { type FormApi, useCreateForm } from '~/shared/form'
 import Heading from '~/shared/layout/variants/heading'
@@ -19,6 +23,7 @@ import ScrollArea from '~/shared/scroll-area'
 import { useSearch } from '~/shared/search'
 import Section from '~/shared/section'
 import { useSort } from '~/shared/sort'
+import { SuccessPopup } from '~/shared/success-popup'
 import TextField from '~/shared/text-field'
 import { JSONParam } from '~/shared/use-query-params'
 import { type Id, isEmpty } from '~/utils/core'
@@ -39,7 +44,14 @@ export default function Component(): JSX.Element {
   const [nameQueryParam] = useQueryParam('name', withDefault(StringParam, ''))
   const [searchQueryParam, searchValue, setSearchValue] = useSearch()
   const [sortParam, sortValue, setSort] = useSort()
-  useEffect(() => setSort({ _id: 'desc' }), [])
+
+  const [showImportModal, setShowImportModal] = useState<boolean>(false)
+
+  const [uploadedFileId, setUploadedFileId] = useState<string>()
+
+  const [showImportSuccessPopup, setShowImportSuccessPopup] = useState<boolean>(false)
+
+  const [showImportErrorPopup, setShowImportErrorPopup] = useState<boolean>(false)
 
   const [{ page = 1, take = 10 }, setPaginationParams] = useQueryParams(
     {
@@ -102,6 +114,49 @@ export default function Component(): JSX.Element {
       explorerUpdateMutator.mutateAsync({ kn, input: values, where: { _id: values._id } }).then((res) => res.data),
   })
 
+  const fileUploadMutator = filesApi.upload.useCache({
+    onSuccess: (data) => {
+      setUploadedFileId(data.data.fileId)
+    },
+    onError: () => {
+      notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' })
+    },
+  })
+
+  fileUploadMutator.isError
+
+  const onFileUpload = (file: File | null) => {
+    if (file) {
+      fileUploadMutator.mutate({ file })
+    }
+  }
+
+  const importMutator = importApi.useCache({
+    onSuccess: () => {
+      setShowImportModal(false)
+      setShowImportSuccessPopup(true)
+    },
+    onError: () => {
+      notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' })
+      setShowImportErrorPopup(true)
+    },
+  })
+
+  const onSubmitImport = () => {
+    uploadedFileId &&
+      importMutator.mutate({
+        fileId: uploadedFileId,
+        tableName: kn,
+      })
+  }
+
+  const onImportCancel = () => {
+    setShowImportModal(false)
+    setUploadedFileId(undefined)
+  }
+
+  useEffect(() => setSort({ _id: 'desc' }), [])
+
   const indexedColumns = explorerListFetcher.data?.operationalTable.tableSchema.items.filter((item) => item.index)
 
   return (
@@ -117,6 +172,15 @@ export default function Component(): JSX.Element {
         open={!isEmpty(formToUpdate.getState().initialValues)}
         mutator={explorerUpdateMutator}
         tableSchema={explorerListFetcher.data?.operationalTable.tableSchema}
+      />
+      <ImportOperationalTableModal
+        open={showImportModal}
+        hasFile={!!uploadedFileId}
+        isLoading={fileUploadMutator.isLoading || importMutator.isLoading}
+        hasError={fileUploadMutator.isError}
+        onFileUpload={onFileUpload}
+        onSubmit={onSubmitImport}
+        onClose={onImportCancel}
       />
       <Container p='var(--space-4)'>
         {explorerListFetcher.isError && (
@@ -140,7 +204,10 @@ export default function Component(): JSX.Element {
                   tooltipContent={routes.operationalTables_kn_explorer.getName()}
                 />
               </Heading.Root>
-              <Button onClick={() => formToCreate.initialize({ _status: '0' })}>Создать</Button>
+              <Flex gapX='12px'>
+                <Button onClick={() => formToCreate.initialize({ _status: '0' })}>Создать</Button>
+                <Button onClick={() => setShowImportModal(true)}>Импорт</Button>
+              </Flex>
             </Flex>
           </Section>
         )}
@@ -207,6 +274,16 @@ export default function Component(): JSX.Element {
           </Section>
         )}
       </Container>
+      <SuccessPopup
+        open={showImportSuccessPopup}
+        description='Импорт данных запущен. Статус операции можно отследить в разделе "Процессы"'
+        onClose={() => setShowImportSuccessPopup(false)}
+      />
+      <ErrorPopup
+        open={showImportErrorPopup}
+        description='При запуске импорта произошла ошибка'
+        onClose={() => setShowImportErrorPopup(false)}
+      />
     </main>
   )
 }

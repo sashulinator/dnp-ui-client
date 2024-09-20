@@ -6,9 +6,9 @@ import { useMemo, useRef, useState } from 'react'
 
 import Text from '~/shared/text'
 
-import { FileIcon } from './icons/FileIcon'
-import { FilePlusIcon } from './icons/FilePlusIcon'
-import { IconCross } from './icons/IconCross'
+import { FileIcon } from './icons/file-icon'
+import { FilePlusIcon } from './icons/file-plus-icon'
+import { IconCross } from './icons/icon-cross'
 
 interface Props {
   isLoading: boolean
