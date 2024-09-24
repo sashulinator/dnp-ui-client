@@ -7,9 +7,9 @@ import type { SelectProps, TextFieldProps } from '~/shared/form'
 import { Card, Checkbox, Column, Label, Row, Select, TextField, TypedField, UniqueTextField } from '~/shared/form'
 import { c } from '~/utils/core'
 
+import Columns from '../../../../table-schema/ui/widgets/columns'
 import { SYSNAME } from '../../../constants/name'
 import type { Values } from '../types/values'
-import Columns from '../widgets/columns'
 
 export interface Props {
   className?: string | undefined

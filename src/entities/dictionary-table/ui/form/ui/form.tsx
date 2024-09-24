@@ -1,25 +1,15 @@
 import { memo } from 'react'
-import { FieldInputProps, FieldMetaState, useField } from 'react-final-form'
+import type { FieldInputProps, FieldMetaState } from 'react-final-form'
+import { useField } from 'react-final-form'
 
 import Flex from '~/shared/flex'
-import {
-  Card,
-  Checkbox,
-  Column,
-  Label,
-  Row,
-  Select,
-  SelectProps,
-  TextField,
-  TextFieldProps,
-  TypedField,
-  UniqueTextField,
-} from '~/shared/form'
+import type { SelectProps, TextFieldProps } from '~/shared/form'
+import { Card, Checkbox, Column, Label, Row, Select, TextField, TypedField, UniqueTextField } from '~/shared/form'
 import { c } from '~/utils/core'
 
+import Columns from '../../../../table-schema/ui/widgets/columns'
 import { SYSNAME } from '../../../constants/name'
-import { Values } from '../types/values'
-import Columns from '../widgets/columns'
+import type { Values } from '../types/values'
 
 export interface Props {
   className?: string | undefined

@@ -1,6 +1,7 @@
 import { Field } from 'react-final-form'
 
-import Checkbox, { CheckboxProps } from '~/shared/checkbox'
+import type { CheckboxProps } from '~/shared/checkbox'
+import Checkbox from '~/shared/checkbox'
 import Flex from '~/shared/flex'
 import Text from '~/shared/text'
 import { c } from '~/utils/core'
@@ -30,7 +31,7 @@ export default function Component(props: Props): JSX.Element {
             <Flex gap='2' align='center'>
               <Checkbox
                 onCheckedChange={newInput.onChange}
-                defaultChecked={newInput.checked}
+                // defaultChecked={newInput.checked}
                 className='checkbox'
                 {...textFieldProps}
                 {...newInput}
