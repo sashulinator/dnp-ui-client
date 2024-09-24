@@ -31,7 +31,6 @@ export default function Component(props: Props): JSX.Element {
             <Flex gap='2' align='center'>
               <Checkbox
                 onCheckedChange={newInput.onChange}
-                // defaultChecked={newInput.checked}
                 className='checkbox'
                 {...textFieldProps}
                 {...newInput}

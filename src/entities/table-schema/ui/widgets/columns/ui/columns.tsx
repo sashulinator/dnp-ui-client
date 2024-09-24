@@ -407,7 +407,6 @@ function _DecimalPlacesDataListItem(props: _DecimalPlacesDataListItemProps) {
             </Tooltip>
           </Flex>
         </Label>
-
         <DataList.Value>
           <Field<string, TextFieldProps<string>, HTMLInputElement>
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
