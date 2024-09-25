@@ -6,90 +6,24 @@ import Card from '~/shared/card'
 import DataList from '~/shared/data-list'
 import Flex from '~/shared/flex'
 import type { SelectProps, TextFieldProps } from '~/shared/form'
-import { Checkbox, Field, FieldArray, Label, Select, TextField, TypedField, getIn, useForm } from '~/shared/form'
+import { Checkbox, Field, Label, Select, TextField, TypedField, getIn, useForm } from '~/shared/form'
 import Icon from '~/shared/icon'
 import Separator from '~/shared/separator'
 import Text from '~/shared/text'
 import Tooltip from '~/shared/tooltip'
-import { c, generateUniqId, isDev } from '~/utils/core'
+import { isDev } from '~/utils/core'
 import type { NonNullableFlat } from '~/utils/types/object/non-nullable'
 
 import type { Values } from '../../../types/values'
-
-type Item = {
-  id: string
-  key: string
-  name: string
-  type: string
-  relation?: {
-    table: string
-    key: string
-  }
-}
 
 export interface Props {
   className?: string | undefined
   name: string
 }
 
-export const NAME = 'dictionaryTable-Form-w-Columns'
+export const NAME = 'table-Form-w-Columns-Render'
 
 const FLEX_BASIS = 'calc(25% - 6px)'
-
-/**
- * dictionaryTable-Form-w-Columns'
- */
-export default function Component(props: Props): JSX.Element {
-  const { name } = props
-
-  return (
-    <Flex width='100%' wrap='wrap' gap='2'>
-      <FieldArray<Item> name={name} className={c(props.className, NAME)}>
-        {({ fields }) => {
-          return (
-            <>
-              {fields.map((name, index) =>
-                React.createElement(_renderColumn, {
-                  key: name,
-                  name,
-                  index,
-                  move: fields.move,
-                  remove: fields.remove,
-                  length: fields.length || 0,
-                }),
-              )}
-              <Button
-                type='button'
-                onClick={() =>
-                  fields.push({
-                    id: generateUniqId(3, (id) => !fields.value.find((item) => item.id === id)),
-                    key: '',
-                    name: '',
-                    type: 'string',
-                  })
-                }
-                variant='outline'
-                asChild
-                style={{
-                  display: 'flex',
-                  height: '14.5rem',
-                  order: fields.length,
-                  flexBasis: FLEX_BASIS,
-                }}
-              >
-                <Flex align='center' justify='center'>
-                  <Icon name='Plus' style={{ scale: '3' }} />
-                </Flex>
-              </Button>
-            </>
-          )
-        }}
-      </FieldArray>
-    </Flex>
-  )
-}
-
-Component.displayName = NAME
 
 interface _renderColumnProps {
   name: string
@@ -99,7 +33,7 @@ interface _renderColumnProps {
   length: number
 }
 
-function _renderColumn(props: _renderColumnProps) {
+export default function Component(props: _renderColumnProps) {
   const { name, index, move, remove, length } = props
   const typedName = name as unknown as number
   const form = useForm()
@@ -286,6 +220,8 @@ function _renderColumn(props: _renderColumnProps) {
     </Card>
   )
 }
+
+Component.displayName = NAME
 
 /**
  * Private

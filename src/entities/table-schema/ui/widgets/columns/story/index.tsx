@@ -4,7 +4,7 @@ import Flex from '~/shared/flex'
 import FForm, { useCreateForm } from '~/shared/form'
 import { type Props, type Story } from '~/shared/storybook'
 
-import Columns, { NAME } from '../'
+import Columns, { NAME } from '../../../../column'
 
 interface State {
   //
