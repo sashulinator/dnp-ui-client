@@ -3,18 +3,19 @@ import { useParams } from 'react-router-dom'
 import { NumberParam, StringParam, withDefault } from 'serialize-query-params'
 import { useQueryParam, useQueryParams } from 'use-query-params'
 
-import * as importApi from '../../../api/explorer/import'
-import { ExplorerViewer, type Row, SYSNAME, type TableSchema, api } from '~/entities/operational-table'
+import { ExplorerViewer, type Row, SYSNAME, api } from '~/entities/operational-table'
 import { ImportOperationalTableModal } from '~/entities/operational-table/ui/import-modal'
-import { SchemaForm, toColumns } from '~/entities/table-schema'
+import { toColumns } from '~/entities/table-schema'
 import { getRole } from '~/entities/user'
 import Button from '~/shared/button'
 import Container from '~/shared/container'
+import { type Column, RowForm } from '~/shared/database-table'
 import Dialog from '~/shared/dialog'
 import { ErrorPopup } from '~/shared/error-popup'
 import { filesApi } from '~/shared/files-api'
 import Flex from '~/shared/flex'
-import FForm, { type FormApi, useCreateForm } from '~/shared/form'
+import { type FormApi, useCreateForm } from '~/shared/form'
+import FForm from '~/shared/form'
 import Heading from '~/shared/layout/variants/heading'
 import { notify } from '~/shared/notification-list-store'
 import Pagination from '~/shared/pagination'
@@ -27,6 +28,8 @@ import { SuccessPopup } from '~/shared/success-popup'
 import TextField from '~/shared/text-field'
 import { JSONParam } from '~/shared/use-query-params'
 import { type Id, isEmpty } from '~/utils/core'
+
+import * as importApi from '../../../api/explorer/import'
 
 export interface Props {
   className?: string | undefined
@@ -165,13 +168,13 @@ export default function Component(): JSX.Element {
         form={formToCreate}
         open={!isEmpty(formToCreate.getState().initialValues)}
         mutator={explorerCreateMutator}
-        tableSchema={explorerListFetcher.data?.operationalTable.tableSchema}
+        columns={explorerListFetcher.data?.operationalTable.tableSchema.items}
       />
       <_Dialog
         form={formToUpdate}
         open={!isEmpty(formToUpdate.getState().initialValues)}
         mutator={explorerUpdateMutator}
-        tableSchema={explorerListFetcher.data?.operationalTable.tableSchema}
+        columns={explorerListFetcher.data?.operationalTable.tableSchema.items}
       />
       <ImportOperationalTableModal
         open={showImportModal}
@@ -297,12 +300,12 @@ Component.displayName = NAME
 interface _DialogProps {
   open: boolean
   form: FormApi<Row, Partial<Row>>
-  tableSchema: TableSchema | undefined
+  columns: Column[] | undefined
   mutator: { isLoading: boolean }
 }
 
 function _Dialog(props: _DialogProps) {
-  const { open, form, tableSchema, mutator } = props
+  const { open, form, columns, mutator } = props
 
   return (
     <Dialog.Root open={open}>
@@ -311,9 +314,7 @@ function _Dialog(props: _DialogProps) {
           Запись
           {/* <TextHighlighter>{item?.name}</TextHighlighter> */}
         </Dialog.Title>
-
-        <FForm form={form} tableSchema={tableSchema} component={SchemaForm} />
-
+        <FForm form={form} columns={columns} component={RowForm} />
         <Flex gap='4' mt='4' justify='end'>
           <Button variant='soft' color='gray' onClick={() => form.initialize({})}>
             Закрыть

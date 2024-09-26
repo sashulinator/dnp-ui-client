@@ -3,11 +3,12 @@ import { useParams } from 'react-router-dom'
 import { NumberParam, StringParam, withDefault } from 'serialize-query-params'
 import { useQueryParam, useQueryParams } from 'use-query-params'
 
-import { SchemaForm, toColumns } from '~/entities/table-schema'
-import { ExplorerViewer, type Row, SYSNAME, type TableSchema, api } from '~/entities/target-table'
+import { toColumns } from '~/entities/table-schema'
+import { ExplorerViewer, type Row, SYSNAME, api } from '~/entities/target-table'
 import { getRole } from '~/entities/user'
 import Button from '~/shared/button'
 import Container from '~/shared/container'
+import { type Column, RowForm } from '~/shared/database-table'
 import Dialog from '~/shared/dialog'
 import Flex from '~/shared/flex'
 import FForm, { type FormApi, useCreateForm } from '~/shared/form'
@@ -111,13 +112,13 @@ export default function Component(): JSX.Element {
         form={formToCreate}
         open={!isEmpty(formToCreate.getState().initialValues)}
         mutator={explorerCreateMutator}
-        tableSchema={explorerListFetcher.data?.targetTable.tableSchema}
+        columns={explorerListFetcher.data?.targetTable.tableSchema.items}
       />
       <_Dialog
         form={formToUpdate}
         open={!isEmpty(formToUpdate.getState().initialValues)}
         mutator={explorerUpdateMutator}
-        tableSchema={explorerListFetcher.data?.targetTable.tableSchema}
+        columns={explorerListFetcher.data?.targetTable.tableSchema.items}
       />
       <Container p='var(--space-4)'>
         {explorerListFetcher.isError && (
@@ -221,12 +222,12 @@ Component.displayName = NAME
 interface _DialogProps {
   open: boolean
   form: FormApi<Row, Partial<Row>>
-  tableSchema: TableSchema | undefined
+  columns: Column[] | undefined
   mutator: { isLoading: boolean }
 }
 
 function _Dialog(props: _DialogProps) {
-  const { open, form, tableSchema, mutator } = props
+  const { open, form, columns, mutator } = props
 
   return (
     <Dialog.Root open={open}>
@@ -235,8 +236,7 @@ function _Dialog(props: _DialogProps) {
           Запись
           {/* <TextHighlighter>{item?.name}</TextHighlighter> */}
         </Dialog.Title>
-        {/*eslint-disable-next-line @typescript-eslint/no-explicit-any*/}
-        <FForm form={form} tableSchema={tableSchema as any} component={SchemaForm} />
+        <FForm form={form} columns={columns} component={RowForm} />
         <Flex gap='4' mt='4' justify='end'>
           <Button variant='soft' color='gray' onClick={() => form.initialize({})}>
             Закрыть
