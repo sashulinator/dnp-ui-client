@@ -124,6 +124,8 @@ export default function Component(props: Props) {
                 />
               </DataList.Value>
             </DataList.Item>
+            <_IsIndexListItem typedName={typedName} />
+            <_IsNullableListItem typedName={typedName} />
             <_MaxLengthDataListItem typedName={typedName} />
             <_DecimalPlacesDataListItem typedName={typedName} />
             <_IsNegativeAllowedListItem typedName={typedName} />
@@ -328,4 +330,76 @@ function _DecimalPlacesDataListItem(props: _DecimalPlacesDataListItemProps) {
     )
   }
   return null
+}
+
+/**
+ * _IsIndexListItem
+ */
+
+type _IsIndexListItemProps = {
+  typedName: ''
+}
+
+function _IsIndexListItem(props: _IsIndexListItemProps) {
+  const { typedName } = props
+
+  const form = useForm()
+
+  useEffect(() => {
+    form.change(`${typedName}index`, form.getFieldState(`${typedName}index`)?.value || false)
+  }, [])
+
+  return (
+    <DataList.Item>
+      <Label>
+        <Flex gap={'1'}>
+          Индексация
+          <Tooltip content={'Добавить индексацию для колонки в базу данных'}>
+            <span>
+              <Icon name={'InfoCircled'} />
+            </span>
+          </Tooltip>
+        </Flex>
+      </Label>
+      <DataList.Value>
+        <Checkbox checked defaultChecked={true} size='1' name={`${typedName}index`} />
+      </DataList.Value>
+    </DataList.Item>
+  )
+}
+
+/**
+ * _IsNullableListItem
+ */
+
+type _IsNullableListItemProps = {
+  typedName: ''
+}
+
+function _IsNullableListItem(props: _IsNullableListItemProps) {
+  const { typedName } = props
+
+  const form = useForm()
+
+  useEffect(() => {
+    form.change(`${typedName}nullable`, form.getFieldState(`${typedName}nullable`)?.value || false)
+  }, [])
+
+  return (
+    <DataList.Item>
+      <Label>
+        <Flex gap={'1'}>
+          Пусто
+          <Tooltip content={'Колонка может быть пустой'}>
+            <span>
+              <Icon name={'InfoCircled'} />
+            </span>
+          </Tooltip>
+        </Flex>
+      </Label>
+      <DataList.Value>
+        <Checkbox checked defaultChecked={true} size='1' name={`${typedName}nullable`} />
+      </DataList.Value>
+    </DataList.Item>
+  )
 }
