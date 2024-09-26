@@ -1,11 +1,11 @@
 import { useMemo } from 'react'
 import { useMutation } from 'react-query'
 
-import { Viewer } from '~/entities/explorer'
-import { type TableColumn } from '~/entities/explorer/ui/viewer'
 import { type ColumnContext } from '~/entities/table-schema'
 import { type Row, type TargetTable } from '~/entities/target-table'
 import Button from '~/shared/button'
+import { Viewer } from '~/shared/explorer'
+import { type TableColumn } from '~/shared/explorer/ui/viewer'
 import Flex from '~/shared/flex'
 import Icon from '~/shared/icon'
 import { notify } from '~/shared/notification-list-store'

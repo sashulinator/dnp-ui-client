@@ -2,9 +2,9 @@ import { DropdownMenu } from '@radix-ui/themes'
 
 import { useState } from 'react'
 
-import { type TableColumn } from '~/entities/explorer/ui/viewer'
 import { type TableSchemaItem } from '~/entities/operational-table'
 import Button from '~/shared/button'
+import { type TableColumn } from '~/shared/explorer/ui/viewer'
 import Flex from '~/shared/flex'
 import Icon from '~/shared/icon'
 import { type Sort, SortButton } from '~/shared/sort'

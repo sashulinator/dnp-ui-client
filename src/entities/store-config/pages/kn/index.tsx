@@ -2,13 +2,19 @@ import { useCallback, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { safeParse } from 'valibot'
 
-import type { Path } from '~/entities/explorer'
-import { Viewer, api } from '~/entities/explorer'
-import type { FormValues } from '~/entities/store-config'
-import { Form, fromFormValues, getByKn, toFormValues, update, updateStoreConfigSchema } from '~/entities/store-config'
+import {
+  Form,
+  type FormValues,
+  fromFormValues,
+  getByKn,
+  toFormValues,
+  update,
+  updateStoreConfigSchema,
+} from '~/entities/store-config'
 import Button from '~/shared/button'
 import Card from '~/shared/card'
 import Container from '~/shared/container'
+import { type Path, Viewer, api } from '~/shared/explorer'
 import Flex from '~/shared/flex'
 import FForm, { toNestedErrors, useCreateForm } from '~/shared/form'
 import Heading from '~/shared/heading'

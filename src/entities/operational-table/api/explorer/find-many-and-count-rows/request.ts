@@ -1,6 +1,6 @@
-import { type Explorer } from '~/entities/explorer/types/explorer'
 import type { Response } from '~/shared/api'
 import api from '~/shared/axios'
+import { type Explorer } from '~/shared/explorer/models/explorer'
 import type { Sort } from '~/shared/sort'
 import type { StringFilter, Where } from '~/shared/where'
 
