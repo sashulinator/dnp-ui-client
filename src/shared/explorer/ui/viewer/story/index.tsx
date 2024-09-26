@@ -21,6 +21,7 @@ export default {
       <div style={{ width: '100%', height: '100%', border: '1px solid red' }}>
         <Viewer.Root context={{}} paths={paths} loading={isFetching} onPathChange={setPath} data={data} {...state}>
           <Viewer.Breadscrums />
+          <Viewer.List />
         </Viewer.Root>
       </div>
     )

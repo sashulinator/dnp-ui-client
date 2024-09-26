@@ -2,12 +2,12 @@ import React, { useContext } from 'react'
 
 import Button from '~/shared/button'
 import Flex from '~/shared/flex'
-import Icon from '~/shared/icon'
+import SharedIcon from '~/shared/icon'
 import { c } from '~/utils/core'
 
+import Icon from '../../../../icon'
 import { context } from '../../../models/context'
 import { NAME as ROOT_NAME } from '../../../ui/viewer'
-import Type from '../../type'
 
 export interface Props {
   className?: string | undefined
@@ -35,7 +35,7 @@ export default function Component(props: Props): JSX.Element {
           onPathChange?.([...paths])
         }}
       >
-        <Icon name='ChevronLeft' />
+        <SharedIcon name='ChevronLeft' />
       </Button>
 
       <Flex gap='3' align='center'>
@@ -51,11 +51,11 @@ export default function Component(props: Props): JSX.Element {
                   onPathChange?.(paths.slice(0, i - 1))
                 }}
               >
-                <Type value={path.type} />
+                <Icon name={path.type} />
                 <div className={`${NAME}_name`}>{path.name}</div>
               </Button>
             </Flex>
-            {paths.length - 1 !== i && <Icon name='ChevronRight' />}
+            {paths.length - 1 !== i && <SharedIcon name='ChevronRight' />}
           </React.Fragment>
         ))}
       </Flex>

@@ -3,8 +3,8 @@ import TextHighlighter from '~/shared/text-highlighter'
 import Tooltip from '~/shared/tooltip'
 import { c } from '~/utils/core'
 
-import { type Item } from '../../../../../models/explorer'
-import Type from '../../type'
+import { type Item } from '../../../../../../../models/explorer'
+import Icon from '../../../../../../icon'
 
 export interface Props extends React.HTMLAttributes<HTMLDivElement> {
   className?: string | undefined
@@ -28,7 +28,7 @@ export default function Component(props: Props): JSX.Element {
       className={c(props.className, NAME)}
       {...divProps}
     >
-      <Type value={item.type} />
+      <Icon name={item.type} />
       <Flex>
         <TextHighlighter style={{ whiteSpace: 'nowrap' }} tooltipContent='pk'>
           {item.data[idKey as (typeof item.data)[keyof typeof item.data]] as string}

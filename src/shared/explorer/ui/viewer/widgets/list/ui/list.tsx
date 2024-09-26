@@ -5,7 +5,7 @@ import { c } from '~/utils/core'
 
 import { context } from '../../../models/context'
 import { NAME as ROOT_NAME } from '../../../ui/viewer'
-import Item from '../../item'
+import Item from '../widgets/item'
 
 export interface Props {
   className?: string | undefined
