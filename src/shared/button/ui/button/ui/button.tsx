@@ -1,6 +1,11 @@
-import { Button, ButtonProps } from '@radix-ui/themes'
-import { ForwardedRef, forwardRef } from 'react'
 import './button.scss'
+
+import type { ButtonProps } from '@radix-ui/themes'
+import { Button } from '@radix-ui/themes'
+
+import type { ForwardedRef } from 'react'
+import { forwardRef } from 'react'
+
 import { c } from '~/utils/core'
 
 export interface Props extends ButtonProps {
