@@ -1,13 +1,14 @@
 import normalizationConfigForm from '~/entities/normalization-config/ui/form/story'
 import operationalTableForm from '~/entities/operational-table/ui/form/story'
 import storeConfigForm from '~/entities/store-config/ui/form/story'
-import operationalTableFormWColumn from '~/entities/table-schema/ui/widgets/columns/story'
 import targetTableForm from '~/entities/target-table/ui/form/story'
 import uiButton from '~/shared/button/story'
 import uiCard from '~/shared/card/story'
 import uiCodeEditor from '~/shared/code-editor/story'
 import uiCodeEditorVJson from '~/shared/code-editor/variants/json/story'
 import uiCollapse from '~/shared/collapse/story'
+import databasTableColumnForm from '~/shared/database-table/ui/column-form/story'
+import databasTableDatabaseTableForm from '~/shared/database-table/ui/database-table-form/story'
 import explorerViewer from '~/shared/explorer/ui/viewer/story'
 import uiFormWJsonEditor from '~/shared/form/widgets/json-editor/story'
 import uiFormWKeyValue from '~/shared/form/widgets/key-value/story'
@@ -30,7 +31,8 @@ export const storyList: Story<any>[] = [
   explorerViewer,
   normalizationConfigForm,
   operationalTableForm,
-  operationalTableFormWColumn,
+  databasTableColumnForm,
+  databasTableDatabaseTableForm,
   storeConfigForm,
   targetTableForm,
   uiButton,
