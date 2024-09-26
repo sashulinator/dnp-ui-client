@@ -2,12 +2,12 @@ import { memo } from 'react'
 import type { FieldInputProps, FieldMetaState } from 'react-final-form'
 import { useField } from 'react-final-form'
 
+import { DatabaseTableForm } from '~/shared/database-table'
 import Flex from '~/shared/flex'
 import type { SelectProps, TextFieldProps } from '~/shared/form'
-import { Card, Checkbox, Column, Label, Row, Select, TextField, TypedField, UniqueTextField } from '~/shared/form'
+import { Card, Checkbox, Column, Row, Select, TextField, TypedField, UniqueTextField } from '~/shared/form'
 import { c } from '~/utils/core'
 
-import Columns from '../../../../table-schema/column'
 import { SYSNAME } from '../../../constants/name'
 import type { Values } from '../types/values'
 
@@ -67,27 +67,11 @@ export function Component(props: Props): JSX.Element {
           <Flex width='75%' />
         </Row>
       </Card>
-
       <Card>
-        <Column>
-          <Row>
-            <Column width='25%'>
-              <TypedField<Values, 'tableName', string, string, TextFieldProps<string>, HTMLInputElement>
-                component={TextField}
-                name='tableName'
-                label='Таблица'
-                variant='soft'
-              />
-            </Column>
-            <Flex width='75%' />
-          </Row>
-          <Column>
-            <Flex direction='column'>
-              <Label content='Колонки' />
-              <Columns name='tableSchema.items' />
-            </Flex>
-          </Column>
-        </Column>
+        <DatabaseTableForm
+          tableSchemaFields={{ table: 'tableName', columns: 'tableSchema.items' }}
+          strings={{ table: 'Название таблицы в базе данных', columns: 'Колонки промежуточной таблицы' }}
+        />
       </Card>
     </Flex>
   )

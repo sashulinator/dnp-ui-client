@@ -12,7 +12,7 @@ import ColumnForm from '../../column-form'
 
 export interface Props {
   className?: string | undefined
-  fieldNames: {
+  tableSchemaFields: {
     table: string
     columns: string
   }
@@ -30,7 +30,7 @@ export const NAME = 'databaseTable-DatabaseTableForm'
  * databaseTable-DatabaseTableForm
  */
 export default function Component(props: Props): JSX.Element {
-  const { fieldNames, strings } = props
+  const { tableSchemaFields, strings } = props
 
   return (
     <Column className={c(props.className, NAME)}>
@@ -38,7 +38,7 @@ export default function Component(props: Props): JSX.Element {
         <Column width='25%'>
           <Field<string, TextFieldProps<string>, HTMLInputElement>
             label={strings.table}
-            name={fieldNames.table}
+            name={tableSchemaFields.table}
             component={TextField}
             variant='soft'
           />
@@ -49,7 +49,7 @@ export default function Component(props: Props): JSX.Element {
         <Flex direction='column'>
           <Label content={strings.columns} />
           <Flex width='100%' wrap='wrap' gap='2'>
-            <FieldArray<IColumn> name={fieldNames.columns} className={c(props.className, NAME)}>
+            <FieldArray<IColumn> name={tableSchemaFields.columns} className={c(props.className, NAME)}>
               {({ fields }) => {
                 return (
                   <>

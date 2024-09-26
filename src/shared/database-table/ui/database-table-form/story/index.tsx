@@ -49,7 +49,7 @@ export default {
             render={() => {
               return (
                 <DatabaseTableForm
-                  fieldNames={{ table: 'tableName', columns: 'columns' }}
+                  tableSchemaFields={{ table: 'tableName', columns: 'columns' }}
                   strings={{ table: 'TableName', columns: 'Columns' }}
                 />
               )

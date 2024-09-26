@@ -2,12 +2,12 @@ import { memo } from 'react'
 import type { FieldInputProps, FieldMetaState } from 'react-final-form'
 import { useField } from 'react-final-form'
 
+import { DatabaseTableForm } from '~/shared/database-table'
 import Flex from '~/shared/flex'
 import type { SelectProps, TextFieldProps } from '~/shared/form'
 import { Card, Checkbox, Column, Label, Row, Select, TextField, TypedField, UniqueTextField } from '~/shared/form'
 import { c } from '~/utils/core'
 
-import Columns from '../../../../table-schema/column'
 import { SYSNAME } from '../../../constants/name'
 import type { Values } from '../types/values'
 
@@ -84,7 +84,10 @@ export function Component(props: Props): JSX.Element {
           <Column>
             <Flex direction='column'>
               <Label content='Колонки' />
-              <Columns name='tableSchema.items' />
+              <DatabaseTableForm
+                tableSchemaFields={{ table: 'tableSchema.items', columns: '' }}
+                strings={{ table: 'tableSchema.items', columns: '' }}
+              />
             </Flex>
           </Column>
         </Column>
