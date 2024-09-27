@@ -5,7 +5,7 @@ import { useField } from 'react-final-form'
 import { DatabaseTableForm } from '~/shared/database-table'
 import Flex from '~/shared/flex'
 import type { SelectProps, TextFieldProps } from '~/shared/form'
-import { Card, Checkbox, Column, Label, Row, Select, TextField, TypedField, UniqueTextField } from '~/shared/form'
+import { Card, Checkbox, Column, Row, Select, TextField, TypedField, UniqueTextField } from '~/shared/form'
 import { c } from '~/utils/core'
 
 import { SYSNAME } from '../../../constants/name'
@@ -67,30 +67,11 @@ export function Component(props: Props): JSX.Element {
           <Flex width='75%' />
         </Row>
       </Card>
-
       <Card>
-        <Column>
-          <Row>
-            <Column width='25%'>
-              <TypedField<Values, 'tableName', string, string, TextFieldProps<string>, HTMLInputElement>
-                component={TextField}
-                name='tableName'
-                label='Таблица'
-                variant='soft'
-              />
-            </Column>
-            <Flex width='75%' />
-          </Row>
-          <Column>
-            <Flex direction='column'>
-              <Label content='Колонки' />
-              <DatabaseTableForm
-                tableSchemaFields={{ table: 'tableSchema.items', columns: '' }}
-                strings={{ table: 'tableSchema.items', columns: '' }}
-              />
-            </Flex>
-          </Column>
-        </Column>
+        <DatabaseTableForm
+          fieldNames={{ table: 'tableName', columns: 'tableSchema.items' }}
+          strings={{ table: 'Название таблицы в базе данных', columns: 'Колонки' }}
+        />
       </Card>
     </Flex>
   )

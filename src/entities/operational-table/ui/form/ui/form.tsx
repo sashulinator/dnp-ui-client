@@ -69,8 +69,8 @@ export function Component(props: Props): JSX.Element {
       </Card>
       <Card>
         <DatabaseTableForm
-          tableSchemaFields={{ table: 'tableName', columns: 'tableSchema.items' }}
-          strings={{ table: 'Название таблицы в базе данных', columns: 'Колонки промежуточной таблицы' }}
+          fieldNames={{ table: 'tableName', columns: 'tableSchema.items' }}
+          strings={{ table: 'Название таблицы в базе данных', columns: 'Колонки' }}
         />
       </Card>
     </Flex>
