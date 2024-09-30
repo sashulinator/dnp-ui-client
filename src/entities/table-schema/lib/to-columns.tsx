@@ -1,9 +1,9 @@
-import { DropdownMenu } from '@radix-ui/themes'
-
 import { useState } from 'react'
 
 import { type TableSchemaItem } from '~/entities/operational-table'
 import Button from '~/shared/button'
+import DropdownMenu from '~/shared/dropdown-menu'
+import WhereDropdownMenuItem from '~/shared/dropdown-menu/variants/where-dropdown'
 import { type TableColumn } from '~/shared/explorer/ui/viewer'
 import Flex from '~/shared/flex'
 import Icon from '~/shared/icon'
@@ -96,155 +96,21 @@ function _HeaderCell<T extends string>({ accessorKey, context, name }: _HeaderPr
           <DropdownMenu.Label>
             <Text size='1'>Поиск</Text>
           </DropdownMenu.Label>
-          <DropdownMenu.Item
-            onClick={() => {
-              setSearchWithDebounce((s) => ({ ...s, [accessorKey]: { contains: searchValue as string } }))
-            }}
+          <WhereDropdownMenuItem.Root
+            isActive={context.searchFilter?.[accessorKey] as string}
+            accessorKey={accessorKey}
+            searchValue={searchValue as string}
+            onChange={setSearchWithDebounce}
           >
-            <Button
-              square={true}
-              size='1'
-              variant='soft'
-              color={
-                (Object.keys(context.searchFilter?.[accessorKey] || {}).includes('contains')
-                  ? 'amber'
-                  : undefined) as 'amber'
-              }
-            >
-              <Icon name='Star' />
-            </Button>
-            Содержит
-          </DropdownMenu.Item>
-          <DropdownMenu.Item
-            onClick={() => {
-              setSearchWithDebounce((s) => ({ ...s, [accessorKey]: { startsWith: searchValue as string } }))
-            }}
-          >
-            <Button
-              square={true}
-              variant='soft'
-              size='1'
-              color={
-                (Object.keys(context.searchFilter?.[accessorKey] || {}).includes('startsWith')
-                  ? 'amber'
-                  : undefined) as 'amber'
-              }
-            >
-              <Icon name='Star' />
-            </Button>
-            Начинается
-          </DropdownMenu.Item>
-          <DropdownMenu.Item
-            onClick={() => {
-              setSearchWithDebounce((s) => ({ ...s, [accessorKey]: { endsWith: searchValue as string } }))
-            }}
-          >
-            <Button
-              square={true}
-              size='1'
-              variant='soft'
-              color={
-                (Object.keys(context.searchFilter?.[accessorKey] || {}).includes('endsWith')
-                  ? 'amber'
-                  : undefined) as 'amber'
-              }
-            >
-              <Icon name='Star' />
-            </Button>
-            Заканчивается
-          </DropdownMenu.Item>
-
-          <DropdownMenu.Item
-            onClick={() => {
-              setSearchWithDebounce((s) => ({ ...s, [accessorKey]: { equals: searchValue as string } }))
-            }}
-          >
-            <Button
-              square={true}
-              size='1'
-              variant='soft'
-              color={
-                (Object.keys(context.searchFilter?.[accessorKey] || {}).includes('equals')
-                  ? 'amber'
-                  : undefined) as 'amber'
-              }
-            >
-              <Icon name='Star' />
-            </Button>
-            Равен
-          </DropdownMenu.Item>
-          <DropdownMenu.Item
-            onClick={() => {
-              setSearchWithDebounce((s) => ({ ...s, [accessorKey]: { gt: searchValue as string } }))
-            }}
-          >
-            <Button
-              square={true}
-              size='1'
-              variant='soft'
-              color={
-                (Object.keys(context.searchFilter?.[accessorKey] || {}).includes('gt') ? 'amber' : undefined) as 'amber'
-              }
-            >
-              <Icon name='Star' />
-            </Button>
-            Больше чем
-          </DropdownMenu.Item>
-          <DropdownMenu.Item
-            onClick={() => {
-              setSearchWithDebounce((s) => ({ ...s, [accessorKey]: { gte: searchValue as string } }))
-            }}
-          >
-            <Button
-              square={true}
-              size='1'
-              variant='soft'
-              color={
-                (Object.keys(context.searchFilter?.[accessorKey] || {}).includes('gte')
-                  ? 'amber'
-                  : undefined) as 'amber'
-              }
-            >
-              <Icon name='Star' />
-            </Button>
-            Больше чем или равен
-          </DropdownMenu.Item>
-          <DropdownMenu.Item
-            onClick={() => {
-              setSearchWithDebounce((s) => ({ ...s, [accessorKey]: { gt: searchValue as string } }))
-            }}
-          >
-            <Button
-              square={true}
-              size='1'
-              variant='soft'
-              color={
-                (Object.keys(context.searchFilter?.[accessorKey] || {}).includes('lt') ? 'amber' : undefined) as 'amber'
-              }
-            >
-              <Icon name='Star' />
-            </Button>
-            Меньше чем
-          </DropdownMenu.Item>
-          <DropdownMenu.Item
-            onClick={() => {
-              setSearchWithDebounce((s) => ({ ...s, [accessorKey]: { gt: searchValue as string } }))
-            }}
-          >
-            <Button
-              square={true}
-              size='1'
-              variant='soft'
-              color={
-                (Object.keys(context.searchFilter?.[accessorKey] || {}).includes('lte')
-                  ? 'amber'
-                  : undefined) as 'amber'
-              }
-            >
-              <Icon name='Star' />
-            </Button>
-            Меньше чем или равен
-          </DropdownMenu.Item>
+            <WhereDropdownMenuItem.Contains />
+            <WhereDropdownMenuItem.StartsWith />
+            <WhereDropdownMenuItem.EndsWith />
+            <WhereDropdownMenuItem.Equals />
+            <WhereDropdownMenuItem.Gt />
+            <WhereDropdownMenuItem.Gte />
+            <WhereDropdownMenuItem.Lt />
+            <WhereDropdownMenuItem.Lte />
+          </WhereDropdownMenuItem.Root>
           {/* <DropdownMenu.Separator /> */}
           {/* <DropdownMenu.Item>Регистр</DropdownMenu.Item> */}
           <DropdownMenu.Separator />
