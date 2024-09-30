@@ -3,24 +3,21 @@ import { useState } from 'react'
 import { type TableSchemaItem } from '~/entities/operational-table'
 import Button from '~/shared/button'
 import DropdownMenu from '~/shared/dropdown-menu'
-import WhereDropdownMenuItem from '~/shared/dropdown-menu/variants/where-dropdown'
 import { type TableColumn } from '~/shared/explorer/ui/viewer'
 import Flex from '~/shared/flex'
 import Icon from '~/shared/icon'
 import { type Sort, SortButton } from '~/shared/sort'
 import Text from '~/shared/text'
 import TextField from '~/shared/text-field'
-import { getStringFilterConfig } from '~/shared/where'
-import { type StringFilter } from '~/shared/where'
+import { FilterDropdownMenu, type IntFilter, type StringFilter, getFilterConfig } from '~/shared/where'
 import { type SetterOrUpdater, assertDefined, isString } from '~/utils/core'
 import { useDebounceCallback } from '~/utils/core-hooks'
-import { remove } from '~/utils/dictionary'
 
 export type Context = {
   sort: Sort | undefined
   setSort: (val: Sort | undefined) => void
-  searchFilter: Record<string, StringFilter>
-  setSearchFilter: SetterOrUpdater<Record<string, StringFilter>>
+  searchFilter: Record<string, StringFilter | IntFilter>
+  setSearchFilter: SetterOrUpdater<Record<string, StringFilter | IntFilter>>
 }
 
 export function toColumns<T extends Record<string, unknown>>(items: TableSchemaItem[]): TableColumn<T, Context>[] {
@@ -58,11 +55,12 @@ function _HeaderCell<T extends string>({ accessorKey, context, name }: _HeaderPr
   assertDefined(context)
 
   const sortValue = context?.sort?.[accessorKey] as 'asc'
+  const filter = context.searchFilter?.[accessorKey]
 
-  const stringFilterConfig = getStringFilterConfig(context.searchFilter?.[accessorKey])
+  const filterConfig = getFilterConfig(filter)
 
   const [setSearchWithDebounce] = useDebounceCallback(context?.setSearchFilter, 500)
-  const [searchValue, setSearchValue] = useState(stringFilterConfig.value || '')
+  const [searchValue, setSearchValue] = useState(filterConfig.value || '')
 
   return (
     <Flex width='100%' justify='between' gap='4' align='center'>
@@ -74,11 +72,10 @@ function _HeaderCell<T extends string>({ accessorKey, context, name }: _HeaderPr
           onChange={(e) => {
             const newValue = e.target.value
             setSearchValue(e.target.value)
-            if (!newValue) {
-              setSearchWithDebounce((s) => remove(s, accessorKey as string))
-            } else {
-              setSearchWithDebounce((s) => ({ ...s, [accessorKey]: { startsWith: newValue } }))
-            }
+            setSearchWithDebounce((s) => ({
+              ...s,
+              [accessorKey]: { [filterConfig.type]: newValue } as StringFilter,
+            }))
           }}
           placeholder={name}
           size='1'
@@ -94,23 +91,36 @@ function _HeaderCell<T extends string>({ accessorKey, context, name }: _HeaderPr
         </DropdownMenu.Trigger>
         <DropdownMenu.Content>
           <DropdownMenu.Label>
-            <Text size='1'>Поиск</Text>
+            <Text size='2'>Поиск</Text>
           </DropdownMenu.Label>
-          <WhereDropdownMenuItem.Root
-            isActive={context.searchFilter?.[accessorKey] as string}
-            accessorKey={accessorKey}
-            searchValue={searchValue as string}
-            onChange={setSearchWithDebounce}
+          <FilterDropdownMenu.Root
+            filterConfig={filterConfig}
+            onFilterChange={(filterConfig) => {
+              setSearchWithDebounce((s) => ({
+                ...s,
+                [accessorKey]: {
+                  [filterConfig.type as 'contains']: filterConfig.value as string,
+                  caseSensitive: filterConfig.caseSensitive ?? false,
+                },
+              }))
+            }}
           >
-            <WhereDropdownMenuItem.Contains />
-            <WhereDropdownMenuItem.StartsWith />
-            <WhereDropdownMenuItem.EndsWith />
-            <WhereDropdownMenuItem.Equals />
-            <WhereDropdownMenuItem.Gt />
-            <WhereDropdownMenuItem.Gte />
-            <WhereDropdownMenuItem.Lt />
-            <WhereDropdownMenuItem.Lte />
-          </WhereDropdownMenuItem.Root>
+            <DropdownMenu.Label>
+              <Text size='1'>Строковый</Text>
+            </DropdownMenu.Label>
+            <FilterDropdownMenu.CaseSensitive />
+            <FilterDropdownMenu.Contains />
+            <FilterDropdownMenu.StartsWith />
+            <FilterDropdownMenu.EndsWith />
+            <DropdownMenu.Label>
+              <Text size='1'>Числовой</Text>
+            </DropdownMenu.Label>
+            <FilterDropdownMenu.Equals />
+            <FilterDropdownMenu.Gt />
+            <FilterDropdownMenu.Gte />
+            <FilterDropdownMenu.Lt />
+            <FilterDropdownMenu.Lte />
+          </FilterDropdownMenu.Root>
           {/* <DropdownMenu.Separator /> */}
           {/* <DropdownMenu.Item>Регистр</DropdownMenu.Item> */}
           <DropdownMenu.Separator />
