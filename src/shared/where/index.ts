@@ -2,7 +2,8 @@
  * lib
  */
 
-export { getFilterConfig } from './lib/get-filter-config'
+export { toFilterConfig } from './lib/to-filter-config'
+export { toFilter } from './lib/to-filter'
 
 /**
  * models
@@ -24,4 +25,4 @@ export { isContainsMatch, isEndsWithMatch, isStartsWithMatch } from './models/is
  * ui
  */
 
-export { default as FilterDropdownMenu } from './ui/filter-dropdown-menu'
+export { default as FilterConfigurator } from './ui/filter-configurator'

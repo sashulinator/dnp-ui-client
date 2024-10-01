@@ -9,7 +9,7 @@ import Icon from '~/shared/icon'
 import { type Sort, SortButton } from '~/shared/sort'
 import Text from '~/shared/text'
 import TextField from '~/shared/text-field'
-import { FilterDropdownMenu, type IntFilter, type StringFilter, getFilterConfig } from '~/shared/where'
+import { FilterConfigurator, type IntFilter, type StringFilter, toFilterConfig } from '~/shared/where'
 import { type SetterOrUpdater, assertDefined, isString } from '~/utils/core'
 import { useDebounceCallback } from '~/utils/core-hooks'
 
@@ -57,7 +57,7 @@ function _HeaderCell<T extends string>({ accessorKey, context, name }: _HeaderPr
   const sortValue = context?.sort?.[accessorKey] as 'asc'
   const filter = context.searchFilter?.[accessorKey]
 
-  const filterConfig = getFilterConfig(filter)
+  const filterConfig = toFilterConfig(filter)
 
   const [setSearchWithDebounce] = useDebounceCallback(context?.setSearchFilter, 500)
   const [searchValue, setSearchValue] = useState(filterConfig.value || '')
@@ -93,9 +93,9 @@ function _HeaderCell<T extends string>({ accessorKey, context, name }: _HeaderPr
           <DropdownMenu.Label>
             <Text size='2'>Поиск</Text>
           </DropdownMenu.Label>
-          <FilterDropdownMenu.Root
+          <FilterConfigurator.Root
             filterConfig={filterConfig}
-            onFilterChange={(filterConfig) => {
+            onFilterConfigChange={(filterConfig) => {
               setSearchWithDebounce((s) => ({
                 ...s,
                 [accessorKey]: {
@@ -108,18 +108,19 @@ function _HeaderCell<T extends string>({ accessorKey, context, name }: _HeaderPr
             <DropdownMenu.Label>
               <Text size='1'>Строковый</Text>
             </DropdownMenu.Label>
-            <FilterDropdownMenu.Contains />
-            <FilterDropdownMenu.StartsWith />
-            <FilterDropdownMenu.EndsWith />
+            <FilterConfigurator.CaseSensitiveDropdownMenuItem />
+            <FilterConfigurator.ContainsTypeDropdownMenuItem />
+            <FilterConfigurator.StartsWithTypeDropdownMenuItem />
+            <FilterConfigurator.EndsWithTypeDropdownMenuItem />
             <DropdownMenu.Label>
               <Text size='1'>Числовой</Text>
             </DropdownMenu.Label>
-            <FilterDropdownMenu.Equals />
-            <FilterDropdownMenu.Gt />
-            <FilterDropdownMenu.Gte />
-            <FilterDropdownMenu.Lt />
-            <FilterDropdownMenu.Lte />
-          </FilterDropdownMenu.Root>
+            <FilterConfigurator.EqualsTypeDropdownMenuItem />
+            <FilterConfigurator.GtTypeDropdownMenuItem />
+            <FilterConfigurator.GteTypeDropdownMenuItem />
+            <FilterConfigurator.LtTypeDropdownMenuItem />
+            <FilterConfigurator.LteTypeDropdownMenuItem />
+          </FilterConfigurator.Root>
           {/* <DropdownMenu.Separator /> */}
           {/* <DropdownMenu.Item>Регистр</DropdownMenu.Item> */}
           <DropdownMenu.Separator />

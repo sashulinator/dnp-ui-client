@@ -1,5 +1,4 @@
-import { useState } from 'react'
-
+import { toFilter } from '~/common/shared/where/lib/to-filter'
 import { type TableSchemaItem } from '~/entities/operational-table'
 import Button from '~/shared/button'
 import DropdownMenu from '~/shared/dropdown-menu'
@@ -8,10 +7,8 @@ import Flex from '~/shared/flex'
 import Icon from '~/shared/icon'
 import { type Sort, SortButton } from '~/shared/sort'
 import Text from '~/shared/text'
-import TextField from '~/shared/text-field'
-import { FilterDropdownMenu, type IntFilter, type StringFilter, getFilterConfig } from '~/shared/where'
-import { type SetterOrUpdater, assertDefined, isString } from '~/utils/core'
-import { useDebounceCallback } from '~/utils/core-hooks'
+import { FilterConfigurator, type IntFilter, type StringFilter, toFilterConfig } from '~/shared/where'
+import { type SetterOrUpdater, assertDefined } from '~/utils/core'
 
 export type Context = {
   sort: Sort | undefined
@@ -55,94 +52,62 @@ function _HeaderCell<T extends string>({ accessorKey, context, name }: _HeaderPr
   assertDefined(context)
 
   const sortValue = context?.sort?.[accessorKey] as 'asc'
-  const filter = context.searchFilter?.[accessorKey]
+  const searchFilter = context.searchFilter?.[accessorKey]
 
-  const filterConfig = getFilterConfig(filter)
-
-  const [setSearchWithDebounce] = useDebounceCallback(context?.setSearchFilter, 500)
-  const [searchValue, setSearchValue] = useState(filterConfig.value || '')
+  const filterConfig = toFilterConfig(searchFilter)
 
   return (
     <Flex width='100%' justify='between' gap='4' align='center'>
-      {isString(searchValue) && (
-        <TextField.Root
-          value={searchValue || ''}
-          color='amber'
-          variant={searchValue ? 'soft' : 'borderless'}
-          onChange={(e) => {
-            const newValue = e.target.value
-            setSearchValue(e.target.value)
-            setSearchWithDebounce((s) => ({
-              ...s,
-              [accessorKey]: { [filterConfig.type]: newValue } as StringFilter,
-            }))
-          }}
-          placeholder={name}
-          size='1'
-          style={{ width: '100%' }}
-        />
-      )}
+      <FilterConfigurator.Root
+        filterConfig={filterConfig}
+        onFilterConfigChange={(filterConfig) => {
+          context?.setSearchFilter((s) => ({ ...s, [accessorKey]: toFilter(filterConfig) }))
+        }}
+      >
+        <FilterConfigurator.Input placeholder={name} style={{ width: '100%' }} />
 
-      <DropdownMenu.Root>
-        <DropdownMenu.Trigger>
-          <Button square={true} size='1' variant='ghost'>
-            <Icon name='DotsVertical' />
-          </Button>
-        </DropdownMenu.Trigger>
-        <DropdownMenu.Content>
-          <DropdownMenu.Label>
-            <Text size='2'>Поиск</Text>
-          </DropdownMenu.Label>
-          <FilterDropdownMenu.Root
-            filterConfig={filterConfig}
-            onFilterChange={(filterConfig) => {
-              setSearchWithDebounce((s) => ({
-                ...s,
-                [accessorKey]: {
-                  [filterConfig.type as 'contains']: filterConfig.value as string,
-                  caseSensitive: filterConfig.caseSensitive ?? false,
-                },
-              }))
-            }}
-          >
+        <DropdownMenu.Root>
+          <DropdownMenu.Trigger>
+            <Button square={true} size='1' variant='ghost'>
+              <Icon name='DotsVertical' />
+            </Button>
+          </DropdownMenu.Trigger>
+          <DropdownMenu.Content>
+            <DropdownMenu.Label>
+              <Text size='2'>Поиск</Text>
+            </DropdownMenu.Label>
             <DropdownMenu.Label>
               <Text size='1'>Строковый</Text>
             </DropdownMenu.Label>
-            <FilterDropdownMenu.CaseSensitive />
-            <FilterDropdownMenu.Contains />
-            <FilterDropdownMenu.StartsWith />
-            <FilterDropdownMenu.EndsWith />
+            <FilterConfigurator.CaseSensitiveDropdownMenuItem />
+            <FilterConfigurator.ContainsTypeDropdownMenuItem />
+            <FilterConfigurator.StartsWithTypeDropdownMenuItem />
+            <FilterConfigurator.EndsWithTypeDropdownMenuItem />
             <DropdownMenu.Label>
               <Text size='1'>Числовой</Text>
             </DropdownMenu.Label>
-            <FilterDropdownMenu.Equals />
-            <FilterDropdownMenu.Gt />
-            <FilterDropdownMenu.Gte />
-            <FilterDropdownMenu.Lt />
-            <FilterDropdownMenu.Lte />
-          </FilterDropdownMenu.Root>
-          {/* <DropdownMenu.Separator /> */}
-          {/* <DropdownMenu.Item>Регистр</DropdownMenu.Item> */}
-          <DropdownMenu.Separator />
-          <DropdownMenu.Label>
-            <Text size='1'>Нормализация</Text>
-          </DropdownMenu.Label>
-          <DropdownMenu.Item
-            onClick={() => {
-              setSearchWithDebounce((s) => ({ ...s, [accessorKey]: { endsWith: searchValue as string } }))
-            }}
-          >
-            Запуск по колонке
-          </DropdownMenu.Item>
-        </DropdownMenu.Content>
-      </DropdownMenu.Root>
-      <SortButton
-        size='1'
-        round={true}
-        variant='ghost'
-        onChange={(newValue) => context?.setSort?.({ [accessorKey]: newValue })}
-        value={sortValue}
-      />
+            <FilterConfigurator.EqualsTypeDropdownMenuItem />
+            <FilterConfigurator.GtTypeDropdownMenuItem />
+            <FilterConfigurator.GteTypeDropdownMenuItem />
+            <FilterConfigurator.LtTypeDropdownMenuItem />
+            <FilterConfigurator.LteTypeDropdownMenuItem />
+            {/* <DropdownMenu.Separator /> */}
+            {/* <DropdownMenu.Item>Регистр</DropdownMenu.Item> */}
+            <DropdownMenu.Separator />
+            <DropdownMenu.Label>
+              <Text size='2'>Нормализация</Text>
+            </DropdownMenu.Label>
+            <DropdownMenu.Item onClick={() => alert('Не имплементированно!')}>Запуск по колонке</DropdownMenu.Item>
+          </DropdownMenu.Content>
+        </DropdownMenu.Root>
+        <SortButton
+          size='1'
+          round={true}
+          variant='ghost'
+          onChange={(newValue) => context?.setSort?.({ [accessorKey]: newValue })}
+          value={sortValue}
+        />
+      </FilterConfigurator.Root>
     </Flex>
   )
 }
