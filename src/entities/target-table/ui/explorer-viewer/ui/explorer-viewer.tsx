@@ -1,9 +1,9 @@
 import { useMemo } from 'react'
 import { useMutation } from 'react-query'
 
-import { type ColumnContext } from '~/entities/table-schema'
 import { type Row, type TargetTable } from '~/entities/target-table'
 import Button from '~/shared/button'
+import { type ColumnContext } from '~/shared/database-table'
 import { Viewer } from '~/shared/explorer'
 import { type TableColumn } from '~/shared/explorer/ui/viewer'
 import Flex from '~/shared/flex'
