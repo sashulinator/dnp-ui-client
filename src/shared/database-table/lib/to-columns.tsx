@@ -79,7 +79,8 @@ function _HeaderCell<T extends string>({ accessorKey, context, name }: _HeaderPr
             <DropdownMenu.Label>
               <Text size='1'>Строковый</Text>
             </DropdownMenu.Label>
-            <FilterConfigurator.CaseSensitiveDropdownMenuItem />
+            <FilterConfigurator.CaseSensitiveModeDropdownMenuItem />
+            <FilterConfigurator.NotModeDropdownMenuItem />
             <FilterConfigurator.StartsWithTypeDropdownMenuItem />
             <FilterConfigurator.EndsWithTypeDropdownMenuItem />
             <FilterConfigurator.ContainsTypeDropdownMenuItem />

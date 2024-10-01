@@ -1,5 +1,5 @@
-import { CaseSensitiveDropdownMenuItem } from './ui/case-sensitive-dropdown-menu-item'
 import { Input } from './ui/input'
+import { CaseSensitiveModeDropdownMenuItem, NotModeDropdownMenuItem } from './ui/mode-dropdown-menu-item'
 import { Root } from './ui/root'
 import {
   ContainsTypeDropdownMenuItem,
@@ -16,7 +16,8 @@ import {
 const Compounds = {
   Root,
   Input,
-  CaseSensitiveDropdownMenuItem,
+  CaseSensitiveModeDropdownMenuItem,
+  NotModeDropdownMenuItem,
   ContainsTypeDropdownMenuItem,
   EndsWithTypeDropdownMenuItem,
   EqualsTypeDropdownMenuItem,
