@@ -45,8 +45,8 @@ export default function Component(): JSX.Element {
               <Heading.Name />
             </Heading.Root>
             <Flex align='center' gap='2'>
-              <Button size='1' variant='outline' asChild>
-                <Link to={routes.storeConfigs_kn.getURL('target-tables')}>Хранилище</Link>
+              <Button variant='outline' asChild>
+                <Link to={routes.storeConfigs_kn.getURL('workingTable')}>Хранилище</Link>
               </Button>
               <Button asChild>
                 <Link to={routes.targetTables_create.getURL()}>Создать</Link>

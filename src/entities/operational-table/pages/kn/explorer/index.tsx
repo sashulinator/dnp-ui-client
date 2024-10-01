@@ -207,8 +207,10 @@ export default function Component(): JSX.Element {
                 />
               </Heading.Root>
               <Flex gapX='12px'>
+                <Button variant='outline' onClick={() => setShowImportModal(true)}>
+                  Импорт
+                </Button>
                 <Button onClick={() => formToCreate.initialize({ _status: '0' })}>Создать</Button>
-                <Button onClick={() => setShowImportModal(true)}>Импорт</Button>
               </Flex>
             </Flex>
           </Section>
