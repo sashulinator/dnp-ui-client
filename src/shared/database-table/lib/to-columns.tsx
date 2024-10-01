@@ -7,14 +7,14 @@ import Flex from '~/shared/flex'
 import Icon from '~/shared/icon'
 import { type Sort, SortButton } from '~/shared/sort'
 import Text from '~/shared/text'
-import { FilterConfigurator, type IntFilter, type StringFilter, toFilterConfig } from '~/shared/where'
+import { FilterConfigurator, type IntFilter, type IsFilter, type StringFilter, toFilterConfig } from '~/shared/where'
 import { type SetterOrUpdater, assertDefined } from '~/utils/core'
 
 export type Context = {
   sort: Sort | undefined
   setSort: (val: Sort | undefined) => void
-  searchFilter: Record<string, StringFilter | IntFilter>
-  setSearchFilter: SetterOrUpdater<Record<string, StringFilter | IntFilter>>
+  searchFilter: Record<string, StringFilter | IntFilter | IsFilter>
+  setSearchFilter: SetterOrUpdater<Record<string, StringFilter | IntFilter | IsFilter>>
 }
 
 export function toColumns<T extends Record<string, unknown>>(items: TableSchemaItem[]): TableColumn<T, Context>[] {
@@ -80,9 +80,10 @@ function _HeaderCell<T extends string>({ accessorKey, context, name }: _HeaderPr
               <Text size='1'>Строковый</Text>
             </DropdownMenu.Label>
             <FilterConfigurator.CaseSensitiveDropdownMenuItem />
-            <FilterConfigurator.ContainsTypeDropdownMenuItem />
             <FilterConfigurator.StartsWithTypeDropdownMenuItem />
             <FilterConfigurator.EndsWithTypeDropdownMenuItem />
+            <FilterConfigurator.ContainsTypeDropdownMenuItem />
+            <FilterConfigurator.MatchTypeDropdownMenuItem />
             <DropdownMenu.Label>
               <Text size='1'>Числовой</Text>
             </DropdownMenu.Label>
@@ -91,6 +92,23 @@ function _HeaderCell<T extends string>({ accessorKey, context, name }: _HeaderPr
             <FilterConfigurator.GteTypeDropdownMenuItem />
             <FilterConfigurator.LtTypeDropdownMenuItem />
             <FilterConfigurator.LteTypeDropdownMenuItem />
+            <DropdownMenu.Label>
+              <Text size='1'>Шаблоны</Text>
+            </DropdownMenu.Label>
+            <DropdownMenu.Item
+              onClick={() => {
+                context?.setSearchFilter((s) => ({ ...s, [accessorKey]: { is: null } }))
+              }}
+            >
+              Пусто
+            </DropdownMenu.Item>
+            <DropdownMenu.Item
+              onClick={() => {
+                context?.setSearchFilter((s) => ({ ...s, [accessorKey]: { not: null } }))
+              }}
+            >
+              Не пусто
+            </DropdownMenu.Item>
             {/* <DropdownMenu.Separator /> */}
             {/* <DropdownMenu.Item>Регистр</DropdownMenu.Item> */}
             <DropdownMenu.Separator />

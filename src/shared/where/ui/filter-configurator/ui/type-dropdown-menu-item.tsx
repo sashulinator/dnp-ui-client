@@ -4,8 +4,29 @@ import TextHighlighter from '~/shared/text-highlighter'
 
 import { type Comparison } from '../../../models/comparison'
 import { type FilterConfig } from '../../../models/filter-config'
+import { type Is } from '../../../models/is-filter'
 import { type Match } from '../../../models/match'
 import { useContext } from '../model/context'
+
+/**
+ * where-FilterConfigurator-c-DropdownMenuItem-v-Contains
+ */
+export function MatchTypeDropdownMenuItem(): JSX.Element {
+  const type = 'match'
+
+  return (
+    <_TypeDropdownMenuItem
+      buildFilterConfig={(filterConfig) => ({
+        value: filterConfig.value,
+        caseSensitive: filterConfig.caseSensitive,
+        type,
+      })}
+      type={type}
+      children='^$'
+      label='Соответствует'
+    />
+  )
+}
 
 /**
  * where-FilterConfigurator-c-DropdownMenuItem-v-Contains
@@ -152,7 +173,7 @@ export function LteTypeDropdownMenuItem(): JSX.Element {
  */
 
 interface _TypeDropdownMenuItemProps {
-  type: Comparison | Match
+  type: Comparison | Match | Is
   buildFilterConfig: (filterConfig: FilterConfig) => FilterConfig
   label: string
   children: React.ReactNode

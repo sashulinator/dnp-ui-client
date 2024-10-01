@@ -9,6 +9,7 @@ import {
   GteTypeDropdownMenuItem,
   LtTypeDropdownMenuItem,
   LteTypeDropdownMenuItem,
+  MatchTypeDropdownMenuItem,
   StartsWithTypeDropdownMenuItem,
 } from './ui/type-dropdown-menu-item'
 
@@ -23,6 +24,7 @@ const Compounds = {
   GteTypeDropdownMenuItem,
   LtTypeDropdownMenuItem,
   LteTypeDropdownMenuItem,
+  MatchTypeDropdownMenuItem,
   StartsWithTypeDropdownMenuItem,
 }
 
