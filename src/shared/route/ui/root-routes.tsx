@@ -5,7 +5,7 @@ import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6'
 
 import { getRole } from '~/entities/user'
 import AccessGuard from '~/entities/user/ui/access-guard'
-import { type Route as IRoute, routes } from '~/shared/route'
+import { type Route as IRoute, routeMap } from '~/shared/route'
 
 RootRoutes.displayName = 'app-Routes'
 
@@ -19,11 +19,10 @@ export default function RootRoutes(props: Props): JSX.Element {
     <BrowserRouter>
       <QueryParamProvider adapter={ReactRouter6Adapter}>
         <Routes>
-          {Object.entries(routes).map(([key, route]) => (
+          {Object.entries(routeMap).map(([key, route]) => (
             <Route
               key={key}
               path={route.getPath()}
-              {...route}
               element={<_RoleGuard renderLayout={props.renderLayout} route={route} />}
             />
           ))}

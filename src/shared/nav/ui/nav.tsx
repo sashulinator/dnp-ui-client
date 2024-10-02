@@ -11,7 +11,7 @@ import Button from '~/shared/button'
 import Flex from '~/shared/flex'
 import Icon, { map as iconMap } from '~/shared/icon'
 import Logo from '~/shared/logo-icon'
-import { type Route, getCurrent, routes } from '~/shared/route'
+import { type Route, getCurrent, routeMap } from '~/shared/route'
 import Separator from '~/shared/separator'
 import Tooltip from '~/shared/tooltip'
 import { c } from '~/utils/core'
@@ -41,7 +41,7 @@ export default function Component(): JSX.Element {
   const role = getRole() || ''
 
   const location = useLocation()
-  const navigatables = Object.entries(routes).filter(([, route]) => {
+  const navigatables = Object.entries(routeMap).filter(([, route]) => {
     if (!(route as Route).rolesAllowed) return route.navigatable
     return (route as Route).rolesAllowed?.includes(role) && route.navigatable
   })
@@ -54,7 +54,7 @@ export default function Component(): JSX.Element {
     <nav className={c(displayName)}>
       <Flex className='logo' align='center' justify='center'>
         <Button variant='outline' size='2' square={true} asChild>
-          <Link to={routes.main.getUrl()}>
+          <Link to={routeMap.main.getUrl()}>
             <Logo height='1rem' width='2rem' />
           </Link>
         </Button>
@@ -87,7 +87,7 @@ export default function Component(): JSX.Element {
               return (
                 <Tooltip side='right' key={operationalTable.kn} content={operationalTable.name}>
                   <Link
-                    to={routes.operationalTables_kn_explorer.getUrl(operationalTable.kn, {
+                    to={routeMap.operationalTables_kn_explorer.getUrl(operationalTable.kn, {
                       name: operationalTable.name,
                     })}
                   >
@@ -116,7 +116,9 @@ export default function Component(): JSX.Element {
               return (
                 <Tooltip side='right' key={dictionaryTable.kn} content={dictionaryTable.name}>
                   <Link
-                    to={routes.dictionaryTables_kn_explorer.getUrl(dictionaryTable.kn, { name: dictionaryTable.name })}
+                    to={routeMap.dictionaryTables_kn_explorer.getUrl(dictionaryTable.kn, {
+                      name: dictionaryTable.name,
+                    })}
                   >
                     {iconMap[iconName] ? (
                       <Button size='2' square={true} variant={isCurrent ? 'solid' : 'soft'}>

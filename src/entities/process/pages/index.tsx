@@ -6,7 +6,7 @@ import Container from '~/shared/container'
 import Flex from '~/shared/flex'
 import Heading from '~/shared/heading'
 import Pagination from '~/shared/pagination'
-import { routes } from '~/shared/route'
+import { routeMap } from '~/shared/route'
 import Section from '~/shared/section'
 
 export interface Props {
@@ -29,7 +29,7 @@ export default function Component(): JSX.Element {
     <main className={displayName}>
       <Container p='var(--space-4)'>
         <Section size='1'>
-          <Heading>{routes.processes.getName()}</Heading>
+          <Heading>{routeMap.processes.getName()}</Heading>
         </Section>
         <Section size='1'>
           <Pagination

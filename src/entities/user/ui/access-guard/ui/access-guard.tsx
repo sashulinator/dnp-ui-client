@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 import { Navigate } from 'react-router-dom'
 
-import { routes } from '~/shared/route'
+import { routeMap } from '~/shared/route'
 import Spinner from '~/shared/spinner'
 
 export interface Props {
@@ -17,7 +17,7 @@ export default function AccessGuard({ allowed, current, isChecking, children }: 
   const accessGranted = !!current && allowed.includes(current)
 
   if (!accessGranted && !isChecking) {
-    return <Navigate to={routes.main.getUrl()} />
+    return <Navigate to={routeMap.main.getUrl()} />
   }
 
   return isChecking ? <Spinner /> : children

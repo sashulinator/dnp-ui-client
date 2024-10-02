@@ -40,7 +40,7 @@ import Main from '../../../pages/main'
 // eslint-disable-next-line react-refresh/only-export-components
 const Storybook = lazy(() => import('../../../pages/storybook/index'))
 
-export const routes = {
+export const routeMap = {
   main: {
     getName: (): string => 'НСИ',
     getPath: () => '/',

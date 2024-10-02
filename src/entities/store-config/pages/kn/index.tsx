@@ -19,7 +19,7 @@ import Flex from '~/shared/flex'
 import FForm, { toNestedErrors, useCreateForm } from '~/shared/form'
 import Heading from '~/shared/heading'
 import { notify } from '~/shared/notification-list-store'
-import { routes } from '~/shared/route'
+import { routeMap } from '~/shared/route'
 import Section from '~/shared/section'
 import Spinner from '~/shared/spinner'
 import TextHighlighter from '~/shared/text-highlighter'
@@ -100,7 +100,7 @@ export default function Component(): JSX.Element {
         {!fetcher.isError && (
           <Section size='1'>
             <Heading>
-              {routes.storeConfigs_kn.getName()}{' '}
+              {routeMap.storeConfigs_kn.getName()}{' '}
               {values.kn && <TextHighlighter tooltipContent='Название'>{values.kn}</TextHighlighter>}{' '}
             </Heading>
           </Section>

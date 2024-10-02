@@ -14,7 +14,7 @@ import FForm, { type FormApi, useCreateForm } from '~/shared/form'
 import Heading from '~/shared/layout/variants/heading'
 import { notify } from '~/shared/notification-list-store'
 import Pagination from '~/shared/pagination'
-import { routes } from '~/shared/route'
+import { routeMap } from '~/shared/route'
 import ScrollArea from '~/shared/scroll-area'
 import { useSearch } from '~/shared/search'
 import Section from '~/shared/section'
@@ -131,14 +131,14 @@ export default function Component(): JSX.Element {
             <Flex width='100%' justify='between'>
               <Heading.Root
                 loading={explorerListFetcher.isFetching}
-                route={routes.targetTables_kn_explorer}
-                backRoute={routes.targetTables}
-                renderIcon={routes.targetTables.renderIcon}
+                route={routeMap.targetTables_kn_explorer}
+                backRoute={routeMap.targetTables}
+                renderIcon={routeMap.targetTables.renderIcon}
               >
                 <Heading.BackToParent />
                 <Heading.Uniq
                   string={explorerListFetcher.data?.targetTable.name ?? nameQueryParam}
-                  tooltipContent={routes.targetTables_kn_explorer.getName()}
+                  tooltipContent={routeMap.targetTables_kn_explorer.getName()}
                 />
               </Heading.Root>
               <Button onClick={() => formToCreate.initialize({ _status: '0' })}>Создать</Button>

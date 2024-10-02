@@ -19,7 +19,7 @@ import Flex from '~/shared/flex'
 import FForm, { toNestedErrors, useCreateForm } from '~/shared/form'
 import Heading from '~/shared/heading'
 import { notify } from '~/shared/notification-list-store'
-import { routes } from '~/shared/route'
+import { routeMap } from '~/shared/route'
 import Section from '~/shared/section'
 import TextHighlighter from '~/shared/text-highlighter'
 import Tooltip from '~/shared/tooltip'
@@ -58,7 +58,7 @@ export default function Component(): JSX.Element {
     onSuccess: (data) => {
       notify({ title: 'Создано', type: 'success' })
       getById.setCache({ id: data.data.id }, data.data)
-      navigate(routes.normalizationConfigs_id.getUrl(data.data.id))
+      navigate(routeMap.normalizationConfigs_id.getUrl(data.data.id))
     },
     onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
   })
@@ -70,7 +70,7 @@ export default function Component(): JSX.Element {
       <Container p='var(--space-4)'>
         <Section size='1'>
           <Heading>
-            {routes.normalizationConfigs_create.getName()}{' '}
+            {routeMap.normalizationConfigs_create.getName()}{' '}
             {values.name && <TextHighlighter tooltipContent='Название'>{values.name}</TextHighlighter>}
           </Heading>
         </Section>

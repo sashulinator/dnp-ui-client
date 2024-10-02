@@ -19,7 +19,7 @@ import FForm, { toNestedErrors, useCreateForm } from '~/shared/form'
 import Heading from '~/shared/layout/variants/heading'
 import { notify } from '~/shared/notification-list-store'
 import { queryClient } from '~/shared/react-query'
-import { routes } from '~/shared/route'
+import { routeMap } from '~/shared/route'
 import Section from '~/shared/section'
 import Separator from '~/shared/separator'
 import Tooltip from '~/shared/tooltip'
@@ -59,7 +59,7 @@ export default function Component(): JSX.Element {
     onSuccess: (data) => {
       notify({ title: 'Создано', type: 'success' })
       api.getByKn.setCache({ kn: data.data.kn }, data.data)
-      navigate(routes.operationalTables_kn.getUrl(data.data.kn))
+      navigate(routeMap.operationalTables_kn.getUrl(data.data.kn))
       // 👷 TODO убрать когда навигация будет настраиваться отдельно
       queryClient.invalidateQueries('oper')
     },
@@ -74,9 +74,9 @@ export default function Component(): JSX.Element {
         <Section size='1'>
           <Heading.Root
             loading={false}
-            route={routes.operationalTables_create}
-            backRoute={routes.operationalTables}
-            renderIcon={routes.operationalTables.renderIcon}
+            route={routeMap.operationalTables_create}
+            backRoute={routeMap.operationalTables}
+            renderIcon={routeMap.operationalTables.renderIcon}
           >
             <Heading.BackToParent />
             <Heading.Name />

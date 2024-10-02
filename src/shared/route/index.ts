@@ -11,7 +11,7 @@ export { type Props as RootRouteProps } from './ui/root-routes'
  */
 
 export type { Route } from './models/route'
-export { routes } from './models/routes'
+export { routeMap } from './models/route-map'
 
 /**
  * lib

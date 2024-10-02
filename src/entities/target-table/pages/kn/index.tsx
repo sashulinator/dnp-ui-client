@@ -18,7 +18,7 @@ import UiForm, { toNestedErrors, useCreateForm } from '~/shared/form'
 import Heading from '~/shared/layout/variants/heading'
 import { notify } from '~/shared/notification-list-store'
 import { queryClient } from '~/shared/react-query'
-import { routes } from '~/shared/route'
+import { routeMap } from '~/shared/route'
 import Section from '~/shared/section'
 import Separator from '~/shared/separator'
 import Tooltip from '~/shared/tooltip'
@@ -89,9 +89,9 @@ export default function Component(): JSX.Element {
           <Section size='1'>
             <Heading.Root
               loading={fetcher.isFetching}
-              route={routes.targetTables_kn}
-              backRoute={routes.targetTables}
-              renderIcon={routes.targetTables.renderIcon}
+              route={routeMap.targetTables_kn}
+              backRoute={routeMap.targetTables}
+              renderIcon={routeMap.targetTables.renderIcon}
             >
               <Heading.BackToParent />
               <Heading.Name />

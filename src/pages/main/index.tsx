@@ -7,7 +7,7 @@ import Container from '~/shared/container'
 import Flex from '~/shared/flex'
 import Heading from '~/shared/layout/variants/heading'
 import Link from '~/shared/link'
-import { type Route, routes } from '~/shared/route'
+import { type Route, routeMap } from '~/shared/route'
 import Section from '~/shared/section'
 
 export interface Props {
@@ -22,7 +22,7 @@ const displayName = 'page-Main'
 export default function Component(): JSX.Element {
   const role = getRole() || ''
 
-  const navigatables = Object.entries(routes).filter(([, route]) => {
+  const navigatables = Object.entries(routeMap).filter(([, route]) => {
     if (!(route as Route).rolesAllowed) return route.navigatable
     return (route as Route).rolesAllowed?.includes(role) && route.navigatable
   })
@@ -31,9 +31,14 @@ export default function Component(): JSX.Element {
     <main className={displayName}>
       <Container p='var(--space-4)'>
         <Section size='1'>
-          <Heading.Root loading={false} route={routes.main} backRoute={routes.main} renderIcon={routes.main.renderIcon}>
+          <Heading.Root
+            loading={false}
+            route={routeMap.main}
+            backRoute={routeMap.main}
+            renderIcon={routeMap.main.renderIcon}
+          >
             <Button variant='outline' square={true} style={{ marginRight: 'var(--space-4)' }}>
-              {React.createElement(routes.main.renderIcon)}
+              {React.createElement(routeMap.main.renderIcon)}
             </Button>
             <Heading.Name />
           </Heading.Root>
