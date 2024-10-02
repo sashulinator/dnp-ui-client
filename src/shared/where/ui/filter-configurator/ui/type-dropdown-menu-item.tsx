@@ -19,6 +19,7 @@ export function MatchTypeDropdownMenuItem(): JSX.Element {
       buildFilterConfig={(filterConfig) => ({
         value: filterConfig.value,
         caseSensitive: filterConfig.caseSensitive,
+        not: filterConfig.not,
         type,
       })}
       type={type}
@@ -39,6 +40,7 @@ export function ContainsTypeDropdownMenuItem(): JSX.Element {
       buildFilterConfig={(filterConfig) => ({
         value: filterConfig.value,
         caseSensitive: filterConfig.caseSensitive,
+        not: filterConfig.not,
         type,
       })}
       type={type}
@@ -59,6 +61,7 @@ export function StartsWithTypeDropdownMenuItem(): JSX.Element {
       buildFilterConfig={(filterConfig) => ({
         value: filterConfig.value,
         caseSensitive: filterConfig.caseSensitive,
+        not: filterConfig.not,
         type,
       })}
       type={type}
@@ -79,6 +82,7 @@ export function EndsWithTypeDropdownMenuItem(): JSX.Element {
       buildFilterConfig={(filterConfig) => ({
         value: filterConfig.value,
         caseSensitive: filterConfig.caseSensitive,
+        not: filterConfig.not,
         type,
       })}
       type={type}

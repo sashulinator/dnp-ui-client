@@ -60,9 +60,9 @@ function _HeaderCell<T extends string>({ accessorKey, context, name }: _HeaderPr
     <Flex width='100%' justify='between' gap='4' align='center'>
       <FilterConfigurator.Root
         filterConfig={filterConfig}
-        onFilterConfigChange={(filterConfig) => {
+        onFilterConfigChange={(filterConfig) =>
           context?.setSearchFilter((s) => ({ ...s, [accessorKey]: toFilter(filterConfig) }))
-        }}
+        }
       >
         <FilterConfigurator.Input placeholder={name} style={{ width: '100%' }} />
 

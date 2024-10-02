@@ -17,20 +17,20 @@ export function Input(props: Props) {
   const { ...textInputProps } = props
   const { filterConfig, onFilterConfigChange } = useContext()
 
-  const [handleFilterConfigChangeWithDebounce] = useDebounceCallback(onFilterConfigChange, 500)
-  const [searchValue, setSearchValue] = useState(filterConfig.value || '')
+  const [onFilterConfigChangeWithDebounce] = useDebounceCallback(onFilterConfigChange, 500)
+  const [value, setValue] = useState(filterConfig.value || '')
 
   return (
     <TextField.Root
       size='1'
       color='amber'
-      variant={searchValue ? 'soft' : 'borderless'}
+      variant={value ? 'soft' : 'borderless'}
       {...textInputProps}
-      value={searchValue || ''}
+      value={value || ''}
       onChange={fns(textInputProps.onChange, (e) => {
         const value = e.target.value
-        setSearchValue(value)
-        handleFilterConfigChangeWithDebounce({ ...filterConfig, value })
+        setValue(value)
+        onFilterConfigChangeWithDebounce({ ...filterConfig, value: value === '' ? null : value })
       })}
     />
   )
