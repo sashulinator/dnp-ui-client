@@ -46,7 +46,7 @@ export default function Component<FieldValue>(props: Props<FieldValue>) {
 
   return (
     <Flex className={c(className, rootProps?.className, NAME)} direction='column' width='100%' {...rootProps}>
-      <Label content={label} htmlFor={id} />
+      <Label children={label} htmlFor={id} />
       <TextField.Root
         color={isErrorVisible ? 'red' : undefined}
         {...textFieldProps}

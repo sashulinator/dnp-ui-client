@@ -16,7 +16,7 @@ export default {
   render: function Element(props: Props<State>): JSX.Element {
     const { state } = props
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    const render = useCallback(() => <Form {...state} isKnUniq={() => Promise.resolve(true)} />, [])
+    const render = useCallback(() => <Form {...state} />, [])
 
     const form = useCreateForm(
       { initialValues: toValues(defaultValues), onSubmit: console.log },

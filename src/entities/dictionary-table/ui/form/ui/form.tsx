@@ -1,12 +1,12 @@
-import { memo } from 'react'
+import { memo, useEffect } from 'react'
 import type { FieldInputProps, FieldMetaState } from 'react-final-form'
-import { useField } from 'react-final-form'
+import { useField, useForm } from 'react-final-form'
 
 import { DatabaseTableForm } from '~/shared/database-table'
 import Flex from '~/shared/flex'
 import type { SelectProps, TextFieldProps } from '~/shared/form'
-import { Card, Checkbox, Column, Row, Select, TextField, TypedField, UniqueTextField } from '~/shared/form'
-import { c } from '~/utils/core'
+import { Card, Checkbox, Column, Row, Select, TextField, TypedField } from '~/shared/form'
+import { c, generateId } from '~/utils/core'
 
 import { SYSNAME } from '../../../constants/name'
 import type { Values } from '../types/values'
@@ -14,7 +14,6 @@ import type { Values } from '../types/values'
 export interface Props {
   className?: string | undefined
   readonly?: boolean
-  isKnUniq?: ((kn: string) => Promise<boolean>) | undefined
 }
 
 export const NAME = `${SYSNAME}-Form`
@@ -26,33 +25,9 @@ export function Component(props: Props): JSX.Element {
   return (
     <Flex className={c(props.className, NAME)} direction='column' width='100%' gap='6'>
       <Card>
-        <Column>
-          <Row style={{ width: '100%' }}>
-            <TypedField<Values, 'kn', string, string, _KnFieldProps, HTMLInputElement>
-              component={_KnField}
-              name='kn'
-              checkUnique={props.isKnUniq}
-              rootProps={{ flexBasis: '25%' }}
-              variant='soft'
-              label='Системное название'
-            />
-            <Flex width='75%' />
-          </Row>
-          <Row style={{ width: '100%' }}>
+        <Row style={{ width: '100%' }}>
+          <Column>
             <Checkbox variant='soft' name='nav' label='Отображать в навигационной панели' />
-          </Row>
-        </Column>
-      </Card>
-
-      <Card>
-        <Row>
-          <Column width='25%'>
-            <TypedField<Values, 'name', string, string, TextFieldProps<string>, HTMLInputElement>
-              component={TextField}
-              name='name'
-              label='Название'
-              variant='soft'
-            />
             <TypedField<Values, 'tableSchema.defaultView', string, string, SelectProps<string>, HTMLInputElement>
               component={Select}
               label='Представление по умолчанию'
@@ -64,16 +39,25 @@ export function Component(props: Props): JSX.Element {
               ]}
             />
           </Column>
-          <Flex width='75%' />
         </Row>
       </Card>
 
       <Card>
         <DatabaseTableForm
-          fieldNames={{ table: 'tableName', columns: 'tableSchema.items' }}
-          strings={{ table: 'Название таблицы в базе данных', columns: 'Колонки' }}
+          fieldNames={{ table: 'tableName', columns: 'tableSchema.items', tableDisplay: 'name' }}
+          strings={{ table: 'Тех. название', columns: 'Колонки', tableDisplay: 'Название' }}
         />
       </Card>
+
+      <Flex display='none'>
+        <TypedField<Values, 'kn', string, string, _KnFieldProps, HTMLInputElement>
+          component={_KnField}
+          name='kn'
+          rootProps={{ flexBasis: '25%' }}
+          variant='soft'
+          label='Системное название'
+        />
+      </Flex>
     </Flex>
   )
 }
@@ -93,10 +77,17 @@ type _KnFieldProps = Omit<TextFieldProps<string>, 'name' | 'value' | 'type'> & {
 }
 
 function _KnField(props: _KnFieldProps) {
-  const { checkUnique, ...textFieldProps } = props
+  const { ...textFieldProps } = props
 
-  const createdAtValue = useField<Values>('createdAt', { subscription: { value: true } })
-  const readOnly = Boolean(createdAtValue.input.value)
+  const createdAtField = useField<Values>('createdAt', { subscription: { value: true } })
+  const tableNameField = useField<Values>('tableName', { subscription: { value: true } })
+  const form = useForm()
+  const readOnly = Boolean(createdAtField.input.value)
 
-  return <UniqueTextField entityName={SYSNAME} checkUnique={checkUnique} readOnly={readOnly} {...textFieldProps} />
+  useEffect(() => {
+    if (readOnly) return
+    form.change('kn', `${tableNameField.input.value}-${generateId(3)}`)
+  }, [tableNameField.input.value])
+
+  return <TextField readOnly={readOnly} {...textFieldProps} />
 }

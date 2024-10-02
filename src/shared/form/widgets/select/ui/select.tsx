@@ -50,7 +50,7 @@ export default function Component<FieldValue>(props: Props<FieldValue>) {
 
   return (
     <Flex className={c(className, rootProps?.className, NAME)} direction='column' width='100%' {...rootProps}>
-      <Label content={label} htmlFor={id} />
+      <Label children={label} htmlFor={id} />
       <Select.Root onValueChange={fns(input.onChange)} value={input.value} {...selectRootProps}>
         <Select.Trigger onBlur={fns(input.onBlur)} variant={variant} />
         <Select.Content variant={variant}>

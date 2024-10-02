@@ -4,7 +4,7 @@ import { safeParse } from 'valibot'
 
 import {
   Form,
-  FormValues,
+  type FormValues,
   api,
   createDictionaryTableSchema,
   defaultValues,
@@ -66,22 +66,7 @@ export default function Component(): JSX.Element {
     onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
   })
 
-  const render = useCallback(
-    () => (
-      <Form
-        isKnUniq={(kn) =>
-          api.getByKn
-            .request({ kn })
-            .then(() => false)
-            .catch((res) => {
-              if (res.response.status === 404) return true
-              throw res
-            })
-        }
-      />
-    ),
-    [],
-  )
+  const render = useCallback(() => <Form />, [])
 
   return (
     <main className={NAME}>
@@ -120,11 +105,7 @@ export default function Component(): JSX.Element {
                     </span>
                   </Tooltip>
                   <Separator orientation='vertical' />
-                  <Button
-                    loading={createMutator.isLoading}
-                    disabled={!form.getState().dirty || form.getState().invalid}
-                    onClick={form.submit}
-                  >
+                  <Button loading={createMutator.isLoading} onClick={form.submit}>
                     Создать
                   </Button>
                 </Flex>

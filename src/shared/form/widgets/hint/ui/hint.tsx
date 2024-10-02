@@ -26,8 +26,10 @@ export default function Component(props: Props): JSX.Element | null {
 
   return (
     <Text className={c(props.className, NAME)} size='1' color={typeColor[type]}>
-      <Flex align='center' gap='1'>
-        <Icon name='InfoCircled' />
+      <Flex align='start' gap='1'>
+        <Flex as='span' align='center' justify='center'>
+          <Icon name='InfoCircled' />
+        </Flex>
         {props.content?.toString()}
       </Flex>
     </Text>

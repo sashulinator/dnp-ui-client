@@ -81,18 +81,16 @@ export default function Component(props: Props) {
           </Flex>
           <DataList.Root size='2'>
             <DataList.Item>
-              <Label content='Колонка' />
-              <DataList.Value>
-                <TypedField<Column, 'columnName', string, string, TextFieldProps<string>, HTMLInputElement>
-                  component={TextField}
-                  size='1'
-                  variant='soft'
-                  name={`${typedName}columnName`}
-                />
-              </DataList.Value>
-            </DataList.Item>
-            <DataList.Item>
-              <Label content='Название' />
+              <Label>
+                <Flex gap={'1'}>
+                  Название
+                  <Tooltip content={'Отображение в интерфейсе'}>
+                    <span>
+                      <Icon name={'InfoCircled'} />
+                    </span>
+                  </Tooltip>
+                </Flex>
+              </Label>
               <DataList.Value>
                 <TypedField<Column, 'name', string, string, TextFieldProps<string>, HTMLInputElement>
                   component={TextField}
@@ -103,7 +101,28 @@ export default function Component(props: Props) {
               </DataList.Value>
             </DataList.Item>
             <DataList.Item>
-              <Label content='Тип' />
+              <Label>
+                <Flex gap={'1'}>
+                  Тех. название
+                  <Tooltip content={'В базе данных'}>
+                    <span>
+                      <Icon name={'InfoCircled'} />
+                    </span>
+                  </Tooltip>
+                </Flex>
+              </Label>
+              <DataList.Value>
+                <TypedField<Column, 'columnName', string, string, TextFieldProps<string>, HTMLInputElement>
+                  component={TextField}
+                  size='1'
+                  variant='soft'
+                  name={`${typedName}columnName`}
+                />
+              </DataList.Value>
+            </DataList.Item>
+
+            <DataList.Item>
+              <Label children='Тип' />
               <DataList.Value>
                 <TypedField<Column, 'type', string, string, SelectProps<string>, HTMLInputElement>
                   component={Select}
@@ -128,7 +147,15 @@ export default function Component(props: Props) {
               <Label>
                 <Flex gap={'1'}>
                   Индексация
-                  <Tooltip content={'Добавить индексацию для колонки в базу данных'}>
+                  <Tooltip
+                    content={
+                      <>
+                        Индексировать для быстрого поиска
+                        <br />
+                        (увеличивает размер на жестком диске)
+                      </>
+                    }
+                  >
                     <span>
                       <Icon name={'InfoCircled'} />
                     </span>
@@ -140,23 +167,14 @@ export default function Component(props: Props) {
               </DataList.Value>
             </DataList.Item>
             <DataList.Item>
-              <Label>
-                <Flex gap={'1'}>
-                  Пусто
-                  <Tooltip content={'Колонка может быть пустой'}>
-                    <span>
-                      <Icon name={'InfoCircled'} />
-                    </span>
-                  </Tooltip>
-                </Flex>
-              </Label>
+              <Label>Обязательно</Label>
               <DataList.Value>
                 <Checkbox checked defaultChecked={true} size='1' name={`${typedName}nullable`} />
               </DataList.Value>
             </DataList.Item>
             <_MaxLengthDataListItem typedName={typedName} />
-            <_DecimalPlacesDataListItem typedName={typedName} />
             <_IsNegativeAllowedListItem typedName={typedName} />
+            <_DecimalPlacesDataListItem typedName={typedName} />
           </DataList.Root>
           <Card>
             <DataList.Root size='2'>
@@ -181,7 +199,7 @@ export default function Component(props: Props) {
               {hasRelation && (
                 <>
                   <DataList.Item>
-                    <Label content='Таблица' />
+                    <Label children='Таблица' />
                     <DataList.Value>
                       <TypedField<
                         Required<NonNullableFlat<Column>>,
@@ -199,7 +217,7 @@ export default function Component(props: Props) {
                     </DataList.Value>
                   </DataList.Item>
                   <DataList.Item>
-                    <Label content='Колонка' />
+                    <Label children='Колонка' />
                     <DataList.Value>
                       <TypedField<
                         Required<NonNullableFlat<Column>>,
@@ -246,7 +264,7 @@ function _MaxLengthDataListItem(props: _MaxLengthDataListItemProps) {
 
   return (
     <DataList.Item>
-      <Label content='Длина' />
+      <Label children='Длина' />
       <DataList.Value>
         <Field<string, TextFieldProps<string>, HTMLInputElement>
           component={TextField}

@@ -14,10 +14,12 @@ export interface Props {
   className?: string | undefined
   fieldNames: {
     table: string
+    tableDisplay: string
     columns: string
   }
   strings: {
     table: string
+    tableDisplay: string
     columns: string
   }
 }
@@ -35,19 +37,23 @@ export default function Component(props: Props): JSX.Element {
   return (
     <Column className={c(props.className, NAME)}>
       <Row>
-        <Column width='25%'>
+        <Column width='50%'>
+          <Field<string, TextFieldProps<string>, HTMLInputElement>
+            label={strings.tableDisplay}
+            name={fieldNames.tableDisplay}
+            component={TextField}
+          />
           <Field<string, TextFieldProps<string>, HTMLInputElement>
             label={strings.table}
             name={fieldNames.table}
             component={TextField}
-            variant='soft'
           />
         </Column>
-        <Flex width='75%' />
+        <Flex width='50%' />
       </Row>
       <Column>
         <Flex direction='column'>
-          <Label content={strings.columns} />
+          <Label children={strings.columns} />
           <Flex width='100%' wrap='wrap' gap='2'>
             <FieldArray<IColumn> name={fieldNames.columns} className={c(props.className, NAME)}>
               {({ fields }) => {

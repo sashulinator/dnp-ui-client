@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useQuery } from 'react-query'
 
 import Flex from '~/shared/flex'
@@ -35,10 +36,13 @@ export default function Component(props: Props) {
     },
   )
 
+  useEffect(() => {
+    setValueToCheckUniqWithDelay(textFieldProps.input.value)
+  }, [textFieldProps.input.value])
+
   return (
     <TextField
       {...textFieldProps}
-      onChange={(e) => setValueToCheckUniqWithDelay(e.target.value)}
       renderHint={({ isErrorVisible: isShow, meta, input }) => {
         if (isShow) return <Hint type='error' content={meta.error.message || meta.submitError.message} />
 
