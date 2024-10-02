@@ -15,8 +15,8 @@ import Card from '~/shared/card'
 import Container from '~/shared/container'
 import Flex from '~/shared/flex'
 import UiForm, { toNestedErrors, useCreateForm } from '~/shared/form'
-import Heading from '~/shared/layout/variants/heading'
 import { notify } from '~/shared/notification-list-store'
+import { Heading } from '~/shared/page'
 import { queryClient } from '~/shared/react-query'
 import { routeMap } from '~/shared/route'
 import Section from '~/shared/section'
@@ -95,7 +95,7 @@ export default function Component(): JSX.Element {
             >
               <Heading.BackToParent />
               <Heading.Name />
-              <Heading.Uniq string={values.name} tooltipContent='Название' />
+              <Heading.Unique string={values.name} tooltipContent='Название' />
             </Heading.Root>
           </Section>
         )}

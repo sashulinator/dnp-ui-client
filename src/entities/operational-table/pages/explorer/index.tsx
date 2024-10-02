@@ -15,9 +15,8 @@ import { filesApi } from '~/shared/files-api'
 import Flex from '~/shared/flex'
 import { type FormApi, useCreateForm } from '~/shared/form'
 import FForm from '~/shared/form'
-import Heading from '~/shared/layout/variants/heading'
 import { notify } from '~/shared/notification-list-store'
-import Pagination from '~/shared/pagination'
+import { Heading, Pagination } from '~/shared/page'
 import { routeMap } from '~/shared/route'
 import ScrollArea from '~/shared/scroll-area'
 import { useSearch } from '~/shared/search'
@@ -201,7 +200,7 @@ export default function Component(): JSX.Element {
                 renderIcon={routeMap.operationalTables.renderIcon}
               >
                 <Heading.BackToParent />
-                <Heading.Uniq
+                <Heading.Unique
                   string={explorerListFetcher.data?.operationalTable.name ?? nameQueryParam}
                   tooltipContent={routeMap.operationalTables_kn_explorer.getName()}
                 />

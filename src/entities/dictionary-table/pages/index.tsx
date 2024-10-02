@@ -1,13 +1,11 @@
-import React from 'react'
 import { NumberParam, useQueryParams, withDefault } from 'use-query-params'
 
 import { Item, api } from '~/entities/dictionary-table'
 import Button from '~/shared/button'
 import Container from '~/shared/container'
 import Flex from '~/shared/flex'
-import Heading from '~/shared/layout/variants/heading'
 import Link from '~/shared/link'
-import Pagination from '~/shared/pagination'
+import { Heading, Pagination } from '~/shared/page'
 import { routeMap } from '~/shared/route'
 import Section from '~/shared/section'
 

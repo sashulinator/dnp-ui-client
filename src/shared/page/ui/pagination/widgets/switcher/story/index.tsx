@@ -1,7 +1,8 @@
 import { useState } from 'react'
 
 import Flex from '~/shared/flex'
-import { Props, type Story } from '~/shared/storybook'
+import type { Props } from '~/shared/storybook'
+import { type Story } from '~/shared/storybook'
 
 import TextField from '..'
 import Switcher from '..'

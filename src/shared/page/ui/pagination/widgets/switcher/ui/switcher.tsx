@@ -1,6 +1,7 @@
 import './switcher.scss'
 
-import { CSSProperties, useEffect, useState } from 'react'
+import type { CSSProperties } from 'react'
+import { useEffect, useState } from 'react'
 
 import Button from '~/shared/button'
 import Icon from '~/shared/icon'

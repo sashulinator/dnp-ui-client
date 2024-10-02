@@ -11,9 +11,8 @@ import { type Column, RowForm, toColumns } from '~/shared/database-table'
 import Dialog from '~/shared/dialog'
 import Flex from '~/shared/flex'
 import FForm, { type FormApi, useCreateForm } from '~/shared/form'
-import Heading from '~/shared/layout/variants/heading'
 import { notify } from '~/shared/notification-list-store'
-import Pagination from '~/shared/pagination'
+import { Heading, Pagination } from '~/shared/page'
 import { routeMap } from '~/shared/route'
 import ScrollArea from '~/shared/scroll-area'
 import { useSearch } from '~/shared/search'
@@ -136,7 +135,7 @@ export default function Component(): JSX.Element {
                 renderIcon={routeMap.dictionaryTables.renderIcon}
               >
                 <Heading.BackToParent />
-                <Heading.Uniq
+                <Heading.Unique
                   string={explorerListFetcher.data?.dictionaryTable.name ?? nameQueryParam}
                   tooltipContent={routeMap.dictionaryTables_kn_explorer.getName()}
                 />

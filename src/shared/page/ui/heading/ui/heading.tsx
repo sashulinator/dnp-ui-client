@@ -1,4 +1,3 @@
-import { useContext } from 'react'
 import React from 'react'
 
 import Button from '~/shared/button'
@@ -8,40 +7,43 @@ import Link from '~/shared/link'
 import TextHighlighter from '~/shared/text-highlighter'
 import { c } from '~/utils/core'
 
-import { ContextProps, context } from '../models/context'
+import { type Context, context, useContext } from '../models/context'
 
-export interface Props extends Required<ContextProps> {
+/**
+ * page-Heading-c-Root
+ */
+
+export interface RootProps extends Context {
   className?: string | undefined
   children: React.ReactNode
 }
 
-export const ROOT_NAME = 'ui-Layout-v-Heading_Root'
+export const NAME = 'page-Heading-c-Root'
 
-/**
- * ui-Layout-v-Heading
- */
-export default function Root(props: Props): JSX.Element {
+export function Root(props: RootProps): JSX.Element {
   const { children, className, ...contextProps } = props
 
   return (
     <context.Provider value={contextProps}>
-      <Heading className={c(className, ROOT_NAME)}>{children}</Heading>
+      <Heading className={c(className, NAME)}>{children}</Heading>
     </context.Provider>
   )
 }
 
-Root.displayName = ROOT_NAME
+Root.displayName = NAME
 
 /**
- * BackToParent
+ * page-Heading-c-BackToParent
  */
 
-export const BACK_TO_PARENT_NAME = 'ui-Layout-v-Heading_BackToParent'
+export interface BackToParentProps {
+  className?: string | undefined
+}
 
-export function BackToParent(props: { className?: string | undefined }): JSX.Element {
+export function BackToParent(props: BackToParentProps): JSX.Element {
   const { className } = props
 
-  const { loading = false, backRoute, renderIcon } = useContext(context)
+  const { loading = false, backRoute, renderIcon } = useContext()
 
   return (
     <Button
@@ -49,7 +51,7 @@ export function BackToParent(props: { className?: string | undefined }): JSX.Ele
       style={{ marginRight: 'var(--space-4)' }}
       square={true}
       disabled={false}
-      className={c(className, BACK_TO_PARENT_NAME)}
+      className={c(className)}
       loading={loading}
       asChild={!loading}
     >
@@ -60,31 +62,28 @@ export function BackToParent(props: { className?: string | undefined }): JSX.Ele
   )
 }
 
-BackToParent.displayName = BACK_TO_PARENT_NAME
-
 /**
- * Name
+ * page-Heading-c-Name
  */
 
-export const NAME_NAME = 'ui-Layout-v-Heading_Name'
-
 export function Name(): JSX.Element | undefined | string {
-  const { route } = useContext(context)
+  const { route } = useContext()
   return route?.getName()
 }
 
-Name.displayName = NAME_NAME
-
 /**
- * Uniq
+ * page-Heading-c-Unique
  */
 
-export const UNIQ_NAME = 'ui-Layout-v-Heading_Uniq'
-
-export function Uniq(props: {
+export interface UniqueProps {
   string: string | undefined
   tooltipContent?: string | undefined
-}): JSX.Element | undefined | string {
+}
+
+/**
+ * Для выделения уникального значения заголовка
+ */
+export function Unique(props: UniqueProps): JSX.Element | undefined | string {
   return (
     props.string && (
       <TextHighlighter tooltipContent={props.tooltipContent} style={{ marginLeft: 'var(--space-2)' }}>
@@ -93,5 +92,3 @@ export function Uniq(props: {
     )
   )
 }
-
-Uniq.displayName = UNIQ_NAME

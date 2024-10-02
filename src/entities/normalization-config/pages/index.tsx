@@ -7,7 +7,7 @@ import Container from '~/shared/container'
 import Flex from '~/shared/flex'
 import Heading from '~/shared/heading'
 import Link from '~/shared/link'
-import Pagination from '~/shared/pagination'
+import { Pagination } from '~/shared/page'
 import { routeMap } from '~/shared/route'
 import Section from '~/shared/section'
 
