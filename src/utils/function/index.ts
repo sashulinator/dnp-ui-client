@@ -1,4 +1,5 @@
-export * from './clearable-debounce'
-export * from './debounce'
-export * from './fns'
+export { clearableDebounce } from './clearable-debounce'
+export { debounce } from './debounce'
+export { fns } from './fns'
 export { emptyFn } from './empty-fn'
+export { pipe } from './pipe'
