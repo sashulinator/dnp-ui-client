@@ -60,9 +60,9 @@ function _HeaderCell<T extends string>({ accessorKey, context, name }: _HeaderPr
     <Flex width='100%' justify='between' gap='4' align='center'>
       <FilterConfigurator.Root
         filterConfig={filterConfig}
-        onFilterConfigChange={(filterConfig) =>
+        onFilterConfigChange={(filterConfig) => {
           context?.setSearchFilter((s) => ({ ...s, [accessorKey]: toFilter(filterConfig) }))
-        }
+        }}
       >
         <FilterConfigurator.Input placeholder={name} style={{ width: '100%' }} />
 
@@ -96,22 +96,8 @@ function _HeaderCell<T extends string>({ accessorKey, context, name }: _HeaderPr
             <DropdownMenu.Label>
               <Text size='1'>Шаблоны</Text>
             </DropdownMenu.Label>
-            <DropdownMenu.Item
-              onClick={() => {
-                context?.setSearchFilter((s) => ({ ...s, [accessorKey]: { is: null } }))
-              }}
-            >
-              Пусто
-            </DropdownMenu.Item>
-            <DropdownMenu.Item
-              onClick={() => {
-                context?.setSearchFilter((s) => ({ ...s, [accessorKey]: { not: null } }))
-              }}
-            >
-              Не пусто
-            </DropdownMenu.Item>
-            {/* <DropdownMenu.Separator /> */}
-            {/* <DropdownMenu.Item>Регистр</DropdownMenu.Item> */}
+            <FilterConfigurator.EmptyTemplateDropdownMenuItem />
+            <FilterConfigurator.NotEmptyTemplateDropdownMenuItem />
             <DropdownMenu.Separator />
             <DropdownMenu.Label>
               <Text size='2'>Нормализация</Text>

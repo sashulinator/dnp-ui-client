@@ -1,9 +1,12 @@
 import ArrowLeft from '../widgets/arrow-left'
 import ArrowRight from '../widgets/arrow-right'
+import Check from '../widgets/check'
 import ChevronDown from '../widgets/chevron-down'
 import ChevronLeft from '../widgets/chevron-left'
 import ChevronRight from '../widgets/chevron-right'
 import ChevronUp from '../widgets/chevron-up'
+import Cross1 from '../widgets/cross1'
+import Cross2 from '../widgets/cross2'
 import DotsVertical from '../widgets/dots-vertical'
 import DoubleChevronLeft from '../widgets/double-chevron-left'
 import DoubleChevronRight from '../widgets/double-chevron-right'
@@ -28,4 +31,7 @@ export const map = {
   Star,
   Trash,
   User,
+  Cross1,
+  Cross2,
+  Check,
 } satisfies Record<string, React.FC<React.SVGAttributes<SVGSVGElement>>>

@@ -28,8 +28,8 @@ export function NotModeDropdownMenuItem() {
   return (
     <_ModeDropdownMenuItem
       label='Не'
-      selected={!!filterConfig.not}
-      onClick={() => onFilterConfigChange({ ...filterConfig, not: !filterConfig.not })}
+      selected={!!filterConfig.notMode}
+      onClick={() => onFilterConfigChange({ ...filterConfig, notMode: !filterConfig.notMode })}
     />
   )
 }
