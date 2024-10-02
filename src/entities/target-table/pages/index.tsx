@@ -8,7 +8,7 @@ import Flex from '~/shared/flex'
 import Heading from '~/shared/layout/variants/heading'
 import Link from '~/shared/link'
 import Pagination from '~/shared/pagination'
-import { routes } from '~/shared/routes'
+import { routes } from '~/shared/route'
 import Section from '~/shared/section'
 
 import { SYSNAME } from '../constants/name'
@@ -46,10 +46,10 @@ export default function Component(): JSX.Element {
             </Heading.Root>
             <Flex align='center' gap='2'>
               <Button variant='outline' asChild>
-                <Link to={routes.storeConfigs_kn.getURL('workingTable')}>Хранилище</Link>
+                <Link to={routes.storeConfigs_kn.getUrl('workingTable')}>Хранилище</Link>
               </Button>
               <Button asChild>
-                <Link to={routes.targetTables_create.getURL()}>Создать</Link>
+                <Link to={routes.targetTables_create.getUrl()}>Создать</Link>
               </Button>
             </Flex>
           </Flex>

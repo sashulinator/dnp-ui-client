@@ -1,8 +1,8 @@
 import { Container, Flex, Heading, Section, Select } from '@radix-ui/themes'
 
-import { Role, roles } from '~/entities/user'
+import { type Role, roles } from '~/entities/user'
 import { getRole, setRole } from '~/entities/user/lib'
-import { routes } from '~/shared/routes'
+import { routes } from '~/shared/route'
 
 const displayName = 'page-Admin'
 

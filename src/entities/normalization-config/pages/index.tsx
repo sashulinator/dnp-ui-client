@@ -8,7 +8,7 @@ import Flex from '~/shared/flex'
 import Heading from '~/shared/heading'
 import Link from '~/shared/link'
 import Pagination from '~/shared/pagination'
-import { routes } from '~/shared/routes'
+import { routes } from '~/shared/route'
 import Section from '~/shared/section'
 
 export interface Props {
@@ -41,7 +41,7 @@ export default function Page(): JSX.Element {
             <Heading>{routes.normalizationConfigs.getName()}</Heading>
             {isAdmin && (
               <Button size='1' asChild>
-                <Link to={routes.normalizationConfigs_create.getURL()}>Создать</Link>
+                <Link to={routes.normalizationConfigs_create.getUrl()}>Создать</Link>
               </Button>
             )}
           </Flex>

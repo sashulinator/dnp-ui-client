@@ -8,7 +8,7 @@ import Flex from '~/shared/flex'
 import Heading from '~/shared/heading'
 import Link from '~/shared/link'
 import Pagination from '~/shared/pagination'
-import { routes } from '~/shared/routes'
+import { routes } from '~/shared/route'
 import Section from '~/shared/section'
 
 export interface Props {
@@ -35,7 +35,7 @@ export default function Component(): JSX.Element {
           <Flex width='100%' justify='between'>
             <Heading>{routes.storeConfigs.getName()}</Heading>
             <Button size='1' asChild>
-              <Link to={routes.storeConfigs_create.getURL()}>Создать</Link>
+              <Link to={routes.storeConfigs_create.getUrl()}>Создать</Link>
             </Button>
           </Flex>
         </Section>

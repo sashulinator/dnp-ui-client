@@ -7,8 +7,7 @@ import Container from '~/shared/container'
 import Flex from '~/shared/flex'
 import Heading from '~/shared/layout/variants/heading'
 import Link from '~/shared/link'
-import { Route } from '~/shared/route'
-import { routes } from '~/shared/routes'
+import { type Route, routes } from '~/shared/route'
 import Section from '~/shared/section'
 
 export interface Props {
@@ -45,7 +44,7 @@ export default function Component(): JSX.Element {
               return (
                 <Card key={key} asChild style={{ width: '15rem', height: '5rem' }}>
                   {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                  <Link to={(route.getURL as any)()}>
+                  <Link to={(route.getUrl as any)()}>
                     <Flex gap='4'>
                       <Flex>
                         <Button variant='soft' square={true}>

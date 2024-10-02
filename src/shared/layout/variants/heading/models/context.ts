@@ -1,6 +1,6 @@
 import { createContext } from 'react'
 
-import { Route } from '~/shared/route'
+import { type Route } from '~/shared/route'
 
 export interface ContextProps {
   route?: Route

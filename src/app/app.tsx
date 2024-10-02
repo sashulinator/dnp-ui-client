@@ -9,7 +9,7 @@ import { queryClient } from '~/shared/react-query'
 import Theme from '~/shared/theme'
 import { NotificationToastList } from '~/shared/toast'
 
-import RootRoutes from './root-routes'
+import { RootRoutes } from '../shared/route'
 
 function App() {
   return (

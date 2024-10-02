@@ -55,7 +55,7 @@ export function BackToParent(props: { className?: string | undefined }): JSX.Ele
     >
       {loading
         ? renderIcon && React.createElement(renderIcon)
-        : backRoute && renderIcon && <Link to={backRoute.getURL()}>{<Icon name='ChevronLeft' />}</Link>}
+        : backRoute && renderIcon && <Link to={backRoute.getUrl()}>{<Icon name='ChevronLeft' />}</Link>}
     </Button>
   )
 }

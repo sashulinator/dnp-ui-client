@@ -6,7 +6,7 @@ import Container from '~/shared/container'
 import Flex from '~/shared/flex'
 import Heading from '~/shared/heading'
 import Pagination from '~/shared/pagination'
-import { routes } from '~/shared/routes'
+import { routes } from '~/shared/route'
 import Section from '~/shared/section'
 
 export interface Props {

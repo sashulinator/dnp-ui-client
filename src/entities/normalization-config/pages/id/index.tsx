@@ -22,7 +22,7 @@ import Flex from '~/shared/flex'
 import FForm, { toNestedErrors, useCreateForm } from '~/shared/form'
 import Heading from '~/shared/heading'
 import { notify } from '~/shared/notification-list-store'
-import { routes } from '~/shared/routes'
+import { routes } from '~/shared/route'
 import Section from '~/shared/section'
 import Spinner from '~/shared/spinner'
 import TextHighlighter from '~/shared/text-highlighter'
@@ -69,7 +69,7 @@ export default function Component(): JSX.Element {
       notify({ title: 'Сохранено', type: 'success' })
       getById.setCache({ id }, data.data)
       if (data.data.v !== form.getState().values.v) {
-        navigate(routes.normalizationConfigs_id.getURL(data.data.id))
+        navigate(routes.normalizationConfigs_id.getUrl(data.data.id))
       } else {
         form.initialize(toFormValues(data.data))
       }

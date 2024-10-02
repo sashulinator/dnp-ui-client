@@ -34,20 +34,20 @@ import Logo from '~/shared/logo-icon'
 import Nav from '~/shared/nav'
 import { isDev } from '~/utils/core'
 
-import Main from '../pages/main'
-import { type Route } from './route'
+import { type Route } from '..'
+import Main from '../../../pages/main'
 
 // eslint-disable-next-line react-refresh/only-export-components
-const Storybook = lazy(() => import('../pages/storybook/index'))
+const Storybook = lazy(() => import('../../../pages/storybook/index'))
 
 export const routes = {
   main: {
+    getName: (): string => 'НСИ',
     getPath: () => '/',
-    getURL(): string {
+    getUrl(): string {
       return this.getPath()
     },
     renderMain: Main,
-    getName: (): string => 'НСИ',
     renderHeader: Header,
     renderNav: Nav,
     navigatable: false,
@@ -59,41 +59,41 @@ export const routes = {
    */
 
   normalizationConfigs: {
+    getName: (): string => 'Нормализации',
     getPath: () => '/normalization-configs',
-    getURL() {
+    getUrl() {
       return this.getPath()
     },
     renderMain: NormalizationConfigs,
     renderHeader: Header,
     renderNav: Nav,
-    getName: (): string => 'Нормализации',
     navigatable: true,
     renderIcon: NormalizationConfigIcon,
     rolesAllowed: [roles.Admin, roles.Operator],
   },
 
   normalizationConfigs_create: {
+    getName: (): string => 'Создать Нормализацию',
     getPath: () => '/normalization-configs/create',
-    getURL() {
+    getUrl() {
       return this.getPath()
     },
     renderMain: NormalizationConfigs_create,
     renderHeader: Header,
     renderNav: Nav,
-    getName: (): string => 'Создать Нормализацию',
     navigatable: false,
     rolesAllowed: [roles.Admin, roles.Operator],
   },
 
   normalizationConfigs_id: {
+    getName: (): string => 'Нормализации',
     getPath: () => '/normalization-configs/:id',
-    getURL(id: string) {
+    getUrl(id: string) {
       return this.getPath().replace(':id', id)
     },
     renderMain: NormalizationConfigs_id,
     renderHeader: Header,
     renderNav: Nav,
-    getName: (): string => 'Нормализации',
     navigatable: false,
     rolesAllowed: [roles.Admin, roles.Operator],
   },
@@ -103,51 +103,51 @@ export const routes = {
    */
 
   dictionaryTables: {
+    getName: (): string => 'Справочники',
     getPath: () => '/dictionary-tables',
-    getURL() {
+    getUrl() {
       return this.getPath()
     },
     renderMain: DictionaryTable,
     renderHeader: Header,
     renderNav: Nav,
-    getName: (): string => 'Справочники',
     navigatable: true,
     renderIcon: DictionaryTableIcon,
   },
 
   dictionaryTables_create: {
+    getName: (): string => 'Создать справочник',
     getPath: () => '/dictionary-tables/create',
-    getURL() {
+    getUrl() {
       return this.getPath()
     },
     renderMain: DictionaryTable_create,
     renderHeader: Header,
     renderNav: Nav,
-    getName: (): string => 'Создать справочник',
     navigatable: false,
   },
 
   dictionaryTables_kn_explorer: {
+    getName: () => 'Данные промежуточной таблицы',
     getPath: () => '/dictionary-tables/:kn/explorer',
-    getURL(kn: string, params?: { name: string } | undefined) {
+    getUrl(kn: string, params?: { name: string } | undefined) {
       return `${this.getPath().replace(':kn', kn)}${qs.stringify(params, { addQueryPrefix: true })}`
     },
     renderMain: DictionaryTable_kn_explorer,
     renderHeader: Header,
     renderNav: Nav,
-    getName: (): string => 'Данные промежуточной таблицы',
     navigatable: false,
   },
 
   dictionaryTables_kn: {
+    getName: () => 'Справочник',
     getPath: () => '/dictionary-tables/:kn',
-    getURL(kn: string) {
+    getUrl(kn: string) {
       return this.getPath().replace(':kn', kn)
     },
     renderMain: DictionaryTable_kn,
     renderHeader: Header,
     renderNav: Nav,
-    getName: (): string => 'Справочник',
     navigatable: false,
   },
 
@@ -156,51 +156,51 @@ export const routes = {
    */
 
   operationalTables: {
+    getName: (): string => 'Промежуточные таблицы',
     getPath: () => '/operational-tables',
-    getURL() {
+    getUrl() {
       return this.getPath()
     },
     renderMain: OperationalTable,
     renderHeader: Header,
     renderNav: Nav,
-    getName: (): string => 'Промежуточные таблицы',
     navigatable: true,
     renderIcon: OperationalTableIcon,
   },
 
   operationalTables_create: {
+    getName: () => 'Создать промежуточную таблицу',
     getPath: () => '/operational-tables/create',
-    getURL() {
+    getUrl() {
       return this.getPath()
     },
     renderMain: OperationalTable_create,
     renderHeader: Header,
     renderNav: Nav,
-    getName: (): string => 'Создать промежуточную таблицу',
     navigatable: false,
   },
 
   operationalTables_kn_explorer: {
+    getName: () => 'Данные промежуточной таблицы',
     getPath: () => '/operational-tables/:kn/explorer',
-    getURL(kn: string, params?: { name: string } | undefined) {
+    getUrl(kn: string, params?: { name: string } | undefined) {
       return `${this.getPath().replace(':kn', kn)}${qs.stringify(params, { addQueryPrefix: true })}`
     },
     renderMain: OperationalTable_kn_explorer,
     renderHeader: Header,
     renderNav: Nav,
-    getName: (): string => 'Данные промежуточной таблицы',
     navigatable: false,
   },
 
   operationalTables_kn: {
+    getName: () => 'Промежуточная таблица',
     getPath: () => '/operational-tables/:kn',
-    getURL(kn: string) {
+    getUrl(kn: string) {
       return this.getPath().replace(':kn', kn)
     },
     renderMain: OperationalTable_kn,
     renderHeader: Header,
     renderNav: Nav,
-    getName: (): string => 'Промежуточная таблица',
     navigatable: false,
   },
 
@@ -209,14 +209,14 @@ export const routes = {
    */
 
   processes: {
+    getName: () => 'Процессы',
     getPath: () => '/processes',
-    getURL() {
+    getUrl() {
       return this.getPath()
     },
     renderMain: Processes,
     renderHeader: Header,
     renderNav: Nav,
-    getName: (): string => 'Процессы',
     navigatable: true,
     renderIcon: ProcessIcon,
     rolesAllowed: [roles.Admin, roles.Operator],
@@ -227,41 +227,41 @@ export const routes = {
    */
 
   storeConfigs: {
+    getName: () => 'Хранилища',
     getPath: () => '/store-configs',
-    getURL() {
+    getUrl() {
       return this.getPath()
     },
     renderMain: StoreConfigs,
     renderHeader: Header,
     renderNav: Nav,
-    getName: (): string => 'Хранилища',
     navigatable: true,
     renderIcon: StoreConfigIcon,
     rolesAllowed: [roles.Admin],
   },
 
   storeConfigs_create: {
+    getName: () => 'Создать Хранилище',
     getPath: () => '/store-configs/create',
-    getURL() {
+    getUrl() {
       return this.getPath()
     },
     renderMain: StoreConfigs_create,
     renderHeader: Header,
     renderNav: Nav,
-    getName: (): string => 'Создать Хранилище',
     navigatable: false,
     rolesAllowed: [roles.Admin],
   },
 
   storeConfigs_kn: {
+    getName: () => 'Хранилище',
     getPath: () => '/store-configs/:kn',
-    getURL(kn: string) {
+    getUrl(kn: string) {
       return this.getPath().replace(':kn', kn)
     },
     renderMain: StoreConfigs_kn,
     renderHeader: Header,
     renderNav: Nav,
-    getName: (): string => 'Хранилище',
     navigatable: false,
     rolesAllowed: [roles.Admin],
   },
@@ -271,63 +271,63 @@ export const routes = {
    */
 
   targetTables: {
+    getName: () => 'Целевые таблицы',
     getPath: () => '/target-tables',
-    getURL() {
+    getUrl() {
       return this.getPath()
     },
     renderMain: TargetTable,
     renderHeader: Header,
     renderNav: Nav,
-    getName: (): string => 'Целевые таблицы',
     navigatable: true,
     renderIcon: TargetTableIcon,
   },
 
   targetTables_create: {
+    getName: () => 'Создать целевую таблицу',
     getPath: () => '/target-tables/create',
-    getURL() {
+    getUrl() {
       return this.getPath()
     },
     renderMain: TargetTable_create,
     renderHeader: Header,
     renderNav: Nav,
-    getName: (): string => 'Создать целевую таблицу',
     navigatable: false,
   },
 
   targetTables_kn: {
+    getName: () => 'Целевая таблица',
     getPath: () => '/target-tables/:kn',
-    getURL(kn: string) {
+    getUrl(kn: string) {
       return this.getPath().replace(':kn', kn)
     },
     renderMain: TargetTable_kn,
     renderHeader: Header,
     renderNav: Nav,
-    getName: (): string => 'Целевая таблица',
     navigatable: false,
   },
 
   targetTables_kn_explorer: {
+    getName: () => 'Данные целевой таблицы',
     getPath: () => '/target-tables/:kn/explorer',
-    getURL(kn: string, params?: { name: string } | undefined) {
+    getUrl(kn: string, params?: { name: string } | undefined) {
       return `${this.getPath().replace(':kn', kn)}${qs.stringify(params, { addQueryPrefix: true })}`
     },
     renderMain: TargetTable_kn_explorer,
     renderHeader: Header,
     renderNav: Nav,
-    getName: (): string => 'Данные целевой таблицы',
     navigatable: false,
   },
 
   admin: {
+    getName: () => 'Управление пользователем',
     getPath: () => '/admin',
-    getURL() {
+    getUrl() {
       return this.getPath()
     },
     renderMain: Admin,
     renderHeader: Header,
     renderNav: Nav,
-    getName: (): string => 'Управление пользователем',
     navigatable: isDev(),
     renderIcon: (props) => <Icon {...props} name='User' />,
   },
@@ -335,8 +335,9 @@ export const routes = {
   // Misc
 
   storybook: {
+    getName: () => 'Storybook',
     getPath: () => '/storybook',
-    getURL() {
+    getUrl() {
       return this.getPath()
     },
     renderMain: () => (
@@ -344,18 +345,17 @@ export const routes = {
         <Storybook />
       </Suspense>
     ),
-    getName: (): string => 'storybook',
     navigatable: isDev(),
     renderIcon: (props) => <Icon {...props} name='Star' />,
   },
 
   notFound: {
+    getName: () => 'Not found',
     getPath: () => '/not-found',
-    getURL() {
+    getUrl() {
       return this.getPath()
     },
     renderMain: () => 'Not Found',
-    getName: () => 'not found',
     navigatable: false,
   },
 } satisfies Record<string, Route>

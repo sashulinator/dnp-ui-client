@@ -13,7 +13,7 @@ export type Route = {
    * Получить URL
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  getURL: (...args: any[]) => string
+  getUrl: (...args: any[]) => string
 
   /**
    * Компонент Main

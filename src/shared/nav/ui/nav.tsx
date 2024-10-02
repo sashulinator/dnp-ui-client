@@ -11,9 +11,7 @@ import Button from '~/shared/button'
 import Flex from '~/shared/flex'
 import Icon, { map as iconMap } from '~/shared/icon'
 import Logo from '~/shared/logo-icon'
-import { type Route } from '~/shared/route'
-import { getCurrent } from '~/shared/route/get-current'
-import { routes } from '~/shared/routes'
+import { type Route, getCurrent, routes } from '~/shared/route'
 import Separator from '~/shared/separator'
 import Tooltip from '~/shared/tooltip'
 import { c } from '~/utils/core'
@@ -56,7 +54,7 @@ export default function Component(): JSX.Element {
     <nav className={c(displayName)}>
       <Flex className='logo' align='center' justify='center'>
         <Button variant='outline' size='2' square={true} asChild>
-          <Link to={routes.main.getURL()}>
+          <Link to={routes.main.getUrl()}>
             <Logo height='1rem' width='2rem' />
           </Link>
         </Button>
@@ -68,7 +66,7 @@ export default function Component(): JSX.Element {
           return (
             <Tooltip side='right' key={key} content={route.getName()}>
               {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-              <Link to={(route.getURL as any)()}>
+              <Link to={(route.getUrl as any)()}>
                 <Button size='2' square={true} variant={isCurrent ? 'solid' : 'soft'}>
                   {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                   {createElement((route as any).renderIcon)}
@@ -89,7 +87,7 @@ export default function Component(): JSX.Element {
               return (
                 <Tooltip side='right' key={operationalTable.kn} content={operationalTable.name}>
                   <Link
-                    to={routes.operationalTables_kn_explorer.getURL(operationalTable.kn, {
+                    to={routes.operationalTables_kn_explorer.getUrl(operationalTable.kn, {
                       name: operationalTable.name,
                     })}
                   >
@@ -118,7 +116,7 @@ export default function Component(): JSX.Element {
               return (
                 <Tooltip side='right' key={dictionaryTable.kn} content={dictionaryTable.name}>
                   <Link
-                    to={routes.dictionaryTables_kn_explorer.getURL(dictionaryTable.kn, { name: dictionaryTable.name })}
+                    to={routes.dictionaryTables_kn_explorer.getUrl(dictionaryTable.kn, { name: dictionaryTable.name })}
                   >
                     {iconMap[iconName] ? (
                       <Button size='2' square={true} variant={isCurrent ? 'solid' : 'soft'}>
