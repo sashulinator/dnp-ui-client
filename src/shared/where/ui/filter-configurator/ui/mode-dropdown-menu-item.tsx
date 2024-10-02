@@ -1,5 +1,4 @@
 import Button from '~/shared/button'
-import Checkbox from '~/shared/checkbox'
 import DropdownMenu from '~/shared/dropdown-menu'
 import Flex from '~/shared/flex'
 
@@ -57,10 +56,25 @@ export function _ModeDropdownMenuItem(props: _ModeDropdownMenuItemProps) {
         variant='soft'
       >
         <Flex width='100%' align='center' gap='2'>
-          <Checkbox size='1' checked={selected} />
+          <_Checked checked={selected} />
           {label}
         </Flex>
       </Button>
     </DropdownMenu.Item>
+  )
+}
+
+function _Checked(props: { checked: boolean }) {
+  return (
+    <div
+      style={{
+        width: '18px',
+        height: '18px',
+        borderStyle: 'solid',
+        borderRadius: '50%',
+        borderColor: 'var(--accent-a9)',
+        borderWidth: props.checked ? '5px' : '5px',
+      }}
+    />
   )
 }
