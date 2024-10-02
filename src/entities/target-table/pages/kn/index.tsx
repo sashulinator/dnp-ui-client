@@ -9,7 +9,7 @@ import {
   toFormValues,
   updateTargetTableSchema,
 } from '~/entities/target-table'
-import TargetTable_kn_explorer from '~/entities/target-table/pages/kn/explorer'
+import TargetTable_kn_explorer from '~/entities/target-table/pages/explorer'
 import Button from '~/shared/button'
 import Card from '~/shared/card'
 import Container from '~/shared/container'

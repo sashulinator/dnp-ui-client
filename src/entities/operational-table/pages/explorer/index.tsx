@@ -28,7 +28,7 @@ import TextField from '~/shared/text-field'
 import { JSONParam } from '~/shared/use-query-params'
 import { type Id, isEmpty } from '~/utils/core'
 
-import * as importApi from '../../../api/explorer/import'
+import * as importApi from '../../api/explorer/import'
 
 export interface Props {
   className?: string | undefined
