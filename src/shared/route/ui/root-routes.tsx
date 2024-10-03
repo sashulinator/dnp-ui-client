@@ -3,16 +3,19 @@ import { Route, Routes } from 'react-router-dom'
 
 import { getRole } from '~/entities/user'
 import AccessGuard from '~/entities/user/ui/access-guard'
-import { type Route as IRoute, routeMap } from '~/shared/route'
+import { type Route as IRoute } from '~/shared/route'
 
 RootRoutes.displayName = 'app-Routes'
 
 export interface Props {
+  routeMap: Record<string, IRoute>
   className?: string
   renderLayout: (props: { route: IRoute }) => JSX.Element | null
 }
 
 export default function RootRoutes(props: Props): JSX.Element {
+  const { routeMap } = props
+
   return (
     <Routes>
       {Object.entries(routeMap).map(([key, route]) => (

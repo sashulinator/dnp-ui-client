@@ -9,6 +9,7 @@ import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6'
 
 import { RootLayout } from '~/shared/layout'
 import { queryClient } from '~/shared/react-query'
+import { routeMap } from '~/shared/route'
 import Theme from '~/shared/theme'
 import { NotificationToastList } from '~/shared/toast'
 
@@ -21,7 +22,7 @@ function App() {
         <QueryParamProvider adapter={ReactRouter6Adapter}>
           <Theme>
             <NotificationToastList />
-            <RootRoutes renderLayout={RootLayout} />
+            <RootRoutes routeMap={routeMap} renderLayout={RootLayout} />
             {createPortal([<ReactQueryDevtools key='0' position='bottom-right' />], document.body)}
           </Theme>
         </QueryParamProvider>
