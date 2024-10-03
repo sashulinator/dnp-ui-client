@@ -1,7 +1,5 @@
 import React from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { QueryParamProvider } from 'use-query-params'
-import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6'
+import { Route, Routes } from 'react-router-dom'
 
 import { getRole } from '~/entities/user'
 import AccessGuard from '~/entities/user/ui/access-guard'
@@ -16,19 +14,15 @@ export interface Props {
 
 export default function RootRoutes(props: Props): JSX.Element {
   return (
-    <BrowserRouter>
-      <QueryParamProvider adapter={ReactRouter6Adapter}>
-        <Routes>
-          {Object.entries(routeMap).map(([key, route]) => (
-            <Route
-              key={key}
-              path={route.getPath()}
-              element={<_RoleGuard renderLayout={props.renderLayout} route={route} />}
-            />
-          ))}
-        </Routes>
-      </QueryParamProvider>
-    </BrowserRouter>
+    <Routes>
+      {Object.entries(routeMap).map(([key, route]) => (
+        <Route
+          key={key}
+          path={route.getPath()}
+          element={<_RoleGuard renderLayout={props.renderLayout} route={route} />}
+        />
+      ))}
+    </Routes>
   )
 }
 

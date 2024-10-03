@@ -3,6 +3,9 @@ import '@radix-ui/themes/styles.css'
 import { createPortal } from 'react-dom'
 import { QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
+import { BrowserRouter } from 'react-router-dom'
+import { QueryParamProvider } from 'use-query-params'
+import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6'
 
 import { RootLayout } from '~/shared/layout'
 import { queryClient } from '~/shared/react-query'
@@ -14,11 +17,15 @@ import { RootRoutes } from '../shared/route'
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <Theme>
-        <NotificationToastList />
-        <RootRoutes renderLayout={RootLayout} />
-        {createPortal([<ReactQueryDevtools key='0' position='bottom-right' />], document.body)}
-      </Theme>
+      <BrowserRouter>
+        <QueryParamProvider adapter={ReactRouter6Adapter}>
+          <Theme>
+            <NotificationToastList />
+            <RootRoutes renderLayout={RootLayout} />
+            {createPortal([<ReactQueryDevtools key='0' position='bottom-right' />], document.body)}
+          </Theme>
+        </QueryParamProvider>
+      </BrowserRouter>
     </QueryClientProvider>
   )
 }
