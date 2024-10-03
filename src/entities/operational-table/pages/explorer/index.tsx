@@ -7,6 +7,7 @@ import { ExplorerViewer, type Row, SYSNAME, api } from '~/entities/operational-t
 import { ImportOperationalTableModal } from '~/entities/operational-table/ui/import-modal'
 import { getRole } from '~/entities/user'
 import Button from '~/shared/button'
+import Checkbox from '~/shared/checkbox'
 import Container from '~/shared/container'
 import { type Column, RowForm, toColumns } from '~/shared/database-table'
 import Dialog from '~/shared/dialog'
@@ -24,6 +25,7 @@ import Section from '~/shared/section'
 import { useSort } from '~/shared/sort'
 import { SuccessPopup } from '~/shared/success-popup'
 import TextField from '~/shared/text-field'
+import TextHighlighter from '~/shared/text-highlighter'
 import { JSONParam } from '~/shared/use-query-params'
 import { type Id, isEmpty } from '~/utils/core'
 
@@ -50,6 +52,8 @@ export default function Component(): JSX.Element {
 
   const [uploadedFileId, setUploadedFileId] = useState<string>()
 
+  const [isApproveMode, setIsApproveMode] = useState(false)
+
   const [showImportSuccessPopup, setShowImportSuccessPopup] = useState<boolean>(false)
 
   const [showImportErrorPopup, setShowImportErrorPopup] = useState<boolean>(false)
@@ -64,7 +68,7 @@ export default function Component(): JSX.Element {
 
   const [columnSearchParams, setColumnSearchParams] = useQueryParam('columnSearch', JSONParam)
 
-  const where = role === 'Approver' ? { OR: [{ _status: '1' }, { _status: '2' }, { _status: '3' }] } : {}
+  const where = isApproveMode ? { OR: [{ _status: '1' }, { _status: '2' }, { _status: '3' }] } : {}
 
   const requestParams = {
     kn,
@@ -206,6 +210,18 @@ export default function Component(): JSX.Element {
                 />
               </Heading.Root>
               <Flex gapX='12px'>
+                {role === 'Approver' && (
+                  <Flex asChild={true} align='center' gap='2'>
+                    <TextHighlighter as='label' style={{ cursor: 'pointer' }} color={isApproveMode ? 'green' : 'blue'}>
+                      Режим согласования
+                      <Checkbox
+                        variant='soft'
+                        checked={isApproveMode}
+                        onCheckedChange={(value) => setIsApproveMode(!!value)}
+                      />
+                    </TextHighlighter>
+                  </Flex>
+                )}
                 <Button variant='outline' onClick={() => setShowImportModal(true)}>
                   Импорт
                 </Button>
