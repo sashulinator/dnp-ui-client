@@ -1,3 +1,4 @@
+import { ClearDropdownMenuItem } from './ui/clear-dropdown-menu-item'
 import { Input } from './ui/input'
 import { CaseSensitiveModeDropdownMenuItem, NotModeDropdownMenuItem } from './ui/mode-dropdown-menu-item'
 import { Root } from './ui/root'
@@ -18,6 +19,7 @@ const Compounds = {
   Root,
   Input,
   CaseSensitiveModeDropdownMenuItem,
+  ClearDropdownMenuItem,
   NotModeDropdownMenuItem,
   ContainsTypeDropdownMenuItem,
   EndsWithTypeDropdownMenuItem,

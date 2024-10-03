@@ -2,17 +2,17 @@ import Button from '~/shared/button'
 import DropdownMenu from '~/shared/dropdown-menu'
 import TextHighlighter from '~/shared/text-highlighter'
 
-import { type Comparison } from '../../../models/comparison'
+import { COMPARISON, type ComparisonKey } from '../../../models/comparison'
 import { type FilterConfig } from '../../../models/filter-config'
-import { type Is } from '../../../models/is-filter'
-import { type Match } from '../../../models/match'
+import { type IsKey } from '../../../models/is-filter'
+import { MATCH, type MatchKey } from '../../../models/match'
 import { useContext } from '../model/context'
 
 /**
  * where-FilterConfigurator-c-DropdownMenuItem-v-Contains
  */
 export function MatchTypeDropdownMenuItem(): JSX.Element {
-  const type = 'match'
+  const type = MATCH.match
 
   return (
     <_TypeDropdownMenuItem
@@ -33,7 +33,7 @@ export function MatchTypeDropdownMenuItem(): JSX.Element {
  * where-FilterConfigurator-c-DropdownMenuItem-v-Contains
  */
 export function ContainsTypeDropdownMenuItem(): JSX.Element {
-  const type = 'contains'
+  const type = MATCH.contains
 
   return (
     <_TypeDropdownMenuItem
@@ -54,7 +54,7 @@ export function ContainsTypeDropdownMenuItem(): JSX.Element {
  * where-FilterConfigurator-c-DropdownMenuItem-v-StartsWith
  */
 export function StartsWithTypeDropdownMenuItem(): JSX.Element {
-  const type = 'startsWith'
+  const type = MATCH.startsWith
 
   return (
     <_TypeDropdownMenuItem
@@ -75,7 +75,7 @@ export function StartsWithTypeDropdownMenuItem(): JSX.Element {
  * where-FilterConfigurator-c-DropdownMenuItem-v-EndsWith
  */
 export function EndsWithTypeDropdownMenuItem(): JSX.Element {
-  const type = 'endsWith'
+  const type = MATCH.endsWith
 
   return (
     <_TypeDropdownMenuItem
@@ -96,7 +96,7 @@ export function EndsWithTypeDropdownMenuItem(): JSX.Element {
  * where-FilterConfigurator-c-DropdownMenuItem-v-Equals
  */
 export function EqualsTypeDropdownMenuItem(): JSX.Element {
-  const type = 'equals'
+  const type = COMPARISON.equals
 
   return (
     <_TypeDropdownMenuItem
@@ -112,7 +112,7 @@ export function EqualsTypeDropdownMenuItem(): JSX.Element {
  * where-FilterConfigurator-c-DropdownMenuItem-v-Gt
  */
 export function GtTypeDropdownMenuItem(): JSX.Element {
-  const type = 'gt'
+  const type = COMPARISON.gt
 
   return (
     <_TypeDropdownMenuItem
@@ -128,7 +128,7 @@ export function GtTypeDropdownMenuItem(): JSX.Element {
  * where-FilterConfigurator-c-DropdownMenuItem-v-Gte
  */
 export function GteTypeDropdownMenuItem(): JSX.Element {
-  const type = 'gte'
+  const type = COMPARISON.gte
 
   return (
     <_TypeDropdownMenuItem
@@ -144,7 +144,7 @@ export function GteTypeDropdownMenuItem(): JSX.Element {
  * where-FilterConfigurator-c-DropdownMenuItem-v-Lt
  */
 export function LtTypeDropdownMenuItem(): JSX.Element {
-  const type = 'lt'
+  const type = COMPARISON.lt
 
   return (
     <_TypeDropdownMenuItem
@@ -160,7 +160,7 @@ export function LtTypeDropdownMenuItem(): JSX.Element {
  * where-FilterConfigurator-c-DropdownMenuItem-v-Lte
  */
 export function LteTypeDropdownMenuItem(): JSX.Element {
-  const type = 'lte'
+  const type = COMPARISON.lte
 
   return (
     <_TypeDropdownMenuItem
@@ -177,7 +177,7 @@ export function LteTypeDropdownMenuItem(): JSX.Element {
  */
 
 interface _TypeDropdownMenuItemProps {
-  type: Comparison | Match | Is
+  type: ComparisonKey | MatchKey | IsKey
   buildFilterConfig: (filterConfig: FilterConfig) => FilterConfig
   label: string
   children: React.ReactNode

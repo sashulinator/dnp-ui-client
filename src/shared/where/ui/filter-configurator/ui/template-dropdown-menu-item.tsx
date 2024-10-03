@@ -3,17 +3,17 @@ import DropdownMenu from '~/shared/dropdown-menu'
 import Icon from '~/shared/icon'
 import TextHighlighter from '~/shared/text-highlighter'
 
-import { type Comparison } from '../../../models/comparison'
+import { type ComparisonKey } from '../../../models/comparison'
 import { type FilterConfig } from '../../../models/filter-config'
-import { type Is } from '../../../models/is-filter'
-import { type Match } from '../../../models/match'
+import { IS, type IsKey } from '../../../models/is-filter'
+import { type MatchKey } from '../../../models/match'
 import { useContext } from '../model/context'
 
 /**
  * template-FilterConfigurator-c-DropdownMenuItem-v-not
  */
 export function NotEmptyTemplateDropdownMenuItem(): JSX.Element {
-  const type = 'not'
+  const type = IS.not
   const value = null
 
   return (
@@ -31,7 +31,7 @@ export function NotEmptyTemplateDropdownMenuItem(): JSX.Element {
  * template-FilterConfigurator-c-DropdownMenuItem-v-not
  */
 export function EmptyTemplateDropdownMenuItem(): JSX.Element {
-  const type = 'is'
+  const type = IS.is
   const value = null
 
   return (
@@ -49,7 +49,7 @@ export function EmptyTemplateDropdownMenuItem(): JSX.Element {
  * Private
  */
 interface _TemplateDropdownMenuItemProps {
-  type: Comparison | Match | Is
+  type: ComparisonKey | MatchKey | IsKey
   buildFilterConfig: (filterConfig: FilterConfig) => FilterConfig
   label: string
   value: unknown

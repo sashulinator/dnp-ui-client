@@ -9,6 +9,7 @@ import { type Sort, SortButton } from '~/shared/sort'
 import Text from '~/shared/text'
 import { FilterConfigurator, type IntFilter, type IsFilter, type StringFilter, toFilterConfig } from '~/shared/where'
 import { type SetterOrUpdater, assertDefined } from '~/utils/core'
+import { omit } from '~/utils/dictionary'
 
 export type Context = {
   sort: Sort | undefined
@@ -64,23 +65,28 @@ function _HeaderCell<T extends string>({ accessorKey, context, name }: _HeaderPr
           context?.setSearchFilter((s) => ({ ...s, [accessorKey]: toFilter(filterConfig) }))
         }}
       >
-        <FilterConfigurator.Input placeholder={name} style={{ width: '100%' }} />
+        <Flex width='100%'>
+          <FilterConfigurator.Input placeholder={name} style={{ width: '100%' }} />
+        </Flex>
 
         <DropdownMenu.Root>
           <DropdownMenu.Trigger>
-            <Button square={true} size='1' variant='ghost'>
-              <Icon name='DotsVertical' />
+            <Button color={searchFilter ? 'amber' : 'gray'} square={true} size='1' variant='ghost'>
+              <Icon name='Filter' />
             </Button>
           </DropdownMenu.Trigger>
           <DropdownMenu.Content>
             <DropdownMenu.Label>
               <Text size='2'>Поиск</Text>
             </DropdownMenu.Label>
+            <FilterConfigurator.ClearDropdownMenuItem
+              onClick={() => context?.setSearchFilter((s) => omit(s, accessorKey))}
+            />
+            <FilterConfigurator.NotModeDropdownMenuItem />
             <DropdownMenu.Label>
               <Text size='1'>Строковый</Text>
             </DropdownMenu.Label>
             <FilterConfigurator.CaseSensitiveModeDropdownMenuItem />
-            <FilterConfigurator.NotModeDropdownMenuItem />
             <FilterConfigurator.StartsWithTypeDropdownMenuItem />
             <FilterConfigurator.EndsWithTypeDropdownMenuItem />
             <FilterConfigurator.ContainsTypeDropdownMenuItem />
@@ -99,12 +105,9 @@ function _HeaderCell<T extends string>({ accessorKey, context, name }: _HeaderPr
             <FilterConfigurator.EmptyTemplateDropdownMenuItem />
             <FilterConfigurator.NotEmptyTemplateDropdownMenuItem />
             <DropdownMenu.Separator />
-            <DropdownMenu.Label>
-              <Text size='2'>Нормализация</Text>
-            </DropdownMenu.Label>
-            <DropdownMenu.Item onClick={() => alert('Не имплементированно!')}>Запуск по колонке</DropdownMenu.Item>
           </DropdownMenu.Content>
         </DropdownMenu.Root>
+
         <SortButton
           size='1'
           round={true}
@@ -113,6 +116,16 @@ function _HeaderCell<T extends string>({ accessorKey, context, name }: _HeaderPr
           value={sortValue}
         />
       </FilterConfigurator.Root>
+      <DropdownMenu.Root>
+        <DropdownMenu.Trigger>
+          <Button square={true} size='1' variant='ghost'>
+            <Icon name='DotsVertical' />
+          </Button>
+        </DropdownMenu.Trigger>
+        <DropdownMenu.Content>
+          <DropdownMenu.Item onClick={() => alert('Не имплементированно!')}>Нормализация по колонке</DropdownMenu.Item>
+        </DropdownMenu.Content>
+      </DropdownMenu.Root>
     </Flex>
   )
 }
