@@ -2,11 +2,11 @@ import './item.scss'
 
 import dayjs from 'dayjs'
 
+import { routes } from '~/app/route'
 import Avatar from '~/shared/avatar'
 import Card from '~/shared/card'
 import Flex from '~/shared/flex'
 import Link from '~/shared/link'
-import { routeMap } from '~/shared/route'
 import Separator from '~/shared/separator'
 import Text from '~/shared/text'
 import TextHighlighter from '~/shared/text-highlighter'
@@ -31,7 +31,7 @@ export default function Component(props: Props): JSX.Element {
   return (
     <Flex justify='between' direction='row' asChild={true}>
       <Card asChild={true} className={c(displayName, className)}>
-        <Link to={`${routeMap.operationalTables_kn.getUrl(item.kn)}`}>
+        <Link to={`${routes.operationalTables_kn.getUrl(item.kn)}`}>
           <Flex direction='column'>
             <TextHighlighter tooltipContent='Название конфига нормализации'>{item.name}</TextHighlighter>
             <Text style={{ marginLeft: 'var(--space-1)' }} color='gray' size='2'>

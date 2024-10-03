@@ -2,6 +2,7 @@ import { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { safeParse } from 'valibot'
 
+import { routes } from '~/app/route'
 import {
   Form,
   FormValues,
@@ -19,7 +20,6 @@ import Flex from '~/shared/flex'
 import FForm, { toNestedErrors, useCreateForm } from '~/shared/form'
 import Heading from '~/shared/heading'
 import { notify } from '~/shared/notification-list-store'
-import { routeMap } from '~/shared/route'
 import Section from '~/shared/section'
 import TextHighlighter from '~/shared/text-highlighter'
 import Tooltip from '~/shared/tooltip'
@@ -57,7 +57,7 @@ export default function Component(): JSX.Element {
     onSuccess: (data) => {
       notify({ title: 'Создано', type: 'success' })
       getByKn.setCache({ kn: data.data.kn }, data.data)
-      navigate(routeMap.storeConfigs_kn.getUrl(data.data.kn))
+      navigate(routes.storeConfigs_kn.getUrl(data.data.kn))
     },
     onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
   })
@@ -69,7 +69,7 @@ export default function Component(): JSX.Element {
       <Container p='var(--space-4)'>
         <Section size='1'>
           <Heading>
-            {routeMap.storeConfigs_create.getName()}{' '}
+            {routes.storeConfigs_create.getName()}{' '}
             {values.kn && <TextHighlighter tooltipContent='Название'>{values.kn}</TextHighlighter>}{' '}
           </Heading>
         </Section>

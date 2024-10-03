@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { NumberParam, StringParam, withDefault } from 'serialize-query-params'
 import { useQueryParam, useQueryParams } from 'use-query-params'
 
+import { routes } from '~/app/route'
 import { ExplorerViewer, type Row, SYSNAME, api } from '~/entities/operational-table'
 import { ImportOperationalTableModal } from '~/entities/operational-table/ui/import-modal'
 import { getRole } from '~/entities/user'
@@ -18,7 +19,6 @@ import { type FormApi, useCreateForm } from '~/shared/form'
 import FForm from '~/shared/form'
 import { notify } from '~/shared/notification-list-store'
 import { Heading, Pagination } from '~/shared/page'
-import { routeMap } from '~/shared/route'
 import ScrollArea from '~/shared/scroll-area'
 import { useSearch } from '~/shared/search'
 import Section from '~/shared/section'
@@ -199,14 +199,14 @@ export default function Component(): JSX.Element {
             <Flex width='100%' justify='between'>
               <Heading.Root
                 loading={explorerListFetcher.isFetching}
-                route={routeMap.operationalTables_kn_explorer}
-                backRoute={routeMap.operationalTables}
-                renderIcon={routeMap.operationalTables.renderIcon}
+                route={routes.operationalTables_kn_explorer}
+                backRoute={routes.operationalTables}
+                renderIcon={routes.operationalTables.payload.renderIcon}
               >
                 <Heading.BackToParent />
                 <Heading.Unique
                   string={explorerListFetcher.data?.operationalTable.name ?? nameQueryParam}
-                  tooltipContent={routeMap.operationalTables_kn_explorer.getName()}
+                  tooltipContent={routes.operationalTables_kn_explorer.getName()}
                 />
               </Heading.Root>
               <Flex gapX='12px'>

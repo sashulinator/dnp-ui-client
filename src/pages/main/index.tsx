@@ -1,5 +1,6 @@
 import React, { createElement } from 'react'
 
+import { type AppRoute, routes } from '~/app/route'
 import { getRole } from '~/entities/user'
 import Button from '~/shared/button'
 import Card from '~/shared/card'
@@ -7,7 +8,6 @@ import Container from '~/shared/container'
 import Flex from '~/shared/flex'
 import Link from '~/shared/link'
 import { Heading } from '~/shared/page'
-import { type Route, routeMap } from '~/shared/route'
 import Section from '~/shared/section'
 
 export interface Props {
@@ -22,9 +22,9 @@ const displayName = 'page-Main'
 export default function Component(): JSX.Element {
   const role = getRole() || ''
 
-  const navigatables = Object.entries(routeMap).filter(([, route]) => {
-    if (!(route as Route).rolesAllowed) return route.navigatable
-    return (route as Route).rolesAllowed?.includes(role) && route.navigatable
+  const navigatables = Object.entries(routes).filter(([, route]) => {
+    if (!(route as AppRoute).payload.rolesAllowed) return route.payload.navigatable
+    return (route as AppRoute).payload.rolesAllowed?.includes(role) && route.payload.navigatable
   })
 
   return (
@@ -33,12 +33,12 @@ export default function Component(): JSX.Element {
         <Section size='1'>
           <Heading.Root
             loading={false}
-            route={routeMap.main}
-            backRoute={routeMap.main}
-            renderIcon={routeMap.main.renderIcon}
+            route={routes.main}
+            backRoute={routes.main}
+            renderIcon={routes.main.payload.renderIcon}
           >
             <Button variant='outline' square={true} style={{ marginRight: 'var(--space-4)' }}>
-              {React.createElement(routeMap.main.renderIcon)}
+              {React.createElement(routes.main.payload.renderIcon)}
             </Button>
             <Heading.Name />
           </Heading.Root>
@@ -54,7 +54,7 @@ export default function Component(): JSX.Element {
                       <Flex>
                         <Button variant='soft' square={true}>
                           {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                          {createElement((route as any).renderIcon)}
+                          {createElement((route as any).payload.renderIcon)}
                         </Button>
                       </Flex>
                       <Flex>{route.getName()}</Flex>

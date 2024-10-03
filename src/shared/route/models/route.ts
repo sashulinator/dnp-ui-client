@@ -1,4 +1,6 @@
-export type Route = {
+import { type Dictionary } from '~/utils/core'
+
+export type Route<TPayload extends Dictionary = Dictionary, TContext extends Dictionary = Dictionary> = {
   /**
    * Путь
    */
@@ -16,35 +18,17 @@ export type Route = {
   getUrl: (...args: any[]) => string
 
   /**
-   * Компонент Main
+   * Компонент
    */
-  renderMain: () => React.ReactNode
+  render: (props: { route: Route<TPayload>; context: TContext }) => React.ReactNode
 
   /**
-   * Компонент Header
+   * Будут переданы в render как props
    */
-  renderHeader?: () => React.ReactNode
+  payload: TPayload
 
   /**
-   * Компонент Nav
+   * Можно использовать как защиту
    */
-  renderNav?: () => React.ReactNode
-
-  /**
-   * Иконка которую обычно можно видеть в Nav
-   */
-  renderIcon?: (props: React.SVGAttributes<SVGSVGElement>) => React.ReactNode
-
-  /**
-   * Отображать ли в Nav
-   */
-  navigatable?: boolean | undefined
-
-  /**
-   * Конфигурация для корневого layout
-   * @default '-configuration--app'
-   */
-  layoutConfiguration?: string | undefined
-
-  rolesAllowed?: string[]
+  redirect?: (props: { route: Route<TPayload>; context: TContext }) => { url: string } | undefined
 }

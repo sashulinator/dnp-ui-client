@@ -1,11 +1,11 @@
 import './item.scss'
 
+import { routes } from '~/app/route'
 import { querify } from '~/shared/api'
 import Badge from '~/shared/badge'
 import Card from '~/shared/card'
 import Flex from '~/shared/flex'
 import Link from '~/shared/link'
-import { routeMap } from '~/shared/route'
 import TextHighlighter from '~/shared/text-highlighter'
 import { c } from '~/utils/core'
 
@@ -27,7 +27,7 @@ export default function Component(props: Props): JSX.Element {
   return (
     <Card key={item.name} asChild={true} className={c(displayName, className)}>
       <Flex justify='between' asChild>
-        <Link to={`${routeMap.normalizationConfigs_id.getUrl(item.id)}${querify({ name: item.name })}`}>
+        <Link to={`${routes.normalizationConfigs_id.getUrl(item.id)}${querify({ name: item.name })}`}>
           <Flex gap='2'>
             <TextHighlighter tooltipContent='Название'>{item.name}</TextHighlighter>
             <TextHighlighter tooltipContent='Версия' color='yellow'>

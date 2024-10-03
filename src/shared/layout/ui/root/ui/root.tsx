@@ -2,7 +2,7 @@ import './root.scss'
 
 import { createElement } from 'react'
 
-import { type Route } from '~/shared/route'
+import { type AppRoute } from '~/app/route'
 import ScrollArea from '~/shared/scroll-area'
 import { c } from '~/utils/core'
 
@@ -10,7 +10,7 @@ import { _buildElementsModificator } from '../lib/_build-elements-modificator'
 
 export interface Props {
   className?: string | undefined
-  route: Route
+  route: AppRoute
 }
 
 const displayName = 'ui-Layout-v-Root'
@@ -26,9 +26,9 @@ export default function Component(props: Props): JSX.Element {
   return (
     <ScrollArea scrollbars='vertical'>
       <div className={c(displayName, layoutConfiguration, _buildElementsModificator(route))}>
-        {route?.renderHeader && createElement(route.renderHeader)}
-        {route?.renderNav && createElement(route.renderNav)}
-        {createElement(route.renderMain)}
+        {route?.payload.renderHeader && createElement(route.payload.renderHeader)}
+        {route?.payload.renderNav && createElement(route.payload.renderNav)}
+        {createElement(route.render)}
       </div>
     </ScrollArea>
   )

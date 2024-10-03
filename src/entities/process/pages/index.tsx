@@ -1,12 +1,12 @@
 import { NumberParam, withDefault } from 'serialize-query-params'
 import { useQueryParams } from 'use-query-params'
 
+import { routes } from '~/app/route'
 import { Item, fetchList } from '~/entities/process'
 import Container from '~/shared/container'
 import Flex from '~/shared/flex'
 import Heading from '~/shared/heading'
 import { Pagination } from '~/shared/page'
-import { routeMap } from '~/shared/route'
 import Section from '~/shared/section'
 
 export interface Props {
@@ -29,7 +29,7 @@ export default function Component(): JSX.Element {
     <main className={displayName}>
       <Container p='var(--space-4)'>
         <Section size='1'>
-          <Heading>{routeMap.processes.getName()}</Heading>
+          <Heading>{routes.processes.getName()}</Heading>
         </Section>
         <Section size='1'>
           <Pagination

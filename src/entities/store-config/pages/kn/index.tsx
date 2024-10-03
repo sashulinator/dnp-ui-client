@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { safeParse } from 'valibot'
 
+import { routes } from '~/app/route'
 import {
   Form,
   type FormValues,
@@ -19,7 +20,6 @@ import Flex from '~/shared/flex'
 import FForm, { toNestedErrors, useCreateForm } from '~/shared/form'
 import Heading from '~/shared/heading'
 import { notify } from '~/shared/notification-list-store'
-import { routeMap } from '~/shared/route'
 import Section from '~/shared/section'
 import Spinner from '~/shared/spinner'
 import TextHighlighter from '~/shared/text-highlighter'
@@ -100,7 +100,7 @@ export default function Component(): JSX.Element {
         {!fetcher.isError && (
           <Section size='1'>
             <Heading>
-              {routeMap.storeConfigs_kn.getName()}{' '}
+              {routes.storeConfigs_kn.getName()}{' '}
               {values.kn && <TextHighlighter tooltipContent='Название'>{values.kn}</TextHighlighter>}{' '}
             </Heading>
           </Section>

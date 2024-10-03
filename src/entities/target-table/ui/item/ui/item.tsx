@@ -1,9 +1,9 @@
 import './item.scss'
 
+import { routes } from '~/app/route'
 import Card from '~/shared/card'
 import Flex from '~/shared/flex'
 import Link from '~/shared/link'
-import { routeMap } from '~/shared/route'
 import TextHighlighter from '~/shared/text-highlighter'
 import { c } from '~/utils/core'
 
@@ -25,7 +25,7 @@ export default function Component(props: Props): JSX.Element {
   return (
     <Flex justify='between' direction='row' asChild={true}>
       <Card key={item.kn} asChild={true} className={c(displayName, className)}>
-        <Link to={`${routeMap.targetTables_kn.getUrl(item.kn)}`}>
+        <Link to={`${routes.targetTables_kn.getUrl(item.kn)}`}>
           <Flex gap='2'>
             <TextHighlighter tooltipContent='Название'>{item.kn}</TextHighlighter>
           </Flex>

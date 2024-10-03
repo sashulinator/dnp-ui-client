@@ -1,5 +1,6 @@
 import { NumberParam, useQueryParams, withDefault } from 'use-query-params'
 
+import { routes } from '~/app/route'
 import { Item, fetchList } from '~/entities/normalization-config'
 import { getRole, roles } from '~/entities/user'
 import Button from '~/shared/button'
@@ -8,7 +9,6 @@ import Flex from '~/shared/flex'
 import Heading from '~/shared/heading'
 import Link from '~/shared/link'
 import { Pagination } from '~/shared/page'
-import { routeMap } from '~/shared/route'
 import Section from '~/shared/section'
 
 export interface Props {
@@ -38,10 +38,10 @@ export default function Page(): JSX.Element {
       <Container p='var(--space-4)'>
         <Section size='1'>
           <Flex width='100%' justify='between'>
-            <Heading>{routeMap.normalizationConfigs.getName()}</Heading>
+            <Heading>{routes.normalizationConfigs.getName()}</Heading>
             {isAdmin && (
               <Button size='1' asChild>
-                <Link to={routeMap.normalizationConfigs_create.getUrl()}>Создать</Link>
+                <Link to={routes.normalizationConfigs_create.getUrl()}>Создать</Link>
               </Button>
             )}
           </Flex>

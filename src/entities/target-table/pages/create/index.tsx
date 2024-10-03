@@ -2,6 +2,7 @@ import { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { safeParse } from 'valibot'
 
+import { routes } from '~/app/route'
 import type { FormValues } from '~/entities/target-table'
 import {
   Form,
@@ -19,7 +20,6 @@ import FForm, { toNestedErrors, useCreateForm } from '~/shared/form'
 import { notify } from '~/shared/notification-list-store'
 import { Heading } from '~/shared/page'
 import { queryClient } from '~/shared/react-query'
-import { routeMap } from '~/shared/route'
 import Section from '~/shared/section'
 import Separator from '~/shared/separator'
 import Tooltip from '~/shared/tooltip'
@@ -59,7 +59,7 @@ export default function Component(): JSX.Element {
     onSuccess: (data) => {
       notify({ title: 'Создано', type: 'success' })
       api.getByKn.setCache({ kn: data.data.kn }, data.data)
-      navigate(routeMap.targetTables_kn.getUrl(data.data.kn))
+      navigate(routes.targetTables_kn.getUrl(data.data.kn))
       // 👷 TODO убрать когда навигация будет настраиваться отдельно
       queryClient.invalidateQueries('oper')
     },
@@ -74,9 +74,9 @@ export default function Component(): JSX.Element {
         <Section size='1'>
           <Heading.Root
             loading={false}
-            route={routeMap.targetTables_create}
-            backRoute={routeMap.targetTables}
-            renderIcon={routeMap.targetTables.renderIcon}
+            route={routes.targetTables_create}
+            backRoute={routes.targetTables}
+            renderIcon={routes.targetTables.payload.renderIcon}
           >
             <Heading.BackToParent />
             <Heading.Name />

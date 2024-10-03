@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom'
 import { safeParse } from 'valibot'
 
+import { routes } from '~/app/route'
 import {
   Form,
   type FormValues,
@@ -18,7 +19,6 @@ import UiForm, { toNestedErrors, useCreateForm } from '~/shared/form'
 import { notify } from '~/shared/notification-list-store'
 import { Heading } from '~/shared/page'
 import { queryClient } from '~/shared/react-query'
-import { routeMap } from '~/shared/route'
 import Section from '~/shared/section'
 import Separator from '~/shared/separator'
 import Tooltip from '~/shared/tooltip'
@@ -89,9 +89,9 @@ export default function Component(): JSX.Element {
           <Section size='1'>
             <Heading.Root
               loading={fetcher.isFetching}
-              route={routeMap.targetTables_kn}
-              backRoute={routeMap.targetTables}
-              renderIcon={routeMap.targetTables.renderIcon}
+              route={routes.targetTables_kn}
+              backRoute={routes.targetTables}
+              renderIcon={routes.targetTables.payload.renderIcon}
             >
               <Heading.BackToParent />
               <Heading.Name />

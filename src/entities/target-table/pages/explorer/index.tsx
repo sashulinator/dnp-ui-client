@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { NumberParam, StringParam, withDefault } from 'serialize-query-params'
 import { useQueryParam, useQueryParams } from 'use-query-params'
 
+import { routes } from '~/app/route'
 import { ExplorerViewer, type Row, SYSNAME, api } from '~/entities/target-table'
 import { getRole } from '~/entities/user'
 import Button from '~/shared/button'
@@ -13,7 +14,6 @@ import Flex from '~/shared/flex'
 import FForm, { type FormApi, useCreateForm } from '~/shared/form'
 import { notify } from '~/shared/notification-list-store'
 import { Heading, Pagination } from '~/shared/page'
-import { routeMap } from '~/shared/route'
 import ScrollArea from '~/shared/scroll-area'
 import { useSearch } from '~/shared/search'
 import Section from '~/shared/section'
@@ -130,14 +130,14 @@ export default function Component(): JSX.Element {
             <Flex width='100%' justify='between'>
               <Heading.Root
                 loading={explorerListFetcher.isFetching}
-                route={routeMap.targetTables_kn_explorer}
-                backRoute={routeMap.targetTables}
-                renderIcon={routeMap.targetTables.renderIcon}
+                route={routes.targetTables_kn_explorer}
+                backRoute={routes.targetTables}
+                renderIcon={routes.targetTables.payload.renderIcon}
               >
                 <Heading.BackToParent />
                 <Heading.Unique
                   string={explorerListFetcher.data?.targetTable.name ?? nameQueryParam}
-                  tooltipContent={routeMap.targetTables_kn_explorer.getName()}
+                  tooltipContent={routes.targetTables_kn_explorer.getName()}
                 />
               </Heading.Root>
               <Button onClick={() => formToCreate.initialize({ _status: '0' })}>Создать</Button>

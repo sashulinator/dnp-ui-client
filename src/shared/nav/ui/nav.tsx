@@ -4,6 +4,7 @@ import { createElement } from 'react'
 import { useQuery } from 'react-query'
 import { Link, useLocation } from 'react-router-dom'
 
+import { type AppRoute, routes } from '~/app/route'
 import { api as dictionaryApi } from '~/entities/dictionary-table'
 import { api } from '~/entities/operational-table'
 import { getRole } from '~/entities/user'
@@ -11,7 +12,7 @@ import Button from '~/shared/button'
 import Flex from '~/shared/flex'
 import Icon, { map as iconMap } from '~/shared/icon'
 import Logo from '~/shared/logo-icon'
-import { type Route, getCurrent, routeMap } from '~/shared/route'
+import { getCurrent } from '~/shared/route'
 import Separator from '~/shared/separator'
 import Tooltip from '~/shared/tooltip'
 import { c } from '~/utils/core'
@@ -41,12 +42,12 @@ export default function Component(): JSX.Element {
   const role = getRole() || ''
 
   const location = useLocation()
-  const navigatables = Object.entries(routeMap).filter(([, route]) => {
-    if (!(route as Route).rolesAllowed) return route.navigatable
-    return (route as Route).rolesAllowed?.includes(role) && route.navigatable
+  const navigatables = Object.entries(routes).filter(([, route]) => {
+    if (!(route as AppRoute).payload.rolesAllowed) return route.payload.navigatable
+    return (route as AppRoute).payload.rolesAllowed?.includes(role) && route.payload.navigatable
   })
 
-  const current = getCurrent(`/${location.pathname.split('/')[1]}`)
+  const current = getCurrent(routes, `/${location.pathname.split('/')[1]}`)
   const currentOper = location.pathname.split('/')[2]
   const isExplorer = location.pathname.split('/')[3] === 'explorer'
 
@@ -54,7 +55,7 @@ export default function Component(): JSX.Element {
     <nav className={c(displayName)}>
       <Flex className='logo' align='center' justify='center'>
         <Button variant='outline' size='2' square={true} asChild>
-          <Link to={routeMap.main.getUrl()}>
+          <Link to={routes.main.getUrl()}>
             <Logo height='1rem' width='2rem' />
           </Link>
         </Button>
@@ -69,7 +70,7 @@ export default function Component(): JSX.Element {
               <Link to={(route.getUrl as any)()}>
                 <Button size='2' square={true} variant={isCurrent ? 'solid' : 'soft'}>
                   {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                  {createElement((route as any).renderIcon)}
+                  {createElement((route as any).payload.renderIcon)}
                 </Button>
               </Link>
             </Tooltip>
@@ -87,7 +88,7 @@ export default function Component(): JSX.Element {
               return (
                 <Tooltip side='right' key={operationalTable.kn} content={operationalTable.name}>
                   <Link
-                    to={routeMap.operationalTables_kn_explorer.getUrl(operationalTable.kn, {
+                    to={routes.operationalTables_kn_explorer.getUrl(operationalTable.kn, {
                       name: operationalTable.name,
                     })}
                   >
@@ -116,7 +117,7 @@ export default function Component(): JSX.Element {
               return (
                 <Tooltip side='right' key={dictionaryTable.kn} content={dictionaryTable.name}>
                   <Link
-                    to={routeMap.dictionaryTables_kn_explorer.getUrl(dictionaryTable.kn, {
+                    to={routes.dictionaryTables_kn_explorer.getUrl(dictionaryTable.kn, {
                       name: dictionaryTable.name,
                     })}
                   >

@@ -10,16 +10,11 @@
       "  className?: string | undefined",
       "}",
       "",
-      "export const NAME = '$1'",
+      "Component.displayName = '$1'",
       "",
-      "/**",
-      " * $1",
-      " */",
       "export default function Component(props: Props): JSX.Element {",
       "  return <div className={c(props.className, NAME)}>$1</div>",
       "}",
-      "",
-      "Component.displayName = NAME",
       ""
     ]
   },
@@ -30,7 +25,7 @@
     "body": [
       "import { type Story, type Props } from '~/ui/storybook'",
       "",
-      "import $1, { NAME } from '../'",
+      "import $1, from '../'",
       "",
       "interface State {",
       "  //",
@@ -62,7 +57,7 @@
       "    // { name: 'name', input: 'checkbox', defaultValue: false },",
       "  ],",
       "",
-      "  getName: (): string => NAME,",
+      "  getName: (): string => $1.displayName,",
       "} satisfies Story<State>",
       "",
     ]

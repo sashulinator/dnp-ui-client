@@ -1,8 +1,8 @@
 import { Container, Flex, Heading, Section, Select } from '@radix-ui/themes'
 
+import { routes } from '~/app/route'
 import { type Role, roles } from '~/entities/user'
 import { getRole, setRole } from '~/entities/user/lib'
-import { routeMap } from '~/shared/route'
 
 const displayName = 'page-Admin'
 
@@ -13,7 +13,7 @@ export default function AdminPage(): JSX.Element {
     <main className={displayName}>
       <Container p='var(--space-4)'>
         <Section size='1'>
-          <Heading>{routeMap.admin.getName()}</Heading>
+          <Heading>{routes.admin.getName()}</Heading>
           <Section size='1'>
             <Flex gap='4' direction={'column'}>
               <Select.Root

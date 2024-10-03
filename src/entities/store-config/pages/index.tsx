@@ -1,6 +1,7 @@
 import { NumberParam, withDefault } from 'serialize-query-params'
 import { useQueryParams } from 'use-query-params'
 
+import { routes } from '~/app/route'
 import { Item, fetchList } from '~/entities/store-config'
 import Button from '~/shared/button'
 import Container from '~/shared/container'
@@ -8,7 +9,6 @@ import Flex from '~/shared/flex'
 import Heading from '~/shared/heading'
 import Link from '~/shared/link'
 import { Pagination } from '~/shared/page'
-import { routeMap } from '~/shared/route'
 import Section from '~/shared/section'
 
 export interface Props {
@@ -33,9 +33,9 @@ export default function Component(): JSX.Element {
       <Container p='var(--space-4)'>
         <Section size='1'>
           <Flex width='100%' justify='between'>
-            <Heading>{routeMap.storeConfigs.getName()}</Heading>
+            <Heading>{routes.storeConfigs.getName()}</Heading>
             <Button size='1' asChild>
-              <Link to={routeMap.storeConfigs_create.getUrl()}>Создать</Link>
+              <Link to={routes.storeConfigs_create.getUrl()}>Создать</Link>
             </Button>
           </Flex>
         </Section>

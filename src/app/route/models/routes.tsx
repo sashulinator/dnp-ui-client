@@ -26,7 +26,7 @@ import TargetTable from '~/entities/target-table/pages'
 import TargetTable_create from '~/entities/target-table/pages/create'
 import TargetTable_kn_explorer from '~/entities/target-table/pages/explorer'
 import TargetTable_kn from '~/entities/target-table/pages/kn'
-import { roles } from '~/entities/user'
+import { getRole, roles } from '~/entities/user'
 import Admin from '~/pages/admin'
 import Header from '~/shared/header'
 import Icon from '~/shared/icon'
@@ -34,24 +34,26 @@ import Logo from '~/shared/logo-icon'
 import Nav from '~/shared/nav'
 import { isDev } from '~/utils/core'
 
-import { type Route } from '..'
 import Main from '../../../pages/main'
+import { type AppRoute } from './app-route'
 
 // eslint-disable-next-line react-refresh/only-export-components
 const Storybook = lazy(() => import('../../../pages/storybook/index'))
 
-export const routeMap = {
+export const routes = {
   main: {
     getName: (): string => 'НСИ',
     getPath: () => '/',
     getUrl(): string {
       return this.getPath()
     },
-    renderMain: Main,
-    renderHeader: Header,
-    renderNav: Nav,
-    navigatable: false,
-    renderIcon: Logo,
+    render: Main,
+    payload: {
+      renderHeader: Header,
+      renderNav: Nav,
+      renderIcon: Logo,
+      navigatable: false,
+    },
   },
 
   /**
@@ -60,29 +62,35 @@ export const routeMap = {
 
   normalizationConfigs: {
     getName: (): string => 'Нормализации',
-    getPath: () => '/normalization-configs',
+    getPath: (): string => '/normalization-configs',
     getUrl() {
       return this.getPath()
     },
-    renderMain: NormalizationConfigs,
-    renderHeader: Header,
-    renderNav: Nav,
-    navigatable: true,
-    renderIcon: NormalizationConfigIcon,
-    rolesAllowed: [roles.Admin, roles.Operator],
+    render: NormalizationConfigs,
+    redirect: _protectByRole,
+    payload: {
+      renderHeader: Header,
+      renderNav: Nav,
+      renderIcon: NormalizationConfigIcon,
+      navigatable: true,
+      rolesAllowed: [roles.Admin, roles.Operator],
+    },
   },
 
   normalizationConfigs_create: {
     getName: (): string => 'Создать Нормализацию',
-    getPath: () => '/normalization-configs/create',
+    getPath: (): string => `${routes.normalizationConfigs.getPath()}/create`,
     getUrl() {
       return this.getPath()
     },
-    renderMain: NormalizationConfigs_create,
-    renderHeader: Header,
-    renderNav: Nav,
-    navigatable: false,
-    rolesAllowed: [roles.Admin, roles.Operator],
+    render: NormalizationConfigs_create,
+    redirect: _protectByRole,
+    payload: {
+      renderHeader: Header,
+      renderNav: Nav,
+      navigatable: false,
+      rolesAllowed: [roles.Admin, roles.Operator],
+    },
   },
 
   normalizationConfigs_id: {
@@ -91,11 +99,14 @@ export const routeMap = {
     getUrl(id: string) {
       return this.getPath().replace(':id', id)
     },
-    renderMain: NormalizationConfigs_id,
-    renderHeader: Header,
-    renderNav: Nav,
-    navigatable: false,
-    rolesAllowed: [roles.Admin, roles.Operator],
+    render: NormalizationConfigs_id,
+    redirect: _protectByRole,
+    payload: {
+      renderHeader: Header,
+      renderNav: Nav,
+      navigatable: false,
+      rolesAllowed: [roles.Admin, roles.Operator],
+    },
   },
 
   /**
@@ -108,11 +119,13 @@ export const routeMap = {
     getUrl() {
       return this.getPath()
     },
-    renderMain: DictionaryTable,
-    renderHeader: Header,
-    renderNav: Nav,
-    navigatable: true,
-    renderIcon: DictionaryTableIcon,
+    render: DictionaryTable,
+    payload: {
+      renderHeader: Header,
+      renderNav: Nav,
+      navigatable: true,
+      renderIcon: DictionaryTableIcon,
+    },
   },
 
   dictionaryTables_create: {
@@ -121,10 +134,12 @@ export const routeMap = {
     getUrl() {
       return this.getPath()
     },
-    renderMain: DictionaryTable_create,
-    renderHeader: Header,
-    renderNav: Nav,
-    navigatable: false,
+    render: DictionaryTable_create,
+    payload: {
+      renderHeader: Header,
+      renderNav: Nav,
+      navigatable: false,
+    },
   },
 
   dictionaryTables_kn_explorer: {
@@ -133,10 +148,12 @@ export const routeMap = {
     getUrl(kn: string, params?: { name: string } | undefined) {
       return `${this.getPath().replace(':kn', kn)}${qs.stringify(params, { addQueryPrefix: true })}`
     },
-    renderMain: DictionaryTable_kn_explorer,
-    renderHeader: Header,
-    renderNav: Nav,
-    navigatable: false,
+    render: DictionaryTable_kn_explorer,
+    payload: {
+      renderHeader: Header,
+      renderNav: Nav,
+      navigatable: false,
+    },
   },
 
   dictionaryTables_kn: {
@@ -145,10 +162,12 @@ export const routeMap = {
     getUrl(kn: string) {
       return this.getPath().replace(':kn', kn)
     },
-    renderMain: DictionaryTable_kn,
-    renderHeader: Header,
-    renderNav: Nav,
-    navigatable: false,
+    render: DictionaryTable_kn,
+    payload: {
+      renderHeader: Header,
+      renderNav: Nav,
+      navigatable: false,
+    },
   },
 
   /**
@@ -161,11 +180,13 @@ export const routeMap = {
     getUrl() {
       return this.getPath()
     },
-    renderMain: OperationalTable,
-    renderHeader: Header,
-    renderNav: Nav,
-    navigatable: true,
-    renderIcon: OperationalTableIcon,
+    render: OperationalTable,
+    payload: {
+      renderHeader: Header,
+      renderNav: Nav,
+      navigatable: true,
+      renderIcon: OperationalTableIcon,
+    },
   },
 
   operationalTables_create: {
@@ -174,10 +195,12 @@ export const routeMap = {
     getUrl() {
       return this.getPath()
     },
-    renderMain: OperationalTable_create,
-    renderHeader: Header,
-    renderNav: Nav,
-    navigatable: false,
+    render: OperationalTable_create,
+    payload: {
+      renderHeader: Header,
+      renderNav: Nav,
+      navigatable: false,
+    },
   },
 
   operationalTables_kn_explorer: {
@@ -186,10 +209,12 @@ export const routeMap = {
     getUrl(kn: string, params?: { name: string } | undefined) {
       return `${this.getPath().replace(':kn', kn)}${qs.stringify(params, { addQueryPrefix: true })}`
     },
-    renderMain: OperationalTable_kn_explorer,
-    renderHeader: Header,
-    renderNav: Nav,
-    navigatable: false,
+    render: OperationalTable_kn_explorer,
+    payload: {
+      renderHeader: Header,
+      renderNav: Nav,
+      navigatable: false,
+    },
   },
 
   operationalTables_kn: {
@@ -198,10 +223,12 @@ export const routeMap = {
     getUrl(kn: string) {
       return this.getPath().replace(':kn', kn)
     },
-    renderMain: OperationalTable_kn,
-    renderHeader: Header,
-    renderNav: Nav,
-    navigatable: false,
+    render: OperationalTable_kn,
+    payload: {
+      renderHeader: Header,
+      renderNav: Nav,
+      navigatable: false,
+    },
   },
 
   /**
@@ -214,12 +241,15 @@ export const routeMap = {
     getUrl() {
       return this.getPath()
     },
-    renderMain: Processes,
-    renderHeader: Header,
-    renderNav: Nav,
-    navigatable: true,
-    renderIcon: ProcessIcon,
-    rolesAllowed: [roles.Admin, roles.Operator],
+    render: Processes,
+    redirect: _protectByRole,
+    payload: {
+      renderHeader: Header,
+      renderNav: Nav,
+      navigatable: true,
+      renderIcon: ProcessIcon,
+      rolesAllowed: [roles.Admin, roles.Operator],
+    },
   },
 
   /**
@@ -232,12 +262,15 @@ export const routeMap = {
     getUrl() {
       return this.getPath()
     },
-    renderMain: StoreConfigs,
-    renderHeader: Header,
-    renderNav: Nav,
-    navigatable: true,
-    renderIcon: StoreConfigIcon,
-    rolesAllowed: [roles.Admin],
+    render: StoreConfigs,
+    redirect: _protectByRole,
+    payload: {
+      renderHeader: Header,
+      renderNav: Nav,
+      navigatable: true,
+      renderIcon: StoreConfigIcon,
+      rolesAllowed: [roles.Admin],
+    },
   },
 
   storeConfigs_create: {
@@ -246,11 +279,14 @@ export const routeMap = {
     getUrl() {
       return this.getPath()
     },
-    renderMain: StoreConfigs_create,
-    renderHeader: Header,
-    renderNav: Nav,
-    navigatable: false,
-    rolesAllowed: [roles.Admin],
+    render: StoreConfigs_create,
+    redirect: _protectByRole,
+    payload: {
+      renderHeader: Header,
+      renderNav: Nav,
+      navigatable: false,
+      rolesAllowed: [roles.Admin],
+    },
   },
 
   storeConfigs_kn: {
@@ -259,11 +295,14 @@ export const routeMap = {
     getUrl(kn: string) {
       return this.getPath().replace(':kn', kn)
     },
-    renderMain: StoreConfigs_kn,
-    renderHeader: Header,
-    renderNav: Nav,
-    navigatable: false,
-    rolesAllowed: [roles.Admin],
+    render: StoreConfigs_kn,
+    redirect: _protectByRole,
+    payload: {
+      renderHeader: Header,
+      renderNav: Nav,
+      navigatable: false,
+      rolesAllowed: [roles.Admin],
+    },
   },
 
   /**
@@ -276,11 +315,13 @@ export const routeMap = {
     getUrl() {
       return this.getPath()
     },
-    renderMain: TargetTable,
-    renderHeader: Header,
-    renderNav: Nav,
-    navigatable: true,
-    renderIcon: TargetTableIcon,
+    render: TargetTable,
+    payload: {
+      renderHeader: Header,
+      renderNav: Nav,
+      navigatable: true,
+      renderIcon: TargetTableIcon,
+    },
   },
 
   targetTables_create: {
@@ -289,10 +330,12 @@ export const routeMap = {
     getUrl() {
       return this.getPath()
     },
-    renderMain: TargetTable_create,
-    renderHeader: Header,
-    renderNav: Nav,
-    navigatable: false,
+    render: TargetTable_create,
+    payload: {
+      renderHeader: Header,
+      renderNav: Nav,
+      navigatable: false,
+    },
   },
 
   targetTables_kn: {
@@ -301,10 +344,12 @@ export const routeMap = {
     getUrl(kn: string) {
       return this.getPath().replace(':kn', kn)
     },
-    renderMain: TargetTable_kn,
-    renderHeader: Header,
-    renderNav: Nav,
-    navigatable: false,
+    render: TargetTable_kn,
+    payload: {
+      renderHeader: Header,
+      renderNav: Nav,
+      navigatable: false,
+    },
   },
 
   targetTables_kn_explorer: {
@@ -313,10 +358,12 @@ export const routeMap = {
     getUrl(kn: string, params?: { name: string } | undefined) {
       return `${this.getPath().replace(':kn', kn)}${qs.stringify(params, { addQueryPrefix: true })}`
     },
-    renderMain: TargetTable_kn_explorer,
-    renderHeader: Header,
-    renderNav: Nav,
-    navigatable: false,
+    render: TargetTable_kn_explorer,
+    payload: {
+      renderHeader: Header,
+      renderNav: Nav,
+      navigatable: false,
+    },
   },
 
   admin: {
@@ -325,11 +372,13 @@ export const routeMap = {
     getUrl() {
       return this.getPath()
     },
-    renderMain: Admin,
-    renderHeader: Header,
-    renderNav: Nav,
-    navigatable: isDev(),
-    renderIcon: (props) => <Icon {...props} name='User' />,
+    render: Admin,
+    payload: {
+      renderHeader: Header,
+      renderNav: Nav,
+      navigatable: isDev(),
+      renderIcon: (props) => <Icon {...props} name='User' />,
+    },
   },
 
   // Misc
@@ -340,13 +389,17 @@ export const routeMap = {
     getUrl() {
       return this.getPath()
     },
-    renderMain: () => (
+    render: () => (
       <Suspense fallback='loading...'>
         <Storybook />
       </Suspense>
     ),
-    navigatable: isDev(),
-    renderIcon: (props) => <Icon {...props} name='Star' />,
+    payload: {
+      renderHeader: () => null,
+      renderNav: () => null,
+      navigatable: isDev(),
+      renderIcon: (props) => <Icon {...props} name='Star' />,
+    },
   },
 
   notFound: {
@@ -355,7 +408,20 @@ export const routeMap = {
     getUrl() {
       return this.getPath()
     },
-    renderMain: () => 'Not Found',
-    navigatable: false,
+    render: () => 'Not Found',
+    payload: {
+      navigatable: false,
+      renderHeader: Header,
+      renderNav: Nav,
+    },
   },
-} satisfies Record<string, Route>
+} satisfies Record<string, AppRoute>
+
+/**
+ * private
+ */
+
+function _protectByRole(props: { route: AppRoute }): { url: string } | undefined {
+  if (props.route.payload.rolesAllowed?.includes(getRole() || '')) return
+  return { url: routes.main.getUrl() }
+}

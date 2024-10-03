@@ -1,13 +1,13 @@
 import React from 'react'
 import { NumberParam, useQueryParams, withDefault } from 'use-query-params'
 
+import { routes } from '~/app/route'
 import { Item, api } from '~/entities/target-table'
 import Button from '~/shared/button'
 import Container from '~/shared/container'
 import Flex from '~/shared/flex'
 import Link from '~/shared/link'
 import { Heading, Pagination } from '~/shared/page'
-import { routeMap } from '~/shared/route'
 import Section from '~/shared/section'
 
 import { SYSNAME } from '../constants/name'
@@ -36,19 +36,19 @@ export default function Component(): JSX.Element {
           <Flex width='100%' justify='between'>
             <Heading.Root
               loading={fetcherList.isLoading && fetcherList.data === undefined}
-              route={routeMap.targetTables}
-              backRoute={routeMap.main}
-              renderIcon={routeMap.targetTables.renderIcon}
+              route={routes.targetTables}
+              backRoute={routes.main}
+              renderIcon={routes.targetTables.payload.renderIcon}
             >
               <Heading.BackToParent />
               <Heading.Name />
             </Heading.Root>
             <Flex align='center' gap='2'>
               <Button variant='outline' asChild>
-                <Link to={routeMap.storeConfigs_kn.getUrl('workingTable')}>Хранилище</Link>
+                <Link to={routes.storeConfigs_kn.getUrl('workingTable')}>Хранилище</Link>
               </Button>
               <Button asChild>
-                <Link to={routeMap.targetTables_create.getUrl()}>Создать</Link>
+                <Link to={routes.targetTables_create.getUrl()}>Создать</Link>
               </Button>
             </Flex>
           </Flex>

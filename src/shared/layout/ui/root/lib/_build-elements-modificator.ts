@@ -1,15 +1,17 @@
 export type Route = {
-  renderHeader?: unknown
-  renderNav?: unknown
+  payload: {
+    renderHeader?: unknown
+    renderNav?: unknown
+  }
 }
 
 export function _buildElementsModificator(currentRoute: undefined | Route): string {
   const layoutPartNames = ['main']
 
-  if (currentRoute?.renderNav) {
+  if (currentRoute?.payload.renderNav) {
     layoutPartNames.push('nav')
   }
-  if (currentRoute?.renderHeader) {
+  if (currentRoute?.payload.renderHeader) {
     layoutPartNames.push('header')
   }
 
