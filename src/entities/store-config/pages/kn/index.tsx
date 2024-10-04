@@ -22,7 +22,7 @@ import Heading from '~/shared/heading'
 import { notify } from '~/shared/notification-list-store'
 import Section from '~/shared/section'
 import Spinner from '~/shared/spinner'
-import TextHighlighter from '~/shared/text-highlighter'
+import { HighlightedText } from '~/shared/text'
 import Tooltip from '~/shared/tooltip'
 
 export interface Props {
@@ -101,7 +101,7 @@ export default function Component(): JSX.Element {
           <Section size='1'>
             <Heading>
               {routes.storeConfigs_kn.getName()}{' '}
-              {values.kn && <TextHighlighter tooltipContent='Название'>{values.kn}</TextHighlighter>}{' '}
+              {values.kn && <HighlightedText tooltipContent='Название'>{values.kn}</HighlightedText>}{' '}
             </Heading>
           </Section>
         )}

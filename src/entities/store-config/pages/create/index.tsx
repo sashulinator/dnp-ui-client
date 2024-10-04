@@ -5,7 +5,7 @@ import { safeParse } from 'valibot'
 import { routes } from '~/app/route'
 import {
   Form,
-  FormValues,
+  type FormValues,
   create,
   createStoreConfigSchema,
   defaultValues,
@@ -21,7 +21,7 @@ import FForm, { toNestedErrors, useCreateForm } from '~/shared/form'
 import Heading from '~/shared/heading'
 import { notify } from '~/shared/notification-list-store'
 import Section from '~/shared/section'
-import TextHighlighter from '~/shared/text-highlighter'
+import { HighlightedText } from '~/shared/text'
 import Tooltip from '~/shared/tooltip'
 
 export interface Props {
@@ -70,7 +70,7 @@ export default function Component(): JSX.Element {
         <Section size='1'>
           <Heading>
             {routes.storeConfigs_create.getName()}{' '}
-            {values.kn && <TextHighlighter tooltipContent='Название'>{values.kn}</TextHighlighter>}{' '}
+            {values.kn && <HighlightedText tooltipContent='Название'>{values.kn}</HighlightedText>}{' '}
           </Heading>
         </Section>
 

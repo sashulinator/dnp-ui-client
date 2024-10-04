@@ -4,10 +4,10 @@ import { routes } from '~/app/route'
 import Card from '~/shared/card'
 import Flex from '~/shared/flex'
 import Link from '~/shared/link'
-import TextHighlighter from '~/shared/text-highlighter'
+import { HighlightedText } from '~/shared/text'
 import { c } from '~/utils/core'
 
-import { StoreConfig } from '../../../types/store-config'
+import { type StoreConfig } from '../../../types/store-config'
 
 export interface Props {
   className?: string | undefined
@@ -27,7 +27,7 @@ export default function Component(props: Props): JSX.Element {
       <Flex justify='between' asChild>
         <Link to={`${routes.storeConfigs_kn.getUrl(item.kn)}`}>
           <Flex gap='2'>
-            <TextHighlighter tooltipContent='Название'>{item.kn}</TextHighlighter>
+            <HighlightedText tooltipContent='Название'>{item.kn}</HighlightedText>
           </Flex>
           <Flex gap='2' align='center'></Flex>
         </Link>

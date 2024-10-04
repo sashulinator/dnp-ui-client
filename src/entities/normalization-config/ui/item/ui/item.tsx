@@ -6,10 +6,10 @@ import Badge from '~/shared/badge'
 import Card from '~/shared/card'
 import Flex from '~/shared/flex'
 import Link from '~/shared/link'
-import TextHighlighter from '~/shared/text-highlighter'
+import { HighlightedText } from '~/shared/text'
 import { c } from '~/utils/core'
 
-import { NormalizationConfig } from '../../../types/normalization-config'
+import { type NormalizationConfig } from '../../../types/normalization-config'
 
 export interface Props {
   className?: string | undefined
@@ -29,10 +29,10 @@ export default function Component(props: Props): JSX.Element {
       <Flex justify='between' asChild>
         <Link to={`${routes.normalizationConfigs_id.getUrl(item.id)}${querify({ name: item.name })}`}>
           <Flex gap='2'>
-            <TextHighlighter tooltipContent='Название'>{item.name}</TextHighlighter>
-            <TextHighlighter tooltipContent='Версия' color='yellow'>
+            <HighlightedText tooltipContent='Название'>{item.name}</HighlightedText>
+            <HighlightedText tooltipContent='Версия' color='yellow'>
               {item.v}
-            </TextHighlighter>
+            </HighlightedText>
           </Flex>
           <Flex gap='2' align='center'>
             <Flex direction='column' align='end'>

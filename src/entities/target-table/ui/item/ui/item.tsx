@@ -4,10 +4,10 @@ import { routes } from '~/app/route'
 import Card from '~/shared/card'
 import Flex from '~/shared/flex'
 import Link from '~/shared/link'
-import TextHighlighter from '~/shared/text-highlighter'
+import { HighlightedText } from '~/shared/text'
 import { c } from '~/utils/core'
 
-import { TargetTable } from '../../../types/target-table'
+import { type TargetTable } from '../../../types/target-table'
 
 export interface Props {
   className?: string | undefined
@@ -27,7 +27,7 @@ export default function Component(props: Props): JSX.Element {
       <Card key={item.kn} asChild={true} className={c(displayName, className)}>
         <Link to={`${routes.targetTables_kn.getUrl(item.kn)}`}>
           <Flex gap='2'>
-            <TextHighlighter tooltipContent='Название'>{item.kn}</TextHighlighter>
+            <HighlightedText tooltipContent='Название'>{item.kn}</HighlightedText>
           </Flex>
           <Flex gap='2' align='center'></Flex>
         </Link>

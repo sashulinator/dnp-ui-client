@@ -1,8 +1,8 @@
 import Flex from '~/shared/flex'
-import { Props, type Story } from '~/shared/storybook'
+import { type Props, type Story } from '~/shared/storybook'
 
 import TextField from '..'
-import TextHighlighter from '..'
+import Highlighted from '..'
 
 interface State {}
 
@@ -14,9 +14,9 @@ export default {
 
     return (
       <Flex width='100%' p='8' gap='4'>
-        <TextHighlighter tooltipContent='name' {...state} size='8'>
+        <Highlighted tooltipContent='name' {...state} size='8'>
           heello
-        </TextHighlighter>
+        </Highlighted>
       </Flex>
     )
   },

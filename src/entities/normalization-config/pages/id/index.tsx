@@ -5,7 +5,7 @@ import { safeParse } from 'valibot'
 import { routes } from '~/app/route'
 import {
   Form,
-  FormValues,
+  type FormValues,
   Version,
   fromFormValues,
   getById,
@@ -25,7 +25,7 @@ import Heading from '~/shared/heading'
 import { notify } from '~/shared/notification-list-store'
 import Section from '~/shared/section'
 import Spinner from '~/shared/spinner'
-import TextHighlighter from '~/shared/text-highlighter'
+import { HighlightedText } from '~/shared/text'
 import Tooltip from '~/shared/tooltip'
 
 export interface Props {
@@ -109,11 +109,11 @@ export default function Component(): JSX.Element {
           <Section size='1'>
             <Heading>
               {routes.normalizationConfigs_id.getName()}{' '}
-              {values.name && <TextHighlighter tooltipContent='Название'>{values.name}</TextHighlighter>}{' '}
+              {values.name && <HighlightedText tooltipContent='Название'>{values.name}</HighlightedText>}{' '}
               {values.v && (
-                <TextHighlighter color='yellow' tooltipContent='Версия'>
+                <HighlightedText color='yellow' tooltipContent='Версия'>
                   {values.v}
-                </TextHighlighter>
+                </HighlightedText>
               )}
             </Heading>
           </Section>

@@ -1,5 +1,5 @@
 import Flex from '~/shared/flex'
-import TextHighlighter from '~/shared/text-highlighter'
+import { HighlightedText } from '~/shared/text'
 import Tooltip from '~/shared/tooltip'
 import { c } from '~/utils/core'
 
@@ -30,9 +30,9 @@ export default function Component(props: Props): JSX.Element {
     >
       <Icon name={item.type} />
       <Flex>
-        <TextHighlighter style={{ whiteSpace: 'nowrap' }} tooltipContent='pk'>
+        <HighlightedText style={{ whiteSpace: 'nowrap' }} tooltipContent='pk'>
           {item.data[idKey as (typeof item.data)[keyof typeof item.data]] as string}
-        </TextHighlighter>
+        </HighlightedText>
       </Flex>
       <Flex gap='4' style={{ whiteSpace: 'nowrap' }}>
         {Object.entries(item.data).map(([key, value]) => {

@@ -1,6 +1,6 @@
 import Button from '~/shared/button'
 import DropdownMenu from '~/shared/dropdown-menu'
-import TextHighlighter from '~/shared/text-highlighter'
+import { HighlightedText } from '~/shared/text'
 
 import { COMPARISON, type ComparisonKey } from '../../../models/comparison'
 import { type FilterConfig } from '../../../models/filter-config'
@@ -195,7 +195,7 @@ function _TypeDropdownMenuItem(props: _TypeDropdownMenuItemProps) {
       <Button square={true} size='1' variant='soft' color={color}>
         {children}
       </Button>
-      {selected ? <TextHighlighter color='amber'>{label}</TextHighlighter> : label}
+      {selected ? <HighlightedText color='amber'>{label}</HighlightedText> : label}
     </DropdownMenu.Item>
   )
 }

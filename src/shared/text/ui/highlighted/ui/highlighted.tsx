@@ -1,24 +1,20 @@
-import './text-highlighter.scss'
+import './highlighted.scss'
 
-import Text, { TextProps } from '~/shared/text'
 import Tooltip from '~/shared/tooltip'
 import { c } from '~/utils/core'
+
+import Text, { type TextProps } from '../../text'
 
 export type Props = TextProps & {
   tooltipContent?: string | undefined
 }
 
-const displayName = 'ui-TextHighlighter'
+Component.displayName = 'text-Highlighted'
 
-/**
- * ui-Text
- */
 export default function Component(props: Props): JSX.Element {
   const { tooltipContent, ...textProps } = props
 
-  const text = <Text {...textProps} className={c(props.className, displayName)} />
+  const text = <Text {...textProps} className={c(props.className, Component.displayName)} />
 
   return tooltipContent ? <Tooltip content={tooltipContent}>{text}</Tooltip> : text
 }
-
-Component.displayName = displayName

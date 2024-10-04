@@ -8,12 +8,11 @@ import Card from '~/shared/card'
 import Flex from '~/shared/flex'
 import Link from '~/shared/link'
 import Separator from '~/shared/separator'
-import Text from '~/shared/text'
-import TextHighlighter from '~/shared/text-highlighter'
+import Text, { HighlightedText } from '~/shared/text'
 import Tooltip from '~/shared/tooltip'
 import { c } from '~/utils/core'
 
-import { OperationalTable } from '../../../types/operational-table'
+import { type OperationalTable } from '../../../types/operational-table'
 
 export interface Props {
   className?: string | undefined
@@ -33,7 +32,7 @@ export default function Component(props: Props): JSX.Element {
       <Card asChild={true} className={c(displayName, className)}>
         <Link to={`${routes.operationalTables_kn.getUrl(item.kn)}`}>
           <Flex direction='column'>
-            <TextHighlighter tooltipContent='Название конфига нормализации'>{item.name}</TextHighlighter>
+            <HighlightedText tooltipContent='Название конфига нормализации'>{item.name}</HighlightedText>
             <Text style={{ marginLeft: 'var(--space-1)' }} color='gray' size='2'>
               {item.kn}
             </Text>

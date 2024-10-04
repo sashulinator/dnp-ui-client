@@ -1,10 +1,10 @@
 import './header.scss'
 
-import { Role, getRole, roles, setRole } from '~/entities/user'
+import { type Role, getRole, roles, setRole } from '~/entities/user'
 import Checkbox from '~/shared/checkbox'
 import Flex from '~/shared/flex'
 import Select from '~/shared/select'
-import TextHighlighter from '~/shared/text-highlighter'
+import { HighlightedText } from '~/shared/text'
 import { Switch } from '~/shared/theme'
 import { c, isDev } from '~/utils/core'
 
@@ -26,7 +26,7 @@ export default function Component(): JSX.Element {
       <div className={`${NAME}_breadscrumbs`}>
         {process.env.NODE_ENV === 'development' && (
           <Flex justify='center' align='center' gap='m'>
-            <TextHighlighter color={isProd ? 'green' : 'red'}>
+            <HighlightedText color={isProd ? 'green' : 'red'}>
               <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '.5rem' }}>
                 production
                 <Checkbox
@@ -42,7 +42,7 @@ export default function Component(): JSX.Element {
                   }}
                 />
               </label>
-            </TextHighlighter>
+            </HighlightedText>
           </Flex>
         )}
       </div>

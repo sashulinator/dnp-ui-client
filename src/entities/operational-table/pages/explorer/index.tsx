@@ -22,8 +22,8 @@ import ScrollArea from '~/shared/scroll-area'
 import { useSearch } from '~/shared/search'
 import Section from '~/shared/section'
 import { useSort } from '~/shared/sort'
+import { HighlightedText } from '~/shared/text'
 import TextField from '~/shared/text-field'
-import TextHighlighter from '~/shared/text-highlighter'
 import { JSONParam } from '~/shared/use-query-params'
 import { type Id, isEmpty } from '~/utils/core'
 
@@ -210,14 +210,14 @@ export default function Component(): JSX.Element {
               <Flex gapX='12px'>
                 {role === 'Approver' && (
                   <Flex asChild={true} align='center' gap='2'>
-                    <TextHighlighter as='label' style={{ cursor: 'pointer' }} color={isApproveMode ? 'green' : 'blue'}>
+                    <HighlightedText as='label' style={{ cursor: 'pointer' }} color={isApproveMode ? 'green' : 'blue'}>
                       Режим согласования
                       <Checkbox
                         variant='soft'
                         checked={isApproveMode}
                         onCheckedChange={(value) => setIsApproveMode(!!value)}
                       />
-                    </TextHighlighter>
+                    </HighlightedText>
                   </Flex>
                 )}
                 <Button variant='outline' onClick={() => setShowImportModal(true)}>

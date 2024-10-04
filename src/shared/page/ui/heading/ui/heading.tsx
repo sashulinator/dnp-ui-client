@@ -4,7 +4,7 @@ import Button from '~/shared/button'
 import Heading from '~/shared/heading'
 import Icon from '~/shared/icon'
 import Link from '~/shared/link'
-import TextHighlighter from '~/shared/text-highlighter'
+import { HighlightedText } from '~/shared/text'
 import { c } from '~/utils/core'
 
 import { type Context, context, useContext } from '../models/context'
@@ -86,9 +86,9 @@ export interface UniqueProps {
 export function Unique(props: UniqueProps): JSX.Element | undefined | string {
   return (
     props.string && (
-      <TextHighlighter tooltipContent={props.tooltipContent} style={{ marginLeft: 'var(--space-2)' }}>
+      <HighlightedText tooltipContent={props.tooltipContent} style={{ marginLeft: 'var(--space-2)' }}>
         {props.string}
-      </TextHighlighter>
+      </HighlightedText>
     )
   )
 }

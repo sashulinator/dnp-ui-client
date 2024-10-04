@@ -21,7 +21,7 @@ import FForm, { toNestedErrors, useCreateForm } from '~/shared/form'
 import Heading from '~/shared/heading'
 import { notify } from '~/shared/notification-list-store'
 import Section from '~/shared/section'
-import TextHighlighter from '~/shared/text-highlighter'
+import { HighlightedText } from '~/shared/text'
 import Tooltip from '~/shared/tooltip'
 
 export interface Props {
@@ -71,7 +71,7 @@ export default function Component(): JSX.Element {
         <Section size='1'>
           <Heading>
             {routes.normalizationConfigs_create.getName()}{' '}
-            {values.name && <TextHighlighter tooltipContent='Название'>{values.name}</TextHighlighter>}
+            {values.name && <HighlightedText tooltipContent='Название'>{values.name}</HighlightedText>}
           </Heading>
         </Section>
 

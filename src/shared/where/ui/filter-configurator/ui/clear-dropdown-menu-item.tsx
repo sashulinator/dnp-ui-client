@@ -1,7 +1,7 @@
 import Button from '~/shared/button'
 import DropdownMenu from '~/shared/dropdown-menu'
 import Icon from '~/shared/icon'
-import TextHighlighter from '~/shared/text-highlighter'
+import { HighlightedText } from '~/shared/text'
 
 interface ClearDropdownMenuItemProps {
   onClick: () => void
@@ -15,7 +15,7 @@ export function ClearDropdownMenuItem(props: ClearDropdownMenuItemProps) {
       <Button square={true} size='1' variant='soft'>
         <Icon name='Clear' />
       </Button>
-      <TextHighlighter>Очистить</TextHighlighter>
+      <HighlightedText>Очистить</HighlightedText>
     </DropdownMenu.Item>
   )
 }
