@@ -1,16 +1,21 @@
-import Button from '../button'
-import Dialog from '../dialog'
-import Flex from '../flex'
-import Text from '../text'
+import Button from '~/shared/button'
+import Flex from '~/shared/flex'
+import Text from '~/shared/text'
 
-interface Props {
+import Dialog from '../../dialog'
+
+export interface Props {
   open: boolean
   title?: string
   description: string
   onClose: () => void
 }
 
-export const ErrorPopup = ({ open, title = 'Ошибка', description, onClose }: Props) => {
+Component.displayname = 'dialog-Success'
+
+export default function Component(props: Props) {
+  const { open, title = 'Успешно', description, onClose } = props
+
   return (
     <Dialog.Root open={open}>
       <Dialog.Content maxWidth='450px'>

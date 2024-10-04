@@ -1,13 +1,10 @@
 /**
  * ui
  */
-
-import { Dialog } from '@radix-ui/themes'
+import { default as Dialog } from './ui/dialog'
 
 export default Dialog
+export { type DialogType } from './ui/dialog'
 
-/**
- * props
- */
-
-export type { RootProps as DialogProps } from '@radix-ui/themes/dist/esm/components/dialog.d.ts'
+export { default as ErrorDialog, type ErrorProps as ErrorDialogProps } from './ui/error'
+export { default as SuccessDialog, type SuccessProps as SuccessDialogProps } from './ui/success'

@@ -1,14 +1,20 @@
-import { Dialog, Flex, Text } from '@radix-ui/themes'
-import Button from '../button'
+import Button from '~/shared/button'
+import Flex from '~/shared/flex'
+import Text from '~/shared/text'
 
-interface Props {
+import Dialog from '../../dialog'
+
+export interface Props {
   open: boolean
   title?: string
   description: string
   onClose: () => void
 }
 
-export const SuccessPopup = ({ open, title = 'Успешно', description, onClose }: Props) => {
+Component.displayname = 'dialog-Error'
+
+export default function Component(props: Props) {
+  const { open, title = 'Ошибка', description, onClose } = props
   return (
     <Dialog.Root open={open}>
       <Dialog.Content maxWidth='450px'>

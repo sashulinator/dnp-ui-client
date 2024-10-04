@@ -11,8 +11,7 @@ import Button from '~/shared/button'
 import Checkbox from '~/shared/checkbox'
 import Container from '~/shared/container'
 import { type Column, RowForm, toColumns } from '~/shared/database-table'
-import Dialog from '~/shared/dialog'
-import { ErrorPopup } from '~/shared/error-popup'
+import Dialog, { ErrorDialog, SuccessDialog } from '~/shared/dialog'
 import { filesApi } from '~/shared/files-api'
 import Flex from '~/shared/flex'
 import { type FormApi, useCreateForm } from '~/shared/form'
@@ -23,7 +22,6 @@ import ScrollArea from '~/shared/scroll-area'
 import { useSearch } from '~/shared/search'
 import Section from '~/shared/section'
 import { useSort } from '~/shared/sort'
-import { SuccessPopup } from '~/shared/success-popup'
 import TextField from '~/shared/text-field'
 import TextHighlighter from '~/shared/text-highlighter'
 import { JSONParam } from '~/shared/use-query-params'
@@ -293,12 +291,12 @@ export default function Component(): JSX.Element {
           </Section>
         )}
       </Container>
-      <SuccessPopup
+      <SuccessDialog
         open={showImportSuccessPopup}
         description='Импорт данных запущен. Статус операции можно отследить в разделе "Процессы"'
         onClose={() => setShowImportSuccessPopup(false)}
       />
-      <ErrorPopup
+      <ErrorDialog
         open={showImportErrorPopup}
         description='При запуске импорта произошла ошибка'
         onClose={() => setShowImportErrorPopup(false)}
