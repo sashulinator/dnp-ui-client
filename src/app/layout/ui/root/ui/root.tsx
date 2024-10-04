@@ -1,0 +1,43 @@
+import './root.scss'
+
+import { createElement } from 'react'
+
+import ScrollArea from '~/shared/scroll-area'
+import { c } from '~/utils/core'
+
+export interface Props {
+  renderHeader?: (() => React.ReactNode) | undefined
+  renderNav?: (() => React.ReactNode) | undefined
+  renderMain: () => React.ReactNode
+}
+
+Component.displayName = 'layout-Root'
+
+export default function Component(props: Props): JSX.Element {
+  const { renderHeader, renderNav, renderMain } = props
+
+  return (
+    <ScrollArea scrollbars='vertical'>
+      <div className={c(Component.displayName, _buildModificator())}>
+        {renderHeader && createElement(renderHeader)}
+        {renderNav && createElement(renderNav)}
+        {createElement(renderMain)}
+      </div>
+    </ScrollArea>
+  )
+
+  /**
+   * private
+   */
+
+  /**
+   * Строит класс с перечислением наличия елементов
+   * @returns '-elements--main-header-nav'
+   */
+  function _buildModificator(): string {
+    const layoutPartNames = ['main']
+    if (props?.renderNav) layoutPartNames.push('nav')
+    if (props?.renderHeader) layoutPartNames.push('header')
+    return `-elements--${layoutPartNames.sort().join('-')}`
+  }
+}
