@@ -6,7 +6,7 @@
 #root,
 html,
 body,
-.ui-Layout-v-Root {
+.layout-Root {
   display: grid;
   grid-template-rows: 1fr;
   grid-template-columns: 1fr;
@@ -14,7 +14,7 @@ body,
   width: 100vw;
 }
 
-.ui-Layout-v-Root {
+.layout-Root {
   display: grid;
 
   nav {
