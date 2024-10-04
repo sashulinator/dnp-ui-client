@@ -2,13 +2,12 @@
   width: 250px;
   background-color: var(--gray-2);
   height: 100%;
-  padding: 0 8px;
+  padding: 0 0 0 8px;
   --active: var(--accent-4);
 
   .nav-link {
     border: 0;
     padding: 8px 16px;
-    border-radius: 16px;
     width: 100%;
     text-align: left;
     background-color: transparent;

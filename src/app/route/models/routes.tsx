@@ -395,8 +395,6 @@ export const routes = {
       </Suspense>
     ),
     payload: {
-      renderHeader: () => null,
-      renderNav: () => null,
       navigatable: isDev(),
       renderIcon: (props) => <Icon {...props} name='Star' />,
     },
