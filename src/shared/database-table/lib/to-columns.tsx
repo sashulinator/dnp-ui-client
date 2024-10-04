@@ -1,5 +1,4 @@
 import { toFilter } from '~/common/shared/where/lib/to-filter'
-import { type TableSchemaItem } from '~/entities/operational-table'
 import Button from '~/shared/button'
 import DropdownMenu from '~/shared/dropdown-menu'
 import { type TableColumn } from '~/shared/explorer/ui/viewer'
@@ -11,6 +10,8 @@ import { FilterConfigurator, type IntFilter, type IsFilter, type StringFilter, t
 import { type SetterOrUpdater, assertDefined } from '~/utils/core'
 import { omit } from '~/utils/dictionary'
 
+import { type Column } from '../models/database-table'
+
 export type Context = {
   sort: Sort | undefined
   setSort: (val: Sort | undefined) => void
@@ -18,7 +19,7 @@ export type Context = {
   setSearchFilter: SetterOrUpdater<Record<string, StringFilter | IntFilter | IsFilter>>
 }
 
-export function toColumns<T extends Record<string, unknown>>(items: TableSchemaItem[]): TableColumn<T, Context>[] {
+export function toColumns<T extends Record<string, unknown>>(items: Column[]): TableColumn<T, Context>[] {
   return items.map((item) => {
     return {
       cellProps: {
