@@ -17,6 +17,7 @@ import OperationalTable_kn_explorer from '~/entities/operational-table/pages/exp
 import OperationalTable_kn from '~/entities/operational-table/pages/kn'
 import { Icon as ProcessIcon } from '~/entities/process'
 import Processes from '~/entities/process/pages'
+import Processes_kn from '~/entities/process/pages/kn'
 import { Icon as StoreConfigIcon } from '~/entities/store-config'
 import StoreConfigs from '~/entities/store-config/pages'
 import StoreConfigs_create from '~/entities/store-config/pages/create'
@@ -248,6 +249,22 @@ export const routes = {
       renderHeader: Header,
       renderNav: Nav,
       navigatable: true,
+      renderIcon: ProcessIcon,
+      rolesAllowed: [roles.Admin, roles.Operator],
+    },
+  },
+
+  processes_kn: {
+    getName: (): string => 'Процесс',
+    getPath: () => '/processes/:kn',
+    getUrl(kn: string) {
+      return this.getPath().replace(':kn', kn)
+    },
+    render: Processes_kn,
+    payload: {
+      renderHeader: Header,
+      renderNav: Nav,
+      navigatable: false,
       renderIcon: ProcessIcon,
       rolesAllowed: [roles.Admin, roles.Operator],
     },

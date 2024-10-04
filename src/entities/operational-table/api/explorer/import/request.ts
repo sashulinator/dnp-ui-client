@@ -1,12 +1,14 @@
-import { url } from '../../common'
 import type { Response } from '~/shared/api'
 import api from '~/shared/axios'
+
+import { url } from '../../common'
 
 export const NAME = 'files.upload'
 
 export type RequestData = {
   fileId: string
   tableName: string
+  operationalTableId: string
 }
 
 export type ResponseData = { fileName: string }

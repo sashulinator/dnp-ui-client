@@ -147,9 +147,11 @@ export default function Component(): JSX.Element {
 
   const onSubmitImport = () => {
     uploadedFileId &&
+      explorerListFetcher.data &&
       importMutator.mutate({
         fileId: uploadedFileId,
         tableName: kn,
+        operationalTableId: explorerListFetcher.data?.operationalTable.kn,
       })
   }
 
