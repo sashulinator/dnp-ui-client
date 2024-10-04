@@ -1,15 +1,14 @@
 import { Table } from '@radix-ui/themes'
 import { type RootProps } from '@radix-ui/themes/dist/esm/components/table.d.ts'
 
-import { useContext } from 'react'
 import React from 'react'
 
 import { type CellProps } from '~/shared/table'
 import { c } from '~/utils/core'
 
 import { type Item } from '../../../../../models/explorer'
-import { context } from '../../../models/context'
-import { NAME as ROOT_NAME } from '../../../ui/viewer'
+import { useContext } from '../../../models/context'
+import { NAME as ROOT_NAME } from '../../root'
 
 export interface Column<TDataItem extends Record<string, unknown>, TContext extends Record<string, unknown>> {
   accessorKey: keyof TDataItem
@@ -36,15 +35,12 @@ export type Props<TContext extends Record<string, unknown>> = RootProps & {
   columns: Column<Record<string, unknown>, TContext>[]
 }
 
-export const NAME = `${ROOT_NAME}-w-Table`
+export const NAME = `${ROOT_NAME}-c-Table`
 
-/**
- * explorer-Viewer-w-Table
- */
 export default function Component<TContext extends Record<string, unknown>>(props: Props<TContext>): JSX.Element {
   const { className, columns: propsColumns, ...rootTableProps } = props
 
-  const { data, loading, onPathChange, paths, context: contextProp } = useContext(context)
+  const { data, loading, onPathChange, paths, context: contextProp } = useContext()
 
   const columns = propsColumns as unknown as Column<Item, TContext>[] /* иначе никак */
 

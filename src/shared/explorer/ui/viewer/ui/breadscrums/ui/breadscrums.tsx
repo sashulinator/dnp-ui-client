@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 
 import Button from '~/shared/button'
 import Flex from '~/shared/flex'
@@ -6,22 +6,19 @@ import SharedIcon from '~/shared/icon'
 import { c } from '~/utils/core'
 
 import Icon from '../../../../icon'
-import { context } from '../../../models/context'
-import { NAME as ROOT_NAME } from '../../../ui/viewer'
+import { useContext } from '../../../models/context'
+import { NAME as ROOT_NAME } from '../../root'
 
 export interface Props {
   className?: string | undefined
 }
 
-export const NAME = `${ROOT_NAME}-w-Breadscrums`
+export const NAME = `${ROOT_NAME}-c-Breadscrums`
 
-/**
- * explorer-Viewer-w-Breadscrums
- */
 export default function Component(props: Props): JSX.Element {
   const { className } = props
 
-  const { loading = false, paths = [], onPathChange } = useContext(context)
+  const { loading = false, paths = [], onPathChange } = useContext()
 
   return (
     <Flex className={c(className, NAME)} gap='4' align='center' height='var(--space-7)'>

@@ -3,8 +3,10 @@ import { useQuery } from 'react-query'
 
 import { type Props, type Story } from '~/shared/storybook'
 
-import * as Viewer from '../'
 import type { Explorer, Path } from '../../../models/explorer'
+import Breadscrums from '../ui/breadscrums'
+import List from '../ui/list'
+import Root, { NAME } from '../ui/root'
 
 interface State {
   //
@@ -19,10 +21,10 @@ export default {
 
     return (
       <div style={{ width: '100%', height: '100%', border: '1px solid red' }}>
-        <Viewer.Root context={{}} paths={paths} loading={isFetching} onPathChange={setPath} data={data} {...state}>
-          <Viewer.Breadscrums />
-          <Viewer.List />
-        </Viewer.Root>
+        <Root context={{}} paths={paths} loading={isFetching} onPathChange={setPath} data={data} {...state}>
+          <Breadscrums />
+          <List />
+        </Root>
       </div>
     )
   },
@@ -42,7 +44,7 @@ export default {
     // { name: 'name', input: 'checkbox', defaultValue: false },
   ],
 
-  getName: (): string => Viewer.NAME,
+  getName: (): string => NAME,
 } satisfies Story<State>
 
 function getMock(paths: Path[]): Promise<Explorer> {

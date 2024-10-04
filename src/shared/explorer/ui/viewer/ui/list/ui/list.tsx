@@ -1,25 +1,20 @@
-import { useContext } from 'react'
-
 import Flex from '~/shared/flex'
 import { c } from '~/utils/core'
 
-import { context } from '../../../models/context'
-import { NAME as ROOT_NAME } from '../../../ui/viewer'
+import { useContext } from '../../../models/context'
+import { NAME as ROOT_NAME } from '../../root'
 import Item from '../widgets/item'
 
 export interface Props {
   className?: string | undefined
 }
 
-export const NAME = `${ROOT_NAME}-w-List`
+export const NAME = `${ROOT_NAME}-c-List`
 
-/**
- * explorer-Viewer-w-List
- */
 export default function Component(props: Props): JSX.Element {
   const { className } = props
 
-  const { loading = false, paths = [], onPathChange, data } = useContext(context)
+  const { loading = false, paths = [], onPathChange, data } = useContext()
 
   return (
     <Flex direction='column' gap='1' className={c(className, NAME)}>

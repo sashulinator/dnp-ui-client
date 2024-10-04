@@ -12,7 +12,7 @@ import { notify } from '~/shared/notification-list-store'
 import { SortButton } from '~/shared/sort'
 import { type Id, c } from '~/utils/core'
 
-export interface Props extends Omit<Viewer.ViewerProps, 'children'> {
+export interface Props extends Omit<Viewer.RootProps, 'children'> {
   columns: TableColumn<Record<string, unknown>, ColumnContext>[] | undefined
   context: ColumnContext | undefined
   remove: (id: Id) => Promise<TargetTable>

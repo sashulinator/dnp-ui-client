@@ -6,12 +6,12 @@ import { c } from '~/utils/core'
 import type { ContextProps } from '../models/context'
 import { context } from '../models/context'
 
-export interface Props extends Required<ContextProps> {
+export interface Props extends ContextProps {
   className?: string | undefined
   children: React.ReactNode
 }
 
-export const NAME = 'explorer-Viewer'
+export const NAME = 'explorer-Viewer-c-Root'
 
 /**
  * explorer-Viewer
