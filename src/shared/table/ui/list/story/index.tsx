@@ -2,7 +2,7 @@ import Flex from '~/shared/flex'
 import type { Props, Story } from '~/shared/storybook'
 import { type Dictionary } from '~/utils/core'
 
-import Table, { NAME } from '..'
+import List, { NAME } from '../ui/list'
 import type { Column } from '../ui/list'
 
 interface State {}
@@ -13,7 +13,7 @@ export default {
 
     return (
       <Flex width='100%' direction={'column'} p='8' gap='4'>
-        <Table {...state} context={{}} list={list} columns={columns} />
+        <List {...state} context={{}} list={list} columns={columns} />
       </Flex>
     )
   },
@@ -67,15 +67,18 @@ const columns: Column<User, Dictionary>[] = [
     accessorKey: 'id',
     renderCell: ({ value }) => value,
     renderHeader: () => 'ID',
+    name: 'ID',
   },
   {
     accessorKey: 'username',
     renderHeader: () => 'Имя пользователя',
     renderCell: ({ value }) => value,
+    name: 'Имя пользователя',
   },
   {
     accessorKey: 'age',
     renderHeader: () => 'Возраст',
     renderCell: ({ value }) => value,
+    name: 'Возраст',
   },
 ]

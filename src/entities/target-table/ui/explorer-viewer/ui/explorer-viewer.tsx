@@ -4,7 +4,7 @@ import { useMutation } from 'react-query'
 import { type Row, type TargetTable } from '~/entities/target-table'
 import Button from '~/shared/button'
 import { type ColumnContext } from '~/shared/database-table'
-import { Viewer } from '~/shared/explorer'
+import { type Item, Viewer } from '~/shared/explorer'
 import { type TableColumn } from '~/shared/explorer/ui/viewer'
 import Flex from '~/shared/flex'
 import Icon from '~/shared/icon'
@@ -12,7 +12,7 @@ import { notify } from '~/shared/notification-list-store'
 import { SortButton } from '~/shared/sort'
 import { type Id, c } from '~/utils/core'
 
-export interface Props extends Omit<Viewer.RootProps, 'children'> {
+export interface Props<TItem extends Item> extends Omit<Viewer.RootProps<TItem>, 'children'> {
   columns: TableColumn<Record<string, unknown>, ColumnContext>[] | undefined
   context: ColumnContext | undefined
   remove: (id: Id) => Promise<TargetTable>
@@ -24,7 +24,7 @@ export const NAME = 'targetTable-ExplorerViewer'
 /**
  * targetTable-ExplorerViewer
  */
-export default function Component(props: Props): JSX.Element {
+export default function Component<TItem extends Item>(props: Props<TItem>): JSX.Element {
   const { columns = [], remove, ...rootProps } = props
 
   const targetTableColumns = useMemo(() => {

@@ -1,12 +1,13 @@
 import React from 'react'
 
+import { type Item } from '~/shared/explorer'
 import Flex from '~/shared/flex'
 import { c } from '~/utils/core'
 
 import type { ContextProps } from '../models/context'
 import { context } from '../models/context'
 
-export interface Props extends ContextProps {
+export interface Props<TItem extends Item> extends ContextProps<TItem> {
   className?: string | undefined
   children: React.ReactNode
 }
@@ -16,7 +17,7 @@ export const NAME = 'explorer-Viewer-c-Root'
 /**
  * explorer-Viewer
  */
-export default function Component(props: Props): JSX.Element {
+export default function Component<TItem extends Item>(props: Props<TItem>): JSX.Element {
   const { children, className, ...contextProps } = props
 
   return (

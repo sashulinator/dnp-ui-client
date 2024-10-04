@@ -3,6 +3,7 @@ import { type Dictionary, c } from '~/utils/core'
 
 export interface RenderCellProps<TItem extends Dictionary, TContext extends Dictionary> {
   accessorKey: keyof TItem
+  name: string
   value: TItem[keyof TItem]
   item: TItem
   context: TContext
@@ -11,10 +12,12 @@ export interface RenderCellProps<TItem extends Dictionary, TContext extends Dict
 export interface RenderHeaderProps<TItem extends Dictionary, TContext extends Dictionary> {
   accessorKey: keyof TItem
   context: TContext
+  name: string
 }
 
 export interface Column<TItem extends Dictionary, TContext extends Dictionary> {
   accessorKey: keyof TItem
+  name: string
   cellProps?: TableTypes.CellProps | undefined
   headerProps?: TableTypes.CellProps | undefined
   renderCell: (props: RenderCellProps<TItem, TContext>) => React.ReactNode
@@ -26,6 +29,12 @@ export type Props<TItem extends Dictionary, TContext extends Dictionary> = Table
   list: TItem[]
   columns: Column<TItem, TContext>[]
   context: TContext
+  rowProps?: TableTypes.RowProps | undefined
+  headerRowProps?: TableTypes.RowProps | undefined
+  headerProps?: TableTypes.HeaderProps | undefined
+  columnHeaderCellProps?: TableTypes.ColumnHeaderCellProps | undefined
+  cellProps?: TableTypes.CellProps | undefined
+  bodyProps?: TableTypes.BodyProps | undefined
 }
 
 export const NAME = 'table-List'
@@ -36,32 +45,51 @@ export const NAME = 'table-List'
 export default function Component<TItem extends Dictionary, TContext extends Dictionary>(
   props: Props<TItem, TContext>,
 ): JSX.Element {
-  const { className, columns, list, context, ...rootTableProps } = props
+  const {
+    bodyProps,
+    className,
+    cellProps,
+    columns,
+    columnHeaderCellProps,
+    context,
+    headerProps,
+    headerRowProps,
+    list,
+    rowProps,
+    ...rootTableProps
+  } = props
 
   return (
     <Table.Root className={c(className, NAME)} {...rootTableProps}>
-      <Table.Header>
-        <Table.Row>
+      <Table.Header {...headerProps}>
+        <Table.Row {...headerRowProps}>
           {columns.map((column, i) => {
+            const mergedProps = { ...columnHeaderCellProps, ...column.headerProps }
             return (
-              <Table.ColumnHeaderCell key={i} {...column.headerProps}>
-                {column.renderHeader({ accessorKey: column.accessorKey, context: context as TContext })}
+              <Table.ColumnHeaderCell key={i} {...mergedProps}>
+                {column.renderHeader({
+                  accessorKey: column.accessorKey,
+                  name: column.name,
+                  context: context as TContext,
+                })}
               </Table.ColumnHeaderCell>
             )
           })}
         </Table.Row>
       </Table.Header>
-      <Table.Body>
+      <Table.Body {...bodyProps}>
         {list.map((item, i) => {
           return (
-            <Table.Row key={i}>
+            <Table.Row {...rowProps} key={i}>
               {props.columns.map((column, i) => {
+                const mergedProps = { ...cellProps, ...column.cellProps }
                 return (
-                  <Table.Cell key={i} {...column.cellProps}>
+                  <Table.Cell key={i} {...mergedProps}>
                     {column.renderCell({
                       accessorKey: column.accessorKey,
                       value: item[column.accessorKey],
                       context: context as TContext,
+                      name: column.name,
                       item,
                     })}
                   </Table.Cell>

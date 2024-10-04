@@ -2,20 +2,20 @@ import { createContext, useContext as reactUseContext } from 'react'
 
 import { assertDefined } from '~/utils/core'
 
-import type { Explorer, Path } from '../../../models/explorer'
+import type { Explorer, Item, Path } from '../../../models/explorer'
 
-export interface ContextProps {
-  data: Explorer | undefined
+export interface ContextProps<TItem extends Item> {
+  data: Explorer<TItem> | undefined
   loading: boolean | undefined
   paths: Path[]
   context?: Record<string, unknown> | undefined
   onPathChange?: (paths: Path[]) => void
 }
 
-export const context = createContext<ContextProps | undefined>(undefined)
+export const context = createContext<ContextProps<Item> | undefined>(undefined)
 
-export function useContext() {
+export function useContext<TItem extends Item>() {
   const ctx = reactUseContext(context)
   assertDefined(ctx)
-  return ctx
+  return ctx as ContextProps<TItem>
 }
