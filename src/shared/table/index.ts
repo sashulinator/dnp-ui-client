@@ -1,18 +1,10 @@
 /**
- * compounds
+ * ui
  */
+import { default as Table } from './ui/table'
 
-export { default } from './compounds/table'
-export type { BodyProps, CellProps, HeaderProps, RootProps, RowProps } from './compounds/table'
+export default Table
+export type * as TableTypes from './ui/table'
 
-/**
- * components
- */
-
-export {
-  default as ListTable,
-  type TableProps as ListTableProps,
-  type Column as ListTableColumn,
-  type RenderCellProps as ListTableRenderCellProps,
-  type RenderHeaderProps as ListTableRenderHeaderProps,
-} from './components/list'
+export { default as ListTable } from './ui/list'
+export type * as ListTableTypes from './ui/list'

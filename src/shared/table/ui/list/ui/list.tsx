@@ -1,4 +1,4 @@
-import Table, { type CellProps, type RootProps } from '~/shared/table'
+import Table, { type TableTypes } from '~/shared/table'
 import { type Dictionary, c } from '~/utils/core'
 
 export interface RenderCellProps<TItem extends Dictionary, TContext extends Dictionary> {
@@ -15,13 +15,13 @@ export interface RenderHeaderProps<TItem extends Dictionary, TContext extends Di
 
 export interface Column<TItem extends Dictionary, TContext extends Dictionary> {
   accessorKey: keyof TItem
-  cellProps?: CellProps | undefined
-  headerProps?: CellProps | undefined
+  cellProps?: TableTypes.CellProps | undefined
+  headerProps?: TableTypes.CellProps | undefined
   renderCell: (props: RenderCellProps<TItem, TContext>) => React.ReactNode
   renderHeader: (props: RenderHeaderProps<TItem, TContext>) => React.ReactNode
 }
 
-export type Props<TItem extends Dictionary, TContext extends Dictionary> = RootProps & {
+export type Props<TItem extends Dictionary, TContext extends Dictionary> = TableTypes.RootProps & {
   className?: string | undefined
   list: TItem[]
   columns: Column<TItem, TContext>[]
