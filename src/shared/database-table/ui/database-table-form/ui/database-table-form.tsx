@@ -2,8 +2,19 @@ import React from 'react'
 
 import Button from '~/shared/button'
 import Flex from '~/shared/flex'
-import { Column, Field, FieldArray, Label, Row, TextField, type TextFieldProps } from '~/shared/form'
+import {
+  Column,
+  Field,
+  FieldArray,
+  Label,
+  Row,
+  TextArea,
+  type TextAreaProps,
+  TextField,
+  type TextFieldProps,
+} from '~/shared/form'
 import Icon from '~/shared/icon'
+import Tooltip from '~/shared/tooltip'
 import { c } from '~/utils/core'
 import { generateUniqId } from '~/utils/core'
 
@@ -15,11 +26,13 @@ export interface Props {
   fieldNames: {
     table: string
     tableDisplay: string
+    description: string
     columns: string
   }
   strings: {
     table: string
     tableDisplay: string
+    description: string
     columns: string
   }
 }
@@ -39,17 +52,41 @@ export default function Component(props: Props): JSX.Element {
       <Row>
         <Column width='50%'>
           <Field<string, TextFieldProps<string>, HTMLInputElement>
-            label={strings.tableDisplay}
+            label={
+              <Flex gap={'1'}>
+                {strings.tableDisplay}
+                <Tooltip content={'Отображение в интерфейсе'}>
+                  <span>
+                    <Icon name={'InfoCircled'} />
+                  </span>
+                </Tooltip>
+              </Flex>
+            }
             name={fieldNames.tableDisplay}
             component={TextField}
-          />
+          ></Field>
           <Field<string, TextFieldProps<string>, HTMLInputElement>
-            label={strings.table}
+            label={
+              <Flex gap={'1'}>
+                {strings.table}
+                <Tooltip content={'В базе данных'}>
+                  <span>
+                    <Icon name={'InfoCircled'} />
+                  </span>
+                </Tooltip>
+              </Flex>
+            }
             name={fieldNames.table}
             component={TextField}
           />
         </Column>
-        <Flex width='50%' />
+        <Column width='50%'>
+          <Field<string, TextAreaProps<string>, HTMLInputElement>
+            label={strings.description}
+            name={fieldNames.description}
+            component={TextArea}
+          />
+        </Column>
       </Row>
       <Column>
         <Flex direction='column'>

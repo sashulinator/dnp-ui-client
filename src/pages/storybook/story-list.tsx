@@ -12,6 +12,7 @@ import databasTableDatabaseTableForm from '~/shared/database-table/ui/database-t
 import explorerViewer from '~/shared/explorer/ui/viewer/story'
 import uiFormWJsonEditor from '~/shared/form/widgets/json-editor/story'
 import uiFormWKeyValue from '~/shared/form/widgets/key-value/story'
+import uiFormWTextArea from '~/shared/form/widgets/text-area/story'
 import uiFormWTextField from '~/shared/form/widgets/text-field/story'
 import uiPagination from '~/shared/page/ui/pagination/story'
 import uiPaginationWInfo from '~/shared/page/ui/pagination/widgets/info/story'
@@ -49,6 +50,7 @@ export const storyList: Story<any>[] = [
   uiFormWJsonEditor,
   uiFormWKeyValue,
   uiFormWTextField,
+  uiFormWTextArea,
   uiPagination,
   uiPaginationWInfo,
   uiPaginationWSwitcher,

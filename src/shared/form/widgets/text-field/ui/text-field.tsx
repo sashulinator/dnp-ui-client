@@ -13,7 +13,7 @@ import Label from '../../label/ui/label'
 export const NAME = `${PARENT_NAME}-w-TextField`
 
 export type Props<FieldValue> = Omit<RootProps, 'name' | 'value'> & {
-  label?: string | undefined
+  label?: string | undefined | React.ReactElement
   rootProps?: FlexProps | undefined
   input: FieldInputProps<string, HTMLInputElement>
   meta: FieldMetaState<FieldValue>

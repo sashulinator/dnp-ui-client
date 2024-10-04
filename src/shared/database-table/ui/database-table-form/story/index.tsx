@@ -49,8 +49,18 @@ export default {
             render={() => {
               return (
                 <DatabaseTableForm
-                  fieldNames={{ table: 'tableName', columns: 'columns', tableDisplay: 'tableDisplay' }}
-                  strings={{ table: 'TableName', columns: 'Columns', tableDisplay: 'tableDisplay' }}
+                  fieldNames={{
+                    table: 'tableName',
+                    columns: 'tableSchema.items',
+                    tableDisplay: 'name',
+                    description: 'tableSchema.description',
+                  }}
+                  strings={{
+                    table: 'Тех. название',
+                    columns: 'Колонки',
+                    tableDisplay: 'Название',
+                    description: 'Описание',
+                  }}
                 />
               )
             }}

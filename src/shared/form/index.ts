@@ -38,6 +38,7 @@ export {
   UniqueTextField,
   type UniqueTextFieldProps,
 } from './widgets/text-field'
+export { default as TextArea, type TextAreaProps } from './widgets/text-area'
 export { default as KeyValue, type KeyValueProps } from './widgets/key-value'
 export { default as TagPicker, type TagPickerProps } from './widgets/tag-picker'
 export { default as Checkbox, type CheckboxProps } from './widgets/checkbox'

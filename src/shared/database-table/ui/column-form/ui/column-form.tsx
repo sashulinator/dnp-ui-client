@@ -3,6 +3,7 @@ import { useField } from 'react-final-form'
 
 import Button from '~/shared/button'
 import Card from '~/shared/card'
+import SharedCheckbox from '~/shared/checkbox'
 import DataList from '~/shared/data-list'
 import Flex from '~/shared/flex'
 import type { SelectProps, TextFieldProps } from '~/shared/form'
@@ -120,124 +121,111 @@ export default function Component(props: Props) {
                 />
               </DataList.Value>
             </DataList.Item>
-
-            <DataList.Item>
-              <Label children='Тип' />
-              <DataList.Value>
-                <TypedField<Column, 'type', string, string, SelectProps<string>, HTMLInputElement>
-                  component={Select}
-                  size='1'
-                  name={`${typedName}type`}
-                  defaultValue='string'
-                  options={[
-                    { value: 'string', display: 'Строка' },
-                    { value: 'integer', display: 'Целое число' },
-                    { value: 'float', display: 'Дробное число' },
-                    { value: 'date', display: 'Дата' },
-                    { value: 'boolean', display: 'Да/Heт' },
-                    { value: 'byte', display: 'Целое число (byte)' },
-                    { value: 'short', display: 'Целое число (short)' },
-                    { value: 'long', display: 'Целое число (long)' },
-                    { value: 'double', display: 'Дробное число (double)' },
-                  ]}
-                />
-              </DataList.Value>
-            </DataList.Item>
-            <DataList.Item>
-              <Label>
-                <Flex gap={'1'}>
-                  Индексация
-                  <Tooltip
-                    content={
-                      <>
-                        Индексировать для быстрого поиска
-                        <br />
-                        (увеличивает размер на жестком диске)
-                      </>
-                    }
-                  >
-                    <span>
-                      <Icon name={'InfoCircled'} />
-                    </span>
-                  </Tooltip>
-                </Flex>
-              </Label>
-              <DataList.Value>
-                <Checkbox size='1' name={`${typedName}index`} />
-              </DataList.Value>
-            </DataList.Item>
             <DataList.Item>
               <Label>Обязательно</Label>
               <DataList.Value>
                 <Checkbox checked defaultChecked={true} size='1' name={`${typedName}nullable`} />
               </DataList.Value>
             </DataList.Item>
-            <_MaxLengthDataListItem typedName={typedName} />
-            <_IsNegativeAllowedListItem typedName={typedName} />
-            <_DecimalPlacesDataListItem typedName={typedName} />
-          </DataList.Root>
-          <Card>
-            <DataList.Root size='2'>
-              <DataList.Item>
-                <Text size='1' color='gray'>
-                  Связь
-                </Text>
-                <DataList.Value>
-                  <Flex width='100%' justify='end'>
-                    <Button
-                      onClick={() => setHasRelation(!hasRelation)}
-                      size='1'
-                      variant='outline'
-                      round={true}
-                      type='button'
+            <DataList.Item>
+              <Label>Связь</Label>
+              <DataList.Value>
+                <SharedCheckbox checked={hasRelation} size='1' onCheckedChange={(v) => setHasRelation(!!v)} />
+              </DataList.Value>
+            </DataList.Item>
+            {hasRelation ? (
+              <>
+                <DataList.Item>
+                  <Label children='Ссылка' />
+                  <DataList.Value>
+                    <TypedField<
+                      Required<NonNullableFlat<Column>>,
+                      'relation.kn',
+                      string,
+                      string,
+                      TextFieldProps<string>,
+                      HTMLInputElement
                     >
-                      <Icon name={hasRelation ? 'ChevronUp' : 'ChevronDown'} />
-                    </Button>
-                  </Flex>
-                </DataList.Value>
-              </DataList.Item>
-              {hasRelation && (
-                <>
-                  <DataList.Item>
-                    <Label children='Таблица' />
-                    <DataList.Value>
-                      <TypedField<
-                        Required<NonNullableFlat<Column>>,
-                        'relation.kn',
-                        string,
-                        string,
-                        TextFieldProps<string>,
-                        HTMLInputElement
+                      component={TextField}
+                      size='1'
+                      variant='soft'
+                      name={`${typedName}relation.kn`}
+                    />
+                  </DataList.Value>
+                </DataList.Item>
+                <DataList.Item>
+                  <Label children='Колонка' />
+                  <DataList.Value>
+                    <TypedField<
+                      Required<NonNullableFlat<Column>>,
+                      'relation.columnName',
+                      string,
+                      string,
+                      TextFieldProps<string>,
+                      HTMLInputElement
+                    >
+                      component={TextField}
+                      size='1'
+                      variant='soft'
+                      name={`${typedName}relation.columnName`}
+                    />
+                  </DataList.Value>
+                </DataList.Item>
+              </>
+            ) : (
+              <>
+                <DataList.Item>
+                  <Label children='Тип' />
+                  <DataList.Value>
+                    <TypedField<Column, 'type', string, string, SelectProps<string>, HTMLInputElement>
+                      component={Select}
+                      size='1'
+                      name={`${typedName}type`}
+                      defaultValue='string'
+                      options={[
+                        { value: 'string', display: 'Строка' },
+                        { value: 'integer', display: 'Целое число' },
+                        { value: 'float', display: 'Дробное число' },
+                        { value: 'date', display: 'Дата' },
+                        { value: 'boolean', display: 'Да/Heт' },
+                        { value: 'byte', display: 'Целое число (byte)' },
+                        { value: 'short', display: 'Целое число (short)' },
+                        { value: 'long', display: 'Целое число (long)' },
+                        { value: 'double', display: 'Дробное число (double)' },
+                      ]}
+                    />
+                  </DataList.Value>
+                </DataList.Item>
+
+                <_MaxLengthDataListItem typedName={typedName} />
+                <DataList.Item>
+                  <Label>
+                    <Flex gap={'1'}>
+                      Индексация
+                      <Tooltip
+                        content={
+                          <>
+                            Индексировать для быстрого поиска
+                            <br />
+                            (увеличивает размер на жестком диске)
+                          </>
+                        }
                       >
-                        component={TextField}
-                        size='1'
-                        variant='soft'
-                        name={`${typedName}relation.kn`}
-                      />
-                    </DataList.Value>
-                  </DataList.Item>
-                  <DataList.Item>
-                    <Label children='Колонка' />
-                    <DataList.Value>
-                      <TypedField<
-                        Required<NonNullableFlat<Column>>,
-                        'relation.columnName',
-                        string,
-                        string,
-                        TextFieldProps<string>,
-                        HTMLInputElement
-                      >
-                        component={TextField}
-                        size='1'
-                        variant='soft'
-                        name={`${typedName}relation.columnName`}
-                      />
-                    </DataList.Value>
-                  </DataList.Item>
-                </>
-              )}
-            </DataList.Root>
-          </Card>
+                        <span>
+                          <Icon name={'InfoCircled'} />
+                        </span>
+                      </Tooltip>
+                    </Flex>
+                  </Label>
+                  <DataList.Value>
+                    <Checkbox size='1' name={`${typedName}index`} />
+                  </DataList.Value>
+                </DataList.Item>
+                <_IsNegativeAllowedListItem typedName={typedName} />
+                <_DecimalPlacesDataListItem typedName={typedName} />
+              </>
+            )}
+          </DataList.Root>
         </Flex>
       </Flex>
     </Card>

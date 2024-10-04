@@ -44,8 +44,18 @@ export function Component(props: Props): JSX.Element {
 
       <Card>
         <DatabaseTableForm
-          fieldNames={{ table: 'tableName', columns: 'tableSchema.items', tableDisplay: 'name' }}
-          strings={{ table: 'Тех. название', columns: 'Колонки', tableDisplay: 'Название' }}
+          fieldNames={{
+            table: 'tableName',
+            columns: 'tableSchema.items',
+            tableDisplay: 'name',
+            description: 'tableSchema.description',
+          }}
+          strings={{
+            table: 'Тех. название',
+            columns: 'Колонки',
+            tableDisplay: 'Название',
+            description: 'Описание',
+          }}
         />
       </Card>
 
