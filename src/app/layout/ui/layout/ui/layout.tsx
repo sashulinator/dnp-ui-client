@@ -1,4 +1,4 @@
-import './root.scss'
+import './layout.scss'
 
 import { createElement } from 'react'
 
@@ -11,7 +11,7 @@ export interface Props {
   renderMain: () => React.ReactNode
 }
 
-Component.displayName = 'layout-Root'
+Component.displayName = 'layout-Layout'
 
 export default function Component(props: Props): JSX.Element {
   const { renderHeader, renderNav, renderMain } = props
