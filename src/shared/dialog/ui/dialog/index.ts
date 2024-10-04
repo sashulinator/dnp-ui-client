@@ -10,5 +10,4 @@ const Dialog = {
 }
 
 export default Dialog
-
-export { type DialogType } from './index-type'
+export type * as DialogType from './ui/dialog'
