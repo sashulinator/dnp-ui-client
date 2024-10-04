@@ -1,4 +1,4 @@
-import { type Route } from '~/shared/route'
+import { type Route } from './route'
 
 export type AppRoute = Route<{
   renderHeader?: () => React.ReactNode

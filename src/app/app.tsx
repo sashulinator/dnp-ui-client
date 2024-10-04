@@ -10,8 +10,8 @@ import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6'
 
 import { RouteControllerAdapterLayout } from '~/app/layout'
 import { routes } from '~/app/route'
+import { Controller as RouteController, Provider as RouteProvider } from '~/app/route'
 import { queryClient } from '~/shared/react-query'
-import { Controller as RouteController, Provider as RouteProvider } from '~/shared/route'
 import Theme from '~/shared/theme'
 import { NotificationToastList } from '~/shared/toast'
 
