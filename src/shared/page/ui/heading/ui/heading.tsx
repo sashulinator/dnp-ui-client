@@ -43,21 +43,17 @@ export interface BackToParentProps {
 export function BackToParent(props: BackToParentProps): JSX.Element {
   const { className } = props
 
-  const { loading = false, backRoute, renderIcon } = useContext()
+  const { backRoute, renderIcon } = useContext()
 
   return (
     <Button
       variant='soft'
       style={{ marginRight: 'var(--space-4)' }}
       square={true}
-      disabled={false}
       className={c(className)}
-      loading={loading}
-      asChild={!loading}
+      asChild={true}
     >
-      {loading
-        ? renderIcon && React.createElement(renderIcon)
-        : backRoute && renderIcon && <Link to={backRoute.getUrl()}>{<Icon name='ChevronLeft' />}</Link>}
+      {backRoute && renderIcon && <Link to={backRoute.getUrl()}>{<Icon name='ChevronLeft' />}</Link>}
     </Button>
   )
 }

@@ -1,4 +1,5 @@
-import { AxiosError } from 'axios'
-import { Codable } from '~/utils/error'
+import { type AxiosError } from 'axios'
 
-export type QueryError = AxiosError<Error | Codable>
+export type ServerError = Error & { description: string }
+
+export type QueryError = AxiosError<ServerError>

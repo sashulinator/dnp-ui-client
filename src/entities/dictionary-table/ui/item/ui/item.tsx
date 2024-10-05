@@ -5,7 +5,7 @@ import dayjs from 'dayjs'
 import { routes } from '~/app/route'
 import Avatar from '~/shared/avatar'
 import Card from '~/shared/card'
-import Flex from '~/shared/flex'
+import Flex, { type FlexProps } from '~/shared/flex'
 import Link from '~/shared/link'
 import Separator from '~/shared/separator'
 import Text, { HighlightedText } from '~/shared/text'
@@ -14,7 +14,7 @@ import { c } from '~/utils/core'
 
 import { type DictionaryTable } from '../../../types/dictionary-table'
 
-export interface Props {
+export type Props = FlexProps & {
   className?: string | undefined
   item: DictionaryTable
 }
@@ -25,10 +25,10 @@ const displayName = 'dictionaryTable-Item'
  * dictionaryTable-Item
  */
 export default function Component(props: Props): JSX.Element {
-  const { className, item } = props
+  const { className, item, ...flexProps } = props
 
   return (
-    <Flex justify='between' direction='row' asChild={true}>
+    <Flex justify='between' direction='row' asChild={true} {...flexProps}>
       <Card asChild={true} className={c(displayName, className)}>
         <Link to={`${routes.dictionaryTables_kn.getUrl(item.kn)}`}>
           <Flex direction='column'>

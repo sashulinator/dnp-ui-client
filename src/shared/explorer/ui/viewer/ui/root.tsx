@@ -4,10 +4,10 @@ import { type Item } from '~/shared/explorer'
 import Flex from '~/shared/flex'
 import { c } from '~/utils/core'
 
-import type { ContextProps } from '../models/context'
+import type { Context } from '../models/context'
 import { context } from '../models/context'
 
-export interface Props<TItem extends Item> extends ContextProps<TItem> {
+export interface Props<TItem extends Item> extends Context<TItem> {
   className?: string | undefined
   children: React.ReactNode
 }
@@ -21,7 +21,7 @@ export default function Component<TItem extends Item>(props: Props<TItem>): JSX.
   const { children, className, ...contextProps } = props
 
   return (
-    <context.Provider value={contextProps}>
+    <context.Provider value={{ ...contextProps }}>
       <Flex direction='column' gap='4' width='100%' className={c(className, NAME)}>
         {children}
       </Flex>

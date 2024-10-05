@@ -7,6 +7,7 @@ import { routes } from '~/app/route'
 import { type Row, SYSNAME, api } from '~/entities/dictionary-table'
 import Button from '~/shared/button'
 import Container from '~/shared/container'
+import { TICK_MS, cssAnimations } from '~/shared/css-animations'
 import { type Column, RowForm, toColumns } from '~/shared/database-table'
 import Dialog from '~/shared/dialog'
 import { Viewer } from '~/shared/explorer'
@@ -20,7 +21,8 @@ import Section from '~/shared/section'
 import { useSort } from '~/shared/sort'
 import TextField from '~/shared/text-field'
 import { JSONParam } from '~/shared/use-query-params'
-import { isEmpty } from '~/utils/core'
+import { c, isEmpty } from '~/utils/core'
+import { useRenderDelay } from '~/utils/core-hooks/render-delay'
 
 export interface Props {
   className?: string | undefined
@@ -29,11 +31,17 @@ export interface Props {
 const NAME = `${SYSNAME}-Page_id_explorer`
 
 /**
- * dictionaryTable-Page_id_explorer
- */
-export default function Component(): JSX.Element {
+ * Fix: при переходе из одного словаря в другой
+ * реакт воспринимает это как ререндеринг компонента
+ * а не как переход на другую страницу
+ **/
+export default function Component() {
   const { kn = '' } = useParams<{ kn: string }>()
+  return <_Component key={kn} />
+}
 
+export function _Component(): JSX.Element {
+  const { kn = '' } = useParams<{ kn: string }>()
   const [nameQueryParam] = useQueryParam('name', withDefault(StringParam, ''))
   const [searchQueryParam, searchValue, setSearchValue] = useSearch()
   const [sortParam, sortValue, setSort] = useSort()
@@ -46,6 +54,7 @@ export default function Component(): JSX.Element {
     { removeDefaultsFromUrl: true },
   )
 
+  const tableRenderDelay = useRenderDelay(TICK_MS * 4)
   const [columnSearchParams, setColumnSearchParams] = useQueryParam('columnSearch', JSONParam)
 
   const requestParams = {
@@ -57,7 +66,10 @@ export default function Component(): JSX.Element {
     searchQuery: { startsWith: searchQueryParam },
   }
 
-  const explorerListFetcher = api.explorer.findManyAndCountRows.useCache(requestParams, { keepPreviousData: true })
+  const explorerListFetcher = api.explorer.findManyAndCountRows.useCache(requestParams, {
+    keepPreviousData: true,
+    staleTime: 10_000,
+  })
 
   const columns = useMemo(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -100,10 +112,12 @@ export default function Component(): JSX.Element {
       explorerUpdateMutator.mutateAsync({ kn, input: values, where: { _id: values._id } }).then((res) => res.data),
   })
 
-  const indexedColumns = explorerListFetcher.data?.dictionaryTable.tableSchema.items.filter((item) => item.index)
+  const indexedColumns = explorerListFetcher.data?.dictionaryTable.tableSchema.items.filter(
+    (item) => item.index || item.primary,
+  )
 
   return (
-    <main className={NAME}>
+    <main className={NAME} key={kn}>
       <_Dialog
         form={formToCreate}
         open={formToCreateOpen}
@@ -117,27 +131,21 @@ export default function Component(): JSX.Element {
         columns={explorerListFetcher.data?.dictionaryTable.tableSchema.items}
       />
       <Container p='var(--space-4)'>
-        {explorerListFetcher.isError && (
-          <Flex width='100%' justify='center' gap='2' align='center'>
-            Ошибка <Button onClick={() => explorerListFetcher.refetch()}>Перезагрузить</Button>
-          </Flex>
-        )}
-
-        {!explorerListFetcher.isError && (
-          <Section size='1'>
-            <Flex width='100%' justify='between'>
-              <Heading.Root
-                loading={explorerListFetcher.isFetching}
-                route={routes.dictionaryTables_kn_explorer}
-                backRoute={routes.dictionaryTables}
-                renderIcon={routes.dictionaryTables.payload.renderIcon}
-              >
-                <Heading.BackToParent />
-                <Heading.Unique
-                  string={explorerListFetcher.data?.dictionaryTable.name ?? nameQueryParam}
-                  tooltipContent={routes.dictionaryTables_kn_explorer.getName()}
-                />
-              </Heading.Root>
+        <Section size='1' className={c(cssAnimations.Appear)}>
+          <Flex width='100%' justify='between'>
+            <Heading.Root
+              loading={explorerListFetcher.isFetching}
+              route={routes.dictionaryTables_kn_explorer}
+              backRoute={routes.dictionaryTables}
+              renderIcon={routes.dictionaryTables.payload.renderIcon}
+            >
+              <Heading.BackToParent />
+              <Heading.Unique
+                string={explorerListFetcher.data?.dictionaryTable.name ?? nameQueryParam}
+                tooltipContent={routes.dictionaryTables_kn_explorer.getName()}
+              />
+            </Heading.Root>
+            <Flex>
               <Button
                 onClick={() => {
                   formToCreate.initialize({})
@@ -147,53 +155,49 @@ export default function Component(): JSX.Element {
                 Создать
               </Button>
             </Flex>
-          </Section>
-        )}
+          </Flex>
+        </Section>
 
-        {Boolean(indexedColumns?.length) && (
-          <Section size='1'>
-            <Flex width='50%' direction='column'>
-              <TextField.Root
-                placeholder={`Индексы: ${indexedColumns?.map((item) => item.name).join(', ')}`}
-                value={searchValue}
-                onChange={(e) => setSearchValue(e.target.value)}
-                size='3'
-                type='search'
-              />
-            </Flex>
-          </Section>
-        )}
-
-        {explorerListFetcher.data && (
-          <Section size='1'>
-            <Pagination
-              currentPage={page}
-              limit={take}
-              loading={explorerListFetcher.isFetching}
-              totalElements={explorerListFetcher.data?.explorer.total}
-              onChange={(page) => setPaginationParams({ page })}
+        <Section size='1' className={c(cssAnimations.Appear)} style={{ animationDelay: `${TICK_MS * 2}ms` }}>
+          <Flex width='50%' direction='column'>
+            <TextField.Root
+              placeholder={`Индексы: ${indexedColumns?.map((item) => item.name).join(', ') || '∞'}`}
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+              size='3'
+              type='search'
             />
-          </Section>
-        )}
+          </Flex>
+        </Section>
 
-        {explorerListFetcher.isSuccess && (
+        <Section size='1' className={c(cssAnimations.Appear)} style={{ animationDelay: `${TICK_MS * 3}ms` }}>
+          <Pagination
+            currentPage={page}
+            limit={take}
+            loading={!explorerListFetcher.data ? false : explorerListFetcher.isFetching}
+            totalElements={explorerListFetcher.data?.explorer.total}
+            onChange={(page) => setPaginationParams({ page })}
+          />
+        </Section>
+
+        {tableRenderDelay.isRender && (
           <Section size='1'>
-            <ScrollArea>
+            <ScrollArea scrollbars='horizontal'>
               <Viewer.Root
+                error={explorerListFetcher.error?.response?.data}
                 loading={explorerListFetcher.isFetching}
-                onPathChange={(paths) => {
-                  const last = paths[paths.length - 1]
-                  const item = explorerListFetcher.data.explorer.items.find((item) => {
-                    const idKey = explorerListFetcher.data.explorer
-                    return item.data[idKey as (typeof item.data)[keyof typeof item.data]] === last.name
-                  })
-                  if (!item) return
-                  formToUpdate.initialize(item.data)
-                }}
-                paths={explorerListFetcher.data.explorer.paths}
-                data={explorerListFetcher.data.explorer}
+                paths={explorerListFetcher.data?.explorer.paths || []}
+                explorer={explorerListFetcher?.data?.explorer}
               >
                 <Viewer.ListTable
+                  className={c(cssAnimations.Appear)}
+                  rowProps={({ item, rowIndex }) => ({
+                    className: cssAnimations.Appear,
+                    style: {
+                      animationDelay: `${TICK_MS * Math.pow(rowIndex, 0.5)}ms`,
+                    },
+                    onDoubleClick: () => formToUpdate.initialize(item),
+                  })}
                   context={{
                     sort: sortValue,
                     setSort,

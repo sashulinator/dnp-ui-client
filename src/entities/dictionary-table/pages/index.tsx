@@ -4,10 +4,13 @@ import { routes } from '~/app/route'
 import { Item, api } from '~/entities/dictionary-table'
 import Button from '~/shared/button'
 import Container from '~/shared/container'
+import { TICK_MS, cssAnimations } from '~/shared/css-animations'
 import Flex from '~/shared/flex'
 import Link from '~/shared/link'
 import { Heading, Pagination } from '~/shared/page'
 import Section from '~/shared/section'
+import { c } from '~/utils/core'
+import { useRenderDelay } from '~/utils/core-hooks/render-delay'
 
 import { SYSNAME } from '../constants/name'
 
@@ -17,21 +20,20 @@ export interface Props {
 
 const displayName = `${SYSNAME}-Page_list`
 
-/**
- * page-DictionaryTable
- */
 export default function Component(): JSX.Element {
   const [{ page = 1, take = 10 }, setPaginationParams] = useQueryParams({
     page: withDefault(NumberParam, 1),
     take: withDefault(NumberParam, 10),
   })
 
+  const listRenderDelay = useRenderDelay(TICK_MS * 3)
+
   const fetcherList = api.fetchList.useCache({ take, skip: (page - 1) * take }, { keepPreviousData: true })
 
   return (
     <main className={displayName}>
       <Container p='var(--space-4)'>
-        <Section size='1'>
+        <Section size='1' className={c(cssAnimations.Appear)}>
           <Flex width='100%' justify='between'>
             <Heading.Root
               loading={fetcherList.isLoading && fetcherList.data === undefined}
@@ -52,7 +54,7 @@ export default function Component(): JSX.Element {
             </Flex>
           </Flex>
         </Section>
-        <Section size='1'>
+        <Section size='1' className={c(cssAnimations.Appear)} style={{ animationDelay: `${TICK_MS}ms` }}>
           <Pagination
             currentPage={page}
             limit={take}
@@ -61,13 +63,22 @@ export default function Component(): JSX.Element {
             onChange={(page) => setPaginationParams({ page }, 'replace')}
           />
         </Section>
-        <Section size='1'>
-          <Flex gap='4' direction={'column'}>
-            {fetcherList.data?.items?.map((item) => {
-              return <Item key={item.kn} item={item} />
-            })}
-          </Flex>
-        </Section>
+        {listRenderDelay.isRender && (
+          <Section size='1' className={c(cssAnimations.Appear)}>
+            <Flex gap='4' direction={'column'}>
+              {fetcherList.data?.items?.map((item, i) => {
+                return (
+                  <Item
+                    style={{ animationDelay: `${Math.pow(i, 0.7) * TICK_MS}ms` }}
+                    className={c(cssAnimations.Appear)}
+                    key={item.kn}
+                    item={item}
+                  />
+                )
+              })}
+            </Flex>
+          </Section>
+        )}
         <Section></Section>
       </Container>
     </main>

@@ -21,7 +21,7 @@ export default {
 
     return (
       <div style={{ width: '100%', height: '100%', border: '1px solid red' }}>
-        <Root context={{}} paths={paths} loading={isFetching} onPathChange={setPath} data={data} {...state}>
+        <Root error={null} paths={paths} loading={isFetching} onPathChange={setPath} explorer={data} {...state}>
           <Breadscrums />
           <List />
         </Root>

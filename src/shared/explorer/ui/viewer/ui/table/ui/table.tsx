@@ -40,7 +40,7 @@ export const NAME = `${ROOT_NAME}-c-Table`
 export default function Component<TContext extends Record<string, unknown>>(props: Props<TContext>): JSX.Element {
   const { className, columns: propsColumns, ...rootTableProps } = props
 
-  const { data, onPathChange, paths, context: contextProp } = useContext()
+  const { explorer, onPathChange, paths } = useContext()
 
   const columns = propsColumns as unknown as Column<Item, TContext>[] /* иначе никак */
 
@@ -54,7 +54,7 @@ export default function Component<TContext extends Record<string, unknown>>(prop
                 {React.createElement(column.renderHeader, {
                   accessorKey: column.accessorKey,
                   name: column.name,
-                  context: contextProp as TContext,
+                  context: {} as TContext,
                 })}
               </Table.ColumnHeaderCell>
             )
@@ -62,14 +62,14 @@ export default function Component<TContext extends Record<string, unknown>>(prop
         </Table.Row>
       </Table.Header>
       <Table.Body>
-        {data?.items.map((item, i) => {
+        {explorer?.items.map((item, i) => {
           return (
             <Table.Row
               key={i}
               onClick={() => {
                 onPathChange?.([
                   ...(paths || []),
-                  { name: item[data.idKey as (typeof item.data)[keyof typeof item.data]], type: item.type },
+                  { name: item[explorer.idKey as (typeof item.data)[keyof typeof item.data]], type: item.type },
                 ])
               }}
             >
@@ -80,7 +80,7 @@ export default function Component<TContext extends Record<string, unknown>>(prop
                       accessorKey: column.accessorKey,
                       name: column.name,
                       item,
-                      context: contextProp as TContext,
+                      context: {} as TContext,
                       // eslint-disable-next-line @typescript-eslint/no-explicit-any
                       value: (item.data as any)[column.accessorKey],
                     })}

@@ -164,11 +164,11 @@ export default function Component(): JSX.Element {
                   </Flex>
                   {paths.length !== 0 && (
                     <Viewer.Root
-                      context={{}}
+                      error={explorerFetcher.error?.response?.data}
                       onPathChange={setPaths}
                       loading={explorerFetcher.isFetching}
                       paths={paths}
-                      data={explorerFetcher.data}
+                      explorer={explorerFetcher.data}
                     >
                       <Viewer.Breadscrums />
                       <Viewer.List />

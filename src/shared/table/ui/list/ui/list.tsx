@@ -1,4 +1,8 @@
+import { type ServerError } from '~/shared/api'
+import Flex from '~/shared/flex'
+import Spinner from '~/shared/spinner'
 import Table, { type TableTypes } from '~/shared/table'
+import Text from '~/shared/text'
 import { type Dictionary, c } from '~/utils/core'
 import { getPath, toPath } from '~/utils/dictionary'
 
@@ -28,16 +32,21 @@ export interface Column<TItem extends Dictionary, TContext extends Dictionary> {
 export type Props<TItem extends Dictionary, TContext extends Dictionary> = TableTypes.RootProps & {
   className?: string | undefined
   list: TItem[]
+  loading: boolean | undefined
+  error: ServerError | null | undefined
   columns: Column<TItem, TContext>[]
   context: TContext
-  rowProps?: (params: { item: TItem } & Props<TItem, TContext>) => TableTypes.RowProps | undefined
+  rowProps?: (params: { item: TItem; rowIndex: number } & Props<TItem, TContext>) => TableTypes.RowProps | undefined
   headerRowProps?: (params: Props<TItem, TContext>) => TableTypes.RowProps | undefined
   headerProps?: (params: Props<TItem, TContext>) => TableTypes.HeaderProps | undefined
   columnHeaderCellProps?: (
     props: { params: Column<TItem, TContext> } & Props<TItem, TContext>,
   ) => TableTypes.ColumnHeaderCellProps | undefined
   cellProps?: (
-    params: { item: TItem; column: Column<TItem, TContext> } & Props<TItem, TContext>,
+    params: { item: TItem; rowIndex: number; columnIndex: number; column: Column<TItem, TContext> } & Props<
+      TItem,
+      TContext
+    >,
   ) => TableTypes.CellProps | undefined
   bodyProps?: (params: Props<TItem, TContext>) => TableTypes.BodyProps | undefined
 }
@@ -55,6 +64,8 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
     columns,
     context,
     list,
+    error,
+    loading,
     bodyProps,
     cellProps,
     columnHeaderCellProps,
@@ -83,26 +94,62 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
         </Table.Row>
       </Table.Header>
       <Table.Body {...bodyProps?.(props)}>
-        {list.map((item, i) => {
-          return (
-            <Table.Row {...rowProps?.({ item, ...props })} key={i}>
-              {props.columns.map((column, i) => {
-                const mergedProps = { ...cellProps?.({ column, item, ...props }), ...column.cellProps }
-                return (
-                  <Table.Cell key={i} {...mergedProps}>
-                    {column.renderCell({
-                      accessorKey: column.accessorKey,
-                      value: getPath(item, toPath(column.accessorKey.toString())),
-                      context: context as TContext,
-                      name: column.name,
-                      item,
-                    })}
-                  </Table.Cell>
-                )
-              })}
-            </Table.Row>
-          )
-        })}
+        {list.length === 0 ? (
+          <Table.Row
+            style={{
+              backgroundColor: 'var(--table-row-background-color)',
+              display: 'flex',
+              height: '5rem',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <td>
+              {loading ? (
+                <Spinner />
+              ) : error ? null : (
+                <Text size='1' style={{ textTransform: 'uppercase', color: 'var(--gray-10)' }}>
+                  Нет данных
+                </Text>
+              )}
+              {!loading && error && (
+                <Flex direction='column' gap='1' align='center'>
+                  <Text size='1' style={{ textTransform: 'uppercase' }} color='red'>
+                    {error.message}
+                  </Text>
+                  <Text size='1' color='red'>
+                    {error.description}
+                  </Text>
+                </Flex>
+              )}
+            </td>
+          </Table.Row>
+        ) : (
+          list.map((item, rowIndex) => {
+            const gottenRowProps = rowProps?.({ item, rowIndex, ...props })
+            return (
+              <Table.Row {...gottenRowProps} key={gottenRowProps?.key || rowIndex}>
+                {props.columns.map((column, columnIndex) => {
+                  const mergedProps = {
+                    ...cellProps?.({ column, columnIndex, rowIndex, item, ...props }),
+                    ...column.cellProps,
+                  }
+                  return (
+                    <Table.Cell key={columnIndex} {...mergedProps}>
+                      {column.renderCell({
+                        accessorKey: column.accessorKey,
+                        value: getPath(item, toPath(column.accessorKey.toString())),
+                        context: context as TContext,
+                        name: column.name,
+                        item,
+                      })}
+                    </Table.Cell>
+                  )
+                })}
+              </Table.Row>
+            )
+          })
+        )}
       </Table.Body>
     </Table.Root>
   )

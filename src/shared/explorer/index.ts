@@ -18,3 +18,10 @@ export { type Explorer, type Path, type Item, type Type, type StoreConfig } from
  */
 
 export * as Viewer from './ui/viewer'
+
+/**
+ * lib
+ */
+
+export { serializeItem } from './lib/serialize-item'
+export { deserializeItem } from './lib/deserialize-item'

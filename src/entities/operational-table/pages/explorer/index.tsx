@@ -259,6 +259,7 @@ export default function Component(): JSX.Element {
           <Section size='1'>
             <ScrollArea>
               <ExplorerViewer
+                error={explorerListFetcher.error}
                 loading={explorerListFetcher.isFetching}
                 context={{
                   sort: sortValue,
@@ -284,7 +285,7 @@ export default function Component(): JSX.Element {
                     .then((res) => res.data.row)
                 }
                 paths={explorerListFetcher.data.explorer.paths}
-                data={explorerListFetcher.data.explorer}
+                explorer={explorerListFetcher.data.explorer}
                 columns={columns}
               />
             </ScrollArea>
