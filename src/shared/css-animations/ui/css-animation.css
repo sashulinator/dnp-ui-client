@@ -1,0 +1,12 @@
+@keyframes appear {
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .cssAnimation--Appear {
+    transform: translateY(20px);
+    opacity: 0;
+    animation: appear 333ms ease forwards;
+  }

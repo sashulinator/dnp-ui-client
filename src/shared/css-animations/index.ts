@@ -5,3 +5,4 @@ import './ui/css-animation.css'
  */
 
 export { cssAnimations } from './constants/css-animations'
+export { TICK_MS } from './constants/tick-ms'
