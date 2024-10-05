@@ -1,5 +1,6 @@
 import Table, { type TableTypes } from '~/shared/table'
 import { type Dictionary, c } from '~/utils/core'
+import { getPath, toPath } from '~/utils/dictionary'
 
 export interface RenderCellProps<TItem extends Dictionary, TContext extends Dictionary> {
   accessorKey: keyof TItem
@@ -87,7 +88,7 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
                   <Table.Cell key={i} {...mergedProps}>
                     {column.renderCell({
                       accessorKey: column.accessorKey,
-                      value: item[column.accessorKey],
+                      value: getPath(item, toPath(column.accessorKey.toString())),
                       context: context as TContext,
                       name: column.name,
                       item,

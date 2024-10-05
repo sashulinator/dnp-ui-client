@@ -1,3 +1,1 @@
-import { Key } from './key'
-
-export type Dictionary<T = unknown> = Record<Key, T>
+export type Dictionary<T = unknown> = Record<string | number, T>

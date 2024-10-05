@@ -23,6 +23,7 @@ import ColumnForm from '../../column-form'
 
 export interface Props {
   className?: string | undefined
+  primaryRequired: boolean
   fieldNames: {
     table: string
     tableDisplay: string
@@ -45,7 +46,7 @@ export const NAME = 'databaseTable-DatabaseTableForm'
  * databaseTable-DatabaseTableForm
  */
 export default function Component(props: Props): JSX.Element {
-  const { fieldNames, strings } = props
+  const { fieldNames, strings, primaryRequired } = props
 
   return (
     <Column className={c(props.className, NAME)}>
@@ -100,6 +101,7 @@ export default function Component(props: Props): JSX.Element {
                       React.createElement(ColumnForm, {
                         key: name,
                         name,
+                        primaryRequired,
                         index,
                         move: fields.move,
                         remove: fields.remove,

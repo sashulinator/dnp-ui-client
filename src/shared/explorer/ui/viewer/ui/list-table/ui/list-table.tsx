@@ -17,7 +17,10 @@ export type RenderCellProps<TItem extends Item, TContext extends Dictionary> = L
   TContext
 >
 
-export type Props<TItem extends Item, TContext extends Dictionary> = ListTableTypes.ListProps<TItem, TContext>
+export type Props<TItem extends Item, TContext extends Dictionary> = Omit<
+  ListTableTypes.ListProps<TItem, TContext>,
+  'list'
+>
 
 export const NAME = `${ROOT_NAME}-c-Table`
 

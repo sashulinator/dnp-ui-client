@@ -49,6 +49,7 @@ export default {
             render={() => {
               return (
                 <DatabaseTableForm
+                  primaryRequired={true}
                   fieldNames={{
                     table: 'tableName',
                     columns: 'tableSchema.items',

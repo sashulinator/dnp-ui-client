@@ -41,7 +41,6 @@ export {
  */
 
 export { SYSNAME, NAME } from './constants/name'
-export { default as ExplorerViewer } from './ui/explorer-viewer'
 export { default as Item, type ItemProps } from './ui/item'
 export { default as Icon } from './ui/icon'
 export {

@@ -22,6 +22,7 @@ export const NAME = 'databaseTable-ColumnForm'
 export interface Props {
   name: string
   index: number
+  primaryRequired?: boolean
   remove: (index: number) => void
   move: (from: number, to: number) => void
   length: number
@@ -196,20 +197,16 @@ export default function Component(props: Props) {
                     />
                   </DataList.Value>
                 </DataList.Item>
-
+                <_IsNegativeAllowedListItem typedName={typedName} />
+                <_DecimalPlacesDataListItem typedName={typedName} />
                 <_MaxLengthDataListItem typedName={typedName} />
                 <DataList.Item>
                   <Label>
                     <Flex gap={'1'}>
                       Индексация
                       <Tooltip
-                        content={
-                          <>
-                            Индексировать для быстрого поиска
-                            <br />
-                            (увеличивает размер на жестком диске)
-                          </>
-                        }
+                        // prettier-ignore
+                        content={<>Индексировать для быстрого поиска<br />(увеличивает размер на жестком диске)</>}
                       >
                         <span>
                           <Icon name={'InfoCircled'} />
@@ -221,8 +218,24 @@ export default function Component(props: Props) {
                     <Checkbox size='1' name={`${typedName}index`} />
                   </DataList.Value>
                 </DataList.Item>
-                <_IsNegativeAllowedListItem typedName={typedName} />
-                <_DecimalPlacesDataListItem typedName={typedName} />
+                <DataList.Item>
+                  <Label>
+                    <Flex gap={'1'}>
+                      Первичный
+                      <Tooltip
+                        // prettier-ignore
+                        content={<>Уникальное поле<br />(чаще всего оно называется "id" или "uuid")</>}
+                      >
+                        <span>
+                          <Icon name={'InfoCircled'} />
+                        </span>
+                      </Tooltip>
+                    </Flex>
+                  </Label>
+                  <DataList.Value>
+                    <Checkbox size='1' name={`${typedName}primary`} />
+                  </DataList.Value>
+                </DataList.Item>
               </>
             )}
           </DataList.Root>

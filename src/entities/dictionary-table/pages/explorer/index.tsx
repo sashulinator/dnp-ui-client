@@ -1,15 +1,15 @@
-import { useEffect, useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { NumberParam, StringParam, withDefault } from 'serialize-query-params'
 import { useQueryParam, useQueryParams } from 'use-query-params'
 
 import { routes } from '~/app/route'
-import { ExplorerViewer, type Row, SYSNAME, api } from '~/entities/dictionary-table'
-import { getRole } from '~/entities/user'
+import { type Row, SYSNAME, api } from '~/entities/dictionary-table'
 import Button from '~/shared/button'
 import Container from '~/shared/container'
 import { type Column, RowForm, toColumns } from '~/shared/database-table'
 import Dialog from '~/shared/dialog'
+import { Viewer } from '~/shared/explorer'
 import Flex from '~/shared/flex'
 import FForm, { type FormApi, useCreateForm } from '~/shared/form'
 import { notify } from '~/shared/notification-list-store'
@@ -20,7 +20,7 @@ import Section from '~/shared/section'
 import { useSort } from '~/shared/sort'
 import TextField from '~/shared/text-field'
 import { JSONParam } from '~/shared/use-query-params'
-import { type Id, isEmpty } from '~/utils/core'
+import { isEmpty } from '~/utils/core'
 
 export interface Props {
   className?: string | undefined
@@ -33,12 +33,10 @@ const NAME = `${SYSNAME}-Page_id_explorer`
  */
 export default function Component(): JSX.Element {
   const { kn = '' } = useParams<{ kn: string }>()
-  const role = getRole()
 
   const [nameQueryParam] = useQueryParam('name', withDefault(StringParam, ''))
   const [searchQueryParam, searchValue, setSearchValue] = useSearch()
   const [sortParam, sortValue, setSort] = useSort()
-  useEffect(() => setSort({ _id: 'desc' }), [])
 
   const [{ page = 1, take = 10 }, setPaginationParams] = useQueryParams(
     {
@@ -50,11 +48,9 @@ export default function Component(): JSX.Element {
 
   const [columnSearchParams, setColumnSearchParams] = useQueryParam('columnSearch', JSONParam)
 
-  const where = role === 'Approver' ? { OR: [{ _status: '1' }, { _status: '2' }, { _status: '3' }] } : {}
-
   const requestParams = {
     kn,
-    where: { ...where, ...columnSearchParams },
+    where: { ...columnSearchParams },
     skip: (page - 1) * take,
     take,
     sort: sortParam,
@@ -74,17 +70,18 @@ export default function Component(): JSX.Element {
       notify({ title: 'Создано', type: 'success' })
       explorerListFetcher.refetch()
       formToCreate.initialize({})
+      setFormToCreateOpen(false)
     },
     onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
   })
 
-  const explorerRemoveMutator = api.explorer.deleteRow.useCache({
-    onSuccess: () => {
-      notify({ title: 'Удалено', type: 'success' })
-      explorerListFetcher.refetch()
-    },
-    onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
-  })
+  // const explorerRemoveMutator = api.explorer.deleteRow.useCache({
+  //   onSuccess: () => {
+  //     notify({ title: 'Удалено', type: 'success' })
+  //     explorerListFetcher.refetch()
+  //   },
+  //   onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
+  // })
 
   const explorerUpdateMutator = api.explorer.updateRow.useCache({
     onSuccess: (data) => {
@@ -96,6 +93,7 @@ export default function Component(): JSX.Element {
   const formToCreate = useCreateRowForm({
     onSubmit: (values) => explorerCreateMutator.mutateAsync({ kn, input: values }).then((res) => res.data),
   })
+  const [formToCreateOpen, setFormToCreateOpen] = useState(false)
 
   const formToUpdate = useCreateRowForm({
     onSubmit: (values) =>
@@ -108,7 +106,7 @@ export default function Component(): JSX.Element {
     <main className={NAME}>
       <_Dialog
         form={formToCreate}
-        open={!isEmpty(formToCreate.getState().initialValues)}
+        open={formToCreateOpen}
         mutator={explorerCreateMutator}
         columns={explorerListFetcher.data?.dictionaryTable.tableSchema.items}
       />
@@ -140,12 +138,19 @@ export default function Component(): JSX.Element {
                   tooltipContent={routes.dictionaryTables_kn_explorer.getName()}
                 />
               </Heading.Root>
-              <Button onClick={() => formToCreate.initialize({ _status: '0' })}>Создать</Button>
+              <Button
+                onClick={() => {
+                  formToCreate.initialize({})
+                  setFormToCreateOpen(true)
+                }}
+              >
+                Создать
+              </Button>
             </Flex>
           </Section>
         )}
 
-        {indexedColumns?.length && (
+        {Boolean(indexedColumns?.length) && (
           <Section size='1'>
             <Flex width='50%' direction='column'>
               <TextField.Root
@@ -174,16 +179,8 @@ export default function Component(): JSX.Element {
         {explorerListFetcher.isSuccess && (
           <Section size='1'>
             <ScrollArea>
-              <ExplorerViewer
+              <Viewer.Root
                 loading={explorerListFetcher.isFetching}
-                context={{
-                  sort: sortValue,
-                  setSort,
-                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  searchFilter: columnSearchParams as any,
-                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  setSearchFilter: setColumnSearchParams as any,
-                }}
                 onPathChange={(paths) => {
                   const last = paths[paths.length - 1]
                   const item = explorerListFetcher.data.explorer.items.find((item) => {
@@ -193,16 +190,21 @@ export default function Component(): JSX.Element {
                   if (!item) return
                   formToUpdate.initialize(item.data)
                 }}
-                remove={(_id: Id) => explorerRemoveMutator.mutateAsync({ kn, where: { _id } }).then((res) => res.data)}
-                update={(row: Row) =>
-                  explorerUpdateMutator
-                    .mutateAsync({ kn, input: row, where: { _id: row._id } })
-                    .then((res) => res.data.row)
-                }
                 paths={explorerListFetcher.data.explorer.paths}
                 data={explorerListFetcher.data.explorer}
-                columns={columns}
-              />
+              >
+                <Viewer.ListTable
+                  context={{
+                    sort: sortValue,
+                    setSort,
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    searchFilter: columnSearchParams as any,
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    setSearchFilter: setColumnSearchParams as any,
+                  }}
+                  columns={columns as any}
+                />
+              </Viewer.Root>
             </ScrollArea>
           </Section>
         )}

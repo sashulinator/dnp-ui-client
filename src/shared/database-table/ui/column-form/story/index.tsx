@@ -65,6 +65,7 @@ export default {
                               key: name,
                               name,
                               index,
+                              primaryRequired: false,
                               move: fields.move,
                               remove: fields.remove,
                               length: fields.length || 0,

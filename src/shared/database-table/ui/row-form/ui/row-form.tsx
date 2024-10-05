@@ -24,7 +24,6 @@ export default function Component(props: Props): JSX.Element {
           <Field<string, TextFieldProps<string>, HTMLInputElement>
             component={TextField}
             key={item.name}
-            disabled={item.columnName === 'id'}
             name={item.columnName}
             label={item.name}
           />

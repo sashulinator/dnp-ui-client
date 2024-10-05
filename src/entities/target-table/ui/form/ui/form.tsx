@@ -44,6 +44,7 @@ export function Component(props: Props): JSX.Element {
 
       <Card>
         <DatabaseTableForm
+          primaryRequired={true}
           fieldNames={{
             table: 'tableName',
             columns: 'tableSchema.items',
