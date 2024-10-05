@@ -30,12 +30,16 @@ export type Props<TItem extends Dictionary, TContext extends Dictionary> = Table
   list: TItem[]
   columns: Column<TItem, TContext>[]
   context: TContext
-  rowProps?: TableTypes.RowProps | undefined
-  headerRowProps?: TableTypes.RowProps | undefined
-  headerProps?: TableTypes.HeaderProps | undefined
-  columnHeaderCellProps?: TableTypes.ColumnHeaderCellProps | undefined
-  cellProps?: TableTypes.CellProps | undefined
-  bodyProps?: TableTypes.BodyProps | undefined
+  rowProps?: (params: { item: TItem } & Props<TItem, TContext>) => TableTypes.RowProps | undefined
+  headerRowProps?: (params: Props<TItem, TContext>) => TableTypes.RowProps | undefined
+  headerProps?: (params: Props<TItem, TContext>) => TableTypes.HeaderProps | undefined
+  columnHeaderCellProps?: (
+    props: { params: Column<TItem, TContext> } & Props<TItem, TContext>,
+  ) => TableTypes.ColumnHeaderCellProps | undefined
+  cellProps?: (
+    params: { item: TItem; column: Column<TItem, TContext> } & Props<TItem, TContext>,
+  ) => TableTypes.CellProps | undefined
+  bodyProps?: (params: Props<TItem, TContext>) => TableTypes.BodyProps | undefined
 }
 
 export const NAME = 'table-List'
@@ -47,25 +51,25 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
   props: Props<TItem, TContext>,
 ): JSX.Element {
   const {
-    bodyProps,
     className,
-    cellProps,
     columns,
-    columnHeaderCellProps,
     context,
+    list,
+    bodyProps,
+    cellProps,
+    columnHeaderCellProps,
     headerProps,
     headerRowProps,
-    list,
     rowProps,
     ...rootTableProps
   } = props
 
   return (
     <Table.Root className={c(className, NAME)} {...rootTableProps}>
-      <Table.Header {...headerProps}>
-        <Table.Row {...headerRowProps}>
+      <Table.Header {...headerProps?.(props)}>
+        <Table.Row {...headerRowProps?.(props)}>
           {columns.map((column, i) => {
-            const mergedProps = { ...columnHeaderCellProps, ...column.headerProps }
+            const mergedProps = { ...columnHeaderCellProps?.({ params: column, ...props }), ...column.headerProps }
             return (
               <Table.ColumnHeaderCell key={i} {...mergedProps}>
                 {column.renderHeader({
@@ -78,12 +82,12 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
           })}
         </Table.Row>
       </Table.Header>
-      <Table.Body {...bodyProps}>
+      <Table.Body {...bodyProps?.(props)}>
         {list.map((item, i) => {
           return (
-            <Table.Row {...rowProps} key={i}>
+            <Table.Row {...rowProps?.({ item, ...props })} key={i}>
               {props.columns.map((column, i) => {
-                const mergedProps = { ...cellProps, ...column.cellProps }
+                const mergedProps = { ...cellProps?.({ column, item, ...props }), ...column.cellProps }
                 return (
                   <Table.Cell key={i} {...mergedProps}>
                     {column.renderCell({

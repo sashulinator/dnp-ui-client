@@ -29,9 +29,24 @@ export default function Component<TItem extends Item, TContext extends Dictionar
 ): JSX.Element {
   const { ...listTableProps } = props
 
-  const { data } = useContext<TItem>()
+  const { data, onPathChange, paths = [] } = useContext<TItem>()
 
-  return <ListTable {...listTableProps} list={data?.items || []} className={c(props.className, NAME)} />
+  return (
+    <ListTable
+      {...listTableProps}
+      rowProps={({ item }) => ({
+        onDoubleClick: () => {
+          const pathtoAdd = {
+            name: (item as Dictionary)[data?.idKey || ''] as string,
+            type: item.type,
+          }
+          onPathChange?.([...paths, pathtoAdd])
+        },
+      })}
+      list={data?.items || []}
+      className={c(props.className, NAME)}
+    />
+  )
 }
 
 Component.displayName = NAME
