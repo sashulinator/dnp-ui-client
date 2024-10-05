@@ -21,7 +21,9 @@ import Section from '~/shared/section'
 import { useSort } from '~/shared/sort'
 import TextField from '~/shared/text-field'
 import { JSONParam } from '~/shared/use-query-params'
+import { createActionColumn } from '~/shared/working-table'
 import { c, isEmpty } from '~/utils/core'
+import { type Dictionary } from '~/utils/core'
 import { useRenderDelay } from '~/utils/core-hooks/render-delay'
 
 export interface Props {
@@ -71,9 +73,13 @@ export function _Component(): JSX.Element {
     staleTime: 10_000,
   })
 
-  const columns = useMemo(
+  const uiColumns = useMemo(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    () => toColumns((explorerListFetcher.data?.dictionaryTable.tableSchema.items as any) || []),
+    () => {
+      const uiColumns = toColumns(explorerListFetcher.data?.dictionaryTable.tableSchema.items || [])
+      const actionsColumn = createActionColumn({ remove: removeRow })
+      return [...uiColumns, actionsColumn]
+    },
     [explorerListFetcher.data],
   )
 
@@ -87,13 +93,13 @@ export function _Component(): JSX.Element {
     onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
   })
 
-  // const explorerRemoveMutator = api.explorer.deleteRow.useCache({
-  //   onSuccess: () => {
-  //     notify({ title: 'Удалено', type: 'success' })
-  //     explorerListFetcher.refetch()
-  //   },
-  //   onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
-  // })
+  const explorerRemoveMutator = api.explorer.deleteRow.useCache({
+    onSuccess: () => {
+      notify({ title: 'Удалено', type: 'success' })
+      explorerListFetcher.refetch()
+    },
+    onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
+  })
 
   const explorerUpdateMutator = api.explorer.updateRow.useCache({
     onSuccess: (data) => {
@@ -206,7 +212,7 @@ export function _Component(): JSX.Element {
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     setSearchFilter: setColumnSearchParams as any,
                   }}
-                  columns={columns as any}
+                  columns={uiColumns as any}
                 />
               </Viewer.Root>
             </ScrollArea>
@@ -215,6 +221,15 @@ export function _Component(): JSX.Element {
       </Container>
     </main>
   )
+
+  async function removeRow(item: Dictionary): Promise<void> {
+    explorerRemoveMutator.mutate({
+      kn,
+      where: {
+        [explorerListFetcher.data?.explorer.idKey as string]: item[explorerListFetcher.data?.explorer.idKey as string],
+      },
+    })
+  }
 }
 
 Component.displayName = NAME

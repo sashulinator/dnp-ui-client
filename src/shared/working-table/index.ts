@@ -10,3 +10,9 @@ export {
   type Column,
   type Relation,
 } from '~/shared/database-table'
+
+/**
+ * lib
+ */
+
+export { createActionColumn } from './lib/create-action-column'
