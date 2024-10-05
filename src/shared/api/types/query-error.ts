@@ -1,5 +1,5 @@
 import { type AxiosError } from 'axios'
 
-export type ServerError = Error & { description: string }
+import { type UiErrorable } from '~/shared/error'
 
-export type QueryError = AxiosError<ServerError>
+export type QueryError = AxiosError<UiErrorable>

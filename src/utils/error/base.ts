@@ -9,4 +9,8 @@ export class BaseError<P extends Record<string, unknown>> extends Error {
 
     Object.setPrototypeOf(this, BaseError.prototype)
   }
+
+  toValue(): P & { message: string } {
+    return { ...this, message: this.message } as unknown as P & { message: string }
+  }
 }

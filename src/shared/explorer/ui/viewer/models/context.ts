@@ -1,6 +1,6 @@
 import { createContext, useContext as reactUseContext } from 'react'
 
-import { type ServerError } from '~/shared/api'
+import { type UiErrorable } from '~/shared/error'
 import { type Any, assertDefined } from '~/utils/core'
 
 import type { Explorer, Item, Path } from '../../../models/explorer'
@@ -9,7 +9,7 @@ export interface Context<TItem extends Item> {
   explorer: Explorer<TItem> | undefined
   loading: boolean | undefined
   paths: Path[]
-  error: ServerError | null | undefined
+  error?: UiErrorable | null | undefined
   onPathChange?: (paths: Path[], item?: TItem) => void
 }
 

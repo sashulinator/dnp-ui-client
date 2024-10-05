@@ -1,4 +1,4 @@
-import { type ServerError } from '~/shared/api'
+import { type UiErrorable } from '~/shared/error'
 import Flex from '~/shared/flex'
 import Spinner from '~/shared/spinner'
 import Table, { type TableTypes } from '~/shared/table'
@@ -32,8 +32,8 @@ export interface Column<TItem extends Dictionary, TContext extends Dictionary> {
 export type Props<TItem extends Dictionary, TContext extends Dictionary> = TableTypes.RootProps & {
   className?: string | undefined
   list: TItem[]
-  loading: boolean | undefined
-  error: ServerError | null | undefined
+  loading?: boolean | undefined
+  error?: UiErrorable | null | undefined
   columns: Column<TItem, TContext>[]
   context: TContext
   rowProps?: (params: { item: TItem; rowIndex: number } & Props<TItem, TContext>) => TableTypes.RowProps | undefined
