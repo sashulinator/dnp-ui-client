@@ -2,6 +2,7 @@ import { NumberParam, useQueryParams, withDefault } from 'use-query-params'
 
 import { routes } from '~/app/route'
 import { Item, api } from '~/entities/dictionary-table'
+import { getRole } from '~/entities/user'
 import Button from '~/shared/button'
 import Container from '~/shared/container'
 import { TICK_MS, cssAnimations } from '~/shared/css-animations'
@@ -21,6 +22,8 @@ export interface Props {
 const displayName = `${SLICE_NAME}-Page_list`
 
 export default function Component(): JSX.Element {
+  const role = getRole()
+
   const [{ page = 1, take = 10 }, setPaginationParams] = useQueryParams({
     page: withDefault(NumberParam, 1),
     take: withDefault(NumberParam, 10),
@@ -45,9 +48,11 @@ export default function Component(): JSX.Element {
               <Heading.Name />
             </Heading.Root>
             <Flex align='center' gap='2'>
-              <Button variant='outline' asChild>
-                <Link to={routes.storeConfigs_kn.getUrl('workingTable')}>Хранилище</Link>
-              </Button>
+              {role === 'Admin' && (
+                <Button variant='outline' asChild>
+                  <Link to={routes.storeConfigs_kn.getUrl('workingTable')}>Хранилище</Link>
+                </Button>
+              )}
               <Button asChild>
                 <Link to={routes.dictionaryTables_create.getUrl()}>Создать</Link>
               </Button>

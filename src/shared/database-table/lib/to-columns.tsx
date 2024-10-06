@@ -77,9 +77,6 @@ function _HeaderCell<T extends string>({ accessorKey, context, name }: _HeaderPr
             </Button>
           </DropdownMenu.Trigger>
           <DropdownMenu.Content>
-            <DropdownMenu.Label>
-              <Text size='2'>Поиск</Text>
-            </DropdownMenu.Label>
             <FilterConfigurator.ClearDropdownMenuItem
               onClick={() => context?.setSearchFilter((s) => omit(s, accessorKey))}
             />
@@ -105,7 +102,6 @@ function _HeaderCell<T extends string>({ accessorKey, context, name }: _HeaderPr
             </DropdownMenu.Label>
             <FilterConfigurator.EmptyTemplateDropdownMenuItem />
             <FilterConfigurator.NotEmptyTemplateDropdownMenuItem />
-            <DropdownMenu.Separator />
           </DropdownMenu.Content>
         </DropdownMenu.Root>
 

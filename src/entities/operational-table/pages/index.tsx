@@ -3,6 +3,7 @@ import { NumberParam, useQueryParams, withDefault } from 'use-query-params'
 
 import { routes } from '~/app/route'
 import { Item, api } from '~/entities/operational-table'
+import { getRole } from '~/entities/user'
 import Button from '~/shared/button'
 import Container from '~/shared/container'
 import Flex from '~/shared/flex'
@@ -28,6 +29,7 @@ export default function Component(): JSX.Element {
   })
 
   const fetcherList = api.fetchList.useCache({ take, skip: (page - 1) * take }, { keepPreviousData: true })
+  const role = getRole()
 
   return (
     <main className={displayName}>
@@ -44,9 +46,11 @@ export default function Component(): JSX.Element {
               <Heading.Name />
             </Heading.Root>
             <Flex align='center' gap='2'>
-              <Button variant='outline' asChild>
-                <Link to={routes.storeConfigs_kn.getUrl('workingTable')}>Хранилище</Link>
-              </Button>
+              {role === 'Admin' && (
+                <Button variant='outline' asChild>
+                  <Link to={routes.storeConfigs_kn.getUrl('workingTable')}>Хранилище</Link>
+                </Button>
+              )}
               <Button asChild>
                 <Link to={routes.operationalTables_create.getUrl()}>Создать</Link>
               </Button>
