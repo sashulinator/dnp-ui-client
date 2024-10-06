@@ -16,6 +16,7 @@ module.exports = {
   plugins: ['react-refresh'],
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   rules: {
+    '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/consistent-type-imports': ['error'],
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-unused-vars': ['error'],
