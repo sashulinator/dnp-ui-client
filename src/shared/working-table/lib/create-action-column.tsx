@@ -5,7 +5,7 @@ import Text from '~/shared/text'
 import { type Dictionary } from '~/utils/core'
 
 interface Props<TItem extends Dictionary> {
-  remove: (item: TItem) => Promise<void>
+  onTrashClick: (item: TItem) => void
 }
 
 export function createActionColumn<TItem extends Dictionary, TContext extends Dictionary>(
@@ -41,7 +41,7 @@ export function createActionColumn<TItem extends Dictionary, TContext extends Di
           variant='outline'
           onClick={(e) => {
             e.stopPropagation()
-            props.remove(row)
+            props.onTrashClick(row)
           }}
         >
           <Icon name='Trash' />

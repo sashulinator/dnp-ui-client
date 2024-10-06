@@ -9,7 +9,7 @@ import Button from '~/shared/button'
 import Container from '~/shared/container'
 import { TICK_MS, cssAnimations } from '~/shared/css-animations'
 import { type Column, RowForm, toColumns } from '~/shared/database-table'
-import Dialog from '~/shared/dialog'
+import Dialog, { ConfirmDialog } from '~/shared/dialog'
 import { Viewer } from '~/shared/explorer'
 import Flex from '~/shared/flex'
 import FForm, { type FormApi, useCreateForm } from '~/shared/form'
@@ -47,6 +47,8 @@ export function _Component(): JSX.Element {
   const [nameQueryParam] = useQueryParam('name', withDefault(StringParam, ''))
   const [searchQueryParam, searchValue, setSearchValue] = useSearch()
   const [sortParam, sortValue, setSort] = useSort()
+  const [itemToRemove, setItemToRemove] = useState<Dictionary | null>(null)
+  const [removingitems, setRemovingItems] = useState<Dictionary<Dictionary>>({})
 
   const [{ page = 1, take = 10 }, setPaginationParams] = useQueryParams(
     {
@@ -115,6 +117,21 @@ export function _Component(): JSX.Element {
 
   return (
     <main className={NAME} key={kn}>
+      <ConfirmDialog
+        open={Boolean(itemToRemove)}
+        onConfirm={() => {
+          removeRow(itemToRemove as Dictionary)
+          setItemToRemove(null)
+          setRemovingItems((removingItems) => ({
+            ...removingItems,
+            // @ts-ignore
+            [itemToRemove[explorer?.idKey as string]]: itemToRemove,
+          }))
+        }}
+        title='Удалить запись?'
+        description='Вы уверены, что хотите удалить эту запись?'
+        onClose={() => setItemToRemove(null)}
+      />
       <_Dialog
         form={formToCreate}
         open={formToCreateOpen}
@@ -188,13 +205,19 @@ export function _Component(): JSX.Element {
               >
                 <Viewer.ListTable
                   className={c(cssAnimations.Appear)}
-                  rowProps={({ item, rowIndex }) => ({
-                    className: cssAnimations.Appear,
-                    style: {
-                      animationDelay: `${TICK_MS * Math.pow(rowIndex, 0.5)}ms`,
-                    },
-                    onDoubleClick: () => formToUpdate.initialize(item),
-                  })}
+                  rowProps={({ item, rowIndex }) => {
+                    // @ts-ignore
+                    const isRemoving = Boolean(removingitems[item[explorer?.idKey]])
+                    return {
+                      className: c(cssAnimations.Appear),
+                      style: {
+                        animationDelay: `${TICK_MS * Math.pow(rowIndex, 0.5)}ms`,
+                        backgroundColor: isRemoving ? 'var(--red-9)' : undefined,
+                        transition: isRemoving ? 'background-color 300ms' : undefined,
+                      },
+                      onDoubleClick: () => formToUpdate.initialize(item),
+                    }
+                  }}
                   context={{
                     sort: sortValue,
                     setSort,
@@ -217,7 +240,7 @@ export function _Component(): JSX.Element {
     if (dictionaryTable?.tableSchema.items === undefined) return []
 
     const uiColumns = toColumns(dictionaryTable.tableSchema.items || [])
-    const actionsColumn = createActionColumn({ remove: removeRow })
+    const actionsColumn = createActionColumn({ onTrashClick: setItemToRemove })
 
     return [...uiColumns, actionsColumn]
   }
