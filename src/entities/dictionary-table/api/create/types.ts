@@ -1,7 +1,7 @@
-import { SYSNAME } from '../../constants/name'
-import { CreateDictionaryTable, DictionaryTable } from '../../types/dictionary-table'
+import { SLICE_NAME } from '../../constants/name'
+import type { CreateDictionaryTable, DictionaryTable } from '../../types/dictionary-table'
 
-export const keyName = `${SYSNAME}.create`
+export const keyName = `${SLICE_NAME}.create`
 
 export type RequestData = { input: CreateDictionaryTable }
 

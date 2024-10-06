@@ -8,7 +8,7 @@ import type { SelectProps, TextFieldProps } from '~/shared/form'
 import { Card, Checkbox, Column, Row, Select, TextField, TypedField } from '~/shared/form'
 import { c, generateId } from '~/utils/core'
 
-import { SYSNAME } from '../../../constants/name'
+import { SLICE_NAME } from '../../../constants/name'
 import type { Values } from '../types/values'
 
 export interface Props {
@@ -16,7 +16,7 @@ export interface Props {
   readonly?: boolean
 }
 
-export const NAME = `${SYSNAME}-Form`
+export const NAME = `${SLICE_NAME}-Form`
 
 /**
  * dictionaryTable-Form

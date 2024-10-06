@@ -12,13 +12,13 @@ import Section from '~/shared/section'
 import { c } from '~/utils/core'
 import { useRenderDelay } from '~/utils/core-hooks/render-delay'
 
-import { SYSNAME } from '../../../constants/name'
+import { SLICE_NAME } from '../../../constants/name'
 
 export interface Props {
   className?: string | undefined
 }
 
-const displayName = `${SYSNAME}-Page_list`
+const displayName = `${SLICE_NAME}-Page_list`
 
 export default function Component(): JSX.Element {
   const [{ page = 1, take = 10 }, setPaginationParams] = useQueryParams({

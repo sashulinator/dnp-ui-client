@@ -4,11 +4,11 @@ import { type Explorer } from '~/shared/explorer'
 import type { Sort } from '~/shared/sort'
 import type { StringFilter, Where } from '~/shared/where'
 
-import { SYSNAME } from '../../../constants/name'
+import { SLICE_NAME } from '../../../constants/name'
 import { type DictionaryTable } from '../../../types/dictionary-table'
 import { url } from '../../common'
 
-export const NAME = `${SYSNAME}.explorerFindManyAndCountRows`
+export const NAME = `${SLICE_NAME}.explorerFindManyAndCountRows`
 
 export type RequestData = {
   kn: string

@@ -28,11 +28,11 @@ export {
   type TableSchema,
   type TableSchemaItem,
   type Row,
-  dictionaryTableSchema,
-  createDictionaryTableSchema,
-  updateDictionaryTableSchema,
-  baseDictionaryTableSchema,
-  dictionaryTableRelationsSchema,
+  dictionaryTableModel as dictionaryTableSchema,
+  createDictionaryTableModel as createDictionaryTableSchema,
+  updateDictionaryTableModel as updateDictionaryTableSchema,
+  baseDictionaryTableModel as baseDictionaryTableSchema,
+  dictionaryTableRelationsModel as dictionaryTableRelationsSchema,
   rowSchema,
 } from './types/dictionary-table'
 
@@ -40,7 +40,7 @@ export {
  * ui
  */
 
-export { SYSNAME, NAME } from './constants/name'
+export { SLICE_NAME as SYSNAME, NAME } from './constants/name'
 export { default as Item, type ItemProps } from './ui/item'
 export { default as Icon } from './ui/icon'
 export {

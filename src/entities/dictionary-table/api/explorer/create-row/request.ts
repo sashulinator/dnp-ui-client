@@ -1,11 +1,11 @@
 import { type Response } from '~/shared/api'
 import api from '~/shared/axios'
 
-import { SYSNAME } from '../../../constants/name'
+import { SLICE_NAME } from '../../../constants/name'
 import { type DictionaryTable } from '../../../types/dictionary-table'
 import { url } from '../../common'
 
-export const NAME = `${SYSNAME}.explorerCreateRow`
+export const NAME = `${SLICE_NAME}.explorerCreateRow`
 
 export type RequestData = { kn: string; input: unknown }
 

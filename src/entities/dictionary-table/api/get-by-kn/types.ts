@@ -1,7 +1,7 @@
-import { SYSNAME } from '../../constants/name'
+import { SLICE_NAME } from '../../constants/name'
 import { type DictionaryTable } from '../../types/dictionary-table'
 
-export const keyName = `${SYSNAME}.getBykn`
+export const keyName = `${SLICE_NAME}.getBykn`
 
 export interface RequestData {
   kn: string

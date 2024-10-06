@@ -2,11 +2,11 @@ import { type Response } from '~/shared/api'
 import api from '~/shared/axios'
 import { type Where } from '~/shared/where'
 
-import { SYSNAME } from '../../../constants/name'
+import { SLICE_NAME } from '../../../constants/name'
 import { type DictionaryTable, type Row } from '../../../types/dictionary-table'
 import { url } from '../../common'
 
-export const NAME = `${SYSNAME}.explorerUpdateRow`
+export const NAME = `${SLICE_NAME}.explorerUpdateRow`
 
 export type RequestData = { kn: string; input: Record<string, unknown>; where: Where }
 

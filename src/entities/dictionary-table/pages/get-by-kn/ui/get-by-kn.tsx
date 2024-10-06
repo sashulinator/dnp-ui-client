@@ -22,13 +22,13 @@ import Section from '~/shared/section'
 import Separator from '~/shared/separator'
 import Tooltip from '~/shared/tooltip'
 
-import { SYSNAME } from '../../../constants/name'
+import { SLICE_NAME } from '../../../constants/name'
 
 export interface Props {
   className?: string | undefined
 }
 
-const NAME = `${SYSNAME}-Page_id`
+const NAME = `${SLICE_NAME}-Page_id`
 
 /**
  * page-Main
