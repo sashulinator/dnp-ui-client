@@ -22,7 +22,7 @@ import Section from '~/shared/section'
 import Separator from '~/shared/separator'
 import Tooltip from '~/shared/tooltip'
 
-import { SYSNAME } from '../../constants/name'
+import { SYSNAME } from '../../../constants/name'
 
 export interface Props {
   className?: string | undefined
@@ -86,9 +86,9 @@ export default function Component(): JSX.Element {
           <Section size='1'>
             <Heading.Root
               loading={fetcher.isFetching}
-              route={routes.dictionaryTables_kn}
-              backRoute={routes.dictionaryTables}
-              renderIcon={routes.dictionaryTables.payload.renderIcon}
+              route={routes.dictionaryTables_getByKn}
+              backRoute={routes.dictionaryTables_findManyAndCount}
+              renderIcon={routes.dictionaryTables_findManyAndCount.payload.renderIcon}
             >
               <Heading.BackToParent />
               <Heading.Name />

@@ -141,14 +141,14 @@ export function _Component(): JSX.Element {
           <Flex width='100%' justify='between'>
             <Heading.Root
               loading={explorerListFetcher.isFetching}
-              route={routes.dictionaryTables_kn_explorer}
-              backRoute={routes.dictionaryTables}
-              renderIcon={routes.dictionaryTables.payload.renderIcon}
+              route={routes.dictionaryTables_explorerFindManyAndCount}
+              backRoute={routes.dictionaryTables_findManyAndCount}
+              renderIcon={routes.dictionaryTables_findManyAndCount.payload.renderIcon}
             >
               <Heading.BackToParent />
               <Heading.Unique
                 string={explorerListFetcher.data?.dictionaryTable.name ?? nameQueryParam}
-                tooltipContent={routes.dictionaryTables_kn_explorer.getName()}
+                tooltipContent={routes.dictionaryTables_explorerFindManyAndCount.getName()}
               />
             </Heading.Root>
             <Flex>

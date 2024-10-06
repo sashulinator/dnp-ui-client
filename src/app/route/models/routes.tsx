@@ -2,10 +2,10 @@ import qs from 'qs'
 import { Suspense, lazy } from 'react'
 
 import { Icon as DictionaryTableIcon } from '~/entities/dictionary-table'
-import DictionaryTable from '~/entities/dictionary-table/pages'
 import DictionaryTable_create from '~/entities/dictionary-table/pages/create'
-import DictionaryTable_kn_explorer from '~/entities/dictionary-table/pages/explorer'
-import DictionaryTable_kn from '~/entities/dictionary-table/pages/kn'
+import DictionaryTable_explorerFindManyAndCount from '~/entities/dictionary-table/pages/explorer-find-many-and-count'
+import DictionaryTable_findManyAndCount from '~/entities/dictionary-table/pages/find-many-and-count'
+import DictionaryTable_getByKn from '~/entities/dictionary-table/pages/get-by-kn'
 import { Icon as NormalizationConfigIcon } from '~/entities/normalization-config'
 import NormalizationConfigs from '~/entities/normalization-config/pages'
 import NormalizationConfigs_create from '~/entities/normalization-config/pages/create'
@@ -113,13 +113,13 @@ export const routes = {
    *  dictionarytables
    */
 
-  dictionaryTables: {
+  dictionaryTables_findManyAndCount: {
     getName: (): string => 'Справочники',
     getPath: () => '/dictionary-tables',
     getUrl() {
       return this.getPath()
     },
-    render: DictionaryTable,
+    render: DictionaryTable_findManyAndCount,
     payload: {
       renderHeader: Header,
       renderNav: Nav,
@@ -142,13 +142,13 @@ export const routes = {
     },
   },
 
-  dictionaryTables_kn_explorer: {
+  dictionaryTables_explorerFindManyAndCount: {
     getName: () => 'Данные промежуточной таблицы',
     getPath: () => '/dictionary-tables/:kn/explorer',
     getUrl(kn: string, params?: { name: string } | undefined) {
       return `${this.getPath().replace(':kn', kn)}${qs.stringify(params, { addQueryPrefix: true })}`
     },
-    render: DictionaryTable_kn_explorer,
+    render: DictionaryTable_explorerFindManyAndCount,
     payload: {
       renderHeader: Header,
       renderNav: Nav,
@@ -156,13 +156,13 @@ export const routes = {
     },
   },
 
-  dictionaryTables_kn: {
+  dictionaryTables_getByKn: {
     getName: () => 'Справочник',
     getPath: () => '/dictionary-tables/:kn',
     getUrl(kn: string) {
       return this.getPath().replace(':kn', kn)
     },
-    render: DictionaryTable_kn,
+    render: DictionaryTable_getByKn,
     payload: {
       renderHeader: Header,
       renderNav: Nav,

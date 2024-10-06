@@ -12,7 +12,7 @@ import Section from '~/shared/section'
 import { c } from '~/utils/core'
 import { useRenderDelay } from '~/utils/core-hooks/render-delay'
 
-import { SYSNAME } from '../constants/name'
+import { SYSNAME } from '../../../constants/name'
 
 export interface Props {
   className?: string | undefined
@@ -37,9 +37,9 @@ export default function Component(): JSX.Element {
           <Flex width='100%' justify='between'>
             <Heading.Root
               loading={fetcherList.isLoading && fetcherList.data === undefined}
-              route={routes.dictionaryTables}
+              route={routes.dictionaryTables_findManyAndCount}
               backRoute={routes.main}
-              renderIcon={routes.dictionaryTables.payload.renderIcon}
+              renderIcon={routes.dictionaryTables_findManyAndCount.payload.renderIcon}
             >
               <Heading.BackToParent />
               <Heading.Name />

@@ -117,7 +117,7 @@ export default function Component(): JSX.Element {
               return (
                 <Tooltip side='right' key={dictionaryTable.kn} content={dictionaryTable.name}>
                   <Link
-                    to={routes.dictionaryTables_kn_explorer.getUrl(dictionaryTable.kn, {
+                    to={routes.dictionaryTables_explorerFindManyAndCount.getUrl(dictionaryTable.kn, {
                       name: dictionaryTable.name,
                     })}
                   >

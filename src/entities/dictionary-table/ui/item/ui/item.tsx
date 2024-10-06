@@ -30,7 +30,7 @@ export default function Component(props: Props): JSX.Element {
   return (
     <Flex justify='between' direction='row' asChild={true} {...flexProps}>
       <Card asChild={true} className={c(displayName, className)}>
-        <Link to={`${routes.dictionaryTables_kn.getUrl(item.kn)}`}>
+        <Link to={`${routes.dictionaryTables_getByKn.getUrl(item.kn)}`}>
           <Flex direction='column'>
             <HighlightedText tooltipContent='Название справочника'>{item.name}</HighlightedText>
             <Text style={{ marginLeft: 'var(--space-1)' }} color='gray' size='2'>
