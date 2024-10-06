@@ -1,4 +1,4 @@
-import { BaseDictionaryTable, CreateDictionaryTable } from '../../../types/dictionary-table'
+import type { BaseDictionaryTable, CreateDictionaryTable } from '../../../models/dictionary-table'
 
 type FormDictionaryTable = CreateDictionaryTable & Partial<BaseDictionaryTable>
 

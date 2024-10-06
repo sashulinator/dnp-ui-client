@@ -36,7 +36,7 @@ const NAME = `${SLICE_NAME}-Page_id`
 export default function Component(): JSX.Element {
   const { kn = '' } = useParams<{ kn: string }>()
 
-  const fetcher = api.getByKn.useCache(
+  const fetcher = api.getByKn.cache.use(
     { kn },
     {
       onSuccess: (data) => {
@@ -62,10 +62,10 @@ export default function Component(): JSX.Element {
 
   const values = form.getState().values
 
-  const updateMutator = api.update.useCache({
+  const updateMutator = api.update.cache.use({
     onSuccess: (data) => {
       notify({ title: 'Сохранено', type: 'success' })
-      api.getByKn.setCache({ kn }, data.data)
+      api.getByKn.cache.set({ kn }, data.data)
       form.initialize(toFormValues(data.data))
       // 👷 TODO убрать когда навигация будет настраиваться отдельно
       queryClient.invalidateQueries('oper')

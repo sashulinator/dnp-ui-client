@@ -1,7 +1,2 @@
-export { getKeys } from './get-keys'
-export { request } from './request'
-export { setCache } from './set-cache'
-export { useCache } from './use-cache'
-export { cache } from './cache'
-
-export type { RequestData, ResponseData } from './types'
+export { request, type RequestData, type ResponseData } from './request'
+export * as cache from './cache'

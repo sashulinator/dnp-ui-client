@@ -2,7 +2,7 @@ import { type Response } from '~/shared/api'
 import { queryClient } from '~/shared/react-query'
 import { assertDefined } from '~/utils/assertions'
 
-import { type Row } from '../../../types/dictionary-table'
+import { type Row } from '../../../models/dictionary-table'
 import { NAME, type RequestData, type ResponseData } from './request'
 
 export function setCache(requestData: RequestData, data: ResponseData): void {

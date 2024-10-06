@@ -28,7 +28,7 @@ export default function Component(): JSX.Element {
 
   const listRenderDelay = useRenderDelay(TICK_MS * 3)
 
-  const fetcherList = api.fetchList.useCache({ take, skip: (page - 1) * take }, { keepPreviousData: true })
+  const fetcherList = api.fetchList.cache.use({ take, skip: (page - 1) * take }, { keepPreviousData: true })
 
   return (
     <main className={displayName}>

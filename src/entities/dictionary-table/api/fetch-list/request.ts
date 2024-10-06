@@ -1,10 +1,22 @@
-import { Response } from '~/shared/api'
-import api from '~/shared/axios'
+import { type List, type Response, api } from '~/shared/api'
+import { type StringFilter } from '~/shared/where'
 
-import { url } from '../common'
-import { RequestData, ResponseData } from './types'
+import { type DictionaryTable } from '../../models/dictionary-table'
+import { v1Url } from '../v1-url'
 
-export const buildURL = (): string => url
+export type RequestData = {
+  skip?: number
+  take?: number
+  where?: {
+    name?: string | StringFilter | undefined
+    nav?: boolean | undefined
+  }
+  select?: Partial<Record<keyof DictionaryTable, boolean>> | undefined
+}
+
+export type ResponseData = List<DictionaryTable>
+
+export const buildURL = (): string => v1Url
 
 export async function request(requestData: RequestData): Promise<Response<ResponseData>> {
   const response = await api<ResponseData, Response<ResponseData>, RequestData>(buildURL(), {

@@ -1,7 +1,7 @@
 import { generateId } from '~/utils/core'
-import { Partial } from '~/utils/types/object'
+import type { Partial } from '~/utils/types/object'
 
-import { type CreateDictionaryTable } from '../../../types/dictionary-table'
+import { type CreateDictionaryTable } from '../../../models/dictionary-table'
 
 export const defaultValues: Partial<CreateDictionaryTable, 'deep'> = {
   nav: false,

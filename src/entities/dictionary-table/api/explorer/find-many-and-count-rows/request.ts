@@ -5,8 +5,8 @@ import type { Sort } from '~/shared/sort'
 import type { StringFilter, Where } from '~/shared/where'
 
 import { SLICE_NAME } from '../../../constants/name'
-import { type DictionaryTable } from '../../../types/dictionary-table'
-import { url } from '../../common'
+import { type DictionaryTable } from '../../../models/dictionary-table'
+import { v1Url } from '../../v1-url'
 
 export const NAME = `${SLICE_NAME}.explorerFindManyAndCountRows`
 
@@ -24,7 +24,7 @@ export type ResponseData = {
   dictionaryTable: DictionaryTable
 }
 
-export const buildURL = (): string => `${url}/explorer`
+export const buildURL = (): string => `${v1Url}/explorer`
 
 export async function request(requestData: RequestData): Promise<Response<ResponseData>> {
   const response = await api<ResponseData, Response<ResponseData>, RequestData>(buildURL(), {

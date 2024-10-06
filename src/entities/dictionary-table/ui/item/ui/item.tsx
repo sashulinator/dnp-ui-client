@@ -12,7 +12,7 @@ import Text, { HighlightedText } from '~/shared/text'
 import Tooltip from '~/shared/tooltip'
 import { c } from '~/utils/core'
 
-import { type DictionaryTable } from '../../../types/dictionary-table'
+import { type DictionaryTable } from '../../../models/dictionary-table'
 
 export type Props = FlexProps & {
   className?: string | undefined

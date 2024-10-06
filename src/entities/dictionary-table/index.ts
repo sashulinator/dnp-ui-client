@@ -34,7 +34,7 @@ export {
   baseDictionaryTableModel as baseDictionaryTableSchema,
   dictionaryTableRelationsModel as dictionaryTableRelationsSchema,
   rowSchema,
-} from './types/dictionary-table'
+} from './models/dictionary-table'
 
 /**
  * ui

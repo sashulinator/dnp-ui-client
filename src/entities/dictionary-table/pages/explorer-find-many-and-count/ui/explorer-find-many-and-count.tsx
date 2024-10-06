@@ -72,16 +72,9 @@ export function _Component(): JSX.Element {
     keepPreviousData: true,
     staleTime: 10_000,
   })
+  const { dictionaryTable, explorer } = explorerListFetcher.data || {}
 
-  const uiColumns = useMemo(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    () => {
-      const uiColumns = toColumns(explorerListFetcher.data?.dictionaryTable.tableSchema.items || [])
-      const actionsColumn = createActionColumn({ remove: removeRow })
-      return [...uiColumns, actionsColumn]
-    },
-    [explorerListFetcher.data],
-  )
+  const uiColumns = useMemo(buildUiColumns, [dictionaryTable])
 
   const explorerCreateMutator = api.explorer.createRow.useCache({
     onSuccess: () => {
@@ -118,9 +111,7 @@ export function _Component(): JSX.Element {
       explorerUpdateMutator.mutateAsync({ kn, input: values, where: { _id: values._id } }).then((res) => res.data),
   })
 
-  const indexedColumns = explorerListFetcher.data?.dictionaryTable.tableSchema.items.filter(
-    (item) => item.index || item.primary,
-  )
+  const indexedColumns = dictionaryTable?.tableSchema.items.filter((item) => item.index || item.primary)
 
   return (
     <main className={NAME} key={kn}>
@@ -128,13 +119,13 @@ export function _Component(): JSX.Element {
         form={formToCreate}
         open={formToCreateOpen}
         mutator={explorerCreateMutator}
-        columns={explorerListFetcher.data?.dictionaryTable.tableSchema.items}
+        columns={dictionaryTable?.tableSchema.items}
       />
       <_Dialog
         form={formToUpdate}
         open={!isEmpty(formToUpdate.getState().initialValues)}
         mutator={explorerUpdateMutator}
-        columns={explorerListFetcher.data?.dictionaryTable.tableSchema.items}
+        columns={dictionaryTable?.tableSchema.items}
       />
       <Container p='var(--space-4)'>
         <Section size='1' className={c(cssAnimations.Appear)}>
@@ -147,7 +138,7 @@ export function _Component(): JSX.Element {
             >
               <Heading.BackToParent />
               <Heading.Unique
-                string={explorerListFetcher.data?.dictionaryTable.name ?? nameQueryParam}
+                string={dictionaryTable?.name ?? nameQueryParam}
                 tooltipContent={routes.dictionaryTables_explorerFindManyAndCount.getName()}
               />
             </Heading.Root>
@@ -180,8 +171,8 @@ export function _Component(): JSX.Element {
           <Pagination
             currentPage={page}
             limit={take}
-            loading={!explorerListFetcher.data ? false : explorerListFetcher.isFetching}
-            totalElements={explorerListFetcher.data?.explorer.total}
+            loading={!explorer ? false : explorerListFetcher.isFetching}
+            totalElements={explorer?.total}
             onChange={(page) => setPaginationParams({ page })}
           />
         </Section>
@@ -192,8 +183,8 @@ export function _Component(): JSX.Element {
               <Viewer.Root
                 error={explorerListFetcher.error?.response?.data}
                 loading={explorerListFetcher.isFetching}
-                paths={explorerListFetcher.data?.explorer.paths || []}
-                explorer={explorerListFetcher?.data?.explorer}
+                paths={explorer?.paths || []}
+                explorer={explorer}
               >
                 <Viewer.ListTable
                   className={c(cssAnimations.Appear)}
@@ -222,12 +213,19 @@ export function _Component(): JSX.Element {
     </main>
   )
 
+  function buildUiColumns() {
+    if (dictionaryTable?.tableSchema.items === undefined) return []
+
+    const uiColumns = toColumns(dictionaryTable.tableSchema.items || [])
+    const actionsColumn = createActionColumn({ remove: removeRow })
+
+    return [...uiColumns, actionsColumn]
+  }
+
   async function removeRow(item: Dictionary): Promise<void> {
     explorerRemoveMutator.mutate({
       kn,
-      where: {
-        [explorerListFetcher.data?.explorer.idKey as string]: item[explorerListFetcher.data?.explorer.idKey as string],
-      },
+      where: { [explorer?.idKey as string]: item[explorer?.idKey as string] },
     })
   }
 }

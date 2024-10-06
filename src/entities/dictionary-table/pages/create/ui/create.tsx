@@ -55,10 +55,10 @@ export default function Component(): JSX.Element {
 
   const values = form.getState().values
 
-  const createMutator = api.create.useCache({
+  const createMutator = api.create.cache.use({
     onSuccess: (data) => {
       notify({ title: 'Создано', type: 'success' })
-      api.getByKn.setCache({ kn: data.data.kn }, data.data)
+      api.getByKn.cache.set({ kn: data.data.kn }, data.data)
       navigate(routes.dictionaryTables_getByKn.getUrl(data.data.kn))
       // 👷 TODO убрать когда навигация будет настраиваться отдельно
       queryClient.invalidateQueries('oper')
