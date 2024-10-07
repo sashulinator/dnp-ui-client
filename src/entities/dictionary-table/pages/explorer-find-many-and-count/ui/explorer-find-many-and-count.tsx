@@ -199,59 +199,61 @@ export default function Component(): JSX.Element {
 
         {tableRenderDelay.isRender && (
           <Section size='1'>
-            <Flex gap='4' justify='end' pr='3'>
-              <Button
-                onClick={() => alert('Не реализованно')}
-                variant='ghost'
-                disabled={Object.keys(selectedItems).length === 0}
-              >
-                Согласовать
-              </Button>
-              <Button
-                onClick={() => setConfirmDeleteDialogOpen(true)}
-                variant='ghost'
-                disabled={Object.keys(selectedItems).length === 0}
-              >
-                Удалить
-              </Button>
+            <Flex style={{ position: 'relative' }}>
+              <Flex gap='4' justify='end' pr='3' style={{ position: 'absolute', top: '-1.5rem', right: '0' }}>
+                <Button
+                  onClick={() => alert('Не реализованно')}
+                  variant='ghost'
+                  disabled={Object.keys(selectedItems).length === 0}
+                >
+                  Согласовать
+                </Button>
+                <Button
+                  onClick={() => setConfirmDeleteDialogOpen(true)}
+                  variant='ghost'
+                  disabled={Object.keys(selectedItems).length === 0}
+                >
+                  Удалить
+                </Button>
+              </Flex>
+              <ScrollArea scrollbars='horizontal'>
+                <Viewer.Root
+                  error={explorerListFetcher.error?.response?.data}
+                  loading={explorerListFetcher.isFetching}
+                  paths={explorer?.paths || []}
+                  explorer={explorer}
+                >
+                  <Viewer.ListTable
+                    className={c(cssAnimations.Appear)}
+                    rowProps={({ item, rowIndex }) => {
+                      // @ts-ignore
+                      const isRemoving = Boolean(removingitems[item[explorer?.idKey]])
+                      return {
+                        className: c(cssAnimations.Appear),
+                        style: {
+                          animationDelay: `${TICK_MS * Math.pow(rowIndex, 0.5)}ms`,
+                          backgroundColor: isRemoving ? 'var(--red-9)' : undefined,
+                          transition: isRemoving ? 'background-color 300ms' : undefined,
+                        },
+                        onDoubleClick: () => formToUpdate.initialize(item),
+                      }
+                    }}
+                    context={{
+                      idKey: explorer?.idKey,
+                      selectedItems,
+                      setSelectedItems,
+                      sort: sortValue,
+                      setSort,
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                      searchFilter: columnSearchParams as any,
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                      setSearchFilter: setColumnSearchParams as any,
+                    }}
+                    columns={uiColumns as any}
+                  />
+                </Viewer.Root>
+              </ScrollArea>
             </Flex>
-            <ScrollArea scrollbars='horizontal'>
-              <Viewer.Root
-                error={explorerListFetcher.error?.response?.data}
-                loading={explorerListFetcher.isFetching}
-                paths={explorer?.paths || []}
-                explorer={explorer}
-              >
-                <Viewer.ListTable
-                  className={c(cssAnimations.Appear)}
-                  rowProps={({ item, rowIndex }) => {
-                    // @ts-ignore
-                    const isRemoving = Boolean(removingitems[item[explorer?.idKey]])
-                    return {
-                      className: c(cssAnimations.Appear),
-                      style: {
-                        animationDelay: `${TICK_MS * Math.pow(rowIndex, 0.5)}ms`,
-                        backgroundColor: isRemoving ? 'var(--red-9)' : undefined,
-                        transition: isRemoving ? 'background-color 300ms' : undefined,
-                      },
-                      onDoubleClick: () => formToUpdate.initialize(item),
-                    }
-                  }}
-                  context={{
-                    idKey: explorer?.idKey,
-                    selectedItems,
-                    setSelectedItems,
-                    sort: sortValue,
-                    setSort,
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    searchFilter: columnSearchParams as any,
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    setSearchFilter: setColumnSearchParams as any,
-                  }}
-                  columns={uiColumns as any}
-                />
-              </Viewer.Root>
-            </ScrollArea>
           </Section>
         )}
       </Container>
