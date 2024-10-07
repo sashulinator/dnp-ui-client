@@ -22,6 +22,7 @@ import { useSort } from '~/shared/sort'
 import TextField from '~/shared/text-field'
 import { JSONParam } from '~/shared/use-query-params'
 import { createActionColumn } from '~/shared/working-table'
+import { createSelectionColumn } from '~/shared/working-table/lib/selection-action-column'
 import { c, isEmpty } from '~/utils/core'
 import { type Dictionary } from '~/utils/core'
 import { useRenderDelay } from '~/utils/core-hooks/render-delay'
@@ -32,23 +33,16 @@ export interface Props {
 
 const NAME = `${SYSNAME}-Page_id_explorer`
 
-/**
- * Fix: при переходе из одного словаря в другой
- * реакт воспринимает это как ререндеринг компонента
- * а не как переход на другую страницу
- **/
-export default function Component() {
-  const { kn = '' } = useParams<{ kn: string }>()
-  return <_Component key={kn} />
-}
-
-export function _Component(): JSX.Element {
+export default function Component(): JSX.Element {
   const { kn = '' } = useParams<{ kn: string }>()
   const [nameQueryParam] = useQueryParam('name', withDefault(StringParam, ''))
   const [searchQueryParam, searchValue, setSearchValue] = useSearch()
   const [sortParam, sortValue, setSort] = useSort()
+
+  const [isConfirmDeleteDialogOpen, setConfirmDeleteDialogOpen] = useState(false)
   const [itemToRemove, setItemToRemove] = useState<Dictionary | null>(null)
   const [removingitems, setRemovingItems] = useState<Dictionary<Dictionary>>({})
+  const [selectedItems, setSelectedItems] = useState<Dictionary<Dictionary>>({})
 
   const [{ page = 1, take = 10 }, setPaginationParams] = useQueryParams(
     {
@@ -118,15 +112,24 @@ export function _Component(): JSX.Element {
   return (
     <main className={NAME} key={kn}>
       <ConfirmDialog
-        open={Boolean(itemToRemove)}
+        open={isConfirmDeleteDialogOpen}
         onConfirm={() => {
-          removeRow(itemToRemove as Dictionary)
-          setItemToRemove(null)
-          setRemovingItems((removingItems) => ({
-            ...removingItems,
-            // @ts-ignore
-            [itemToRemove[explorer?.idKey as string]]: itemToRemove,
-          }))
+          if (itemToRemove) {
+            const id = itemToRemove?.[explorer!.idKey] as string
+            removeRows({ [id]: itemToRemove as Dictionary })
+            setItemToRemove(null)
+            setRemovingItems((removingItems) => ({
+              ...removingItems,
+              // @ts-ignore
+              [itemToRemove[explorer?.idKey as string]]: itemToRemove,
+            }))
+          }
+          if (!isEmpty(selectedItems)) {
+            removeRows(selectedItems)
+            setRemovingItems(selectedItems)
+            setSelectedItems({})
+          }
+          setConfirmDeleteDialogOpen(false)
         }}
         title='Удалить запись?'
         description='Вы уверены, что хотите удалить эту запись?'
@@ -196,6 +199,22 @@ export function _Component(): JSX.Element {
 
         {tableRenderDelay.isRender && (
           <Section size='1'>
+            <Flex gap='4' justify='end' pr='3'>
+              <Button
+                onClick={() => alert('Не реализованно')}
+                variant='ghost'
+                disabled={Object.keys(selectedItems).length === 0}
+              >
+                Согласовать
+              </Button>
+              <Button
+                onClick={() => setConfirmDeleteDialogOpen(true)}
+                variant='ghost'
+                disabled={Object.keys(selectedItems).length === 0}
+              >
+                Удалить
+              </Button>
+            </Flex>
             <ScrollArea scrollbars='horizontal'>
               <Viewer.Root
                 error={explorerListFetcher.error?.response?.data}
@@ -219,6 +238,9 @@ export function _Component(): JSX.Element {
                     }
                   }}
                   context={{
+                    idKey: explorer?.idKey,
+                    selectedItems,
+                    setSelectedItems,
                     sort: sortValue,
                     setSort,
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -241,14 +263,18 @@ export function _Component(): JSX.Element {
 
     const uiColumns = toColumns(dictionaryTable.tableSchema.items || [])
     const actionsColumn = createActionColumn({ onTrashClick: setItemToRemove })
-
-    return [...uiColumns, actionsColumn]
+    const selectionColumn = createSelectionColumn()
+    return [selectionColumn, ...uiColumns, actionsColumn]
   }
 
-  async function removeRow(item: Dictionary): Promise<void> {
+  async function removeRows(items: Dictionary<Dictionary>): Promise<void> {
+    const whereIds = Object.values(items).map((item) => ({
+      [explorer!.idKey!]: item[explorer!.idKey] as string,
+    }))
+
     explorerRemoveMutator.mutate({
       kn,
-      where: { [explorer?.idKey as string]: item[explorer?.idKey as string] },
+      where: { OR: whereIds },
     })
   }
 }

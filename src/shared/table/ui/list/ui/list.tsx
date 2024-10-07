@@ -10,6 +10,7 @@ export interface RenderCellProps<TItem extends Dictionary, TContext extends Dict
   accessorKey: keyof TItem
   name: string
   value: TItem[keyof TItem]
+  list: TItem[]
   item: TItem
   context: TContext
 }
@@ -18,6 +19,7 @@ export interface RenderHeaderProps<TItem extends Dictionary, TContext extends Di
   accessorKey: keyof TItem
   context: TContext
   name: string
+  list: TItem[]
 }
 
 export interface Column<TItem extends Dictionary, TContext extends Dictionary> {
@@ -76,82 +78,88 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
   } = props
 
   return (
-    <Table.Root className={c(className, NAME)} {...rootTableProps}>
-      <Table.Header {...headerProps?.(props)}>
-        <Table.Row {...headerRowProps?.(props)}>
-          {columns.map((column, i) => {
-            const mergedProps = { ...columnHeaderCellProps?.({ params: column, ...props }), ...column.headerProps }
-            return (
-              <Table.ColumnHeaderCell key={i} {...mergedProps}>
-                {column.renderHeader({
-                  accessorKey: column.accessorKey,
-                  name: column.name,
-                  context: context as TContext,
-                })}
-              </Table.ColumnHeaderCell>
-            )
-          })}
-        </Table.Row>
-      </Table.Header>
-      <Table.Body {...bodyProps?.(props)}>
-        {list.length === 0 ? (
-          <Table.Row
-            style={{
-              backgroundColor: 'var(--table-row-background-color)',
-              display: 'flex',
-              height: '5rem',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <td>
-              {loading ? (
-                <Spinner />
-              ) : error ? null : (
-                <Text size='1' style={{ textTransform: 'uppercase', color: 'var(--gray-10)' }}>
-                  Нет данных
-                </Text>
-              )}
-              {!loading && error && (
-                <Flex direction='column' gap='1' align='center'>
-                  <Text size='1' style={{ textTransform: 'uppercase' }} color='red'>
-                    {error.message}
-                  </Text>
-                  <Text size='1' color='red'>
-                    {error.description}
-                  </Text>
-                </Flex>
-              )}
-            </td>
+    <Flex direction={'column'}>
+      <Table.Root className={c(className, NAME)} {...rootTableProps}>
+        <Table.Header {...headerProps?.(props)}>
+          <Table.Row {...headerRowProps?.(props)}>
+            {columns.map((column, i) => {
+              const mergedProps = { ...columnHeaderCellProps?.({ params: column, ...props }), ...column.headerProps }
+              return (
+                <Table.ColumnHeaderCell key={i} {...mergedProps}>
+                  {column.renderHeader({
+                    accessorKey: column.accessorKey,
+                    name: column.name,
+                    list,
+                    context: context as TContext,
+                  })}
+                </Table.ColumnHeaderCell>
+              )
+            })}
           </Table.Row>
-        ) : (
-          list.map((item, rowIndex) => {
-            const gottenRowProps = rowProps?.({ item, rowIndex, ...props })
-            return (
-              <Table.Row {...gottenRowProps} key={gottenRowProps?.key || rowIndex}>
-                {props.columns.map((column, columnIndex) => {
-                  const mergedProps = {
-                    ...cellProps?.({ column, columnIndex, rowIndex, item, ...props }),
-                    ...column.cellProps,
-                  }
-                  return (
-                    <Table.Cell key={columnIndex} {...mergedProps}>
-                      {column.renderCell({
-                        accessorKey: column.accessorKey,
-                        value: getPath(item, toPath(column.accessorKey.toString())),
-                        context: context as TContext,
-                        name: column.name,
-                        item,
-                      })}
-                    </Table.Cell>
-                  )
-                })}
-              </Table.Row>
-            )
-          })
+        </Table.Header>
+        {list.length !== 0 && (
+          <Table.Body {...bodyProps?.(props)}>
+            {list.map((item, rowIndex) => {
+              const gottenRowProps = rowProps?.({ item, rowIndex, ...props })
+              return (
+                <Table.Row {...gottenRowProps} key={gottenRowProps?.key || rowIndex}>
+                  {props.columns.map((column, columnIndex) => {
+                    const mergedProps = {
+                      ...cellProps?.({ column, columnIndex, rowIndex, item, ...props }),
+                      ...column.cellProps,
+                    }
+                    return (
+                      <Table.Cell key={columnIndex} {...mergedProps}>
+                        {column.renderCell({
+                          accessorKey: column.accessorKey,
+                          value: getPath(item, toPath(column.accessorKey.toString())),
+                          context: context as TContext,
+                          name: column.name,
+                          item,
+                          list,
+                        })}
+                      </Table.Cell>
+                    )
+                  })}
+                </Table.Row>
+              )
+            })}
+          </Table.Body>
         )}
-      </Table.Body>
-    </Table.Root>
+      </Table.Root>
+      {list.length === 0 && (
+        <Flex
+          align='center'
+          justify='center'
+          height='100px'
+          style={{
+            paddingTop: loading ? '44px' : undefined,
+            boxShadow: loading ? undefined : 'inset 0 -1px var(--gray-a5)',
+            backgroundColor: 'var(--table-row-background-color)',
+          }}
+        >
+          {loading ? (
+            <Flex style={{ paddingTop: loading ? '44px' : undefined }}>
+              <Spinner />
+            </Flex>
+          ) : error ? null : (
+            <Text size='1' style={{ textTransform: 'uppercase', color: 'var(--gray-10)' }}>
+              Нет данных
+            </Text>
+          )}
+          {!loading && error && (
+            <Flex direction='column' gap='1' align='center'>
+              <Text size='1' style={{ textTransform: 'uppercase' }} color='red'>
+                {error.message}
+              </Text>
+              <Text size='1' color='red'>
+                {error.description}
+              </Text>
+            </Flex>
+          )}
+        </Flex>
+      )}
+    </Flex>
   )
 }
 
