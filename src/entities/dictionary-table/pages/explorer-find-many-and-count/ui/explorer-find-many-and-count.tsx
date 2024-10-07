@@ -19,6 +19,7 @@ import ScrollArea from '~/shared/scroll-area'
 import { useSearch } from '~/shared/search'
 import Section from '~/shared/section'
 import { useSort } from '~/shared/sort'
+import Text from '~/shared/text'
 import TextField from '~/shared/text-field'
 import { JSONParam } from '~/shared/use-query-params'
 import { createActionColumn } from '~/shared/working-table'
@@ -108,6 +109,8 @@ export default function Component(): JSX.Element {
   })
 
   const indexedColumns = dictionaryTable?.tableSchema.items.filter((item) => item.index || item.primary)
+
+  const selectedCount = Object.keys(selectedItems).length
 
   return (
     <main className={NAME} key={kn}>
@@ -200,22 +203,22 @@ export default function Component(): JSX.Element {
         {tableRenderDelay.isRender && (
           <Section size='1'>
             <Flex style={{ position: 'relative' }}>
-              <Flex gap='4' justify='end' pr='3' style={{ position: 'absolute', top: '-1.5rem', right: '0' }}>
-                <Button
-                  onClick={() => alert('Не реализованно')}
-                  variant='ghost'
-                  disabled={Object.keys(selectedItems).length === 0}
-                >
-                  Согласовать
-                </Button>
-                <Button
-                  onClick={() => setConfirmDeleteDialogOpen(true)}
-                  variant='ghost'
-                  disabled={Object.keys(selectedItems).length === 0}
-                >
-                  Удалить
-                </Button>
-              </Flex>
+              {selectedCount > 0 && (
+                <Flex gap='4' justify='end' pr='3' style={{ position: 'absolute', top: '-1.5rem', left: '0' }}>
+                  <Flex width='44px' justify='center' align='center'>
+                    <Text size='1' color='gray'>
+                      {selectedCount}
+                    </Text>
+                  </Flex>
+                  <Button
+                    onClick={() => setConfirmDeleteDialogOpen(true)}
+                    variant='ghost'
+                    disabled={Object.keys(selectedItems).length === 0}
+                  >
+                    Удалить
+                  </Button>
+                </Flex>
+              )}
               <ScrollArea scrollbars='horizontal'>
                 <Viewer.Root
                   error={explorerListFetcher.error?.response?.data}

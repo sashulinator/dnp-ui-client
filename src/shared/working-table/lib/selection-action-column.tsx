@@ -39,20 +39,24 @@ export function createSelectionColumn<TItem extends Dictionary, TContext extends
     },
     cellProps: {
       style: {
-        maxWidth: '60px',
-        minWidth: '60px',
-        width: '60px',
-        textAlign: 'right',
+        maxWidth: '44px',
+        minWidth: '44px',
+        width: '44px',
+        textAlign: 'center',
         // calc(var(--space-2) + var(--space-1)) потом что cellPadding + TextInputPadding
-        padding: '0 calc(var(--space-2) + var(--space-1)) 0 calc(var(--space-4) + var(--space-1))',
+        padding: '0',
         verticalAlign: 'middle',
       },
     },
     headerProps: {
-      maxWidth: '60px',
-      minWidth: '60px',
-      width: '60px',
-      style: { textAlign: 'right', verticalAlign: 'middle' },
+      maxWidth: '44px',
+      minWidth: '44px',
+      width: '44px',
+      style: {
+        padding: '0',
+        textAlign: 'center',
+        verticalAlign: 'middle',
+      },
     },
     renderCell: ({ item, context }) => {
       const id = item[context.idKey!] as string
