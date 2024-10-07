@@ -6,7 +6,8 @@ import Flex from '~/shared/flex'
 import Select from '~/shared/select'
 import { HighlightedText } from '~/shared/text'
 import { Switch } from '~/shared/theme'
-import { c, isDev } from '~/utils/core'
+import { c } from '~/utils/core'
+import { isDev } from '~/utils/core-client'
 
 export interface Props {
   className?: string | undefined

@@ -1,4 +1,4 @@
-import { isMac } from '../../core'
+import { isMac } from '../../core-client'
 
 interface Event {
   ctrlKey: boolean

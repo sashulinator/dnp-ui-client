@@ -4,7 +4,6 @@ import Button from '~/shared/button'
 import Flex from '~/shared/flex'
 import Icon from '~/shared/icon'
 import TextField from '~/shared/text-field'
-import { useControlledState } from '~/utils/core-hooks'
 import { push, remove, replace } from '~/utils/list'
 
 import Tag from '../widgets/tag'
@@ -21,8 +20,7 @@ const displayName = 'ui-TagPicker'
  * Tag-picker
  */
 export default function Component(props: Props): JSX.Element {
-  const [value, onChange] = useControlledState([], props.value, props.onChange)
-
+  const { value, onChange } = props
   const inputRef = useRef<HTMLInputElement>(null)
   const plusButtonRef = useRef<HTMLButtonElement>(null)
 
@@ -69,7 +67,7 @@ export default function Component(props: Props): JSX.Element {
     if (inputRef.current === null) return
     if (value?.includes(inputRef.current.value)) return
     if (inputRef.current.value === '') return
-    onChange?.(push(inputRef.current.value, value))
+    onChange?.(push(inputRef.current.value, value || []))
     inputRef.current.value = ''
     setTimeout(() => {
       plusButtonRef.current?.focus()

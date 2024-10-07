@@ -33,7 +33,7 @@ import Header from '~/shared/header'
 import Icon from '~/shared/icon'
 import Logo from '~/shared/logo-icon'
 import Nav from '~/shared/nav'
-import { isDev } from '~/utils/core'
+import { isDev } from '~/utils/core-client/is-dev'
 
 import Main from '../../../pages/main'
 import { type AppRoute } from './app-route'
