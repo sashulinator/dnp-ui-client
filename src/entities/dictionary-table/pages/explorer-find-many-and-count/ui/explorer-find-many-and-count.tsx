@@ -62,7 +62,7 @@ export default function Component(): JSX.Element {
     skip: (page - 1) * take,
     take,
     sort: sortParam,
-    searchQuery: { startsWith: searchQueryParam },
+    searchQuery: { startsWith: searchQueryParam || null },
   }
 
   const explorerListFetcher = api.explorer.findManyAndCountRows.useCache(requestParams, {
@@ -92,8 +92,9 @@ export default function Component(): JSX.Element {
   })
 
   const explorerUpdateMutator = api.explorer.updateRow.useCache({
-    onSuccess: (data) => {
-      api.explorer.findManyAndCountRows.setCache.replaceExplorerItem(requestParams, data.data.row)
+    onSuccess: () => {
+      notify({ title: 'Обновлено', type: 'success' })
+      explorerListFetcher.refetch()
     },
     onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
   })
@@ -105,7 +106,9 @@ export default function Component(): JSX.Element {
 
   const formToUpdate = useCreateRowForm({
     onSubmit: (values) =>
-      explorerUpdateMutator.mutateAsync({ kn, input: values, where: { _id: values._id } }).then((res) => res.data),
+      explorerUpdateMutator
+        .mutateAsync({ kn, input: values, where: { [explorer!.idKey!]: values[explorer!.idKey!] as string } })
+        .then((res) => res.data),
   })
 
   const indexedColumns = dictionaryTable?.tableSchema.items.filter((item) => item.index || item.primary)
