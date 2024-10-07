@@ -148,6 +148,7 @@ export const routes = {
     getUrl(kn: string, params?: { name: string } | undefined) {
       return `${this.getPath().replace(':kn', kn)}${qs.stringify(params, { addQueryPrefix: true })}`
     },
+    generateKey: (location) => location.pathname,
     render: DictionaryTable_explorerFindManyAndCount,
     payload: {
       renderHeader: Header,

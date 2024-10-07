@@ -1,6 +1,7 @@
 import React from 'react'
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 
+import type { Any } from '~/utils/core'
 import { type Dictionary } from '~/utils/core'
 
 import { type Route as IRoute } from '../../../models/route'
@@ -28,7 +29,7 @@ export default function Component<TPayload extends Dictionary, TContext extends 
           <Route
             key={key}
             path={route.getPath()}
-            element={<_Redirect context={context} render={render} route={route} />}
+            element={<RenderRoute context={context} render={render} route={route} />}
           />
         )
       })}
@@ -42,22 +43,24 @@ Component.displayName = NAME
  * Private
  */
 
-function _Redirect<TPayload extends Dictionary, TContext extends Dictionary>(props: {
+function RenderRoute<TPayload extends Dictionary, TContext extends Dictionary>(props: {
   route: IRoute<TPayload, TContext>
   context: TContext
   render: IRoute<TPayload, TContext>['render'] | undefined
 }): JSX.Element {
   const { route, context } = props
+  const location = useLocation()
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const redirect = props.route?.redirect?.({ route: route as IRoute<any, any>, context })
+  const redirect = route?.redirect?.({ route: route as IRoute<Any, Any>, context })
 
   if (redirect) {
     return <Navigate to={redirect.url} />
   }
 
+  const key = route.generateKey?.(location, route as IRoute<Any, Any>)
+
   const render = props.render || route.render
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return React.createElement(render, { route: route as IRoute<any, any>, context })
+  return React.createElement(render, { key, route: route as IRoute<any, any>, context })
 }

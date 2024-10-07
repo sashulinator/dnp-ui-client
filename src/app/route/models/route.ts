@@ -31,4 +31,21 @@ export type Route<TPayload extends Dictionary = Dictionary, TContext extends Dic
    * Можно использовать как защиту
    */
   redirect?: (props: { route: Route<TPayload>; context: TContext }) => { url: string } | undefined
+
+  /**
+   * Генерация уникального ключа
+   *
+   * Проблематика:
+   * При переходе со страницы /entity/1 на /entity/2
+   * не происходит моунтинг страницы а ее ререндеринг,
+   * что часто не желательно
+   */
+  generateKey?: (
+    location: {
+      pathname: string
+      search: string
+      hash: string
+    },
+    route: Route,
+  ) => string
 }
