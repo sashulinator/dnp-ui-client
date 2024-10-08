@@ -6,9 +6,9 @@ import { remove } from '~/utils/dictionary'
 import { toDictionary } from '~/utils/list'
 
 export type Context = {
-  selectedItems: Dictionary
-  setSelectedItems: SetterOrUpdater<Dictionary>
   idKey: string
+  selectedItems: Dictionary<Dictionary>
+  setSelectedItems: SetterOrUpdater<Dictionary<Dictionary>>
 }
 
 export function createSelectionColumn<TItem extends Dictionary, TContext extends Context>(): ListTableTypes.Column<
@@ -19,19 +19,33 @@ export function createSelectionColumn<TItem extends Dictionary, TContext extends
     accessorKey: 'action',
     name: 'Действия',
     renderHeader: ({ context, list }) => {
-      const selectedKeys = Object.keys(context.selectedItems)
-      let checked = Boolean(selectedKeys.length)
-      checked = (
-        list.length !== selectedKeys.length && Boolean(selectedKeys.length) ? 'indeterminate' : checked
-      ) as boolean
+      const idKey = context.idKey
+      const selectedIds = Object.keys(context.selectedItems)
+      const selectedValues = Object.values(context.selectedItems)
+
+      const interferedCount = list.reduce((count, item) => {
+        if (selectedIds.includes(item[idKey] as string)) count++
+        return count
+      }, 0)
+
+      const checked = selectedIds.length === 0 ? false : list.length === interferedCount ? true : 'indeterminate'
+
       return (
         <Checkbox
           checked={checked}
           onCheckedChange={(checked) => {
-            if (checked) {
-              context.setSelectedItems(toDictionary((item) => item[context.idKey] as string, list) || {})
+            if (checked === false) {
+              const filtered = selectedValues.filter(
+                (selectedItem) => !list.find((item) => item[idKey] === selectedItem[idKey]),
+              )
+              context.setSelectedItems(toDictionary((item) => item[idKey] as string, filtered) || {})
             } else {
-              context.setSelectedItems(() => ({}))
+              const dictionary = toDictionary((item) => item[idKey] as string, list) || {}
+              if (checked === 'indeterminate') {
+                context.setSelectedItems(dictionary)
+              } else {
+                context.setSelectedItems((currentDictionary) => ({ ...currentDictionary, ...dictionary }))
+              }
             }
           }}
         />
@@ -39,9 +53,9 @@ export function createSelectionColumn<TItem extends Dictionary, TContext extends
     },
     cellProps: {
       style: {
-        maxWidth: '44px',
-        minWidth: '44px',
-        width: '44px',
+        maxWidth: '32px',
+        minWidth: '32px',
+        width: '32px',
         textAlign: 'center',
         // calc(var(--space-2) + var(--space-1)) потом что cellPadding + TextInputPadding
         padding: '0',
@@ -49,9 +63,9 @@ export function createSelectionColumn<TItem extends Dictionary, TContext extends
       },
     },
     headerProps: {
-      maxWidth: '44px',
-      minWidth: '44px',
-      width: '44px',
+      maxWidth: '32px',
+      minWidth: '32px',
+      width: '32px',
       style: {
         padding: '0',
         textAlign: 'center',

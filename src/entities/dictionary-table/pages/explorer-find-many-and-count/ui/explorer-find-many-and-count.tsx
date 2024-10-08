@@ -19,7 +19,6 @@ import ScrollArea from '~/shared/scroll-area'
 import { useSearch } from '~/shared/search'
 import Section from '~/shared/section'
 import { useSort } from '~/shared/sort'
-import Text from '~/shared/text'
 import TextField from '~/shared/text-field'
 import { JSONParam } from '~/shared/use-query-params'
 import { createActionColumn } from '~/shared/working-table'
@@ -208,10 +207,10 @@ export default function Component(): JSX.Element {
             <Flex style={{ position: 'relative' }}>
               {selectedCount > 0 && (
                 <Flex gap='4' justify='end' pr='3' style={{ position: 'absolute', top: '-1.5rem', left: '0' }}>
-                  <Flex width='44px' justify='center' align='center'>
-                    <Text size='1' color='gray'>
+                  <Flex width='34px' justify='center' align='center'>
+                    <Button size='1' variant='ghost'>
                       {selectedCount}
-                    </Text>
+                    </Button>
                   </Flex>
                   <Button
                     onClick={() => setConfirmDeleteDialogOpen(true)}
