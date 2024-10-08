@@ -22,12 +22,12 @@ export type ProcessType = (typeof processType)[ProcessTypeKey]
 
 export const baseProcessSchema = v.object({
   id: v.pipe(v.string(), v.nonEmpty()),
-  type: v.enum(processType),
+  type: v.enum_(processType),
   normalizationConfigId: v.pipe(v.string(), v.nonEmpty()),
   normalizationConfigVersion: v.number(),
   eventTrackingId: v.number(),
   tableId: v.pipe(v.string(), v.nonEmpty()),
-  runtimeConfigData: v.string(),
+  runtimeConfigData: v.object({}),
   ...creatableModel.entries,
 })
 

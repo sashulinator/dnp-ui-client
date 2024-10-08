@@ -141,7 +141,7 @@ export default function Component(props: Props) {
                   <DataList.Value>
                     <TypedField<
                       Required<NonNullableFlat<Column>>,
-                      'relation.kn',
+                      'relation.tableName',
                       string,
                       string,
                       TextFieldProps<string>,
@@ -150,7 +150,7 @@ export default function Component(props: Props) {
                       component={TextField}
                       size='1'
                       variant='soft'
-                      name={`${typedName}relation.kn`}
+                      name={`${typedName}relation.tableName`}
                     />
                   </DataList.Value>
                 </DataList.Item>

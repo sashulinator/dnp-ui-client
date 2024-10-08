@@ -104,7 +104,7 @@ export default function Component() {
                   JSON конфигурации
                 </Text>
                 <CodeEditor
-                  value={fetcher.data.runtimeConfigData}
+                  value={JSON.stringify(fetcher.data.runtimeConfigData)}
                   className='ui-CodeEditor-v-Json'
                   mode='json'
                   readOnly
