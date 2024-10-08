@@ -15,7 +15,7 @@ import Tooltip from '~/shared/tooltip'
 import { isDev } from '~/utils/core-client'
 import type { NonNullableFlat } from '~/utils/types/object/non-nullable'
 
-import type { Column } from '../../../models/database-table'
+import type { Column } from '../../../models/database'
 
 export const NAME = 'databaseTable-ColumnForm'
 

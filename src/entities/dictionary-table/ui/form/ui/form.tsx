@@ -2,7 +2,7 @@ import { memo, useEffect } from 'react'
 import type { FieldInputProps, FieldMetaState } from 'react-final-form'
 import { useField, useForm } from 'react-final-form'
 
-import { DatabaseTableForm } from '~/shared/database-table'
+import { DatabaseTableForm } from '~/shared/database'
 import Flex from '~/shared/flex'
 import type { SelectProps, TextFieldProps } from '~/shared/form'
 import { Card, Checkbox, Column, Row, Select, TextField, TypedField } from '~/shared/form'

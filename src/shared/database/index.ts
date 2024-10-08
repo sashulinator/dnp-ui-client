@@ -2,14 +2,14 @@
  * ui
  */
 import ColumnForm from './ui/column-form'
-import DatabaseTableForm from './ui/database-table-form'
 import RowForm from './ui/row-form'
+import DatabaseTableForm from './ui/table-form'
 
 export { ColumnForm }
 export { type ColumnFormProps } from './ui/column-form'
 
 export { DatabaseTableForm }
-export { type DatabaseTableFormProps } from './ui/database-table-form'
+export { type DatabaseTableFormProps } from './ui/table-form'
 
 export { RowForm }
 export { type RowFormProps } from './ui/row-form'
@@ -24,4 +24,4 @@ export { toColumns, type Context as ColumnContext } from './lib/to-columns'
  * models
  */
 
-export type { Column, Relation } from './models/database-table'
+export type { Column, Relation } from './models/database'

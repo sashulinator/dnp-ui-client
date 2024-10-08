@@ -10,7 +10,7 @@ import { FilterConfigurator, type IntFilter, type IsFilter, type StringFilter, t
 import { type SetterOrUpdater, assertDefined } from '~/utils/core'
 import { omit } from '~/utils/dictionary'
 
-import { type Column } from '../models/database-table'
+import { type Column } from '../../database/models/database'
 
 export type Context = {
   sort: Sort | undefined
@@ -19,29 +19,27 @@ export type Context = {
   setSearchFilter: SetterOrUpdater<Record<string, StringFilter | IntFilter | IsFilter>>
 }
 
-export function toColumns<T extends Record<string, unknown>>(items: Column[]): TableColumn<T, Context>[] {
-  return items.map((item) => {
-    return {
-      cellProps: {
-        style: {
-          whiteSpace: 'nowrap',
-          textAlign: item.type === 'number' ? 'right' : 'left',
-          // calc(var(--space-2) + var(--space-1)) потом что cellPadding + TextInputPadding
-          padding: '0 calc(var(--space-2) + var(--space-1)) 0 calc(var(--space-4) + var(--space-1))',
-          verticalAlign: 'middle',
-        },
+export function toColumn<T extends Record<string, unknown>>(item: Column): TableColumn<T, Context> {
+  return {
+    cellProps: {
+      style: {
+        whiteSpace: 'nowrap',
+        textAlign: item.type === 'number' ? 'right' : 'left',
+        // calc(var(--space-2) + var(--space-1)) потом что cellPadding + TextInputPadding
+        padding: '0 calc(var(--space-2) + var(--space-1)) 0 calc(var(--space-4) + var(--space-1))',
+        verticalAlign: 'middle',
       },
-      headerProps: {
-        style: { minWidth: '12rem', textAlign: item.type === 'number' ? 'right' : 'left', verticalAlign: 'middle' },
-      },
-      accessorKey: item.columnName,
-      name: item.name,
-      renderHeader: _HeaderCell as TableColumn<T, Context>['renderHeader'],
-      renderCell: ({ value }) => {
-        return value as string
-      },
-    }
-  })
+    },
+    headerProps: {
+      style: { minWidth: '12rem', textAlign: item.type === 'number' ? 'right' : 'left', verticalAlign: 'middle' },
+    },
+    accessorKey: item.columnName,
+    name: item.name,
+    renderHeader: _HeaderCell as TableColumn<T, Context>['renderHeader'],
+    renderCell: ({ value }) => {
+      return value as string
+    },
+  }
 }
 
 interface _HeaderProps<T> {

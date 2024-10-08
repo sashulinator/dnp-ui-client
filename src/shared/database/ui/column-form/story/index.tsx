@@ -8,7 +8,7 @@ import Icon from '~/shared/icon'
 import { type Props, type Story } from '~/shared/storybook'
 import { generateUniqId } from '~/utils/core'
 
-import { type Column as IColumn } from '../../../models/database-table'
+import { type Column as IColumn } from '../../../models/database'
 import Column, { NAME } from '../ui/column-form'
 
 interface State {

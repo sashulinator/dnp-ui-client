@@ -2,7 +2,7 @@ import Flex from '~/shared/flex'
 import FForm, { useCreateForm } from '~/shared/form'
 import { type Props, type Story } from '~/shared/storybook'
 
-import DatabaseTableForm, { NAME } from '../ui/database-table-form'
+import DatabaseTableForm, { NAME } from '../ui/table-form'
 
 interface State {
   //
