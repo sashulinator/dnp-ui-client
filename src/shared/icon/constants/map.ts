@@ -13,6 +13,7 @@ import DoubleChevronLeft from '../widgets/double-chevron-left'
 import DoubleChevronRight from '../widgets/double-chevron-right'
 import Filter from '../widgets/filter'
 import InfoCircled from '../widgets/info-circled'
+import Pencil from '../widgets/pencil'
 import Plus from '../widgets/plus'
 import Star from '../widgets/star'
 import Trash from '../widgets/trash'
@@ -38,4 +39,5 @@ export const map = {
   Star,
   Trash,
   User,
+  Pencil,
 } satisfies Record<string, React.FC<React.SVGAttributes<SVGSVGElement>>>

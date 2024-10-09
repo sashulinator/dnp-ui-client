@@ -13,13 +13,21 @@ import Dialog, { ConfirmDialog } from '~/shared/dialog'
 import { type Item, Viewer } from '~/shared/explorer'
 import Flex from '~/shared/flex'
 import FForm, { type FormApi, useCreateForm } from '~/shared/form'
+import Icon from '~/shared/icon'
 import { notify } from '~/shared/notification-list-store'
 import { Heading, Pagination } from '~/shared/page'
 import ScrollArea from '~/shared/scroll-area'
 import { useSearch } from '~/shared/search'
 import Section from '~/shared/section'
 import { useSort } from '~/shared/sort'
-import { Column, SearchColumn, type SearchColumnTypes, SortColumn, type SortColumnTypes } from '~/shared/table'
+import {
+  Column,
+  ListTable,
+  SearchColumn,
+  type SearchColumnTypes,
+  SortColumn,
+  type SortColumnTypes,
+} from '~/shared/table'
 import '~/shared/table'
 import TextField from '~/shared/text-field'
 import { JSONParam } from '~/shared/use-query-params'
@@ -29,7 +37,7 @@ import type { Any } from '~/utils/core'
 import { type SetterOrUpdater, c, isEmpty } from '~/utils/core'
 import { type Dictionary } from '~/utils/core'
 import { useRenderDelay } from '~/utils/core-hooks/render-delay'
-import { get } from '~/utils/dictionary'
+import { get, remove } from '~/utils/dictionary'
 
 type TableContext = SearchColumnTypes.Context<Item['data']> &
   SortColumnTypes.Context<Item['data']> & { idKey: string } & {
@@ -53,6 +61,7 @@ export default function Component(): JSX.Element {
   const [itemToRemove, setItemToRemove] = useState<Dictionary | null>(null)
   const [removingitems, setRemovingItems] = useState<Dictionary<Dictionary>>({})
   const [selectedItems, setSelectedItems] = useState<Dictionary<Dictionary>>({})
+  const [isSelectedDialogOpen, setIsSelectedDialogOpen] = useState(false)
 
   const [{ page = 1, take = 10 }, setPaginationParams] = useQueryParams(
     {
@@ -84,6 +93,7 @@ export default function Component(): JSX.Element {
   const { dictionaryTable, explorer } = explorerListFetcher.data || {}
 
   const uiColumns = useMemo(buildUiColumns, [dictionaryTable])
+  const selectedUiColumns = useMemo(buildSelectedUiColumns, [dictionaryTable])
 
   const explorerCreateMutator = api.explorer.createRow.useCache({
     onSuccess: () => {
@@ -129,6 +139,22 @@ export default function Component(): JSX.Element {
 
   return (
     <main className={NAME} key={kn}>
+      <Dialog.Root open={isSelectedDialogOpen}>
+        <Dialog.Content maxWidth='1224px'>
+          <Dialog.Title>
+            <Flex gap='1' align='center' justify='between'>
+              Выделенные{' '}
+              <Button round={true} variant='ghost' onClick={() => setIsSelectedDialogOpen(false)}>
+                <Icon name='Cross1' />
+              </Button>
+            </Flex>
+          </Dialog.Title>
+
+          <ScrollArea scrollbars='horizontal'>
+            <ListTable context={{}} columns={selectedUiColumns} list={Object.values(selectedItems)} />
+          </ScrollArea>
+        </Dialog.Content>
+      </Dialog.Root>
       <ConfirmDialog
         open={isConfirmDeleteDialogOpen}
         onConfirm={() => {
@@ -150,7 +176,10 @@ export default function Component(): JSX.Element {
         }}
         title='Удалить запись?'
         description='Вы уверены, что хотите удалить эту запись?'
-        onClose={() => setItemToRemove(null)}
+        onClose={() => {
+          setItemToRemove(null)
+          setConfirmDeleteDialogOpen(false)
+        }}
       />
       <_Dialog
         form={formToCreate}
@@ -220,7 +249,7 @@ export default function Component(): JSX.Element {
               {selectedCount > 0 && (
                 <Flex gap='4' justify='end' pr='3' style={{ position: 'absolute', top: '-1.5rem', left: '0' }}>
                   <Flex width='34px' justify='center' align='center'>
-                    <Button size='1' variant='ghost'>
+                    <Button onClick={() => setIsSelectedDialogOpen(true)} size='1' variant='ghost'>
                       {selectedCount}
                     </Button>
                   </Flex>
@@ -278,6 +307,22 @@ export default function Component(): JSX.Element {
     </main>
   )
 
+  function buildSelectedUiColumns() {
+    if (dictionaryTable?.tableSchema.items === undefined) return []
+
+    const columns = dictionaryTable.tableSchema.items.map((column) => Column.fromDatabaseColumn(column))
+
+    const actionsColumn = createActionColumn({
+      renderHeader: () => '',
+      headerProps: { maxWidth: '24px' },
+      cellProps: { maxWidth: '24px' },
+      onCrossClick: (_, item) => {
+        setSelectedItems((items) => remove(items, item[explorer?.idKey as string] as string))
+      },
+    })
+    return [actionsColumn, ...columns]
+  }
+
   function buildUiColumns() {
     if (dictionaryTable?.tableSchema.items === undefined) return []
 
@@ -287,7 +332,15 @@ export default function Component(): JSX.Element {
     const searchColumns = columns.map(SearchColumn.toSearchColumn)
     const sortColumns = searchColumns.map(SortColumn.toSortColumn)
 
-    const actionsColumn = createActionColumn({ onTrashClick: setItemToRemove })
+    const actionsColumn = createActionColumn({
+      onTrashClick: (_, item) => {
+        setItemToRemove(item)
+        setConfirmDeleteDialogOpen(true)
+      },
+      onEditClick: (_, item) => {
+        formToUpdate.initialize(item as Item['data'])
+      },
+    })
     const selectionColumn = createSelectionColumn()
     return [selectionColumn, ...sortColumns, actionsColumn]
   }
