@@ -12,5 +12,8 @@ export type * as ListTableTypes from './ui/list'
 export { default as Column } from './ui/column'
 export type * as ColumnTypes from './ui/column'
 
-export { default as SeachColumn } from './ui/column.search'
+export { default as SearchColumn } from './ui/column.search'
 export type * as SearchColumnTypes from './ui/column.search/index'
+
+export { default as SortColumn } from './ui/column.sort'
+export type * as SortColumnTypes from './ui/column.sort/index'

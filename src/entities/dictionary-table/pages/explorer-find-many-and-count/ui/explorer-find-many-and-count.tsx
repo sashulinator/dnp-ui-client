@@ -10,7 +10,7 @@ import Container from '~/shared/container'
 import { TICK_MS, cssAnimations } from '~/shared/css-animations'
 import { type Column as DatabaseColumn, RowForm } from '~/shared/database'
 import Dialog, { ConfirmDialog } from '~/shared/dialog'
-import { Viewer } from '~/shared/explorer'
+import { type Item, Viewer } from '~/shared/explorer'
 import Flex from '~/shared/flex'
 import FForm, { type FormApi, useCreateForm } from '~/shared/form'
 import { notify } from '~/shared/notification-list-store'
@@ -19,15 +19,23 @@ import ScrollArea from '~/shared/scroll-area'
 import { useSearch } from '~/shared/search'
 import Section from '~/shared/section'
 import { useSort } from '~/shared/sort'
-import { Column } from '~/shared/table'
-import SearchColumn from '~/shared/table/ui/column.search'
+import { Column, SearchColumn, type SearchColumnTypes, SortColumn, type SortColumnTypes } from '~/shared/table'
+import '~/shared/table'
 import TextField from '~/shared/text-field'
 import { JSONParam } from '~/shared/use-query-params'
 import { createActionColumn } from '~/shared/working-table'
 import { createSelectionColumn } from '~/shared/working-table/lib/selection-action-column'
-import { c, isEmpty } from '~/utils/core'
+import type { Any } from '~/utils/core'
+import { type SetterOrUpdater, c, isEmpty } from '~/utils/core'
 import { type Dictionary } from '~/utils/core'
 import { useRenderDelay } from '~/utils/core-hooks/render-delay'
+import { get } from '~/utils/dictionary'
+
+type TableContext = SearchColumnTypes.Context<Item['data']> &
+  SortColumnTypes.Context<Item['data']> & { idKey: string } & {
+    selectedItems: Dictionary<Dictionary>
+    setSelectedItems: SetterOrUpdater<Dictionary<Dictionary>>
+  }
 
 export interface Props {
   className?: string | undefined
@@ -55,7 +63,10 @@ export default function Component(): JSX.Element {
   )
 
   const tableRenderDelay = useRenderDelay(TICK_MS * 4)
-  const [columnSearchParams, setColumnSearchParams] = useQueryParam('columnSearch', JSONParam)
+  const [columnSearchParams, setColumnSearchParams] = useQueryParam<
+    string,
+    SearchColumnTypes.ReplaceValueByFilter<Item['data']>
+  >('columnSearch', JSONParam as Any)
 
   const requestParams = {
     kn,
@@ -127,8 +138,7 @@ export default function Component(): JSX.Element {
             setItemToRemove(null)
             setRemovingItems((removingItems) => ({
               ...removingItems,
-              // @ts-ignore
-              [itemToRemove[explorer?.idKey as string]]: itemToRemove,
+              [get(itemToRemove, explorer?.idKey) as string]: itemToRemove,
             }))
           }
           if (!isEmpty(selectedItems)) {
@@ -230,11 +240,12 @@ export default function Component(): JSX.Element {
                   paths={explorer?.paths || []}
                   explorer={explorer}
                 >
-                  <Viewer.ListTable
+                  <Viewer.ListTable<Item, TableContext>
                     className={c(cssAnimations.Appear)}
+                    columns={uiColumns}
                     rowProps={({ item, rowIndex }) => {
-                      // @ts-ignore
-                      const isRemoving = Boolean(removingitems[item[explorer?.idKey]])
+                      const value = get(item, explorer?.idKey) as string
+                      const isRemoving = Boolean(removingitems[value])
                       return {
                         className: c(cssAnimations.Appear),
                         style: {
@@ -246,17 +257,17 @@ export default function Component(): JSX.Element {
                       }
                     }}
                     context={{
-                      idKey: explorer?.idKey,
+                      idKey: explorer?.idKey as string,
                       selectedItems,
                       setSelectedItems,
                       sort: sortValue,
                       setSort,
-                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                      searchFilter: columnSearchParams as any,
-                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                      setSearchFilter: setColumnSearchParams as any,
+                      searchFilter: columnSearchParams,
+                      setSearchFilter: (value) => {
+                        const newValue = typeof value === 'function' ? value(columnSearchParams) : value
+                        setColumnSearchParams(newValue)
+                      },
                     }}
-                    columns={uiColumns as any}
                   />
                 </Viewer.Root>
               </ScrollArea>
@@ -270,12 +281,15 @@ export default function Component(): JSX.Element {
   function buildUiColumns() {
     if (dictionaryTable?.tableSchema.items === undefined) return []
 
-    const columns = dictionaryTable.tableSchema.items.map(Column.fromDatabaseColumn)
-    const searchColumn = columns.map(SearchColumn.toSearchColumn)
+    const columns = dictionaryTable.tableSchema.items.map((column) =>
+      Column.fromDatabaseColumn<Item['data'], TableContext>(column),
+    )
+    const searchColumns = columns.map(SearchColumn.toSearchColumn)
+    const sortColumns = searchColumns.map(SortColumn.toSortColumn)
 
     const actionsColumn = createActionColumn({ onTrashClick: setItemToRemove })
     const selectionColumn = createSelectionColumn()
-    return [selectionColumn, ...searchColumn, actionsColumn]
+    return [selectionColumn, ...sortColumns, actionsColumn]
   }
 
   async function removeRows(items: Dictionary<Dictionary>): Promise<void> {
