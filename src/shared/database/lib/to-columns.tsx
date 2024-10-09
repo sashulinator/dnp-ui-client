@@ -14,7 +14,7 @@ import {
   toFilterConfig,
 } from '~/shared/where'
 import { type SetterOrUpdater, assertDefined } from '~/utils/core'
-import { omit } from '~/utils/dictionary'
+import { add, omit } from '~/utils/dictionary'
 
 import { type Column } from '../models/database'
 
@@ -69,7 +69,19 @@ function _HeaderCell<T extends string>({ accessorKey, context, name }: _HeaderPr
       <FilterConfigurator.Root
         filterConfig={filterConfig}
         onFilterConfigChange={(filterConfig) => {
-          context?.setSearchFilter((s) => ({ ...s, [accessorKey]: toFilter(filterConfig) }))
+          /**
+           * Если сделать в лоб:
+           *  _____________________________________________________
+           * |                                                     |
+           * |  { [x: string]: ReplaceValueByFilter<Dictionary> }  |
+           * |        ~~~~~~~                                      |
+           * |  accessorKey: keyof TItem превращается в string     |
+           * |______  _____________________________________________|
+           *        |/
+           * const searchFilterToAdd = { [accessorKey]: toFilter(filterConfig) }
+           * */
+          const searchFilterToAdd = add({}, accessorKey, toFilter(filterConfig))
+          context?.setSearchFilter((s) => ({ ...s, ...searchFilterToAdd }))
         }}
       >
         <Flex width='100%'>

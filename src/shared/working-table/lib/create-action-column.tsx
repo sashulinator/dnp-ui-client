@@ -1,6 +1,6 @@
 import { DangerButton } from '~/shared/button'
 import Icon from '~/shared/icon'
-import { type ListTableTypes } from '~/shared/table'
+import { type ColumnTypes } from '~/shared/table'
 import Text from '~/shared/text'
 import { type Dictionary } from '~/utils/core'
 
@@ -10,7 +10,7 @@ interface Props<TItem extends Dictionary> {
 
 export function createActionColumn<TItem extends Dictionary, TContext extends Dictionary>(
   props: Props<TItem>,
-): ListTableTypes.Column<TItem, TContext> {
+): ColumnTypes.Column<TItem, TContext> {
   return {
     accessorKey: 'action',
     name: 'Действия',

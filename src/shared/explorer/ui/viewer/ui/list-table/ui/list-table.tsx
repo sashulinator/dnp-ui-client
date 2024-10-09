@@ -1,19 +1,19 @@
 import { deserializeItem } from '~/shared/explorer/lib/deserialize-item'
-import { ListTable, type ListTableTypes } from '~/shared/table'
+import { type ColumnTypes, ListTable, type ListTableTypes } from '~/shared/table'
 import { type Dictionary, c, fns } from '~/utils/core'
 
 import { type Item } from '../../../../../models/explorer'
 import { useContext } from '../../../models/context'
 import { NAME as ROOT_NAME } from '../../root'
 
-export type Column<TItem extends Dictionary, TContext extends Dictionary> = ListTableTypes.Column<TItem, TContext>
+export type Column<TItem extends Dictionary, TContext extends Dictionary> = ColumnTypes.Column<TItem, TContext>
 
-export type RenderHeaderProps<TItem extends Dictionary, TContext extends Dictionary> = ListTableTypes.RenderHeaderProps<
+export type RenderHeaderProps<TItem extends Dictionary, TContext extends Dictionary> = ColumnTypes.RenderHeaderProps<
   TItem,
   TContext
 >
 
-export type RenderCellProps<TItem extends Dictionary, TContext extends Dictionary> = ListTableTypes.RenderCellProps<
+export type RenderCellProps<TItem extends Dictionary, TContext extends Dictionary> = ColumnTypes.RenderCellProps<
   TItem,
   TContext
 >

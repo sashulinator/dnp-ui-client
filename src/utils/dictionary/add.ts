@@ -1,5 +1,6 @@
-import { Key } from '../core'
+import { type Key } from '../core'
 
+function add<D extends Partial<Record<K, V>>, K extends Key, V>(dictionary: D, key: K, value: V): D & { [k in K]: V }
 /**
  * Adds a new key-value pair to a dictionary object or updates an existing one
  * returning the new instance of dictionary object.
@@ -14,6 +15,8 @@ import { Key } from '../core'
  *
  * @returns {D} The new instance of dictionary object.
  */
-export function add<D extends Partial<Record<K, V>>, K extends Key, V>(dictionary: D, key: K, value: V): D {
+function add<D extends Partial<Record<K, V>>, K extends Key, V>(dictionary: D, key: K, value: V): D {
   return { ...dictionary, [key]: value }
 }
+
+export { add }

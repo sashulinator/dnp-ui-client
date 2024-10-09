@@ -103,7 +103,7 @@ export default function Component(): JSX.Element {
 
   const explorerUpdateMutator = api.explorer.updateRow.useCache({
     onSuccess: (data) => {
-      api.explorer.findManyAndCountRows.setCache.replaceExplorerItem(requestParams, data.data.row)
+      api.explorer.findManyAndCountRows.setCache.replaceExplorerItem(requestParams as any, data.data.row)
     },
     onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
   })
@@ -280,7 +280,9 @@ export default function Component(): JSX.Element {
                   if (!item) return
                   formToUpdate.initialize(item.data)
                 }}
-                remove={(_id: Id) => explorerRemoveMutator.mutateAsync({ kn, where: { _id } }).then((res) => res.data)}
+                remove={(_id: Id) =>
+                  explorerRemoveMutator.mutateAsync({ kn, where: { _id: _id as string } }).then((res) => res.data)
+                }
                 update={(row: Row) =>
                   explorerUpdateMutator
                     .mutateAsync({ kn, input: row, where: { _id: row._id } })

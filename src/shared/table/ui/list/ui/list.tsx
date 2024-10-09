@@ -6,30 +6,7 @@ import Text from '~/shared/text'
 import { type Dictionary, c } from '~/utils/core'
 import { getPath, toPath } from '~/utils/dictionary'
 
-export interface RenderCellProps<TItem extends Dictionary, TContext extends Dictionary> {
-  accessorKey: keyof TItem
-  name: string
-  value: TItem[keyof TItem]
-  list: TItem[]
-  item: TItem
-  context: TContext
-}
-
-export interface RenderHeaderProps<TItem extends Dictionary, TContext extends Dictionary> {
-  accessorKey: keyof TItem
-  context: TContext
-  name: string
-  list: TItem[]
-}
-
-export interface Column<TItem extends Dictionary, TContext extends Dictionary> {
-  accessorKey: keyof TItem
-  name: string
-  cellProps?: TableTypes.CellProps | undefined
-  headerProps?: TableTypes.CellProps | undefined
-  renderCell: (props: RenderCellProps<TItem, TContext>) => React.ReactNode
-  renderHeader: (props: RenderHeaderProps<TItem, TContext>) => React.ReactNode
-}
+import { type Column } from '../../column/models/column'
 
 export type Props<TItem extends Dictionary, TContext extends Dictionary> = TableTypes.RootProps & {
   className?: string | undefined

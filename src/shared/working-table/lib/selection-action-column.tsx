@@ -1,6 +1,6 @@
 import { Checkbox } from '@radix-ui/themes'
 
-import { type ListTableTypes } from '~/shared/table'
+import { type ColumnTypes } from '~/shared/table'
 import { type Dictionary, type SetterOrUpdater } from '~/utils/core'
 import { remove } from '~/utils/dictionary'
 import { toDictionary } from '~/utils/list'
@@ -11,7 +11,7 @@ export type Context = {
   setSelectedItems: SetterOrUpdater<Dictionary<Dictionary>>
 }
 
-export function createSelectionColumn<TItem extends Dictionary, TContext extends Context>(): ListTableTypes.Column<
+export function createSelectionColumn<TItem extends Dictionary, TContext extends Context>(): ColumnTypes.Column<
   TItem,
   TContext
 > {

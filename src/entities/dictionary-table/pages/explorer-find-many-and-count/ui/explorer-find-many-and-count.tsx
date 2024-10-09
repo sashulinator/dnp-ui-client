@@ -8,7 +8,7 @@ import { type Row, SYSNAME, api } from '~/entities/dictionary-table'
 import Button from '~/shared/button'
 import Container from '~/shared/container'
 import { TICK_MS, cssAnimations } from '~/shared/css-animations'
-import { type Column, RowForm, toColumns } from '~/shared/database'
+import { type Column as DatabaseColumn, RowForm } from '~/shared/database'
 import Dialog, { ConfirmDialog } from '~/shared/dialog'
 import { Viewer } from '~/shared/explorer'
 import Flex from '~/shared/flex'
@@ -19,6 +19,8 @@ import ScrollArea from '~/shared/scroll-area'
 import { useSearch } from '~/shared/search'
 import Section from '~/shared/section'
 import { useSort } from '~/shared/sort'
+import { Column } from '~/shared/table'
+import SearchColumn from '~/shared/table/ui/column.search'
 import TextField from '~/shared/text-field'
 import { JSONParam } from '~/shared/use-query-params'
 import { createActionColumn } from '~/shared/working-table'
@@ -268,10 +270,12 @@ export default function Component(): JSX.Element {
   function buildUiColumns() {
     if (dictionaryTable?.tableSchema.items === undefined) return []
 
-    const uiColumns = toColumns(dictionaryTable.tableSchema.items || [])
+    const columns = dictionaryTable.tableSchema.items.map(Column.fromDatabaseColumn)
+    const searchColumn = columns.map(SearchColumn.toSearchColumn)
+
     const actionsColumn = createActionColumn({ onTrashClick: setItemToRemove })
     const selectionColumn = createSelectionColumn()
-    return [selectionColumn, ...uiColumns, actionsColumn]
+    return [selectionColumn, ...searchColumn, actionsColumn]
   }
 
   async function removeRows(items: Dictionary<Dictionary>): Promise<void> {
@@ -295,7 +299,7 @@ Component.displayName = NAME
 interface _DialogProps {
   open: boolean
   form: FormApi<Row, Partial<Row>>
-  columns: Column[] | undefined
+  columns: DatabaseColumn[] | undefined
   mutator: { isLoading: boolean }
 }
 
