@@ -1,3 +1,5 @@
+import { createElement } from 'react'
+
 import { type UiErrorable } from '~/shared/error'
 import Flex from '~/shared/flex'
 import Spinner from '~/shared/spinner'
@@ -63,7 +65,7 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
               const mergedProps = { ...columnHeaderCellProps?.({ params: column, ...props }), ...column.headerProps }
               return (
                 <Table.ColumnHeaderCell key={i} {...mergedProps}>
-                  {column.renderHeader({
+                  {createElement(column.renderHeader, {
                     accessorKey: column.accessorKey,
                     name: column.name,
                     list,
@@ -87,7 +89,7 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
                     }
                     return (
                       <Table.Cell key={columnIndex} {...mergedProps}>
-                        {column.renderCell({
+                        {createElement(column.renderCell, {
                           accessorKey: column.accessorKey,
                           value: getPath(item, toPath(column.accessorKey.toString())),
                           context: context as TContext,
