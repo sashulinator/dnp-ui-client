@@ -30,7 +30,7 @@ export default function Component<TItem extends Item, TContext extends Dictionar
 ): JSX.Element {
   const { rowProps, ...listTableProps } = props
 
-  const { explorer, onPathChange, loading, error, paths = [] } = useContext<TItem>()
+  const { explorer, onPathChange, paths = [] } = useContext<TItem>()
 
   const items = explorer?.items || []
   const deserializedItemList = items.map(deserializeItem)
@@ -38,8 +38,6 @@ export default function Component<TItem extends Item, TContext extends Dictionar
   return (
     <ListTable<TItem['data'], TContext>
       {...listTableProps}
-      loading={loading}
-      error={error}
       rowProps={(params) => {
         const rowPropsFromProps = rowProps?.(params)
         return {

@@ -164,7 +164,6 @@ export default function Component(): JSX.Element {
                   </Flex>
                   {paths.length !== 0 && (
                     <Viewer.Root
-                      error={explorerFetcher.error?.response?.data}
                       onPathChange={setPaths}
                       loading={explorerFetcher.isFetching}
                       paths={paths}

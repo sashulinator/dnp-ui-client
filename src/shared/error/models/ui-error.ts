@@ -5,7 +5,10 @@ export interface UiErrorable {
   description: string
 }
 
-export class UiError<P extends Record<string, unknown>> extends BaseError<P> implements UiErrorable {
+export class UiError<P extends Record<string, unknown> = Record<string, unknown>>
+  extends BaseError<P>
+  implements UiErrorable
+{
   public readonly description: string
 
   constructor(message: string, props: { description: string } & P) {

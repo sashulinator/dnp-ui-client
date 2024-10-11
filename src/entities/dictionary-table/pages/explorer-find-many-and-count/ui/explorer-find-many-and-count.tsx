@@ -16,6 +16,7 @@ import FForm, { type FormApi, useCreateForm } from '~/shared/form'
 import Icon from '~/shared/icon'
 import { notify } from '~/shared/notification-list-store'
 import { Heading, Pagination } from '~/shared/page'
+import { FetcherStatus } from '~/shared/query'
 import ScrollArea from '~/shared/scroll-area'
 import { useSearch } from '~/shared/search'
 import Section from '~/shared/section'
@@ -262,44 +263,52 @@ export default function Component(): JSX.Element {
                   </Button>
                 </Flex>
               )}
-              <ScrollArea scrollbars='horizontal'>
-                <Viewer.Root
-                  error={explorerListFetcher.error?.response?.data}
-                  loading={explorerListFetcher.isFetching}
-                  paths={explorer?.paths || []}
-                  explorer={explorer}
-                >
-                  <Viewer.ListTable<Item, TableContext>
-                    className={c(cssAnimations.Appear)}
-                    columns={uiColumns}
-                    rowProps={({ item, rowIndex }) => {
-                      const value = get(item, explorer?.idKey) as string
-                      const isRemoving = Boolean(removingitems[value])
-                      return {
-                        className: c(cssAnimations.Appear),
-                        style: {
-                          animationDelay: `${TICK_MS * Math.pow(rowIndex, 0.5)}ms`,
-                          backgroundColor: isRemoving ? 'var(--red-9)' : undefined,
-                          transition: isRemoving ? 'background-color 300ms' : undefined,
+              <FetcherStatus
+                isChildrenOnFetchingVisible={true}
+                isLoading={explorerListFetcher.isLoading}
+                isFetching={explorerListFetcher.isFetching}
+                isError={explorerListFetcher.isError}
+                error={explorerListFetcher.error?.response?.data}
+                refetch={explorerListFetcher.refetch}
+              >
+                <ScrollArea scrollbars='horizontal'>
+                  <Viewer.Root
+                    loading={explorerListFetcher.isFetching}
+                    paths={explorer?.paths || []}
+                    explorer={explorer}
+                  >
+                    <Viewer.ListTable<Item, TableContext>
+                      className={c(cssAnimations.Appear)}
+                      columns={uiColumns}
+                      rowProps={({ item, rowIndex }) => {
+                        const value = get(item, explorer?.idKey) as string
+                        const isRemoving = Boolean(removingitems[value])
+                        return {
+                          className: c(cssAnimations.Appear),
+                          style: {
+                            animationDelay: `${TICK_MS * Math.pow(rowIndex, 0.5)}ms`,
+                            backgroundColor: isRemoving ? 'var(--red-9)' : undefined,
+                            transition: isRemoving ? 'background-color 300ms' : undefined,
+                          },
+                          onDoubleClick: () => formToUpdate.initialize(item),
+                        }
+                      }}
+                      context={{
+                        idKey: explorer?.idKey as string,
+                        selectedItems,
+                        setSelectedItems,
+                        sort: sortValue,
+                        setSort,
+                        searchFilter: columnSearchParams,
+                        setSearchFilter: (value) => {
+                          const newValue = typeof value === 'function' ? value(columnSearchParams) : value
+                          setColumnSearchParams(newValue)
                         },
-                        onDoubleClick: () => formToUpdate.initialize(item),
-                      }
-                    }}
-                    context={{
-                      idKey: explorer?.idKey as string,
-                      selectedItems,
-                      setSelectedItems,
-                      sort: sortValue,
-                      setSort,
-                      searchFilter: columnSearchParams,
-                      setSearchFilter: (value) => {
-                        const newValue = typeof value === 'function' ? value(columnSearchParams) : value
-                        setColumnSearchParams(newValue)
-                      },
-                    }}
-                  />
-                </Viewer.Root>
-              </ScrollArea>
+                      }}
+                    />
+                  </Viewer.Root>
+                </ScrollArea>
+              </FetcherStatus>
             </Flex>
           </Section>
         )}

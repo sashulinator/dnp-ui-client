@@ -13,7 +13,7 @@ export default {
 
     return (
       <Flex width='100%' direction={'column'} p='8' gap='4'>
-        <List {...state} loading={false} error={undefined} context={{}} list={list} columns={columns} />
+        <List {...state} context={{}} list={list} columns={columns} />
       </Flex>
     )
   },

@@ -261,7 +261,6 @@ export default function Component(): JSX.Element {
           <Section size='1'>
             <ScrollArea>
               <ExplorerViewer
-                error={explorerListFetcher.error}
                 loading={explorerListFetcher.isFetching}
                 context={{
                   sort: sortValue,
