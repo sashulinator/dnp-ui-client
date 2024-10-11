@@ -180,6 +180,7 @@ export default function Component(): JSX.Element {
         }}
         onClose={() => {
           setItemToRemove(null)
+          confirmDialogStore.getState().close()
         }}
       />
       <_Dialog
@@ -344,7 +345,7 @@ export default function Component(): JSX.Element {
     const actionsColumn = createActionColumn({
       onTrashClick: (_, item) => {
         setItemToRemove(item)
-        confirmDialogStore.getState()
+        confirmDialogStore.getState().open()
       },
       onEditClick: (_, item) => {
         formToUpdate.initialize(item as Item['data'])
