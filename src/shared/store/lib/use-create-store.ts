@@ -51,3 +51,5 @@ const createImpl = <T>(createState: StateCreator<T, [], []>) => {
 
 export const create = (<T>(createState: StateCreator<T, [], []> | undefined) =>
   createState ? createImpl(createState) : createImpl) as Create
+
+export type Store<T> = UseBoundStore<StoreApi<T>>

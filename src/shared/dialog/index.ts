@@ -14,4 +14,4 @@ export { default as ConfirmDialog, type ConfirmProps as ConfirmDialogProps } fro
  * lib
  */
 
-export { type DialogStore, type UseDialogBoundStore, createDialogStore } from './lib/create-store'
+export { type DialogStoreValue as DialogStore, createDialogStore } from './lib/create-store'

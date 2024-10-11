@@ -1,12 +1,13 @@
 import Button from '~/shared/button'
 import Flex from '~/shared/flex'
+import { type Store } from '~/shared/store'
 import Text from '~/shared/text'
 
-import { type UseDialogBoundStore } from '../../../lib/create-store'
+import { type DialogStoreValue } from '../../../lib/create-store'
 import Dialog from '../../dialog'
 
 export interface Props {
-  store: UseDialogBoundStore
+  store: Store<DialogStoreValue>
   title?: string
   description: string
   onClose: () => void

@@ -1,15 +1,13 @@
-import { type StoreApi, type UseBoundStore, createStore } from '~/shared/store'
+import { type Store, createStore } from '~/shared/store'
 
-export type DialogStore = {
+export type DialogStoreValue = {
   isOpen: boolean
   open: () => void
   close: () => void
 }
 
-export type UseDialogBoundStore = UseBoundStore<StoreApi<DialogStore>>
-
-export function createDialogStore(init = false): UseDialogBoundStore {
-  return createStore<DialogStore>((set) => ({
+export function createDialogStore(init = false): Store<DialogStoreValue> {
+  return createStore<DialogStoreValue>((set) => ({
     isOpen: init,
     open: () => set({ isOpen: true }),
     close: () => set({ isOpen: false }),
