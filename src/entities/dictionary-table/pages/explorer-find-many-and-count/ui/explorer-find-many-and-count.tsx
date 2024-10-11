@@ -9,7 +9,7 @@ import Button from '~/shared/button'
 import Container from '~/shared/container'
 import { TICK_MS, cssAnimations } from '~/shared/css-animations'
 import { type Column as DatabaseColumn, RowForm } from '~/shared/database'
-import Dialog, { ConfirmDialog } from '~/shared/dialog'
+import Dialog, { ConfirmDialog, createDialogStore } from '~/shared/dialog'
 import { type Item, Viewer } from '~/shared/explorer'
 import Flex from '~/shared/flex'
 import FForm, { type FormApi, useCreateForm } from '~/shared/form'
@@ -57,7 +57,8 @@ export default function Component(): JSX.Element {
   const [searchQueryParam, searchValue, setSearchValue] = useSearch()
   const [sortParam, sortValue, setSort] = useSort()
 
-  const [isConfirmDeleteDialogOpen, setConfirmDeleteDialogOpen] = useState(false)
+  const confirmDialogStore = useMemo(() => createDialogStore(), [])
+
   const [itemToRemove, setItemToRemove] = useState<Dictionary | null>(null)
   const [removingitems, setRemovingItems] = useState<Dictionary<Dictionary>>({})
   const [selectedItems, setSelectedItems] = useState<Dictionary<Dictionary>>({})
@@ -156,7 +157,9 @@ export default function Component(): JSX.Element {
         </Dialog.Content>
       </Dialog.Root>
       <ConfirmDialog
-        open={isConfirmDeleteDialogOpen}
+        store={confirmDialogStore}
+        title='Удалить запись?'
+        description='Вы уверены, что хотите удалить запись?'
         onConfirm={() => {
           if (itemToRemove) {
             const id = itemToRemove?.[explorer!.idKey] as string
@@ -172,13 +175,10 @@ export default function Component(): JSX.Element {
             setRemovingItems(selectedItems)
             setSelectedItems({})
           }
-          setConfirmDeleteDialogOpen(false)
+          confirmDialogStore.getState().close()
         }}
-        title='Удалить запись?'
-        description='Вы уверены, что хотите удалить эту запись?'
         onClose={() => {
           setItemToRemove(null)
-          setConfirmDeleteDialogOpen(false)
         }}
       />
       <_Dialog
@@ -254,7 +254,7 @@ export default function Component(): JSX.Element {
                     </Button>
                   </Flex>
                   <Button
-                    onClick={() => setConfirmDeleteDialogOpen(true)}
+                    onClick={() => confirmDialogStore.getState().open()}
                     variant='ghost'
                     disabled={Object.keys(selectedItems).length === 0}
                   >
@@ -335,7 +335,7 @@ export default function Component(): JSX.Element {
     const actionsColumn = createActionColumn({
       onTrashClick: (_, item) => {
         setItemToRemove(item)
-        setConfirmDeleteDialogOpen(true)
+        confirmDialogStore.getState()
       },
       onEditClick: (_, item) => {
         formToUpdate.initialize(item as Item['data'])

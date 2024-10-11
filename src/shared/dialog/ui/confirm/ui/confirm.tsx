@@ -2,10 +2,11 @@ import Button from '~/shared/button'
 import Flex from '~/shared/flex'
 import Text from '~/shared/text'
 
+import { type UseDialogBoundStore } from '../../../lib/create-store'
 import Dialog from '../../dialog'
 
 export interface Props {
-  open: boolean
+  store: UseDialogBoundStore
   title?: string
   description: string
   onClose: () => void
@@ -15,10 +16,12 @@ export interface Props {
 Component.displayname = 'dialog-Confirm'
 
 export default function Component(props: Props) {
-  const { open, title = 'Успешно', description, onConfirm, onClose } = props
+  const { store: useBoundStore, title = 'Вы уверены?', description, onConfirm, onClose } = props
+
+  const { isOpen } = useBoundStore()
 
   return (
-    <Dialog.Root open={open}>
+    <Dialog.Root open={isOpen}>
       <Dialog.Content maxWidth='450px' minWidth='250px'>
         <Flex gap='6' direction='column'>
           <Flex direction='column'>
