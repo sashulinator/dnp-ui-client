@@ -16,15 +16,14 @@ export function toSearchColumn<TItem extends Dictionary, TContext extends Contex
         ...column.headerProps?.style,
         minWidth: '12rem',
         paddingLeft: 'var(--space-1)',
-        paddingRight: 'var(--space-1)',
       },
     },
     cellProps: {
       ...column.cellProps,
       style: {
         ...column.cellProps?.style,
-        paddingLeft: 'var(--space-3)',
-        paddingRight: 'var(--space-1)',
+        // отступ headerCell=--space-1 и --space-2 это отступ placeholder'а в инпуте
+        paddingLeft: 'calc((var(--space-1) + var(--space-2))',
       },
     },
   } satisfies Column<TItem, TContext>
