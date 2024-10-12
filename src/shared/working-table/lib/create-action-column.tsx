@@ -7,6 +7,7 @@ import { type Dictionary } from '~/utils/core'
 
 interface Props<TItem extends Dictionary> extends Partial<ColumnTypes.Column<TItem, Dictionary>> {
   headerTitle?: string
+  justify?: 'center' | 'end' | 'start' | undefined
   onTrashClick?: (e: React.MouseEvent, item: TItem) => void
   onEditClick?: (e: React.MouseEvent, item: TItem) => void
   onCrossClick?: (e: React.MouseEvent, item: TItem) => void
@@ -42,7 +43,7 @@ export function createActionColumn<TItem extends Dictionary>(
       const row = item
 
       return (
-        <Flex gap='1' justify='end'>
+        <Flex gap='1' justify={props.justify || 'end'} align='center' height='100%'>
           {props.onEditClick && (
             <Button
               onClick={(e) => {

@@ -3,42 +3,49 @@ import { useParams } from 'react-router-dom'
 import { NumberParam, StringParam, withDefault } from 'serialize-query-params'
 import { useQueryParam, useQueryParams } from 'use-query-params'
 
-import { routes } from '~/app/route'
-import { type Row, SYSNAME, api } from '~/entities/dictionary-table'
-import Button from '~/shared/button'
+import type { Row } from '~/entities/dictionary-table'
+import { SYSNAME, api } from '~/entities/dictionary-table'
 import Container from '~/shared/container'
 import { TICK_MS, cssAnimations } from '~/shared/css-animations'
-import { type Column as DatabaseColumn, RowForm } from '~/shared/database'
-// import { RenderCounter } from '~/shared/debug'
-import Dialog, { ConfirmDialog, type ConfirmDialogTypes } from '~/shared/dialog'
+import { RenderCounter } from '~/shared/debug'
+import { ConfirmDialog, type ConfirmDialogTypes } from '~/shared/dialog'
 import { type Item, Viewer } from '~/shared/explorer'
 import Flex from '~/shared/flex'
-import FForm, { type FormApi, useCreateForm } from '~/shared/form'
-import Icon from '~/shared/icon'
 import { notify } from '~/shared/notification-list-store'
-import { Heading, Pagination } from '~/shared/page'
+import { Pagination } from '~/shared/page'
 import { FetcherStatus } from '~/shared/query'
 import ScrollArea from '~/shared/scroll-area'
 import { useSearch } from '~/shared/search'
 import Section from '~/shared/section'
 import { type ToSort, useSort } from '~/shared/sort'
-import { createController } from '~/shared/store'
-import { Column, ListTable, type ListTableTypes, SearchColumn, type SearchColumnTypes } from '~/shared/table'
+import { type Controller, createController } from '~/shared/store'
+import {
+  Column,
+  type ColumnTypes,
+  ListTable,
+  type ListTableTypes,
+  SearchColumn,
+  type SearchColumnTypes,
+} from '~/shared/table'
 import '~/shared/table'
 import TextField from '~/shared/text-field'
 import { JSONParam } from '~/shared/use-query-params'
 import { createActionColumn } from '~/shared/working-table'
 import { createSelectionColumn } from '~/shared/working-table/lib/selection-action-column'
 import type { Any } from '~/utils/core'
-import { type SetterOrUpdater, c, isEmpty } from '~/utils/core'
+import { c, isEmpty } from '~/utils/core'
 import { type Dictionary } from '~/utils/core'
 import { useRenderDelay } from '~/utils/core-hooks/render-delay'
-import { get, remove } from '~/utils/dictionary'
+import { get } from '~/utils/dictionary'
+
+import _Heading from '../widgets/heading'
+import _RowFormDialog, { useCreateRowForm } from '../widgets/row-form-dialog'
+import _SelectedItemsDialog from '../widgets/selected-items-dialog'
+import _SelectionActions from '../widgets/selection-actions'
 
 type TableContext = SearchColumnTypes.Context<Item['data']> &
   ListTableTypes.SortTypes.Context<Item['data']> & { idKey: string } & {
-    selectedItems: Dictionary<Dictionary>
-    setSelectedItems: SetterOrUpdater<Dictionary<Dictionary>>
+    selectedItemsController: Controller<Dictionary<Dictionary>>
   }
 
 export interface Props {
@@ -61,10 +68,11 @@ export default function Component(): JSX.Element {
     [],
   )
 
+  const selectedItemsController = useMemo(() => createController<Dictionary<Dictionary>>({}), [])
+  const selectedListDialogController = useMemo(() => createController(false), [])
+
   const [itemToRemove, setItemToRemove] = useState<Dictionary | null>(null)
   const [removingitems, setRemovingItems] = useState<Dictionary<Dictionary>>({})
-  const [selectedItems, setSelectedItems] = useState<Dictionary<Dictionary>>({})
-  const [isSelectedDialogOpen, setIsSelectedDialogOpen] = useState(false)
 
   const [{ page = 1, take = 10 }, setPaginationParams] = useQueryParams(
     {
@@ -96,7 +104,6 @@ export default function Component(): JSX.Element {
   const { dictionaryTable, explorer } = explorerListFetcher.data || {}
 
   const uiColumns = useMemo(buildUiColumns, [dictionaryTable])
-  const selectedUiColumns = useMemo(buildSelectedUiColumns, [dictionaryTable])
 
   const explorerCreateMutator = api.explorer.createRow.useCache({
     onSuccess: () => {
@@ -135,206 +142,166 @@ export default function Component(): JSX.Element {
         .mutateAsync({ kn, input: values, where: { [explorer!.idKey!]: values[explorer!.idKey!] as string } })
         .then((res) => res.data),
   })
+  const [formToUpdateOpen, setFormToUpdateOpen] = useState(false)
 
   const indexedColumns = dictionaryTable?.tableSchema.items.filter((item) => item.index || item.primary)
 
-  const selectedCount = Object.keys(selectedItems).length
-
   return (
-    <main className={NAME} key={kn}>
-      {/* <RenderCounter /> */}
-      <Dialog.Root open={isSelectedDialogOpen}>
-        <Dialog.Content maxWidth='1224px'>
-          <Dialog.Title>
-            <Flex gap='1' align='center' justify='between'>
-              Выделенные{' '}
-              <Button round={true} variant='ghost' onClick={() => setIsSelectedDialogOpen(false)}>
-                <Icon name='Cross1' />
-              </Button>
-            </Flex>
-          </Dialog.Title>
+    <>
+      <main className={NAME} style={{ position: 'relative' }}>
+        <RenderCounter name='main' style={{ top: 0, transform: 'translateY(0)' }} />
 
-          <ScrollArea scrollbars='horizontal'>
-            <ListTable context={{}} columns={selectedUiColumns} list={Object.values(selectedItems)} />
-          </ScrollArea>
-        </Dialog.Content>
-      </Dialog.Root>
+        <Container p='var(--space-4)'>
+          <Section size='1' className={c(cssAnimations.Appear)}>
+            <_Heading
+              formToCreate={formToCreate}
+              setFormToCreateOpen={setFormToCreateOpen}
+              name={explorerListFetcher.data?.dictionaryTable.name || nameQueryParam}
+            />
+          </Section>
+
+          <Section size='1' className={c(cssAnimations.Appear)} style={{ animationDelay: `${TICK_MS * 2}ms` }}>
+            <Flex width='50%' direction='column'>
+              <TextField.Root
+                placeholder={`Индексы: ${indexedColumns?.map((item) => item.name).join(', ') || '∞'}`}
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
+                size='3'
+                type='search'
+              />
+            </Flex>
+          </Section>
+
+          <Section size='1' className={c(cssAnimations.Appear)} style={{ animationDelay: `${TICK_MS * 3}ms` }}>
+            <Pagination
+              currentPage={page}
+              limit={take}
+              loading={!explorer ? false : explorerListFetcher.isFetching}
+              totalElements={explorer?.total}
+              onChange={(page) => setPaginationParams({ page })}
+            />
+          </Section>
+
+          {tableRenderDelay.isRender && (
+            <Section size='1'>
+              <Flex style={{ position: 'relative' }}>
+                <_SelectionActions
+                  selectedItemsController={selectedItemsController}
+                  onCounterClick={() => selectedListDialogController.set(true)}
+                  onRemoveClick={() => confirmDialogController.set({ open: true })}
+                  style={{ position: 'absolute', top: '-1.5rem', left: '0' }}
+                />
+                <FetcherStatus
+                  isChildrenOnFetchingVisible={true}
+                  isLoading={explorerListFetcher.isLoading}
+                  isFetching={explorerListFetcher.isFetching}
+                  isError={explorerListFetcher.isError}
+                  error={explorerListFetcher.error?.response?.data}
+                  refetch={explorerListFetcher.refetch}
+                >
+                  <ScrollArea scrollbars='horizontal'>
+                    <Viewer.Root paths={explorer?.paths || []} explorer={explorer}>
+                      <Viewer.ListTable<Item, TableContext>
+                        className={c(cssAnimations.Appear)}
+                        columns={uiColumns}
+                        rowProps={getTableRowProps}
+                        context={{
+                          idKey: explorer?.idKey as string,
+                          selectedItemsController,
+                          sortController: sortController,
+                          searchFilter: columnSearchParams,
+                          setSearchFilter: (value) => {
+                            const newValue = typeof value === 'function' ? value(columnSearchParams) : value
+                            setColumnSearchParams(newValue)
+                          },
+                        }}
+                      />
+                    </Viewer.Root>
+                  </ScrollArea>
+                </FetcherStatus>
+              </Flex>
+            </Section>
+          )}
+        </Container>
+      </main>
+
+      {/* dialogs */}
+
+      <_RowFormDialog
+        form={formToCreate}
+        open={formToCreateOpen}
+        setOpen={setFormToCreateOpen}
+        mutator={explorerCreateMutator}
+        columns={dictionaryTable?.tableSchema.items}
+      />
+      <_RowFormDialog
+        form={formToUpdate}
+        open={formToUpdateOpen}
+        setOpen={setFormToUpdateOpen}
+        mutator={explorerUpdateMutator}
+        columns={dictionaryTable?.tableSchema.items}
+      />
+
+      <_SelectedItemsDialog
+        dialogController={selectedListDialogController}
+        selectedItemsController={selectedItemsController}
+        dictionaryTable={dictionaryTable}
+        idKey={explorer?.idKey as string}
+      />
+
       <ConfirmDialog
         controller={confirmDialogController}
         title='Удалить запись?'
         description='Вы уверены, что хотите удалить запись?'
-        onConfirm={() => {
-          if (itemToRemove) {
-            const id = itemToRemove?.[explorer!.idKey] as string
-            removeRows({ [id]: itemToRemove as Dictionary })
-            setItemToRemove(null)
-            setRemovingItems((removingItems) => ({
-              ...removingItems,
-              [get(itemToRemove, explorer?.idKey) as string]: itemToRemove,
-            }))
-          }
-          if (!isEmpty(selectedItems)) {
-            removeRows(selectedItems)
-            setRemovingItems(selectedItems)
-            setSelectedItems({})
-          }
-          confirmDialogController.set({ open: false })
-        }}
+        onConfirm={confirmDelete}
         onClose={() => {
           setItemToRemove(null)
           confirmDialogController.set({ open: false })
         }}
       />
-      <_Dialog
-        form={formToCreate}
-        open={formToCreateOpen}
-        mutator={explorerCreateMutator}
-        columns={dictionaryTable?.tableSchema.items}
-      />
-      <_Dialog
-        form={formToUpdate}
-        open={!isEmpty(formToUpdate.getState().initialValues)}
-        mutator={explorerUpdateMutator}
-        columns={dictionaryTable?.tableSchema.items}
-      />
-      <Container p='var(--space-4)'>
-        <Section size='1' className={c(cssAnimations.Appear)}>
-          <Flex width='100%' justify='between'>
-            <Heading.Root
-              loading={explorerListFetcher.isFetching}
-              route={routes.dictionaryTables_explorerFindManyAndCount}
-              backRoute={routes.dictionaryTables_findManyAndCount}
-              renderIcon={routes.dictionaryTables_findManyAndCount.payload.renderIcon}
-            >
-              <Heading.BackToParent />
-              <Heading.Unique
-                string={dictionaryTable?.name ?? nameQueryParam}
-                tooltipContent={routes.dictionaryTables_explorerFindManyAndCount.getName()}
-              />
-            </Heading.Root>
-            <Flex>
-              <Button
-                onClick={() => {
-                  formToCreate.initialize({})
-                  setFormToCreateOpen(true)
-                }}
-              >
-                Создать
-              </Button>
-            </Flex>
-          </Flex>
-        </Section>
-
-        <Section size='1' className={c(cssAnimations.Appear)} style={{ animationDelay: `${TICK_MS * 2}ms` }}>
-          <Flex width='50%' direction='column'>
-            <TextField.Root
-              placeholder={`Индексы: ${indexedColumns?.map((item) => item.name).join(', ') || '∞'}`}
-              value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)}
-              size='3'
-              type='search'
-            />
-          </Flex>
-        </Section>
-
-        <Section size='1' className={c(cssAnimations.Appear)} style={{ animationDelay: `${TICK_MS * 3}ms` }}>
-          <Pagination
-            currentPage={page}
-            limit={take}
-            loading={!explorer ? false : explorerListFetcher.isFetching}
-            totalElements={explorer?.total}
-            onChange={(page) => setPaginationParams({ page })}
-          />
-        </Section>
-
-        {tableRenderDelay.isRender && (
-          <Section size='1'>
-            <Flex style={{ position: 'relative' }}>
-              {selectedCount > 0 && (
-                <Flex gap='4' justify='end' pr='3' style={{ position: 'absolute', top: '-1.5rem', left: '0' }}>
-                  <Flex width='34px' justify='center' align='center'>
-                    <Button onClick={() => setIsSelectedDialogOpen(true)} size='1' variant='ghost'>
-                      {selectedCount}
-                    </Button>
-                  </Flex>
-                  <Button
-                    onClick={() => confirmDialogController.set({ open: true })}
-                    variant='ghost'
-                    disabled={Object.keys(selectedItems).length === 0}
-                  >
-                    Удалить
-                  </Button>
-                </Flex>
-              )}
-              <FetcherStatus
-                isChildrenOnFetchingVisible={true}
-                isLoading={explorerListFetcher.isLoading}
-                isFetching={explorerListFetcher.isFetching}
-                isError={explorerListFetcher.isError}
-                error={explorerListFetcher.error?.response?.data}
-                refetch={explorerListFetcher.refetch}
-              >
-                <ScrollArea scrollbars='horizontal'>
-                  <Viewer.Root
-                    loading={explorerListFetcher.isFetching}
-                    paths={explorer?.paths || []}
-                    explorer={explorer}
-                  >
-                    <Viewer.ListTable<Item, TableContext>
-                      className={c(cssAnimations.Appear)}
-                      columns={uiColumns}
-                      rowProps={({ item, rowIndex }) => {
-                        const value = get(item, explorer?.idKey) as string
-                        const isRemoving = Boolean(removingitems[value])
-                        return {
-                          className: c(cssAnimations.Appear),
-                          style: {
-                            animationDelay: `${TICK_MS * Math.pow(rowIndex, 0.5)}ms`,
-                            backgroundColor: isRemoving ? 'var(--red-9)' : undefined,
-                            transition: isRemoving ? 'background-color 300ms' : undefined,
-                          },
-                          onDoubleClick: () => formToUpdate.initialize(item),
-                        }
-                      }}
-                      context={{
-                        idKey: explorer?.idKey as string,
-                        selectedItems,
-                        setSelectedItems,
-                        sortController: sortController,
-                        searchFilter: columnSearchParams,
-                        setSearchFilter: (value) => {
-                          const newValue = typeof value === 'function' ? value(columnSearchParams) : value
-                          setColumnSearchParams(newValue)
-                        },
-                      }}
-                    />
-                  </Viewer.Root>
-                </ScrollArea>
-              </FetcherStatus>
-            </Flex>
-          </Section>
-        )}
-      </Container>
-    </main>
+    </>
   )
 
-  function buildSelectedUiColumns() {
-    if (dictionaryTable?.tableSchema.items === undefined) return []
+  /**
+   * private
+   */
 
-    const columns = dictionaryTable.tableSchema.items.map((column) => Column.fromDatabaseColumn(column))
-
-    const actionsColumn = createActionColumn({
-      renderHeader: () => '',
-      headerProps: { maxWidth: '24px' },
-      cellProps: { maxWidth: '24px' },
-      onCrossClick: (_, item) => {
-        setSelectedItems((items) => remove(items, item[explorer?.idKey as string] as string))
+  function getTableRowProps({ item, rowIndex }: ListTableTypes.RowProps<Row, TableContext>) {
+    const value = get(item, explorer?.idKey) as string
+    const isRemoving = Boolean(removingitems[value])
+    return {
+      className: c(cssAnimations.Appear),
+      style: {
+        animationDelay: `${TICK_MS * Math.pow(rowIndex, 0.5)}ms`,
+        backgroundColor: isRemoving ? 'var(--red-9)' : undefined,
+        transition: isRemoving ? 'background-color 300ms' : undefined,
       },
-    })
-    return [actionsColumn, ...columns]
+      onDoubleClick: () => {
+        formToUpdate.initialize(item)
+        setFormToUpdateOpen(true)
+      },
+    }
   }
 
-  function buildUiColumns() {
+  function confirmDelete() {
+    if (itemToRemove) {
+      const id = itemToRemove?.[explorer!.idKey] as string
+      removeRows({ [id]: itemToRemove as Dictionary })
+      setItemToRemove(null)
+      setRemovingItems((removingItems) => ({
+        ...removingItems,
+        [get(itemToRemove, explorer?.idKey) as string]: itemToRemove,
+      }))
+    }
+    if (!isEmpty(selectedItemsController.get())) {
+      removeRows(selectedItemsController.get())
+      setRemovingItems(selectedItemsController.get())
+      selectedItemsController.set({})
+    }
+    confirmDialogController.set({ open: false })
+  }
+
+  function buildUiColumns(): ColumnTypes.Column<Dictionary<Dictionary>, TableContext>[] {
     if (dictionaryTable?.tableSchema.items === undefined) return []
 
     const columns = dictionaryTable.tableSchema.items.map((column) =>
@@ -350,10 +317,14 @@ export default function Component(): JSX.Element {
       },
       onEditClick: (_, item) => {
         formToUpdate.initialize(item as Item['data'])
+        setFormToUpdateOpen(true)
       },
     })
     const selectionColumn = createSelectionColumn()
-    return [selectionColumn, ...sortColumns, actionsColumn]
+    return [selectionColumn, ...sortColumns, actionsColumn] as ColumnTypes.Column<
+      Dictionary<Dictionary>,
+      TableContext
+    >[]
   }
 
   async function removeRows(items: Dictionary<Dictionary>): Promise<void> {
@@ -369,58 +340,3 @@ export default function Component(): JSX.Element {
 }
 
 Component.displayName = NAME
-
-/**
- * Private
- */
-
-interface _DialogProps {
-  open: boolean
-  form: FormApi<Row, Partial<Row>>
-  columns: DatabaseColumn[] | undefined
-  mutator: { isLoading: boolean }
-}
-
-function _Dialog(props: _DialogProps) {
-  const { open, form, columns, mutator } = props
-
-  return (
-    <Dialog.Root open={open}>
-      <Dialog.Content maxWidth='450px'>
-        <Dialog.Title>
-          Запись
-          {/* <TextHighlighter>{item?.name}</TextHighlighter> */}
-        </Dialog.Title>
-        <FForm form={form} columns={columns} component={RowForm} />
-        <Flex gap='4' mt='4' justify='end'>
-          <Button variant='soft' color='gray' onClick={() => form.initialize({})}>
-            Закрыть
-          </Button>
-          <Button
-            loading={mutator.isLoading}
-            disabled={!form.getState().dirty || form.getState().invalid}
-            onClick={form.submit}
-          >
-            Сохранить
-          </Button>
-        </Flex>
-      </Dialog.Content>
-    </Dialog.Root>
-  )
-}
-
-interface useCreateRowFormProps {
-  onSubmit: (values: Row) => Promise<unknown>
-}
-
-function useCreateRowForm(props: useCreateRowFormProps) {
-  return useCreateForm<Row>(
-    {
-      onSubmit: (values) => {
-        props.onSubmit(values)
-      },
-      initialValues: {},
-    },
-    { values: true, initialValues: true },
-  )
-}

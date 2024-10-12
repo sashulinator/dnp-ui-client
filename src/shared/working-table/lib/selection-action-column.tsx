@@ -1,14 +1,15 @@
 import { Checkbox } from '@radix-ui/themes'
 
+import { type Controller } from '~/shared/store'
 import { type ColumnTypes } from '~/shared/table'
-import { type Dictionary, type SetterOrUpdater } from '~/utils/core'
+import { type Dictionary } from '~/utils/core'
+import { useSubscribeUpdate } from '~/utils/core-hooks'
 import { remove } from '~/utils/dictionary'
 import { toDictionary } from '~/utils/list'
 
 export type Context = {
   idKey: string
-  selectedItems: Dictionary<Dictionary>
-  setSelectedItems: SetterOrUpdater<Dictionary<Dictionary>>
+  selectedItemsController: Controller<Dictionary<Dictionary>>
 }
 
 export function createSelectionColumn<TItem extends Dictionary, TContext extends Context>(): ColumnTypes.Column<
@@ -19,9 +20,15 @@ export function createSelectionColumn<TItem extends Dictionary, TContext extends
     accessorKey: 'action',
     name: 'Действия',
     renderHeader: ({ context, list }) => {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      useSubscribeUpdate((update) => [context.selectedItemsController.subscribe(update)])
+
       const idKey = context.idKey
-      const selectedIds = Object.keys(context.selectedItems)
-      const selectedValues = Object.values(context.selectedItems)
+      const selectedItems = context.selectedItemsController.get()
+      const setSelectedItems = context.selectedItemsController.set
+
+      const selectedIds = Object.keys(selectedItems)
+      const selectedValues = Object.values(selectedItems)
 
       const interferedCount = list.reduce((count, item) => {
         if (selectedIds.includes(item[idKey] as string)) count++
@@ -38,13 +45,13 @@ export function createSelectionColumn<TItem extends Dictionary, TContext extends
               const filtered = selectedValues.filter(
                 (selectedItem) => !list.find((item) => item[idKey] === selectedItem[idKey]),
               )
-              context.setSelectedItems(toDictionary((item) => item[idKey] as string, filtered) || {})
+              setSelectedItems(toDictionary((item) => item[idKey] as string, filtered) || {})
             } else {
               const dictionary = toDictionary((item) => item[idKey] as string, list) || {}
               if (checked === 'indeterminate') {
-                context.setSelectedItems(dictionary)
+                setSelectedItems(dictionary)
               } else {
-                context.setSelectedItems((currentDictionary) => ({ ...currentDictionary, ...dictionary }))
+                setSelectedItems({ ...selectedItems, ...dictionary })
               }
             }
           }}
@@ -73,20 +80,30 @@ export function createSelectionColumn<TItem extends Dictionary, TContext extends
       },
     },
     renderCell: ({ item, context }) => {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      useSubscribeUpdate((update) => [context.selectedItemsController.subscribe(update)])
+
       const id = item[context.idKey!] as string
-      const checked = context.selectedItems[id]
+      const selectedItems = context.selectedItemsController.get()
+      const setSelectedItems = context.selectedItemsController.set
+
+      const checked = selectedItems[id]
       return (
         <Checkbox
           checked={Boolean(checked)}
           onCheckedChange={(checked) => {
             if (checked) {
-              context.setSelectedItems((items) => ({ ...items, [id]: item }))
+              setSelectedItems({ ...selectedItems, [id]: item })
             } else {
-              context.setSelectedItems((items) => remove(items, id))
+              setSelectedItems(remove(selectedItems, id))
             }
           }}
         />
       )
+
+      /**
+       * private
+       */
     },
   }
 }

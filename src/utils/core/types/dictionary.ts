@@ -1,1 +1,1 @@
-export type Dictionary<T = unknown> = Record<string | number | symbol, T>
+export type Dictionary<T = unknown> = Record<string | number, T>

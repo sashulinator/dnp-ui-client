@@ -12,13 +12,20 @@ export type { Update }
  *   return[props.controller.subscribe(update)]
  * }
  */
-export function useSubscribeUpdate(cb: (update: Update) => ((() => void) | undefined)[], deps: unknown[] = []) {
+export function useSubscribeUpdate(
+  cb: (update: Update) => ((() => void) | undefined)[] | undefined | (() => void),
+  deps: unknown[] = [],
+) {
   const update = useForceUpdate()
 
   useEffect(() => {
     const unsubscribes = cb(update)
     return () => {
-      unsubscribes.forEach((unsubscribe) => unsubscribe?.())
+      if (Array.isArray(unsubscribes)) {
+        unsubscribes.forEach((unsubscribe) => unsubscribe?.())
+      } else {
+        unsubscribes?.()
+      }
     }
   }, deps)
 }

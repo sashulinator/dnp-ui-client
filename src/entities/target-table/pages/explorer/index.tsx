@@ -129,7 +129,6 @@ export default function Component(): JSX.Element {
           <Section size='1'>
             <Flex width='100%' justify='between'>
               <Heading.Root
-                loading={explorerListFetcher.isFetching}
                 route={routes.targetTables_kn_explorer}
                 backRoute={routes.targetTables}
                 renderIcon={routes.targetTables.payload.renderIcon}

@@ -6,6 +6,7 @@ import { getRole } from '~/entities/user'
 import Button from '~/shared/button'
 import Container from '~/shared/container'
 import { TICK_MS, cssAnimations } from '~/shared/css-animations'
+import { RenderCounter } from '~/shared/debug'
 import Flex from '~/shared/flex'
 import Link from '~/shared/link'
 import { Heading, Pagination } from '~/shared/page'
@@ -34,12 +35,12 @@ export default function Component(): JSX.Element {
   const fetcherList = api.fetchList.cache.use({ take, skip: (page - 1) * take }, { keepPreviousData: true })
 
   return (
-    <main className={displayName}>
+    <main className={displayName} style={{ position: 'relative' }}>
+      <RenderCounter style={{ top: 0 }} />
       <Container p='var(--space-4)'>
         <Section size='1' className={c(cssAnimations.Appear)}>
           <Flex width='100%' justify='between'>
             <Heading.Root
-              loading={fetcherList.isLoading && fetcherList.data === undefined}
               route={routes.dictionaryTables_findManyAndCount}
               backRoute={routes.main}
               renderIcon={routes.dictionaryTables_findManyAndCount.payload.renderIcon}

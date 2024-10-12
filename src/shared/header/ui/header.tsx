@@ -20,13 +20,14 @@ const NAME = 'ui-Header'
  */
 export default function Component(): JSX.Element {
   const isProd = localStorage.getItem('env') === 'production'
+  const isStrict = localStorage.getItem('devReactStrictMode') === 'true'
   const role = getRole()
 
   return (
     <header className={c(NAME)}>
       <div className={`${NAME}_breadscrumbs`}>
         {process.env.NODE_ENV === 'development' && (
-          <Flex justify='center' align='center' gap='m'>
+          <Flex justify='center' align='center' gap='2'>
             <HighlightedText color={isProd ? 'green' : 'red'}>
               <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '.5rem' }}>
                 production
@@ -39,6 +40,19 @@ export default function Component(): JSX.Element {
                     } else {
                       localStorage.setItem('env', 'development')
                     }
+                    location.reload()
+                  }}
+                />
+              </label>
+            </HighlightedText>
+            <HighlightedText color={isStrict ? 'green' : 'red'}>
+              <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '.5rem' }}>
+                strictMode
+                <Checkbox
+                  variant='soft'
+                  defaultChecked={isStrict}
+                  onCheckedChange={(value): void => {
+                    localStorage.setItem('devReactStrictMode', String(value))
                     location.reload()
                   }}
                 />

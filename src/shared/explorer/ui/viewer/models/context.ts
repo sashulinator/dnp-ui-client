@@ -6,7 +6,7 @@ import type { Explorer, Item, Path } from '../../../models/explorer'
 
 export interface Context<TItem extends Item> {
   explorer: Explorer<TItem> | undefined
-  loading: boolean | undefined
+  loading?: boolean | undefined
   paths: Path[]
   onPathChange?: (paths: Path[], item?: TItem) => void
 }

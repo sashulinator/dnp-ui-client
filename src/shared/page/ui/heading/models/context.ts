@@ -6,7 +6,6 @@ import { assertDefined } from '~/utils/core'
 export interface Context {
   route: AppRoute
   backRoute: AppRoute | undefined
-  loading: boolean | undefined
   renderIcon?: (props: React.SVGAttributes<SVGSVGElement>) => JSX.Element
 }
 

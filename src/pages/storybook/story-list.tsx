@@ -9,6 +9,7 @@ import uiCodeEditorVJson from '~/shared/code-editor/variants/json/story'
 import uiCollapse from '~/shared/collapse/story'
 import databasTableColumnForm from '~/shared/database/ui/column-form/story'
 import databasTableDatabaseTableForm from '~/shared/database/ui/table-form/story'
+import debugRenderCounter from '~/shared/debug/story'
 import explorerViewer from '~/shared/explorer/ui/viewer/story'
 import uiFormWJsonEditor from '~/shared/form/widgets/json-editor/story'
 import uiFormWKeyValue from '~/shared/form/widgets/key-value/story'
@@ -34,6 +35,7 @@ export const storyList: Story<any>[] = [
   operationalTableForm,
   databasTableColumnForm,
   databasTableDatabaseTableForm,
+  debugRenderCounter,
   storeConfigForm,
   targetTableForm,
   uiButton,

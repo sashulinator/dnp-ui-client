@@ -85,7 +85,6 @@ export default function Component(): JSX.Element {
         {!fetcher.isError && (
           <Section size='1'>
             <Heading.Root
-              loading={fetcher.isFetching}
               route={routes.dictionaryTables_getByKn}
               backRoute={routes.dictionaryTables_findManyAndCount}
               renderIcon={routes.dictionaryTables_findManyAndCount.payload.renderIcon}

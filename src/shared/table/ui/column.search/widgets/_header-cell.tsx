@@ -1,4 +1,5 @@
 import Button from '~/shared/button'
+import { RenderCounter } from '~/shared/debug'
 import DropdownMenu from '~/shared/dropdown-menu'
 import Flex from '~/shared/flex'
 import Icon from '~/shared/icon'
@@ -22,6 +23,7 @@ export function HeaderCell<TItem extends Dictionary, TContext extends Context<TI
 
   return (
     <Flex width='100%' justify='between' gap='4' align='center'>
+      <RenderCounter style={{ transform: 'translateY(0)' }} />
       <FilterConfigurator.Root filterConfig={filterConfig} onFilterConfigChange={handleFilterConfigChange}>
         <Flex width='100%'>
           <FilterConfigurator.Input placeholder={name} style={{ width: '100%' }} />

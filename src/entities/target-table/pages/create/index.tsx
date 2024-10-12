@@ -73,7 +73,6 @@ export default function Component(): JSX.Element {
       <Container p='var(--space-4)'>
         <Section size='1'>
           <Heading.Root
-            loading={false}
             route={routes.targetTables_create}
             backRoute={routes.targetTables}
             renderIcon={routes.targetTables.payload.renderIcon}

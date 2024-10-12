@@ -85,7 +85,6 @@ export default function Component(): JSX.Element {
         {!fetcher.isError && (
           <Section size='1'>
             <Heading.Root
-              loading={fetcher.isFetching}
               route={routes.operationalTables_kn}
               backRoute={routes.operationalTables}
               renderIcon={routes.operationalTables.payload.renderIcon}

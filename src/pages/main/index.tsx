@@ -31,12 +31,7 @@ export default function Component(): JSX.Element {
     <main className={displayName}>
       <Container p='var(--space-4)'>
         <Section size='1'>
-          <Heading.Root
-            loading={false}
-            route={routes.main}
-            backRoute={routes.main}
-            renderIcon={routes.main.payload.renderIcon}
-          >
+          <Heading.Root route={routes.main} backRoute={routes.main} renderIcon={routes.main.payload.renderIcon}>
             <Button variant='outline' square={true} style={{ marginRight: 'var(--space-4)' }}>
               {React.createElement(routes.main.payload.renderIcon)}
             </Button>

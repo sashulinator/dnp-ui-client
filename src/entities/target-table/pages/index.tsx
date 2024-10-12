@@ -37,7 +37,6 @@ export default function Component(): JSX.Element {
         <Section size='1'>
           <Flex width='100%' justify='between'>
             <Heading.Root
-              loading={fetcherList.isLoading && fetcherList.data === undefined}
               route={routes.targetTables}
               backRoute={routes.main}
               renderIcon={routes.targetTables.payload.renderIcon}

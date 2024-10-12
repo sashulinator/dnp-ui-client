@@ -37,7 +37,6 @@ export default function Component() {
       <Container p='var(--space-4)'>
         <Section size='1'>
           <Heading.Root
-            loading={false}
             route={routes.processes_kn}
             backRoute={routes.processes}
             renderIcon={routes.processes.payload.renderIcon}

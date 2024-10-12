@@ -198,7 +198,6 @@ export default function Component(): JSX.Element {
           <Section size='1'>
             <Flex width='100%' justify='between'>
               <Heading.Root
-                loading={explorerListFetcher.isFetching}
                 route={routes.operationalTables_kn_explorer}
                 backRoute={routes.operationalTables}
                 renderIcon={routes.operationalTables.payload.renderIcon}
