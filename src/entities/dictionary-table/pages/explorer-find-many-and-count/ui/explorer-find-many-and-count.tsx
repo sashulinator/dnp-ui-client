@@ -23,14 +23,7 @@ import { useSearch } from '~/shared/search'
 import Section from '~/shared/section'
 import { useSort } from '~/shared/sort'
 import { createBooleanStore } from '~/shared/store'
-import {
-  Column,
-  ListTable,
-  SearchColumn,
-  type SearchColumnTypes,
-  SortColumn,
-  type SortColumnTypes,
-} from '~/shared/table'
+import { Column, ListTable, type ListTableTypes, SearchColumn, type SearchColumnTypes } from '~/shared/table'
 import '~/shared/table'
 import TextField from '~/shared/text-field'
 import { JSONParam } from '~/shared/use-query-params'
@@ -43,7 +36,7 @@ import { useRenderDelay } from '~/utils/core-hooks/render-delay'
 import { get, remove } from '~/utils/dictionary'
 
 type TableContext = SearchColumnTypes.Context<Item['data']> &
-  SortColumnTypes.Context<Item['data']> & { idKey: string } & {
+  ListTableTypes.SortTypes.Context<Item['data']> & { idKey: string } & {
     selectedItems: Dictionary<Dictionary>
     setSelectedItems: SetterOrUpdater<Dictionary<Dictionary>>
   }
@@ -347,7 +340,7 @@ export default function Component(): JSX.Element {
       Column.fromDatabaseColumn<Item['data'], TableContext>(column),
     )
     const searchColumns = columns.map(SearchColumn.toSearchColumn)
-    const sortColumns = searchColumns.map(SortColumn.toSortColumn)
+    const sortColumns = searchColumns.map(ListTable.Sort.injectIntoHeader)
 
     const actionsColumn = createActionColumn({
       onTrashClick: (_, item) => {

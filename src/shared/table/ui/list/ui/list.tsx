@@ -8,6 +8,7 @@ import { type Dictionary, c } from '~/utils/core'
 import { getPath, toPath } from '~/utils/dictionary'
 
 import { type Column } from '../../column/models/column'
+import { default as Sort } from '../widgets/sort'
 
 export type Props<TItem extends Dictionary, TContext extends Dictionary> = TableTypes.RootProps & {
   className?: string | undefined
@@ -120,3 +121,4 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
 }
 
 Component.displayName = NAME
+Component.Sort = Sort

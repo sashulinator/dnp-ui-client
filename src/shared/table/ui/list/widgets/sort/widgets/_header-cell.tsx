@@ -3,7 +3,7 @@ import { SortButton } from '~/shared/sort'
 import { type Dictionary, assertDefined } from '~/utils/core'
 import { add } from '~/utils/dictionary'
 
-import { type RenderHeaderProps } from '../../column/models/column'
+import { type RenderHeaderProps } from '../../../../column/models/column'
 import { type Context } from '../models/contex'
 
 export function HeaderCell<TItem extends Dictionary, TContext extends Context<TItem>>({

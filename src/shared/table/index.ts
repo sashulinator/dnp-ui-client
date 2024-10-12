@@ -14,6 +14,3 @@ export type * as ColumnTypes from './ui/column'
 
 export { default as SearchColumn } from './ui/column.search'
 export type * as SearchColumnTypes from './ui/column.search/index'
-
-export { default as SortColumn } from './ui/column.sort'
-export type * as SortColumnTypes from './ui/column.sort/index'
