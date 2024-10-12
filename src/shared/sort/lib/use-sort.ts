@@ -7,7 +7,9 @@ import { useDebounceCallback } from '~/utils/core-hooks'
 
 import { type Sort } from '..'
 
-export function useSort(): [Sort | undefined, Sort | undefined, (value: Sort | undefined) => void] {
+export function useSort(
+  listeners?: ((prevState: Sort | undefined, nextState: Sort | undefined) => void)[],
+): [Sort | undefined, Sort | undefined, (value: Sort | undefined) => void] {
   const [rawQueryParam, setQueryParam] = useQueryParam('sort', JSONParam)
 
   const queryParam = formatQueryParamToSort(rawQueryParam)
@@ -18,9 +20,13 @@ export function useSort(): [Sort | undefined, Sort | undefined, (value: Sort | u
 
   return [queryParam, value, handleSet]
 
-  function handleSet(value: Sort | undefined) {
-    setValue(value)
-    setQueryParamWithDelay(value)
+  function handleSet(newValue: Sort | undefined) {
+    if (newValue === value) return
+    setValue((value) => {
+      listeners?.forEach((listener) => listener(value, newValue))
+      return newValue
+    })
+    setQueryParamWithDelay(newValue)
   }
 
   /**

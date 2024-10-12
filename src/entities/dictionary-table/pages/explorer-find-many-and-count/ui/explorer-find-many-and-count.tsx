@@ -21,7 +21,7 @@ import { FetcherStatus } from '~/shared/query'
 import ScrollArea from '~/shared/scroll-area'
 import { useSearch } from '~/shared/search'
 import Section from '~/shared/section'
-import { useSort } from '~/shared/sort'
+import { type ToSort, useSort } from '~/shared/sort'
 import { createController } from '~/shared/store'
 import { Column, ListTable, type ListTableTypes, SearchColumn, type SearchColumnTypes } from '~/shared/table'
 import '~/shared/table'
@@ -51,7 +51,10 @@ export default function Component(): JSX.Element {
   const { kn = '' } = useParams<{ kn: string }>()
   const [nameQueryParam] = useQueryParam('name', withDefault(StringParam, ''))
   const [searchQueryParam, searchValue, setSearchValue] = useSearch()
-  const [sortParam, sortValue, setSort] = useSort()
+
+  const sortController = useMemo(() => createController<ToSort<Dictionary> | undefined>(undefined), [])
+  const [sortParam, , setSort] = useSort([sortController.set])
+  sortController.subscribe((value, prev) => prev !== value && setSort(value))
 
   const confirmDialogController = useMemo(
     () => createController<Pick<ConfirmDialogTypes.BaseProps, 'open'>>({ open: false }),
@@ -297,8 +300,7 @@ export default function Component(): JSX.Element {
                         idKey: explorer?.idKey as string,
                         selectedItems,
                         setSelectedItems,
-                        sort: sortValue,
-                        setSort,
+                        sortController: sortController,
                         searchFilter: columnSearchParams,
                         setSearchFilter: (value) => {
                           const newValue = typeof value === 'function' ? value(columnSearchParams) : value

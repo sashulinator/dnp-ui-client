@@ -1,6 +1,7 @@
 // TODO убрать зависимость от where
 import { SortButton } from '~/shared/sort'
 import { type Dictionary, assertDefined } from '~/utils/core'
+import { useSubscribeUpdate } from '~/utils/core-hooks'
 import { add } from '~/utils/dictionary'
 
 import { type RenderHeaderProps } from '../../../../column/models/column'
@@ -10,8 +11,10 @@ export function HeaderCell<TItem extends Dictionary, TContext extends Context<TI
   accessorKey,
   context,
 }: RenderHeaderProps<TItem, TContext>): JSX.Element {
+  useSubscribeUpdate(subscribes)
+
   assertDefined(context)
-  const sortValue = context?.sort?.[accessorKey] as 'asc'
+  const sortValue = context?.sortController.get()?.[accessorKey] as 'asc'
 
   return (
     <SortButton
@@ -31,9 +34,20 @@ export function HeaderCell<TItem extends Dictionary, TContext extends Context<TI
          * const sortToAdd = { [accessorKey]: toFilter(filterConfig) }
          * */
         const sortToAdd = add({}, accessorKey, newValue)
-        context?.setSort?.(sortToAdd)
+        context?.sortController.set?.(sortToAdd)
       }}
       value={sortValue}
     />
   )
+
+  /**
+   * private
+   */
+
+  function subscribes(update: () => void) {
+    const unsubscribe = context?.sortController.subscribe((prevState, nextState) => {
+      if (prevState?.[accessorKey] !== nextState?.[accessorKey]) update()
+    })
+    return [unsubscribe]
+  }
 }

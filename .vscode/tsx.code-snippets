@@ -13,7 +13,7 @@
       "const NAME = '$1'",
       "",
       "export default function Component(props: Props): JSX.Element {",
-      "  return <div className={c(props.className, Component.displayName)}>$1</div>",
+      "  return <div className={c(props.className, NAME)}>$1</div>",
       "}",
       "",
       "Component.displayName = NAME",
