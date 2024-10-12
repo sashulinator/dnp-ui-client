@@ -1,25 +1,24 @@
-import { useEffect, useMemo } from 'react'
+import { useEffect } from 'react'
 
-import { Update, useForceUpdate } from './force-update'
+import { type Update, useForceUpdate } from './force-update'
 
 export type { Update }
 
 /**
  * @example
- * useUpdate(subscribeToUpdates)
+ * useSubscribeUpdate(subscribes)
  *
- * function subscribeToUpdates(update: () => void, uns: ((() => void) | undefined)[]): void {
- *   uns.push(props.controller.on('selected', update))
+ * function useSubscribeUpdate(update: () => void) {
+ *   return[props.controller.subscribe(update)]
  * }
  */
-export function useUpdate(cb: (update: Update, unsubscribes: (() => void)[]) => void, deps: unknown[] = []) {
-  const unsubscribes: (() => void)[] = useMemo(() => [], deps)
+export function useSubscribeUpdate(cb: (update: Update) => ((() => void) | undefined)[], deps: unknown[] = []) {
   const update = useForceUpdate()
 
   useEffect(() => {
-    cb(update, unsubscribes)
+    const unsubscribes = cb(update)
     return () => {
-      unsubscribes.forEach((unsubscribe) => unsubscribe())
+      unsubscribes.forEach((unsubscribe) => unsubscribe?.())
     }
   }, deps)
 }

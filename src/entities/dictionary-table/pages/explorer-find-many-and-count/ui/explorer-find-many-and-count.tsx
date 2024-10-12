@@ -9,7 +9,8 @@ import Button from '~/shared/button'
 import Container from '~/shared/container'
 import { TICK_MS, cssAnimations } from '~/shared/css-animations'
 import { type Column as DatabaseColumn, RowForm } from '~/shared/database'
-import Dialog, { ConfirmDialog, createDialogStore } from '~/shared/dialog'
+// import { RenderCounter } from '~/shared/debug'
+import Dialog, { ConfirmDialog } from '~/shared/dialog'
 import { type Item, Viewer } from '~/shared/explorer'
 import Flex from '~/shared/flex'
 import FForm, { type FormApi, useCreateForm } from '~/shared/form'
@@ -21,6 +22,7 @@ import ScrollArea from '~/shared/scroll-area'
 import { useSearch } from '~/shared/search'
 import Section from '~/shared/section'
 import { useSort } from '~/shared/sort'
+import { createBooleanStore } from '~/shared/store'
 import {
   Column,
   ListTable,
@@ -58,7 +60,7 @@ export default function Component(): JSX.Element {
   const [searchQueryParam, searchValue, setSearchValue] = useSearch()
   const [sortParam, sortValue, setSort] = useSort()
 
-  const confirmDialogStore = useMemo(() => createDialogStore(), [])
+  const confirmDialogStore = useMemo(() => createBooleanStore(), [])
 
   const [itemToRemove, setItemToRemove] = useState<Dictionary | null>(null)
   const [removingitems, setRemovingItems] = useState<Dictionary<Dictionary>>({})
@@ -141,6 +143,7 @@ export default function Component(): JSX.Element {
 
   return (
     <main className={NAME} key={kn}>
+      {/* <RenderCounter /> */}
       <Dialog.Root open={isSelectedDialogOpen}>
         <Dialog.Content maxWidth='1224px'>
           <Dialog.Title>
@@ -158,7 +161,11 @@ export default function Component(): JSX.Element {
         </Dialog.Content>
       </Dialog.Root>
       <ConfirmDialog
-        store={confirmDialogStore}
+        isOpenController={{
+          get: () => confirmDialogStore.getState().value,
+          set: confirmDialogStore.getState().setValue,
+          subscribe: (cb) => confirmDialogStore.subscribe((v) => cb(v.value)),
+        }}
         title='Удалить запись?'
         description='Вы уверены, что хотите удалить запись?'
         onConfirm={() => {
@@ -176,11 +183,11 @@ export default function Component(): JSX.Element {
             setRemovingItems(selectedItems)
             setSelectedItems({})
           }
-          confirmDialogStore.getState().close()
+          confirmDialogStore.getState().setFalse()
         }}
         onClose={() => {
           setItemToRemove(null)
-          confirmDialogStore.getState().close()
+          confirmDialogStore.getState().setFalse()
         }}
       />
       <_Dialog
@@ -256,7 +263,7 @@ export default function Component(): JSX.Element {
                     </Button>
                   </Flex>
                   <Button
-                    onClick={() => confirmDialogStore.getState().open()}
+                    onClick={() => confirmDialogStore.getState().setTrue()}
                     variant='ghost'
                     disabled={Object.keys(selectedItems).length === 0}
                   >
@@ -345,7 +352,7 @@ export default function Component(): JSX.Element {
     const actionsColumn = createActionColumn({
       onTrashClick: (_, item) => {
         setItemToRemove(item)
-        confirmDialogStore.getState().open()
+        confirmDialogStore.getState().setTrue()
       },
       onEditClick: (_, item) => {
         formToUpdate.initialize(item as Item['data'])

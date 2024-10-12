@@ -43,25 +43,13 @@ export function createActionColumn<TItem extends Dictionary>(
 
       return (
         <Flex gap='1' justify='end'>
-          {props.onTrashClick && (
-            <DangerButton
-              round={true}
-              size='1'
-              color='gray'
-              variant='soft'
-              onClick={(e) => {
-                props.onTrashClick?.(e, row)
-              }}
-            >
-              <Icon name='Trash' />
-            </DangerButton>
-          )}
           {props.onEditClick && (
             <Button
               onClick={(e) => {
                 props.onEditClick?.(e, row)
               }}
               variant='soft'
+              color='gray'
               size='1'
               round={true}
             >
@@ -79,6 +67,19 @@ export function createActionColumn<TItem extends Dictionary>(
             >
               <Icon name='Cross1' />
             </Button>
+          )}
+          {props.onTrashClick && (
+            <DangerButton
+              round={true}
+              size='1'
+              color='gray'
+              variant='soft'
+              onClick={(e) => {
+                props.onTrashClick?.(e, row)
+              }}
+            >
+              <Icon name='Trash' />
+            </DangerButton>
           )}
         </Flex>
       )

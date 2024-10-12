@@ -1,13 +1,13 @@
 import Button from '~/shared/button'
 import Flex from '~/shared/flex'
-import { type Store } from '~/shared/store'
+import { type Controller } from '~/shared/store'
 import Text from '~/shared/text'
+import { useSubscribeUpdate } from '~/utils/core-hooks'
 
-import { type DialogStoreValue } from '../../../lib/create-store'
 import Dialog from '../../dialog'
 
 export interface Props {
-  store: Store<DialogStoreValue>
+  isOpenController: Controller<boolean>
   title?: string
   description: string
   onClose: () => void
@@ -17,9 +17,11 @@ export interface Props {
 Component.displayname = 'dialog-Confirm'
 
 export default function Component(props: Props) {
-  const { store: useBoundStore, title = 'Вы уверены?', description, onConfirm, onClose } = props
+  const { isOpenController, title = 'Вы уверены?', description, onConfirm, onClose } = props
 
-  const { isOpen } = useBoundStore()
+  const isOpen = isOpenController.get()
+
+  useSubscribeUpdate(subscribes)
 
   return (
     <Dialog.Root open={isOpen}>
@@ -37,4 +39,12 @@ export default function Component(props: Props) {
       </Dialog.Content>
     </Dialog.Root>
   )
+
+  /**
+   * private
+   */
+
+  function subscribes(update: () => void) {
+    return [isOpenController.subscribe(update)]
+  }
 }
