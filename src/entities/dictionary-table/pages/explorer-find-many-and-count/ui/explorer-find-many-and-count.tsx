@@ -10,7 +10,7 @@ import Container from '~/shared/container'
 import { TICK_MS, cssAnimations } from '~/shared/css-animations'
 import { type Column as DatabaseColumn, RowForm } from '~/shared/database'
 // import { RenderCounter } from '~/shared/debug'
-import Dialog, { ConfirmDialog } from '~/shared/dialog'
+import Dialog, { ConfirmDialog, type ConfirmDialogTypes } from '~/shared/dialog'
 import { type Item, Viewer } from '~/shared/explorer'
 import Flex from '~/shared/flex'
 import FForm, { type FormApi, useCreateForm } from '~/shared/form'
@@ -22,7 +22,7 @@ import ScrollArea from '~/shared/scroll-area'
 import { useSearch } from '~/shared/search'
 import Section from '~/shared/section'
 import { useSort } from '~/shared/sort'
-import { createBooleanStore } from '~/shared/store'
+import { createController } from '~/shared/store'
 import { Column, ListTable, type ListTableTypes, SearchColumn, type SearchColumnTypes } from '~/shared/table'
 import '~/shared/table'
 import TextField from '~/shared/text-field'
@@ -53,7 +53,10 @@ export default function Component(): JSX.Element {
   const [searchQueryParam, searchValue, setSearchValue] = useSearch()
   const [sortParam, sortValue, setSort] = useSort()
 
-  const confirmDialogStore = useMemo(() => createBooleanStore(), [])
+  const confirmDialogController = useMemo(
+    () => createController<Pick<ConfirmDialogTypes.BaseProps, 'open'>>({ open: false }),
+    [],
+  )
 
   const [itemToRemove, setItemToRemove] = useState<Dictionary | null>(null)
   const [removingitems, setRemovingItems] = useState<Dictionary<Dictionary>>({})
@@ -154,11 +157,7 @@ export default function Component(): JSX.Element {
         </Dialog.Content>
       </Dialog.Root>
       <ConfirmDialog
-        isOpenController={{
-          get: () => confirmDialogStore.getState().value,
-          set: confirmDialogStore.getState().setValue,
-          subscribe: (cb) => confirmDialogStore.subscribe((v) => cb(v.value)),
-        }}
+        controller={confirmDialogController}
         title='Удалить запись?'
         description='Вы уверены, что хотите удалить запись?'
         onConfirm={() => {
@@ -176,11 +175,11 @@ export default function Component(): JSX.Element {
             setRemovingItems(selectedItems)
             setSelectedItems({})
           }
-          confirmDialogStore.getState().setFalse()
+          confirmDialogController.set({ open: false })
         }}
         onClose={() => {
           setItemToRemove(null)
-          confirmDialogStore.getState().setFalse()
+          confirmDialogController.set({ open: false })
         }}
       />
       <_Dialog
@@ -256,7 +255,7 @@ export default function Component(): JSX.Element {
                     </Button>
                   </Flex>
                   <Button
-                    onClick={() => confirmDialogStore.getState().setTrue()}
+                    onClick={() => confirmDialogController.set({ open: true })}
                     variant='ghost'
                     disabled={Object.keys(selectedItems).length === 0}
                   >
@@ -345,7 +344,7 @@ export default function Component(): JSX.Element {
     const actionsColumn = createActionColumn({
       onTrashClick: (_, item) => {
         setItemToRemove(item)
-        confirmDialogStore.getState().setTrue()
+        confirmDialogController.set({ open: true })
       },
       onEditClick: (_, item) => {
         formToUpdate.initialize(item as Item['data'])

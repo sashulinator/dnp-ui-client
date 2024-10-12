@@ -8,3 +8,4 @@ export { create as createStore, useStore, type Store } from './lib/use-create-st
 export { type BooleanStoreState, createBooleanStore } from './lib/create-boolean-store'
 export { type ValueStoreState, createValueStore } from './lib/create-value-store'
 export { type Controller } from './models/controller'
+export { createController } from './lib/create-controller'

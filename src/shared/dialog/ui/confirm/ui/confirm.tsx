@@ -3,28 +3,33 @@ import Flex from '~/shared/flex'
 import { type Controller } from '~/shared/store'
 import Text from '~/shared/text'
 import { useSubscribeUpdate } from '~/utils/core-hooks'
+import { type Required } from '~/utils/types/object'
 
 import Dialog from '../../dialog'
 
-export interface Props {
-  isOpenController: Controller<boolean>
-  title?: string
+export interface BaseProps {
+  open: boolean
+  title: string
   description: string
   onClose: () => void
   onConfirm: () => void
 }
 
+export type Props<T extends Partial<BaseProps>> = {
+  controller: Controller<Required<T>>
+} & Omit<BaseProps, keyof T>
+
 Component.displayname = 'dialog-Confirm'
 
-export default function Component(props: Props) {
-  const { isOpenController, title = 'Вы уверены?', description, onConfirm, onClose } = props
-
-  const isOpen = isOpenController.get()
+export default function Component<T extends Partial<BaseProps>>(props: Props<T>) {
+  const { controller, ...baseProps } = props
+  const controllerProps = controller?.get()
+  const { open, title, description, onClose, onConfirm } = { ...baseProps, ...controllerProps } as BaseProps
 
   useSubscribeUpdate(subscribes)
 
   return (
-    <Dialog.Root open={isOpen}>
+    <Dialog.Root open={open}>
       <Dialog.Content maxWidth='450px' minWidth='250px'>
         <Flex gap='6' direction='column'>
           <Flex direction='column'>
@@ -45,6 +50,7 @@ export default function Component(props: Props) {
    */
 
   function subscribes(update: () => void) {
-    return [isOpenController.subscribe(update)]
+    if (!controller) return []
+    return [controller.subscribe(update)]
   }
 }
