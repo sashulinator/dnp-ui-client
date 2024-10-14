@@ -20,19 +20,19 @@ export type Props<TItem extends Dictionary, TContext extends Dictionary> = Table
   list: TItem[]
   columns: Column<TItem, TContext>[]
   context: TContext
-  rowProps?: (params: { item: TItem; rowIndex: number } & Props<TItem, TContext>) => TableTypes.RowProps | undefined
-  headerRowProps?: (params: Props<TItem, TContext>) => TableTypes.RowProps | undefined
-  headerProps?: (params: Props<TItem, TContext>) => TableTypes.HeaderProps | undefined
-  columnHeaderCellProps?: (
+  getRowProps?: (params: { item: TItem; rowIndex: number } & Props<TItem, TContext>) => TableTypes.RowProps | undefined
+  getHeaderRowProps?: (params: Props<TItem, TContext>) => TableTypes.RowProps | undefined
+  getHeaderProps?: (params: Props<TItem, TContext>) => TableTypes.HeaderProps | undefined
+  getColumnHeaderCellProps?: (
     props: { params: Column<TItem, TContext> } & Props<TItem, TContext>,
   ) => TableTypes.ColumnHeaderCellProps | undefined
-  cellProps?: (
+  getCellProps?: (
     params: { item: TItem; rowIndex: number; columnIndex: number; column: Column<TItem, TContext> } & Props<
       TItem,
       TContext
     >,
   ) => TableTypes.CellProps | undefined
-  bodyProps?: (params: Props<TItem, TContext>) => TableTypes.BodyProps | undefined
+  getBodyProps?: (params: Props<TItem, TContext>) => TableTypes.BodyProps | undefined
 }
 
 export const NAME = 'table-List'
@@ -48,12 +48,12 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
     columns,
     context,
     list,
-    bodyProps,
-    cellProps,
-    columnHeaderCellProps,
-    headerProps,
-    headerRowProps,
-    rowProps,
+    getBodyProps,
+    getCellProps,
+    getColumnHeaderCellProps,
+    getHeaderProps,
+    getHeaderRowProps,
+    getRowProps,
     ...rootTableProps
   } = props
 
@@ -61,10 +61,13 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
     <ErrorBoundary fallback={'Неожиданная ошибка! Обратитесь к администратору!'}>
       <Flex direction={'column'}>
         <Table.Root className={c(className, NAME)} {...rootTableProps}>
-          <Table.Header {...headerProps?.(props)}>
-            <Table.Row {...headerRowProps?.(props)}>
+          <Table.Header {...getHeaderProps?.(props)}>
+            <Table.Row {...getHeaderRowProps?.(props)}>
               {columns.map((column, i) => {
-                const mergedProps = { ...columnHeaderCellProps?.({ params: column, ...props }), ...column.headerProps }
+                const mergedProps = {
+                  ...getColumnHeaderCellProps?.({ params: column, ...props }),
+                  ...column.headerProps,
+                }
                 return (
                   <Table.ColumnHeaderCell key={i} {...mergedProps}>
                     {createElement(column.renderHeader, {
@@ -79,14 +82,14 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
             </Table.Row>
           </Table.Header>
           {list.length !== 0 && (
-            <Table.Body {...bodyProps?.(props)}>
+            <Table.Body {...getBodyProps?.(props)}>
               {list.map((item, rowIndex) => {
-                const gottenRowProps = rowProps?.({ item, rowIndex, ...props })
+                const rowProps = getRowProps?.({ item, rowIndex, ...props })
                 return (
-                  <Table.Row {...gottenRowProps} key={gottenRowProps?.key || rowIndex}>
+                  <Table.Row {...rowProps} key={rowProps?.key || rowIndex}>
                     {props.columns.map((column, columnIndex) => {
                       const mergedProps = {
-                        ...cellProps?.({ column, columnIndex, rowIndex, item, ...props }),
+                        ...getCellProps?.({ column, columnIndex, rowIndex, item, ...props }),
                         ...column.cellProps,
                       }
                       return (

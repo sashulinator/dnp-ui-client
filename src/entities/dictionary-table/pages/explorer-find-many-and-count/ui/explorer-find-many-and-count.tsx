@@ -204,7 +204,7 @@ export default function Component(): JSX.Element {
                       <Viewer.ListTable<Item, TableContext>
                         className={c(cssAnimations.Appear)}
                         columns={uiColumns}
-                        rowProps={getTableRowProps}
+                        getRowProps={getTableRowProps}
                         context={{
                           idKey: explorer?.idKey as string,
                           selectedItemsController,

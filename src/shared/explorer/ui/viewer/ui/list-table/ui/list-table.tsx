@@ -28,7 +28,7 @@ export const NAME = `${ROOT_NAME}-c-Table`
 export default function Component<TItem extends Item, TContext extends Dictionary>(
   props: Props<TItem['data'], TContext>,
 ): JSX.Element {
-  const { rowProps, ...listTableProps } = props
+  const { getRowProps, ...listTableProps } = props
 
   const { explorer, onPathChange, paths = [] } = useContext<TItem>()
 
@@ -38,12 +38,14 @@ export default function Component<TItem extends Item, TContext extends Dictionar
   return (
     <ListTable<TItem['data'], TContext>
       {...listTableProps}
-      rowProps={(params) => {
-        const rowPropsFromProps = rowProps?.(params)
+      className={c(props.className, NAME)}
+      list={deserializedItemList}
+      getRowProps={(params) => {
+        const rowProps = getRowProps?.(params)
         return {
           key: (params.item as Dictionary<string>)[explorer?.idKey || ''],
-          ...rowPropsFromProps,
-          onDoubleClick: fns(rowPropsFromProps?.onDoubleClick, () => {
+          ...rowProps,
+          onDoubleClick: fns(rowProps?.onDoubleClick, () => {
             const pathtoAdd = {
               name: (params.item as Dictionary<string>)[explorer?.idKey || ''],
               type: 'row',
@@ -52,8 +54,6 @@ export default function Component<TItem extends Item, TContext extends Dictionar
           }),
         }
       }}
-      list={deserializedItemList}
-      className={c(props.className, NAME)}
     />
   )
 }
