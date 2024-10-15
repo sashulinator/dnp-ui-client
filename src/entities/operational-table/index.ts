@@ -26,7 +26,7 @@ export {
   type CreateOperationalTable,
   type OperationalTableRelations,
   type TableSchema,
-  type TableSchemaItem,
+  type Column as TableSchemaItem,
   type Row,
   operationalTableSchema,
   createOperationalTableSchema,

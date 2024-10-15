@@ -52,9 +52,9 @@ export default {
                   primaryRequired={true}
                   fieldNames={{
                     table: 'tableName',
-                    columns: 'tableSchema.items',
+                    columns: 'items',
                     tableDisplay: 'name',
-                    description: 'tableSchema.description',
+                    description: 'description',
                   }}
                   strings={{
                     table: 'Тех. название',

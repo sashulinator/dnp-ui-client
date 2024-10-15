@@ -65,7 +65,7 @@ export default function Component(): JSX.Element {
 
   const columns = useMemo(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    () => toColumns((explorerListFetcher.data?.targetTable.tableSchema.items as any) || []),
+    () => toColumns((explorerListFetcher.data?.targetTable.items as any) || []),
     [explorerListFetcher.data],
   )
 
@@ -102,7 +102,7 @@ export default function Component(): JSX.Element {
       explorerUpdateMutator.mutateAsync({ kn, input: values, where: { _id: values._id } }).then((res) => res.data),
   })
 
-  const indexedColumns = explorerListFetcher.data?.targetTable.tableSchema.items.filter((item) => item.index)
+  const indexedColumns = explorerListFetcher.data?.targetTable.items.filter((item) => item.index)
 
   return (
     <main className={NAME}>
@@ -110,13 +110,13 @@ export default function Component(): JSX.Element {
         form={formToCreate}
         open={!isEmpty(formToCreate.getState().initialValues)}
         mutator={explorerCreateMutator}
-        columns={explorerListFetcher.data?.targetTable.tableSchema.items}
+        columns={explorerListFetcher.data?.targetTable.items}
       />
       <_Dialog
         form={formToUpdate}
         open={!isEmpty(formToUpdate.getState().initialValues)}
         mutator={explorerUpdateMutator}
-        columns={explorerListFetcher.data?.targetTable.tableSchema.items}
+        columns={explorerListFetcher.data?.targetTable.items}
       />
       <Container p='var(--space-4)'>
         {explorerListFetcher.isError && (

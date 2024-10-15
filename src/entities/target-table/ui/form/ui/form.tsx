@@ -28,10 +28,10 @@ export function Component(props: Props): JSX.Element {
         <Row style={{ width: '100%' }}>
           <Column>
             <Checkbox variant='soft' name='nav' label='Отображать в навигационной панели' />
-            <TypedField<Values, 'tableSchema.defaultView', string, string, SelectProps<string>, HTMLInputElement>
+            <TypedField<Values, 'defaultView', string, string, SelectProps<string>, HTMLInputElement>
               component={Select}
               label='Представление по умолчанию'
-              name='tableSchema.defaultView'
+              name='defaultView'
               defaultValue={'table'}
               options={[
                 { value: 'table', display: 'Таблица' },
@@ -47,9 +47,9 @@ export function Component(props: Props): JSX.Element {
           primaryRequired={true}
           fieldNames={{
             table: 'tableName',
-            columns: 'tableSchema.items',
+            columns: 'items',
             tableDisplay: 'name',
-            description: 'tableSchema.description',
+            description: 'description',
           }}
           strings={{
             table: 'Тех. название',

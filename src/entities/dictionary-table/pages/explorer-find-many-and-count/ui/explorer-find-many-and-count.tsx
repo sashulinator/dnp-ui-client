@@ -144,7 +144,7 @@ export default function Component(): JSX.Element {
   })
   const [formToUpdateOpen, setFormToUpdateOpen] = useState(false)
 
-  const indexedColumns = dictionaryTable?.tableSchema.items.filter((item) => item.index || item.primary)
+  const indexedColumns = dictionaryTable?.items.filter((item) => item.index || item.primary)
 
   return (
     <>
@@ -232,14 +232,14 @@ export default function Component(): JSX.Element {
         open={formToCreateOpen}
         setOpen={setFormToCreateOpen}
         mutator={explorerCreateMutator}
-        columns={dictionaryTable?.tableSchema.items}
+        columns={dictionaryTable?.items}
       />
       <_RowFormDialog
         form={formToUpdate}
         open={formToUpdateOpen}
         setOpen={setFormToUpdateOpen}
         mutator={explorerUpdateMutator}
-        columns={dictionaryTable?.tableSchema.items}
+        columns={dictionaryTable?.items}
       />
 
       <_SelectedItemsDialog
@@ -302,11 +302,9 @@ export default function Component(): JSX.Element {
   }
 
   function buildUiColumns(): ColumnTypes.Column<Dictionary<Dictionary>, TableContext>[] {
-    if (dictionaryTable?.tableSchema.items === undefined) return []
+    if (dictionaryTable?.items === undefined) return []
 
-    const columns = dictionaryTable.tableSchema.items.map((column) =>
-      Column.fromDatabaseColumn<Item['data'], TableContext>(column),
-    )
+    const columns = dictionaryTable.items.map((column) => Column.fromDatabaseColumn<Item['data'], TableContext>(column))
     const searchColumns = columns.map(SearchColumn.toSearchColumn)
     const sortColumns = searchColumns.map(ListTable.Sort.injectIntoHeader)
 

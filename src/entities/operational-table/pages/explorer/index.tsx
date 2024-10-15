@@ -80,7 +80,7 @@ export default function Component(): JSX.Element {
   const explorerListFetcher = api.explorer.findManyAndCountRows.useCache(requestParams, { keepPreviousData: true })
 
   const columns = useMemo(
-    () => toColumns(explorerListFetcher.data?.operationalTable.tableSchema.items || []),
+    () => toColumns(explorerListFetcher.data?.operationalTable.items || []),
     [explorerListFetcher.data],
   )
 
@@ -162,7 +162,7 @@ export default function Component(): JSX.Element {
 
   useEffect(() => setSort({ _id: 'desc' }), [])
 
-  const indexedColumns = explorerListFetcher.data?.operationalTable.tableSchema.items.filter((item) => item.index)
+  const indexedColumns = explorerListFetcher.data?.operationalTable.items.filter((item) => item.index)
 
   return (
     <main className={NAME}>
@@ -170,13 +170,13 @@ export default function Component(): JSX.Element {
         form={formToCreate}
         open={!isEmpty(formToCreate.getState().initialValues)}
         mutator={explorerCreateMutator}
-        columns={explorerListFetcher.data?.operationalTable.tableSchema.items}
+        columns={explorerListFetcher.data?.operationalTable.items}
       />
       <_Dialog
         form={formToUpdate}
         open={!isEmpty(formToUpdate.getState().initialValues)}
         mutator={explorerUpdateMutator}
-        columns={explorerListFetcher.data?.operationalTable.tableSchema.items}
+        columns={explorerListFetcher.data?.operationalTable.items}
       />
       <ImportOperationalTableModal
         open={showImportModal}

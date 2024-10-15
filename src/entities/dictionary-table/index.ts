@@ -26,7 +26,7 @@ export {
   type CreateDictionaryTable,
   type DictionaryTableRelations,
   type TableSchema,
-  type TableSchemaItem,
+  type Column as TableSchemaItem,
   type Row,
   dictionaryTableModel as dictionaryTableSchema,
   createDictionaryTableModel as createDictionaryTableSchema,

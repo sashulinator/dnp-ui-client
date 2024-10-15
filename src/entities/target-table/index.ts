@@ -26,7 +26,7 @@ export {
   type CreateTargetTable,
   type TargetTableRelations,
   type TableSchema,
-  type TableSchemaItem,
+  type Column as TableSchemaItem,
   type Row,
   targetTableSchema,
   createTargetTableSchema,

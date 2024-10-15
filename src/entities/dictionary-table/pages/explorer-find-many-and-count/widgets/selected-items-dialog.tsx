@@ -56,9 +56,9 @@ export default function Component(props: Props): JSX.Element {
    */
 
   function buildSelectedUiColumns() {
-    if (dictionaryTable?.tableSchema.items === undefined) return []
+    if (dictionaryTable?.items === undefined) return []
 
-    const columns = dictionaryTable.tableSchema.items.map((column) => Column.fromDatabaseColumn(column))
+    const columns = dictionaryTable.items.map((column) => Column.fromDatabaseColumn(column))
 
     const actionsColumn = createActionColumn({
       renderHeader: () => '',
