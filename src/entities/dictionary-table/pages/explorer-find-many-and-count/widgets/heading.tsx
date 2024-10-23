@@ -15,7 +15,7 @@ export interface Props {
   name: string
 }
 
-const NAME = 'Page_id_explorer-Heading'
+const NAME = 'workingTable-page-Heading'
 
 function Component(props: Props): JSX.Element {
   const { name, setFormToCreateOpen, formToCreate } = props

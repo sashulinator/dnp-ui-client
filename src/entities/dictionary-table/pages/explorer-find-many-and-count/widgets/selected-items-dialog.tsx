@@ -20,7 +20,7 @@ export interface Props {
   idKey: string
 }
 
-const NAME = 'SelectedItemsDialog'
+const NAME = 'workingTable-SelectedItemsDialog'
 
 export default function Component(props: Props): JSX.Element {
   const { dialogController, idKey, dictionaryTable, selectedItemsController } = props
@@ -28,7 +28,7 @@ export default function Component(props: Props): JSX.Element {
   useSubscribeUpdate(dialogController.subscribe)
   useSubscribeUpdate(selectedItemsController.subscribe)
 
-  const selectedItems = selectedItemsController.get()
+  const selectedcolumns = selectedItemsController.get()
   const selectedUiColumns = useMemo(buildSelectedUiColumns, [dictionaryTable])
   const open = dialogController.get()
 
@@ -45,7 +45,7 @@ export default function Component(props: Props): JSX.Element {
         </Dialog.Title>
 
         <ScrollArea scrollbars='horizontal'>
-          <ListTable context={{}} columns={selectedUiColumns} list={Object.values(selectedItems)} />
+          <ListTable context={{}} columns={selectedUiColumns} list={Object.values(selectedcolumns)} />
         </ScrollArea>
       </Dialog.Content>
     </Dialog.Root>
@@ -56,9 +56,9 @@ export default function Component(props: Props): JSX.Element {
    */
 
   function buildSelectedUiColumns() {
-    if (dictionaryTable?.items === undefined) return []
+    if (dictionaryTable?.columns === undefined) return []
 
-    const columns = dictionaryTable.items.map((column) => Column.fromDatabaseColumn(column))
+    const columns = dictionaryTable.columns.map((column) => Column.fromDatabaseColumn(column))
 
     const actionsColumn = createActionColumn({
       renderHeader: () => '',
@@ -66,8 +66,8 @@ export default function Component(props: Props): JSX.Element {
       headerProps: { width: '34px', style: { padding: '0' } },
       cellProps: { width: '34px', style: { padding: '0' } },
       onCrossClick: (_, item) => {
-        const items = selectedItemsController.get()
-        selectedItemsController.set(remove(items, item[idKey] as string))
+        const columns = selectedItemsController.get()
+        selectedItemsController.set(remove(columns, item[idKey] as string))
       },
     })
     return [actionsColumn, ...columns]

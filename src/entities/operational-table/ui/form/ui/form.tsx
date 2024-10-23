@@ -47,7 +47,7 @@ export function Component(props: Props): JSX.Element {
           primaryRequired={false}
           fieldNames={{
             table: 'tableName',
-            columns: 'items',
+            columns: 'columns',
             tableDisplay: 'name',
             description: 'description',
           }}

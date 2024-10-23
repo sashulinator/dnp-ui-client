@@ -11,7 +11,7 @@ export type Props = FlexProps & {
   onRemoveClick: (e: React.MouseEvent) => void
 }
 
-const NAME = 'Page_id_explorer-SelectionCount'
+const NAME = 'workingTable-page-SelectionCount'
 
 export default function Component(props: Props): JSX.Element | null {
   const { selectedItemsController, onRemoveClick, onCounterClick, ...flexProps } = props

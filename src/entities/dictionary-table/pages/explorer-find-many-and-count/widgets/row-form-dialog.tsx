@@ -14,7 +14,7 @@ interface _DialogProps {
   mutator: { isLoading: boolean }
 }
 
-const NAME = 'Page_id_explorer-RowFormDialog'
+const NAME = 'workingTable-page-RowFormDialog'
 
 export default function Component(props: _DialogProps): JSX.Element {
   const { open, setOpen, form, columns, mutator } = props

@@ -40,7 +40,7 @@ import { get } from '~/utils/dictionary'
 
 import _Heading from '../widgets/heading'
 import _RowFormDialog, { useCreateRowForm } from '../widgets/row-form-dialog'
-import _SelectedItemsDialog from '../widgets/selected-items-dialog'
+import _SelectedcolumnsDialog from '../widgets/selected-items-dialog'
 import _SelectionActions from '../widgets/selection-actions'
 
 type TableContext = SearchColumnTypes.Context<Item['data']> &
@@ -72,7 +72,7 @@ export default function Component(): JSX.Element {
   const selectedListDialogController = useMemo(() => createController(false), [])
 
   const [itemToRemove, setItemToRemove] = useState<Dictionary | null>(null)
-  const [removingitems, setRemovingItems] = useState<Dictionary<Dictionary>>({})
+  const [removingcolumns, setRemovingcolumns] = useState<Dictionary<Dictionary>>({})
 
   const [{ page = 1, take = 10 }, setPaginationParams] = useQueryParams(
     {
@@ -144,7 +144,7 @@ export default function Component(): JSX.Element {
   })
   const [formToUpdateOpen, setFormToUpdateOpen] = useState(false)
 
-  const indexedColumns = dictionaryTable?.items.filter((item) => item.index || item.primary)
+  const indexedColumns = dictionaryTable?.columns.filter((item) => item.index || item.primary)
 
   return (
     <>
@@ -232,17 +232,17 @@ export default function Component(): JSX.Element {
         open={formToCreateOpen}
         setOpen={setFormToCreateOpen}
         mutator={explorerCreateMutator}
-        columns={dictionaryTable?.items}
+        columns={dictionaryTable?.columns}
       />
       <_RowFormDialog
         form={formToUpdate}
         open={formToUpdateOpen}
         setOpen={setFormToUpdateOpen}
         mutator={explorerUpdateMutator}
-        columns={dictionaryTable?.items}
+        columns={dictionaryTable?.columns}
       />
 
-      <_SelectedItemsDialog
+      <_SelectedcolumnsDialog
         dialogController={selectedListDialogController}
         selectedItemsController={selectedItemsController}
         dictionaryTable={dictionaryTable}
@@ -268,7 +268,7 @@ export default function Component(): JSX.Element {
 
   function getTableRowProps({ item, rowIndex }: ListTableTypes.RowProps<Row, TableContext>) {
     const value = get(item, explorer?.idKey) as string
-    const isRemoving = Boolean(removingitems[value])
+    const isRemoving = Boolean(removingcolumns[value])
     return {
       className: c(cssAnimations.Appear),
       style: {
@@ -288,23 +288,25 @@ export default function Component(): JSX.Element {
       const id = itemToRemove?.[explorer!.idKey] as string
       removeRows({ [id]: itemToRemove as Dictionary })
       setItemToRemove(null)
-      setRemovingItems((removingItems) => ({
-        ...removingItems,
+      setRemovingcolumns((removingcolumns) => ({
+        ...removingcolumns,
         [get(itemToRemove, explorer?.idKey) as string]: itemToRemove,
       }))
     }
     if (!isEmpty(selectedItemsController.get())) {
       removeRows(selectedItemsController.get())
-      setRemovingItems(selectedItemsController.get())
+      setRemovingcolumns(selectedItemsController.get())
       selectedItemsController.set({})
     }
     confirmDialogController.set({ open: false })
   }
 
   function buildUiColumns(): ColumnTypes.Column<Dictionary<Dictionary>, TableContext>[] {
-    if (dictionaryTable?.items === undefined) return []
+    if (dictionaryTable?.columns === undefined) return []
 
-    const columns = dictionaryTable.items.map((column) => Column.fromDatabaseColumn<Item['data'], TableContext>(column))
+    const columns = dictionaryTable.columns.map((column) =>
+      Column.fromDatabaseColumn<Item['data'], TableContext>(column),
+    )
     const searchColumns = columns.map(SearchColumn.toSearchColumn)
     const sortColumns = searchColumns.map(ListTable.Sort.injectIntoHeader)
 
@@ -325,8 +327,8 @@ export default function Component(): JSX.Element {
     >[]
   }
 
-  async function removeRows(items: Dictionary<Dictionary>): Promise<void> {
-    const whereIds = Object.values(items).map((item) => ({
+  async function removeRows(columns: Dictionary<Dictionary>): Promise<void> {
+    const whereIds = Object.values(columns).map((item) => ({
       [explorer!.idKey!]: item[explorer!.idKey] as string,
     }))
 

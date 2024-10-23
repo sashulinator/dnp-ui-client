@@ -6,7 +6,7 @@ import { type CreateTargetTable } from '../../../types/target-table'
 export const defaultValues: Partial<CreateTargetTable, 'deep'> = {
   nav: false,
   defaultView: 'table',
-  items: [
+  columns: [
     {
       id: generateId(3),
       type: 'string',
