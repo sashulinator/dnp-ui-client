@@ -1,11 +1,12 @@
-import { BrowserRouter, type BrowserRouterProps } from 'react-router-dom'
+import { createBrowserHistory } from 'history'
+import { unstable_HistoryRouter as HistoryRouter } from 'react-router-dom'
 
-export interface Props extends BrowserRouterProps {
-  className?: string | undefined
+export const history = createBrowserHistory({ window })
+
+const NAME = 'router-Provider'
+
+export default function Component(props: { children: React.ReactNode }): JSX.Element {
+  return <HistoryRouter history={history as any} {...props} />
 }
 
-Component.displayName = 'router-Provider'
-
-export default function Component(props: Props): JSX.Element {
-  return <BrowserRouter {...props} />
-}
+Component.displayName = NAME
