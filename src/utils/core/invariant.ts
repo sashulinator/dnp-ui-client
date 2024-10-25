@@ -22,16 +22,16 @@
 
 var NODE_ENV = process.env.NODE_ENV
 
-export function invariant(
-  condition: unknown,
+export function invariant<T>(
+  condition: T | null | undefined | false | '' | 0,
   format: string,
   a?: string | undefined,
   b?: string | undefined,
   c?: string | undefined,
   d?: string | undefined,
   e?: string | undefined,
-  f?: string | undefined
-) {
+  f?: string | undefined,
+): asserts condition is T {
   if (NODE_ENV !== 'production') {
     if (format === undefined) {
       throw new Error('invariant requires an error message argument')
@@ -43,7 +43,7 @@ export function invariant(
     if (format === undefined) {
       error = new Error(
         'Minified exception occurred; use the non-minified dev environment ' +
-          'for the full error message and additional helpful warnings.'
+          'for the full error message and additional helpful warnings.',
       )
     } else {
       var args = [a, b, c, d, e, f]
@@ -51,7 +51,7 @@ export function invariant(
       error = new Error(
         format.replace(/%s/g, (): string => {
           return args[argIndex++] as string
-        })
+        }),
       )
       error.name = 'Invariant Violation'
     }
