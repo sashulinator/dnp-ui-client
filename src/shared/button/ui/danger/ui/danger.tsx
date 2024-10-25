@@ -5,7 +5,7 @@ import Button, { type ButtonProps } from '../../button'
 
 export type Props = ButtonProps
 
-Component.displayName = 'button-Danger'
+const NAME = 'button-Danger'
 
 export default function Component(props: Props): JSX.Element {
   const { variant, color, ...buttonProps } = props
@@ -24,3 +24,5 @@ export default function Component(props: Props): JSX.Element {
     />
   )
 }
+
+Component.displayName = NAME

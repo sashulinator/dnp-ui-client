@@ -13,23 +13,16 @@ export interface Props extends ButtonProps {
   square?: boolean
 }
 
-const displayName = 'ui-Button'
+const NAME = 'button-Button'
 
-/**
- * ui-Button
- */
 export function Component(props: Props, ref: ForwardedRef<HTMLButtonElement>): JSX.Element {
   const { round, square, ...buttonProps } = props
 
   return (
-    <Button
-      {...buttonProps}
-      ref={ref}
-      className={c(props.className, displayName, round && '--round', square && '--square')}
-    />
+    <Button {...buttonProps} ref={ref} className={c(props.className, NAME, round && '--round', square && '--square')} />
   )
 }
 
 const ForwardRef = forwardRef(Component)
-ForwardRef.displayName = displayName
+ForwardRef.displayName = NAME
 export default ForwardRef
