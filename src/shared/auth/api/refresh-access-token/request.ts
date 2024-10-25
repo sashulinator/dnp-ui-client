@@ -1,6 +1,5 @@
 export type RequestData = {
-  email: string
-  password: string
+  refreshToken: string
 }
 
 export type ResponseData = {
@@ -19,9 +18,8 @@ export async function request(requestData: RequestData): Promise<{
   response: Response
 }> {
   const details = {
-    username: requestData.email,
-    password: requestData.password,
-    grant_type: 'password',
+    refresh_token: requestData.refreshToken,
+    grant_type: 'refresh_token',
     client_id: 'iiot-control-mvp',
   }
 
@@ -29,16 +27,15 @@ export async function request(requestData: RequestData): Promise<{
     .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
     .join('&')
 
-  const response = await fetch('/realms/IIOT-MVP/protocol/openid-connect/token', {
+  const response = await fetch(`/realms/IIOT-MVP/protocol/openid-connect/token`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
     body: formBody,
   })
 
   const data = await response.json()
 
-  return {
-    data,
-    response,
-  }
+  return { data, response }
 }

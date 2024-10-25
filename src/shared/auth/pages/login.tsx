@@ -1,5 +1,6 @@
 import { useMutation } from 'react-query'
 
+import { history, routes } from '~/app/route'
 import { type Login, LoginForm, setAccessToken, setRefreshToken } from '~/shared/auth'
 import { api } from '~/shared/auth'
 import { setAccessTokenExpiresAt } from '~/shared/auth/set-access-token-expires-at'
@@ -14,10 +15,12 @@ const NAME = 'pages-Login'
 export default function Component(): JSX.Element {
   const getTokenMutator = useMutation(api.getToken.request, {
     onSuccess: (data) => {
-      setAccessToken(data.access_token)
-      setRefreshToken(data.refresh_token)
-      setAccessTokenExpiresAt(data.expires_in)
-      setRefreshTokenExpiresAt(data.expires_in)
+      setAccessToken(data.data.access_token)
+      setRefreshToken(data.data.refresh_token)
+      setAccessTokenExpiresAt(data.data.expires_in)
+      setRefreshTokenExpiresAt(data.data.expires_in)
+
+      history.push(routes.main.getPath())
     },
   })
 

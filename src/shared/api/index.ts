@@ -1,5 +1,4 @@
-export * from './is/axios-error'
-export * from './is/is-bad-request'
+export * from './lib/is-axios-error'
 
 export { api } from './lib/api'
 export type { List } from './types/list'
