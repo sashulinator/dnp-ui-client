@@ -1,9 +1,10 @@
-import { isAxiosError, isBadRequest, isUnauthorized } from '../api'
+import axios from 'axios'
+
+import { isAxiosError } from '../api'
 import { getRefreshToken } from './get-refresh-token'
 import { removeAllTokens } from './remove-all-tokens'
 import { setAccessToken } from './set-access-token'
 import { setRefreshToken } from './set-refresh-token'
-import axios from 'axios'
 
 export async function refreshAccessTokenFn(url: string): Promise<void> {
   const refreshToken = getRefreshToken()
@@ -20,7 +21,9 @@ export async function refreshAccessTokenFn(url: string): Promise<void> {
     setRefreshToken(response.data.refresh_token)
     setAccessToken(response.data.access_token)
   } catch (error) {
-    if (isAxiosError(error) && isUnauthorized(error) && isBadRequest(error)) {
+    if (!isAxiosError(error)) return
+
+    if (error?.response?.status === 401 || error?.response?.status === 400) {
       // history.push(ROUTES.login.path)
     }
 

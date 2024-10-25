@@ -1,6 +1,5 @@
 export * from './is/axios-error'
 export * from './is/is-bad-request'
-export * from './is/is-unauthorized'
 
 export { api } from './lib/api'
 export type { List } from './types/list'

@@ -5,7 +5,6 @@ import { handleUnauthorizedError } from '~/shared/auth/handle-unauthorized-error
 import { setAuthorizationHeader } from '~/shared/auth/set-authorization-header'
 
 const refreshTokenUrl = '/api/auth/refresh'
-// const loginUrl = '/login'
 
 const api = axios.create({
   withCredentials: true,

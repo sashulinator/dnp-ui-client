@@ -1,5 +1,6 @@
+import { type AxiosRequestConfig } from 'axios'
+
 import { getAccessToken } from './get-access-token'
-import { AxiosRequestConfig } from 'axios'
 
 export function setAuthorizationHeader(request: AxiosRequestConfig<unknown>) {
   const accessToken = getAccessToken()

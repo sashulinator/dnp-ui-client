@@ -36,6 +36,7 @@ import Nav from '~/shared/nav'
 import { isDev } from '~/utils/core-client/is-dev'
 
 import Main from '../../../pages/main'
+import Login from '../../../shared/auth/pages/login'
 import { type AppRoute } from './app-route'
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -400,6 +401,19 @@ export const routes = {
   },
 
   // Misc
+
+  login: {
+    getName: () => 'Login',
+    getPath: () => '/login',
+    getUrl() {
+      return this.getPath()
+    },
+    render: Login,
+    payload: {
+      navigatable: isDev(),
+      renderIcon: (props) => <Icon {...props} name='Star' />,
+    },
+  },
 
   storybook: {
     getName: () => 'Storybook',

@@ -1,8 +1,8 @@
-import { AxiosError } from 'axios'
+import { type AxiosError } from 'axios'
 
 import api from '~/shared/axios'
 
-import { isAxiosError, isUnauthorized } from '../api'
+import { isAxiosError } from '../api'
 import { refreshAccessTokenFn } from './refresh-token'
 
 let refreshPromise: null | Promise<unknown> = null
@@ -12,7 +12,7 @@ export async function handleUnauthorizedError(error: unknown | AxiosError, url: 
     return Promise.reject(error)
   }
 
-  if (isUnauthorized(error) && !refreshPromise) {
+  if (error?.response?.status === 401 && !refreshPromise) {
     refreshPromise = refreshAccessTokenFn(url)
   }
 
