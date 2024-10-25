@@ -1,14 +1,14 @@
 import { useMutation } from 'react-query'
 
-import { history, routes } from '~/app/route'
-import { type Login, LoginForm, setAccessToken, setRefreshToken } from '~/shared/auth'
-import { api } from '~/shared/auth'
-import { setAccessTokenExpiresAt } from '~/shared/auth/set-access-token-expires-at'
-import { setRefreshTokenExpiresAt } from '~/shared/auth/set-refresh-token-expires-at'
-import Button from '~/shared/button'
-import Flex from '~/shared/flex'
-import FForm, { useCreateForm } from '~/shared/form'
-import { c } from '~/utils/core'
+import { history, routes } from '~dnp/app/route'
+import { type Login, LoginForm, setAccessToken, setRefreshToken } from '~dnp/shared/auth'
+import { api } from '~dnp/shared/auth'
+import { setAccessTokenExpiresAt } from '~dnp/shared/auth/set-access-token-expires-at'
+import { setRefreshTokenExpiresAt } from '~dnp/shared/auth/set-refresh-token-expires-at'
+import Button from '~dnp/shared/button'
+import Flex from '~dnp/shared/flex'
+import FForm, { useCreateForm } from '~dnp/shared/form'
+import { c } from '~dnp/utils/core'
 
 const NAME = 'pages-Login'
 

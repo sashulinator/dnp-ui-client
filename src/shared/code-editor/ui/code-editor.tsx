@@ -1,12 +1,13 @@
-import AceEditor, { IAceEditorProps } from 'react-ace'
-import 'ace-builds/src-noconflict/theme-monokai'
-import { c } from '~/utils/core'
+// import 'ace-builds/src-noconflict/theme-monokai'
+import AceEditor, { type IAceEditorProps } from 'react-ace'
+
+import { c } from '~dnp/utils/core'
 
 export interface Props extends Omit<IAceEditorProps, 'className'> {
   className?: string | undefined
 }
 
-const displayName = 'ui-CodeEditor'
+const NAME = 'ui-CodeEditor'
 
 /**
  * ui-CodeEditor
@@ -16,9 +17,9 @@ export default function Component(props: Props): JSX.Element {
 
   return (
     <AceEditor
-      className={c(className, displayName)}
+      className={c(className, NAME)}
       width='100%'
-      theme='monokai'
+      // theme='monokai'
       {...aceEditorProps}
       setOptions={{
         useWorker: false,
@@ -29,4 +30,4 @@ export default function Component(props: Props): JSX.Element {
   )
 }
 
-Component.displayName = displayName
+Component.displayName = NAME

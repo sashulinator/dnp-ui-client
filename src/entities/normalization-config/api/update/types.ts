@@ -1,4 +1,4 @@
-import { Update } from '~/shared/api'
+import { Update } from '~dnp/shared/api'
 
 import { NormalizationConfig } from '../../types/normalization-config'
 

@@ -1,1 +1,1 @@
-export * from '~/common/shared/where/models/boolean-filter'
+export * from '~dnp/common/shared/where/models/boolean-filter'

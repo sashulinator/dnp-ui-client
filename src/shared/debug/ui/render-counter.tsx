@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 
-import Flex from '~/shared/flex'
-import { isDev } from '~/utils/core-client'
+import Flex from '~dnp/shared/flex'
+import { isDev } from '~dnp/utils/core-client'
 
 export interface Props extends React.HTMLAttributes<HTMLDivElement> {
   name?: string | undefined

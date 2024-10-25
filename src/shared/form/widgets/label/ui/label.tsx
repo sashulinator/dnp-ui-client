@@ -1,6 +1,6 @@
-import type { TextProps } from '~/shared/text'
-import Text from '~/shared/text'
-import { c } from '~/utils/core'
+import type { TextProps } from '~dnp/shared/text'
+import Text from '~dnp/shared/text'
+import { c } from '~dnp/utils/core'
 
 export type Props = TextProps & {
   children?: null | string | number | undefined | React.ReactElement

@@ -1,9 +1,9 @@
 import React from 'react'
 
-import Button from '~/shared/button'
-import Flex from '~/shared/flex'
-import SharedIcon from '~/shared/icon'
-import { c } from '~/utils/core'
+import Button from '~dnp/shared/button'
+import Flex from '~dnp/shared/flex'
+import SharedIcon from '~dnp/shared/icon'
+import { c } from '~dnp/utils/core'
 
 import Icon from '../../../../icon'
 import { useContext } from '../../../models/context'

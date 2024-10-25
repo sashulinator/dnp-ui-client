@@ -1,1 +1,1 @@
-export * from '~/common/shared/where/models/match-mode'
+export * from '~dnp/common/shared/where/models/match-mode'

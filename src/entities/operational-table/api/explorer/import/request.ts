@@ -1,5 +1,5 @@
-import type { Response } from '~/shared/api'
-import api from '~/shared/axios'
+import type { Response } from '~dnp/shared/api'
+import api from '~dnp/shared/axios'
 
 import { url } from '../../common'
 

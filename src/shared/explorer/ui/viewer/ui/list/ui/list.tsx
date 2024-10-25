@@ -1,5 +1,5 @@
-import Flex from '~/shared/flex'
-import { c } from '~/utils/core'
+import Flex from '~dnp/shared/flex'
+import { c } from '~dnp/utils/core'
 
 import { useContext } from '../../../models/context'
 import { NAME as ROOT_NAME } from '../../root'

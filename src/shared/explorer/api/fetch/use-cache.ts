@@ -1,7 +1,7 @@
 import { type UseQueryOptions, type UseQueryResult, useQuery as useReactQuery } from 'react-query'
 
-import { type Response } from '~/shared/api'
-import { type QueryError } from '~/shared/api'
+import { type Response } from '~dnp/shared/api'
+import { type QueryError } from '~dnp/shared/api'
 
 import { NAME, type RequestData, type ResponseData, request } from './request'
 

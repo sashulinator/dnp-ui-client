@@ -1,5 +1,5 @@
-import { Response } from '~/shared/api'
-import api from '~/shared/axios'
+import { Response } from '~dnp/shared/api'
+import api from '~dnp/shared/axios'
 
 import { RequestData, ResponseData } from './types'
 

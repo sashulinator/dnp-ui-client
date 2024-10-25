@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { safeParse } from 'valibot'
 
-import { routes } from '~/app/route'
+import { routes } from '~dnp/app/route'
 import {
   Form,
   type FormValues,
@@ -12,21 +12,21 @@ import {
   normalizationConfigSchema,
   toFormValues,
   update,
-} from '~/entities/normalization-config'
-import { create as createProcess } from '~/entities/process'
-import { roles } from '~/entities/user'
-import { getRole } from '~/entities/user/lib'
-import Button from '~/shared/button'
-import Card from '~/shared/card'
-import Container from '~/shared/container'
-import Flex from '~/shared/flex'
-import FForm, { toNestedErrors, useCreateForm } from '~/shared/form'
-import Heading from '~/shared/heading'
-import { notify } from '~/shared/notification-list-store'
-import Section from '~/shared/section'
-import Spinner from '~/shared/spinner'
-import { HighlightedText } from '~/shared/text'
-import Tooltip from '~/shared/tooltip'
+} from '~dnp/entities/normalization-config'
+import { create as createProcess } from '~dnp/entities/process'
+import { roles } from '~dnp/entities/user'
+import { getRole } from '~dnp/entities/user/lib'
+import Button from '~dnp/shared/button'
+import Card from '~dnp/shared/card'
+import Container from '~dnp/shared/container'
+import Flex from '~dnp/shared/flex'
+import FForm, { toNestedErrors, useCreateForm } from '~dnp/shared/form'
+import Heading from '~dnp/shared/heading'
+import { notify } from '~dnp/shared/notification-list-store'
+import Section from '~dnp/shared/section'
+import Spinner from '~dnp/shared/spinner'
+import { HighlightedText } from '~dnp/shared/text'
+import Tooltip from '~dnp/shared/tooltip'
 
 export interface Props {
   className?: string | undefined

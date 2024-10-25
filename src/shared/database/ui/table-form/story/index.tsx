@@ -1,6 +1,6 @@
-import Flex from '~/shared/flex'
-import FForm, { useCreateForm } from '~/shared/form'
-import { type Props, type Story } from '~/shared/storybook'
+import Flex from '~dnp/shared/flex'
+import FForm, { useCreateForm } from '~dnp/shared/form'
+import { type Props, type Story } from '~dnp/shared/storybook'
 
 import DatabaseTableForm, { NAME } from '../ui/table-form'
 

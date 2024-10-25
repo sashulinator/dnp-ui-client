@@ -1,11 +1,11 @@
 import { createElement } from 'react'
 
-import ErrorBoundary from '~/shared/error-boundary'
-import Flex from '~/shared/flex'
-import Table, { type TableTypes } from '~/shared/table'
-import Text from '~/shared/text'
-import { type Dictionary, c } from '~/utils/core'
-import { getPath, toPath } from '~/utils/dictionary'
+import ErrorBoundary from '~dnp/shared/error-boundary'
+import Flex from '~dnp/shared/flex'
+import Table, { type TableTypes } from '~dnp/shared/table'
+import Text from '~dnp/shared/text'
+import { type Dictionary, c } from '~dnp/utils/core'
+import { getPath, toPath } from '~dnp/utils/dictionary'
 
 import { type Column } from '../../column/models/column'
 import { default as Sort } from '../widgets/sort'

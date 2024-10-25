@@ -1,7 +1,7 @@
-import { SYSNAME } from '~/entities/operational-table/constants/name'
-import { type Response } from '~/shared/api'
-import api from '~/shared/axios'
-import { type Where } from '~/shared/where'
+import { SYSNAME } from '~dnp/entities/operational-table/constants/name'
+import { type Response } from '~dnp/shared/api'
+import api from '~dnp/shared/axios'
+import { type Where } from '~dnp/shared/where'
 
 import { type OperationalTable } from '../../../types/operational-table'
 import { url } from '../../common'

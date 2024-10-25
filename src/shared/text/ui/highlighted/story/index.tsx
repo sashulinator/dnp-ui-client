@@ -1,5 +1,5 @@
-import Flex from '~/shared/flex'
-import { type Props, type Story } from '~/shared/storybook'
+import Flex from '~dnp/shared/flex'
+import { type Props, type Story } from '~dnp/shared/storybook'
 
 import TextField from '..'
 import Highlighted from '..'

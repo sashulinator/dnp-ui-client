@@ -1,1 +1,1 @@
-export * from '~/common/shared/where/models/int-filter'
+export * from '~dnp/common/shared/where/models/int-filter'

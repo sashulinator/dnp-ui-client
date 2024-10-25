@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { useQueryParam } from 'use-query-params'
 
-import { JSONParam } from '~/shared/use-query-params'
-import { isString } from '~/utils/core'
-import { useDebounceCallback } from '~/utils/core-hooks'
+import { JSONParam } from '~dnp/shared/use-query-params'
+import { isString } from '~dnp/utils/core'
+import { useDebounceCallback } from '~dnp/utils/core-hooks'
 
 import { type Sort } from '..'
 

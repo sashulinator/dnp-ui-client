@@ -1,6 +1,8 @@
-import CodeEditor, { Props as CodeEditorProps } from '../../../ui/code-editor'
 import 'ace-builds/src-noconflict/mode-json'
-import { c } from '~/utils/core'
+
+import { c } from '~dnp/utils/core'
+
+import CodeEditor, { Props as CodeEditorProps } from '../../../ui/code-editor'
 
 export interface Props extends Omit<CodeEditorProps, 'mode'> {
   className?: string | undefined

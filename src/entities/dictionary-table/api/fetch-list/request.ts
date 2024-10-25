@@ -1,5 +1,5 @@
-import { type List, type Response, api } from '~/shared/api'
-import { type StringFilter } from '~/shared/where'
+import { type List, type Response, api } from '~dnp/shared/api'
+import { type StringFilter } from '~dnp/shared/where'
 
 import { type DictionaryTable } from '../../models/dictionary-table'
 import { v1Url } from '../v1-url'

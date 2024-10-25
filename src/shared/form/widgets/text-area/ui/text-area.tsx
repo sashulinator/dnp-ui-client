@@ -3,9 +3,9 @@ import { Box } from '@radix-ui/themes'
 import React, { useId } from 'react'
 import { type FieldInputProps, type FieldMetaState } from 'react-final-form'
 
-import Flex, { type FlexProps } from '~/shared/flex'
-import TextArea, { type TextAreaProps } from '~/shared/text-area'
-import { c, fns } from '~/utils/core'
+import Flex, { type FlexProps } from '~dnp/shared/flex'
+import TextArea, { type TextAreaProps } from '~dnp/shared/text-area'
+import { c, fns } from '~dnp/utils/core'
 
 import { NAME as PARENT_NAME } from '../../../ui/form'
 import Label from '../../label/ui/label'

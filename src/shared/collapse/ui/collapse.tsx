@@ -1,8 +1,10 @@
-import React, { CSSProperties, ForwardedRef, forwardRef, useState } from 'react'
 import { a, useSpring } from '@react-spring/web'
-import { XY, c } from '~/utils/core'
-import { useMeasure } from '~/utils/hooks'
-import { setRefs } from '~/utils/react'
+
+import React, { CSSProperties, ForwardedRef, forwardRef, useState } from 'react'
+
+import { XY, c } from '~dnp/utils/core'
+import { useMeasure } from '~dnp/utils/hooks'
+import { setRefs } from '~dnp/utils/react'
 
 export interface Props extends React.HTMLAttributes<HTMLDivElement> {
   isExpanded: boolean

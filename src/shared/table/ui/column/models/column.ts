@@ -1,4 +1,4 @@
-import { type Dictionary } from '~/utils/core'
+import { type Dictionary } from '~dnp/utils/core'
 
 import { type CellProps } from '../../table/ui/table'
 

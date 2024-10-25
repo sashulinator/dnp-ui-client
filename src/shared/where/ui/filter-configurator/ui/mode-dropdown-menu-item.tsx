@@ -1,6 +1,6 @@
-import Button from '~/shared/button'
-import DropdownMenu from '~/shared/dropdown-menu'
-import Flex from '~/shared/flex'
+import Button from '~dnp/shared/button'
+import DropdownMenu from '~dnp/shared/dropdown-menu'
+import Flex from '~dnp/shared/flex'
 
 import { useContext } from '../model/context'
 

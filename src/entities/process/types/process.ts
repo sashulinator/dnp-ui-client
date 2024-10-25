@@ -1,1 +1,1 @@
-export * from '~/common/entities/process'
+export * from '~dnp/common/entities/process'

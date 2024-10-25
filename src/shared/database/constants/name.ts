@@ -1,1 +1,1 @@
-export * from '~/common/shared/database/constants/name'
+export * from '~dnp/common/shared/database/constants/name'

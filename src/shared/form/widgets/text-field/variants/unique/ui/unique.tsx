@@ -1,11 +1,11 @@
 import { useEffect } from 'react'
 import { useQuery } from 'react-query'
 
-import Flex from '~/shared/flex'
-import Spinner from '~/shared/spinner'
-import Text from '~/shared/text'
-import { capitalize } from '~/utils/core'
-import { useDebounce } from '~/utils/core-hooks'
+import Flex from '~dnp/shared/flex'
+import Spinner from '~dnp/shared/spinner'
+import Text from '~dnp/shared/text'
+import { capitalize } from '~dnp/utils/core'
+import { useDebounce } from '~dnp/utils/core-hooks'
 
 import TextField, { type TextFieldProps } from '../../..'
 import Hint from '../../../../hint'

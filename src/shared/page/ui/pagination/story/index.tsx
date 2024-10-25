@@ -1,8 +1,8 @@
 import { useState } from 'react'
 
-import Flex from '~/shared/flex'
-import type { Props } from '~/shared/storybook'
-import { type Story } from '~/shared/storybook'
+import Flex from '~dnp/shared/flex'
+import type { Props } from '~dnp/shared/storybook'
+import { type Story } from '~dnp/shared/storybook'
 
 import TextField from '..'
 import Pagination from '..'

@@ -1,4 +1,4 @@
-import Badge from '~/shared/badge'
+import Badge from '~dnp/shared/badge'
 
 type ProcessStatus = 'SUCCESS' | 'STARTED' | 'ERROR'
 

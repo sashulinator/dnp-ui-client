@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useQuery } from 'react-query'
 
-import { type Props, type Story } from '~/shared/storybook'
+import { type Props, type Story } from '~dnp/shared/storybook'
 
 import type { Explorer, Path } from '../../../models/explorer'
 import Breadscrums from '../ui/breadscrums'

@@ -1,5 +1,5 @@
-import { type Response } from '~/shared/api'
-import api from '~/shared/axios'
+import { type Response } from '~dnp/shared/api'
+import api from '~dnp/shared/axios'
 
 import { SYSNAME } from '../../../constants/name'
 import { type TargetTable } from '../../../types/target-table'

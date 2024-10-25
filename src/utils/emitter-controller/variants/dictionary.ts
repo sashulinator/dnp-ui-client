@@ -1,7 +1,8 @@
+import { Id } from '~dnp/utils/core'
+
 import { Key, find, get } from '../../dictionary'
 import { Emitter } from '../../emitter'
 import { toDictionary } from '../../list'
-import { Id } from '~/utils/core'
 
 export type DictionaryEvents<TItem> = {
   add: { item: TItem }

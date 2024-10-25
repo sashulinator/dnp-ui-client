@@ -1,6 +1,6 @@
-import { type Response } from '~/shared/api'
-import api from '~/shared/axios'
-import { type Where } from '~/shared/where'
+import { type Response } from '~dnp/shared/api'
+import api from '~dnp/shared/axios'
+import { type Where } from '~dnp/shared/where'
 
 import { SYSNAME } from '../../../constants/name'
 import { type OperationalTable, type Row } from '../../../types/operational-table'

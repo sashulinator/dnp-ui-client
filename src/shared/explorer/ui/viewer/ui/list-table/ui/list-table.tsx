@@ -1,6 +1,6 @@
-import { deserializeItem } from '~/shared/explorer/lib/deserialize-item'
-import { type ColumnTypes, ListTable, type ListTableTypes } from '~/shared/table'
-import { type Dictionary, c, fns } from '~/utils/core'
+import { deserializeItem } from '~dnp/shared/explorer/lib/deserialize-item'
+import { type ColumnTypes, ListTable, type ListTableTypes } from '~dnp/shared/table'
+import { type Dictionary, c, fns } from '~dnp/utils/core'
 
 import { type Item } from '../../../../../models/explorer'
 import { useContext } from '../../../models/context'

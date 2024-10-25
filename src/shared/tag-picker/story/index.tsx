@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
-import Flex from '~/shared/flex'
-import { Props, type Story } from '~/shared/storybook'
+import Flex from '~dnp/shared/flex'
+import { Props, type Story } from '~dnp/shared/storybook'
 
 import TextField from '..'
 import TagPicker from '..'

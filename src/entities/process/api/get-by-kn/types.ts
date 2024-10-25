@@ -1,4 +1,4 @@
-import type { Process } from '~/common/entities/process'
+import type { Process } from '~dnp/common/entities/process'
 
 export const keyName = `process.getBykn`
 

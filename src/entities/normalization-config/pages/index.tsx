@@ -1,15 +1,15 @@
 import { NumberParam, useQueryParams, withDefault } from 'use-query-params'
 
-import { routes } from '~/app/route'
-import { Item, fetchList } from '~/entities/normalization-config'
-import { getRole, roles } from '~/entities/user'
-import Button from '~/shared/button'
-import Container from '~/shared/container'
-import Flex from '~/shared/flex'
-import Heading from '~/shared/heading'
-import Link from '~/shared/link'
-import { Pagination } from '~/shared/page'
-import Section from '~/shared/section'
+import { routes } from '~dnp/app/route'
+import { Item, fetchList } from '~dnp/entities/normalization-config'
+import { getRole, roles } from '~dnp/entities/user'
+import Button from '~dnp/shared/button'
+import Container from '~dnp/shared/container'
+import Flex from '~dnp/shared/flex'
+import Heading from '~dnp/shared/heading'
+import Link from '~dnp/shared/link'
+import { Pagination } from '~dnp/shared/page'
+import Section from '~dnp/shared/section'
 
 export interface Props {
   className?: string | undefined

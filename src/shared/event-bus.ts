@@ -1,4 +1,4 @@
-import { Emitter } from '~/utils/emitter'
+import { Emitter } from '~dnp/utils/emitter'
 
 type Events = {
   setTheme: 'dark' | 'light'

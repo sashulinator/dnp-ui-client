@@ -6,7 +6,7 @@ import { Button } from '@radix-ui/themes'
 import type { ForwardedRef } from 'react'
 import { forwardRef } from 'react'
 
-import { c } from '~/utils/core'
+import { c } from '~dnp/utils/core'
 
 export interface Props extends ButtonProps {
   round?: boolean

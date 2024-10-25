@@ -1,4 +1,4 @@
-import { type Props, type Story } from '~/shared/storybook'
+import { type Props, type Story } from '~dnp/shared/storybook'
 
 import CodeEditor from '..'
 

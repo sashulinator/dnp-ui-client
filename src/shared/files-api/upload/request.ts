@@ -1,6 +1,7 @@
+import type { Response } from '~dnp/shared/api'
+import api from '~dnp/shared/axios'
+
 import { url } from '../constants'
-import type { Response } from '~/shared/api'
-import api from '~/shared/axios'
 
 export const NAME = 'files.upload'
 

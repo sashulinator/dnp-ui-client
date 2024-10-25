@@ -1,5 +1,5 @@
-import { NAME } from '~/common/shared/explorer/constants/name'
-import { uncapitalize, unspace } from '~/utils/string'
+import { NAME } from '~dnp/common/shared/explorer/constants/name'
+import { uncapitalize, unspace } from '~dnp/utils/string'
 
 export { NAME }
 

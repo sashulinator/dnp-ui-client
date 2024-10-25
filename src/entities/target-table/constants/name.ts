@@ -1,5 +1,5 @@
-import { NAME } from '~/common/entities/target-table/constants'
-import { uncapitalize, unspace } from '~/utils/string'
+import { NAME } from '~dnp/common/entities/target-table/constants'
+import { uncapitalize, unspace } from '~dnp/utils/string'
 
 const SYSNAME = uncapitalize(unspace(NAME))
 

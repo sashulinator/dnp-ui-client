@@ -1,6 +1,6 @@
-import Button from '~/shared/button'
-import Flex from '~/shared/flex'
-import Text from '~/shared/text'
+import Button from '~dnp/shared/button'
+import Flex from '~dnp/shared/flex'
+import Text from '~dnp/shared/text'
 
 import Dialog from '../../dialog'
 

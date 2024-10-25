@@ -2,14 +2,14 @@ import { Tooltip } from '@radix-ui/themes'
 
 import React from 'react'
 
-import Button from '~/shared/button'
-import Flex from '~/shared/flex'
-import { Field, FieldRenderProps } from '~/shared/form'
-import Icon from '~/shared/icon'
-import Text from '~/shared/text'
-import Input from '~/shared/text-field'
-import { c } from '~/utils/core'
-import { remove, renameKey } from '~/utils/dictionary'
+import Button from '~dnp/shared/button'
+import Flex from '~dnp/shared/flex'
+import { Field, FieldRenderProps } from '~dnp/shared/form'
+import Icon from '~dnp/shared/icon'
+import Text from '~dnp/shared/text'
+import Input from '~dnp/shared/text-field'
+import { c } from '~dnp/utils/core'
+import { remove, renameKey } from '~dnp/utils/dictionary'
 
 export interface Props {
   className?: string | undefined

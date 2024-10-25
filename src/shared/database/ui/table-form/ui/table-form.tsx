@@ -1,7 +1,7 @@
 import React from 'react'
 
-import Button from '~/shared/button'
-import Flex from '~/shared/flex'
+import Button from '~dnp/shared/button'
+import Flex from '~dnp/shared/flex'
 import {
   Column,
   Field,
@@ -12,11 +12,11 @@ import {
   type TextAreaProps,
   TextField,
   type TextFieldProps,
-} from '~/shared/form'
-import Icon from '~/shared/icon'
-import Tooltip from '~/shared/tooltip'
-import { c } from '~/utils/core'
-import { generateUniqId } from '~/utils/core'
+} from '~dnp/shared/form'
+import Icon from '~dnp/shared/icon'
+import Tooltip from '~dnp/shared/tooltip'
+import { c } from '~dnp/utils/core'
+import { generateUniqId } from '~dnp/utils/core'
 
 import { type Column as IColumn } from '../../../models/database'
 import ColumnForm from '../../column-form'

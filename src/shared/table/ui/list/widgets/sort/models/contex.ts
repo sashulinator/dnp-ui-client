@@ -1,5 +1,5 @@
-import { type Controller } from '~/shared/store'
-import { type Dictionary } from '~/utils/core'
+import { type Controller } from '~dnp/shared/store'
+import { type Dictionary } from '~dnp/utils/core'
 
 import { type ToSort } from './sort'
 

@@ -1,9 +1,9 @@
 import { Field } from 'react-final-form'
 
-import { JsonEditor, type JsonEditorProps } from '~/shared/code-editor'
-import Flex from '~/shared/flex'
-import Text from '~/shared/text'
-import { c } from '~/utils/core'
+import { JsonEditor, type JsonEditorProps } from '~dnp/shared/code-editor'
+import Flex from '~dnp/shared/flex'
+import Text from '~dnp/shared/text'
+import { c } from '~dnp/utils/core'
 
 export interface Props extends JsonEditorProps {
   className?: string | undefined

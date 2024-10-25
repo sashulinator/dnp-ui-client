@@ -1,9 +1,9 @@
 import { Config, FormApi, FormSubscription, createForm } from 'final-form'
 import { useEffect, useMemo } from 'react'
 
-import { Any, fns } from '~/utils/core'
-import { useForceUpdate } from '~/utils/core-hooks'
-import { useCurrent } from '~/utils/core-hooks/current'
+import { Any, fns } from '~dnp/utils/core'
+import { useForceUpdate } from '~dnp/utils/core-hooks'
+import { useCurrent } from '~dnp/utils/core-hooks/current'
 
 export function useCreateForm<FormValues = Record<string, Any>, InitialFormValues = Partial<FormValues>>(
   config: Config<FormValues>,

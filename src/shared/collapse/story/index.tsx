@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { Props, Story } from '~/shared/storybook'
+import { Props, Story } from '~dnp/shared/storybook'
 
 import Collapse from '../ui/collapse'
 

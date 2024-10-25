@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 
-import { NotificationToastProps } from '~/shared/toast'
-import { Id, generateId } from '~/utils/core'
+import { NotificationToastProps } from '~dnp/shared/toast'
+import { Id, generateId } from '~dnp/utils/core'
 
 const LIMIT = 3
 

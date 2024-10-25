@@ -1,5 +1,5 @@
-import { List } from '~/shared/api'
-import { StringFilter } from '~/shared/api/types/string-filter'
+import { List } from '~dnp/shared/api'
+import { StringFilter } from '~dnp/shared/api/types/string-filter'
 
 import { OperationalTable } from '../../types/operational-table'
 

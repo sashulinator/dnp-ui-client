@@ -1,1 +1,1 @@
-export * from '~/common/shared/sort/models/sort'
+export * from '~dnp/common/shared/sort/models/sort'

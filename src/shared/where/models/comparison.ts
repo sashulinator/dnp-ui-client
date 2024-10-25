@@ -1,1 +1,1 @@
-export * from '~/common/shared/where/models/comparison'
+export * from '~dnp/common/shared/where/models/comparison'

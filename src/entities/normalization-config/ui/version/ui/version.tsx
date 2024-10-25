@@ -1,8 +1,8 @@
-import Badge from '~/shared/badge'
-import Button from '~/shared/button'
-import Flex from '~/shared/flex'
-import Text from '~/shared/text'
-import { c } from '~/utils/core'
+import Badge from '~dnp/shared/badge'
+import Button from '~dnp/shared/button'
+import Flex from '~dnp/shared/flex'
+import Text from '~dnp/shared/text'
+import { c } from '~dnp/utils/core'
 
 import { type NormalizationConfig } from '../../../types/normalization-config'
 

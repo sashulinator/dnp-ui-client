@@ -1,5 +1,5 @@
-import { processType, ProcessType } from '~/common/entities/process'
-import Badge from '~/shared/badge'
+import { ProcessType, processType } from '~dnp/common/entities/process'
+import Badge from '~dnp/shared/badge'
 
 const typeValuesMap: Record<ProcessType, string> = {
   [processType.IMPORT]: 'Импорт',

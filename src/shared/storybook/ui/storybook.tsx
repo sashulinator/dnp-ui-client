@@ -2,8 +2,8 @@ import './storybook.scss'
 
 import { createElement } from 'react'
 
-import ScrollArea from '~/shared/scroll-area'
-import { c } from '~/utils/core'
+import ScrollArea from '~dnp/shared/scroll-area'
+import { c } from '~dnp/utils/core'
 
 import { type Story } from '../types'
 import Nav from '../widgets/nav'

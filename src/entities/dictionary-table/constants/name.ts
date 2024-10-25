@@ -1,1 +1,1 @@
-export * from '~/common/entities/dictionary-table/constants/name'
+export * from '~dnp/common/entities/dictionary-table/constants/name'

@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { safeParse } from 'valibot'
 
-import { routes } from '~/app/route'
+import { routes } from '~dnp/app/route'
 import {
   Form,
   type FormValues,
@@ -11,18 +11,18 @@ import {
   defaultValues,
   fromFormValues,
   toFormValues,
-} from '~/entities/operational-table'
-import Button from '~/shared/button'
-import Card from '~/shared/card'
-import Container from '~/shared/container'
-import Flex from '~/shared/flex'
-import FForm, { toNestedErrors, useCreateForm } from '~/shared/form'
-import { notify } from '~/shared/notification-list-store'
-import { Heading } from '~/shared/page'
-import { queryClient } from '~/shared/react-query'
-import Section from '~/shared/section'
-import Separator from '~/shared/separator'
-import Tooltip from '~/shared/tooltip'
+} from '~dnp/entities/operational-table'
+import Button from '~dnp/shared/button'
+import Card from '~dnp/shared/card'
+import Container from '~dnp/shared/container'
+import Flex from '~dnp/shared/flex'
+import FForm, { toNestedErrors, useCreateForm } from '~dnp/shared/form'
+import { notify } from '~dnp/shared/notification-list-store'
+import { Heading } from '~dnp/shared/page'
+import { queryClient } from '~dnp/shared/react-query'
+import Section from '~dnp/shared/section'
+import Separator from '~dnp/shared/separator'
+import Tooltip from '~dnp/shared/tooltip'
 
 import { SYSNAME } from '../../constants/name'
 

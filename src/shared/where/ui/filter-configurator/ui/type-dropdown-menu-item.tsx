@@ -1,6 +1,6 @@
-import Button from '~/shared/button'
-import DropdownMenu from '~/shared/dropdown-menu'
-import { HighlightedText } from '~/shared/text'
+import Button from '~dnp/shared/button'
+import DropdownMenu from '~dnp/shared/dropdown-menu'
+import { HighlightedText } from '~dnp/shared/text'
 
 import { COMPARISON, type ComparisonKey } from '../../../models/comparison'
 import { type FilterConfig } from '../../../models/filter-config'

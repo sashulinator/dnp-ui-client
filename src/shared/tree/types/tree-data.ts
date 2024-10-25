@@ -1,4 +1,4 @@
-import { Id } from '~/utils/core'
+import { Id } from '~dnp/utils/core'
 
 export interface TreeData<TData> {
   rootId: Id

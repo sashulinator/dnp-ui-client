@@ -1,6 +1,6 @@
 import { matchPath } from 'react-router-dom'
 
-import { type Dictionary } from '~/utils/core'
+import { type Dictionary } from '~dnp/utils/core'
 
 import { type Route } from '../models/route'
 

@@ -1,13 +1,13 @@
 import './header.scss'
 
-import { type Role, getRole, roles, setRole } from '~/entities/user'
-import Checkbox from '~/shared/checkbox'
-import Flex from '~/shared/flex'
-import Select from '~/shared/select'
-import { HighlightedText } from '~/shared/text'
-import { Switch } from '~/shared/theme'
-import { c } from '~/utils/core'
-import { isDev } from '~/utils/core-client'
+import { type Role, getRole, roles, setRole } from '~dnp/entities/user'
+import Checkbox from '~dnp/shared/checkbox'
+import Flex from '~dnp/shared/flex'
+import Select from '~dnp/shared/select'
+import { HighlightedText } from '~dnp/shared/text'
+import { Switch } from '~dnp/shared/theme'
+import { c } from '~dnp/utils/core'
+import { isDev } from '~dnp/utils/core-client'
 
 export interface Props {
   className?: string | undefined

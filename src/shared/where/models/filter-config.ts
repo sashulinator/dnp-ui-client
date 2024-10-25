@@ -1,1 +1,1 @@
-export * from '~/common/shared/where/models/filter-config'
+export * from '~dnp/common/shared/where/models/filter-config'

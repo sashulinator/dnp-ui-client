@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 
-import { eventBus } from '~/shared/event-bus'
-import Flex from '~/shared/flex'
-import Switch from '~/shared/switch'
-import Text from '~/shared/text'
-import { c } from '~/utils/core'
+import { eventBus } from '~dnp/shared/event-bus'
+import Flex from '~dnp/shared/flex'
+import Switch from '~dnp/shared/switch'
+import Text from '~dnp/shared/text'
+import { c } from '~dnp/utils/core'
 
 export interface Props {
   className?: string | undefined

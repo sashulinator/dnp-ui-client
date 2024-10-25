@@ -1,11 +1,11 @@
 import { Field } from 'react-final-form'
 
-import type { CheckboxProps } from '~/shared/checkbox'
-import Checkbox from '~/shared/checkbox'
-import Flex from '~/shared/flex'
-import Text from '~/shared/text'
-import { c } from '~/utils/core'
-import { remove } from '~/utils/dictionary'
+import type { CheckboxProps } from '~dnp/shared/checkbox'
+import Checkbox from '~dnp/shared/checkbox'
+import Flex from '~dnp/shared/flex'
+import Text from '~dnp/shared/text'
+import { c } from '~dnp/utils/core'
+import { remove } from '~dnp/utils/dictionary'
 
 export interface Props extends Omit<CheckboxProps, 'name'> {
   className?: string | undefined

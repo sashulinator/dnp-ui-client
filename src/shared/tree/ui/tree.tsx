@@ -3,9 +3,12 @@ import Tree, {
   TreeDestinationPosition,
   TreeSourcePosition,
 } from '@atlaskit/tree'
+
 import { ReactNode } from 'react'
+
+import { Id } from '~dnp/utils/core'
+
 import { TreeData, TreeItem } from '../types/tree-data'
-import { Id } from '~/utils/core'
 
 export type Path = number[]
 

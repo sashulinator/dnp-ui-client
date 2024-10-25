@@ -4,7 +4,7 @@
 
 export { type Role, roles } from './types/roles'
 
-export { type User, type BaseUser } from '~/common/entities/user'
+export { type User, type BaseUser } from '~dnp/common/entities/user'
 
 /**
  * lib

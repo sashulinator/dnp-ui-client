@@ -1,7 +1,10 @@
-import { Card, CardProps } from '@radix-ui/themes'
-import { ForwardedRef, forwardRef } from 'react'
 import './card.scss'
-import { c } from '~/utils/core'
+
+import { Card, CardProps } from '@radix-ui/themes'
+
+import { ForwardedRef, forwardRef } from 'react'
+
+import { c } from '~dnp/utils/core'
 
 export interface Props extends CardProps {}
 

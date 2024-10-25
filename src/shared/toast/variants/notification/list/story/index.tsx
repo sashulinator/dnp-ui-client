@@ -1,6 +1,6 @@
-import { notify } from '~/shared/notification-list-store'
-import { type Props, type Story } from '~/shared/storybook'
-import { generateId } from '~/utils/core'
+import { notify } from '~dnp/shared/notification-list-store'
+import { type Props, type Story } from '~dnp/shared/storybook'
+import { generateId } from '~dnp/utils/core'
 
 import ToastList from '../ui/list'
 

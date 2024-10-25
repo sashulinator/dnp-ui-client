@@ -1,5 +1,5 @@
-import { generateId } from '~/utils/core'
-import type { Partial } from '~/utils/types/object'
+import { generateId } from '~dnp/utils/core'
+import type { Partial } from '~dnp/utils/types/object'
 
 import { type CreateDictionaryTable } from '../../../models/dictionary-table'
 

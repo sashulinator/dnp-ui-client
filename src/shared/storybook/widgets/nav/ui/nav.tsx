@@ -2,9 +2,9 @@ import './nav.scss'
 
 import { useMemo } from 'react'
 
-import ScrollArea from '~/shared/scroll-area'
-import { Story } from '~/shared/storybook'
-import { c, group } from '~/utils/core'
+import ScrollArea from '~dnp/shared/scroll-area'
+import { Story } from '~dnp/shared/storybook'
+import { c, group } from '~dnp/utils/core'
 
 export interface Props {
   className?: string | undefined

@@ -1,5 +1,6 @@
+import { Id } from '~dnp/utils/core'
+
 import { NormalizationConfig } from '../../types/normalization-config'
-import { Id } from '~/utils/core'
 
 export type RequestData = { id: Id }
 

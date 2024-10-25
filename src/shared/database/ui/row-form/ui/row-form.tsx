@@ -1,6 +1,6 @@
-import Flex from '~/shared/flex'
-import { Field, TextField, type TextFieldProps } from '~/shared/form'
-import { c } from '~/utils/core'
+import Flex from '~dnp/shared/flex'
+import { Field, TextField, type TextFieldProps } from '~dnp/shared/form'
+import { c } from '~dnp/utils/core'
 
 import { type Column } from '../../../models/database'
 

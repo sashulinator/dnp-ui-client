@@ -1,6 +1,6 @@
-import Button from '~/shared/button'
-import { type Props, type Story } from '~/shared/storybook'
-import { useForceUpdate } from '~/utils/core-hooks'
+import Button from '~dnp/shared/button'
+import { type Props, type Story } from '~dnp/shared/storybook'
+import { useForceUpdate } from '~dnp/utils/core-hooks'
 
 import RenderCounter from '../ui/render-counter'
 

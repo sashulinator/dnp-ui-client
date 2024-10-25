@@ -1,4 +1,4 @@
-import { BaseError } from '~/utils/error'
+import { BaseError } from '~dnp/utils/error'
 
 export interface UiErrorable {
   message: string

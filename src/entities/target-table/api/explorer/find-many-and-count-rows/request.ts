@@ -1,8 +1,8 @@
-import type { Response } from '~/shared/api'
-import api from '~/shared/axios'
-import { type Explorer } from '~/shared/explorer'
-import type { Sort } from '~/shared/sort'
-import type { StringFilter, Where } from '~/shared/where'
+import type { Response } from '~dnp/shared/api'
+import api from '~dnp/shared/axios'
+import { type Explorer } from '~dnp/shared/explorer'
+import type { Sort } from '~dnp/shared/sort'
+import type { StringFilter, Where } from '~dnp/shared/where'
 
 import { SYSNAME } from '../../../constants/name'
 import { type TargetTable } from '../../../types/target-table'

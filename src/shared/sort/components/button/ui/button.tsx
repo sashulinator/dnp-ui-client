@@ -1,11 +1,11 @@
 import { type ForwardedRef, forwardRef } from 'react'
 
-import Button, { type ButtonProps } from '~/shared/button'
-import Icon from '~/shared/icon'
-import Text from '~/shared/text'
-import Tooltip from '~/shared/tooltip'
-import { c, fns } from '~/utils/core'
-import { setRefs } from '~/utils/react'
+import Button, { type ButtonProps } from '~dnp/shared/button'
+import Icon from '~dnp/shared/icon'
+import Text from '~dnp/shared/text'
+import Tooltip from '~dnp/shared/tooltip'
+import { c, fns } from '~dnp/utils/core'
+import { setRefs } from '~dnp/utils/react'
 
 export type Value = 'asc' | 'desc' | undefined
 

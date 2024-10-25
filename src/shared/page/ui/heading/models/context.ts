@@ -1,7 +1,7 @@
 import { createContext, useContext as reactUseContext } from 'react'
 
-import { type AppRoute } from '~/app/route'
-import { assertDefined } from '~/utils/core'
+import { type AppRoute } from '~dnp/app/route'
+import { assertDefined } from '~dnp/utils/core'
 
 export interface Context {
   route: AppRoute

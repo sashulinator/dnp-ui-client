@@ -1,10 +1,10 @@
 import { Button } from '@radix-ui/themes'
 
-import { type UiErrorable } from '~/shared/error'
-import Flex from '~/shared/flex'
-import Spinner from '~/shared/spinner'
-import Text from '~/shared/text'
-import { type Nil, c } from '~/utils/core'
+import { type UiErrorable } from '~dnp/shared/error'
+import Flex from '~dnp/shared/flex'
+import Spinner from '~dnp/shared/spinner'
+import Text from '~dnp/shared/text'
+import { type Nil, c } from '~dnp/utils/core'
 
 export interface Props {
   isLoading: boolean

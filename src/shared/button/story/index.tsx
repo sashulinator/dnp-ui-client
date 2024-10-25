@@ -1,9 +1,9 @@
 import { useState } from 'react'
 
-import Flex from '~/shared/flex'
-import { type Props, type Story } from '~/shared/storybook'
-import Switch from '~/shared/switch'
-import Text from '~/shared/text'
+import Flex from '~dnp/shared/flex'
+import { type Props, type Story } from '~dnp/shared/storybook'
+import Switch from '~dnp/shared/switch'
+import Text from '~dnp/shared/text'
 
 import TextField from '..'
 import Button from '..'

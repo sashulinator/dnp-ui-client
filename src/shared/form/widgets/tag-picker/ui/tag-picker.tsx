@@ -1,8 +1,8 @@
-import Flex from '~/shared/flex'
-import { Field, FieldRenderProps } from '~/shared/form'
-import TagPicker, { TagPickerProps } from '~/shared/tag-picker'
-import Text from '~/shared/text'
-import { c } from '~/utils/core'
+import Flex from '~dnp/shared/flex'
+import { Field, FieldRenderProps } from '~dnp/shared/form'
+import TagPicker, { TagPickerProps } from '~dnp/shared/tag-picker'
+import Text from '~dnp/shared/text'
+import { c } from '~dnp/utils/core'
 
 export type Props = Omit<TagPickerProps, 'value' | 'onChange'> & {
   name: string

@@ -1,5 +1,5 @@
-import { Response } from '~/shared/api'
-import { queryClient } from '~/shared/react-query'
+import { Response } from '~dnp/shared/api'
+import { queryClient } from '~dnp/shared/react-query'
 
 import { getKeys } from './get-keys'
 import { request } from './request'

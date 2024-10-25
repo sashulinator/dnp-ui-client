@@ -1,5 +1,5 @@
-// import { notify } from '~/shared/notify'
-import { isEmpty } from '~/utils/core'
+// import { notify } from '~dnp/shared/notify'
+import { isEmpty } from '~dnp/utils/core'
 
 /**
  * Запускает валидатор и выводит ошибки в консоль и нотификашку в ui

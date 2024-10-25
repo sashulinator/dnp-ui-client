@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 
-import { isDev } from '~/utils/core-client'
+import { isDev } from '~dnp/utils/core-client'
 
 import Providers from './providers'
 

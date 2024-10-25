@@ -1,14 +1,14 @@
 import React, { createElement } from 'react'
 
-import { type AppRoute, routes } from '~/app/route'
-import { getRole } from '~/entities/user'
-import Button from '~/shared/button'
-import Card from '~/shared/card'
-import Container from '~/shared/container'
-import Flex from '~/shared/flex'
-import Link from '~/shared/link'
-import { Heading } from '~/shared/page'
-import Section from '~/shared/section'
+import { type AppRoute, routes } from '~dnp/app/route'
+import { getRole } from '~dnp/entities/user'
+import Button from '~dnp/shared/button'
+import Card from '~dnp/shared/card'
+import Container from '~dnp/shared/container'
+import Flex from '~dnp/shared/flex'
+import Link from '~dnp/shared/link'
+import { Heading } from '~dnp/shared/page'
+import Section from '~dnp/shared/section'
 
 export interface Props {
   className?: string | undefined

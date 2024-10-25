@@ -1,4 +1,4 @@
-import { type Response, api } from '~/shared/api'
+import { type Response, api } from '~dnp/shared/api'
 
 import { SLICE_NAME } from '../../constants/name'
 import { type DictionaryTable } from '../../models/dictionary-table'

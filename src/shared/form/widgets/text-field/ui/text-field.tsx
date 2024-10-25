@@ -1,11 +1,11 @@
 import React, { useId } from 'react'
 import { type FieldInputProps, type FieldMetaState } from 'react-final-form'
 
-import Flex, { type FlexProps } from '~/shared/flex'
-import { _checkErrorVisible } from '~/shared/form/lib/_check-error-visible'
-import { _renderHint } from '~/shared/form/lib/_render-hint'
-import TextField, { type RootProps } from '~/shared/text-field'
-import { c, fns } from '~/utils/core'
+import Flex, { type FlexProps } from '~dnp/shared/flex'
+import { _checkErrorVisible } from '~dnp/shared/form/lib/_check-error-visible'
+import { _renderHint } from '~dnp/shared/form/lib/_render-hint'
+import TextField, { type RootProps } from '~dnp/shared/text-field'
+import { c, fns } from '~dnp/utils/core'
 
 import { NAME as PARENT_NAME } from '../../../ui/form'
 import Label from '../../label/ui/label'

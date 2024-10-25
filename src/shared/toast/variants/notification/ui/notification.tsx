@@ -1,6 +1,8 @@
 import './notification.scss'
+
 import * as Toast from '@radix-ui/react-toast'
-import { c } from '~/utils/core'
+
+import { c } from '~dnp/utils/core'
 
 export interface Props extends Omit<Toast.ToastProps, 'title' | 'type'> {
   className?: string | undefined

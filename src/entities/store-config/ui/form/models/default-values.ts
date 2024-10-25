@@ -1,5 +1,6 @@
+import { Partial } from '~dnp/utils/types/object'
+
 import { type CreateStoreConfig } from '../../../types/store-config'
-import { Partial } from '~/utils/types/object'
 
 export const defaultValues: Partial<CreateStoreConfig, 'deep'> = {
   kn: '',

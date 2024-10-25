@@ -1,7 +1,7 @@
 import { type AxiosError } from 'axios'
 
-import { refreshTokens } from '~/shared/auth'
-import { invariant } from '~/utils/core'
+import { refreshTokens } from '~dnp/shared/auth'
+import { invariant } from '~dnp/utils/core'
 
 import { api } from './api'
 

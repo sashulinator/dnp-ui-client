@@ -1,5 +1,5 @@
-import { type Response } from '~/shared/api'
-import { queryClient } from '~/shared/react-query'
+import { type Response } from '~dnp/shared/api'
+import { queryClient } from '~dnp/shared/react-query'
 
 import { getKeys } from './get-keys'
 import { type RequestData, type ResponseData } from './types'

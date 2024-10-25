@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { stringify } from 'qs'
 
-import { setAuthorizationHeader } from '~/shared/auth/set-authorization-header'
+import { setAuthorizationHeader } from '~dnp/shared/auth/set-authorization-header'
 
 // const loginUrl = '/login'
 

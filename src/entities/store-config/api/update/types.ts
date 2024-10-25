@@ -1,4 +1,4 @@
-import { Update } from '~/shared/api'
+import { Update } from '~dnp/shared/api'
 
 import { StoreConfig } from '../../types/store-config'
 

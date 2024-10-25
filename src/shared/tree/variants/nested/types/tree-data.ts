@@ -1,5 +1,6 @@
+import { Id } from '~dnp/utils/core'
+
 import { TreeItem as UiTreeItem } from '../../../types/tree-data'
-import { Id } from '~/utils/core'
 
 export type TreeData<TData> = {
   rootId: Id

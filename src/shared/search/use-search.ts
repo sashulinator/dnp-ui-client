@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { StringParam, useQueryParam, withDefault } from 'use-query-params'
 
-import { useDebounceCallback } from '~/utils/core-hooks'
+import { useDebounceCallback } from '~dnp/utils/core-hooks'
 
 export function useSearch(): [string, string, (value: string) => void] {
   const [queryParam, setQueryParam] = useQueryParam('q', withDefault(StringParam, ''), {

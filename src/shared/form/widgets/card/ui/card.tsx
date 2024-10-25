@@ -1,5 +1,5 @@
-import Card, { CardProps } from '~/shared/card'
-import { c } from '~/utils/core'
+import Card, { CardProps } from '~dnp/shared/card'
+import { c } from '~dnp/utils/core'
 
 export type Props = CardProps
 
