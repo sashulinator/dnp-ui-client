@@ -1,3 +1,5 @@
-:is(.dark, .dark-theme) :where(.ui-Card) {
-  --card-border-width: 0;
+.dnp-card-Card {
+  :is(.dark, .dark-theme) :where(&) {
+    --card-border-width: 0;
+  }
 }

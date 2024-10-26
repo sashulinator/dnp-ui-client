@@ -13,7 +13,7 @@ export interface Props extends Omit<Toast.ToastProps, 'title' | 'type'> {
   type?: 'success' | 'error' | 'default' | undefined
 }
 
-const displayName = 'ui-Toast-v-Notification'
+const displayName = 'dnp-toast-Toast-v-Notification'
 
 /**
  * ui-Notification

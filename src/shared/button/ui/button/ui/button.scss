@@ -1,6 +1,4 @@
-.button-Button {
-  --cursor-button: pointer;
-
+.dnp-button-Button {
   &.--round,
   &.--square {
     width: var(--base-button-height);

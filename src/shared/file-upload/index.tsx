@@ -51,7 +51,7 @@ export const FileUpload = ({ isLoading, hasError, onChange }: Props) => {
   return (
     <Flex width='100%' direction='column' gapY='20px'>
       <Flex align='center' gapX='12px'>
-        <Flex className='ui-file-upload__root' onClick={() => inputRef.current?.click()}>
+        <Flex className='dnp-file-upload__root' onClick={() => inputRef.current?.click()}>
           <FilePlusIcon />
         </Flex>
         <Text color='gray' size='3'>
@@ -66,7 +66,7 @@ export const FileUpload = ({ isLoading, hasError, onChange }: Props) => {
         onChange={(e) => onFileChange(e.target.files)}
       />
       {uploadedFile && (
-        <Flex gapX='12px' justify='between' align='center' className='ui-file-upload__uploaded-file'>
+        <Flex gapX='12px' justify='between' align='center' className='dnp-file-upload__uploaded-file'>
           <Flex gapX='12px' align='center'>
             <FileIcon />
             <Text color='gray' size='2'>

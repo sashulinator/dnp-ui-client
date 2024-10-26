@@ -14,10 +14,10 @@ export interface Props {
   item: TargetTable
 }
 
-const displayName = 'targetTable-Item'
+const displayName = 'dnp-targetTable-Item'
 
 /**
- * targetTable-Item
+ * dnp-targetTable-Item
  */
 export default function Component(props: Props): JSX.Element {
   const { className, item } = props

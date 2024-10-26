@@ -14,10 +14,10 @@ export interface Props {
   item: StoreConfig
 }
 
-const displayName = 'storeConfig-Item'
+const displayName = 'dnp-storeConfig-Item'
 
 /**
- * storeConfig-Item
+ * dnp-storeConfig-Item
  */
 export default function Component(props: Props): JSX.Element {
   const { className, item } = props

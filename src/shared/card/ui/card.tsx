@@ -1,18 +1,15 @@
 import './card.scss'
 
-import { Card, CardProps } from '@radix-ui/themes'
+import { Card, type CardProps } from '@radix-ui/themes'
 
-import { ForwardedRef, forwardRef } from 'react'
+import { type ForwardedRef, forwardRef } from 'react'
 
 import { c } from '~dnp/utils/core'
 
 export interface Props extends CardProps {}
 
-export const NAME = 'ui-Card'
+export const NAME = 'dnp-card-Card'
 
-/**
- * ui-Card
- */
 export function Component(props: Props, ref: ForwardedRef<HTMLDivElement>): JSX.Element {
   const { ...cardProps } = props
 

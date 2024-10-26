@@ -9,10 +9,10 @@ export type Props = TextProps & {
   totalElements: number | string | undefined
 }
 
-const displayName = 'ui-Pagination-w-Info'
+const displayName = 'dnp-pagination-Pagination-w-Info'
 
 /**
- * ui-Pagination-w-Info
+ * dnp-pagination-Pagination-w-Info
  */
 export default function Component(props: Props): JSX.Element {
   const { totalPages, totalElements, className, ...textProps } = props

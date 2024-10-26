@@ -18,10 +18,10 @@ export interface Props {
   root?: React.HTMLAttributes<HTMLDivElement>
 }
 
-const displayName = 'ui-Pagination-w-Switcher'
+const displayName = 'dnp-pagination-Pagination-w-Switcher'
 
 /**
- * ui-Pagination-w-Switcher
+ * dnp-pagination-Pagination-w-Switcher
  */
 export default function Component(props: Props): JSX.Element {
   const totalPages = props.totalPages

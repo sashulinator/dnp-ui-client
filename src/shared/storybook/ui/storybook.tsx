@@ -15,10 +15,10 @@ export interface Props {
   stories: Story<any>[]
 }
 
-const displayName = 'ui-Storybook'
+const displayName = 'dnp-storybook-Storybook'
 
 /**
- * ui-Storybook
+ * dnp-storybook-Storybook
  */
 export default function Component(props: Props): JSX.Element {
   const { stories } = props

@@ -8,10 +8,10 @@ export interface Props extends Toast.ToastProps {
   className?: string | undefined
 }
 
-export const displayName = 'ui-Toast'
+export const displayName = 'dnp-toast-Toast'
 
 /**
- * ui-Toast
+ * dnp-toast-Toast
  *
  * Стандартный Toast компонент
  */

@@ -11,14 +11,14 @@ export interface Props {
   renderMain: () => React.ReactNode
 }
 
-Component.displayName = 'layout-Layout'
+const NAME = 'dnp-layout-Layout'
 
 export default function Component(props: Props): JSX.Element {
   const { renderHeader, renderNav, renderMain } = props
 
   return (
     <ScrollArea scrollbars='vertical'>
-      <div className={c(Component.displayName, _buildModificator())}>
+      <div className={c(NAME, _buildModificator())}>
         {renderHeader && createElement(renderHeader)}
         {renderNav && createElement(renderNav)}
         {createElement(renderMain)}
@@ -41,3 +41,5 @@ export default function Component(props: Props): JSX.Element {
     return `-elements--${layoutPartNames.sort().join('-')}`
   }
 }
+
+Component.displayName = NAME

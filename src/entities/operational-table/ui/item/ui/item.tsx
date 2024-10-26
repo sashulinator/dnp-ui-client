@@ -19,10 +19,10 @@ export interface Props {
   item: OperationalTable
 }
 
-const displayName = 'operationalTable-Item'
+const displayName = 'dnp-operationalTable-Item'
 
 /**
- * operationalTable-Item
+ * dnp-operationalTable-Item
  */
 export default function Component(props: Props): JSX.Element {
   const { className, item } = props

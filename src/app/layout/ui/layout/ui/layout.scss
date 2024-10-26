@@ -1,21 +1,12 @@
-:root {
+.dnp-layout-Layout {
   --header-height: 60px;
   --nav-width: 60px;
-}
+  height: 100%;
+  width: 100%;
 
-#root,
-html,
-body,
-.layout-Layout {
   display: grid;
   grid-template-rows: 1fr;
   grid-template-columns: 1fr;
-  height: 100vh;
-  width: 100vw;
-}
-
-.layout-Layout {
-  display: grid;
 
   nav {
     grid-area: nav;
@@ -34,11 +25,16 @@ body,
   * конфигурация по умолчанию
   */
 
-
   &.-elements--main {
     grid-template-areas: 'main';
     grid-template-rows: 1fr;
     grid-template-columns: 1fr;
+  }
+
+  &.-elements--main-nav {
+    grid-template-areas: 'nav main';
+    grid-template-rows: 1fr;
+    grid-template-columns: var(--nav-width) 1fr;
   }
 
   &.-elements--header-main {
@@ -54,6 +50,6 @@ body,
       'nav header'
       'nav main';
     grid-template-rows: var(--header-height) 1fr;
-    grid-template-columns:var(--nav-width) 1fr;
+    grid-template-columns: var(--nav-width) 1fr;
   }
 }

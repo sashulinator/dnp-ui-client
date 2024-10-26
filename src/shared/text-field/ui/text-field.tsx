@@ -12,7 +12,7 @@ export type Props = Omit<RootProps, 'variant'> & {
   variant?: 'classic' | 'surface' | 'soft' | 'borderless'
 }
 
-export const NAME = 'ui-TextField-c-Root'
+export const NAME = 'dnp-textField-TextField-c-Root'
 
 /**
  * Root

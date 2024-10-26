@@ -13,7 +13,7 @@ export interface Props extends ButtonProps {
   square?: boolean
 }
 
-const NAME = 'button-Button'
+const NAME = 'dnp-button-Button'
 
 export function Component(props: Props, ref: ForwardedRef<HTMLButtonElement>): JSX.Element {
   const { round, square, ...buttonProps } = props

@@ -13,10 +13,10 @@ export interface Props {
   setActiveStoryName?: ((name: string) => void) | undefined
 }
 
-const displayName = 'ui-Storybook-w-Nav'
+const displayName = 'dnp-storybook-Storybook-w-Nav'
 
 /**
- * ui-Storybook-w-Nav
+ * dnp-storybook-Storybook-w-Nav
  */
 export default function Component(props: Props): JSX.Element {
   const { stories } = props

@@ -13,10 +13,10 @@ export interface Props {
   className?: string | undefined
 }
 
-const NAME = 'ui-Header'
+const NAME = 'dnp-header-Header'
 
 /**
- * ui-Header
+ * dnp-header-Header
  */
 export default function Component(): JSX.Element {
   const isProd = localStorage.getItem('env') === 'production'

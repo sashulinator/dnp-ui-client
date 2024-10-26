@@ -9,7 +9,7 @@ export type Props = TextProps & {
   tooltipContent?: string | undefined
 }
 
-Component.displayName = 'text-Highlighted'
+Component.displayName = 'dnp-text-Highlighted'
 
 export default function Component(props: Props): JSX.Element {
   const { tooltipContent, ...textProps } = props

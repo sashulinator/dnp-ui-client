@@ -20,10 +20,10 @@ export interface Props {
   number: number
 }
 
-const displayName = 'process-Item'
+const displayName = 'dnp-process-Item'
 
 /**
- * process-Item
+ * dnp-process-Item
  */
 export default function Component(props: Props): JSX.Element {
   const { className, item, number } = props

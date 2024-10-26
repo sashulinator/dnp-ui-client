@@ -21,10 +21,10 @@ export interface Props {
   className?: string | undefined
 }
 
-const displayName = 'ui-Nav'
+const displayName = 'dnp-nav-Nav'
 
 /**
- * ui-Nav
+ * dnp-nav-Nav
  */
 export default function Component(): JSX.Element {
   const operationalTableListFetcher = useQuery('oper', () => api.fetchList.request({ where: { nav: true } }), {

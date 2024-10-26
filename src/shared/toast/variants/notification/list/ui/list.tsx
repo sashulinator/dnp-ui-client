@@ -13,10 +13,10 @@ export interface Props {
   className?: string | undefined
 }
 
-const displayName = 'ui-Toast-v-Notification-list'
+const displayName = 'dnp-toast-Toast-v-Notification-list'
 
 /**
- * ui-Toast-v-Notification-list
+ * dnp-toast-Toast-v-Notification-list
  */
 export default function Component(props: Props): JSX.Element {
   const notificationList = useNotificationListStore().list

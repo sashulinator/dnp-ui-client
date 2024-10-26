@@ -15,10 +15,10 @@ export interface Props {
   onChange: (newPage: number) => void
 }
 
-const displayName = 'ui-Pagination'
+const displayName = 'dnp-pagination-Pagination'
 
 /**
- * ui-Pagination
+ * dnp-pagination-Pagination
  */
 export default function Component(props: Props): JSX.Element {
   const totalElements = Number(props.totalElements)
