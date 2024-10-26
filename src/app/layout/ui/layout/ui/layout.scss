@@ -1,6 +1,4 @@
 .dnp-layout-Layout {
-  --header-height: 60px;
-  --nav-width: 60px;
   height: 100%;
   width: 100%;
 
@@ -34,22 +32,22 @@
   &.-elements--main-nav {
     grid-template-areas: 'nav main';
     grid-template-rows: 1fr;
-    grid-template-columns: var(--nav-width) 1fr;
+    grid-template-columns: var(--dnp-nav-width) 1fr;
   }
 
   &.-elements--header-main {
     grid-template-areas:
       'header header header'
       'main main main';
-    grid-template-rows: var(--header-height) 1fr;
-    grid-template-columns: var(--nav-width) 1fr;
+    grid-template-rows: var(--dnp-header-height) 1fr;
+    grid-template-columns: var(--dnp-nav-width) 1fr;
   }
 
   &.-elements--header-main-nav {
     grid-template-areas:
-      'nav header'
+      'header header'
       'nav main';
-    grid-template-rows: var(--header-height) 1fr;
-    grid-template-columns: var(--nav-width) 1fr;
+    grid-template-rows: var(--dnp-header-height) 1fr;
+    grid-template-columns: var(--dnp-nav-width) 1fr;
   }
 }

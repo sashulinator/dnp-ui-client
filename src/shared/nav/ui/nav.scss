@@ -1,16 +1,16 @@
+:root {
+  --dnp-nav-width: 48px; // ширина лого + padding
+}
+
 .dnp-nav-Nav {
   border-right: 1px solid var(--gray-2);
   display: flex;
   align-items: center;
   flex-direction: column;
   gap: var(--space-4);
-
-  & > .navigatables {
-    /* --space-5 это пэдинг секции */
-    padding-top: var(--space-5);
-  }
+  padding-top: 8px;
 
   & > .logo {
-    height: var(--header-height);
+    height: var(--dnp-header-height);
   }
 }

@@ -1,8 +1,12 @@
 import './header.scss'
 
+import { routes } from '~dnp/app/route'
 import { type Role, getRole, roles, setRole } from '~dnp/entities/user'
+import Button from '~dnp/shared/button'
 import Checkbox from '~dnp/shared/checkbox'
 import Flex from '~dnp/shared/flex'
+import Link from '~dnp/shared/link'
+import Logo from '~dnp/shared/logo-icon'
 import Select from '~dnp/shared/select'
 import { HighlightedText } from '~dnp/shared/text'
 import { Switch } from '~dnp/shared/theme'
@@ -25,6 +29,13 @@ export default function Component(): JSX.Element {
 
   return (
     <header className={c(NAME)}>
+      <Flex className='logo' align='center' justify='center'>
+        <Button variant='outline' size='2' square={true} asChild>
+          <Link to={routes.main.getUrl()}>
+            <Logo height='1rem' width='2rem' />
+          </Link>
+        </Button>
+      </Flex>
       <div className={`${NAME}_breadscrumbs`}>
         {process.env.NODE_ENV === 'development' && (
           <Flex justify='center' align='center' gap='2'>

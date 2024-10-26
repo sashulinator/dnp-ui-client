@@ -12,7 +12,6 @@ import { getRole } from '~dnp/entities/user'
 import Button from '~dnp/shared/button'
 import Flex from '~dnp/shared/flex'
 import Icon, { map as iconMap } from '~dnp/shared/icon'
-import Logo from '~dnp/shared/logo-icon'
 import Separator from '~dnp/shared/separator'
 import Tooltip from '~dnp/shared/tooltip'
 import { c } from '~dnp/utils/core'
@@ -53,13 +52,6 @@ export default function Component(): JSX.Element {
 
   return (
     <nav className={c(displayName)}>
-      <Flex className='logo' align='center' justify='center'>
-        <Button variant='outline' size='2' square={true} asChild>
-          <Link to={routes.main.getUrl()}>
-            <Logo height='1rem' width='2rem' />
-          </Link>
-        </Button>
-      </Flex>
       <Flex className='navigatables' direction='column' gap='2'>
         {navigatables.map(([key, route]) => {
           const isCurrent = current === route && !isExplorer
