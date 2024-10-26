@@ -1,8 +1,8 @@
 import type { Response } from '~dnp/shared/api'
 import api from '~dnp/shared/api'
-import { type Explorer } from '~dnp/shared/explorer'
-import type { Sort } from '~dnp/shared/sort'
-import type { StringFilter, Where } from '~dnp/shared/where'
+import { type Explorer } from '~dnp/slices/explorer'
+import type { Sort } from '~dnp/slices/sort'
+import type { StringFilter, Where } from '~dnp/slices/where'
 
 import { SLICE_NAME } from '../../../constants/name'
 import { type DictionaryTable } from '../../../models/dictionary-table'

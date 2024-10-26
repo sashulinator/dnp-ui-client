@@ -1,5 +1,5 @@
 import api, { type List, type Response } from '~dnp/shared/api'
-import { type StringFilter } from '~dnp/shared/where'
+import { type StringFilter } from '~dnp/slices/where'
 
 import { type DictionaryTable } from '../../models/dictionary-table'
 import { v1Url } from '../v1-url'

@@ -15,7 +15,6 @@ import {
 import Button from '~dnp/shared/button'
 import Card from '~dnp/shared/card'
 import Container from '~dnp/shared/container'
-import { type Path, Viewer, api } from '~dnp/shared/explorer'
 import Flex from '~dnp/shared/flex'
 import FForm, { toNestedErrors, useCreateForm } from '~dnp/shared/form'
 import Heading from '~dnp/shared/heading'
@@ -24,6 +23,7 @@ import Section from '~dnp/shared/section'
 import Spinner from '~dnp/shared/spinner'
 import { HighlightedText } from '~dnp/shared/text'
 import Tooltip from '~dnp/shared/tooltip'
+import { type Path, Viewer, api } from '~dnp/slices/explorer'
 
 export interface Props {
   className?: string | undefined

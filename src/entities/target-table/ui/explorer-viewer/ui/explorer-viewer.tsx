@@ -3,13 +3,13 @@ import { useMutation } from 'react-query'
 
 import { type Row, type TargetTable } from '~dnp/entities/target-table'
 import Button from '~dnp/shared/button'
-import { type ColumnContext } from '~dnp/shared/database'
-import { type Item, Viewer } from '~dnp/shared/explorer'
-import { type TableColumn } from '~dnp/shared/explorer/ui/viewer'
 import Flex from '~dnp/shared/flex'
 import Icon from '~dnp/shared/icon'
 import { notify } from '~dnp/shared/notification-list-store'
-import { SortButton } from '~dnp/shared/sort'
+import { type ColumnContext } from '~dnp/slices/database'
+import { type Item, Viewer } from '~dnp/slices/explorer'
+import { type TableColumn } from '~dnp/slices/explorer/ui/viewer'
+import { SortButton } from '~dnp/slices/sort'
 import { type Id, c } from '~dnp/utils/core'
 
 export interface Props<TItem extends Item> extends Omit<Viewer.RootProps<TItem>, 'children'> {

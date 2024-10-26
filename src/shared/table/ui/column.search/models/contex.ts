@@ -1,4 +1,4 @@
-import { type ReplaceValueByFilter } from '~dnp/shared/where'
+import { type ReplaceValueByFilter } from '~dnp/slices/where'
 import { type Dictionary, type SetterOrUpdater } from '~dnp/utils/core'
 
 export type Context<TItem extends Dictionary> = {

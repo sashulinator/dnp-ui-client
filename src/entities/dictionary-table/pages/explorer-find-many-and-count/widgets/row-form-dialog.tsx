@@ -1,9 +1,9 @@
 import { type Row } from '~dnp/entities/dictionary-table'
 import Button from '~dnp/shared/button'
-import { type Column as DatabaseColumn, RowForm } from '~dnp/shared/database'
 import Dialog from '~dnp/shared/dialog'
 import Flex from '~dnp/shared/flex'
 import FForm, { type FormApi, useCreateForm } from '~dnp/shared/form'
+import { type Column as DatabaseColumn, RowForm } from '~dnp/slices/database'
 import { type SetterOrUpdater } from '~dnp/utils/core'
 
 interface _DialogProps {

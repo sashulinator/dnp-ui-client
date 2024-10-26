@@ -5,7 +5,7 @@ import Flex from '~dnp/shared/flex'
 import Icon from '~dnp/shared/icon'
 import Text from '~dnp/shared/text'
 // TODO убрать зависимость от where
-import { type FilterConfig, FilterConfigurator, toFilter, toFilterConfig } from '~dnp/shared/where'
+import { type FilterConfig, FilterConfigurator, toFilter, toFilterConfig } from '~dnp/slices/where'
 import { type Dictionary, assertDefined } from '~dnp/utils/core'
 import { add } from '~dnp/utils/dictionary'
 

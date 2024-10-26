@@ -2,10 +2,10 @@ import { memo, useEffect } from 'react'
 import type { FieldInputProps, FieldMetaState } from 'react-final-form'
 import { useField, useForm } from 'react-final-form'
 
-import { DatabaseTableForm } from '~dnp/shared/database'
 import Flex from '~dnp/shared/flex'
 import type { SelectProps, TextFieldProps } from '~dnp/shared/form'
 import { Card, Checkbox, Column, Row, Select, TextField, TypedField } from '~dnp/shared/form'
+import { DatabaseTableForm } from '~dnp/slices/database'
 import { c, generateId } from '~dnp/utils/core'
 
 import { SYSNAME } from '../../../constants/name'

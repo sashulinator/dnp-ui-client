@@ -1,7 +1,7 @@
 import { SYSNAME } from '~dnp/entities/operational-table/constants/name'
 import { type Response } from '~dnp/shared/api'
 import api from '~dnp/shared/api'
-import { type Where } from '~dnp/shared/where'
+import { type Where } from '~dnp/slices/where'
 
 import { type OperationalTable } from '../../../types/operational-table'
 import { url } from '../../common'

@@ -1,6 +1,6 @@
 import { type Response } from '~dnp/shared/api'
 import api from '~dnp/shared/api'
-import { type Where } from '~dnp/shared/where'
+import { type Where } from '~dnp/slices/where'
 
 import { SLICE_NAME } from '../../../constants/name'
 import { type DictionaryTable, type Row } from '../../../models/dictionary-table'

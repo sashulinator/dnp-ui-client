@@ -1,4 +1,4 @@
-import { type Column } from '~dnp/shared/working-table'
+import { type Column } from '~dnp/slices/working-table'
 
 import { _idColumn } from '../../../models/_id-column'
 import { _statusColumn } from '../../../models/_status-column'

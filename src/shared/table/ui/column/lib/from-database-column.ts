@@ -1,4 +1,4 @@
-import { type Column as DatabaseColumn } from '~dnp/shared/database'
+import { type Column as DatabaseColumn } from '~dnp/slices/database'
 import { type Dictionary } from '~dnp/utils/core'
 import { toHtml } from '~dnp/utils/md'
 
