@@ -1,7 +1,7 @@
-import { Response } from '~dnp/shared/api'
-import api from '~dnp/shared/axios'
+import type { Response } from '~dnp/shared/api'
+import api from '~dnp/shared/api'
 
-import { RequestData, ResponseData } from './types'
+import type { RequestData, ResponseData } from './types'
 
 export const buildURL = (): string => `/api/v1/processes`
 

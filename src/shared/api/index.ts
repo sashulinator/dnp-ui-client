@@ -1,6 +1,6 @@
 export * from './lib/is-axios-error'
 
-export { api } from './lib/api'
+export { api as default } from './lib/api'
 export type { List } from './types/list'
 export type { QueryError } from './types/query-error'
 export type { Response } from './types/response'

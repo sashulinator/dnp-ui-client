@@ -1,5 +1,5 @@
 import type { Response } from '~dnp/shared/api'
-import api from '~dnp/shared/axios'
+import api from '~dnp/shared/api'
 import { type Explorer } from '~dnp/shared/explorer'
 import type { Sort } from '~dnp/shared/sort'
 import type { StringFilter, Where } from '~dnp/shared/where'

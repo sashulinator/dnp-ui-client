@@ -1,4 +1,4 @@
-import { type List, type Response, api } from '~dnp/shared/api'
+import api, { type List, type Response } from '~dnp/shared/api'
 import { type StringFilter } from '~dnp/shared/where'
 
 import { type DictionaryTable } from '../../models/dictionary-table'

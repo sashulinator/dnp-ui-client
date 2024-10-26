@@ -1,6 +1,6 @@
 import { SYSNAME } from '~dnp/entities/target-table/constants/name'
 import { type Response } from '~dnp/shared/api'
-import api from '~dnp/shared/axios'
+import api from '~dnp/shared/api'
 import { type Where } from '~dnp/shared/where'
 
 import { type TargetTable } from '../../../types/target-table'

@@ -1,5 +1,5 @@
 import { type Response } from '~dnp/shared/api'
-import api from '~dnp/shared/axios'
+import api from '~dnp/shared/api'
 
 import { SLICE_NAME } from '../../../constants/name'
 import { type DictionaryTable } from '../../../models/dictionary-table'
