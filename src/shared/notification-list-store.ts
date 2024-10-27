@@ -1,20 +1,20 @@
-import { create } from 'zustand'
+import { type NotificationToastProps } from '~dnp/shared/toast'
+import { type Id, generateId } from '~dnp/utils/core'
 
-import { NotificationToastProps } from '~dnp/shared/toast'
-import { Id, generateId } from '~dnp/utils/core'
+import { createStore } from './store'
 
 const LIMIT = 3
 
 export type NotificationToastPropsWithId = NotificationToastProps & { id: Id }
 
-type Store = {
+export type State = {
   list: NotificationToastPropsWithId[]
   add: (item: NotificationToastPropsWithId) => void
   remove: (id: Id) => void
   patch: (item: Partial<NotificationToastProps> & { id: Id }) => void
 }
 
-export const useNotificationListStore = create<Store>((set) => ({
+export const useNotificationListStore = createStore<State>((set) => ({
   list: [],
   add: (item: NotificationToastPropsWithId) =>
     set((state) => {

@@ -6,6 +6,7 @@ import { useQueryParam, useQueryParams } from 'use-query-params'
 import type { Row } from '~dnp/entities/dictionary-table'
 import { SYSNAME, api } from '~dnp/entities/dictionary-table'
 import Container from '~dnp/shared/container'
+import { type Controller, createController } from '~dnp/shared/controller'
 import { TICK_MS, cssAnimations } from '~dnp/shared/css-animations'
 import { RenderCounter } from '~dnp/shared/debug'
 import { ConfirmDialog, type ConfirmDialogTypes } from '~dnp/shared/dialog'
@@ -16,7 +17,6 @@ import { FetcherStatus } from '~dnp/shared/query'
 import ScrollArea from '~dnp/shared/scroll-area'
 import { useSearch } from '~dnp/shared/search'
 import Section from '~dnp/shared/section'
-import { type Controller, createController } from '~dnp/shared/store'
 import {
   Column,
   type ColumnTypes,

@@ -1,7 +1,7 @@
 import Button from '~dnp/shared/button'
+import { type Controller } from '~dnp/shared/controller'
 import { RenderCounter } from '~dnp/shared/debug'
 import Flex, { type FlexProps } from '~dnp/shared/flex'
-import { type Controller } from '~dnp/shared/store'
 import { type Dictionary } from '~dnp/utils/core'
 import { useSubscribeUpdate } from '~dnp/utils/core-hooks'
 

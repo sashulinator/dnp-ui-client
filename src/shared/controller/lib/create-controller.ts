@@ -1,4 +1,8 @@
-import { type Controller } from '../models/controller'
+export type Controller<T> = {
+  get: () => T
+  set: (value: T) => void
+  subscribe: (cb: (prevState: T, nextState: T) => void) => () => void
+}
 
 export function createController<T>(init: T): Controller<T> {
   let state = init

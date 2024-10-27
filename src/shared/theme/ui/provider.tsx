@@ -8,7 +8,7 @@ export interface Props {
   children: React.ReactNode
 }
 
-const NAME = 'theme-Provider'
+const NAME = 'dnp-theme-Provider'
 
 /**
  * theme-ThemeProvider

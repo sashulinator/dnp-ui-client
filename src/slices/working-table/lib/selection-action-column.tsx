@@ -1,6 +1,6 @@
 import { Checkbox } from '@radix-ui/themes'
 
-import { type Controller } from '~dnp/shared/store'
+import { type Controller } from '~dnp/shared/controller'
 import { type ColumnTypes } from '~dnp/shared/table'
 import { type Dictionary } from '~dnp/utils/core'
 import { useSubscribeUpdate } from '~dnp/utils/core-hooks'

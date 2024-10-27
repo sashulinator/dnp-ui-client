@@ -1,4 +1,4 @@
-import { createController } from '~dnp/shared/store'
+import { createController } from '~dnp/shared/controller'
 
 import { type ThemeName, themeName } from './theme-name'
 
