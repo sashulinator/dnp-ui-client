@@ -3,7 +3,7 @@ import { NumberParam, useQueryParams, withDefault } from 'use-query-params'
 
 import { routes } from '~dnp/app/route'
 import { Item, api } from '~dnp/entities/operational-table'
-import { getRole } from '~dnp/entities/user'
+import { isResourceRoles, resourceRoles } from '~dnp/shared/auth'
 import Button from '~dnp/shared/button'
 import Container from '~dnp/shared/container'
 import Flex from '~dnp/shared/flex'
@@ -29,7 +29,6 @@ export default function Component(): JSX.Element {
   })
 
   const fetcherList = api.fetchList.useCache({ take, skip: (page - 1) * take }, { keepPreviousData: true })
-  const role = getRole()
 
   return (
     <main className={displayName}>
@@ -45,7 +44,7 @@ export default function Component(): JSX.Element {
               <Heading.Name />
             </Heading.Root>
             <Flex align='center' gap='2'>
-              {role === 'Admin' && (
+              {isResourceRoles([resourceRoles.admin]) && (
                 <Button variant='outline' asChild>
                   <Link to={routes.storeConfigs_kn.getUrl('workingTable')}>Хранилище</Link>
                 </Button>

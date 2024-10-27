@@ -28,11 +28,8 @@ export interface Props {
   className?: string | undefined
 }
 
-const displayName = 'page-NormalizationConfigs_create'
+const NAME = 'page-NormalizationConfigs_create'
 
-/**
- * page-Main
- */
 export default function Component(): JSX.Element {
   const navigate = useNavigate()
 
@@ -66,7 +63,7 @@ export default function Component(): JSX.Element {
   const render = useCallback(() => <Form readonly={!isCurrent} />, [isCurrent])
 
   return (
-    <main className={displayName}>
+    <main className={NAME}>
       <Container p='var(--space-4)'>
         <Section size='1'>
           <Heading>
@@ -110,4 +107,4 @@ export default function Component(): JSX.Element {
   )
 }
 
-Component.displayName = displayName
+Component.displayName = NAME

@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import { useMutation } from 'react-query'
 
 import { type OperationalTable, type Row } from '~dnp/entities/operational-table'
-import { getRole, roles } from '~dnp/entities/user'
+import { resourceRoles } from '~dnp/shared/auth'
 import Button from '~dnp/shared/button'
 import Flex from '~dnp/shared/flex'
 import Icon from '~dnp/shared/icon'
@@ -30,16 +30,16 @@ const statusStringMap = {
 }
 
 const statusChangeMap = {
-  [roles.Approver]: {
+  [resourceRoles.approver]: {
     '1': '2',
     '2': '3',
     '3': '2',
   },
-  [roles.Admin]: {
+  [resourceRoles.admin]: {
     '2': '3',
     '3': '2',
   },
-  [roles.Operator]: {
+  [resourceRoles.operator]: {
     '0': '1',
     '1': '0',
     '3': '0',
@@ -85,8 +85,6 @@ export default function Component<TItem extends Item>(props: Props<TItem>): JSX.
       },
       renderCell: ({ item }) => {
         const row = item.data as Row
-        const role = getRole()
-
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const [status, setStatus] = useState(row._status)
 
@@ -107,7 +105,10 @@ export default function Component<TItem extends Item>(props: Props<TItem>): JSX.
                 color={statusColorMap[status as '0']}
                 onClick={(e) => {
                   e.stopPropagation()
-                  updateMutator.mutate({ ...row, _status: statusChangeMap[role as 'Approver'][status as '2'] as '0' })
+                  updateMutator.mutate({
+                    ...row,
+                    _status: statusChangeMap[resourceRoles.approver][status as '2'] as '0',
+                  })
                 }}
               >
                 {statusStringMap[status as '0']}

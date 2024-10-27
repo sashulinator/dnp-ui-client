@@ -2,7 +2,7 @@ import { NumberParam, useQueryParams, withDefault } from 'use-query-params'
 
 import { routes } from '~dnp/app/route'
 import { Item, fetchList } from '~dnp/entities/normalization-config'
-import { getRole, roles } from '~dnp/entities/user'
+import { isResourceRoles, resourceRoles } from '~dnp/shared/auth'
 import Button from '~dnp/shared/button'
 import Container from '~dnp/shared/container'
 import Flex from '~dnp/shared/flex'
@@ -15,14 +15,9 @@ export interface Props {
   className?: string | undefined
 }
 
-const displayName = 'page-NormalizationConfigs'
+const NAME = 'page-NormalizationConfigs'
 
-/**
- * page-Main
- */
 export default function Page(): JSX.Element {
-  const isAdmin = getRole() === roles.Admin
-
   const [{ page = 1, take = 10 }, setPaginationParams] = useQueryParams({
     page: withDefault(NumberParam, 1),
     take: withDefault(NumberParam, 10),
@@ -34,12 +29,12 @@ export default function Page(): JSX.Element {
   )
 
   return (
-    <main className={displayName}>
+    <main className={NAME}>
       <Container p='var(--space-4)'>
         <Section size='1'>
           <Flex width='100%' justify='between'>
             <Heading>{routes.normalizationConfigs.getName()}</Heading>
-            {isAdmin && (
+            {isResourceRoles([resourceRoles.admin]) && (
               <Button size='1' asChild>
                 <Link to={routes.normalizationConfigs_create.getUrl()}>Создать</Link>
               </Button>
@@ -68,4 +63,4 @@ export default function Page(): JSX.Element {
   )
 }
 
-Page.displayName = displayName
+Page.displayName = NAME

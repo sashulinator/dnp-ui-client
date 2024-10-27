@@ -29,11 +29,8 @@ export interface Props {
   className?: string | undefined
 }
 
-const displayName = 'page-storeConfigs_id'
+const NAME = 'page-storeConfigs_id'
 
-/**
- * page-Main
- */
 export default function Component(): JSX.Element {
   const { kn = '' } = useParams<{ kn: string }>()
 
@@ -89,8 +86,8 @@ export default function Component(): JSX.Element {
   const render = useCallback(() => <Form />, [])
 
   return (
-    <main className={displayName}>
-      <Container p='var(--space-4)'>
+    <main className={NAME}>
+      <Container p='vNAME4)'>
         {fetcher.isError && (
           <Flex width='100%' justify='center' gap='2' align='center'>
             Ошибка <Button onClick={() => fetcher.refetch()}>Перезагрузить</Button>
@@ -183,4 +180,4 @@ export default function Component(): JSX.Element {
   )
 }
 
-Component.displayName = displayName
+Component.displayName = NAME

@@ -14,8 +14,7 @@ import {
   update,
 } from '~dnp/entities/normalization-config'
 import { create as createProcess } from '~dnp/entities/process'
-import { roles } from '~dnp/entities/user'
-import { getRole } from '~dnp/entities/user/lib'
+import { isResourceRoles, resourceRoles } from '~dnp/shared/auth'
 import Button from '~dnp/shared/button'
 import Card from '~dnp/shared/card'
 import Container from '~dnp/shared/container'
@@ -32,19 +31,15 @@ export interface Props {
   className?: string | undefined
 }
 
-const displayName = 'page-NormalizationConfigs_id'
+const NAME = 'page-NormalizationConfigs_id'
 
-/**
- * page-Main
- */
 export default function Component(): JSX.Element {
   const { id = '' } = useParams<{ id: string }>()
   const [searchParams] = useSearchParams({ name: '' })
   const name = searchParams.get('name') || ''
   const navigate = useNavigate()
 
-  const isAdmin = getRole() === roles.Admin
-  const hasPermissionToEdit = isAdmin
+  const hasPermissionToEdit = isResourceRoles([resourceRoles.admin])
 
   const form = useCreateForm<FormValues>(
     {
@@ -97,7 +92,7 @@ export default function Component(): JSX.Element {
   )
 
   return (
-    <main className={displayName}>
+    <main className={NAME}>
       <Container p='var(--space-4)'>
         {fetcher.isError && (
           <Flex width='100%' justify='center' gap='2' align='center'>
@@ -181,4 +176,4 @@ export default function Component(): JSX.Element {
   )
 }
 
-Component.displayName = displayName
+Component.displayName = NAME

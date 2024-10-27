@@ -27,8 +27,7 @@ import TargetTable from '~dnp/entities/target-table/pages'
 import TargetTable_create from '~dnp/entities/target-table/pages/create'
 import TargetTable_kn_explorer from '~dnp/entities/target-table/pages/explorer'
 import TargetTable_kn from '~dnp/entities/target-table/pages/kn'
-import { getRole, roles } from '~dnp/entities/user'
-import Admin from '~dnp/pages/admin'
+import { globalStore, isResourceRoles, resourceRoles } from '~dnp/shared/auth'
 import Header from '~dnp/shared/header'
 import Icon from '~dnp/shared/icon'
 import Logo from '~dnp/shared/logo-icon'
@@ -50,6 +49,7 @@ export const routes = {
       return this.getPath()
     },
     render: Main,
+    redirect: combineProtections(_protectPrivate),
     payload: {
       renderHeader: Header,
       renderNav: Nav,
@@ -69,13 +69,13 @@ export const routes = {
       return this.getPath()
     },
     render: NormalizationConfigs,
-    redirect: _protectByRole,
+    redirect: combineProtections(_protectPrivate, _protectByRole),
     payload: {
       renderHeader: Header,
       renderNav: Nav,
       renderIcon: NormalizationConfigIcon,
       navigatable: true,
-      rolesAllowed: [roles.Admin, roles.Operator],
+      rolesAllowed: [resourceRoles.admin, resourceRoles.operator],
     },
   },
 
@@ -86,12 +86,12 @@ export const routes = {
       return this.getPath()
     },
     render: NormalizationConfigs_create,
-    redirect: _protectByRole,
+    redirect: combineProtections(_protectPrivate),
     payload: {
       renderHeader: Header,
       renderNav: Nav,
       navigatable: false,
-      rolesAllowed: [roles.Admin, roles.Operator],
+      rolesAllowed: [resourceRoles.admin, resourceRoles.operator],
     },
   },
 
@@ -102,12 +102,12 @@ export const routes = {
       return this.getPath().replace(':id', id)
     },
     render: NormalizationConfigs_id,
-    redirect: _protectByRole,
+    redirect: combineProtections(_protectPrivate),
     payload: {
       renderHeader: Header,
       renderNav: Nav,
       navigatable: false,
-      rolesAllowed: [roles.Admin, roles.Operator],
+      rolesAllowed: [resourceRoles.admin, resourceRoles.operator],
     },
   },
 
@@ -137,6 +137,7 @@ export const routes = {
       return this.getPath()
     },
     render: DictionaryTable_create,
+    redirect: combineProtections(_protectPrivate),
     payload: {
       renderHeader: Header,
       renderNav: Nav,
@@ -152,6 +153,7 @@ export const routes = {
     },
     generateKey: (location) => location.pathname,
     render: DictionaryTable_explorerFindManyAndCount,
+    redirect: combineProtections(_protectPrivate),
     payload: {
       renderHeader: Header,
       renderNav: Nav,
@@ -166,6 +168,7 @@ export const routes = {
       return this.getPath().replace(':kn', kn)
     },
     render: DictionaryTable_getByKn,
+    redirect: combineProtections(_protectPrivate),
     payload: {
       renderHeader: Header,
       renderNav: Nav,
@@ -184,6 +187,7 @@ export const routes = {
       return this.getPath()
     },
     render: OperationalTable,
+    redirect: combineProtections(_protectPrivate),
     payload: {
       renderHeader: Header,
       renderNav: Nav,
@@ -199,6 +203,7 @@ export const routes = {
       return this.getPath()
     },
     render: OperationalTable_create,
+    redirect: combineProtections(_protectPrivate),
     payload: {
       renderHeader: Header,
       renderNav: Nav,
@@ -212,6 +217,7 @@ export const routes = {
     getUrl(kn: string, params?: { name: string } | undefined) {
       return `${this.getPath().replace(':kn', kn)}${qs.stringify(params, { addQueryPrefix: true })}`
     },
+    redirect: combineProtections(_protectPrivate),
     render: OperationalTable_kn_explorer,
     payload: {
       renderHeader: Header,
@@ -227,6 +233,7 @@ export const routes = {
       return this.getPath().replace(':kn', kn)
     },
     render: OperationalTable_kn,
+    redirect: combineProtections(_protectPrivate),
     payload: {
       renderHeader: Header,
       renderNav: Nav,
@@ -245,13 +252,13 @@ export const routes = {
       return this.getPath()
     },
     render: Processes,
-    redirect: _protectByRole,
+    redirect: combineProtections(_protectPrivate, _protectByRole),
     payload: {
       renderHeader: Header,
       renderNav: Nav,
       navigatable: true,
       renderIcon: ProcessIcon,
-      rolesAllowed: [roles.Admin, roles.Operator],
+      rolesAllowed: [resourceRoles.admin, resourceRoles.operator],
     },
   },
 
@@ -262,12 +269,13 @@ export const routes = {
       return this.getPath().replace(':kn', kn)
     },
     render: Processes_kn,
+    redirect: combineProtections(_protectPrivate, _protectByRole),
     payload: {
       renderHeader: Header,
       renderNav: Nav,
       navigatable: false,
       renderIcon: ProcessIcon,
-      rolesAllowed: [roles.Admin, roles.Operator],
+      rolesAllowed: [resourceRoles.admin, resourceRoles.operator],
     },
   },
 
@@ -282,13 +290,13 @@ export const routes = {
       return this.getPath()
     },
     render: StoreConfigs,
-    redirect: _protectByRole,
+    redirect: combineProtections(_protectPrivate, _protectByRole),
     payload: {
       renderHeader: Header,
       renderNav: Nav,
       navigatable: true,
       renderIcon: StoreConfigIcon,
-      rolesAllowed: [roles.Admin],
+      rolesAllowed: [resourceRoles.admin],
     },
   },
 
@@ -299,12 +307,12 @@ export const routes = {
       return this.getPath()
     },
     render: StoreConfigs_create,
-    redirect: _protectByRole,
+    redirect: combineProtections(_protectPrivate, _protectByRole),
     payload: {
       renderHeader: Header,
       renderNav: Nav,
       navigatable: false,
-      rolesAllowed: [roles.Admin],
+      rolesAllowed: [resourceRoles.admin],
     },
   },
 
@@ -315,12 +323,12 @@ export const routes = {
       return this.getPath().replace(':kn', kn)
     },
     render: StoreConfigs_kn,
-    redirect: _protectByRole,
+    redirect: combineProtections(_protectPrivate, _protectByRole),
     payload: {
       renderHeader: Header,
       renderNav: Nav,
       navigatable: false,
-      rolesAllowed: [roles.Admin],
+      rolesAllowed: [resourceRoles.admin],
     },
   },
 
@@ -335,6 +343,7 @@ export const routes = {
       return this.getPath()
     },
     render: TargetTable,
+    redirect: combineProtections(_protectPrivate),
     payload: {
       renderHeader: Header,
       renderNav: Nav,
@@ -350,6 +359,7 @@ export const routes = {
       return this.getPath()
     },
     render: TargetTable_create,
+    redirect: combineProtections(_protectPrivate),
     payload: {
       renderHeader: Header,
       renderNav: Nav,
@@ -363,6 +373,7 @@ export const routes = {
     getUrl(kn: string) {
       return this.getPath().replace(':kn', kn)
     },
+    redirect: combineProtections(_protectPrivate),
     render: TargetTable_kn,
     payload: {
       renderHeader: Header,
@@ -377,26 +388,12 @@ export const routes = {
     getUrl(kn: string, params?: { name: string } | undefined) {
       return `${this.getPath().replace(':kn', kn)}${qs.stringify(params, { addQueryPrefix: true })}`
     },
+    redirect: combineProtections(_protectPrivate),
     render: TargetTable_kn_explorer,
     payload: {
       renderHeader: Header,
       renderNav: Nav,
       navigatable: false,
-    },
-  },
-
-  admin: {
-    getName: () => 'Управление пользователем',
-    getPath: () => '/admin',
-    getUrl() {
-      return this.getPath()
-    },
-    render: Admin,
-    payload: {
-      renderHeader: Header,
-      renderNav: Nav,
-      navigatable: isDev(),
-      renderIcon: (props) => <Icon {...props} name='User' />,
     },
   },
 
@@ -412,6 +409,7 @@ export const routes = {
     payload: {
       navigatable: isDev(),
       renderIcon: (props) => <Icon {...props} name='Star' />,
+      iconColor: 'red',
     },
   },
 
@@ -429,6 +427,7 @@ export const routes = {
     payload: {
       navigatable: isDev(),
       renderIcon: (props) => <Icon {...props} name='Star' />,
+      iconColor: 'red',
     },
   },
 
@@ -452,6 +451,21 @@ export const routes = {
  */
 
 function _protectByRole(props: { route: AppRoute }): { url: string } | undefined {
-  if (props.route.payload.rolesAllowed?.includes(getRole() || '')) return
+  if (isResourceRoles(props.route?.payload.rolesAllowed)) return
   return { url: routes.main.getUrl() }
+}
+
+function _protectPrivate(): { url: string } | undefined {
+  const jwtPayload = globalStore.getState().getJwtPayload()
+  if (!jwtPayload) return { url: `${routes.login.getUrl()}?redirect=${location.href}` }
+}
+
+function combineProtections(...fns: ((props: { route: AppRoute }) => { url: string } | undefined)[]) {
+  return (props: { route: AppRoute }): { url: string } | undefined => {
+    for (let index = 0; index < fns.length; index++) {
+      const fn = fns[index]
+      const result = fn(props)
+      if (result !== undefined) return result
+    }
+  }
 }

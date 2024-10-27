@@ -30,9 +30,6 @@ export interface Props {
 
 const NAME = `${SLICE_NAME}-Page_id`
 
-/**
- * page-Main
- */
 export default function Component(): JSX.Element {
   const { kn = '' } = useParams<{ kn: string }>()
 

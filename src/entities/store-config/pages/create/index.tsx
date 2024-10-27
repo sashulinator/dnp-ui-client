@@ -28,11 +28,8 @@ export interface Props {
   className?: string | undefined
 }
 
-const displayName = 'page-storeConfigs_id'
+const NAME = 'page-storeConfigs_id'
 
-/**
- * page-Main
- */
 export default function Component(): JSX.Element {
   const navigate = useNavigate()
 
@@ -65,7 +62,7 @@ export default function Component(): JSX.Element {
   const render = useCallback(() => <Form />, [])
 
   return (
-    <main className={displayName}>
+    <main className={NAME}>
       <Container p='var(--space-4)'>
         <Section size='1'>
           <Heading>
@@ -109,4 +106,4 @@ export default function Component(): JSX.Element {
   )
 }
 
-Component.displayName = displayName
+Component.displayName = NAME

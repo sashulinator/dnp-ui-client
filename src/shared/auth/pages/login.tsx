@@ -1,26 +1,31 @@
+import qs from 'qs'
 import { useMutation } from 'react-query'
 
 import { history, routes } from '~dnp/app/route'
-import { type Login, LoginForm, setAccessToken, setRefreshToken } from '~dnp/shared/auth'
+import { type Login, LoginForm } from '~dnp/shared/auth'
 import { api } from '~dnp/shared/auth'
-import { setAccessTokenExpiresAt } from '~dnp/shared/auth/set-access-token-expires-at'
-import { setRefreshTokenExpiresAt } from '~dnp/shared/auth/set-refresh-token-expires-at'
 import Button from '~dnp/shared/button'
 import Flex from '~dnp/shared/flex'
 import FForm, { useCreateForm } from '~dnp/shared/form'
 import { c } from '~dnp/utils/core'
+
+import { getDateIn } from '../lib/get-date-in'
+import { globalStore } from '../models/global-store'
 
 const NAME = 'pages-Login'
 
 export default function Component(): JSX.Element {
   const getTokenMutator = useMutation(api.getToken.request, {
     onSuccess: (data) => {
-      setAccessToken(data.data.access_token)
-      setRefreshToken(data.data.refresh_token)
-      setAccessTokenExpiresAt(data.data.expires_in)
-      setRefreshTokenExpiresAt(data.data.expires_in)
+      globalStore.getState().set({
+        accessToken: data.data.access_token,
+        refreshToken: data.data.refresh_token,
+        accessTokenExpiresAt: getDateIn(data.data.expires_in).toString(),
+        refreshTokenExpiresAt: getDateIn(data.data.expires_in).toString(),
+      })
 
-      history.push(routes.main.getPath())
+      const searchQuery = qs.parse(location.search, { ignoreQueryPrefix: true })
+      history.push(searchQuery.redirect?.toString() || routes.main.getPath())
     },
   })
 

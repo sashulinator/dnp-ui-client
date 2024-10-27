@@ -1,4 +1,7 @@
 .dnp-layout-Layout {
+  --dnp-header-height: 48px;
+  --dnp-nav-width: 48px;
+
   height: 100%;
   width: 100%;
 
@@ -16,8 +19,6 @@
 
   main {
     grid-area: main;
-    // TODO: создать компонент main с таким отступом и заюзать на всех страницах
-    padding-top: 9px;
   }
 
   /* 
@@ -35,6 +36,10 @@
     grid-template-areas: 'nav main';
     grid-template-rows: 1fr;
     grid-template-columns: var(--dnp-nav-width) 1fr;
+
+    main {
+      padding-top: 18px;
+    }
   }
 
   &.-elements--header-main {
@@ -43,13 +48,21 @@
       'main main main';
     grid-template-rows: var(--dnp-header-height) 1fr;
     grid-template-columns: var(--dnp-nav-width) 1fr;
+
+    main {
+      padding-top: 9px;
+    }
   }
 
   &.-elements--header-main-nav {
     grid-template-areas:
-      'header header'
+      'nav header'
       'nav main';
     grid-template-rows: var(--dnp-header-height) 1fr;
     grid-template-columns: var(--dnp-nav-width) 1fr;
+
+    main {
+      padding-top: 9px;
+    }
   }
 }

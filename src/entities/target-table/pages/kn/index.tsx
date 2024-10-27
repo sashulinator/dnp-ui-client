@@ -31,9 +31,6 @@ export interface Props {
 
 const NAME = `${SYSNAME}-Page_id`
 
-/**
- * page-Main
- */
 export default function Component(): JSX.Element {
   const { kn = '' } = useParams<{ kn: string }>()
 

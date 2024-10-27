@@ -25,6 +25,7 @@ export default function Component(props: Props): JSX.Element {
     <Text as='label' size='2'>
       <Flex gap='2'>
         <Switch
+          size='1'
           checked={isDark}
           onCheckedChange={(checked) => {
             globalController.set({ name: checked ? themeName.dark : themeName.light })

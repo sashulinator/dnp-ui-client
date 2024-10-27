@@ -1,9 +1,9 @@
 import { type AxiosRequestConfig } from 'axios'
 
-import { getAccessToken } from './get-access-token'
+import { globalStore } from '../models/global-store'
 
 export function setAuthorizationHeader(request: AxiosRequestConfig<unknown>) {
-  const accessToken = getAccessToken()
+  const accessToken = globalStore.getState().accessToken
 
   if (request.headers && accessToken) {
     request.headers['Authorization'] = `Bearer ${accessToken}`

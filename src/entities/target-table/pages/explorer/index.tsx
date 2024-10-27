@@ -5,7 +5,7 @@ import { useQueryParam, useQueryParams } from 'use-query-params'
 
 import { routes } from '~dnp/app/route'
 import { ExplorerViewer, type Row, SYSNAME, api } from '~dnp/entities/target-table'
-import { getRole } from '~dnp/entities/user'
+import { isResourceRoles, resourceRoles } from '~dnp/shared/auth'
 import Button from '~dnp/shared/button'
 import Container from '~dnp/shared/container'
 import Dialog from '~dnp/shared/dialog'
@@ -33,7 +33,6 @@ const NAME = `${SYSNAME}-Page_id_explorer`
  */
 export default function Component(): JSX.Element {
   const { kn = '' } = useParams<{ kn: string }>()
-  const role = getRole()
 
   const [nameQueryParam] = useQueryParam('name', withDefault(StringParam, ''))
   const [searchQueryParam, searchValue, setSearchValue] = useSearch()
@@ -50,7 +49,9 @@ export default function Component(): JSX.Element {
 
   const [columnSearchParams, setColumnSearchParams] = useQueryParam('columnSearch', JSONParam)
 
-  const where = role === 'Approver' ? { OR: [{ _status: '1' }, { _status: '2' }, { _status: '3' }] } : {}
+  const where = isResourceRoles([resourceRoles.approver])
+    ? { OR: [{ _status: '1' }, { _status: '2' }, { _status: '3' }] }
+    : {}
 
   const requestParams = {
     kn,

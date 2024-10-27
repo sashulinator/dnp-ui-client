@@ -2,7 +2,7 @@ import { NumberParam, useQueryParams, withDefault } from 'use-query-params'
 
 import { routes } from '~dnp/app/route'
 import { Item, api } from '~dnp/entities/dictionary-table'
-import { getRole } from '~dnp/entities/user'
+import { isResourceRoles, resourceRoles } from '~dnp/shared/auth'
 import Button from '~dnp/shared/button'
 import Container from '~dnp/shared/container'
 import { TICK_MS, cssAnimations } from '~dnp/shared/css-animations'
@@ -23,8 +23,6 @@ export interface Props {
 const displayName = `${SLICE_NAME}-Page_list`
 
 export default function Component(): JSX.Element {
-  const role = getRole()
-
   const [{ page = 1, take = 10 }, setPaginationParams] = useQueryParams({
     page: withDefault(NumberParam, 1),
     take: withDefault(NumberParam, 10),
@@ -37,7 +35,7 @@ export default function Component(): JSX.Element {
   return (
     <main className={displayName} style={{ position: 'relative' }}>
       <RenderCounter style={{ top: 0 }} />
-      <Container p='var(--space-4)'>
+      <Container p='4'>
         <Section size='1' className={c(cssAnimations.Appear)}>
           <Flex width='100%' justify='between'>
             <Heading.Root
@@ -49,7 +47,7 @@ export default function Component(): JSX.Element {
               <Heading.Name />
             </Heading.Root>
             <Flex align='center' gap='2'>
-              {role === 'Admin' && (
+              {isResourceRoles([resourceRoles.admin]) && (
                 <Button variant='outline' asChild>
                   <Link to={routes.storeConfigs_kn.getUrl('workingTable')}>Хранилище</Link>
                 </Button>

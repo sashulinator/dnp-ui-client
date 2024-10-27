@@ -6,7 +6,7 @@ import { useQueryParam, useQueryParams } from 'use-query-params'
 import { routes } from '~dnp/app/route'
 import { ExplorerViewer, type Row, SYSNAME, api } from '~dnp/entities/operational-table'
 import { ImportOperationalTableModal } from '~dnp/entities/operational-table/ui/import-modal'
-import { getRole } from '~dnp/entities/user'
+import { isResourceRoles, resourceRoles } from '~dnp/shared/auth'
 import Button from '~dnp/shared/button'
 import Checkbox from '~dnp/shared/checkbox'
 import Container from '~dnp/shared/container'
@@ -40,7 +40,6 @@ const NAME = `${SYSNAME}-Page_id_explorer`
  */
 export default function Component(): JSX.Element {
   const { kn = '' } = useParams<{ kn: string }>()
-  const role = getRole()
 
   const [nameQueryParam] = useQueryParam('name', withDefault(StringParam, ''))
   const [searchQueryParam, searchValue, setSearchValue] = useSearch()
@@ -209,7 +208,7 @@ export default function Component(): JSX.Element {
                 />
               </Heading.Root>
               <Flex gapX='12px'>
-                {role === 'Approver' && (
+                {isResourceRoles([resourceRoles.approver]) && (
                   <Flex asChild={true} align='center' gap='2'>
                     <HighlightedText as='label' style={{ cursor: 'pointer' }} color={isApproveMode ? 'green' : 'blue'}>
                       Режим согласования

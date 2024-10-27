@@ -5,5 +5,6 @@ export type AppRoute = Route<{
   renderNav?: () => React.ReactNode
   renderIcon?: (props: React.SVGAttributes<SVGSVGElement>) => React.ReactNode
   navigatable?: boolean | undefined
+  iconColor?: 'red'
   rolesAllowed?: string[]
 }>

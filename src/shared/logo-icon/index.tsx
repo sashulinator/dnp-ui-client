@@ -1,6 +1,6 @@
 export default function Component(props: React.SVGAttributes<SVGSVGElement>): JSX.Element {
   return (
-    <svg width='1rem' height='1rem' viewBox='0 0 72 51' fill='none' xmlns='http://www.w3.org/2000/svg' {...props}>
+    <svg width='15px' height='15px' viewBox='0 0 72 51' fill='none' xmlns='http://www.w3.org/2000/svg' {...props}>
       <path d='M47.2591 44.3835H32.9174V36.2336H47.2591L52.0221 40.3086L47.2591 44.3835Z' fill='currentColor' />
       <path d='M4.76296 50.6283H31.2503V42.4783H4.76296L0 46.5533L4.76296 50.6283Z' fill='currentColor' />
       <path d='M32.9173 44.3835L31.2502 50.6283V42.4783L32.9173 36.2336V44.3835Z' fill='currentColor' />
