@@ -2,12 +2,12 @@ import { useMemo, useState } from 'react'
 import { useMutation } from 'react-query'
 
 import { type OperationalTable, type Row } from '~dnp/entities/operational-table'
-import { resourceRoles } from '~dnp/shared/auth'
 import Button from '~dnp/shared/button'
 import Flex from '~dnp/shared/flex'
 import Icon from '~dnp/shared/icon'
 import { notify } from '~dnp/shared/notification-list-store'
 import Spinner from '~dnp/shared/spinner'
+import { roles } from '~dnp/slices/auth'
 import { type ColumnContext } from '~dnp/slices/database'
 import { type Item, Viewer } from '~dnp/slices/explorer'
 import { type TableColumn } from '~dnp/slices/explorer/ui/viewer'
@@ -30,16 +30,16 @@ const statusStringMap = {
 }
 
 const statusChangeMap = {
-  [resourceRoles.approver]: {
+  [roles.approver]: {
     '1': '2',
     '2': '3',
     '3': '2',
   },
-  [resourceRoles.admin]: {
+  [roles.admin]: {
     '2': '3',
     '3': '2',
   },
-  [resourceRoles.operator]: {
+  [roles.operator]: {
     '0': '1',
     '1': '0',
     '3': '0',
@@ -107,7 +107,7 @@ export default function Component<TItem extends Item>(props: Props<TItem>): JSX.
                   e.stopPropagation()
                   updateMutator.mutate({
                     ...row,
-                    _status: statusChangeMap[resourceRoles.approver][status as '2'] as '0',
+                    _status: statusChangeMap[roles.approver][status as '2'] as '0',
                   })
                 }}
               >

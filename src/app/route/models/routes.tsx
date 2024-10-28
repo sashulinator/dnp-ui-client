@@ -27,15 +27,15 @@ import TargetTable from '~dnp/entities/target-table/pages'
 import TargetTable_create from '~dnp/entities/target-table/pages/create'
 import TargetTable_kn_explorer from '~dnp/entities/target-table/pages/explorer'
 import TargetTable_kn from '~dnp/entities/target-table/pages/kn'
-import { globalStore, isResourceRoles, resourceRoles } from '~dnp/shared/auth'
 import Header from '~dnp/shared/header'
 import Icon from '~dnp/shared/icon'
 import Logo from '~dnp/shared/logo-icon'
 import Nav from '~dnp/shared/nav'
+import { globalStore, isResourceRoles, roles } from '~dnp/slices/auth'
 import { isDev } from '~dnp/utils/core-client/is-dev'
 
 import Main from '../../../pages/main'
-import Login from '../../../shared/auth/pages/login'
+import Login from '../../../slices/auth/pages/login'
 import { type AppRoute } from './app-route'
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -75,7 +75,7 @@ export const routes = {
       renderNav: Nav,
       renderIcon: NormalizationConfigIcon,
       navigatable: true,
-      rolesAllowed: [resourceRoles.admin, resourceRoles.operator],
+      rolesAllowed: [roles.nrm_get],
     },
   },
 
@@ -91,7 +91,7 @@ export const routes = {
       renderHeader: Header,
       renderNav: Nav,
       navigatable: false,
-      rolesAllowed: [resourceRoles.admin, resourceRoles.operator],
+      rolesAllowed: [roles.nrm_crt],
     },
   },
 
@@ -107,7 +107,7 @@ export const routes = {
       renderHeader: Header,
       renderNav: Nav,
       navigatable: false,
-      rolesAllowed: [resourceRoles.admin, resourceRoles.operator],
+      rolesAllowed: [roles.nrm_get],
     },
   },
 
@@ -258,7 +258,7 @@ export const routes = {
       renderNav: Nav,
       navigatable: true,
       renderIcon: ProcessIcon,
-      rolesAllowed: [resourceRoles.admin, resourceRoles.operator],
+      rolesAllowed: [roles.admin, roles.operator],
     },
   },
 
@@ -275,7 +275,7 @@ export const routes = {
       renderNav: Nav,
       navigatable: false,
       renderIcon: ProcessIcon,
-      rolesAllowed: [resourceRoles.admin, resourceRoles.operator],
+      rolesAllowed: [roles.admin, roles.operator],
     },
   },
 
@@ -296,7 +296,7 @@ export const routes = {
       renderNav: Nav,
       navigatable: true,
       renderIcon: StoreConfigIcon,
-      rolesAllowed: [resourceRoles.admin],
+      rolesAllowed: [roles.admin],
     },
   },
 
@@ -312,7 +312,7 @@ export const routes = {
       renderHeader: Header,
       renderNav: Nav,
       navigatable: false,
-      rolesAllowed: [resourceRoles.admin],
+      rolesAllowed: [roles.admin],
     },
   },
 
@@ -328,7 +328,7 @@ export const routes = {
       renderHeader: Header,
       renderNav: Nav,
       navigatable: false,
-      rolesAllowed: [resourceRoles.admin],
+      rolesAllowed: [roles.admin],
     },
   },
 

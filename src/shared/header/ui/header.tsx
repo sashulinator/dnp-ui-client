@@ -1,12 +1,12 @@
 import './header.scss'
 
-import { globalStore, resourceRoles } from '~dnp/shared/auth'
 import Button from '~dnp/shared/button'
 import Checkbox from '~dnp/shared/checkbox'
 import Flex from '~dnp/shared/flex'
 import Select from '~dnp/shared/select'
 import { HighlightedText } from '~dnp/shared/text'
 import { Switch } from '~dnp/shared/theme'
+import { auth, globalStore, roles } from '~dnp/slices/auth'
 import { c } from '~dnp/utils/core'
 import { isDev } from '~dnp/utils/core-client'
 
@@ -67,20 +67,18 @@ export default function Component(): JSX.Element {
             <Flex gap='4' direction={'column'}>
               <Select.Root
                 size='1'
-                defaultValue={localStorage.getItem('DEV_recource_role') || 'USE PRODUCTION ROLES'}
+                defaultValue={localStorage.getItem('DEV_resource_role') || 'USE PRODUCTION ROLES'}
                 onValueChange={(value) => {
-                  localStorage.setItem('DEV_recource_role', value)
+                  localStorage.setItem('DEV_resource_role', value)
                   window.location.reload()
                 }}
               >
                 <Select.Trigger
                   style={{
-                    backgroundColor: Object.values(resourceRoles).includes(
-                      localStorage.getItem('DEV_recource_role') || '',
-                    )
+                    backgroundColor: Object.values(roles).includes(localStorage.getItem('DEV_resource_role') || '')
                       ? 'var(--red-3)'
                       : 'var(--green-3)',
-                    color: Object.values(resourceRoles).includes(localStorage.getItem('DEV_recource_role') || '')
+                    color: Object.values(roles).includes(localStorage.getItem('DEV_resource_role') || '')
                       ? 'var(--red-11)'
                       : 'var(--green-11)',
                     boxShadow: 'none',
@@ -89,9 +87,9 @@ export default function Component(): JSX.Element {
                 <Select.Content>
                   <Select.Group>
                     <Select.Item value={'USE PRODUCTION ROLES'}>USE PRODUCTION ROLES</Select.Item>
-                    <Select.Item value={resourceRoles.admin}>Администратор</Select.Item>
-                    <Select.Item value={resourceRoles.approver}>Согласующий</Select.Item>
-                    <Select.Item value={resourceRoles.operator}>Оператор</Select.Item>
+                    <Select.Item value={roles.admin}>Администратор</Select.Item>
+                    <Select.Item value={roles.approver}>Согласующий</Select.Item>
+                    <Select.Item value={roles.operator}>Оператор</Select.Item>
                   </Select.Group>
                 </Select.Content>
               </Select.Root>
@@ -102,7 +100,7 @@ export default function Component(): JSX.Element {
         <Flex className={`${NAME}_settings`} gap='4' align='center'>
           <Switch />
           {jwtPayload?.preferred_username && <HighlightedText>{jwtPayload?.preferred_username}</HighlightedText>}
-          <Button variant='ghost' size='1' onClick={globalStore.getState().clear}>
+          <Button variant='ghost' size='1' onClick={() => auth.logout()}>
             Выйти
           </Button>
         </Flex>

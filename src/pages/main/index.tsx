@@ -1,7 +1,6 @@
 import React, { createElement } from 'react'
 
 import { type AppRoute, routes } from '~dnp/app/route'
-import { isResourceRoles } from '~dnp/shared/auth'
 import Button from '~dnp/shared/button'
 import Card from '~dnp/shared/card'
 import Container from '~dnp/shared/container'
@@ -9,6 +8,7 @@ import Flex from '~dnp/shared/flex'
 import Link from '~dnp/shared/link'
 import { Heading } from '~dnp/shared/page'
 import Section from '~dnp/shared/section'
+import { auth } from '~dnp/slices/auth'
 
 export interface Props {
   className?: string | undefined
@@ -18,7 +18,9 @@ const NAME = 'page-Main'
 
 export default function Component(): JSX.Element {
   const navigatables = Object.entries(routes).filter(([, route]: [unknown, AppRoute]) => {
-    return isResourceRoles(route.payload?.rolesAllowed) && route.payload.navigatable
+    if (!route.payload.navigatable) return false
+    if (route.payload.rolesAllowed) return route.payload?.rolesAllowed.some((role) => auth.hasRole(role, 'dnp'))
+    return true
   })
 
   return (

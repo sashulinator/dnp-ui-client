@@ -1,6 +1,7 @@
 import { type AxiosError } from 'axios'
 
-import { refreshTokens } from '~dnp/shared/auth'
+import { history, routes } from '~dnp/app/route'
+import { auth } from '~dnp/slices/auth'
 import { invariant } from '~dnp/utils/core'
 
 import { api } from './api'
@@ -11,7 +12,9 @@ export async function _handleUnauthorizedError(error: AxiosError) {
   if (error.response?.status !== 401) throw error
 
   if (refreshTokensPromise === null) {
-    refreshTokensPromise = refreshTokens()
+    refreshTokensPromise = auth.refreshTokens().catch(() => {
+      history.push(routes.login.getPath())
+    })
   }
 
   if (refreshTokensPromise) {

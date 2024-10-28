@@ -1,17 +1,10 @@
+import { type GetTokenResult } from '../../models/get-token-result'
+
 export type RequestData = {
   refreshToken: string
 }
 
-export type ResponseData = {
-  access_token: string
-  expires_in: number
-  refresh_expires_in: number
-  refresh_token: string
-  token_type: string
-  'not-before-policy': number
-  session_state: string
-  scope: string
-}
+export type ResponseData = GetTokenResult
 
 export async function request(requestData: RequestData): Promise<{
   data: ResponseData
@@ -36,6 +29,8 @@ export async function request(requestData: RequestData): Promise<{
   })
 
   const data = await response.json()
+
+  if (!response.ok) throw { data, response }
 
   return { data, response }
 }

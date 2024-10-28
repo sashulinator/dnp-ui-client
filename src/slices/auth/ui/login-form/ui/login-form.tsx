@@ -22,6 +22,7 @@ export default function Component(props: Props): JSX.Element {
       <TypedField<Login, 'password', string, string, TextFieldProps<string>, HTMLInputElement>
         component={TextField}
         name='password'
+        type='password'
         label='Пароль'
       />
     </Flex>

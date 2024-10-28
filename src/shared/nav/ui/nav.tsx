@@ -4,17 +4,17 @@ import { createElement } from 'react'
 import { useQuery } from 'react-query'
 import { Link, useLocation } from 'react-router-dom'
 
-import { type AppRoute, routes } from '~dnp/app/route'
+import { AppRoute, routes } from '~dnp/app/route'
 import { getCurrent } from '~dnp/app/route'
 import { api as dictionaryApi } from '~dnp/entities/dictionary-table'
 import { api } from '~dnp/entities/operational-table'
-import { isResourceRoles } from '~dnp/shared/auth'
 import Button from '~dnp/shared/button'
 import Flex from '~dnp/shared/flex'
 import Icon, { map as iconMap } from '~dnp/shared/icon'
 import Logo from '~dnp/shared/logo-icon'
 import Separator from '~dnp/shared/separator'
 import Tooltip from '~dnp/shared/tooltip'
+import { auth } from '~dnp/slices/auth'
 import { c } from '~dnp/utils/core'
 
 export interface Props {
@@ -40,8 +40,10 @@ export default function Component(): JSX.Element {
   )
 
   const location = useLocation()
-  const navigatables = Object.entries(routes).filter(([, route]) => {
-    return isResourceRoles((route as AppRoute).payload?.rolesAllowed || []) && route.payload.navigatable
+  const navigatables = Object.entries(routes).filter(([, route]: [unknown, AppRoute]) => {
+    if (!route.payload.navigatable) return false
+    if (route.payload.rolesAllowed) return route.payload?.rolesAllowed.some((role) => auth.hasRole(role, 'dnp'))
+    return true
   })
 
   const current = getCurrent(routes, `/${location.pathname.split('/')[1]}`)

@@ -1,11 +1,11 @@
 /**
  * api
  */
-import * as getToken from './api/get-token'
+import { Authenticator } from './authenticator'
 
-export const api = {
-  getToken,
-}
+export const auth = new Authenticator()
+
+export { type LoginParams } from './authenticator'
 
 /**
  * ui
@@ -18,7 +18,7 @@ export { default as LoginForm } from './ui/login-form'
  */
 
 export { type Login } from './models/login'
-export { resourceRoles, type ResorceRoles } from './models/resource-roles'
+export { roles, type Roles } from './models/roles'
 export {
   globalStore,
   type State as GlobalStoreState,
@@ -29,5 +29,4 @@ export {
  * lib
  */
 
-export * from './lib/refresh-tokens'
 export { isRealmRoles, isResourceRoles } from './lib/is-access-allowed'

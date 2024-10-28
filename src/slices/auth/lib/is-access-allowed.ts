@@ -6,7 +6,7 @@ export function isResourceRoles(roles: string[] | undefined) {
   if (!roles?.length) return true
 
   if (isDev()) {
-    return roles.includes(localStorage.getItem('DEV_recource_role') || '')
+    return roles.includes(localStorage.getItem('DEV_resource_role') || '')
   }
 
   const jwtPayload = globalStore.getState().getJwtPayload()

@@ -6,7 +6,6 @@ import { useQueryParam, useQueryParams } from 'use-query-params'
 import { routes } from '~dnp/app/route'
 import { ExplorerViewer, type Row, SYSNAME, api } from '~dnp/entities/operational-table'
 import { ImportOperationalTableModal } from '~dnp/entities/operational-table/ui/import-modal'
-import { isResourceRoles, resourceRoles } from '~dnp/shared/auth'
 import Button from '~dnp/shared/button'
 import Checkbox from '~dnp/shared/checkbox'
 import Container from '~dnp/shared/container'
@@ -23,6 +22,7 @@ import Section from '~dnp/shared/section'
 import { HighlightedText } from '~dnp/shared/text'
 import TextField from '~dnp/shared/text-field'
 import { JSONParam } from '~dnp/shared/use-query-params'
+import { isResourceRoles, roles } from '~dnp/slices/auth'
 import { type Column, RowForm, toColumns } from '~dnp/slices/database'
 import { useSort } from '~dnp/slices/sort'
 import { type Id, isEmpty } from '~dnp/utils/core'
@@ -208,7 +208,7 @@ export default function Component(): JSX.Element {
                 />
               </Heading.Root>
               <Flex gapX='12px'>
-                {isResourceRoles([resourceRoles.approver]) && (
+                {isResourceRoles([roles.approver]) && (
                   <Flex asChild={true} align='center' gap='2'>
                     <HighlightedText as='label' style={{ cursor: 'pointer' }} color={isApproveMode ? 'green' : 'blue'}>
                       Режим согласования

@@ -2,7 +2,6 @@ import { NumberParam, useQueryParams, withDefault } from 'use-query-params'
 
 import { routes } from '~dnp/app/route'
 import { Item, fetchList } from '~dnp/entities/normalization-config'
-import { isResourceRoles, resourceRoles } from '~dnp/shared/auth'
 import Button from '~dnp/shared/button'
 import Container from '~dnp/shared/container'
 import Flex from '~dnp/shared/flex'
@@ -10,6 +9,7 @@ import Heading from '~dnp/shared/heading'
 import Link from '~dnp/shared/link'
 import { Pagination } from '~dnp/shared/page'
 import Section from '~dnp/shared/section'
+import { auth, roles } from '~dnp/slices/auth'
 
 export interface Props {
   className?: string | undefined
@@ -34,7 +34,7 @@ export default function Page(): JSX.Element {
         <Section size='1'>
           <Flex width='100%' justify='between'>
             <Heading>{routes.normalizationConfigs.getName()}</Heading>
-            {isResourceRoles([resourceRoles.admin]) && (
+            {auth.hasRole(roles.nrm_crt, 'dnp') && (
               <Button size='1' asChild>
                 <Link to={routes.normalizationConfigs_create.getUrl()}>Создать</Link>
               </Button>

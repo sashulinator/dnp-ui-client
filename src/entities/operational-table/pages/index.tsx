@@ -3,13 +3,13 @@ import { NumberParam, useQueryParams, withDefault } from 'use-query-params'
 
 import { routes } from '~dnp/app/route'
 import { Item, api } from '~dnp/entities/operational-table'
-import { isResourceRoles, resourceRoles } from '~dnp/shared/auth'
 import Button from '~dnp/shared/button'
 import Container from '~dnp/shared/container'
 import Flex from '~dnp/shared/flex'
 import Link from '~dnp/shared/link'
 import { Heading, Pagination } from '~dnp/shared/page'
 import Section from '~dnp/shared/section'
+import { isResourceRoles, roles } from '~dnp/slices/auth'
 
 import { SYSNAME } from '../constants/name'
 
@@ -44,7 +44,7 @@ export default function Component(): JSX.Element {
               <Heading.Name />
             </Heading.Root>
             <Flex align='center' gap='2'>
-              {isResourceRoles([resourceRoles.admin]) && (
+              {isResourceRoles([roles.admin]) && (
                 <Button variant='outline' asChild>
                   <Link to={routes.storeConfigs_kn.getUrl('workingTable')}>Хранилище</Link>
                 </Button>
