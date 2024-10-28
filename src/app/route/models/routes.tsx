@@ -451,11 +451,13 @@ export const routes = {
  */
 
 function _protectByRole(props: { route: AppRoute }): { url: string } | undefined {
+  return undefined
   if (isResourceRoles(props.route?.payload.rolesAllowed)) return
   return { url: routes.main.getUrl() }
 }
 
 function _protectPrivate(): { url: string } | undefined {
+  return undefined
   const jwtPayload = globalStore.getState().getJwtPayload()
   if (!jwtPayload) return { url: `${routes.login.getUrl()}?redirect=${location.href}` }
 }
