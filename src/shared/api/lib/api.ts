@@ -2,10 +2,10 @@ import axios from 'axios'
 import { stringify } from 'qs'
 
 import { history, routes } from '~dnp/app/route'
-import { auth } from '~dnp/slices/auth'
-import { setAuthorizationHeader } from '~dnp/slices/auth/lib/set-authorization-header'
+import { auth } from '~dnp/shared/auth'
 
 import { _handleUnauthorizedError } from './_handle-unauthorize-error'
+import { _setAuthorizationHeader } from './_set-authorization-header'
 
 const api = axios.create({
   withCredentials: true,
@@ -40,7 +40,7 @@ api.interceptors.request.use(async (request) => {
 // ------------------------------
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
-api.interceptors.request.use(setAuthorizationHeader as any)
+api.interceptors.request.use(_setAuthorizationHeader as any)
 api.interceptors.response.use(undefined, _handleUnauthorizedError)
 
 export { api }

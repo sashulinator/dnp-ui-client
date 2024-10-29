@@ -1,6 +1,7 @@
 import React, { createElement } from 'react'
 
 import { type AppRoute, routes } from '~dnp/app/route'
+import { auth } from '~dnp/shared/auth'
 import Button from '~dnp/shared/button'
 import Card from '~dnp/shared/card'
 import Container from '~dnp/shared/container'
@@ -8,7 +9,6 @@ import Flex from '~dnp/shared/flex'
 import Link from '~dnp/shared/link'
 import { Heading } from '~dnp/shared/page'
 import Section from '~dnp/shared/section'
-import { auth } from '~dnp/slices/auth'
 
 export interface Props {
   className?: string | undefined
@@ -43,7 +43,7 @@ export default function Component(): JSX.Element {
                   <Link to={(route.getUrl as any)()}>
                     <Flex gap='4'>
                       <Flex>
-                        <Button variant='soft' square={true}>
+                        <Button color={(route as any).payload?.iconColor} variant='soft' square={true}>
                           {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                           {createElement((route as any).payload.renderIcon)}
                         </Button>

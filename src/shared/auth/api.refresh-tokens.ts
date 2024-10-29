@@ -1,24 +1,25 @@
-import { type GetTokenResult } from '../../models/get-token-result'
-
 export type RequestData = {
   refreshToken: string
 }
 
-export type ResponseData = GetTokenResult
+export type ResponseData = {
+  access_token: string
+  expires_in: number
+  refresh_expires_in: number
+  refresh_token: string
+}
 
 export async function request(requestData: RequestData): Promise<{
   data: ResponseData
   response: Response
 }> {
-  const details = {
-    refresh_token: requestData.refreshToken,
-    grant_type: 'refresh_token',
-    client_id: 'iiot-control-mvp',
-  }
+  const details = [
+    ['refresh_token', requestData.refreshToken],
+    ['client_id', 'dnp'],
+    ['grant_type', 'password'],
+  ]
 
-  const formBody = Object.entries(details)
-    .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
-    .join('&')
+  const formBody = details.map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`).join('&')
 
   const response = await fetch(`/realms/IIOT-MVP/protocol/openid-connect/token`, {
     method: 'POST',

@@ -14,6 +14,7 @@ import {
   update,
 } from '~dnp/entities/normalization-config'
 import { create as createProcess } from '~dnp/entities/process'
+import { auth } from '~dnp/shared/auth'
 import Button from '~dnp/shared/button'
 import Card from '~dnp/shared/card'
 import Container from '~dnp/shared/container'
@@ -25,7 +26,6 @@ import Section from '~dnp/shared/section'
 import Spinner from '~dnp/shared/spinner'
 import { HighlightedText } from '~dnp/shared/text'
 import Tooltip from '~dnp/shared/tooltip'
-import { isResourceRoles, roles } from '~dnp/slices/auth'
 
 export interface Props {
   className?: string | undefined
@@ -39,7 +39,7 @@ export default function Component(): JSX.Element {
   const name = searchParams.get('name') || ''
   const navigate = useNavigate()
 
-  const hasPermissionToEdit = isResourceRoles([roles.admin])
+  const hasPermissionToEdit = auth.hasRole(auth.roles.nrm_upd, 'dnp')
 
   const form = useCreateForm<FormValues>(
     {

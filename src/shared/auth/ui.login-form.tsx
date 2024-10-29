@@ -2,7 +2,10 @@ import Flex, { type FlexProps } from '~dnp/shared/flex'
 import { TextField, type TextFieldProps, TypedField } from '~dnp/shared/form'
 import { c } from '~dnp/utils/core'
 
-import { type Login } from '../../../models/login'
+export type Values = {
+  email: string
+  password: string
+}
 
 export interface Props {
   className?: string | undefined
@@ -14,12 +17,12 @@ const NAME = 'auth-LoginForm'
 export default function Component(props: Props): JSX.Element {
   return (
     <Flex direction='column' gap='4' {...props.root} className={c(props.className, NAME)}>
-      <TypedField<Login, 'email', string, string, TextFieldProps<string>, HTMLInputElement>
+      <TypedField<Values, 'email', string, string, TextFieldProps<string>, HTMLInputElement>
         component={TextField}
         name='email'
         label='Email'
       />
-      <TypedField<Login, 'password', string, string, TextFieldProps<string>, HTMLInputElement>
+      <TypedField<Values, 'password', string, string, TextFieldProps<string>, HTMLInputElement>
         component={TextField}
         name='password'
         type='password'
@@ -30,3 +33,7 @@ export default function Component(props: Props): JSX.Element {
 }
 
 Component.displayName = NAME
+
+export { type Props as LoginFormProps }
+
+export { type Values as LoginFormValues }

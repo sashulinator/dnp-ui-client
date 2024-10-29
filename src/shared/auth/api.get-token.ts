@@ -1,12 +1,14 @@
-import { type GetTokenResult } from '../../models/get-token-result'
-
 export type RequestData = {
   email: string
   password: string
-  clientId: string
 }
 
-export type ResponseData = GetTokenResult
+export type ResponseData = {
+  access_token: string
+  expires_in: number
+  refresh_expires_in: number
+  refresh_token: string
+}
 
 export async function request(requestData: RequestData): Promise<{
   data: ResponseData
@@ -15,7 +17,7 @@ export async function request(requestData: RequestData): Promise<{
   const details = [
     ['username', requestData.email],
     ['password', requestData.password],
-    ['client_id', requestData.clientId],
+    ['client_id', 'dnp'],
     ['grant_type', 'password'],
   ]
 

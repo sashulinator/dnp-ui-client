@@ -27,15 +27,15 @@ import TargetTable from '~dnp/entities/target-table/pages'
 import TargetTable_create from '~dnp/entities/target-table/pages/create'
 import TargetTable_kn_explorer from '~dnp/entities/target-table/pages/explorer'
 import TargetTable_kn from '~dnp/entities/target-table/pages/kn'
+import { auth, roles } from '~dnp/shared/auth'
+import { LoginPage } from '~dnp/shared/auth'
 import Header from '~dnp/shared/header'
 import Icon from '~dnp/shared/icon'
 import Logo from '~dnp/shared/logo-icon'
 import Nav from '~dnp/shared/nav'
-import { globalStore, isResourceRoles, roles } from '~dnp/slices/auth'
 import { isDev } from '~dnp/utils/core-client/is-dev'
 
 import Main from '../../../pages/main'
-import Login from '../../../slices/auth/pages/login'
 import { type AppRoute } from './app-route'
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -127,6 +127,7 @@ export const routes = {
       renderNav: Nav,
       navigatable: true,
       renderIcon: DictionaryTableIcon,
+      rolesAllowed: [roles.dct_get],
     },
   },
 
@@ -142,6 +143,7 @@ export const routes = {
       renderHeader: Header,
       renderNav: Nav,
       navigatable: false,
+      rolesAllowed: [roles.dct_crt],
     },
   },
 
@@ -158,6 +160,7 @@ export const routes = {
       renderHeader: Header,
       renderNav: Nav,
       navigatable: false,
+      rolesAllowed: [roles.dct_get],
     },
   },
 
@@ -173,6 +176,7 @@ export const routes = {
       renderHeader: Header,
       renderNav: Nav,
       navigatable: false,
+      rolesAllowed: [roles.dct_get],
     },
   },
 
@@ -193,6 +197,7 @@ export const routes = {
       renderNav: Nav,
       navigatable: true,
       renderIcon: OperationalTableIcon,
+      rolesAllowed: [roles.opt_get],
     },
   },
 
@@ -208,6 +213,7 @@ export const routes = {
       renderHeader: Header,
       renderNav: Nav,
       navigatable: false,
+      rolesAllowed: [roles.opt_crt],
     },
   },
 
@@ -223,6 +229,7 @@ export const routes = {
       renderHeader: Header,
       renderNav: Nav,
       navigatable: false,
+      rolesAllowed: [roles.opt_get],
     },
   },
 
@@ -238,6 +245,7 @@ export const routes = {
       renderHeader: Header,
       renderNav: Nav,
       navigatable: false,
+      rolesAllowed: [roles.opt_get],
     },
   },
 
@@ -258,7 +266,7 @@ export const routes = {
       renderNav: Nav,
       navigatable: true,
       renderIcon: ProcessIcon,
-      rolesAllowed: [roles.admin, roles.operator],
+      rolesAllowed: [roles.nrm_get],
     },
   },
 
@@ -275,7 +283,7 @@ export const routes = {
       renderNav: Nav,
       navigatable: false,
       renderIcon: ProcessIcon,
-      rolesAllowed: [roles.admin, roles.operator],
+      rolesAllowed: [roles.nrm_get],
     },
   },
 
@@ -296,7 +304,7 @@ export const routes = {
       renderNav: Nav,
       navigatable: true,
       renderIcon: StoreConfigIcon,
-      rolesAllowed: [roles.admin],
+      rolesAllowed: [roles.stc_get],
     },
   },
 
@@ -312,7 +320,7 @@ export const routes = {
       renderHeader: Header,
       renderNav: Nav,
       navigatable: false,
-      rolesAllowed: [roles.admin],
+      rolesAllowed: [roles.stc_crt],
     },
   },
 
@@ -328,7 +336,7 @@ export const routes = {
       renderHeader: Header,
       renderNav: Nav,
       navigatable: false,
-      rolesAllowed: [roles.admin],
+      rolesAllowed: [roles.stc_get],
     },
   },
 
@@ -349,6 +357,7 @@ export const routes = {
       renderNav: Nav,
       navigatable: true,
       renderIcon: TargetTableIcon,
+      rolesAllowed: [roles.trt_get],
     },
   },
 
@@ -364,6 +373,7 @@ export const routes = {
       renderHeader: Header,
       renderNav: Nav,
       navigatable: false,
+      rolesAllowed: [roles.trt_crt],
     },
   },
 
@@ -379,6 +389,7 @@ export const routes = {
       renderHeader: Header,
       renderNav: Nav,
       navigatable: false,
+      rolesAllowed: [roles.trt_get],
     },
   },
 
@@ -394,6 +405,7 @@ export const routes = {
       renderHeader: Header,
       renderNav: Nav,
       navigatable: false,
+      rolesAllowed: [roles.trt_get],
     },
   },
 
@@ -405,7 +417,7 @@ export const routes = {
     getUrl() {
       return this.getPath()
     },
-    render: Login,
+    render: LoginPage,
     payload: {
       navigatable: isDev(),
       renderIcon: (props) => <Icon {...props} name='Star' />,
@@ -451,15 +463,14 @@ export const routes = {
  */
 
 function _protectByRole(props: { route: AppRoute }): { url: string } | undefined {
-  return undefined
-  if (isResourceRoles(props.route?.payload.rolesAllowed)) return
+  if (!props.route?.payload.rolesAllowed) return undefined
+  if (props.route?.payload.rolesAllowed.some((role) => auth.hasRole(role, 'dnp'))) return undefined
   return { url: routes.main.getUrl() }
 }
 
 function _protectPrivate(): { url: string } | undefined {
-  return undefined
-  const jwtPayload = globalStore.getState().getJwtPayload()
-  if (!jwtPayload) return { url: `${routes.login.getUrl()}?redirect=${location.href}` }
+  if (!auth.isRefreshTokenExpired()) return undefined
+  return { url: `${routes.login.getUrl()}?redirect=${location.href}` }
 }
 
 function combineProtections(...fns: ((props: { route: AppRoute }) => { url: string } | undefined)[]) {

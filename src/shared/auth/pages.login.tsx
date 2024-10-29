@@ -2,10 +2,10 @@ import qs from 'qs'
 import { useMutation } from 'react-query'
 
 import { history, routes } from '~dnp/app/route'
+import { LoginForm, type LoginFormValues, auth } from '~dnp/shared/auth'
 import Button from '~dnp/shared/button'
 import Flex from '~dnp/shared/flex'
 import FForm, { useCreateForm } from '~dnp/shared/form'
-import { type Login, LoginForm, auth } from '~dnp/slices/auth'
 import { c, fns } from '~dnp/utils/core'
 import { preventDefault } from '~dnp/utils/core-client'
 
@@ -19,7 +19,7 @@ export default function Component(): JSX.Element {
     },
   })
 
-  const form = useCreateForm<Login>(
+  const form = useCreateForm<LoginFormValues>(
     {
       onSubmit: (values) => {
         getTokenMutator.mutate(values)

@@ -7,11 +7,11 @@ import { QueryParamProvider } from 'use-query-params'
 import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6'
 
 import { Provider as RouteProvider, history, routes } from '~dnp/app/route'
+import { auth } from '~dnp/shared/auth'
 import { QueryClientProvider, queryClient } from '~dnp/shared/query'
 import ThemeProvider from '~dnp/shared/theme'
 import { useSubscribeUpdate } from '~dnp/utils/core-hooks'
 
-import { auth } from '../slices/auth'
 import App from './app'
 
 function Providers() {

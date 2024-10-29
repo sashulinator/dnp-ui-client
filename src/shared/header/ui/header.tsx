@@ -1,14 +1,12 @@
 import './header.scss'
 
+import { auth } from '~dnp/shared/auth'
 import Button from '~dnp/shared/button'
 import Checkbox from '~dnp/shared/checkbox'
 import Flex from '~dnp/shared/flex'
-import Select from '~dnp/shared/select'
 import { HighlightedText } from '~dnp/shared/text'
 import { Switch } from '~dnp/shared/theme'
-import { auth, globalStore, roles } from '~dnp/slices/auth'
 import { c } from '~dnp/utils/core'
-import { isDev } from '~dnp/utils/core-client'
 
 export interface Props {
   className?: string | undefined
@@ -22,7 +20,6 @@ const NAME = 'dnp-header-Header'
 export default function Component(): JSX.Element {
   const isProd = localStorage.getItem('env') === 'production'
   const isStrict = localStorage.getItem('devReactStrictMode') === 'true'
-  const jwtPayload = globalStore().getJwtPayload()
 
   return (
     <header className={c(NAME)}>
@@ -63,7 +60,7 @@ export default function Component(): JSX.Element {
             </Flex>
           )}
 
-          {isDev() && (
+          {/* {isDev() && (
             <Flex gap='4' direction={'column'}>
               <Select.Root
                 size='1'
@@ -94,12 +91,14 @@ export default function Component(): JSX.Element {
                 </Select.Content>
               </Select.Root>
             </Flex>
-          )}
+          )} */}
         </Flex>
 
         <Flex className={`${NAME}_settings`} gap='4' align='center'>
           <Switch />
-          {jwtPayload?.preferred_username && <HighlightedText>{jwtPayload?.preferred_username}</HighlightedText>}
+          {auth.tokenizer?.decoded?.preferred_username && (
+            <HighlightedText>{auth.tokenizer?.decoded?.preferred_username}</HighlightedText>
+          )}
           <Button variant='ghost' size='1' onClick={() => auth.logout()}>
             Выйти
           </Button>

@@ -5,6 +5,7 @@ import { useQueryParam, useQueryParams } from 'use-query-params'
 
 import { routes } from '~dnp/app/route'
 import { ExplorerViewer, type Row, SYSNAME, api } from '~dnp/entities/target-table'
+import { auth } from '~dnp/shared/auth'
 import Button from '~dnp/shared/button'
 import Container from '~dnp/shared/container'
 import Dialog from '~dnp/shared/dialog'
@@ -17,7 +18,6 @@ import { useSearch } from '~dnp/shared/search'
 import Section from '~dnp/shared/section'
 import TextField from '~dnp/shared/text-field'
 import { JSONParam } from '~dnp/shared/use-query-params'
-import { isResourceRoles, roles } from '~dnp/slices/auth'
 import { type Column, RowForm, toColumns } from '~dnp/slices/database'
 import { useSort } from '~dnp/slices/sort'
 import { type Id, isEmpty } from '~dnp/utils/core'
@@ -49,7 +49,9 @@ export default function Component(): JSX.Element {
 
   const [columnSearchParams, setColumnSearchParams] = useQueryParam('columnSearch', JSONParam)
 
-  const where = isResourceRoles([roles.approver]) ? { OR: [{ _status: '1' }, { _status: '2' }, { _status: '3' }] } : {}
+  const where = auth.hasRole(auth.roles.approver, 'dnp')
+    ? { OR: [{ _status: '1' }, { _status: '2' }, { _status: '3' }] }
+    : {}
 
   const requestParams = {
     kn,

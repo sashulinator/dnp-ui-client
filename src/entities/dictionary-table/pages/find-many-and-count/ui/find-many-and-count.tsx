@@ -2,6 +2,7 @@ import { NumberParam, useQueryParams, withDefault } from 'use-query-params'
 
 import { routes } from '~dnp/app/route'
 import { Item, api } from '~dnp/entities/dictionary-table'
+import { auth } from '~dnp/shared/auth'
 import Button from '~dnp/shared/button'
 import Container from '~dnp/shared/container'
 import { TICK_MS, cssAnimations } from '~dnp/shared/css-animations'
@@ -10,7 +11,6 @@ import Flex from '~dnp/shared/flex'
 import Link from '~dnp/shared/link'
 import { Heading, Pagination } from '~dnp/shared/page'
 import Section from '~dnp/shared/section'
-import { isResourceRoles, roles } from '~dnp/slices/auth'
 import { c } from '~dnp/utils/core'
 import { useRenderDelay } from '~dnp/utils/core-hooks/render-delay'
 
@@ -47,7 +47,7 @@ export default function Component(): JSX.Element {
               <Heading.Name />
             </Heading.Root>
             <Flex align='center' gap='2'>
-              {isResourceRoles([roles.admin]) && (
+              {auth.hasRole(auth.roles.stc_get, 'dnp') && (
                 <Button variant='outline' asChild>
                   <Link to={routes.storeConfigs_kn.getUrl('workingTable')}>Хранилище</Link>
                 </Button>
