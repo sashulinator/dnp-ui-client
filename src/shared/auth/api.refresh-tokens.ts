@@ -21,7 +21,7 @@ export async function request(requestData: RequestData): Promise<{
 
   const formBody = details.map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`).join('&')
 
-  const response = await fetch(`/realms/IIOT-MVP/protocol/openid-connect/token`, {
+  const response = await fetch(`/realms/DEVELOPMENT/protocol/openid-connect/token`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
