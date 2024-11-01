@@ -1,11 +1,11 @@
 import { type Response } from '~/shared/api'
 import api from '~/shared/api'
 
-import { SLICE_NAME } from '../../constants/name'
+import { SLICE } from '../../constants.name'
 import type { DictionaryTable, UpdateDictionaryTable } from '../../models/dictionary-table'
 import { v1Url } from '../v1-url'
 
-export const NAME = `${SLICE_NAME}.update`
+export const NAME = `${SLICE}.update`
 
 export type RequestData = { input: UpdateDictionaryTable }
 

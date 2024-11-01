@@ -8,7 +8,7 @@ import { Card, Checkbox, Column, Row, Select, TextField, TypedField } from '~/sh
 import { DatabaseTableForm } from '~/slices/database'
 import { c, generateId } from '~/utils/core'
 
-import { SLICE_NAME } from '../../../constants/name'
+import { SLICE } from '../../../constants.name'
 import type { Values } from '../types/values'
 
 export interface Props {
@@ -16,7 +16,7 @@ export interface Props {
   readonly?: boolean
 }
 
-export const NAME = `${SLICE_NAME}-Form`
+export const NAME = `${SLICE}-Form`
 
 /**
  * dictionaryTable-Form

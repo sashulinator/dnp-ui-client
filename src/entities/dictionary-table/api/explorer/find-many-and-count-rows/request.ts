@@ -4,11 +4,11 @@ import { type Explorer } from '~/slices/explorer'
 import type { Sort } from '~/slices/sort'
 import type { StringFilter, Where } from '~/slices/where'
 
-import { SLICE_NAME } from '../../../constants/name'
+import { SLICE } from '../../../constants.name'
 import { type DictionaryTable } from '../../../models/dictionary-table'
 import { v1Url } from '../../v1-url'
 
-export const NAME = `${SLICE_NAME}.explorerFindManyAndCountRows`
+export const NAME = `${SLICE}.explorerFindManyAndCountRows`
 
 export type RequestData = {
   kn: string

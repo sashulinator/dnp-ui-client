@@ -4,7 +4,7 @@ import { NumberParam, StringParam, withDefault } from 'serialize-query-params'
 import { useQueryParam, useQueryParams } from 'use-query-params'
 
 import type { Row } from '~/entities/dictionary-table'
-import { SYSNAME, api } from '~/entities/dictionary-table'
+import { SLICE, api } from '~/entities/dictionary-table'
 import Container from '~/shared/container'
 import { type Controller, createController } from '~/shared/controller'
 import { TICK_MS, cssAnimations } from '~/shared/css-animations'
@@ -52,7 +52,7 @@ export interface Props {
   className?: string | undefined
 }
 
-const NAME = `${SYSNAME}-Page_id_explorer`
+const NAME = `${SLICE}-Page_id_explorer`
 
 export default function Component(): JSX.Element {
   const { kn = '' } = useParams<{ kn: string }>()

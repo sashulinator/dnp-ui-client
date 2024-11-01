@@ -2,11 +2,11 @@ import { type Response } from '~/shared/api'
 import api from '~/shared/api'
 import { type Where } from '~/slices/where'
 
-import { SLICE_NAME } from '../../../constants/name'
+import { SLICE } from '../../../constants.name'
 import { type DictionaryTable, type Row } from '../../../models/dictionary-table'
 import { v1Url } from '../../v1-url'
 
-export const NAME = `${SLICE_NAME}.explorerUpdateRow`
+export const NAME = `${SLICE}.explorerUpdateRow`
 
 export type RequestData = { kn: string; input: Record<string, unknown>; where: Where }
 

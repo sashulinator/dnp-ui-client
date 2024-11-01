@@ -1,11 +1,11 @@
 import { type Response } from '~/shared/api'
 import api from '~/shared/api'
 
-import { SLICE_NAME } from '../../../constants/name'
+import { SLICE } from '../../../constants.name'
 import { type DictionaryTable } from '../../../models/dictionary-table'
 import { v1Url } from '../../v1-url'
 
-export const NAME = `${SLICE_NAME}.explorerCreateRow`
+export const NAME = `${SLICE}.explorerCreateRow`
 
 export type RequestData = { kn: string; input: unknown }
 

@@ -28,19 +28,20 @@ export {
   type TableSchema,
   type Column as TableSchemaItem,
   type Row,
-  dictionaryTableModel as dictionaryTableSchema,
-  createDictionaryTableModel as createDictionaryTableSchema,
-  updateDictionaryTableModel as updateDictionaryTableSchema,
-  baseDictionaryTableModel as baseDictionaryTableSchema,
-  dictionaryTableRelationsModel as dictionaryTableRelationsSchema,
-  rowSchema,
 } from './models/dictionary-table'
+
+// TODO: удалить так как проект ничего не должен знать о схемах
+// необходимо написать функции assertSOMETHING и использовать их
+export {
+  createDictionaryTableSchema,
+  updateDictionaryTableSchema,
+} from '~/common/entities/dictionary-table/models.dictionary-table'
 
 /**
  * ui
  */
 
-export { SLICE_NAME as SYSNAME, NAME } from './constants/name'
+export { SLICE } from './constants.name'
 export { default as Item, type ItemProps } from './ui/item'
 export { default as Icon } from './ui/icon'
 export {

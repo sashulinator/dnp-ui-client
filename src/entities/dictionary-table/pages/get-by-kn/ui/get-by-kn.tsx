@@ -22,13 +22,13 @@ import Section from '~/shared/section'
 import Separator from '~/shared/separator'
 import Tooltip from '~/shared/tooltip'
 
-import { SLICE_NAME } from '../../../constants/name'
+import { SLICE } from '../../../constants.name'
 
 export interface Props {
   className?: string | undefined
 }
 
-const NAME = `${SLICE_NAME}-Page_id`
+const NAME = `${SLICE}-Page_id`
 
 export default function Component(): JSX.Element {
   const { kn = '' } = useParams<{ kn: string }>()

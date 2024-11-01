@@ -1,12 +1,12 @@
-import { SLICE_NAME } from '~/entities/dictionary-table/constants/name'
 import { type Response } from '~/shared/api'
 import api from '~/shared/api'
 import { type Where } from '~/slices/where'
 
+import { SLICE } from '../../../constants.name'
 import { type DictionaryTable } from '../../../models/dictionary-table'
 import { v1Url } from '../../v1-url'
 
-export const NAME = `${SLICE_NAME}.explorerDeleteRow`
+export const NAME = `${SLICE}.explorerDeleteRow`
 
 export type RequestData = { kn: string; where: Where }
 

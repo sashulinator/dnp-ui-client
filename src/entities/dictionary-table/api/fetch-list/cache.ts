@@ -2,7 +2,7 @@ import { type QueryError, type Response } from '~/shared/api'
 import { queryClient } from '~/shared/query'
 import { type UseQueryOptions, type UseQueryResult, useQuery } from '~/shared/query'
 
-import { SLICE_NAME } from '../../constants/name'
+import { SLICE } from '../../constants.name'
 import { type RequestData, type ResponseData, request as apiRequest } from './request'
 
 /**
@@ -10,7 +10,7 @@ import { type RequestData, type ResponseData, request as apiRequest } from './re
  */
 
 export function getKeys(requestData: RequestData): unknown[] {
-  return [`${SLICE_NAME}.fetchList`, requestData]
+  return [`${SLICE}.fetchList`, requestData]
 }
 
 /**

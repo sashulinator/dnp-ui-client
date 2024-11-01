@@ -1,10 +1,10 @@
 import api, { type Response } from '~/shared/api'
 
-import { SLICE_NAME } from '../../constants/name'
+import { SLICE } from '../../constants.name'
 import { type DictionaryTable } from '../../models/dictionary-table'
 import { v1Url } from '../v1-url'
 
-export const NAME = `${SLICE_NAME}.getBykn`
+export const NAME = `${SLICE}.getBykn`
 
 export interface RequestData {
   kn: string
