@@ -89,10 +89,10 @@ export default function Component(): JSX.Element {
                 const iconName = ((operationalTable as any).iconName as keyof typeof iconMap) ?? 'Star'
 
                 return (
-                  <Tooltip side='right' key={operationalTable.kn} content={operationalTable.name}>
+                  <Tooltip side='right' key={operationalTable.kn} content={operationalTable.display}>
                     <Link
                       to={routes.operationalTables_kn_explorer.getUrl(operationalTable.kn, {
-                        name: operationalTable.name,
+                        name: operationalTable.display,
                       })}
                     >
                       {iconMap[iconName] ? (
@@ -118,10 +118,10 @@ export default function Component(): JSX.Element {
                 const iconName = ((dictionaryTable as any).iconName as keyof typeof iconMap) ?? 'Star'
 
                 return (
-                  <Tooltip side='right' key={dictionaryTable.kn} content={dictionaryTable.name}>
+                  <Tooltip side='right' key={dictionaryTable.kn} content={dictionaryTable.display}>
                     <Link
                       to={routes.dictionaryTables_explorerFindManyAndCount.getUrl(dictionaryTable.kn, {
-                        name: dictionaryTable.name,
+                        name: dictionaryTable.display,
                       })}
                     >
                       {iconMap[iconName] ? (

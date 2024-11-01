@@ -79,7 +79,7 @@ export default function Component(): JSX.Element {
           >
             <Heading.BackToParent />
             <Heading.Name />
-            <Heading.Unique string={values.name} tooltipContent='Название' />
+            <Heading.Unique string={values.display} tooltipContent='Название' />
           </Heading.Root>
         </Section>
 

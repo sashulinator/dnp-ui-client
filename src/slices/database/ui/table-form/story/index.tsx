@@ -53,7 +53,7 @@ export default {
                   fieldNames={{
                     table: 'tableName',
                     columns: 'columns',
-                    tableDisplay: 'name',
+                    tableDisplay: 'display',
                     description: 'description',
                   }}
                   strings={{

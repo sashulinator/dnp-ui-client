@@ -136,7 +136,7 @@ export default function Component(): JSX.Element {
               >
                 <Heading.BackToParent />
                 <Heading.Unique
-                  string={explorerListFetcher.data?.targetTable.name ?? nameQueryParam}
+                  string={explorerListFetcher.data?.targetTable.display ?? nameQueryParam}
                   tooltipContent={routes.targetTables_kn_explorer.getName()}
                 />
               </Heading.Root>

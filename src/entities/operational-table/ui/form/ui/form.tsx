@@ -48,7 +48,7 @@ export function Component(props: Props): JSX.Element {
           fieldNames={{
             table: 'tableName',
             columns: 'columns',
-            tableDisplay: 'name',
+            tableDisplay: 'display',
             description: 'description',
           }}
           strings={{

@@ -32,7 +32,7 @@ export default function Component(props: Props): JSX.Element {
       <Card asChild={true} className={c(displayName, className)}>
         <Link to={`${routes.dictionaryTables_getByKn.getUrl(item.kn)}`}>
           <Flex direction='column'>
-            <HighlightedText tooltipContent='Название справочника'>{item.name}</HighlightedText>
+            <HighlightedText tooltipContent='Название справочника'>{item.display}</HighlightedText>
             <Text style={{ marginLeft: 'var(--space-1)' }} color='gray' size='2'>
               {item.kn}
             </Text>

@@ -156,7 +156,7 @@ export default function Component(): JSX.Element {
             <_Heading
               formToCreate={formToCreate}
               setFormToCreateOpen={setFormToCreateOpen}
-              name={explorerListFetcher.data?.dictionaryTable.name || nameQueryParam}
+              name={explorerListFetcher.data?.dictionaryTable.display || nameQueryParam}
             />
           </Section>
 
