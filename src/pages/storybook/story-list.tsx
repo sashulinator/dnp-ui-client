@@ -26,10 +26,15 @@ import uiTreeVNested from '~/shared/tree/variants/nested/story'
 import databasTableColumnForm from '~/slices/database/ui/column-form/story'
 import databasTableDatabaseTableForm from '~/slices/database/ui/table-form/story'
 import explorerViewer from '~/slices/explorer/ui/viewer/story'
+import linkMenuLinkMenu from '~/slices/link-menu/ui/link-menu/story'
 import sortButton from '~/slices/sort/components/button/story'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const storyList: Story<any>[] = [
+  /**
+   * entities
+   */
+
   explorerViewer,
   normalizationConfigForm,
   operationalTableForm,
@@ -38,6 +43,11 @@ export const storyList: Story<any>[] = [
   debugRenderCounter,
   storeConfigForm,
   targetTableForm,
+
+  /**
+   * shared
+   */
+
   uiButton,
   uiTreeVNested,
   uiCard,
@@ -58,4 +68,10 @@ export const storyList: Story<any>[] = [
   uiPaginationWSwitcher,
   uiToast,
   uiNotificationToastList,
+
+  /**
+   * slices
+   */
+
+  linkMenuLinkMenu,
 ]
