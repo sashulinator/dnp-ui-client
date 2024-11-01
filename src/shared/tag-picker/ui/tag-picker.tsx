@@ -1,10 +1,10 @@
 import { useRef } from 'react'
 
-import Button from '~dnp/shared/button'
-import Flex from '~dnp/shared/flex'
-import Icon from '~dnp/shared/icon'
-import TextField from '~dnp/shared/text-field'
-import { push, remove, replace } from '~dnp/utils/list'
+import Button from '~/shared/button'
+import Flex from '~/shared/flex'
+import Icon from '~/shared/icon'
+import TextField from '~/shared/text-field'
+import { push, remove, replace } from '~/utils/list'
 
 import Tag from '../widgets/tag'
 

@@ -1,9 +1,9 @@
 import { Field } from 'react-final-form'
 
-import CodeEditor, { type CodeEditorProps } from '~dnp/shared/code-editor'
-import Flex from '~dnp/shared/flex'
-import Text from '~dnp/shared/text'
-import { c } from '~dnp/utils/core'
+import CodeEditor, { type CodeEditorProps } from '~/shared/code-editor'
+import Flex from '~/shared/flex'
+import Text from '~/shared/text'
+import { c } from '~/utils/core'
 
 export interface Props extends CodeEditorProps {
   className?: string | undefined

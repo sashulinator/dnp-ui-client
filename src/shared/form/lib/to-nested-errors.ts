@@ -1,5 +1,5 @@
-import { capitalize } from '~dnp/utils/core'
-import { setPath } from '~dnp/utils/dictionary'
+import { capitalize } from '~/utils/core'
+import { setPath } from '~/utils/dictionary'
 
 type Path = { key?: unknown }
 

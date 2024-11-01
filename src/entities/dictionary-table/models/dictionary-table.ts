@@ -1,1 +1,1 @@
-export * from '~dnp/common/entities/dictionary-table'
+export * from '~/common/entities/dictionary-table'

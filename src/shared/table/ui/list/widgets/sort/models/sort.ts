@@ -1,1 +1,1 @@
-export * from '~dnp/slices/sort'
+export * from '~/slices/sort'

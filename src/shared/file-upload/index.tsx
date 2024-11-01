@@ -4,7 +4,7 @@ import { Flex } from '@radix-ui/themes'
 
 import { useMemo, useRef, useState } from 'react'
 
-import Text from '~dnp/shared/text'
+import Text from '~/shared/text'
 
 import { FileIcon } from './icons/file-icon'
 import { FilePlusIcon } from './icons/file-plus-icon'

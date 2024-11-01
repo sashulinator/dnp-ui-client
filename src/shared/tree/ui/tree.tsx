@@ -6,7 +6,7 @@ import Tree, {
 
 import { ReactNode } from 'react'
 
-import { Id } from '~dnp/utils/core'
+import { Id } from '~/utils/core'
 
 import { TreeData, TreeItem } from '../types/tree-data'
 

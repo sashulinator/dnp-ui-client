@@ -4,7 +4,7 @@ import { Card, type CardProps } from '@radix-ui/themes'
 
 import { type ForwardedRef, forwardRef } from 'react'
 
-import { c } from '~dnp/utils/core'
+import { c } from '~/utils/core'
 
 export interface Props extends CardProps {}
 

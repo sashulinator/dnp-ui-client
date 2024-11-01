@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 
-import { COMPARISON, IS, MATCH } from '~dnp/common/slices/where'
-import Select, { type SelectTriggerProps } from '~dnp/shared/select'
-import TextField, { type RootProps } from '~dnp/shared/text-field'
-import { useDebounceCallback } from '~dnp/utils/core-hooks'
-import { fns } from '~dnp/utils/function'
+import { COMPARISON, IS, MATCH } from '~/common/slices/where'
+import Select, { type SelectTriggerProps } from '~/shared/select'
+import TextField, { type RootProps } from '~/shared/text-field'
+import { useDebounceCallback } from '~/utils/core-hooks'
+import { fns } from '~/utils/function'
 
 import { useContext } from '../model/context'
 

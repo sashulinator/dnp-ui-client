@@ -1,1 +1,1 @@
-export * from '~dnp/common/entities/normalization-config'
+export * from '~/common/entities/normalization-config'

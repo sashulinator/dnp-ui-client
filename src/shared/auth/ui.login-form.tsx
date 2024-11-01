@@ -1,6 +1,6 @@
-import Flex, { type FlexProps } from '~dnp/shared/flex'
-import { TextField, type TextFieldProps, TypedField } from '~dnp/shared/form'
-import { c } from '~dnp/utils/core'
+import Flex, { type FlexProps } from '~/shared/flex'
+import { TextField, type TextFieldProps, TypedField } from '~/shared/form'
+import { c } from '~/utils/core'
 
 export type Values = {
   email: string

@@ -1,11 +1,11 @@
 import './item.scss'
 
-import { routes } from '~dnp/app/route'
-import Card from '~dnp/shared/card'
-import Flex from '~dnp/shared/flex'
-import Link from '~dnp/shared/link'
-import { HighlightedText } from '~dnp/shared/text'
-import { c } from '~dnp/utils/core'
+import { routes } from '~/app/route'
+import Card from '~/shared/card'
+import Flex from '~/shared/flex'
+import Link from '~/shared/link'
+import { HighlightedText } from '~/shared/text'
+import { c } from '~/utils/core'
 
 import { type StoreConfig } from '../../../types/store-config'
 

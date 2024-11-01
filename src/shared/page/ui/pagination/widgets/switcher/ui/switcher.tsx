@@ -3,11 +3,11 @@ import './switcher.scss'
 import type { CSSProperties } from 'react'
 import { useEffect, useState } from 'react'
 
-import Button from '~dnp/shared/button'
-import Icon from '~dnp/shared/icon'
-import Spinner from '~dnp/shared/spinner'
-import TextField from '~dnp/shared/text-field'
-import { c } from '~dnp/utils/core'
+import Button from '~/shared/button'
+import Icon from '~/shared/icon'
+import Spinner from '~/shared/spinner'
+import TextField from '~/shared/text-field'
+import { c } from '~/utils/core'
 
 export interface Props {
   className?: string | undefined

@@ -1,13 +1,13 @@
 import qs from 'qs'
 import { useMutation } from 'react-query'
 
-import { history, routes } from '~dnp/app/route'
-import { LoginForm, type LoginFormValues, auth } from '~dnp/shared/auth'
-import Button from '~dnp/shared/button'
-import Flex from '~dnp/shared/flex'
-import FForm, { useCreateForm } from '~dnp/shared/form'
-import { c, fns } from '~dnp/utils/core'
-import { preventDefault } from '~dnp/utils/core-client'
+import { history, routes } from '~/app/route'
+import { LoginForm, type LoginFormValues, auth } from '~/shared/auth'
+import Button from '~/shared/button'
+import Flex from '~/shared/flex'
+import FForm, { useCreateForm } from '~/shared/form'
+import { c, fns } from '~/utils/core'
+import { preventDefault } from '~/utils/core-client'
 
 const NAME = 'pages-Login'
 

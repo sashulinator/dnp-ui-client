@@ -1,9 +1,9 @@
-import Button from '~dnp/shared/button'
-import { type Controller } from '~dnp/shared/controller'
-import Flex from '~dnp/shared/flex'
-import Text from '~dnp/shared/text'
-import { useSubscribeUpdate } from '~dnp/utils/core-hooks'
-import { type Required } from '~dnp/utils/types/object'
+import Button from '~/shared/button'
+import { type Controller } from '~/shared/controller'
+import Flex from '~/shared/flex'
+import Text from '~/shared/text'
+import { useSubscribeUpdate } from '~/utils/core-hooks'
+import { type Required } from '~/utils/types/object'
 
 import Dialog from '../../dialog'
 

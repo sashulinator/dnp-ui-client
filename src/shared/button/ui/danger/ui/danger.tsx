@@ -1,5 +1,5 @@
-import { c, fns } from '~dnp/utils/core'
-import { useBoolean } from '~dnp/utils/core-hooks'
+import { c, fns } from '~/utils/core'
+import { useBoolean } from '~/utils/core-hooks'
 
 import Button, { type ButtonProps } from '../../button'
 

@@ -1,9 +1,9 @@
 import React, { useId } from 'react'
 import { FieldInputProps, FieldMetaState } from 'react-final-form'
 
-import Flex, { FlexProps } from '~dnp/shared/flex'
-import Select, { SelectItemProps, SelectRootProps } from '~dnp/shared/select'
-import { c, fns } from '~dnp/utils/core'
+import Flex, { FlexProps } from '~/shared/flex'
+import Select, { SelectItemProps, SelectRootProps } from '~/shared/select'
+import { c, fns } from '~/utils/core'
 
 import { _checkErrorVisible } from '../../../lib/_check-error-visible'
 import { _renderHint } from '../../../lib/_render-hint'

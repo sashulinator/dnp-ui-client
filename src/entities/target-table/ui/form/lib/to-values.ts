@@ -1,4 +1,4 @@
-import type { Partial } from '~dnp/utils/types/object'
+import type { Partial } from '~/utils/types/object'
 
 import type { CreateTargetTable } from '../../../types/target-table'
 import type { Values } from '../types/values'

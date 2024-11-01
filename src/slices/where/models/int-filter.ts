@@ -1,1 +1,1 @@
-export * from '~dnp/common/slices/where/models/int-filter'
+export * from '~/common/slices/where/models/int-filter'

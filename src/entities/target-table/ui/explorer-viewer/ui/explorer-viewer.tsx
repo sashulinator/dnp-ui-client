@@ -1,16 +1,16 @@
 import { useMemo } from 'react'
 import { useMutation } from 'react-query'
 
-import { type Row, type TargetTable } from '~dnp/entities/target-table'
-import Button from '~dnp/shared/button'
-import Flex from '~dnp/shared/flex'
-import Icon from '~dnp/shared/icon'
-import { notify } from '~dnp/shared/notification-list-store'
-import { type ColumnContext } from '~dnp/slices/database'
-import { type Item, Viewer } from '~dnp/slices/explorer'
-import { type TableColumn } from '~dnp/slices/explorer/ui/viewer'
-import { SortButton } from '~dnp/slices/sort'
-import { type Id, c } from '~dnp/utils/core'
+import { type Row, type TargetTable } from '~/entities/target-table'
+import Button from '~/shared/button'
+import Flex from '~/shared/flex'
+import Icon from '~/shared/icon'
+import { notify } from '~/shared/notification-list-store'
+import { type ColumnContext } from '~/slices/database'
+import { type Item, Viewer } from '~/slices/explorer'
+import { type TableColumn } from '~/slices/explorer/ui/viewer'
+import { SortButton } from '~/slices/sort'
+import { type Id, c } from '~/utils/core'
 
 export interface Props<TItem extends Item> extends Omit<Viewer.RootProps<TItem>, 'children'> {
   columns: TableColumn<Record<string, unknown>, ColumnContext>[] | undefined

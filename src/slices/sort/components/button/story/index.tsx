@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { type Props, type Story } from '~dnp/shared/storybook'
+import { type Props, type Story } from '~/shared/storybook'
 
 import type { Value } from '../ui/button'
 import Button, { NAME } from '../ui/button'

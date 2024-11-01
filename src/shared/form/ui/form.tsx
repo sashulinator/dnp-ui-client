@@ -2,8 +2,8 @@ import { type AnyObject, type Config, type FormApi } from 'final-form'
 import arrayMutators from 'final-form-arrays'
 import { Form, type FormRenderProps, type RenderableProps } from 'react-final-form'
 
-import { type Any } from '~dnp/utils/core'
-import { emptyFn } from '~dnp/utils/function'
+import { type Any } from '~/utils/core'
+import { emptyFn } from '~/utils/function'
 
 export type Props<
   FormValues = Record<string, Any>,

@@ -1,8 +1,8 @@
-import type { Response } from '~dnp/shared/api'
-import api from '~dnp/shared/api'
-import { type Explorer } from '~dnp/slices/explorer/models/explorer'
-import type { Sort } from '~dnp/slices/sort'
-import type { StringFilter, Where } from '~dnp/slices/where'
+import type { Response } from '~/shared/api'
+import api from '~/shared/api'
+import { type Explorer } from '~/slices/explorer/models/explorer'
+import type { Sort } from '~/slices/sort'
+import type { StringFilter, Where } from '~/slices/where'
 
 import { SYSNAME } from '../../../constants/name'
 import { type OperationalTable } from '../../../types/operational-table'

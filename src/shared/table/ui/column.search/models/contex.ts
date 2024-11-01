@@ -1,5 +1,5 @@
-import { type ReplaceValueByFilter } from '~dnp/slices/where'
-import { type Dictionary, type SetterOrUpdater } from '~dnp/utils/core'
+import { type ReplaceValueByFilter } from '~/slices/where'
+import { type Dictionary, type SetterOrUpdater } from '~/utils/core'
 
 export type Context<TItem extends Dictionary> = {
   searchFilter: ReplaceValueByFilter<TItem> | undefined

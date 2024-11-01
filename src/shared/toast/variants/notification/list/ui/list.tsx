@@ -4,8 +4,8 @@ import { Provider, Viewport } from '@radix-ui/react-toast'
 
 import { useEffect } from 'react'
 
-import { useNotificationListStore } from '~dnp/shared/notification-list-store'
-import { c } from '~dnp/utils/core'
+import { useNotificationListStore } from '~/shared/notification-list-store'
+import { c } from '~/utils/core'
 
 import NotificationToast from '../../ui/notification'
 

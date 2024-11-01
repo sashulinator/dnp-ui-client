@@ -1,10 +1,10 @@
-import { type Row } from '~dnp/entities/dictionary-table'
-import Button from '~dnp/shared/button'
-import Dialog from '~dnp/shared/dialog'
-import Flex from '~dnp/shared/flex'
-import FForm, { type FormApi, useCreateForm } from '~dnp/shared/form'
-import { type Column as DatabaseColumn, RowForm } from '~dnp/slices/database'
-import { type SetterOrUpdater } from '~dnp/utils/core'
+import { type Row } from '~/entities/dictionary-table'
+import Button from '~/shared/button'
+import Dialog from '~/shared/dialog'
+import Flex from '~/shared/flex'
+import FForm, { type FormApi, useCreateForm } from '~/shared/form'
+import { type Column as DatabaseColumn, RowForm } from '~/slices/database'
+import { type SetterOrUpdater } from '~/utils/core'
 
 interface _DialogProps {
   open: boolean

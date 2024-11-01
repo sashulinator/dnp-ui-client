@@ -1,8 +1,8 @@
 import { memo } from 'react'
 
-import Flex from '~dnp/shared/flex'
-import { JsonEditor, TextField, TextFieldProps, TypedField, useForm } from '~dnp/shared/form'
-import { c } from '~dnp/utils/core'
+import Flex from '~/shared/flex'
+import { JsonEditor, TextField, TextFieldProps, TypedField, useForm } from '~/shared/form'
+import { c } from '~/utils/core'
 
 import { Values } from '../types/values'
 

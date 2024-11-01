@@ -9,7 +9,7 @@ export {
   type ColumnFormProps,
   type Column,
   type Relation,
-} from '~dnp/slices/database'
+} from '~/slices/database'
 
 /**
  * lib

@@ -1,10 +1,10 @@
-import Button from '~dnp/shared/button'
-import DropdownMenu from '~dnp/shared/dropdown-menu'
-import Flex from '~dnp/shared/flex'
-import Icon from '~dnp/shared/icon'
-import Text from '~dnp/shared/text'
-import { type TableColumn } from '~dnp/slices/explorer/ui/viewer'
-import { type Sort, SortButton } from '~dnp/slices/sort'
+import Button from '~/shared/button'
+import DropdownMenu from '~/shared/dropdown-menu'
+import Flex from '~/shared/flex'
+import Icon from '~/shared/icon'
+import Text from '~/shared/text'
+import { type TableColumn } from '~/slices/explorer/ui/viewer'
+import { type Sort, SortButton } from '~/slices/sort'
 import {
   FilterConfigurator,
   type IntFilter,
@@ -12,9 +12,9 @@ import {
   type StringFilter,
   toFilter,
   toFilterConfig,
-} from '~dnp/slices/where'
-import { type SetterOrUpdater, assertDefined } from '~dnp/utils/core'
-import { add, omit } from '~dnp/utils/dictionary'
+} from '~/slices/where'
+import { type SetterOrUpdater, assertDefined } from '~/utils/core'
+import { add, omit } from '~/utils/dictionary'
 
 import { type Column } from '../models/database'
 

@@ -26,7 +26,7 @@
     /* Resolve */
     "baseUrl": "./src",
     "paths": {
-      "~dnp/*": ["./*"]
+      "~/*": ["./*"]
     }
   },
   "include": ["./src/vite-env.d.ts", "src/**/*"],

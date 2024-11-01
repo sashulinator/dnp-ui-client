@@ -1,4 +1,4 @@
-import { Partial } from '~dnp/utils/types/object'
+import { Partial } from '~/utils/types/object'
 
 import { CreateOperationalTable } from '../../../types/operational-table'
 import { Values } from '../types/values'

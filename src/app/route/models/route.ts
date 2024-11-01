@@ -1,4 +1,4 @@
-import { type Dictionary } from '~dnp/utils/core'
+import { type Dictionary } from '~/utils/core'
 
 export type Route<TPayload extends Dictionary = Dictionary, TContext extends Dictionary = Dictionary> = {
   /**

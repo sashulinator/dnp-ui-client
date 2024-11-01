@@ -1,12 +1,12 @@
 import './header.scss'
 
-import { auth } from '~dnp/shared/auth'
-import Button from '~dnp/shared/button'
-import Checkbox from '~dnp/shared/checkbox'
-import Flex from '~dnp/shared/flex'
-import { HighlightedText } from '~dnp/shared/text'
-import { Switch } from '~dnp/shared/theme'
-import { c } from '~dnp/utils/core'
+import { auth } from '~/shared/auth'
+import Button from '~/shared/button'
+import Checkbox from '~/shared/checkbox'
+import Flex from '~/shared/flex'
+import { HighlightedText } from '~/shared/text'
+import { Switch } from '~/shared/theme'
+import { c } from '~/utils/core'
 
 export interface Props {
   className?: string | undefined

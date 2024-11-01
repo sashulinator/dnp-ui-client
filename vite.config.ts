@@ -12,7 +12,7 @@ export default defineConfig(({ mode }) => {
     plugins: [react(), checker({ typescript: true })],
     resolve: {
       alias: {
-        '~dnp': path.resolve(__dirname, './src'),
+        '~': path.resolve(__dirname, './src'),
       },
     },
     server: {

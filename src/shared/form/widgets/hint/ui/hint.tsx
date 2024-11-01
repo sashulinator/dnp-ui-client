@@ -1,7 +1,7 @@
-import Flex from '~dnp/shared/flex'
-import Icon from '~dnp/shared/icon'
-import Text from '~dnp/shared/text'
-import { c } from '~dnp/utils/core'
+import Flex from '~/shared/flex'
+import Icon from '~/shared/icon'
+import Text from '~/shared/text'
+import { c } from '~/utils/core'
 
 export interface Props {
   className?: string | undefined

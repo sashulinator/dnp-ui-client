@@ -1,13 +1,13 @@
 import { memo } from 'react'
 
-import { routes } from '~dnp/app/route'
-import { type Row } from '~dnp/entities/dictionary-table'
-import Button from '~dnp/shared/button'
-import { RenderCounter } from '~dnp/shared/debug'
-import Flex from '~dnp/shared/flex'
-import { type FormApi } from '~dnp/shared/form'
-import { Heading } from '~dnp/shared/page'
-import { type SetterOrUpdater } from '~dnp/utils/core'
+import { routes } from '~/app/route'
+import { type Row } from '~/entities/dictionary-table'
+import Button from '~/shared/button'
+import { RenderCounter } from '~/shared/debug'
+import Flex from '~/shared/flex'
+import { type FormApi } from '~/shared/form'
+import { Heading } from '~/shared/page'
+import { type SetterOrUpdater } from '~/utils/core'
 
 export interface Props {
   setFormToCreateOpen: SetterOrUpdater<boolean>

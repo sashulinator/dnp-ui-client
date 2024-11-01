@@ -1,1 +1,1 @@
-export * from '~dnp/common/slices/sort/models/sort'
+export * from '~/common/slices/sort/models/sort'

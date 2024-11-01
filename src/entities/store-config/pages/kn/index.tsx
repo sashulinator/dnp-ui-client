@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { safeParse } from 'valibot'
 
-import { routes } from '~dnp/app/route'
+import { routes } from '~/app/route'
 import {
   Form,
   type FormValues,
@@ -11,19 +11,19 @@ import {
   toFormValues,
   update,
   updateStoreConfigSchema,
-} from '~dnp/entities/store-config'
-import Button from '~dnp/shared/button'
-import Card from '~dnp/shared/card'
-import Container from '~dnp/shared/container'
-import Flex from '~dnp/shared/flex'
-import FForm, { toNestedErrors, useCreateForm } from '~dnp/shared/form'
-import Heading from '~dnp/shared/heading'
-import { notify } from '~dnp/shared/notification-list-store'
-import Section from '~dnp/shared/section'
-import Spinner from '~dnp/shared/spinner'
-import { HighlightedText } from '~dnp/shared/text'
-import Tooltip from '~dnp/shared/tooltip'
-import { type Path, Viewer, api } from '~dnp/slices/explorer'
+} from '~/entities/store-config'
+import Button from '~/shared/button'
+import Card from '~/shared/card'
+import Container from '~/shared/container'
+import Flex from '~/shared/flex'
+import FForm, { toNestedErrors, useCreateForm } from '~/shared/form'
+import Heading from '~/shared/heading'
+import { notify } from '~/shared/notification-list-store'
+import Section from '~/shared/section'
+import Spinner from '~/shared/spinner'
+import { HighlightedText } from '~/shared/text'
+import Tooltip from '~/shared/tooltip'
+import { type Path, Viewer, api } from '~/slices/explorer'
 
 export interface Props {
   className?: string | undefined

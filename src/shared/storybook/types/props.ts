@@ -1,4 +1,4 @@
-import { SetterOrUpdater } from '~dnp/utils/core'
+import { SetterOrUpdater } from '~/utils/core'
 
 export interface Props<State> {
   state: State

@@ -1,8 +1,8 @@
 import React from 'react'
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 
-import type { Any } from '~dnp/utils/core'
-import { type Dictionary } from '~dnp/utils/core'
+import type { Any } from '~/utils/core'
+import { type Dictionary } from '~/utils/core'
 
 import { type Route as IRoute } from '../../../models/route'
 

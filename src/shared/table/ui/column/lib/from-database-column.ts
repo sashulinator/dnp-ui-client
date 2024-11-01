@@ -1,6 +1,6 @@
-import { type Column as DatabaseColumn } from '~dnp/slices/database'
-import { type Dictionary } from '~dnp/utils/core'
-import { toHtml } from '~dnp/utils/md'
+import { type Column as DatabaseColumn } from '~/slices/database'
+import { type Dictionary } from '~/utils/core'
+import { toHtml } from '~/utils/md'
 
 import { type Column } from '../models/column'
 

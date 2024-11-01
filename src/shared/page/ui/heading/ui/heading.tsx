@@ -1,11 +1,11 @@
 import React from 'react'
 
-import Button from '~dnp/shared/button'
-import Heading from '~dnp/shared/heading'
-import Icon from '~dnp/shared/icon'
-import Link from '~dnp/shared/link'
-import { HighlightedText } from '~dnp/shared/text'
-import { c } from '~dnp/utils/core'
+import Button from '~/shared/button'
+import Heading from '~/shared/heading'
+import Icon from '~/shared/icon'
+import Link from '~/shared/link'
+import { HighlightedText } from '~/shared/text'
+import { c } from '~/utils/core'
 
 import { type Context, context, useContext } from '../models/context'
 

@@ -1,7 +1,7 @@
-import Flex from '~dnp/shared/flex'
-import { HighlightedText } from '~dnp/shared/text'
-import Tooltip from '~dnp/shared/tooltip'
-import { c } from '~dnp/utils/core'
+import Flex from '~/shared/flex'
+import { HighlightedText } from '~/shared/text'
+import Tooltip from '~/shared/tooltip'
+import { c } from '~/utils/core'
 
 import { type Item } from '../../../../../../../models/explorer'
 import Icon from '../../../../../../icon'

@@ -1,7 +1,7 @@
 import React from 'react'
 
-import Flex from '~dnp/shared/flex'
-import { type Dictionary } from '~dnp/utils/core'
+import Flex from '~/shared/flex'
+import { type Dictionary } from '~/utils/core'
 
 import { type Column } from '../../../../column/models/column'
 import { type Context } from '../models/contex'

@@ -1,11 +1,11 @@
 import { Checkbox } from '@radix-ui/themes'
 
-import { type Controller } from '~dnp/shared/controller'
-import { type ColumnTypes } from '~dnp/shared/table'
-import { type Dictionary } from '~dnp/utils/core'
-import { useSubscribeUpdate } from '~dnp/utils/core-hooks'
-import { remove } from '~dnp/utils/dictionary'
-import { toDictionary } from '~dnp/utils/list'
+import { type Controller } from '~/shared/controller'
+import { type ColumnTypes } from '~/shared/table'
+import { type Dictionary } from '~/utils/core'
+import { useSubscribeUpdate } from '~/utils/core-hooks'
+import { remove } from '~/utils/dictionary'
+import { toDictionary } from '~/utils/list'
 
 export type Context = {
   idKey: string

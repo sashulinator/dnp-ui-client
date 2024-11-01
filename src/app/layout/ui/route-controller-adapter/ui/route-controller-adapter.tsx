@@ -1,6 +1,6 @@
 import { createElement, useCallback } from 'react'
 
-import { type AppRoute } from '~dnp/app/route'
+import { type AppRoute } from '~/app/route'
 
 import RootLayout from '../../layout'
 

@@ -1,6 +1,6 @@
-import { type Response } from '~dnp/shared/api'
-import api from '~dnp/shared/api'
-import { type Where } from '~dnp/slices/where'
+import { type Response } from '~/shared/api'
+import api from '~/shared/api'
+import { type Where } from '~/slices/where'
 
 import { SYSNAME } from '../../../constants/name'
 import { type Row, type TargetTable } from '../../../types/target-table'

@@ -2,8 +2,8 @@ import './layout.scss'
 
 import { createElement } from 'react'
 
-import ScrollArea from '~dnp/shared/scroll-area'
-import { c } from '~dnp/utils/core'
+import ScrollArea from '~/shared/scroll-area'
+import { c } from '~/utils/core'
 
 export interface Props {
   renderHeader?: (() => React.ReactNode) | undefined

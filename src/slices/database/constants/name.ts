@@ -1,1 +1,1 @@
-export * from '~dnp/common/slices/database/constants/name'
+export * from '~/common/slices/database/constants/name'

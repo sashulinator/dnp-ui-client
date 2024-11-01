@@ -1,6 +1,6 @@
-import Flex from '~dnp/shared/flex'
-import Form, { Field, useCreateForm } from '~dnp/shared/form'
-import { type Props, type Story } from '~dnp/shared/storybook'
+import Flex from '~/shared/flex'
+import Form, { Field, useCreateForm } from '~/shared/form'
+import { type Props, type Story } from '~/shared/storybook'
 
 import type { TextAreaProps } from '..'
 import TextArea from '..'

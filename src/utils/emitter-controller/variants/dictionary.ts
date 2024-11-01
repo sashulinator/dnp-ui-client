@@ -1,4 +1,4 @@
-import { Id } from '~dnp/utils/core'
+import { Id } from '~/utils/core'
 
 import { Key, find, get } from '../../dictionary'
 import { Emitter } from '../../emitter'

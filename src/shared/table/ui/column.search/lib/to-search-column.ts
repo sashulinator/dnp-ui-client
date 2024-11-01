@@ -1,4 +1,4 @@
-import { type Dictionary } from '~dnp/utils/core'
+import { type Dictionary } from '~/utils/core'
 
 import { type Column } from '../../column/models/column'
 import { type Context } from '../models/contex'

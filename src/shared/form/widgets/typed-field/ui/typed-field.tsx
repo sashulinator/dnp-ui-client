@@ -1,8 +1,8 @@
 import { createElement } from 'react'
 import { Field, FieldRenderProps, RenderableProps, UseFieldConfig } from 'react-final-form'
 
-import { Any } from '~dnp/utils/core'
-import { NestedKeyOf } from '~dnp/utils/types/object'
+import { Any } from '~/utils/core'
+import { NestedKeyOf } from '~/utils/types/object'
 
 export type Props<
   P extends string,

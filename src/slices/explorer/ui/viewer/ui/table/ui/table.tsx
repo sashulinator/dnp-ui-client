@@ -3,8 +3,8 @@ import { type RootProps } from '@radix-ui/themes/dist/esm/components/table.d.ts'
 
 import React from 'react'
 
-import { type TableTypes } from '~dnp/shared/table'
-import { c } from '~dnp/utils/core'
+import { type TableTypes } from '~/shared/table'
+import { c } from '~/utils/core'
 
 import { type Item } from '../../../../../models/explorer'
 import { useContext } from '../../../models/context'

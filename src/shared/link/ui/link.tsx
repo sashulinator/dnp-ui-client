@@ -1,6 +1,6 @@
 import { Link, LinkProps } from 'react-router-dom'
 
-import { c } from '~dnp/utils/core'
+import { c } from '~/utils/core'
 
 export interface Props extends LinkProps {}
 

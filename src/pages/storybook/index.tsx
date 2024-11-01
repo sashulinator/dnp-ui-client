@@ -1,7 +1,7 @@
 import { useSearchParams } from 'react-router-dom'
 
-import Storybook from '~dnp/shared/storybook'
-import { c } from '~dnp/utils/core'
+import Storybook from '~/shared/storybook'
+import { c } from '~/utils/core'
 
 import { storyList } from './story-list'
 

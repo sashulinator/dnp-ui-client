@@ -1,6 +1,6 @@
-import { type QueryError, type Response } from '~dnp/shared/api'
-import { queryClient } from '~dnp/shared/query'
-import { type UseQueryOptions, type UseQueryResult, useQuery } from '~dnp/shared/query'
+import { type QueryError, type Response } from '~/shared/api'
+import { queryClient } from '~/shared/query'
+import { type UseQueryOptions, type UseQueryResult, useQuery } from '~/shared/query'
 
 import { SLICE_NAME } from '../../constants/name'
 import { type RequestData, type ResponseData, request as apiRequest } from './request'

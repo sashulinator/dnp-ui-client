@@ -1,6 +1,6 @@
 import { type AxiosRequestConfig } from 'axios'
 
-import { auth } from '~dnp/shared/auth'
+import { auth } from '~/shared/auth'
 
 export function _setAuthorizationHeader(request: AxiosRequestConfig<unknown>) {
   const accessToken = auth.tokenizer.accessToken

@@ -1,8 +1,8 @@
 import axios from 'axios'
 import { stringify } from 'qs'
 
-import { history, routes } from '~dnp/app/route'
-import { auth } from '~dnp/shared/auth'
+import { history, routes } from '~/app/route'
+import { auth } from '~/shared/auth'
 
 import { _handleUnauthorizedError } from './_handle-unauthorize-error'
 import { _setAuthorizationHeader } from './_set-authorization-header'

@@ -1,8 +1,8 @@
-import Button from '~dnp/shared/button'
-import Flex, { FlexProps } from '~dnp/shared/flex'
-import Icon from '~dnp/shared/icon'
-import TextField from '~dnp/shared/text-field'
-import { c } from '~dnp/utils/core'
+import Button from '~/shared/button'
+import Flex, { FlexProps } from '~/shared/flex'
+import Icon from '~/shared/icon'
+import TextField from '~/shared/text-field'
+import { c } from '~/utils/core'
 
 export type Props = Omit<FlexProps, 'onChange'> & {
   value: string | undefined

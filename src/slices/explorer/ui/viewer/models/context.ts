@@ -1,6 +1,6 @@
 import { createContext, useContext as reactUseContext } from 'react'
 
-import { type Any, assertDefined } from '~dnp/utils/core'
+import { type Any, assertDefined } from '~/utils/core'
 
 import type { Explorer, Item, Path } from '../../../models/explorer'
 

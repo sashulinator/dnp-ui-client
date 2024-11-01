@@ -1,9 +1,9 @@
-import Button, { DangerButton } from '~dnp/shared/button'
-import Flex from '~dnp/shared/flex'
-import Icon from '~dnp/shared/icon'
-import { type ColumnTypes } from '~dnp/shared/table'
-import Text from '~dnp/shared/text'
-import { type Dictionary } from '~dnp/utils/core'
+import Button, { DangerButton } from '~/shared/button'
+import Flex from '~/shared/flex'
+import Icon from '~/shared/icon'
+import { type ColumnTypes } from '~/shared/table'
+import Text from '~/shared/text'
+import { type Dictionary } from '~/utils/core'
 
 interface Props<TItem extends Dictionary> extends Partial<ColumnTypes.Column<TItem, Dictionary>> {
   headerTitle?: string

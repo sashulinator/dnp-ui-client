@@ -1,5 +1,5 @@
-import { type QueryError, type Response } from '~dnp/shared/api'
-import { type MutationOptions, type UseMutationResult, useMutation } from '~dnp/shared/query'
+import { type QueryError, type Response } from '~/shared/api'
+import { type MutationOptions, type UseMutationResult, useMutation } from '~/shared/query'
 
 import { NAME, type RequestData, type ResponseData, request } from './request'
 

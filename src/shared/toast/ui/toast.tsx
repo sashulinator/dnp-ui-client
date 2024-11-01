@@ -2,7 +2,7 @@ import './toast.scss'
 
 import * as Toast from '@radix-ui/react-toast'
 
-import { c } from '~dnp/utils/core'
+import { c } from '~/utils/core'
 
 export interface Props extends Toast.ToastProps {
   className?: string | undefined

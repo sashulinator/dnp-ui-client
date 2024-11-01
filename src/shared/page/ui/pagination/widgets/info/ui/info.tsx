@@ -1,7 +1,7 @@
 import './info.scss'
 
-import Text, { type TextProps } from '~dnp/shared/text'
-import { c } from '~dnp/utils/core'
+import Text, { type TextProps } from '~/shared/text'
+import { c } from '~/utils/core'
 
 export type Props = TextProps & {
   className?: string | undefined

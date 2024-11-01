@@ -1,8 +1,8 @@
 // TODO убрать зависимость от where
-import { SortButton } from '~dnp/slices/sort'
-import { type Dictionary, assertDefined } from '~dnp/utils/core'
-import { useSubscribeUpdate } from '~dnp/utils/core-hooks'
-import { add } from '~dnp/utils/dictionary'
+import { SortButton } from '~/slices/sort'
+import { type Dictionary, assertDefined } from '~/utils/core'
+import { useSubscribeUpdate } from '~/utils/core-hooks'
+import { add } from '~/utils/dictionary'
 
 import { type RenderHeaderProps } from '../../../../column/models/column'
 import { type Context } from '../models/contex'

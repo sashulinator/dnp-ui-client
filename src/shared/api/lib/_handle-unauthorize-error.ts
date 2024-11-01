@@ -1,8 +1,8 @@
 import { type AxiosError } from 'axios'
 
-import { history, routes } from '~dnp/app/route'
-import { auth } from '~dnp/shared/auth'
-import { invariant } from '~dnp/utils/core'
+import { history, routes } from '~/app/route'
+import { auth } from '~/shared/auth'
+import { invariant } from '~/utils/core'
 
 import { api } from './api'
 

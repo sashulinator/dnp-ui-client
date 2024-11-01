@@ -1,5 +1,5 @@
-import { type Response } from '~dnp/shared/api'
-import api from '~dnp/shared/api'
+import { type Response } from '~/shared/api'
+import api from '~/shared/api'
 
 import { type RequestData, type ResponseData } from './types'
 

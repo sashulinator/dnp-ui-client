@@ -1,8 +1,8 @@
 import React from 'react'
 
-import Flex from '~dnp/shared/flex'
-import { type Item } from '~dnp/slices/explorer'
-import { c } from '~dnp/utils/core'
+import Flex from '~/shared/flex'
+import { type Item } from '~/slices/explorer'
+import { c } from '~/utils/core'
 
 import type { Context } from '../models/context'
 import { context } from '../models/context'

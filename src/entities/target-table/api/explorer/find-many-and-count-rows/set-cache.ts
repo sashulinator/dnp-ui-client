@@ -1,6 +1,6 @@
-import { type Response } from '~dnp/shared/api'
-import { queryClient } from '~dnp/shared/react-query'
-import { assertDefined } from '~dnp/utils/assertions'
+import { type Response } from '~/shared/api'
+import { queryClient } from '~/shared/react-query'
+import { assertDefined } from '~/utils/assertions'
 
 import { type Row } from '../../../types/target-table'
 import { NAME, type RequestData, type ResponseData } from './request'

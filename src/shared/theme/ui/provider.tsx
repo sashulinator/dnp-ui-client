@@ -1,6 +1,6 @@
 import { Theme } from '@radix-ui/themes'
 
-import { useSubscribeUpdate } from '~dnp/utils/core-hooks'
+import { useSubscribeUpdate } from '~/utils/core-hooks'
 
 import { globalController } from '../models/global-controller'
 

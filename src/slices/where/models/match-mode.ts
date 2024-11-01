@@ -1,1 +1,1 @@
-export * from '~dnp/common/slices/where/models/match-mode'
+export * from '~/common/slices/where/models/match-mode'

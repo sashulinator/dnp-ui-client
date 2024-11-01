@@ -1,4 +1,4 @@
-import { type Dictionary, curry } from '~dnp/utils/core'
+import { type Dictionary, curry } from '~/utils/core'
 
 export function _serializeItem<T extends string, TItem extends Dictionary>(
   type: T,

@@ -5,8 +5,8 @@ import type { RootProps } from '@radix-ui/themes/dist/esm/components/text-field.
 
 import { type ForwardedRef, forwardRef } from 'react'
 
-import { c } from '~dnp/utils/core'
-import { setRefs } from '~dnp/utils/react'
+import { c } from '~/utils/core'
+import { setRefs } from '~/utils/react'
 
 export type Props = Omit<RootProps, 'variant'> & {
   variant?: 'classic' | 'surface' | 'soft' | 'borderless'

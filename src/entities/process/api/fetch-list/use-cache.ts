@@ -1,7 +1,7 @@
 import { UseQueryOptions, UseQueryResult, useQuery as useReactQuery } from 'react-query'
 
-import { Response } from '~dnp/shared/api'
-import { QueryError } from '~dnp/shared/api'
+import { Response } from '~/shared/api'
+import { QueryError } from '~/shared/api'
 
 import { getKeys } from './get-keys'
 import { request } from './request'

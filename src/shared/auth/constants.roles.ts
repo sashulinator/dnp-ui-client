@@ -1,1 +1,1 @@
-export * from '~dnp/common/slices/auth/constants/roles'
+export * from '~/common/slices/auth/constants/roles'

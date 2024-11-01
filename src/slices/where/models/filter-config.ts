@@ -1,1 +1,1 @@
-export * from '~dnp/common/slices/where/models/filter-config'
+export * from '~/common/slices/where/models/filter-config'

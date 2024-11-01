@@ -1,1 +1,1 @@
-export * from '~dnp/common/entities/operational-table'
+export * from '~/common/entities/operational-table'

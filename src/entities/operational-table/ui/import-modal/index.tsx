@@ -1,8 +1,8 @@
 import { Flex } from '@radix-ui/themes'
 
-import Button from '~dnp/shared/button'
-import Dialog from '~dnp/shared/dialog'
-import { FileUpload } from '~dnp/shared/file-upload'
+import Button from '~/shared/button'
+import Dialog from '~/shared/dialog'
+import { FileUpload } from '~/shared/file-upload'
 
 interface Props {
   open: boolean

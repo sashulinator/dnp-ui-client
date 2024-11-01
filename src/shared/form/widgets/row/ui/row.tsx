@@ -1,5 +1,5 @@
-import Flex, { FlexProps } from '~dnp/shared/flex'
-import { c } from '~dnp/utils/core'
+import Flex, { FlexProps } from '~/shared/flex'
+import { c } from '~/utils/core'
 
 export type Props = Omit<FlexProps, 'direction'>
 

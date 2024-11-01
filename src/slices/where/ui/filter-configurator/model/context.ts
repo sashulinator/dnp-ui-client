@@ -1,6 +1,6 @@
 import { createContext, useContext as reactUseContext } from 'react'
 
-import { assertDefined } from '~dnp/utils/core'
+import { assertDefined } from '~/utils/core'
 
 import { type FilterConfig } from '../../../models/filter-config'
 

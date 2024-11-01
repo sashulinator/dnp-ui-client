@@ -1,5 +1,5 @@
-import Flex from '~dnp/shared/flex'
-import { Props, type Story } from '~dnp/shared/storybook'
+import Flex from '~/shared/flex'
+import { Props, type Story } from '~/shared/storybook'
 
 import TextField from '..'
 import Card from '..'

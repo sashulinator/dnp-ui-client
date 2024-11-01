@@ -1,4 +1,4 @@
-import { Authenticator } from '~dnp/utils/token'
+import { Authenticator } from '~/utils/token'
 
 import { request as getTokens } from './api.get-token'
 import { request as refreshTokens } from './api.refresh-tokens'

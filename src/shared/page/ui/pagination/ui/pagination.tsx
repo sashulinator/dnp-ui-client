@@ -1,6 +1,6 @@
 import './pagination.scss'
 
-import { c } from '~dnp/utils/core'
+import { c } from '~/utils/core'
 
 import Info from '../widgets/info'
 import Switcher from '../widgets/switcher'

@@ -1,7 +1,7 @@
 import './highlighted.scss'
 
-import Tooltip from '~dnp/shared/tooltip'
-import { c } from '~dnp/utils/core'
+import Tooltip from '~/shared/tooltip'
+import { c } from '~/utils/core'
 
 import Text, { type TextProps } from '../../text'
 

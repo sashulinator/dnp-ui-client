@@ -1,9 +1,9 @@
-import Button from '~dnp/shared/button'
-import { type Controller } from '~dnp/shared/controller'
-import { RenderCounter } from '~dnp/shared/debug'
-import Flex, { type FlexProps } from '~dnp/shared/flex'
-import { type Dictionary } from '~dnp/utils/core'
-import { useSubscribeUpdate } from '~dnp/utils/core-hooks'
+import Button from '~/shared/button'
+import { type Controller } from '~/shared/controller'
+import { RenderCounter } from '~/shared/debug'
+import Flex, { type FlexProps } from '~/shared/flex'
+import { type Dictionary } from '~/utils/core'
+import { useSubscribeUpdate } from '~/utils/core-hooks'
 
 export type Props = FlexProps & {
   selectedItemsController: Controller<Dictionary<Dictionary>>

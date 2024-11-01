@@ -1,4 +1,4 @@
-import { type Id } from '~dnp/utils/core'
+import { type Id } from '~/utils/core'
 
 import { type NormalizationConfig } from '../../types/normalization-config'
 

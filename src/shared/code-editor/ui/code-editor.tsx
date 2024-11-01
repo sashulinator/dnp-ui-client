@@ -1,7 +1,7 @@
 // import 'ace-builds/src-noconflict/theme-monokai'
 import AceEditor, { type IAceEditorProps } from 'react-ace'
 
-import { c } from '~dnp/utils/core'
+import { c } from '~/utils/core'
 
 export interface Props extends Omit<IAceEditorProps, 'className'> {
   className?: string | undefined

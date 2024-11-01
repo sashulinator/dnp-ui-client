@@ -1,1 +1,1 @@
-export * from '~dnp/common/slices/database/models/where'
+export * from '~/common/slices/database/models/where'

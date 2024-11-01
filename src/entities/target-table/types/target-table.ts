@@ -1,1 +1,1 @@
-export * from '~dnp/common/entities/target-table/models'
+export * from '~/common/entities/target-table/models'

@@ -1,14 +1,14 @@
 import { NumberParam, useQueryParams, withDefault } from 'use-query-params'
 
-import { routes } from '~dnp/app/route'
-import { Item, api } from '~dnp/entities/target-table'
-import { auth } from '~dnp/shared/auth'
-import Button from '~dnp/shared/button'
-import Container from '~dnp/shared/container'
-import Flex from '~dnp/shared/flex'
-import Link from '~dnp/shared/link'
-import { Heading, Pagination } from '~dnp/shared/page'
-import Section from '~dnp/shared/section'
+import { routes } from '~/app/route'
+import { Item, api } from '~/entities/target-table'
+import { auth } from '~/shared/auth'
+import Button from '~/shared/button'
+import Container from '~/shared/container'
+import Flex from '~/shared/flex'
+import Link from '~/shared/link'
+import { Heading, Pagination } from '~/shared/page'
+import Section from '~/shared/section'
 
 import { SYSNAME } from '../constants/name'
 

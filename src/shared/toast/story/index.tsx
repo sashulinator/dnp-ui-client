@@ -2,7 +2,7 @@ import { Provider, Viewport } from '@radix-ui/react-toast'
 
 import { useState } from 'react'
 
-import { type Props, type Story } from '~dnp/shared/storybook'
+import { type Props, type Story } from '~/shared/storybook'
 
 import Toast, { displayName } from '../ui/toast'
 

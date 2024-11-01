@@ -1,15 +1,15 @@
 import { NumberParam, withDefault } from 'serialize-query-params'
 import { useQueryParams } from 'use-query-params'
 
-import { routes } from '~dnp/app/route'
-import { Item, fetchList } from '~dnp/entities/store-config'
-import Button from '~dnp/shared/button'
-import Container from '~dnp/shared/container'
-import Flex from '~dnp/shared/flex'
-import Heading from '~dnp/shared/heading'
-import Link from '~dnp/shared/link'
-import { Pagination } from '~dnp/shared/page'
-import Section from '~dnp/shared/section'
+import { routes } from '~/app/route'
+import { Item, fetchList } from '~/entities/store-config'
+import Button from '~/shared/button'
+import Container from '~/shared/container'
+import Flex from '~/shared/flex'
+import Heading from '~/shared/heading'
+import Link from '~/shared/link'
+import { Pagination } from '~/shared/page'
+import Section from '~/shared/section'
 
 export interface Props {
   className?: string | undefined

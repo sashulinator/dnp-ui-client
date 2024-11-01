@@ -1,4 +1,4 @@
-import { Partial } from '~dnp/utils/types/object'
+import { Partial } from '~/utils/types/object'
 
 import { CreateStoreConfig } from '../../../types/store-config'
 import { Values } from '../types/values'

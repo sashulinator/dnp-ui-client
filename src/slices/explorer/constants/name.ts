@@ -1,5 +1,5 @@
-import { NAME } from '~dnp/common/slices/explorer/constants/name'
-import { uncapitalize, unspace } from '~dnp/utils/string'
+import { NAME } from '~/common/slices/explorer/constants/name'
+import { uncapitalize, unspace } from '~/utils/string'
 
 export { NAME }
 
