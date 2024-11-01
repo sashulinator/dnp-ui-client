@@ -41,3 +41,5 @@ export const map = {
   User,
   Pencil,
 } satisfies Record<string, React.FC<React.SVGAttributes<SVGSVGElement>>>
+
+export type IconName = keyof typeof map

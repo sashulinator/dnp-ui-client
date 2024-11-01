@@ -1,0 +1,17 @@
+
+
+.ui-Link  {
+  &.no-style {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+  }
+  
+  }
+.ui-Link:hover {
+&.no-style {
+  color: inherit; 
+  cursor: pointer; 
+}
+   
+  }

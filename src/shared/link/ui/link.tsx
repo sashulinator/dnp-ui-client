@@ -1,4 +1,8 @@
-import { Link, LinkProps } from 'react-router-dom'
+import './style.scss'
+
+import { type ForwardedRef, forwardRef } from 'react'
+import type { LinkProps } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import { c } from '~/utils/core'
 
@@ -9,10 +13,12 @@ export const NAME = 'ui-Link'
 /**
  * ui-Li
  */
-export default function Component(props: Props): JSX.Element {
+export function Component(props: Props, ref: ForwardedRef<HTMLAnchorElement>): JSX.Element {
   const { className, ...linkProps } = props
 
-  return <Link {...linkProps} className={c(className, NAME)} />
+  return <Link {...linkProps} ref={ref} className={c(className, NAME)} />
 }
 
-Component.displayName = NAME
+const ForwardRef = forwardRef(Component)
+ForwardRef.displayName = NAME
+export default ForwardRef
