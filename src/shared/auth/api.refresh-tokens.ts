@@ -16,7 +16,7 @@ export async function request(requestData: RequestData): Promise<{
   const details = [
     ['refresh_token', requestData.refreshToken],
     ['client_id', 'dnp'],
-    ['grant_type', 'password'],
+    ['grant_type', 'refresh_token'],
   ]
 
   const formBody = details.map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`).join('&')

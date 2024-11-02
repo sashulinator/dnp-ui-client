@@ -13,6 +13,7 @@ export { isObject } from './is/object'
 export { isPromise } from './is/promise'
 export { isString } from './is/string'
 export { isUndefined } from './is/undefined'
+export { catchAsync } from './catch-async'
 
 export type { Any } from './types/any'
 export type { Dictionary } from './types/dictionary'

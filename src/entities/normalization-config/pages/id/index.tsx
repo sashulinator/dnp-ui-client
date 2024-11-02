@@ -13,7 +13,6 @@ import {
   toFormValues,
   update,
 } from '~/entities/normalization-config'
-import { create as createProcess } from '~/entities/process'
 import { auth } from '~/shared/auth'
 import Button from '~/shared/button'
 import Card from '~/shared/card'
@@ -26,6 +25,8 @@ import Section from '~/shared/section'
 import Spinner from '~/shared/spinner'
 import { HighlightedText } from '~/shared/text'
 import Tooltip from '~/shared/tooltip'
+
+import * as run from '../../api/run'
 
 export interface Props {
   className?: string | undefined
@@ -72,7 +73,7 @@ export default function Component(): JSX.Element {
     onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
   })
 
-  const createProcessMutator = createProcess.useCache({
+  const runMutator = run.useMutation({
     onSuccess: () => {
       notify({ title: 'Запущено', type: 'success' })
     },
@@ -126,10 +127,8 @@ export default function Component(): JSX.Element {
               <Card>
                 <Version
                   item={fetcher.data}
-                  isProcessCreating={createProcessMutator.isLoading}
-                  onCreateProcessButtonClick={() =>
-                    createProcessMutator.mutate({ normalizationConfigId: fetcher.data.id })
-                  }
+                  isProcessCreating={runMutator.isLoading}
+                  onCreateProcessButtonClick={() => runMutator.mutate({ id: fetcher.data.id })}
                 />
               </Card>
             </Section>

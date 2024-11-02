@@ -1,1 +1,1 @@
-export * from '~/common/entities/process'
+export { type Process } from '~/common/entities/process'
