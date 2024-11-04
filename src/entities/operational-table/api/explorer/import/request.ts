@@ -6,7 +6,7 @@ import { url } from '../../common'
 export const NAME = 'files.upload'
 
 export type RequestData = {
-  fileId: string
+  fileName: string
   tableName: string
   operationalTableId: string
 }

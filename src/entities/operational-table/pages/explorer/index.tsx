@@ -148,7 +148,7 @@ export default function Component(): JSX.Element {
     uploadedFileId &&
       explorerListFetcher.data &&
       importMutator.mutate({
-        fileId: uploadedFileId,
+        fileName: uploadedFileId,
         tableName: kn,
         operationalTableId: explorerListFetcher.data?.operationalTable.kn,
       })
