@@ -100,7 +100,7 @@ export default {
     return (
       <Flex width='100%' direction={'column'} p='8' gap='4'>
         {data.map((item, i) => {
-          return <LinkMenu item={item} key={i} />
+          return <LinkMenu tree={item} key={i} />
         })}
       </Flex>
     )

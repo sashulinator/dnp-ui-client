@@ -5,17 +5,18 @@ import Link from '~/shared/link'
 import { HighlightedText } from '~/shared/text'
 import { c } from '~/utils/core'
 
+import { defaultIcon } from './constants.default-icon'
+
 export type TreeItem = {
   name: string
-  icon?: string
-  link?: string
-  children?: TreeItem[]
+  icon?: string | undefined
+  link?: string | undefined
+  children?: TreeItem[] | undefined
 }
 
 export interface Props {
   className?: string | undefined
   item: TreeItem
-  defaultIcon: string
 }
 
 const NAME = 'linkMenu-Linkmenu-w-Item'
@@ -25,21 +26,21 @@ export default function Component(props: Props): JSX.Element {
     return (
       <>
         {props.item.link ? (
-          <Link className='no-style' to={props.item.link} onClick={(e) => e.stopPropagation()}>
-            <DropdownMenu.Item className={c(props.className, NAME)}>
+          <DropdownMenu.Item className={c(props.className, NAME)}>
+            <Link to={props.item.link} onClick={(e) => e.stopPropagation()}>
               <Flex gap={'2'}>
                 <Button size={'1'} square={true} variant='soft' asChild={true}>
-                  <span dangerouslySetInnerHTML={{ __html: props.item.icon ?? props.defaultIcon }} />
+                  <span dangerouslySetInnerHTML={{ __html: props.item.icon ?? defaultIcon }} />
                 </Button>
                 <HighlightedText>{props.item.name}</HighlightedText>
               </Flex>
-            </DropdownMenu.Item>
-          </Link>
+            </Link>
+          </DropdownMenu.Item>
         ) : (
           <DropdownMenu.Item className={c(props.className, NAME)}>
             <Flex gap={'3'}>
               <Button asChild={true} size={'1'} square={true} variant='soft'>
-                <span dangerouslySetInnerHTML={{ __html: props.item.icon ?? props.defaultIcon }} />
+                <span dangerouslySetInnerHTML={{ __html: props.item.icon ?? defaultIcon }} />
               </Button>
               {props.item.name}
             </Flex>
@@ -55,7 +56,7 @@ export default function Component(props: Props): JSX.Element {
           <Link className='no-style' to={props.item.link} onClick={(e) => e.stopPropagation()}>
             <Flex gap={'2'}>
               <Button size={'1'} square={true} variant='soft' asChild={true}>
-                <span dangerouslySetInnerHTML={{ __html: props.item.icon ?? props.defaultIcon }} />
+                <span dangerouslySetInnerHTML={{ __html: props.item.icon ?? defaultIcon }} />
               </Button>
               <HighlightedText>{props.item.name}</HighlightedText>
             </Flex>
@@ -63,7 +64,7 @@ export default function Component(props: Props): JSX.Element {
         ) : (
           <Flex gap={'3'}>
             <Button size={'1'} square={true} variant='soft' asChild={true}>
-              <span dangerouslySetInnerHTML={{ __html: props.item.icon ?? props.defaultIcon }} />
+              <span dangerouslySetInnerHTML={{ __html: props.item.icon ?? defaultIcon }} />
             </Button>
             {props.item.name}
           </Flex>
@@ -71,7 +72,7 @@ export default function Component(props: Props): JSX.Element {
       </DropdownMenu.SubTrigger>
       <DropdownMenu.SubContent>
         {props.item.children.map((item, i) => (
-          <Component defaultIcon={props.defaultIcon} key={i} item={item} />
+          <Component key={i} item={item} />
         ))}
       </DropdownMenu.SubContent>
     </DropdownMenu.Sub>
