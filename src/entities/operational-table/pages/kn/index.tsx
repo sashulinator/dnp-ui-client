@@ -15,6 +15,7 @@ import Card from '~/shared/card'
 import Container from '~/shared/container'
 import Flex from '~/shared/flex'
 import UiForm, { toNestedErrors, useCreateForm } from '~/shared/form'
+import Link from '~/shared/link'
 import { notify } from '~/shared/notification-list-store'
 import { Heading } from '~/shared/page'
 import { queryClient } from '~/shared/react-query'
@@ -81,15 +82,22 @@ export default function Component(): JSX.Element {
 
         {!fetcher.isError && (
           <Section size='1'>
-            <Heading.Root
-              route={routes.operationalTables_kn}
-              backRoute={routes.operationalTables}
-              renderIcon={routes.operationalTables.payload.renderIcon}
-            >
-              <Heading.BackToParent />
-              <Heading.Name />
-              <Heading.Unique string={values.display} tooltipContent='Название' />
-            </Heading.Root>
+            <Flex align='center' justify='between'>
+              <Heading.Root
+                route={routes.operationalTables_kn}
+                backRoute={routes.operationalTables}
+                renderIcon={routes.operationalTables.payload.renderIcon}
+              >
+                <Heading.BackToParent />
+                <Heading.Name />
+                <Heading.Unique string={values.display} tooltipContent='Название' />
+              </Heading.Root>
+              <Button variant='outline' asChild>
+                <Link to={routes.operationalTables_kn_explorer.getUrl(kn, { name: fetcher.data?.name || '' })}>
+                  Просмотр данных
+                </Link>
+              </Button>
+            </Flex>
           </Section>
         )}
 
