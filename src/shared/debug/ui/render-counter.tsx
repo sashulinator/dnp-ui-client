@@ -12,7 +12,7 @@ const NAME = 'debug-RenderCounter'
 export default function Component(props: Props): JSX.Element | null {
   const count = useRef(0)
 
-  if (!isDev()) return null
+  if (!isDev() || localStorage.getItem('devReactStrictMode') !== 'true') return null
 
   count.current = count.current + 1
 
