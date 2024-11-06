@@ -57,8 +57,8 @@ export default function Component() {
               {fetcher.isSuccess ? (
                 <DataList.Root>
                   <DataList.Item align='center'>
-                    <DataList.Label>Таблица</DataList.Label>
-                    <DataList.Value>{fetcher.data?.tableId}</DataList.Value>
+                    <DataList.Label>ID Инициатора</DataList.Label>
+                    <DataList.Value>{fetcher.data?.initiatorId}</DataList.Value>
                   </DataList.Item>
                   <DataList.Item align='center'>
                     <DataList.Label>Тип Процесса</DataList.Label>
@@ -80,7 +80,7 @@ export default function Component() {
                     <DataList.Label>Время выполнения</DataList.Label>
                     <DataList.Value>{dur}</DataList.Value>
                   </DataList.Item>
-                  {fetcher.data.normalizationConfigId && (
+                  {/* {fetcher.data.normalizationConfigId && (
                     <>
                       <DataList.Item align='center'>
                         <DataList.Label>Id конфигурации</DataList.Label>
@@ -91,19 +91,19 @@ export default function Component() {
                         <DataList.Value>1</DataList.Value>
                       </DataList.Item>
                     </>
-                  )}
+                  )} */}
                 </DataList.Root>
               ) : (
                 <Skeleton width='100%' height='240px' />
               )}
             </Flex>
-            {!!fetcher.data?.runtimeConfigData && (
+            {!!(fetcher.data?.data as any).normalizationConfig && (
               <Flex p='24px' pt='32px' direction='column' gapY='16px'>
                 <Text weight='bold' size='3'>
                   JSON конфигурации
                 </Text>
                 <CodeEditor
-                  value={JSON.stringify(fetcher.data.runtimeConfigData)}
+                  value={JSON.stringify((fetcher.data as any).data.normalizationConfig)}
                   className='ui-CodeEditor-v-Json'
                   mode='json'
                   readOnly

@@ -51,7 +51,7 @@ export default {
                 <DatabaseTableForm
                   primaryRequired={true}
                   fieldNames={{
-                    table: 'tableName',
+                    table: 'name',
                     columns: 'columns',
                     tableDisplay: 'display',
                     description: 'description',

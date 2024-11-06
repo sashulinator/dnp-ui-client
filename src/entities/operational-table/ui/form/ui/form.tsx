@@ -46,7 +46,7 @@ export function Component(props: Props): JSX.Element {
         <DatabaseTableForm
           primaryRequired={false}
           fieldNames={{
-            table: 'tableName',
+            table: 'name',
             columns: 'columns',
             tableDisplay: 'display',
             description: 'description',
@@ -91,7 +91,7 @@ function _KnField(props: _KnFieldProps) {
   const { ...textFieldProps } = props
 
   const createdAtField = useField<Values>('createdAt', { subscription: { value: true } })
-  const tableNameField = useField<Values>('tableName', { subscription: { value: true } })
+  const tableNameField = useField<Values>('name', { subscription: { value: true } })
   const form = useForm()
   const readOnly = Boolean(createdAtField.input.value)
 

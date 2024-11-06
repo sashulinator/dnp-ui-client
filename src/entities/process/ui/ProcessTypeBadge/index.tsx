@@ -1,24 +1,23 @@
-import { ProcessType, processType } from '~/common/entities/process'
 import Badge from '~/shared/badge'
 
-const typeValuesMap: Record<ProcessType, string> = {
-  [processType.IMPORT]: 'Импорт',
-  [processType.EXPORT]: 'Экспорт',
-  [processType.REPORT]: 'Отчет',
-  [processType.NORMALIZATION]: 'Нормализация',
+const typeValuesMap = {
+  import: 'Импорт',
+  export: 'Экспорт',
+  report: 'Отчет',
+  normalization: 'Нормализация',
 }
 
-const typeColorsMap: Record<ProcessType, 'orange' | 'blue' | 'yellow' | 'indigo'> = {
-  [processType.IMPORT]: 'orange',
-  [processType.EXPORT]: 'blue',
-  [processType.REPORT]: 'yellow',
-  [processType.NORMALIZATION]: 'indigo',
+const typeColorsMap = {
+  import: 'orange',
+  export: 'blue',
+  report: 'yellow',
+  normalization: 'indigo',
 }
 
 interface Props {
-  type: ProcessType
+  type: string
 }
 
 export const ProcessTypeBadge = ({ type }: Props) => {
-  return <Badge color={typeColorsMap[type]}>{typeValuesMap[type]}</Badge>
+  return <Badge color={typeColorsMap[type as 'import'] as 'orange'}>{typeValuesMap[type as 'import']}</Badge>
 }

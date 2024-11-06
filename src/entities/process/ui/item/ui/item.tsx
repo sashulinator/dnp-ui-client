@@ -39,9 +39,9 @@ export default function Component(props: Props): JSX.Element {
           </Flex>
           <Flex width='300px' direction='column' justify='between' align='start' gap='2'>
             <Text color='gray' size='1'>
-              Таблица
+              ID инициатора
             </Text>
-            <HighlightedText tooltipContent='Техническое название таблицы'>{item.tableId}</HighlightedText>
+            <HighlightedText tooltipContent='ID инициатора'>{item.initiatorId}</HighlightedText>
           </Flex>
         </Flex>
         <Flex align='start' gap='36px' pr='8px'>
