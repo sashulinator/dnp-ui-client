@@ -1,24 +1,24 @@
 /**
  * ui
  */
-import ColumnForm from './ui/column-form'
-import RowForm from './ui/row-form'
-import DatabaseTableForm from './ui/table-form'
+import ColumnForm from '../table/ui/column-form'
+import RowForm from '../table/ui/row-form'
+import DatabaseTableForm from '../table/ui/table-form'
 
 export { ColumnForm }
-export { type ColumnFormProps } from './ui/column-form'
+export { type ColumnFormProps } from '../table/ui/column-form'
 
 export { DatabaseTableForm }
-export { type DatabaseTableFormProps } from './ui/table-form'
+export { type DatabaseTableFormProps } from '../table/ui/table-form'
 
 export { RowForm }
-export { type RowFormProps } from './ui/row-form'
+export { type RowFormProps } from '../table/ui/row-form'
 
 /**
  * lib
  */
 
-export { toColumns, type Context as ColumnContext } from './lib/to-columns'
+export { toColumns, type Context as ColumnContext } from '../table/lib/to-columns'
 
 /**
  * models

@@ -30,8 +30,8 @@ import TextField from '~/shared/text-field'
 import { JSONParam } from '~/shared/use-query-params'
 import { type Item, Viewer } from '~/slices/explorer'
 import { type ToSort, useSort } from '~/slices/sort'
-import { createActionColumn } from '~/slices/working-table'
-import { createSelectionColumn } from '~/slices/working-table/lib/selection-action-column'
+import { createActionColumn } from '~/slices/table'
+import { createSelectionColumn } from '~/slices/table/lib/selection-action-column'
 import type { Any } from '~/utils/core'
 import { c, isEmpty } from '~/utils/core'
 import { type Dictionary } from '~/utils/core'
@@ -139,7 +139,8 @@ export default function Component(): JSX.Element {
   const formToUpdate = useCreateRowForm({
     onSubmit: (values) =>
       explorerUpdateMutator
-        .mutateAsync({ kn, input: values, where: { [explorer!.idKey!]: values[explorer!.idKey!] as string } })
+        // @ts-ignore
+        .mutateAsync({ kn, input: values, where: { [explorer!.idKey!]: values[explorer!.idKey] as string } })
         .then((res) => res.data),
   })
   const [formToUpdateOpen, setFormToUpdateOpen] = useState(false)

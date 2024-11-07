@@ -18,7 +18,7 @@ import Tooltip from '~/shared/tooltip'
 import { c } from '~/utils/core'
 import { generateUniqId } from '~/utils/core'
 
-import { type Column as IColumn } from '../../../models/database'
+import { type Column as IColumn } from '../../../models'
 import ColumnForm from '../../column-form'
 
 export interface Props {

@@ -25,7 +25,6 @@ export {
   type UpdateDictionaryTable,
   type CreateDictionaryTable,
   type DictionaryTableRelations,
-  type TableSchema,
   type Column as TableSchemaItem,
   type Row,
 } from './models/dictionary-table'

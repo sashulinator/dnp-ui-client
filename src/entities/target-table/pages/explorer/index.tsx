@@ -18,8 +18,8 @@ import { useSearch } from '~/shared/search'
 import Section from '~/shared/section'
 import TextField from '~/shared/text-field'
 import { JSONParam } from '~/shared/use-query-params'
-import { type Column, RowForm, toColumns } from '~/slices/database'
 import { useSort } from '~/slices/sort'
+import { type Column, RowForm, toColumns } from '~/slices/table'
 import { type Id, isEmpty } from '~/utils/core'
 
 export interface Props {
@@ -234,6 +234,7 @@ function _Dialog(props: _DialogProps) {
           Запись
           {/* <TextHighlighter>{item?.name}</TextHighlighter> */}
         </Dialog.Title>
+        {/** @ts-ignore */}
         <FForm form={form} columns={columns} component={RowForm} />
         <Flex gap='4' mt='4' justify='end'>
           <Button variant='soft' color='gray' onClick={() => form.initialize({})}>

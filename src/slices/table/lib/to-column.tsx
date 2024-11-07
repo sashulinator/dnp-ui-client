@@ -1,3 +1,4 @@
+import { toFilter } from '~/common/slices/where/lib/to-filter'
 import Button from '~/shared/button'
 import DropdownMenu from '~/shared/dropdown-menu'
 import Flex from '~/shared/flex'
@@ -5,18 +6,11 @@ import Icon from '~/shared/icon'
 import Text from '~/shared/text'
 import { type TableColumn } from '~/slices/explorer/ui/viewer'
 import { type Sort, SortButton } from '~/slices/sort'
-import {
-  FilterConfigurator,
-  type IntFilter,
-  type IsFilter,
-  type StringFilter,
-  toFilter,
-  toFilterConfig,
-} from '~/slices/where'
+import { FilterConfigurator, type IntFilter, type IsFilter, type StringFilter, toFilterConfig } from '~/slices/where'
 import { type SetterOrUpdater, assertDefined } from '~/utils/core'
 import { add, omit } from '~/utils/dictionary'
 
-import { type Column } from '../models/database'
+import { type Column } from '../models'
 
 export type Context = {
   sort: Sort | undefined
@@ -25,29 +19,27 @@ export type Context = {
   setSearchFilter: SetterOrUpdater<Record<string, StringFilter | IntFilter | IsFilter>>
 }
 
-export function toColumns<T extends Record<string, unknown>>(items: Column[]): TableColumn<T, Context>[] {
-  return items.map((item) => {
-    return {
-      cellProps: {
-        style: {
-          whiteSpace: 'nowrap',
-          textAlign: item.type === 'number' ? 'right' : 'left',
-          // calc(var(--space-2) + var(--space-1)) потом что cellPadding + TextInputPadding
-          padding: '0 calc(var(--space-2) + var(--space-1)) 0 calc(var(--space-4) + var(--space-1))',
-          verticalAlign: 'middle',
-        },
+export function toColumn<T extends Record<string, unknown>>(item: Column): TableColumn<T, Context> {
+  return {
+    cellProps: {
+      style: {
+        whiteSpace: 'nowrap',
+        textAlign: item.type === 'number' ? 'right' : 'left',
+        // calc(var(--space-2) + var(--space-1)) потом что cellPadding + TextInputPadding
+        padding: '0 calc(var(--space-2) + var(--space-1)) 0 calc(var(--space-4) + var(--space-1))',
+        verticalAlign: 'middle',
       },
-      headerProps: {
-        style: { minWidth: '12rem', textAlign: item.type === 'number' ? 'right' : 'left', verticalAlign: 'middle' },
-      },
-      accessorKey: item.name,
-      name: item.display,
-      renderHeader: _HeaderCell as TableColumn<T, Context>['renderHeader'],
-      renderCell: ({ value }) => {
-        return value as string
-      },
-    }
-  })
+    },
+    headerProps: {
+      style: { minWidth: '12rem', textAlign: item.type === 'number' ? 'right' : 'left', verticalAlign: 'middle' },
+    },
+    accessorKey: item.name,
+    name: item.display,
+    renderHeader: _HeaderCell as TableColumn<T, Context>['renderHeader'],
+    renderCell: ({ value }) => {
+      return value as string
+    },
+  }
 }
 
 interface _HeaderProps<T> {

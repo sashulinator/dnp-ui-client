@@ -1,4 +1,5 @@
-import { type Column as DatabaseColumn } from '~/slices/database'
+// TODO убрать зависимость от common
+import { type Column as DatabaseColumn } from '~/common/slices/table'
 import { type Dictionary } from '~/utils/core'
 import { toHtml } from '~/utils/md'
 

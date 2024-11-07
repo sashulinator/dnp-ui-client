@@ -3,14 +3,14 @@ import Button from '~/shared/button'
 import Dialog from '~/shared/dialog'
 import Flex from '~/shared/flex'
 import FForm, { type FormApi, useCreateForm } from '~/shared/form'
-import { type Column as DatabaseColumn, RowForm } from '~/slices/database'
+import { RowForm, type Column as TableColumn } from '~/slices/table'
 import { type SetterOrUpdater } from '~/utils/core'
 
 interface _DialogProps {
   open: boolean
   setOpen: SetterOrUpdater<boolean>
   form: FormApi<Row, Partial<Row>>
-  columns: DatabaseColumn[] | undefined
+  columns: TableColumn[] | undefined
   mutator: { isLoading: boolean }
 }
 
@@ -26,6 +26,7 @@ export default function Component(props: _DialogProps): JSX.Element {
           Запись
           {/* <TextHighlighter>{item?.name}</TextHighlighter> */}
         </Dialog.Title>
+        {/** @ts-ignore */}
         <FForm form={form} columns={columns} component={RowForm} />
         <Flex gap='4' mt='4' justify='end'>
           <Button

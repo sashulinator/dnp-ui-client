@@ -23,11 +23,11 @@ import uiTextHighlighter from '~/shared/text/ui/highlighted/story'
 import uiToast from '~/shared/toast/story'
 import uiNotificationToastList from '~/shared/toast/variants/notification/list/story'
 import uiTreeVNested from '~/shared/tree/variants/nested/story'
-import databasTableColumnForm from '~/slices/database/ui/column-form/story'
-import databasTableDatabaseTableForm from '~/slices/database/ui/table-form/story'
 import explorerViewer from '~/slices/explorer/ui/viewer/story'
 import linkMenuLinkMenu from '~/slices/link-menu/ui/link-menu/story'
 import sortButton from '~/slices/sort/components/button/story'
+import databasTableColumnForm from '~/slices/table/ui/column-form/story'
+import databasTableDatabaseTableForm from '~/slices/table/ui/table-form/story'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const storyList: Story<any>[] = [
