@@ -33,7 +33,7 @@ export function toColumn<T extends Record<string, unknown>>(item: Column): Table
     headerProps: {
       style: { minWidth: '12rem', textAlign: item.type === 'number' ? 'right' : 'left', verticalAlign: 'middle' },
     },
-    accessorKey: item.columnName,
+    accessorKey: item.name,
     name: item.display,
     renderHeader: _HeaderCell as TableColumn<T, Context>['renderHeader'],
     renderCell: ({ value }) => {

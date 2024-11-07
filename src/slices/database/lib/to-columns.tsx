@@ -40,7 +40,7 @@ export function toColumns<T extends Record<string, unknown>>(items: Column[]): T
       headerProps: {
         style: { minWidth: '12rem', textAlign: item.type === 'number' ? 'right' : 'left', verticalAlign: 'middle' },
       },
-      accessorKey: item.columnName,
+      accessorKey: item.name,
       name: item.display,
       renderHeader: _HeaderCell as TableColumn<T, Context>['renderHeader'],
       renderCell: ({ value }) => {

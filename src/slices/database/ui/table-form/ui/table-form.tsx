@@ -116,7 +116,7 @@ export default function Component(props: Props): JSX.Element {
                       onClick={() =>
                         fields.push({
                           id: generateUniqId(3, (id) => !fields.value?.find((item) => item.id === id)),
-                          columnName: '',
+                          name: '',
                           maxLength: 50,
                           display: '',
                           type: 'string',

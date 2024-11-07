@@ -114,11 +114,11 @@ export default function Component(props: Props) {
                 </Flex>
               </Label>
               <DataList.Value>
-                <TypedField<Column, 'columnName', string, string, TextFieldProps<string>, HTMLInputElement>
+                <TypedField<Column, 'name', string, string, TextFieldProps<string>, HTMLInputElement>
                   component={TextField}
                   size='1'
                   variant='soft'
-                  name={`${typedName}columnName`}
+                  name={`${typedName}name`}
                 />
               </DataList.Value>
             </DataList.Item>
