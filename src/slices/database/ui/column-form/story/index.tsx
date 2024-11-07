@@ -77,7 +77,7 @@ export default {
                               fields.push({
                                 id: generateUniqId(3, (id) => !fields.value.find((item) => item.id === id)),
                                 columnName: '',
-                                name: '',
+                                display: '',
                                 type: 'string',
                                 maxLength: 50,
                               })

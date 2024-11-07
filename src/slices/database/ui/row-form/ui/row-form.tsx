@@ -23,9 +23,9 @@ export default function Component(props: Props): JSX.Element {
         return (
           <Field<string, TextFieldProps<string>, HTMLInputElement>
             component={TextField}
-            key={item.name}
+            key={item.display}
             name={item.columnName}
-            label={item.name}
+            label={item.display}
           />
         )
       })}

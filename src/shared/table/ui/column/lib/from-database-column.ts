@@ -9,7 +9,7 @@ export function fromDatabaseColumn<TItem extends Dictionary, TContext extends Di
 ): Column<TItem, TContext> {
   return {
     accessorKey: databaseColumn.columnName,
-    name: databaseColumn.name,
+    name: databaseColumn.display,
     renderHeader: ({ name }) => toHtml(name),
     renderCell: ({ value }) => value as string,
     headerProps: {

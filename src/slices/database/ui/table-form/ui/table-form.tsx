@@ -118,7 +118,7 @@ export default function Component(props: Props): JSX.Element {
                           id: generateUniqId(3, (id) => !fields.value?.find((item) => item.id === id)),
                           columnName: '',
                           maxLength: 50,
-                          name: '',
+                          display: '',
                           type: 'string',
                         })
                       }

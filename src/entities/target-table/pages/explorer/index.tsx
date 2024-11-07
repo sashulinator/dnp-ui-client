@@ -149,7 +149,7 @@ export default function Component(): JSX.Element {
           <Section size='1'>
             <Flex width='50%' direction='column'>
               <TextField.Root
-                placeholder={`Индексы: ${indexedColumns?.map((item) => item.name).join(', ')}`}
+                placeholder={`Индексы: ${indexedColumns?.map((item) => item.display).join(', ')}`}
                 value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
                 size='3'
