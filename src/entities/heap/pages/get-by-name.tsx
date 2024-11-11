@@ -1,6 +1,6 @@
 import { Container, DataList, Flex, Section, Separator, Tooltip } from '@radix-ui/themes'
 
-import { useCallback, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 
 import { get, update } from '~/entities/heap'
 import Button from '~/shared/button'
@@ -9,47 +9,43 @@ import { useCreateForm } from '~/shared/form'
 import UiForm from '~/shared/form'
 import { notify } from '~/shared/notification-list-store'
 
-import type { Heap } from '../types/heap-types'
-import Form from '../ui/form'
+import Form, { type Values } from '../ui/form'
 
 const NAME = 'heap-Page'
 
-const heapName = 'navMenu'
-
 export default function Page(): JSX.Element {
-  const fetcher = get.useCache({ name: heapName })
+  const { name = '' } = useParams()
+
+  const fetcher = get.useCache(
+    { name },
+    {
+      onSuccess: (data) => {
+        form.initialize(Form.toFormValues(data))
+      },
+    },
+  )
 
   const updateMutator = update.useCache({
     onSuccess: (data) => {
       notify({ title: 'Сохранено', type: 'success' })
-      form.initialize(data.data)
+      form.initialize(Form.toFormValues(data.data))
     },
     onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
   })
 
-  const form = useCreateForm({
-    initialValues: fetcher.data ?? {
-      data: [],
-      name: '',
-      description: '',
+  const form = useCreateForm<Values>(
+    {
+      initialValues: Form.toFormValues({
+        data: [],
+        name: '',
+        description: '',
+      }),
+      onSubmit: async (values) => {
+        updateMutator.mutate(Form.fromFormValues(values))
+      },
     },
-
-    onSubmit: async (values: Heap) => {
-      updateMutator.mutate(values)
-    },
-  })
-
-  useEffect(() => {
-    if (fetcher.data) {
-      form.initialize({
-        data: fetcher.data.data ?? {},
-        name: fetcher.data.name ?? '',
-        description: fetcher.data.description ?? '',
-      })
-    }
-  }, [fetcher.data, form])
-
-  const render = useCallback(() => <Form />, [])
+    { values: true, initialValues: true },
+  )
 
   return (
     <main className={NAME}>
@@ -71,8 +67,7 @@ export default function Page(): JSX.Element {
           </DataList.Root>
         </Section>
         <Section size='1'>
-          {' '}
-          <UiForm form={form} component={render} />
+          <UiForm form={form} component={Form} />
         </Section>
         <Section size='1'>
           <Flex justify='end'>
@@ -87,7 +82,9 @@ export default function Page(): JSX.Element {
                     </span>
                   </Tooltip>
                   <Separator orientation='vertical' />
-                  <Button onClick={form.submit}>Создать</Button>
+                  <Button disabled={!form.getState().dirty} onClick={form.submit}>
+                    Сохранить
+                  </Button>
                 </Flex>
               </Flex>
             </Card>
