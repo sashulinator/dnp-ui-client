@@ -40,6 +40,7 @@ import { type AppRoute } from './app-route'
 
 // eslint-disable-next-line react-refresh/only-export-components
 const Storybook = lazy(() => import('../../../pages/storybook/index'))
+const Heap = lazy(() => import('../../../pages/heap/index'))
 
 export const routes = {
   main: {
@@ -434,6 +435,24 @@ export const routes = {
     render: () => (
       <Suspense fallback='loading...'>
         <Storybook />
+      </Suspense>
+    ),
+    payload: {
+      navigatable: isDev(),
+      renderIcon: (props) => <Icon {...props} name='Star' />,
+      iconColor: 'red',
+    },
+  },
+
+  heap: {
+    getName: () => 'Heap',
+    getPath: () => '/heap',
+    getUrl() {
+      return this.getPath()
+    },
+    render: () => (
+      <Suspense fallback='loading...'>
+        <Heap />
       </Suspense>
     ),
     payload: {
