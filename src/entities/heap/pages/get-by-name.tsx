@@ -2,7 +2,7 @@ import { Container, DataList, Flex, Section, Separator, Tooltip } from '@radix-u
 
 import { useParams } from 'react-router-dom'
 
-import { get, update } from '~/entities/heap'
+import { api } from '~/entities/heap'
 import Button from '~/shared/button'
 import Card from '~/shared/card'
 import { useCreateForm } from '~/shared/form'
@@ -16,7 +16,7 @@ const NAME = 'heap-Page'
 export default function Page(): JSX.Element {
   const { name = '' } = useParams()
 
-  const fetcher = get.useCache(
+  const fetcher = api.get.useCache(
     { name },
     {
       onSuccess: (data) => {
@@ -25,7 +25,7 @@ export default function Page(): JSX.Element {
     },
   )
 
-  const updateMutator = update.useCache({
+  const updateMutator = api.update.useCache({
     onSuccess: (data) => {
       notify({ title: 'Сохранено', type: 'success' })
       form.initialize(Form.toFormValues(data.data))

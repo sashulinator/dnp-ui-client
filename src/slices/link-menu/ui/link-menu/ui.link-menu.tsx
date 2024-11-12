@@ -30,7 +30,7 @@ export default function Component(props: Props): JSX.Element {
           {tree.children && (
             <>
               <DropdownMenu.Separator />
-              {tree.children?.map((item, i) => <Item key={i} item={item} />)}
+              {tree.children?.map((item, i) => <Item key={i + 'drop'} item={item} />)}
             </>
           )}
         </DropdownMenu.Content>

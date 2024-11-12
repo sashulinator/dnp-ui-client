@@ -25,21 +25,7 @@ export interface Props {
 export default function Component(props: Props): JSX.Element {
   return (
     <Flex className={c(props.className, NAME)} direction='column' width='100%' gap='6'>
-      <JsonEditor
-        label='data'
-        name='data'
-        setOptions={{
-          enableBasicAutocompletion: false,
-          enableLiveAutocompletion: false,
-          enableSnippets: false,
-          enableMobileMenu: true,
-          showLineNumbers: true,
-          tabSize: 2,
-        }}
-        showPrintMargin={true}
-        showGutter={true}
-        highlightActiveLine={true}
-      />
+      <JsonEditor label='data' name='data' />
     </Flex>
   )
 }

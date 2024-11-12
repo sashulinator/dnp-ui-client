@@ -27,12 +27,12 @@ export default function Component(props: Props): JSX.Element {
       <>
         {props.item.link ? (
           <DropdownMenu.Item className={c(props.className, NAME)}>
-            <Link to={props.item.link} onClick={(e) => e.stopPropagation()}>
+            <Link style={{ textDecoration: 'none', color: 'inherit' }} to={props.item.link}>
               <Flex gap={'2'}>
                 <Button size={'1'} square={true} variant='soft' asChild={true}>
                   <span dangerouslySetInnerHTML={{ __html: props.item.icon ?? defaultIcon }} />
                 </Button>
-                <HighlightedText>{props.item.name}</HighlightedText>
+                {props.item.name}
               </Flex>
             </Link>
           </DropdownMenu.Item>
@@ -53,7 +53,7 @@ export default function Component(props: Props): JSX.Element {
     <DropdownMenu.Sub>
       <DropdownMenu.SubTrigger>
         {props.item.link ? (
-          <Link className='no-style' to={props.item.link} onClick={(e) => e.stopPropagation()}>
+          <Link className='no-style' to={props.item.link}>
             <Flex gap={'2'}>
               <Button size={'1'} square={true} variant='soft' asChild={true}>
                 <span dangerouslySetInnerHTML={{ __html: props.item.icon ?? defaultIcon }} />
@@ -72,7 +72,7 @@ export default function Component(props: Props): JSX.Element {
       </DropdownMenu.SubTrigger>
       <DropdownMenu.SubContent>
         {props.item.children.map((item, i) => (
-          <Component key={i} item={item} />
+          <Component key={i + 'sub'} item={item} />
         ))}
       </DropdownMenu.SubContent>
     </DropdownMenu.Sub>

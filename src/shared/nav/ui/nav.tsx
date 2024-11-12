@@ -1,20 +1,20 @@
 import './nav.scss'
 
 import { createElement } from 'react'
-import { useQuery } from 'react-query'
 import { Link, useLocation } from 'react-router-dom'
 
-import { AppRoute, routes } from '~/app/route'
+import type { AppRoute } from '~/app/route'
+import { routes } from '~/app/route'
 import { getCurrent } from '~/app/route'
-import { api as dictionaryApi } from '~/entities/dictionary-table'
-import { api } from '~/entities/operational-table'
+import { api as heapApi } from '~/entities/heap'
 import { auth } from '~/shared/auth'
 import Button from '~/shared/button'
 import Flex from '~/shared/flex'
-import Icon, { map as iconMap } from '~/shared/icon'
 import Logo from '~/shared/logo-icon'
 import Separator from '~/shared/separator'
 import Tooltip from '~/shared/tooltip'
+import LinkMenu from '~/slices/link-menu'
+import type { TreeItem } from '~/slices/link-menu/ui/link-menu/widgets.item'
 import { c } from '~/utils/core'
 
 export interface Props {
@@ -27,18 +27,6 @@ const NAME = 'dnp-nav-Nav'
  * dnp-nav-Nav
  */
 export default function Component(): JSX.Element {
-  const operationalTableListFetcher = useQuery('oper', () => api.fetchList.request({ where: { nav: true } }), {
-    keepPreviousData: true,
-  })
-
-  const dictionaryListFetcher = useQuery(
-    'dictionary',
-    () => dictionaryApi.fetchList.request({ where: { nav: true } }),
-    {
-      keepPreviousData: true,
-    },
-  )
-
   const location = useLocation()
   const navigatables = Object.entries(routes).filter(([, route]: [unknown, AppRoute]) => {
     if (!route.payload.navigatable) return false
@@ -47,8 +35,13 @@ export default function Component(): JSX.Element {
   })
 
   const current = getCurrent(routes, `/${location.pathname.split('/')[1]}`)
-  const currentOper = location.pathname.split('/')[2]
   const isExplorer = location.pathname.split('/')[3] === 'explorer'
+
+  const name = 'navMenu'
+
+  const heapFetcher = heapApi.get.useCache({ name })
+
+  const linkMenuTree = heapFetcher.data?.data as TreeItem[]
 
   return (
     <nav className={c(NAME)}>
@@ -68,6 +61,7 @@ export default function Component(): JSX.Element {
               <Link to={(route.getUrl as any)()}>
                 <Button
                   size='2'
+                  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
                   color={(route as any).payload?.iconColor}
                   square={true}
                   variant={isCurrent ? 'solid' : 'soft'}
@@ -79,65 +73,8 @@ export default function Component(): JSX.Element {
             </Tooltip>
           )
         })}
-
-        {Boolean(operationalTableListFetcher.data?.data.items.length) && (
-          <>
-            <Separator />
-            <Flex direction='column' gap='2'>
-              {operationalTableListFetcher.data?.data.items.map((operationalTable) => {
-                const isCurrent = currentOper === operationalTable.kn && isExplorer
-                const iconName = ((operationalTable as any).iconName as keyof typeof iconMap) ?? 'Star'
-
-                return (
-                  <Tooltip side='right' key={operationalTable.kn} content={operationalTable.display}>
-                    <Link
-                      to={routes.operationalTables_kn_explorer.getUrl(operationalTable.kn, {
-                        name: operationalTable.display,
-                      })}
-                    >
-                      {iconMap[iconName] ? (
-                        <Button size='2' square={true} variant={isCurrent ? 'solid' : 'soft'}>
-                          <Icon name={iconName} />
-                        </Button>
-                      ) : (
-                        <Button dangerouslySetInnerHTML={{ __html: iconName }} />
-                      )}
-                    </Link>
-                  </Tooltip>
-                )
-              })}
-            </Flex>
-          </>
-        )}
-        {Boolean(dictionaryListFetcher.data?.data.items.length) && (
-          <>
-            <Separator />
-            <Flex direction='column' gap='3'>
-              {dictionaryListFetcher.data?.data.items.map((dictionaryTable) => {
-                const isCurrent = currentOper === dictionaryTable.kn && isExplorer
-                const iconName = ((dictionaryTable as any).iconName as keyof typeof iconMap) ?? 'Star'
-
-                return (
-                  <Tooltip side='right' key={dictionaryTable.kn} content={dictionaryTable.display}>
-                    <Link
-                      to={routes.dictionaryTables_explorerFindManyAndCount.getUrl(dictionaryTable.kn, {
-                        name: dictionaryTable.display,
-                      })}
-                    >
-                      {iconMap[iconName] ? (
-                        <Button size='2' square={true} variant={isCurrent ? 'solid' : 'soft'}>
-                          <Icon name={iconName} />
-                        </Button>
-                      ) : (
-                        <Button dangerouslySetInnerHTML={{ __html: iconName }} />
-                      )}
-                    </Link>
-                  </Tooltip>
-                )
-              })}
-            </Flex>
-          </>
-        )}
+        <Separator />
+        {linkMenuTree?.map((item, i) => <LinkMenu tree={item} key={i} />)}
       </Flex>
     </nav>
   )
