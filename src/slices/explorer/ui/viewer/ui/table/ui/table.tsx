@@ -69,7 +69,7 @@ export default function Component<TContext extends Record<string, unknown>>(prop
               onClick={() => {
                 onPathChange?.([
                   ...(paths || []),
-                  { name: item[explorer.idKey as (typeof item.data)[keyof typeof item.data]], type: item.type },
+                  { name: item.data[explorer.idKey as (typeof item.data)[keyof typeof item.data]], type: item.type },
                 ])
               }}
             >
