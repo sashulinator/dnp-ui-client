@@ -20,6 +20,7 @@ export interface KeycloakTokenParsed {
   acr?: string
   amr?: string
   azp?: string
+  picture: string
   preferred_username?: string
   session_state?: string
   realm_access?: KeycloakRoles

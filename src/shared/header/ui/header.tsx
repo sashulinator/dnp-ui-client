@@ -1,5 +1,7 @@
 import './header.scss'
 
+import { Avatar } from '@radix-ui/themes'
+
 import { auth } from '~/shared/auth'
 import Button from '~/shared/button'
 import Checkbox from '~/shared/checkbox'
@@ -97,7 +99,15 @@ export default function Component(): JSX.Element {
         <Flex className={`${NAME}_settings`} gap='4' align='center'>
           <Switch />
           {auth.tokenizer?.decoded?.preferred_username && (
-            <HighlightedText>{auth.tokenizer?.decoded?.preferred_username}</HighlightedText>
+            <Flex gap='1'>
+              <Avatar
+                radius='full'
+                size='1'
+                src={auth.tokenizer?.decoded?.picture}
+                fallback={auth.tokenizer?.decoded?.preferred_username[0]}
+              />
+              <HighlightedText>{auth.tokenizer?.decoded?.preferred_username}</HighlightedText>
+            </Flex>
           )}
           <Button variant='ghost' size='1' onClick={() => auth.logout()}>
             Выйти

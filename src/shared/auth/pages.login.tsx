@@ -9,6 +9,8 @@ import FForm, { useCreateForm } from '~/shared/form'
 import { c, fns } from '~/utils/core'
 import { preventDefault } from '~/utils/core-client'
 
+import { notify } from '../notification-list-store'
+
 const NAME = 'pages-Login'
 
 export default function Component(): JSX.Element {
@@ -16,6 +18,9 @@ export default function Component(): JSX.Element {
     onSuccess: () => {
       const searchQuery = qs.parse(location.search, { ignoreQueryPrefix: true })
       history.push(searchQuery.redirect?.toString() || routes.main.getPath())
+    },
+    onError: (e) => {
+      notify({ title: 'Ошибка', description: (e as any).data?.error_description, type: 'error' })
     },
   })
 
