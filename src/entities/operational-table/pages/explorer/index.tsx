@@ -5,12 +5,12 @@ import { useQueryParam, useQueryParams } from 'use-query-params'
 
 import { routes } from '~/app/route'
 import { ExplorerViewer, type Row, SYSNAME, api } from '~/entities/operational-table'
-import { ImportOperationalTableModal } from '~/entities/operational-table/ui/import-modal'
 import { auth } from '~/shared/auth'
 import Button from '~/shared/button'
 import Checkbox from '~/shared/checkbox'
 import Container from '~/shared/container'
 import Dialog, { ErrorDialog, SuccessDialog } from '~/shared/dialog'
+import { UploadModal } from '~/shared/file'
 import { filesApi } from '~/shared/files-api'
 import Flex from '~/shared/flex'
 import { type FormApi, useCreateForm } from '~/shared/form'
@@ -25,7 +25,7 @@ import TextField from '~/shared/text-field'
 import { JSONParam } from '~/shared/use-query-params'
 import { useSort } from '~/slices/sort'
 import { type Column, RowForm, toColumns } from '~/slices/table'
-import { type Id, isEmpty } from '~/utils/core'
+import { type Id, assertDefined, isEmpty } from '~/utils/core'
 
 import * as importApi from '../../api/explorer/import'
 
@@ -47,9 +47,7 @@ export default function Component(): JSX.Element {
   const [searchQueryParam, searchValue, setSearchValue] = useSearch()
   const [sortParam, sortValue, setSort] = useSort()
 
-  const [showImportModal, setShowImportModal] = useState<boolean>(false)
-
-  const [uploadedFileId, setUploadedFileId] = useState<string>()
+  const [isImportModalOpen, setImportModalOpen] = useState<boolean>(false)
 
   const [isApproveMode, setIsApproveMode] = useState(false)
 
@@ -118,49 +116,6 @@ export default function Component(): JSX.Element {
       explorerUpdateMutator.mutateAsync({ kn, input: values, where: { _id: values._id } }).then((res) => res.data),
   })
 
-  const fileUploadMutator = filesApi.upload.useCache({
-    onSuccess: (data) => {
-      setUploadedFileId(data.data.fileName)
-    },
-    onError: () => {
-      notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' })
-    },
-  })
-
-  fileUploadMutator.isError
-
-  const onFileUpload = (file: File | null) => {
-    if (file) {
-      fileUploadMutator.mutate({ file, bucketName: BUCKET_NAME })
-    }
-  }
-
-  const importMutator = importApi.useCache({
-    onSuccess: () => {
-      setShowImportModal(false)
-      setShowImportSuccessPopup(true)
-    },
-    onError: () => {
-      notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' })
-      setShowImportErrorPopup(true)
-    },
-  })
-
-  const onSubmitImport = () => {
-    uploadedFileId &&
-      explorerListFetcher.data &&
-      importMutator.mutate({
-        fileNames: [uploadedFileId],
-        bucketName: BUCKET_NAME,
-        operationalTableId: explorerListFetcher.data?.operationalTable.kn,
-      })
-  }
-
-  const onImportCancel = () => {
-    setShowImportModal(false)
-    setUploadedFileId(undefined)
-  }
-
   useEffect(() => setSort({ _id: 'desc' }), [])
 
   const indexedColumns = explorerListFetcher.data?.operationalTable.columns.filter((item) => item.index)
@@ -179,14 +134,21 @@ export default function Component(): JSX.Element {
         mutator={explorerUpdateMutator}
         columns={explorerListFetcher.data?.operationalTable.columns}
       />
-      <ImportOperationalTableModal
-        open={showImportModal}
-        hasFile={!!uploadedFileId}
-        isLoading={fileUploadMutator.isLoading || importMutator.isLoading}
-        hasError={fileUploadMutator.isError}
-        onFileUpload={onFileUpload}
-        onSubmit={onSubmitImport}
-        onClose={onImportCancel}
+      <UploadModal
+        multiple={true}
+        open={isImportModalOpen}
+        title='Импорт данных'
+        accept='.csv,.xls,.xlsx'
+        upload={async (file) => {
+          assertDefined(explorerListFetcher.data)
+          const response = await filesApi.upload.request({ file, bucketName: BUCKET_NAME })
+          return importApi.request({
+            operationalTableId: explorerListFetcher.data?.operationalTable.kn,
+            fileNames: [response.data.fileName],
+            bucketName: BUCKET_NAME,
+          })
+        }}
+        onClose={() => setImportModalOpen(false)}
       />
       <Container p='var(--space-4)'>
         {explorerListFetcher.isError && (
@@ -222,7 +184,7 @@ export default function Component(): JSX.Element {
                     </HighlightedText>
                   </Flex>
                 )}
-                <Button variant='outline' onClick={() => setShowImportModal(true)}>
+                <Button variant='outline' onClick={() => setImportModalOpen(true)}>
                   Импорт
                 </Button>
                 <Button onClick={() => formToCreate.initialize({ _status: '0' })}>Создать</Button>

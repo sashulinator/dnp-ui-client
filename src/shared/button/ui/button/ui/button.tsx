@@ -8,18 +8,24 @@ import { forwardRef } from 'react'
 
 import { c } from '~/utils/core'
 
-export interface Props extends ButtonProps {
+export interface Props extends Omit<ButtonProps, 'variant'> {
   round?: boolean
   square?: boolean
+  variant?: ButtonProps['variant'] | undefined
 }
 
 const NAME = 'dnp-button-Button'
 
 export function Component(props: Props, ref: ForwardedRef<HTMLButtonElement>): JSX.Element {
-  const { round, square, ...buttonProps } = props
+  const { round, square, variant = 'solid', ...buttonProps } = props
 
   return (
-    <Button {...buttonProps} ref={ref} className={c(props.className, NAME, round && '--round', square && '--square')} />
+    <Button
+      {...buttonProps}
+      variant={variant}
+      ref={ref}
+      className={c(props.className, NAME, round && '--round', square && '--square')}
+    />
   )
 }
 

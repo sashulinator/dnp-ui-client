@@ -8,6 +8,8 @@ import uiCodeEditor from '~/shared/code-editor/story'
 import uiCodeEditorVJson from '~/shared/code-editor/variants/json/story'
 import uiCollapse from '~/shared/collapse/story'
 import debugRenderCounter from '~/shared/debug/story'
+import sharedFileInput from '~/shared/file/ui/input/story'
+import sharedFileUploadModal from '~/shared/file/ui/upload-modal/story'
 import uiFormWJsonEditor from '~/shared/form/widgets/json-editor/story'
 import uiFormWKeyValue from '~/shared/form/widgets/key-value/story'
 import uiFormWTextArea from '~/shared/form/widgets/text-area/story'
@@ -68,6 +70,8 @@ export const storyList: Story<any>[] = [
   uiPaginationWSwitcher,
   uiToast,
   uiNotificationToastList,
+  sharedFileInput,
+  sharedFileUploadModal,
 
   /**
    * slices

@@ -15,6 +15,7 @@ import Filter from '../widgets/filter'
 import InfoCircled from '../widgets/info-circled'
 import Pencil from '../widgets/pencil'
 import Plus from '../widgets/plus'
+import Refresh from '../widgets/refresh'
 import Star from '../widgets/star'
 import Trash from '../widgets/trash'
 import User from '../widgets/user'
@@ -36,6 +37,7 @@ export const map = {
   Filter,
   InfoCircled,
   Plus,
+  Refresh,
   Star,
   Trash,
   User,
