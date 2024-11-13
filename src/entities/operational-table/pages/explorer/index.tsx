@@ -35,6 +35,8 @@ export interface Props {
 
 const NAME = `${SYSNAME}-Page_id_explorer`
 
+const BUCKET_NAME = 'import'
+
 /**
  * operationalTable-Page_id_explorer
  */
@@ -102,7 +104,7 @@ export default function Component(): JSX.Element {
 
   const explorerUpdateMutator = api.explorer.updateRow.useCache({
     onSuccess: (data) => {
-      api.explorer.findManyAndCountRows.setCache.replaceExplorerItem(requestParams as any, data.data.row)
+      api.explorer.findManyAndCountRows.setCache.replaceExplorerItem(requestParams, data.data.row)
     },
     onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
   })
@@ -118,7 +120,7 @@ export default function Component(): JSX.Element {
 
   const fileUploadMutator = filesApi.upload.useCache({
     onSuccess: (data) => {
-      setUploadedFileId(data.data.fileId)
+      setUploadedFileId(data.data.fileName)
     },
     onError: () => {
       notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' })
@@ -129,7 +131,7 @@ export default function Component(): JSX.Element {
 
   const onFileUpload = (file: File | null) => {
     if (file) {
-      fileUploadMutator.mutate({ file })
+      fileUploadMutator.mutate({ file, bucketName: BUCKET_NAME })
     }
   }
 
@@ -148,8 +150,8 @@ export default function Component(): JSX.Element {
     uploadedFileId &&
       explorerListFetcher.data &&
       importMutator.mutate({
-        fileName: uploadedFileId,
-        tableName: kn,
+        fileNames: [uploadedFileId],
+        bucketName: BUCKET_NAME,
         operationalTableId: explorerListFetcher.data?.operationalTable.kn,
       })
   }

@@ -6,9 +6,9 @@ import { url } from '../../common'
 export const NAME = 'files.upload'
 
 export type RequestData = {
-  fileName: string
-  tableName: string
   operationalTableId: string
+  fileNames: string[]
+  bucketName: string
 }
 
 export type ResponseData = { fileName: string }

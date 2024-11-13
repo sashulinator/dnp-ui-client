@@ -14,6 +14,7 @@ export async function _handleUnauthorizedError(error: AxiosError) {
   if (refreshTokensPromise === null) {
     refreshTokensPromise = auth.refreshTokens().catch(() => {
       history.push(routes.login.getPath())
+      auth.logout()
     })
   }
 
