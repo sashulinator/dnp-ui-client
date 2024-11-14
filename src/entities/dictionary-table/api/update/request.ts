@@ -3,7 +3,7 @@ import api from '~/shared/api'
 
 import { SLICE } from '../../constants.name'
 import type { DictionaryTable, UpdateDictionaryTable } from '../../models/dictionary-table'
-import { v1Url } from '../v1-url'
+import { v1Url } from '../constants.v1-url'
 
 export const NAME = `${SLICE}.update`
 

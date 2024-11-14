@@ -11,7 +11,6 @@ import Checkbox from '~/shared/checkbox'
 import Container from '~/shared/container'
 import Dialog, { ErrorDialog, SuccessDialog } from '~/shared/dialog'
 import { UploadModal } from '~/shared/file'
-import { filesApi } from '~/shared/files-api'
 import Flex from '~/shared/flex'
 import { type FormApi, useCreateForm } from '~/shared/form'
 import FForm from '~/shared/form'
@@ -23,11 +22,10 @@ import Section from '~/shared/section'
 import { HighlightedText } from '~/shared/text'
 import TextField from '~/shared/text-field'
 import { JSONParam } from '~/shared/use-query-params'
+import { api as fileApi } from '~/slices/files'
 import { useSort } from '~/slices/sort'
 import { type Column, RowForm, toColumns } from '~/slices/table'
 import { type Id, assertDefined, isEmpty } from '~/utils/core'
-
-import * as importApi from '../../api/explorer/import'
 
 export interface Props {
   className?: string | undefined
@@ -141,8 +139,8 @@ export default function Component(): JSX.Element {
         accept='.csv,.xls,.xlsx'
         upload={async (file) => {
           assertDefined(explorerListFetcher.data)
-          const response = await filesApi.upload.request({ file, bucketName: BUCKET_NAME })
-          return importApi.request({
+          const response = await fileApi.upload.request({ file, fileName: file.name, bucketName: BUCKET_NAME })
+          return api.explorer.importFromFile.request({
             operationalTableId: explorerListFetcher.data?.operationalTable.kn,
             fileNames: [response.data.fileName],
             bucketName: BUCKET_NAME,

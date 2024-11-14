@@ -1,11 +1,11 @@
 import type { Response } from '~/shared/api'
 import api from '~/shared/api'
 
-import { url } from '../constants'
+import { v1url } from '../constants.v1-url'
 
 export const NAME = 'files.upload'
 
-export type RequestData = { file: File; bucketName: string }
+export type RequestData = { file: File; bucketName: string; fileName: string }
 
 export type ResponseData = { fileName: string; bucketName: string }
 
@@ -14,9 +14,10 @@ export async function request(requestData: RequestData): Promise<Response<Respon
 
   const formData = new FormData()
   formData.append('file', requestData.file)
+  formData.append('fileName', requestData.fileName)
   formData.append('bucketName', requestData.bucketName)
 
-  const response = await api.post<ResponseData, Response<ResponseData>>(`${url}/upload`, formData, { headers })
+  const response = await api.post<ResponseData, Response<ResponseData>>(`${v1url}/upload`, formData, { headers })
 
   return response
 }
