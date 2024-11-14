@@ -25,6 +25,7 @@ api.interceptors.request.use(async (request) => {
   if (refreshTokensPromise === null) {
     refreshTokensPromise = auth.refreshTokens().catch(() => {
       history.push(routes.login.getPath())
+      auth.logout()
     })
   }
 
