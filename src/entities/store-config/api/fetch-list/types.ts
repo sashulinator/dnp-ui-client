@@ -1,7 +1,7 @@
-import { List } from '~/shared/api'
-import { StringFilter } from '~/shared/api/types/string-filter'
+import { type List } from '~/shared/api'
+import { type StringFilter } from '~/shared/api/types/string-filter'
 
-import { StoreConfig } from '../../types/store-config'
+import { type StoreConfig } from '../../types/store-config'
 
 export type RequestData = {
   skip?: number

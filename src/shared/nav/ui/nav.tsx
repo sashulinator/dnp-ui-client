@@ -6,7 +6,6 @@ import { Link, useLocation } from 'react-router-dom'
 import type { AppRoute } from '~/app/route'
 import { routes } from '~/app/route'
 import { getCurrent } from '~/app/route'
-import { api as heapApi } from '~/entities/heap'
 import { auth } from '~/shared/auth'
 import Button from '~/shared/button'
 import Flex from '~/shared/flex'
@@ -15,6 +14,7 @@ import Separator from '~/shared/separator'
 import Tooltip from '~/shared/tooltip'
 import LinkMenu from '~/slices/link-menu'
 import type { TreeItem } from '~/slices/link-menu/ui/link-menu/widgets.item'
+import { api as storeApi } from '~/slices/store'
 import { c } from '~/utils/core'
 
 export interface Props {
@@ -39,9 +39,9 @@ export default function Component(): JSX.Element {
 
   const name = 'navMenu'
 
-  const heapFetcher = heapApi.get.useCache({ name })
+  const storeFetcher = storeApi.get.useCache({ name })
 
-  const linkMenuTree = heapFetcher.data?.data as TreeItem[]
+  const linkMenuTree = storeFetcher.data?.data as TreeItem[]
 
   return (
     <nav className={c(NAME)}>

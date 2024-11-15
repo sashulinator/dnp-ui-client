@@ -15,9 +15,6 @@ import OperationalTable from '~/entities/operational-table/pages'
 import OperationalTable_create from '~/entities/operational-table/pages/create'
 import OperationalTable_kn_explorer from '~/entities/operational-table/pages/explorer'
 import OperationalTable_kn from '~/entities/operational-table/pages/kn'
-import { Icon as ProcessIcon } from '~/entities/process'
-import Processes from '~/entities/process/pages'
-import Processes_kn from '~/entities/process/pages/kn'
 import { Icon as StoreConfigIcon } from '~/entities/store-config'
 import StoreConfigs from '~/entities/store-config/pages'
 import StoreConfigs_create from '~/entities/store-config/pages/create'
@@ -33,6 +30,9 @@ import Header from '~/shared/header'
 import Icon from '~/shared/icon'
 import Logo from '~/shared/logo-icon'
 import Nav from '~/shared/nav'
+import { Icon as ProcessIcon } from '~/slices/process'
+import Processes from '~/slices/process/pages'
+import Processes_kn from '~/slices/process/pages/kn'
 import { isDev } from '~/utils/core-client/is-dev'
 
 import Main from '../../../pages/main'
@@ -40,7 +40,7 @@ import { type AppRoute } from './app-route'
 
 // eslint-disable-next-line react-refresh/only-export-components
 const Storybook = lazy(() => import('../../../pages/storybook/index'))
-const Heap_getByName = lazy(() => import('../../../entities/heap/pages/get-by-name'))
+const Store_getByName = lazy(() => import('../../../slices/store/pages/get-by-name'))
 
 export const routes = {
   main: {
@@ -444,15 +444,15 @@ export const routes = {
     },
   },
 
-  heap: {
-    getName: () => 'Heap',
-    getPath: () => '/heaps/:name',
+  store: {
+    getName: () => 'Store',
+    getPath: () => '/stores/:name',
     getUrl() {
       return this.getPath()
     },
     render: () => (
       <Suspense fallback='loading...'>
-        <Heap_getByName />
+        <Store_getByName />
       </Suspense>
     ),
     payload: {

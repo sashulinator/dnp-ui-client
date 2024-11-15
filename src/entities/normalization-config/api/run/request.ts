@@ -1,6 +1,6 @@
-import { type Process } from '~/entities/process'
 import type { Response } from '~/shared/api'
 import api from '~/shared/api'
+import { type Process } from '~/slices/process'
 import { type Id } from '~/utils/core'
 
 import { type NormalizationConfig } from '../../types/normalization-config'
