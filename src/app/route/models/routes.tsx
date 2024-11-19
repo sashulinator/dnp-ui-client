@@ -1,7 +1,7 @@
 import qs from 'qs'
 import { Suspense, lazy } from 'react'
 
-import Analytics from '~/entities/analytics/pages/'
+import Analytics_getManyAndCountTables from '~/entities/analytics/pages/find-many-and-count-tables/ui.find-many-and-count-tables'
 import { Icon as DictionaryTableIcon } from '~/entities/dictionary-table'
 import DictionaryTable_create from '~/entities/dictionary-table/pages/create'
 import DictionaryTable_explorerFindManyAndCount from '~/entities/dictionary-table/pages/explorer-find-many-and-count'
@@ -292,19 +292,19 @@ export const routes = {
   /**
    * Analytics
    */
-  analytics: {
-    getName: (): string => 'Аналитика',
+
+  analytics_findManyAndCountTables: {
+    getName: () => 'Аналитика',
     getPath: () => '/analytics',
     getUrl() {
       return this.getPath()
     },
-    render: Analytics,
-    redirect: combineProtections(_protectPrivate, _protectByRole),
+    render: Analytics_getManyAndCountTables,
     payload: {
       renderHeader: Header,
       renderNav: Nav,
-      navigatable: false,
-      rolesAllowed: [roles.nrm_get],
+      renderIcon: (props) => <Icon {...props} name='Star' />,
+      navigatable: true,
     },
   },
 

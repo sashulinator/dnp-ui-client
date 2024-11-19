@@ -7,12 +7,12 @@ import { useSubscribeUpdate } from '~/utils/core-hooks'
 import { remove } from '~/utils/dictionary'
 import { toDictionary } from '~/utils/list'
 
-export type Context = {
+export type Context<TItem> = {
   idKey: string
-  selectedItemsController: Controller<Dictionary<Dictionary>>
+  selectedItemsController: Controller<Dictionary<TItem>>
 }
 
-export function createSelectionColumn<TItem extends Dictionary, TContext extends Context>(): ColumnTypes.Column<
+export function createSelectionColumn<TItem extends Dictionary, TContext extends Context<TItem>>(): ColumnTypes.Column<
   TItem,
   TContext
 > {
