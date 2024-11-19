@@ -1,3 +1,4 @@
+import entitieAnalyticsFormWColumn from '~/entities/analytics/ui/form/widgets/column/story'
 import normalizationConfigForm from '~/entities/normalization-config/ui/form/story'
 import operationalTableForm from '~/entities/operational-table/ui/form/story'
 import storeConfigForm from '~/entities/store-config/ui/form/story'
@@ -45,6 +46,7 @@ export const storyList: Story<any>[] = [
   debugRenderCounter,
   storeConfigForm,
   targetTableForm,
+  entitieAnalyticsFormWColumn,
 
   /**
    * shared
