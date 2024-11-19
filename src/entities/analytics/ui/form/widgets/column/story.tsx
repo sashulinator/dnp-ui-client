@@ -12,12 +12,12 @@ export default {
   render: function Story(props: Props<State>): JSX.Element {
     const { state } = props
 
-    const form = useCreateForm<{ users: Record<string, boolean> }>(
+    const form = useCreateForm<{ lastname: Record<string, boolean> }>(
       {
         // eslint-disable-next-line no-console
         onSubmit: console.log,
         initialValues: {
-          users: {
+          lastname: {
             notEmpty: true,
             notNull: true,
             spaces: false,
@@ -34,7 +34,7 @@ export default {
         <Flex width='50%' direction='column' gap='4'>
           <Form
             display='Пользователи'
-            name='users'
+            name='lastname'
             form={form}
             actions={[
               {

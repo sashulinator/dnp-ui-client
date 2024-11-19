@@ -1,4 +1,7 @@
 import entitieAnalyticsFormWColumn from '~/entities/analytics/ui/form/widgets/column/story'
+import entitieAnalyticsFormWDatabase from '~/entities/analytics/ui/form/widgets/database/story'
+import entitieAnalyticsFormWSchema from '~/entities/analytics/ui/form/widgets/schema/story'
+import entitieAnalyticsFormWTable from '~/entities/analytics/ui/form/widgets/table/story'
 import normalizationConfigForm from '~/entities/normalization-config/ui/form/story'
 import operationalTableForm from '~/entities/operational-table/ui/form/story'
 import storeConfigForm from '~/entities/store-config/ui/form/story'
@@ -47,6 +50,9 @@ export const storyList: Story<any>[] = [
   storeConfigForm,
   targetTableForm,
   entitieAnalyticsFormWColumn,
+  entitieAnalyticsFormWTable,
+  entitieAnalyticsFormWSchema,
+  entitieAnalyticsFormWDatabase,
 
   /**
    * shared
