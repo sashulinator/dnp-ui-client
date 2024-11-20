@@ -1,7 +1,10 @@
 /**
  * ui
  */
-import { Checkbox } from '@radix-ui/themes'
+import { default as Checkbox } from './ui/checkbox'
+import { default as TreeCheckbox } from './ui/tree'
 
 export default Checkbox
-export type { CheckboxProps } from '@radix-ui/themes'
+export { TreeCheckbox }
+export type { CheckboxProps } from './ui/checkbox'
+export type { TreeCheckboxProps } from './ui/tree'
