@@ -69,7 +69,7 @@ export default function Component(): JSX.Element {
 
   const analyticalActionsListFetcher = getMany.useCache()
 
-  const uiColumns = useMemo(buildUiColumns, [tableListFetcher.data])
+  const uiColumns = useMemo(buildUiColumns, [])
 
   return (
     <>
