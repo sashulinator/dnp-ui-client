@@ -7,7 +7,7 @@ import Flex, { type FlexProps } from '~/shared/flex'
 import TextArea, { type TextAreaProps } from '~/shared/text-area'
 import { c, fns } from '~/utils/core'
 
-import { NAME as PARENT_NAME } from '../../../ui/form'
+import { NAME as PARENT_NAME } from '../../form'
 import Label from '../../label/ui/label'
 
 export const NAME = `${PARENT_NAME}-w-TextArea`

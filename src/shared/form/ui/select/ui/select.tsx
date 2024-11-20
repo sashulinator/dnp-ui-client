@@ -7,7 +7,7 @@ import { c, fns } from '~/utils/core'
 
 import { _checkErrorVisible } from '../../../lib/_check-error-visible'
 import { _renderHint } from '../../../lib/_render-hint'
-import { NAME as PARENT_NAME } from '../../../ui/form'
+import { NAME as PARENT_NAME } from '../../form'
 import Label from '../../label/ui/label'
 
 export const NAME = `${PARENT_NAME}-w-TextField`
