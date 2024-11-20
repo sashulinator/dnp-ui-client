@@ -64,8 +64,8 @@ export default {
   getName: (): string => Table.displayName,
 } satisfies Story<State>
 
-const columns = [
-  {
+export const columns = {
+  firstname: {
     display: 'Имя',
     name: 'firstname',
     actions: [
@@ -101,7 +101,7 @@ const columns = [
       },
     ],
   },
-  {
+  lastname: {
     display: 'Фамилия',
     name: 'lastname',
     actions: [
@@ -137,4 +137,4 @@ const columns = [
       },
     ],
   },
-]
+}

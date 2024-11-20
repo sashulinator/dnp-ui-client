@@ -25,6 +25,14 @@ export type ResponseData = {
     databaseDisplay: string
     serviceId: string
     serviceDisplay: string
+    serviceHost: string
+    servicePort: string
+    serviceUsername: string
+    servicePassword: string
+    columns: {
+      name: string
+      display: string
+    }[]
   }[]
 }
 

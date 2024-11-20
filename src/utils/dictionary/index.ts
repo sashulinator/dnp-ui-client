@@ -6,6 +6,7 @@ export type { Dictionary } from './types/dictionary'
 export type { Key } from './types/key'
 
 export { add } from './add'
+export { mergeDeep } from './merge-deep'
 export { find } from './find'
 export { getPath } from './get-path'
 export { get } from './get'

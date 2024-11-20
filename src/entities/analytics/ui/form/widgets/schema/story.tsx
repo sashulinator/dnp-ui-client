@@ -3,6 +3,7 @@ import Form, { useCreateForm } from '~/shared/form'
 import { type Props, type Story } from '~/shared/storybook'
 
 import Table from '.'
+import { columns } from '../table/story'
 
 interface State {
   //
@@ -78,82 +79,7 @@ export default {
   getName: (): string => Table.displayName,
 } satisfies Story<State>
 
-const columns = [
-  {
-    display: 'Имя',
-    name: 'firstname',
-    actions: [
-      {
-        id: 6767,
-        description: 'desc',
-        name: 'notEmpty',
-        display: 'Не пусто',
-        group: 'group',
-        isText: false,
-        isInt: true,
-        isDate: false,
-      },
-      {
-        id: 6767,
-        description: 'desc',
-        name: 'notNull',
-        display: 'не null',
-        group: 'group',
-        isText: false,
-        isInt: true,
-        isDate: false,
-      },
-      {
-        id: 6767,
-        description: 'desc',
-        name: 'spaces',
-        display: 'Пробелы в начале',
-        group: 'group',
-        isText: false,
-        isInt: true,
-        isDate: false,
-      },
-    ],
-  },
-  {
-    display: 'Фамилия',
-    name: 'lastname',
-    actions: [
-      {
-        id: 6767,
-        description: 'desc',
-        name: 'notEmpty',
-        display: 'Не пусто',
-        group: 'group',
-        isText: false,
-        isInt: true,
-        isDate: false,
-      },
-      {
-        id: 6767,
-        description: 'desc',
-        name: 'notNull',
-        display: 'не null',
-        group: 'group',
-        isText: false,
-        isInt: true,
-        isDate: false,
-      },
-      {
-        id: 6767,
-        description: 'desc',
-        name: 'spaces',
-        display: 'Пробелы в начале',
-        group: 'group',
-        isText: false,
-        isInt: true,
-        isDate: false,
-      },
-    ],
-  },
-]
-
-const tables = [
-  { name: 'users', display: 'Пользователи', columns },
-  { name: 'categories', display: 'Категории', columns },
-]
+export const tables = {
+  users: { name: 'users', display: 'Пользователи', columns },
+  categories: { name: 'categories', display: 'Категории', columns },
+}

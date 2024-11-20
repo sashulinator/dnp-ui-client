@@ -13,19 +13,28 @@ import Schema from '../schema'
 
 export interface Props {
   className?: string | undefined
-  schemas: {
-    name: string
-    display: string
-    tables: {
+  schemas: Record<
+    string,
+    {
       name: string
       display: string
-      columns: {
-        name: string
-        display: string
-        actions: AnalyticalActions[]
-      }[]
-    }[]
-  }[]
+      tables: Record<
+        string,
+        {
+          name: string
+          display: string
+          columns: Record<
+            string,
+            {
+              name: string
+              display: string
+              actions: AnalyticalActions[]
+            }
+          >
+        }
+      >
+    }
+  >
   name: string
   display: string
 }
@@ -55,7 +64,7 @@ export default function Component(props: Props): JSX.Element {
 
   return (
     <Flex className={c(props.className, NAME)} gap='4'>
-      <Flex gap='2'>
+      <Flex gap='2' width='300px'>
         <Checkbox
           checked={checked}
           onCheckedChange={(checked) => {
@@ -70,11 +79,11 @@ export default function Component(props: Props): JSX.Element {
         />
         <Flex direction='column'>
           <HighlightedText tooltipContent='Бизнес название базы данных'>{display}</HighlightedText>
-          <Text color='gray'>{name}</Text>
+          <Text color='gray'>{display}</Text>
         </Flex>
       </Flex>
-      <Flex direction='column'>
-        {schemas.map((schema) => {
+      <Flex gap='4' direction='column' width='100%'>
+        {Object.values(schemas).map((schema) => {
           return (
             <Schema key={schema.name} tables={schema.tables} name={`${name}.${schema.name}`} display={schema.display} />
           )

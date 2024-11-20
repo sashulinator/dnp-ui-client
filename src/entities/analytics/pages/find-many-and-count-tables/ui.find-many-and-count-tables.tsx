@@ -18,6 +18,7 @@ import { createSelectionColumn } from '~/slices/table/lib/selection-action-colum
 import { type Any, type Dictionary, c } from '~/utils/core'
 
 import { api } from '../../api'
+import { getMany } from '../../api/analycal-actions'
 import _Heading from './widgets/heading'
 import _RunAnalyticsDialog from './widgets/run-analytics-dialog'
 import _SelectionActions from './widgets/selection-actions'
@@ -61,12 +62,14 @@ export default function Component(): JSX.Element {
     sort: sortParam,
   }
 
-  const explorerListFetcher = api.findManyAndCountTables.useCache(requestParams, {
+  const tableListFetcher = api.findManyAndCountTables.useCache(requestParams, {
     keepPreviousData: true,
     staleTime: 10_000,
   })
 
-  const uiColumns = useMemo(buildUiColumns, [explorerListFetcher.data])
+  const analyticalActionsListFetcher = getMany.useCache()
+
+  const uiColumns = useMemo(buildUiColumns, [tableListFetcher.data])
 
   return (
     <>
@@ -74,15 +77,15 @@ export default function Component(): JSX.Element {
         <RenderCounter style={{ top: 0 }} />
         <Container p='4'>
           <Section size='1' className={c(cssAnimations.Appear)}>
-            <_Heading name={'TODODODOODODODODODOODEODODODODOO'} />
+            <_Heading />
           </Section>
 
           <Section size='1' className={c(cssAnimations.Appear)} style={{ animationDelay: `${TICK_MS * 3}ms` }}>
             <Pagination
               currentPage={page}
               limit={limit}
-              loading={!explorerListFetcher ? false : explorerListFetcher.isFetching}
-              totalElements={explorerListFetcher?.data?.total}
+              loading={!tableListFetcher ? false : tableListFetcher.isFetching}
+              totalElements={tableListFetcher?.data?.total}
               onChange={(page) => setPaginationParams({ page })}
             />
           </Section>
@@ -96,16 +99,16 @@ export default function Component(): JSX.Element {
               />
               <FetcherStatus
                 isChildrenOnFetchingVisible={true}
-                isLoading={explorerListFetcher.isLoading}
-                isFetching={explorerListFetcher.isFetching}
-                isError={explorerListFetcher.isError}
-                error={explorerListFetcher.error?.response?.data}
-                refetch={explorerListFetcher.refetch}
+                isLoading={tableListFetcher.isLoading}
+                isFetching={tableListFetcher.isFetching}
+                isError={tableListFetcher.isError}
+                error={tableListFetcher.error?.response?.data}
+                refetch={tableListFetcher.refetch}
               >
                 <ScrollArea scrollbars='horizontal'>
                   <ListTable<AnalyticsTable, TableContext>
                     className={c(cssAnimations.Appear)}
-                    list={explorerListFetcher.data?.items ?? []}
+                    list={tableListFetcher.data?.items ?? []}
                     columns={uiColumns}
                     context={{
                       idKey: 'id',
@@ -126,6 +129,7 @@ export default function Component(): JSX.Element {
       </main>
 
       <_RunAnalyticsDialog
+        analyticalActions={analyticalActionsListFetcher.data?.data ?? []}
         dialogController={runAnalyticsDialogController}
         selectedItemsController={selectedItemsController}
       />
@@ -136,45 +140,45 @@ export default function Component(): JSX.Element {
     const selectionColumn = createSelectionColumn<AnalyticsTable, TableContext>()
     const columns: ColumnTypes.Column<AnalyticsTable, TableContext>[] = [
       {
-        accessorKey: 'name',
-        name: 'Таблица',
-        renderCell: (props) => <HighlightedText>{props.value}</HighlightedText>,
-        renderHeader: (props) => props.name,
-      },
-      {
-        accessorKey: 'display',
-        name: '',
-        renderCell: (props) => <Text color='gray'>{props.value}</Text>,
-        renderHeader: (props) => props.name,
-      },
-      {
-        accessorKey: 'schemaName',
-        name: 'Схема',
-        renderCell: (props) => <HighlightedText>{props.value}</HighlightedText>,
-        renderHeader: (props) => props.name,
-      },
-      {
-        accessorKey: 'schemaDisplay',
-        name: '',
-        renderCell: (props) => <Text color='gray'>{props.value}</Text>,
+        accessorKey: 'serviceDisplay',
+        name: 'Сервис',
+        renderCell: (props) => <HighlightedText>{props.item.serviceDisplay}</HighlightedText>,
         renderHeader: (props) => props.name,
       },
       {
         accessorKey: 'databaseName',
         name: 'База данных',
-        renderCell: (props) => <HighlightedText>{props.value}</HighlightedText>,
+        renderCell: (props) => <HighlightedText>{props.item.databaseName}</HighlightedText>,
         renderHeader: (props) => props.name,
       },
       {
         accessorKey: 'databaseDisplay',
-        name: '',
-        renderCell: (props) => <Text color='gray'>{props.value}</Text>,
+        name: '(бизнес название)',
+        renderCell: (props) => <Text color='gray'>{props.item.databaseDisplay}</Text>,
         renderHeader: (props) => props.name,
       },
       {
-        accessorKey: 'serviceDisplay',
-        name: 'Сервис',
-        renderCell: (props) => <Text color='gray'>{props.value}</Text>,
+        accessorKey: 'schemaName',
+        name: 'Схема',
+        renderCell: (props) => <HighlightedText>{props.item.schemaName}</HighlightedText>,
+        renderHeader: (props) => props.name,
+      },
+      {
+        accessorKey: 'schemaDisplay',
+        name: '(бизнес название)',
+        renderCell: (props) => <Text color='gray'>{props.item.schemaDisplay}</Text>,
+        renderHeader: (props) => props.name,
+      },
+      {
+        accessorKey: 'name',
+        name: 'Таблица',
+        renderCell: (props) => <HighlightedText>{props.item.name}</HighlightedText>,
+        renderHeader: (props) => props.name,
+      },
+      {
+        accessorKey: 'display',
+        name: '(бизнес название)',
+        renderCell: (props) => <Text color='gray'>{props.item.display}</Text>,
         renderHeader: (props) => props.name,
       },
     ]

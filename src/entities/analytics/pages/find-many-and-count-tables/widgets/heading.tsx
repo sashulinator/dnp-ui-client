@@ -5,15 +5,11 @@ import { RenderCounter } from '~/shared/debug'
 import Flex from '~/shared/flex'
 import { Heading } from '~/shared/page'
 
-export interface Props {
-  name: string
-}
+export interface Props {}
 
 const NAME = 'analytics-page-Heading'
 
-function Component(props: Props): JSX.Element {
-  const { name } = props
-
+function Component(): JSX.Element {
   return (
     <Flex width='100%' justify='between'>
       <RenderCounter name='heading' />
@@ -23,7 +19,7 @@ function Component(props: Props): JSX.Element {
         renderIcon={routes.analytics_findManyAndCountTables.payload.renderIcon}
       >
         <Heading.BackToParent />
-        <Heading.Unique string={name} tooltipContent={routes.analytics_findManyAndCountTables.getName()} />
+        <Heading.Name />
       </Heading.Root>
     </Flex>
   )

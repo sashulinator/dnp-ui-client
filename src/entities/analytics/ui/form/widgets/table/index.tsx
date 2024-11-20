@@ -13,15 +13,18 @@ import { HighlightedText } from '~/shared/text'
 import { c } from '~/utils/core'
 import { setPath, walk } from '~/utils/dictionary'
 
-import Column from '../column'
+// import Column from '../column'
 
 export interface Props {
   className?: string | undefined
-  columns: {
-    name: string
-    display: string
-    actions: AnalyticalActions[]
-  }[]
+  columns: Record<
+    string,
+    {
+      name: string
+      display: string
+      actions: AnalyticalActions[]
+    }
+  >
   name: string
   display: string
 }
@@ -29,7 +32,11 @@ export interface Props {
 const NAME = 'dnp-e-analytics-Form-w-Table'
 
 export default function Component(props: Props): JSX.Element {
-  const { name, display, columns } = props
+  const {
+    name,
+    display,
+    // columns
+  } = props
 
   const field = useField<{ [name: string]: AnalyticalActions[] }>(name)
 
@@ -50,7 +57,7 @@ export default function Component(props: Props): JSX.Element {
         : 'indeterminate'
 
   return (
-    <Flex className={c(props.className, NAME)} gap='4'>
+    <Flex width='300px' className={c(props.className, NAME)} gap='4'>
       <Flex gap='2'>
         <Checkbox
           checked={checked}
@@ -65,12 +72,12 @@ export default function Component(props: Props): JSX.Element {
           }}
         />
         <Flex direction='column'>
-          <HighlightedText tooltipContent='Бизнес название колонки'>{display}</HighlightedText>
-          <Text color='gray'>{name}</Text>
+          <HighlightedText tooltipContent='Бизнес название Таблицы'>{display}</HighlightedText>
+          <Text color='gray'>{display}</Text>
         </Flex>
       </Flex>
-      <Flex direction='column'>
-        {columns.map((column) => {
+      {/* <Flex direction='column'>
+        {Object.values(columns).map((column) => {
           return (
             <Column
               key={column.name}
@@ -80,7 +87,7 @@ export default function Component(props: Props): JSX.Element {
             />
           )
         })}
-      </Flex>
+      </Flex> */}
     </Flex>
   )
 }

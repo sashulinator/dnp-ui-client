@@ -13,15 +13,21 @@ import Table from '../table'
 
 export interface Props {
   className?: string | undefined
-  tables: {
-    name: string
-    display: string
-    columns: {
+  tables: Record<
+    string,
+    {
       name: string
       display: string
-      actions: AnalyticalActions[]
-    }[]
-  }[]
+      columns: Record<
+        string,
+        {
+          name: string
+          display: string
+          actions: AnalyticalActions[]
+        }
+      >
+    }
+  >
   name: string
   display: string
 }
@@ -51,7 +57,7 @@ export default function Component(props: Props): JSX.Element {
 
   return (
     <Flex className={c(props.className, NAME)} gap='4'>
-      <Flex gap='2'>
+      <Flex width='300px' gap='2'>
         <Checkbox
           checked={checked}
           onCheckedChange={(checked) => {
@@ -66,11 +72,11 @@ export default function Component(props: Props): JSX.Element {
         />
         <Flex direction='column'>
           <HighlightedText tooltipContent='Бизнес название схемы'>{display}</HighlightedText>
-          <Text color='gray'>{name}</Text>
+          <Text color='gray'>{display}</Text>
         </Flex>
       </Flex>
       <Flex direction='column'>
-        {tables.map((table) => {
+        {Object.values(tables).map((table) => {
           return (
             <Table key={table.name} columns={table.columns} name={`${name}.${table.name}`} display={table.display} />
           )
