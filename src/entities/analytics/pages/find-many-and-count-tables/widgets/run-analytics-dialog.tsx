@@ -15,7 +15,7 @@ import { type Dictionary } from '~/utils/core'
 import { useSubscribeUpdate } from '~/utils/core-hooks'
 import { mergeDeep, setPath } from '~/utils/dictionary'
 
-import DatabaseForm, { type Props as DatabaseFormProps } from '../../../ui/form/widgets/database'
+import DatabaseForm, { type Props as DatabaseFormProps } from '../../../ui/run-form/widgets/database'
 
 type AnalyticsTable = api.findManyAndCountTables.ResponseData['items'][number]
 
