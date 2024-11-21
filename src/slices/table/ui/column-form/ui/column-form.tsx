@@ -7,7 +7,7 @@ import SharedCheckbox from '~/shared/checkbox'
 import DataList from '~/shared/data-list'
 import Flex from '~/shared/flex'
 import type { SelectProps, TextFieldProps } from '~/shared/form'
-import { Checkbox, Field, Label, Select, TextField, TypedField, getIn, useForm } from '~/shared/form'
+import { Field, Label, LabeledCheckbox, Select, TextField, TypedField, getIn, useForm } from '~/shared/form'
 import Icon from '~/shared/icon'
 import Separator from '~/shared/separator'
 import Text from '~/shared/text'
@@ -125,7 +125,7 @@ export default function Component(props: Props) {
             <DataList.Item>
               <Label>Обязательно</Label>
               <DataList.Value>
-                <Checkbox checked defaultChecked={true} size='1' name={`${typedName}nullable`} />
+                <LabeledCheckbox checked defaultChecked={true} size='1' name={`${typedName}nullable`} />
               </DataList.Value>
             </DataList.Item>
             <DataList.Item>
@@ -215,7 +215,7 @@ export default function Component(props: Props) {
                     </Flex>
                   </Label>
                   <DataList.Value>
-                    <Checkbox size='1' name={`${typedName}index`} />
+                    <LabeledCheckbox size='1' name={`${typedName}index`} />
                   </DataList.Value>
                 </DataList.Item>
                 <DataList.Item>
@@ -233,7 +233,7 @@ export default function Component(props: Props) {
                     </Flex>
                   </Label>
                   <DataList.Value>
-                    <Checkbox size='1' name={`${typedName}primary`} />
+                    <LabeledCheckbox size='1' name={`${typedName}primary`} />
                   </DataList.Value>
                 </DataList.Item>
               </>
@@ -327,7 +327,7 @@ function _IsNegativeAllowedListItem(props: _IsNegativeAllowedListItemProps) {
         </Flex>
       </Label>
       <DataList.Value>
-        <Checkbox checked defaultChecked={true} size='1' name={`${typedName}isNegativeAllowed`} />
+        <LabeledCheckbox checked defaultChecked={true} size='1' name={`${typedName}isNegativeAllowed`} />
       </DataList.Value>
     </DataList.Item>
   )

@@ -4,7 +4,7 @@ import { useField, useForm } from 'react-final-form'
 
 import Flex from '~/shared/flex'
 import type { SelectProps, TextFieldProps } from '~/shared/form'
-import { Card, Checkbox, Column, Row, Select, TextField, TypedField } from '~/shared/form'
+import { Card, Column, LabeledCheckbox, Row, Select, TextField, TypedField } from '~/shared/form'
 import { DatabaseTableForm } from '~/slices/database'
 import { c, generateId } from '~/utils/core'
 
@@ -27,7 +27,7 @@ export function Component(props: Props): JSX.Element {
       <Card>
         <Row style={{ width: '100%' }}>
           <Column>
-            <Checkbox variant='soft' name='nav' label='Отображать в навигационной панели' />
+            <LabeledCheckbox variant='soft' name='nav' label='Отображать в навигационной панели' />
             <TypedField<Values, 'defaultView', string, string, SelectProps<string>, HTMLInputElement>
               component={Select}
               label='Представление по умолчанию'

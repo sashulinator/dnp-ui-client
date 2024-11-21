@@ -1,26 +1,26 @@
 import { useField } from 'react-final-form'
 
 import type { CheckboxProps } from '~/shared/checkbox'
-import Checkbox from '~/shared/checkbox'
+import { TreeCheckbox } from '~/shared/checkbox'
 import { c } from '~/utils/core'
 
 export interface Props extends Omit<CheckboxProps, 'name'> {
   name: string
 }
 
-const NAME = 'dnp-sh-form-Checkbox'
+const NAME = 'dnp-sh-form-TreeCheckbox'
 
 export default function Component(props: Props): JSX.Element {
   const { className, name, ...checkboxProps } = props
 
-  const field = useField(name, { type: 'checkbox' })
+  const field = useField(name)
 
   return (
-    <Checkbox
+    <TreeCheckbox
       {...field.input}
       {...checkboxProps}
-      // функция onChange в типе есть но она не тригерится поэтому передаем в onCheckedChange
-      onCheckedChange={field.input.onChange}
+      treeChecked={field.input.value}
+      onTreeCheckedChange={field.input.onChange}
       className={c(className, NAME)}
       type={undefined}
     />

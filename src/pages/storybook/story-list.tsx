@@ -14,6 +14,7 @@ import uiCollapse from '~/shared/collapse/story'
 import debugRenderCounter from '~/shared/debug/story'
 import sharedFileInput from '~/shared/file/ui/input/story'
 import sharedFileUploadModal from '~/shared/file/ui/upload-modal/story'
+import sharedFormCheckbox from '~/shared/form/ui/checkbox/story'
 import uiFormWJsonEditor from '~/shared/form/ui/json-editor/story'
 import uiFormWKeyValue from '~/shared/form/ui/key-value/story'
 import uiFormWTextArea from '~/shared/form/ui/text-area/story'
@@ -78,6 +79,7 @@ export const storyList: Story<any>[] = [
   uiPaginationWSwitcher,
   uiToast,
   uiNotificationToastList,
+  sharedFormCheckbox,
   sharedFileInput,
   sharedFileUploadModal,
 
