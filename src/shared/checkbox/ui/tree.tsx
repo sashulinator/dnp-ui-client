@@ -11,13 +11,13 @@ export type Props<T extends Record<string, unknown>> = CheckboxProps & {
 const NAME = 'dnp-sh-Checkbox-v-Tree'
 
 export default function Component<T extends Record<string, unknown>>(props: Props<T>): JSX.Element {
-  const { treeChecked, ...checkboxProps } = props
+  const { treeChecked, onTreeCheckedChange, ...checkboxProps } = props
 
   return (
     <Checkbox
       className={c()}
-      checked={calculateChecked()}
       {...checkboxProps}
+      checked={calculateChecked()}
       onCheckedChange={(checked) => {
         if (checked === 'indeterminate') return
         let newValue = {}
@@ -25,7 +25,7 @@ export default function Component<T extends Record<string, unknown>>(props: Prop
           if (typeof value !== 'boolean') return
           newValue = setPath(newValue, path, checked)
         })
-        props.onTreeCheckedChange(newValue as T)
+        onTreeCheckedChange(newValue as T)
       }}
     />
   )

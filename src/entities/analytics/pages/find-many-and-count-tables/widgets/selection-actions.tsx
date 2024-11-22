@@ -1,4 +1,4 @@
-import { type api } from '~/entities/analytics/api'
+import { type FlatTable } from '~/entities/database-container'
 import Button from '~/shared/button'
 import { type Controller } from '~/shared/controller'
 import { RenderCounter } from '~/shared/debug'
@@ -7,10 +7,8 @@ import Text from '~/shared/text'
 import { type Dictionary } from '~/utils/core'
 import { useSubscribeUpdate } from '~/utils/core-hooks'
 
-type AnalyticsTable = api.findManyAndCountTables.ResponseData['items'][number]
-
 export type Props = FlexProps & {
-  selectedItemsController: Controller<Dictionary<AnalyticsTable>>
+  selectedItemsController: Controller<Dictionary<FlatTable>>
   onRunAnalyticsClick: (e: React.MouseEvent) => void
 }
 

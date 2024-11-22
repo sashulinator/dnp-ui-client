@@ -4,6 +4,7 @@ import { useEffect, useMemo } from 'react'
 
 import { type AnalyticalActions } from '~/common/entities/analytical-actions'
 import { api } from '~/entities/analytics/api'
+import { type FlatTable } from '~/entities/database-container'
 import Button from '~/shared/button'
 import { type Controller } from '~/shared/controller'
 import Dialog from '~/shared/dialog'
@@ -17,12 +18,10 @@ import { mergeDeep, setPath } from '~/utils/dictionary'
 
 import DatabaseForm, { type Props as DatabaseFormProps } from '../../../ui/run-form/widgets/database'
 
-type AnalyticsTable = api.findManyAndCountTables.ResponseData['items'][number]
-
 export interface Props {
   dialogController: Controller<boolean>
   analyticalActions: AnalyticalActions[]
-  selectedItemsController: Controller<Dictionary<AnalyticsTable>>
+  selectedItemsController: Controller<Dictionary<FlatTable>>
 }
 
 const NAME = 'workingTable-SelectedItemsDialog'
@@ -127,7 +126,7 @@ export default function Component(props: Props): JSX.Element {
    * private
    */
 
-  function getInitialValues(): Dictionary<AnalyticsTable> {
+  function getInitialValues(): Dictionary<FlatTable> {
     const list = Object.values(selectedItems)
     let values = {}
     for (let index = 0; index < list.length; index++) {
@@ -224,7 +223,7 @@ type ServiceTree = {
 }
 
 type _ContentProps = {
-  selectedItems: Dictionary<AnalyticsTable>
+  selectedItems: Dictionary<FlatTable>
   analyticalActions: AnalyticalActions[]
   form: FormApi
   serviceTree: ServiceTree

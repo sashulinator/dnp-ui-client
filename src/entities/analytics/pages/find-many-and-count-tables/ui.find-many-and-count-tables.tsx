@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 
 import { SLICE } from '~/common/entities/analytical-actions'
+import { type FlatTable } from '~/entities/database-container'
 import Container from '~/shared/container'
 import { type Controller, createController } from '~/shared/controller'
 import { TICK_MS, cssAnimations } from '~/shared/css-animations'
@@ -23,18 +24,16 @@ import _Heading from './widgets/heading'
 import _RunAnalyticsDialog from './widgets/run-analytics-dialog'
 import _SelectionActions from './widgets/selection-actions'
 
-type AnalyticsTable = api.findManyAndCountTables.ResponseData['items'][number]
-
-type TableContext = SearchColumnTypes.Context<AnalyticsTable> &
-  ListTableTypes.SortTypes.Context<AnalyticsTable> & {
-    selectedItemsController: Controller<Dictionary<AnalyticsTable>>
+type TableContext = SearchColumnTypes.Context<FlatTable> &
+  ListTableTypes.SortTypes.Context<FlatTable> & {
+    selectedItemsController: Controller<Dictionary<FlatTable>>
     idKey: string
   }
 
 export default function Component(): JSX.Element {
   const displayName = `${SLICE}-Page_list`
 
-  const selectedItemsController = useMemo(() => createController<Dictionary<AnalyticsTable>>({}), [])
+  const selectedItemsController = useMemo(() => createController<Dictionary<FlatTable>>({}), [])
 
   const sortController = useMemo(() => createController<ToSort<Dictionary> | undefined>(undefined), [])
   const [sortParam, , setSort] = useSort([sortController.set])
@@ -44,7 +43,7 @@ export default function Component(): JSX.Element {
 
   const [columnSearchParams, setColumnSearchParams] = useQueryParam<
     string,
-    SearchColumnTypes.ReplaceValueByFilter<AnalyticsTable>
+    SearchColumnTypes.ReplaceValueByFilter<FlatTable>
   >('columnSearch', JSONParam as Any)
 
   const [{ page = 1, limit = 100 }, setPaginationParams] = useQueryParams(
@@ -106,7 +105,7 @@ export default function Component(): JSX.Element {
                 refetch={tableListFetcher.refetch}
               >
                 <ScrollArea scrollbars='horizontal'>
-                  <ListTable<AnalyticsTable, TableContext>
+                  <ListTable<FlatTable, TableContext>
                     className={c(cssAnimations.Appear)}
                     list={tableListFetcher.data?.items ?? []}
                     columns={uiColumns}
@@ -136,9 +135,9 @@ export default function Component(): JSX.Element {
     </>
   )
 
-  function buildUiColumns(): ColumnTypes.Column<AnalyticsTable, TableContext>[] {
-    const selectionColumn = createSelectionColumn<AnalyticsTable, TableContext>()
-    const columns: ColumnTypes.Column<AnalyticsTable, TableContext>[] = [
+  function buildUiColumns(): ColumnTypes.Column<FlatTable, TableContext>[] {
+    const selectionColumn = createSelectionColumn<FlatTable, TableContext>()
+    const columns: ColumnTypes.Column<FlatTable, TableContext>[] = [
       {
         accessorKey: 'serviceDisplay',
         name: 'Сервис',

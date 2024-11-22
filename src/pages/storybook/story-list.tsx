@@ -1,3 +1,4 @@
+import entitiesAnalyticsForm from '~/entities/analytics/ui/run-form/story'
 import entitieAnalyticsFormWColumn from '~/entities/analytics/ui/run-form/widgets/column/story'
 import entitieAnalyticsFormWDatabase from '~/entities/analytics/ui/run-form/widgets/database/story'
 import entitieAnalyticsFormWSchema from '~/entities/analytics/ui/run-form/widgets/schema/story'
@@ -50,6 +51,7 @@ export const storyList: Story<any>[] = [
   debugRenderCounter,
   storeConfigForm,
   targetTableForm,
+  entitiesAnalyticsForm,
   entitieAnalyticsFormWColumn,
   entitieAnalyticsFormWTable,
   entitieAnalyticsFormWSchema,

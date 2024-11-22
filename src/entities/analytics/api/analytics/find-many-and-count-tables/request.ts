@@ -1,3 +1,4 @@
+import { FlatTable } from '~/entities/database-container/models'
 import type { Response } from '~/shared/api'
 import api from '~/shared/api'
 import { type Where } from '~/slices/where'
@@ -13,27 +14,7 @@ export type RequestData = {
 
 export type ResponseData = {
   total: number
-  items: {
-    id: string
-    name: string
-    display: string
-    schemaId: string
-    schemaName: string
-    schemaDisplay: string
-    databaseId: string
-    databaseName: string
-    databaseDisplay: string
-    serviceId: string
-    serviceDisplay: string
-    serviceHost: string
-    servicePort: string
-    serviceUsername: string
-    servicePassword: string
-    columns: {
-      name: string
-      display: string
-    }[]
-  }[]
+  items: FlatTable[]
 }
 
 export const buildURL = (): string => `api/v1/analytics/find-many-and-count-tables`
