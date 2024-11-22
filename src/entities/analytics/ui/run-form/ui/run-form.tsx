@@ -1,5 +1,3 @@
-import { Badge } from '@radix-ui/themes'
-
 import { useState } from 'react'
 
 import Button from '~/shared/button'
@@ -151,19 +149,30 @@ function _Columns(props: _ColumnsProps) {
               return (
                 <Flex key={column.id} direction='column' gap='2'>
                   <Flex gap='2' wrap='wrap'>
-                    <Badge color='violet' size='1'>
-                      <TreeCheckbox size='1' name={`${serviceId}.${databaseId}.${schemaId}.${tableId}.${column.id}`} />
-                      {column.display}
-                    </Badge>
+                    <HighlightedText asChild key={column.id} color='violet' size='1'>
+                      <Flex asChild={true} gap='2'>
+                        <label>
+                          <TreeCheckbox
+                            size='1'
+                            name={`${serviceId}.${databaseId}.${schemaId}.${tableId}.${column.id}`}
+                          />
+                          {column.display}
+                        </label>
+                      </Flex>
+                    </HighlightedText>
                     {Object.values(column.actions).map((action) => {
                       return (
-                        <Badge key={action.id} color='amber' size='1'>
-                          <Checkbox
-                            size='1'
-                            name={`${serviceId}.${databaseId}.${schemaId}.${tableId}.${column.id}._${action.id}`}
-                          />
-                          {action.display}
-                        </Badge>
+                        <HighlightedText asChild key={action.id} color='amber' size='1'>
+                          <Flex asChild={true} gap='2'>
+                            <label>
+                              <Checkbox
+                                size='1'
+                                name={`${serviceId}.${databaseId}.${schemaId}.${tableId}.${column.id}._${action.id}`}
+                              />
+                              {action.display}
+                            </label>
+                          </Flex>
+                        </HighlightedText>
                       )
                     })}
                   </Flex>
@@ -175,10 +184,14 @@ function _Columns(props: _ColumnsProps) {
           <Flex gap='2' wrap='wrap'>
             {Object.values(columns).map((column) => {
               return (
-                <Badge key={column.id} color='violet' size='1'>
-                  <TreeCheckbox size='1' name={`${serviceId}.${databaseId}.${schemaId}.${tableId}.${column.id}`} />
-                  {column.display}
-                </Badge>
+                <label key={column.id}>
+                  <HighlightedText asChild color='violet' size='1'>
+                    <Flex gap='2'>
+                      <TreeCheckbox size='1' name={`${serviceId}.${databaseId}.${schemaId}.${tableId}.${column.id}`} />
+                      {column.display}
+                    </Flex>
+                  </HighlightedText>
+                </label>
               )
             })}
           </Flex>

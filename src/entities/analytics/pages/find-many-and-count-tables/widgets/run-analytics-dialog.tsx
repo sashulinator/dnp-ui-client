@@ -12,8 +12,9 @@ import Flex from '~/shared/flex'
 import Form, { useCreateForm } from '~/shared/form'
 import Icon from '~/shared/icon'
 import { notify } from '~/shared/notification-list-store'
-import { type Dictionary, assertNotNull } from '~/utils/core'
+import { type Dictionary, assertDefined, assertNotNull } from '~/utils/core'
 import { useSubscribeUpdate } from '~/utils/core-hooks'
+import { setPath } from '~/utils/dictionary'
 
 import RunForm, { type Tree } from '../../../ui/run-form'
 
@@ -57,31 +58,53 @@ export default function Component(props: Props): JSX.Element {
   const form = useCreateForm(
     {
       onSubmit: (values) => {
+        const list = Object.values(selectedItems).filter((item) => item.columns !== null)
+
+        let idTree = {} as Record<
+          string,
+          Record<string, Record<string, Record<string, Record<string, AnalyticalActions>>>>
+        >
+        list.forEach((item) => {
+          item.columns?.forEach((column) => {
+            idTree = setPath(
+              idTree,
+              [item.serviceId, item.databaseId, item.schemaId, item.id, column.id],
+              analyticalActions,
+            )
+          })
+        })
+
         assertNotNull(tree)
         const ret = {
-          services: Object.values(tree.services).map((service) => {
+          services: Object.entries(idTree).map(([serviceId, databases]) => {
+            const service = tree.services[serviceId]
             return {
               host: service.host,
               port: service.port,
               username: service.username,
               password: service.password,
-              databases: Object.values(service.databases).map((database) => {
+              databases: Object.entries(databases).map(([databaseId, schemas]) => {
+                const database = service.databases[databaseId]
+
                 return {
                   name: database.name,
-                  schemas: Object.values(database.schemas).map((schema) => {
+                  schemas: Object.entries(schemas).map(([schemaId, tables]) => {
+                    const schema = database.schemas[schemaId]
                     return {
                       name: schema.name,
-                      tables: Object.values(schema.tables).map((table) => {
-                        if (!table.columns) return {}
+                      tables: Object.entries(tables).map(([tableId, columns]) => {
+                        const table = schema.tables[tableId]
                         return {
                           name: table.name,
-                          columns: Object.values(table.columns).map((column) => {
+                          columns: Object.entries(columns).map(([columnId]) => {
+                            assertDefined(table.columns)
+                            const column = table.columns[columnId]
                             return {
                               name: column.name,
                               actions: analyticalActions
                                 .filter((action) => {
                                   // prettier-ignore
-                                  return values[service.id][database.name][schema.name][table.name][column.name][action.name]
+                                  return values[service.id][database.id][schema.id][table.id][column.id][`_${action.id}`]
                                 })
                                 .map((action) => action.name),
                             }
