@@ -9,7 +9,7 @@ export function buildTree(list: FlatTable[], analyticalActions: AnalyticalAction
 
   for (let index = 0; index < list.length; index++) {
     const item = list[index]
-    item.columns.forEach((column) => {
+    ;(item.columns || [null]).forEach((column) => {
       const newTree = {
         services: {
           [item.serviceId]: {
@@ -33,18 +33,21 @@ export function buildTree(list: FlatTable[], analyticalActions: AnalyticalAction
                         name: item.name,
                         id: item.id,
                         display: item.display,
-                        columns: {
-                          [column.id]: {
-                            id: column.id,
-                            name: column.name,
-                            display: column.display,
-                            actions: analyticalActions.reduce((acc, item) => {
-                              // @ts-ignore
-                              acc[`_${item.id}`] = item
-                              return acc
-                            }, {}),
-                          },
-                        },
+                        columns:
+                          column === null
+                            ? null
+                            : {
+                                [column.id]: {
+                                  id: column.id,
+                                  name: column.name,
+                                  display: column.display,
+                                  actions: analyticalActions.reduce((acc, item) => {
+                                    // @ts-ignore
+                                    acc[`_${item.id}`] = item
+                                    return acc
+                                  }, {}),
+                                },
+                              },
                       },
                     },
                   },

@@ -9,7 +9,8 @@ export function buildInitialValues(list: FlatTable[], analyticalActions: Analyti
 
   for (let index = 0; index < list.length; index++) {
     const item = list[index]
-    item.columns.forEach((column) => {
+
+    item.columns?.forEach((column) => {
       analyticalActions.forEach((action) => {
         initialValues = mergeDeep(
           initialValues,

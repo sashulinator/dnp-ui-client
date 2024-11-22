@@ -1,6 +1,6 @@
-import { ScrollArea } from '@radix-ui/themes'
+import { ScrollArea, Spinner } from '@radix-ui/themes'
 
-import { useEffect, useMemo } from 'react'
+import { useLayoutEffect, useState, useTransition } from 'react'
 
 import { type AnalyticalActions } from '~/common/entities/analytical-actions'
 import { api } from '~/entities/analytics/api'
@@ -9,14 +9,13 @@ import Button from '~/shared/button'
 import { type Controller } from '~/shared/controller'
 import Dialog from '~/shared/dialog'
 import Flex from '~/shared/flex'
-import Form, { type FormApi, useCreateForm } from '~/shared/form'
+import Form, { useCreateForm } from '~/shared/form'
 import Icon from '~/shared/icon'
 import { notify } from '~/shared/notification-list-store'
-import { type Dictionary } from '~/utils/core'
+import { type Dictionary, assertNotNull } from '~/utils/core'
 import { useSubscribeUpdate } from '~/utils/core-hooks'
-import { mergeDeep, setPath } from '~/utils/dictionary'
 
-import DatabaseForm, { type Props as DatabaseFormProps } from '../../../ui/run-form/widgets/database'
+import RunForm, { type Tree } from '../../../ui/run-form'
 
 export interface Props {
   dialogController: Controller<boolean>
@@ -28,12 +27,29 @@ const NAME = 'workingTable-SelectedItemsDialog'
 
 export default function Component(props: Props): JSX.Element {
   const { dialogController, selectedItemsController, analyticalActions } = props
+  const [tree, setTree] = useState<Tree | null>(null)
+  const [pending, setTreeTransition] = useTransition()
+  const [isInitialValuesPending, setInitialValuesTransition] = useTransition()
   const open = dialogController.get()
 
   const selectedItems = selectedItemsController.get()
-  const serviceTree = useMemo(getServiceTree, [open])
+  useLayoutEffect(() => {
+    if (!open) return setTree(null)
+    setTimeout(() => {
+      setTreeTransition(() => {
+        setTree(RunForm.buildTree(Object.values(selectedItems), analyticalActions))
+      })
+    })
+  }, [open])
 
-  useEffect(() => form.initialize(open ? getInitialValues() : {}), [open])
+  useLayoutEffect(() => {
+    if (!open) return setTree(null)
+    setTimeout(() => {
+      setInitialValuesTransition(() => {
+        form.initialize(open ? RunForm.buildInitialValues(Object.values(selectedItems), analyticalActions) : {})
+      })
+    })
+  }, [open])
 
   useSubscribeUpdate(dialogController.subscribe)
   useSubscribeUpdate(selectedItemsController.subscribe)
@@ -41,8 +57,9 @@ export default function Component(props: Props): JSX.Element {
   const form = useCreateForm(
     {
       onSubmit: (values) => {
+        assertNotNull(tree)
         const ret = {
-          services: Object.values(serviceTree.services).map((service) => {
+          services: Object.values(tree.services).map((service) => {
             return {
               host: service.host,
               port: service.port,
@@ -55,6 +72,7 @@ export default function Component(props: Props): JSX.Element {
                     return {
                       name: schema.name,
                       tables: Object.values(schema.tables).map((table) => {
+                        if (!table.columns) return {}
                         return {
                           name: table.name,
                           columns: Object.values(table.columns).map((column) => {
@@ -108,157 +126,14 @@ export default function Component(props: Props): JSX.Element {
             </Flex>
           </Flex>
         </Dialog.Title>
-        <ScrollArea>
-          {open && (
-            <_Content
-              form={form}
-              serviceTree={serviceTree}
-              selectedItems={selectedItemsController.get()}
-              analyticalActions={analyticalActions}
-            />
-          )}
-        </ScrollArea>
+        {tree && !pending && !isInitialValuesPending ? (
+          <ScrollArea>{open && <Form form={form} tree={tree} component={RunForm} />}</ScrollArea>
+        ) : (
+          <Spinner />
+        )}
       </Dialog.Content>
     </Dialog.Root>
   )
-
-  /**
-   * private
-   */
-
-  function getInitialValues(): Dictionary<FlatTable> {
-    const list = Object.values(selectedItems)
-    let values = {}
-    for (let index = 0; index < list.length; index++) {
-      const item = list[index]
-      item.columns.forEach((column) => {
-        props.analyticalActions.forEach((action) => {
-          values = mergeDeep(
-            values,
-            setPath(
-              values,
-              [item.serviceId, item.databaseName, item.schemaName, item.name, column.name, action.name],
-              true,
-            ),
-          )
-        })
-      })
-    }
-
-    return values
-  }
-
-  function getServiceTree() {
-    if (!open) return {} as ServiceTree
-    const list = Object.values(selectedItems)
-    let values = {}
-
-    for (let index = 0; index < list.length; index++) {
-      const item = list[index]
-      item.columns.forEach((column) => {
-        values = mergeDeep(values, {
-          services: {
-            [item.serviceId]: {
-              id: item.serviceId,
-              host: item.serviceHost,
-              port: item.servicePort,
-              username: item.serviceUsername,
-              password: item.servicePassword,
-              databases: {
-                [item.databaseName]: {
-                  name: item.databaseName,
-                  display: item.databaseDisplay,
-                  schemas: {
-                    [item.schemaName]: {
-                      name: item.schemaName,
-                      display: item.schemaDisplay,
-                      tables: {
-                        [item.name]: {
-                          name: item.name,
-                          display: item.display,
-                          columns: {
-                            [column.name]: {
-                              name: column.name,
-                              display: column.display,
-                              actions: props.analyticalActions,
-                            },
-                          },
-                        },
-                      },
-                    },
-                  },
-                },
-              },
-            },
-          },
-        })
-      })
-    }
-
-    return values as ServiceTree
-  }
 }
 
 Component.displayName = NAME
-
-type ServiceTree = {
-  services: Record<
-    string,
-    {
-      id: string
-      host: string
-      port: number
-      username: string
-      password: string
-      databases: Record<
-        string,
-        {
-          name: string
-          display: string
-          schemas: DatabaseFormProps['schemas']
-        }
-      >
-    }
-  >
-}
-
-type _ContentProps = {
-  selectedItems: Dictionary<FlatTable>
-  analyticalActions: AnalyticalActions[]
-  form: FormApi
-  serviceTree: ServiceTree
-}
-
-function _Content(props: _ContentProps): JSX.Element {
-  const { serviceTree } = props
-
-  return (
-    <Flex width='100%'>
-      <Form
-        form={props.form}
-        render={() => {
-          return (
-            <Flex width='100%' gap='9' direction='column'>
-              {Object.values(serviceTree.services).map((service) => {
-                return (
-                  <Flex direction='column' gap='8' width='100%' key={service.id}>
-                    {Object.values(service.databases || {}).map((database) => {
-                      return (
-                        <DatabaseForm
-                          key={database.name}
-                          name={`${service.id}.${database.name}`}
-                          display={database.display}
-                          schemas={database.schemas}
-                        />
-                      )
-                    })}
-                  </Flex>
-                )
-              })}
-            </Flex>
-          )
-        }}
-      />
-    </Flex>
-  )
-}

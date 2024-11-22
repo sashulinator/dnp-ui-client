@@ -18,10 +18,12 @@ export type Tree = {
       display: string
       host: string
       port: string
+      username: string
+      password: string
       databases: _Item<{
         schemas: _Item<{
           tables: _Item<{
-            columns: Columns
+            columns?: Columns
           }>
         }>
       }>

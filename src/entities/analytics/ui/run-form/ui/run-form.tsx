@@ -81,8 +81,8 @@ export default function Component(props: Props): JSX.Element {
                                 <Flex width='100%'>
                                   <Flex ml='2' gap='2' direction='column' width='100%'>
                                     <Flex gap='2' width='100%'>
-                                      <Flex direction='column' height='100%'>
-                                        <Flex width='300px'>
+                                      <Flex direction='column' width='300px' height='100%'>
+                                        <Flex>
                                           <Flex wrap='nowrap' asChild={true} align='center' gap='2'>
                                             <HighlightedText asChild>
                                               <label>
@@ -101,13 +101,15 @@ export default function Component(props: Props): JSX.Element {
                                           </Text>
                                         </Flex>
                                       </Flex>
-                                      <_Columns
-                                        columns={table.columns}
-                                        serviceId={service.id}
-                                        databaseId={database.id}
-                                        schemaId={schema.id}
-                                        tableId={table.id}
-                                      />
+                                      {table.columns && (
+                                        <_Columns
+                                          columns={table.columns}
+                                          serviceId={service.id}
+                                          databaseId={database.id}
+                                          schemaId={schema.id}
+                                          tableId={table.id}
+                                        />
+                                      )}
                                     </Flex>
                                   </Flex>
                                 </Flex>
