@@ -39,7 +39,7 @@ export default function Component(): JSX.Element {
 
   const name = 'navMenu'
 
-  const storeFetcher = storeApi.get.useCache({ name })
+  const storeFetcher = storeApi.getByName.useCache({ name })
 
   const linkMenuTree = storeFetcher.data?.data as TreeItem[]
 

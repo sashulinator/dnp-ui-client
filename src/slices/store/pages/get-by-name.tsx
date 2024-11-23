@@ -16,7 +16,7 @@ const NAME = 'store-Page'
 export default function Page(): JSX.Element {
   const { name = '' } = useParams()
 
-  const fetcher = api.get.useCache(
+  const fetcher = api.getByName.useCache(
     { name },
     {
       onSuccess: (data) => {
@@ -41,7 +41,7 @@ export default function Page(): JSX.Element {
         description: '',
       }),
       onSubmit: async (values) => {
-        updateMutator.mutate(Form.fromFormValues(values))
+        updateMutator.mutate({ input: Form.fromFormValues(values) })
       },
     },
     { values: true, initialValues: true },

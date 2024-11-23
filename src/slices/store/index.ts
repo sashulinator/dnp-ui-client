@@ -1,7 +1,7 @@
-import * as get from './api/get-by-name'
-import * as update from './api/update'
+import * as getByName from './api.v1/get-by-name'
+import * as update from './api.v1/update'
 
 export const api = {
   update,
-  get,
+  getByName,
 }
