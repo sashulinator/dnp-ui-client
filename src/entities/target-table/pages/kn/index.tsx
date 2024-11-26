@@ -10,7 +10,6 @@ import {
   toFormValues,
   updateTargetTableSchema,
 } from '~/entities/target-table'
-import TargetTable_kn_explorer from '~/entities/target-table/pages/explorer'
 import Button from '~/shared/button'
 import Card from '~/shared/card'
 import Container from '~/shared/container'
@@ -100,9 +99,6 @@ export default function Component(): JSX.Element {
           <>
             <Section size='1'>
               <UiForm form={form} component={Form} />
-            </Section>
-            <Section>
-              <TargetTable_kn_explorer />
             </Section>
             <Section size='1'>
               <Flex justify='end'>
