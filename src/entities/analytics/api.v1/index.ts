@@ -1,2 +1,2 @@
-export * as api from './analytics'
-export * as analyticalActionsApi from './analycal-actions'
+export * as analytics from './analytics'
+export * as action from './action'

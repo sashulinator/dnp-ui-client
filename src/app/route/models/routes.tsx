@@ -1,7 +1,6 @@
 import qs from 'qs'
 import { Suspense, lazy } from 'react'
 
-import Analytics_getManyAndCountTables from '~/entities/analytics/pages/find-many-and-count-tables/ui.find-many-and-count-tables'
 import { Icon as DictionaryTableIcon } from '~/entities/dictionary-table'
 import DictionaryTable_create from '~/entities/dictionary-table/pages/create'
 import DictionaryTable_explorerFindManyAndCount from '~/entities/dictionary-table/pages/explorer-find-many-and-count'
@@ -16,6 +15,7 @@ import OperationalTable from '~/entities/operational-table/pages'
 import OperationalTable_create from '~/entities/operational-table/pages/create'
 import OperationalTable_kn_explorer from '~/entities/operational-table/pages/explorer'
 import OperationalTable_kn from '~/entities/operational-table/pages/kn'
+import RawData_getManyAndCountTables from '~/entities/raw-data/find-many-and-count-tables/ui.find-many-and-count-tables'
 import { Icon as StoreConfigIcon } from '~/entities/store-config'
 import StoreConfigs from '~/entities/store-config/pages'
 import StoreConfigs_create from '~/entities/store-config/pages/create'
@@ -110,6 +110,25 @@ export const routes = {
       renderNav: Nav,
       navigatable: false,
       rolesAllowed: [roles.nrm_get],
+    },
+  },
+
+  /**
+   * rawData
+   */
+
+  rawData_findManyAndCountTables: {
+    getName: () => 'Исходные данные',
+    getPath: () => '/raw-data',
+    getUrl() {
+      return this.getPath()
+    },
+    render: RawData_getManyAndCountTables,
+    payload: {
+      renderHeader: Header,
+      renderNav: Nav,
+      renderIcon: (props) => <Icon {...props} name='Star' />,
+      navigatable: true,
     },
   },
 
@@ -286,25 +305,6 @@ export const routes = {
       navigatable: false,
       renderIcon: ProcessIcon,
       rolesAllowed: [roles.nrm_get],
-    },
-  },
-
-  /**
-   * Analytics
-   */
-
-  analytics_findManyAndCountTables: {
-    getName: () => 'Аналитика',
-    getPath: () => '/analytics',
-    getUrl() {
-      return this.getPath()
-    },
-    render: Analytics_getManyAndCountTables,
-    payload: {
-      renderHeader: Header,
-      renderNav: Nav,
-      renderIcon: (props) => <Icon {...props} name='Star' />,
-      navigatable: true,
     },
   },
 

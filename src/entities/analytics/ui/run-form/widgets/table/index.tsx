@@ -5,7 +5,7 @@ import {
 
 import { useField } from 'react-final-form'
 
-import { type AnalyticalActions } from '~/common/entities/analytics'
+import { type Action } from '~/common/entities/analytics'
 import { TreeCheckbox } from '~/shared/checkbox'
 import Flex from '~/shared/flex'
 // import { Checkbox as FormCheckbox } from '~/shared/form'
@@ -21,7 +21,7 @@ export interface Props {
     {
       name: string
       display: string
-      actions: AnalyticalActions[]
+      actions: Action[]
     }
   >
   name: string
@@ -37,7 +37,7 @@ export default function Component(props: Props): JSX.Element {
     // columns
   } = props
 
-  const field = useField<{ [name: string]: AnalyticalActions[] }>(name)
+  const field = useField<{ [name: string]: Action[] }>(name)
 
   return (
     <Flex width='300px' className={c(props.className, NAME)} gap='4'>

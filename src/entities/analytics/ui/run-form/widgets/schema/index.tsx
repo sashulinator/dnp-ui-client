@@ -1,6 +1,6 @@
 import { useField } from 'react-final-form'
 
-import { type AnalyticalActions } from '~/common/entities/analytics'
+import { type Action } from '~/common/entities/analytics'
 import { TreeCheckbox } from '~/shared/checkbox'
 import Flex from '~/shared/flex'
 import Text, { HighlightedText } from '~/shared/text'
@@ -20,7 +20,7 @@ export interface Props {
         {
           name: string
           display: string
-          actions: AnalyticalActions[]
+          actions: Action[]
         }
       >
     }
@@ -34,7 +34,7 @@ const NAME = 'dnp-e-analytics-Form-w-Schema'
 export default function Component(props: Props): JSX.Element {
   const { name, display, tables } = props
 
-  const field = useField<{ [name: string]: AnalyticalActions[] }>(name)
+  const field = useField<{ [name: string]: Action[] }>(name)
 
   return (
     <Flex className={c(props.className, NAME)} gap='4'>

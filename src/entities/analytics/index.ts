@@ -1,3 +1,11 @@
-import * as getMany from './api.v1/analycal-actions/get-many'
+/**
+ * api
+ */
+import * as api from './api.v1'
 
-export const api = { getMany }
+export { api }
+
+/**
+ * models
+ */
+export type { Action } from './models'

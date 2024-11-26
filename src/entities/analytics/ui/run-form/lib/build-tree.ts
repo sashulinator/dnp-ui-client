@@ -1,10 +1,10 @@
-import { type AnalyticalActions } from '~/common/entities/analytics'
+import { type Action } from '~/common/entities/analytics'
 import { type FlatTable } from '~/entities/database-container'
 import { mergeDeep } from '~/utils/dictionary'
 
 import { type Tree } from '../models'
 
-export function buildTree(list: FlatTable[], analyticalActions: AnalyticalActions[]): Tree {
+export function buildTree(list: FlatTable[], analyticalActions: Action[]): Tree {
   let tree = {}
 
   for (let index = 0; index < list.length; index++) {

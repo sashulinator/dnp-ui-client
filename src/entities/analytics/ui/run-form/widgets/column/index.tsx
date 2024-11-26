@@ -1,6 +1,6 @@
 import { useField } from 'react-final-form'
 
-import { type AnalyticalActions } from '~/common/entities/analytics'
+import { type Action } from '~/common/entities/analytics'
 import Checkbox from '~/shared/checkbox'
 import Flex from '~/shared/flex'
 // import { Checkbox as FormCheckbox } from '~/shared/form'
@@ -10,7 +10,7 @@ import { map } from '~/utils/dictionary'
 
 export interface Props {
   className?: string | undefined
-  actions: AnalyticalActions[]
+  actions: Action[]
   name: string
   display: string
 }

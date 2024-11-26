@@ -1,7 +1,7 @@
 import { useLayoutEffect, useState, useTransition } from 'react'
 
-import { type AnalyticalActions } from '~/common/entities/analytics'
-import { api } from '~/entities/analytics/api.v1'
+import { type Action } from '~/common/entities/analytics'
+import { analytics } from '~/entities/analytics/api.v1'
 import { type FlatTable } from '~/entities/database-container'
 import Button from '~/shared/button'
 import { type Controller } from '~/shared/controller'
@@ -16,11 +16,11 @@ import { type Dictionary, assertDefined, assertNotNull } from '~/utils/core'
 import { useSubscribeUpdate } from '~/utils/core-hooks'
 import { setPath } from '~/utils/dictionary'
 
-import RunForm, { type Tree } from '../../../ui/run-form'
+import RunForm, { type Tree } from '../../../analytics/ui/run-form'
 
 export interface Props {
   dialogController: Controller<boolean>
-  analyticalActions: AnalyticalActions[]
+  analyticalActions: Action[]
   selectedItemsController: Controller<Dictionary<FlatTable>>
 }
 
@@ -60,10 +60,7 @@ export default function Component(props: Props): JSX.Element {
       onSubmit: (values) => {
         const list = Object.values(selectedItems).filter((item) => item.columns !== null)
 
-        let idTree = {} as Record<
-          string,
-          Record<string, Record<string, Record<string, Record<string, AnalyticalActions>>>>
-        >
+        let idTree = {} as Record<string, Record<string, Record<string, Record<string, Record<string, Action>>>>>
         list.forEach((item) => {
           item.columns?.forEach((column) => {
             idTree = setPath(
@@ -127,7 +124,7 @@ export default function Component(props: Props): JSX.Element {
     },
   )
 
-  const runMutator = api.run.useCache({
+  const runMutator = analytics.run.useCache({
     onSuccess: () => {
       notify({ title: 'Запущено', type: 'success' })
     },

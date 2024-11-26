@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 
-import { api } from '~/entities/analytics/api'
+import { APP } from '~/app/constants.app'
+import { api as analyticsApi } from '~/entities/analytics'
 import { type FlatTable } from '~/entities/database-container'
 import Container from '~/shared/container'
 import { type Controller, createController } from '~/shared/controller'
@@ -18,8 +19,7 @@ import { type ToSort, useSort } from '~/slices/sort'
 import { createSelectionColumn } from '~/slices/table/lib/selection-action-column'
 import { type Any, type Dictionary, c } from '~/utils/core'
 
-import { getMany } from '../../analytics/api.v1/analycal-actions'
-import { SLICE } from '../../analytics/constants.slice'
+import { SLICE } from '../constants.slice'
 import _Heading from './widgets/heading'
 import _RunAnalyticsDialog from './widgets/run-analytics-dialog'
 import _SelectionActions from './widgets/selection-actions'
@@ -30,9 +30,9 @@ type TableContext = SearchColumnTypes.Context<FlatTable> &
     idKey: string
   }
 
-export default function Component(): JSX.Element {
-  const displayName = `${SLICE}-Page_list`
+const NAME = `${APP}-${SLICE}-FindManyAndCountTables`
 
+export default function Component(): JSX.Element {
   const selectedItemsController = useMemo(() => createController<Dictionary<FlatTable>>({}), [])
 
   const sortController = useMemo(() => createController<ToSort<Dictionary> | undefined>(undefined), [])
@@ -61,18 +61,18 @@ export default function Component(): JSX.Element {
     sort: sortParam,
   }
 
-  const tableListFetcher = api.findManyAndCountTables.useCache(requestParams, {
+  const tableListFetcher = analyticsApi.analytics.findManyAndCountTables.useCache(requestParams, {
     keepPreviousData: true,
     staleTime: 10_000,
   })
 
-  const analyticalActionsListFetcher = getMany.useCache()
+  const analyticalActionsListFetcher = analyticsApi.action.getMany.useCache()
 
   const uiColumns = useMemo(buildUiColumns, [])
 
   return (
     <>
-      <main className={displayName} style={{ position: 'relative' }}>
+      <main className={NAME} style={{ position: 'relative' }}>
         <RenderCounter style={{ top: 0 }} />
         <Container p='4'>
           <Section size='1' className={c(cssAnimations.Appear)}>

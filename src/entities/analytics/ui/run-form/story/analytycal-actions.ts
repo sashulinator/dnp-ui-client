@@ -1,7 +1,7 @@
 // TODO: убрать common
-import { type AnalyticalActions } from '~/common/entities/analytics'
+import { type Action } from '~/common/entities/analytics'
 
-export const analyticalActions: AnalyticalActions[] = [
+export const analyticalActions: Action[] = [
   {
     id: 1,
     name: 'Count Row',
