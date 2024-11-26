@@ -31,7 +31,7 @@ export default function Component(props: Props): JSX.Element | null {
         </Text>
       </Flex>
       <Button onClick={onRemoveClick} variant='ghost' disabled={count === 0}>
-        Запустить аналитику
+        Запуск обработок
       </Button>
     </Flex>
   )

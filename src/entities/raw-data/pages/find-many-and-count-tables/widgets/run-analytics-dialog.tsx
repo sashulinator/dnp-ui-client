@@ -134,7 +134,7 @@ export default function Component(props: Props): JSX.Element {
       <Dialog.Content maxWidth='1224px'>
         <Dialog.Title>
           <Flex align='center' justify='between'>
-            Запуск аналитики{' '}
+            Запуск обработок
             <Flex align='center' gap='6'>
               <Button loading={runMutator.isLoading} onClick={() => form.submit()}>
                 Запустить

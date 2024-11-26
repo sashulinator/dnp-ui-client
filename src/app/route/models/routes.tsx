@@ -77,13 +77,13 @@ export const routes = {
       renderHeader: Header,
       renderNav: Nav,
       renderIcon: NormalizationConfigIcon,
-      navigatable: true,
+      navigatable: false,
       rolesAllowed: [roles.nrm_get],
     },
   },
 
   normalizationConfigs_create: {
-    getName: (): string => 'Создать Обработку',
+    getName: (): string => 'Запуск Обработки',
     getPath: (): string => `${routes.normalizationConfigs.getPath()}/create`,
     getUrl() {
       return this.getPath()
@@ -93,7 +93,8 @@ export const routes = {
     payload: {
       renderHeader: Header,
       renderNav: Nav,
-      navigatable: false,
+      navigatable: true,
+      renderIcon: NormalizationConfigIcon,
       rolesAllowed: [roles.nrm_crt],
     },
   },
