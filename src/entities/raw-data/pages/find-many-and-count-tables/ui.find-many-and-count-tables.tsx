@@ -19,7 +19,7 @@ import { type ToSort, useSort } from '~/slices/sort'
 import { createSelectionColumn } from '~/slices/table/lib/selection-action-column'
 import { type Any, type Dictionary, c } from '~/utils/core'
 
-import { SLICE } from '../constants.slice'
+import { SLICE } from '../../constants.slice'
 import _Heading from './widgets/heading'
 import _RunAnalyticsDialog from './widgets/run-analytics-dialog'
 import _SelectionActions from './widgets/selection-actions'

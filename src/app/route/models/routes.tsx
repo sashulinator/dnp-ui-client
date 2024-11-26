@@ -15,7 +15,8 @@ import OperationalTable from '~/entities/operational-table/pages'
 import OperationalTable_create from '~/entities/operational-table/pages/create'
 import OperationalTable_kn_explorer from '~/entities/operational-table/pages/explorer'
 import OperationalTable_kn from '~/entities/operational-table/pages/kn'
-import RawData_getManyAndCountTables from '~/entities/raw-data/find-many-and-count-tables/ui.find-many-and-count-tables'
+import { Icon as RawDataIcon } from '~/entities/raw-data'
+import RawData_getManyAndCountTables from '~/entities/raw-data/pages/find-many-and-count-tables/ui.find-many-and-count-tables'
 import { Icon as StoreConfigIcon } from '~/entities/store-config'
 import StoreConfigs from '~/entities/store-config/pages'
 import StoreConfigs_create from '~/entities/store-config/pages/create'
@@ -65,7 +66,7 @@ export const routes = {
    */
 
   normalizationConfigs: {
-    getName: (): string => 'Нормализации',
+    getName: (): string => 'Обработки',
     getPath: (): string => '/normalization-configs',
     getUrl() {
       return this.getPath()
@@ -82,7 +83,7 @@ export const routes = {
   },
 
   normalizationConfigs_create: {
-    getName: (): string => 'Создать Нормализацию',
+    getName: (): string => 'Создать Обработку',
     getPath: (): string => `${routes.normalizationConfigs.getPath()}/create`,
     getUrl() {
       return this.getPath()
@@ -98,7 +99,7 @@ export const routes = {
   },
 
   normalizationConfigs_id: {
-    getName: (): string => 'Нормализации',
+    getName: (): string => 'Обработки',
     getPath: () => '/normalization-configs/:id',
     getUrl(id: string) {
       return this.getPath().replace(':id', id)
@@ -118,7 +119,7 @@ export const routes = {
    */
 
   rawData_findManyAndCountTables: {
-    getName: () => 'Исходные данные',
+    getName: () => 'Таблицы исходных данных',
     getPath: () => '/raw-data',
     getUrl() {
       return this.getPath()
@@ -127,8 +128,146 @@ export const routes = {
     payload: {
       renderHeader: Header,
       renderNav: Nav,
-      renderIcon: (props) => <Icon {...props} name='Star' />,
+      renderIcon: RawDataIcon,
       navigatable: true,
+    },
+  },
+
+  /**
+   * operationalTables
+   */
+
+  operationalTables: {
+    getName: (): string => 'Таблицы промежуточных данных',
+    getPath: () => '/operational-tables',
+    getUrl() {
+      return this.getPath()
+    },
+    render: OperationalTable,
+    redirect: combineProtections(_protectPrivate),
+    payload: {
+      renderHeader: Header,
+      renderNav: Nav,
+      navigatable: true,
+      renderIcon: OperationalTableIcon,
+      rolesAllowed: [roles.opt_get],
+    },
+  },
+
+  operationalTables_create: {
+    getName: () => 'Создать промежуточную таблицу',
+    getPath: () => '/operational-tables/create',
+    getUrl() {
+      return this.getPath()
+    },
+    render: OperationalTable_create,
+    redirect: combineProtections(_protectPrivate),
+    payload: {
+      renderHeader: Header,
+      renderNav: Nav,
+      navigatable: false,
+      rolesAllowed: [roles.opt_crt],
+    },
+  },
+
+  operationalTables_kn_explorer: {
+    getName: () => 'Промежуточные данные',
+    getPath: () => '/operational-tables/:kn/explorer',
+    getUrl(kn: string, params?: { name: string } | undefined) {
+      return `${this.getPath().replace(':kn', kn)}${qs.stringify(params, { addQueryPrefix: true })}`
+    },
+    redirect: combineProtections(_protectPrivate),
+    render: OperationalTable_kn_explorer,
+    payload: {
+      renderHeader: Header,
+      renderNav: Nav,
+      navigatable: false,
+      rolesAllowed: [roles.opt_get],
+    },
+  },
+
+  operationalTables_kn: {
+    getName: () => 'Таблица промежуточных данных',
+    getPath: () => '/operational-tables/:kn',
+    getUrl(kn: string) {
+      return this.getPath().replace(':kn', kn)
+    },
+    render: OperationalTable_kn,
+    redirect: combineProtections(_protectPrivate),
+    payload: {
+      renderHeader: Header,
+      renderNav: Nav,
+      navigatable: false,
+      rolesAllowed: [roles.opt_get],
+    },
+  },
+
+  /**
+   * targetTables
+   */
+
+  targetTables: {
+    getName: () => 'Таблицы целевых данных',
+    getPath: () => '/target-tables',
+    getUrl() {
+      return this.getPath()
+    },
+    render: TargetTable,
+    redirect: combineProtections(_protectPrivate),
+    payload: {
+      renderHeader: Header,
+      renderNav: Nav,
+      navigatable: true,
+      renderIcon: TargetTableIcon,
+      rolesAllowed: [roles.trt_get],
+    },
+  },
+
+  targetTables_create: {
+    getName: () => 'Создать таблицу целевых данных',
+    getPath: () => '/target-tables/create',
+    getUrl() {
+      return this.getPath()
+    },
+    render: TargetTable_create,
+    redirect: combineProtections(_protectPrivate),
+    payload: {
+      renderHeader: Header,
+      renderNav: Nav,
+      navigatable: false,
+      rolesAllowed: [roles.trt_crt],
+    },
+  },
+
+  targetTables_kn: {
+    getName: () => 'Таблица целевых данных',
+    getPath: () => '/target-tables/:kn',
+    getUrl(kn: string) {
+      return this.getPath().replace(':kn', kn)
+    },
+    redirect: combineProtections(_protectPrivate),
+    render: TargetTable_kn,
+    payload: {
+      renderHeader: Header,
+      renderNav: Nav,
+      navigatable: false,
+      rolesAllowed: [roles.trt_get],
+    },
+  },
+
+  targetTables_kn_explorer: {
+    getName: () => 'Данные целевой таблицы',
+    getPath: () => '/target-tables/:kn/explorer',
+    getUrl(kn: string, params?: { name: string } | undefined) {
+      return `${this.getPath().replace(':kn', kn)}${qs.stringify(params, { addQueryPrefix: true })}`
+    },
+    redirect: combineProtections(_protectPrivate),
+    render: TargetTable_kn_explorer,
+    payload: {
+      renderHeader: Header,
+      renderNav: Nav,
+      navigatable: false,
+      rolesAllowed: [roles.trt_get],
     },
   },
 
@@ -137,7 +276,7 @@ export const routes = {
    */
 
   dictionaryTables_findManyAndCount: {
-    getName: (): string => 'Справочники',
+    getName: (): string => 'Таблицы справочников',
     getPath: () => '/dictionary-tables',
     getUrl() {
       return this.getPath()
@@ -186,7 +325,7 @@ export const routes = {
   },
 
   dictionaryTables_getByKn: {
-    getName: () => 'Справочник',
+    getName: () => 'Таблицы справочников',
     getPath: () => '/dictionary-tables/:kn',
     getUrl(kn: string) {
       return this.getPath().replace(':kn', kn)
@@ -198,75 +337,6 @@ export const routes = {
       renderNav: Nav,
       navigatable: false,
       rolesAllowed: [roles.dct_get],
-    },
-  },
-
-  /**
-   * operationalTables
-   */
-
-  operationalTables: {
-    getName: (): string => 'Промежуточные таблицы',
-    getPath: () => '/operational-tables',
-    getUrl() {
-      return this.getPath()
-    },
-    render: OperationalTable,
-    redirect: combineProtections(_protectPrivate),
-    payload: {
-      renderHeader: Header,
-      renderNav: Nav,
-      navigatable: true,
-      renderIcon: OperationalTableIcon,
-      rolesAllowed: [roles.opt_get],
-    },
-  },
-
-  operationalTables_create: {
-    getName: () => 'Создать промежуточную таблицу',
-    getPath: () => '/operational-tables/create',
-    getUrl() {
-      return this.getPath()
-    },
-    render: OperationalTable_create,
-    redirect: combineProtections(_protectPrivate),
-    payload: {
-      renderHeader: Header,
-      renderNav: Nav,
-      navigatable: false,
-      rolesAllowed: [roles.opt_crt],
-    },
-  },
-
-  operationalTables_kn_explorer: {
-    getName: () => 'Данные промежуточной таблицы',
-    getPath: () => '/operational-tables/:kn/explorer',
-    getUrl(kn: string, params?: { name: string } | undefined) {
-      return `${this.getPath().replace(':kn', kn)}${qs.stringify(params, { addQueryPrefix: true })}`
-    },
-    redirect: combineProtections(_protectPrivate),
-    render: OperationalTable_kn_explorer,
-    payload: {
-      renderHeader: Header,
-      renderNav: Nav,
-      navigatable: false,
-      rolesAllowed: [roles.opt_get],
-    },
-  },
-
-  operationalTables_kn: {
-    getName: () => 'Промежуточная таблица',
-    getPath: () => '/operational-tables/:kn',
-    getUrl(kn: string) {
-      return this.getPath().replace(':kn', kn)
-    },
-    render: OperationalTable_kn,
-    redirect: combineProtections(_protectPrivate),
-    payload: {
-      renderHeader: Header,
-      renderNav: Nav,
-      navigatable: false,
-      rolesAllowed: [roles.opt_get],
     },
   },
 
@@ -358,75 +428,6 @@ export const routes = {
       renderNav: Nav,
       navigatable: false,
       rolesAllowed: [roles.stc_get],
-    },
-  },
-
-  /**
-   * targetTables
-   */
-
-  targetTables: {
-    getName: () => 'Целевые таблицы',
-    getPath: () => '/target-tables',
-    getUrl() {
-      return this.getPath()
-    },
-    render: TargetTable,
-    redirect: combineProtections(_protectPrivate),
-    payload: {
-      renderHeader: Header,
-      renderNav: Nav,
-      navigatable: true,
-      renderIcon: TargetTableIcon,
-      rolesAllowed: [roles.trt_get],
-    },
-  },
-
-  targetTables_create: {
-    getName: () => 'Создать целевую таблицу',
-    getPath: () => '/target-tables/create',
-    getUrl() {
-      return this.getPath()
-    },
-    render: TargetTable_create,
-    redirect: combineProtections(_protectPrivate),
-    payload: {
-      renderHeader: Header,
-      renderNav: Nav,
-      navigatable: false,
-      rolesAllowed: [roles.trt_crt],
-    },
-  },
-
-  targetTables_kn: {
-    getName: () => 'Целевая таблица',
-    getPath: () => '/target-tables/:kn',
-    getUrl(kn: string) {
-      return this.getPath().replace(':kn', kn)
-    },
-    redirect: combineProtections(_protectPrivate),
-    render: TargetTable_kn,
-    payload: {
-      renderHeader: Header,
-      renderNav: Nav,
-      navigatable: false,
-      rolesAllowed: [roles.trt_get],
-    },
-  },
-
-  targetTables_kn_explorer: {
-    getName: () => 'Данные целевой таблицы',
-    getPath: () => '/target-tables/:kn/explorer',
-    getUrl(kn: string, params?: { name: string } | undefined) {
-      return `${this.getPath().replace(':kn', kn)}${qs.stringify(params, { addQueryPrefix: true })}`
-    },
-    redirect: combineProtections(_protectPrivate),
-    render: TargetTable_kn_explorer,
-    payload: {
-      renderHeader: Header,
-      renderNav: Nav,
-      navigatable: false,
-      rolesAllowed: [roles.trt_get],
     },
   },
 

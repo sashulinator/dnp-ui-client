@@ -2,6 +2,7 @@ import { useLayoutEffect, useState, useTransition } from 'react'
 
 import { type Action } from '~/common/entities/analytics'
 import { analytics } from '~/entities/analytics/api.v1'
+import RunForm, { type Tree } from '~/entities/analytics/ui/run-form'
 import { type FlatTable } from '~/entities/database-container'
 import Button from '~/shared/button'
 import { type Controller } from '~/shared/controller'
@@ -15,8 +16,6 @@ import Spinner from '~/shared/spinner'
 import { type Dictionary, assertDefined, assertNotNull } from '~/utils/core'
 import { useSubscribeUpdate } from '~/utils/core-hooks'
 import { setPath } from '~/utils/dictionary'
-
-import RunForm, { type Tree } from '../../../analytics/ui/run-form'
 
 export interface Props {
   dialogController: Controller<boolean>
