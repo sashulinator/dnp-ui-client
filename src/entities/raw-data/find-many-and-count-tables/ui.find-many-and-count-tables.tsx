@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 
+import { api } from '~/entities/analytics/api'
 import { type FlatTable } from '~/entities/database-container'
 import Container from '~/shared/container'
 import { type Controller, createController } from '~/shared/controller'
@@ -17,9 +18,8 @@ import { type ToSort, useSort } from '~/slices/sort'
 import { createSelectionColumn } from '~/slices/table/lib/selection-action-column'
 import { type Any, type Dictionary, c } from '~/utils/core'
 
-import { api } from '../../api.v1'
-import { getMany } from '../../api.v1/analycal-actions'
-import { SLICE } from '../../constants.slice'
+import { getMany } from '../../analytics/api.v1/analycal-actions'
+import { SLICE } from '../../analytics/constants.slice'
 import _Heading from './widgets/heading'
 import _RunAnalyticsDialog from './widgets/run-analytics-dialog'
 import _SelectionActions from './widgets/selection-actions'
