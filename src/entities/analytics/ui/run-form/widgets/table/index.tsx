@@ -5,7 +5,7 @@ import {
 
 import { useField } from 'react-final-form'
 
-import { type AnalyticalActions } from '~/common/entities/analytical-actions'
+import { type AnalyticalActions } from '~/common/entities/analytics'
 import { TreeCheckbox } from '~/shared/checkbox'
 import Flex from '~/shared/flex'
 // import { Checkbox as FormCheckbox } from '~/shared/form'

@@ -2,7 +2,7 @@ import { ScrollArea, Spinner } from '@radix-ui/themes'
 
 import { useLayoutEffect, useState, useTransition } from 'react'
 
-import { type AnalyticalActions } from '~/common/entities/analytical-actions'
+import { type AnalyticalActions } from '~/common/entities/analytics'
 import { api } from '~/entities/analytics/api'
 import { type FlatTable } from '~/entities/database-container'
 import Button from '~/shared/button'

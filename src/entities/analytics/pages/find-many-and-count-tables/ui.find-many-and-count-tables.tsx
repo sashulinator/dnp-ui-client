@@ -1,6 +1,5 @@
 import { useMemo } from 'react'
 
-import { SLICE } from '~/common/entities/analytical-actions'
 import { type FlatTable } from '~/entities/database-container'
 import Container from '~/shared/container'
 import { type Controller, createController } from '~/shared/controller'
@@ -20,6 +19,7 @@ import { type Any, type Dictionary, c } from '~/utils/core'
 
 import { api } from '../../api'
 import { getMany } from '../../api/analycal-actions'
+import { SLICE } from '../../constants.slice'
 import _Heading from './widgets/heading'
 import _RunAnalyticsDialog from './widgets/run-analytics-dialog'
 import _SelectionActions from './widgets/selection-actions'

@@ -1,4 +1,4 @@
-import { type AnalyticalActions } from '~/common/entities/analytical-actions'
+import { type AnalyticalActions } from '~/common/entities/analytics'
 import { type FlatTable } from '~/entities/database-container'
 import { mergeDeep } from '~/utils/dictionary'
 
