@@ -1,7 +1,7 @@
 /**
  * ui
  */
-import { Box } from '@radix-ui/themes'
+import { default as Box } from './ui/box'
 
 export default Box
-export type { BoxProps } from '@radix-ui/themes'
+export { type BoxProps } from './ui/box'

@@ -1,7 +1,7 @@
 /**
  * ui
  */
-import { Section } from '@radix-ui/themes'
+import { default as Section } from './ui/section'
 
 export default Section
-export type { SectionProps } from '@radix-ui/themes'
+export { type SectionProps } from './ui/section'

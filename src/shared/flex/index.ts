@@ -1,7 +1,7 @@
 /**
  * ui
  */
-import { Flex } from '@radix-ui/themes'
+import { default as Flex } from './ui/flex'
 
 export default Flex
-export type { FlexProps } from '@radix-ui/themes'
+export { type FlexProps } from './ui/flex'

@@ -1,11 +1,9 @@
-import { Text } from '@radix-ui/themes'
-
 import { useField } from 'react-final-form'
 
 import { type AnalyticalActions } from '~/common/entities/analytics'
 import { TreeCheckbox } from '~/shared/checkbox'
 import Flex from '~/shared/flex'
-import { HighlightedText } from '~/shared/text'
+import Text, { HighlightedText } from '~/shared/text'
 import { c } from '~/utils/core'
 
 import Table from '../table'

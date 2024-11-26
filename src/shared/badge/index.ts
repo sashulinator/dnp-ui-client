@@ -1,7 +1,7 @@
 /**
  * ui
  */
-import { Badge } from '@radix-ui/themes'
+import { default as Badge } from './ui/badge'
 
 export default Badge
-export type { BadgeProps } from '@radix-ui/themes'
+export { type BadgeProps } from './ui/badge'

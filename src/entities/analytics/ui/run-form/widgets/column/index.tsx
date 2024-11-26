@@ -1,15 +1,10 @@
-import {
-  // Badge,
-  Text,
-} from '@radix-ui/themes'
-
 import { useField } from 'react-final-form'
 
 import { type AnalyticalActions } from '~/common/entities/analytics'
 import Checkbox from '~/shared/checkbox'
 import Flex from '~/shared/flex'
 // import { Checkbox as FormCheckbox } from '~/shared/form'
-import { HighlightedText } from '~/shared/text'
+import Text, { HighlightedText } from '~/shared/text'
 import { c } from '~/utils/core'
 import { map } from '~/utils/dictionary'
 

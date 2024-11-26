@@ -1,7 +1,7 @@
 /**
  * ui
  */
-import { Heading } from '@radix-ui/themes'
+import { default as Heading } from './ui/heading'
 
 export default Heading
-export type { HeadingProps } from '@radix-ui/themes'
+export { type HeadingProps } from './ui/heading'

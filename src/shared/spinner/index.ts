@@ -1,7 +1,7 @@
 /**
  * ui
  */
-import { Spinner } from '@radix-ui/themes'
+import { default as Spinner } from './ui/spinner'
 
 export default Spinner
-export type { SpinnerProps } from '@radix-ui/themes'
+export { type SpinnerProps } from './ui/spinner'

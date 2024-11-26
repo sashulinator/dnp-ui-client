@@ -1,5 +1,3 @@
-import { ScrollArea, Spinner } from '@radix-ui/themes'
-
 import { useLayoutEffect, useState, useTransition } from 'react'
 
 import { type AnalyticalActions } from '~/common/entities/analytics'
@@ -12,6 +10,8 @@ import Flex from '~/shared/flex'
 import Form, { useCreateForm } from '~/shared/form'
 import Icon from '~/shared/icon'
 import { notify } from '~/shared/notification-list-store'
+import ScrollArea from '~/shared/scroll-area'
+import Spinner from '~/shared/spinner'
 import { type Dictionary, assertDefined, assertNotNull } from '~/utils/core'
 import { useSubscribeUpdate } from '~/utils/core-hooks'
 import { setPath } from '~/utils/dictionary'

@@ -1,7 +1,7 @@
 /**
  * ui
  */
-import { Avatar } from '@radix-ui/themes'
+import { default as Avatar } from './ui/avatar'
 
 export default Avatar
-export type { AvatarProps } from '@radix-ui/themes'
+export { type AvatarProps } from './ui/avatar'
