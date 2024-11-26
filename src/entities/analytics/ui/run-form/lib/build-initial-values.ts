@@ -12,6 +12,8 @@ export function buildInitialValues(list: FlatTable[], analyticalActions: Action[
 
     item.columns?.forEach((column) => {
       analyticalActions.forEach((action) => {
+        if (column.type === 'string' && !action.isText) return
+        if (column.type === 'int' && !action.isInt) return
         initialValues = mergeDeep(
           initialValues,
           setPath(

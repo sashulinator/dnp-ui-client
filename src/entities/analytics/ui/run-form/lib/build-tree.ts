@@ -42,6 +42,8 @@ export function buildTree(list: FlatTable[], analyticalActions: Action[]): Tree 
                                   name: column.name,
                                   display: column.display,
                                   actions: analyticalActions.reduce((acc, item) => {
+                                    if (column.type === 'string' && !item.isText) return acc
+                                    if (column.type === 'int' && !item.isInt) return acc
                                     // @ts-ignore
                                     acc[`_${item.id}`] = item
                                     return acc
