@@ -21,7 +21,7 @@ export default function Component(props: Props): JSX.Element {
   return (
     <Button {...buttonProps} className={c(props.className, Component.displayName)}>
       <Flex direction='column' align='center' gap='1' pt={'4px'} pb={'4px'}>
-        <_renderIcon iconName={iconName} width={30} height={30} />
+        <_renderIcon iconName={iconName} width={22} height={22} />
         <Text className='button-tile-text' size='1'>
           {text}
         </Text>
