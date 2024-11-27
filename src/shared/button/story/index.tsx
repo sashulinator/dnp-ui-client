@@ -5,7 +5,7 @@ import { type Props, type Story } from '~/shared/storybook'
 import Switch from '~/shared/switch'
 import Text from '~/shared/text'
 
-import TextField from '..'
+import TextField, { TileButton } from '..'
 import Button from '..'
 
 interface State {}
@@ -18,9 +18,10 @@ export default {
 
     const [isRound, setRound] = useState(false)
     const [isSquare, setSquare] = useState(false)
+    const [isTransparent, setTransparent] = useState(false)
 
     return (
-      <Flex width='100%' direction={'column'} p='8' gap='4'>
+      <Flex direction={'column'} p='8' gap='4'>
         <Button round={isRound} square={isSquare} {...state}>
           Button
         </Button>
@@ -33,6 +34,23 @@ export default {
             <Switch size='1' checked={isSquare} onCheckedChange={(checked) => setSquare(checked)} />
             square
           </Text>
+          <Text as='label'>
+            <Switch size='1' checked={isTransparent} onCheckedChange={(checked) => setTransparent(checked)} />
+            transparent
+          </Text>
+        </Flex>
+        <Flex direction='row'>
+          <TileButton
+            iconName='Star'
+            round={isRound}
+            square={isSquare}
+            transparent={isTransparent}
+            text={
+              <>
+                Настройка <h1>таблицы</h1> таблицы Очень большое название
+              </>
+            }
+          />
         </Flex>
       </Flex>
     )

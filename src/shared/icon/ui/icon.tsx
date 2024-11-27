@@ -1,5 +1,6 @@
 import React from 'react'
 
+import type { IconName } from '../constants/map'
 import { map } from '../constants/map'
 
 export interface Props extends React.SVGAttributes<SVGSVGElement> {
@@ -17,3 +18,20 @@ export default function Component(props: Props): JSX.Element {
 }
 
 Component.displayName = NAME
+
+interface IconProps extends React.SVGAttributes<SVGSVGElement> {
+  iconName: IconName | string
+}
+
+/**
+ * ui-Icon-render
+ */
+
+export function _renderIcon(props: IconProps) {
+  const { iconName, ...svgProps } = props
+  if (iconName in map) {
+    return React.createElement(map[iconName as IconName], svgProps)
+  } else {
+    return <span dangerouslySetInnerHTML={{ __html: iconName }}></span>
+  }
+}

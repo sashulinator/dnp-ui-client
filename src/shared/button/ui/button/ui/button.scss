@@ -1,4 +1,5 @@
 .dnp-button-Button {
+  &.--transparent,
   &.--round,
   &.--square {
     width: var(--base-button-height);
@@ -11,5 +12,19 @@
   }
   &.--round {
     border-radius: var(--base-button-height);
+  }
+  &.--transparent {
+    background-color: transparent;
+    width: auto;
+    height: auto;
+    max-width: unset;
+    max-height: unset;
+    padding-left: var(--space-3);
+    padding-right: var(--space-3);
+    cursor: pointer;
+  }
+
+  &.--transparent:hover {
+    background-color: var(--gray-2);
   }
 }
