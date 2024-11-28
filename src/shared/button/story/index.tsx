@@ -42,9 +42,6 @@ export default {
         <Flex direction='row'>
           <TileButton
             iconName='Star'
-            round={isRound}
-            square={isSquare}
-            transparent={isTransparent}
             text={
               <>
                 Настройка <h1>таблицы</h1> таблицы Очень большое название

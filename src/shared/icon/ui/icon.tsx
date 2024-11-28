@@ -1,10 +1,12 @@
 import React from 'react'
 
+import type { Union } from '~/utils/types/union'
+
 import type { IconName } from '../constants/map'
 import { map } from '../constants/map'
 
-export interface Props extends React.SVGAttributes<SVGSVGElement> {
-  name: keyof typeof map
+export interface Props extends Omit<React.SVGAttributes<SVGSVGElement>, 'name'> {
+  name: Union<keyof typeof map, string>
 }
 
 export const NAME = 'ui-Icon'
@@ -12,26 +14,14 @@ export const NAME = 'ui-Icon'
 /**
  * ui-Icon
  */
+
 export default function Component(props: Props): JSX.Element {
   const { name, ...svgProps } = props
-  return React.createElement(map[name], svgProps)
+  if (name.toString() in map) {
+    return React.createElement(map[name as IconName], svgProps)
+  } else {
+    return <span dangerouslySetInnerHTML={{ __html: name }}></span>
+  }
 }
 
 Component.displayName = NAME
-
-interface IconProps extends React.SVGAttributes<SVGSVGElement> {
-  iconName: IconName | string
-}
-
-/**
- * ui-Icon-render
- */
-
-export function _renderIcon(props: IconProps) {
-  const { iconName, ...svgProps } = props
-  if (iconName in map) {
-    return React.createElement(map[iconName as IconName], svgProps)
-  } else {
-    return <span dangerouslySetInnerHTML={{ __html: iconName }}></span>
-  }
-}
