@@ -1,0 +1,8 @@
+# !/bin/ush
+
+echo '🪝  Installing githooks...'
+if husky ; then
+  echo '\033[32msuccess\033[0m installed'
+else
+  echo "\033[31merror\033[0m failed"
+fi
