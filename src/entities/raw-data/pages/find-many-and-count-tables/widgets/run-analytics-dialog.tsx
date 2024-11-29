@@ -5,7 +5,6 @@ import { analytics } from '~/entities/analytics/api.v1'
 import RunForm, { type Tree } from '~/entities/analytics/ui/run-form'
 import { type FlatTable } from '~/entities/database-container'
 import Button from '~/shared/button'
-import { type Controller } from '~/shared/controller'
 import Dialog from '~/shared/dialog'
 import Flex from '~/shared/flex'
 import Form, { useCreateForm } from '~/shared/form'
@@ -16,11 +15,12 @@ import Spinner from '~/shared/spinner'
 import { type Dictionary, assertDefined, assertNotNull } from '~/utils/core'
 import { useSubscribeUpdate } from '~/utils/core-hooks'
 import { setPath } from '~/utils/dictionary'
+import { type Atom } from '~/utils/store'
 
 export interface Props {
-  dialogController: Controller<boolean>
+  dialogController: Atom<boolean>
   analyticalActions: Action[]
-  selectedItemsController: Controller<Dictionary<FlatTable>>
+  selectedItemsController: Atom<Dictionary<FlatTable>>
 }
 
 const NAME = 'workingTable-SelectedItemsDialog'

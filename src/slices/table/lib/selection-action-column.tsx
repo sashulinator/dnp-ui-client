@@ -1,15 +1,15 @@
 import { Checkbox } from '@radix-ui/themes'
 
-import { type Controller } from '~/shared/controller'
 import { type ColumnTypes } from '~/shared/table'
 import { type Dictionary } from '~/utils/core'
 import { useSubscribeUpdate } from '~/utils/core-hooks'
 import { remove } from '~/utils/dictionary'
 import { toDictionary } from '~/utils/list'
+import { type Atom } from '~/utils/store'
 
 export type Context<TItem> = {
   idKey: string
-  selectedItemsController: Controller<Dictionary<TItem>>
+  selectedItemsController: Atom<Dictionary<TItem>>
 }
 
 export function createSelectionColumn<TItem extends Dictionary, TContext extends Context<TItem>>(): ColumnTypes.Column<

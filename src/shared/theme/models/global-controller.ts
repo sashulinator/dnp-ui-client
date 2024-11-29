@@ -1,4 +1,4 @@
-import { createController } from '~/shared/controller'
+import { createAtom } from '~/utils/store'
 
 import { type ThemeName, themeName } from './theme-name'
 
@@ -8,7 +8,7 @@ type State = {
   name: ThemeName
 }
 
-export const globalController = createController<State>({
+export const globalController = createAtom<State>({
   name: themeName[localStorage.getItem(LOCAL_STORAGE_KEY) as ThemeName] || themeName.default,
 })
 

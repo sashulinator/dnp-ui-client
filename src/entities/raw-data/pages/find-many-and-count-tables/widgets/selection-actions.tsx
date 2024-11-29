@@ -1,14 +1,14 @@
 import { type FlatTable } from '~/entities/database-container'
 import Button from '~/shared/button'
-import { type Controller } from '~/shared/controller'
 import { RenderCounter } from '~/shared/debug'
 import Flex, { type FlexProps } from '~/shared/flex'
 import Text from '~/shared/text'
 import { type Dictionary } from '~/utils/core'
 import { useSubscribeUpdate } from '~/utils/core-hooks'
+import { type Atom } from '~/utils/store'
 
 export type Props = FlexProps & {
-  selectedItemsController: Controller<Dictionary<FlatTable>>
+  selectedItemsController: Atom<Dictionary<FlatTable>>
   onRunAnalyticsClick: (e: React.MouseEvent) => void
 }
 

@@ -4,7 +4,6 @@ import { APP } from '~/app/constants.app'
 import { api as analyticsApi } from '~/entities/analytics'
 import { type FlatTable } from '~/entities/database-container'
 import Container from '~/shared/container'
-import { type Controller, createController } from '~/shared/controller'
 import { TICK_MS, cssAnimations } from '~/shared/css-animations'
 import { RenderCounter } from '~/shared/debug'
 import Flex from '~/shared/flex'
@@ -18,6 +17,7 @@ import { JSONParam, NumberParam, useQueryParam, useQueryParams, withDefault } fr
 import { type ToSort, useSort } from '~/slices/sort'
 import { createSelectionColumn } from '~/slices/table/lib/selection-action-column'
 import { type Any, type Dictionary, c } from '~/utils/core'
+import { type Atom, createAtom } from '~/utils/store'
 
 import { SLICE } from '../../constants.slice'
 import _Heading from './widgets/heading'
@@ -26,20 +26,20 @@ import _SelectionActions from './widgets/selection-actions'
 
 type TableContext = SearchColumnTypes.Context<FlatTable> &
   ListTableTypes.SortTypes.Context<FlatTable> & {
-    selectedItemsController: Controller<Dictionary<FlatTable>>
+    selectedItemsController: Atom<Dictionary<FlatTable>>
     idKey: string
   }
 
 const NAME = `${APP}-${SLICE}-FindManyAndCountTables`
 
 export default function Component(): JSX.Element {
-  const selectedItemsController = useMemo(() => createController<Dictionary<FlatTable>>({}), [])
+  const selectedItemsController = useMemo(() => createAtom<Dictionary<FlatTable>>({}), [])
 
-  const sortController = useMemo(() => createController<ToSort<Dictionary> | undefined>(undefined), [])
+  const sortController = useMemo(() => createAtom<ToSort<Dictionary> | undefined>(undefined), [])
   const [sortParam, , setSort] = useSort([sortController.set])
   sortController.subscribe((value, prev) => prev !== value && setSort(value))
 
-  const runAnalyticsDialogController = useMemo(() => createController(false), [])
+  const runAnalyticsDialogController = useMemo(() => createAtom(false), [])
 
   const [columnSearchParams, setColumnSearchParams] = useQueryParam<
     string,

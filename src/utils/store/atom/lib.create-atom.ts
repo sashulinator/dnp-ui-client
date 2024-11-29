@@ -1,10 +1,6 @@
-export type Controller<T> = {
-  get: () => T
-  set: (value: T) => void
-  subscribe: (cb: (prevState: T, nextState: T) => void) => () => void
-}
+import { type Atom } from './models'
 
-export function createController<T>(init: T): Controller<T> {
+export function createAtom<T>(init: T): Atom<T> {
   let state = init
   const listeners = new Set<(state: T, prevState: T) => void>()
 

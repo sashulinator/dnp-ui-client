@@ -1,7 +1,6 @@
 import { type NotificationToastProps } from '~/shared/toast'
 import { type Id, generateId } from '~/utils/core'
-
-import { createStore } from './store'
+import { createStore } from '~/utils/store'
 
 const LIMIT = 3
 

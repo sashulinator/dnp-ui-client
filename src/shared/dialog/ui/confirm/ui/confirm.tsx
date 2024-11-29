@@ -1,8 +1,8 @@
 import Button from '~/shared/button'
-import { type Controller } from '~/shared/controller'
 import Flex from '~/shared/flex'
 import Text from '~/shared/text'
 import { useSubscribeUpdate } from '~/utils/core-hooks'
+import { type Atom } from '~/utils/store'
 import { type Required } from '~/utils/types/object'
 
 import Dialog from '../../dialog'
@@ -16,7 +16,7 @@ export interface BaseProps {
 }
 
 export type Props<T extends Partial<BaseProps>> = {
-  controller: Controller<Required<T>>
+  controller: Atom<Required<T>>
 } & Omit<BaseProps, keyof T>
 
 Component.displayname = 'dialog-Confirm'

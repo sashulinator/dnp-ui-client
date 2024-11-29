@@ -6,7 +6,6 @@ import { useQueryParam, useQueryParams } from 'use-query-params'
 import type { Row } from '~/entities/dictionary-table'
 import { SLICE, api } from '~/entities/dictionary-table'
 import Container from '~/shared/container'
-import { type Controller, createController } from '~/shared/controller'
 import { TICK_MS, cssAnimations } from '~/shared/css-animations'
 import { RenderCounter } from '~/shared/debug'
 import { ConfirmDialog, type ConfirmDialogTypes } from '~/shared/dialog'
@@ -37,6 +36,7 @@ import { c, isEmpty } from '~/utils/core'
 import { type Dictionary } from '~/utils/core'
 import { useRenderDelay } from '~/utils/core-hooks/render-delay'
 import { get } from '~/utils/dictionary'
+import { type Atom, createAtom } from '~/utils/store'
 
 import _Heading from '../widgets/heading'
 import _RowFormDialog, { useCreateRowForm } from '../widgets/row-form-dialog'
@@ -45,7 +45,7 @@ import _SelectionActions from '../widgets/selection-actions'
 
 type TableContext = SearchColumnTypes.Context<Item['data']> &
   ListTableTypes.SortTypes.Context<Item['data']> & { idKey: string } & {
-    selectedItemsController: Controller<Dictionary<Dictionary>>
+    selectedItemsController: Atom<Dictionary<Dictionary>>
   }
 
 export interface Props {
@@ -59,17 +59,17 @@ export default function Component(): JSX.Element {
   const [nameQueryParam] = useQueryParam('name', withDefault(StringParam, ''))
   const [searchQueryParam, searchValue, setSearchValue] = useSearch()
 
-  const sortController = useMemo(() => createController<ToSort<Dictionary> | undefined>(undefined), [])
-  const [sortParam, , setSort] = useSort([sortController.set])
-  sortController.subscribe((value, prev) => prev !== value && setSort(value))
+  const sortAtom = useMemo(() => createAtom<ToSort<Dictionary> | undefined>(undefined), [])
+  const [sortParam, , setSort] = useSort([sortAtom.set])
+  sortAtom.subscribe((value, prev) => prev !== value && setSort(value))
 
   const confirmDialogController = useMemo(
-    () => createController<Pick<ConfirmDialogTypes.BaseProps, 'open'>>({ open: false }),
+    () => createAtom<Pick<ConfirmDialogTypes.BaseProps, 'open'>>({ open: false }),
     [],
   )
 
-  const selectedItemsController = useMemo(() => createController<Dictionary<Dictionary>>({}), [])
-  const selectedListDialogController = useMemo(() => createController(false), [])
+  const selectedItemsController = useMemo(() => createAtom<Dictionary<Dictionary>>({}), [])
+  const selectedListDialogController = useMemo(() => createAtom(false), [])
 
   const [itemToRemove, setItemToRemove] = useState<Dictionary | null>(null)
   const [removingcolumns, setRemovingcolumns] = useState<Dictionary<Dictionary>>({})
@@ -209,7 +209,7 @@ export default function Component(): JSX.Element {
                         context={{
                           idKey: explorer?.idKey as string,
                           selectedItemsController,
-                          sortController: sortController,
+                          sortController: sortAtom,
                           searchFilter: columnSearchParams,
                           setSearchFilter: (value) => {
                             const newValue = typeof value === 'function' ? value(columnSearchParams) : value

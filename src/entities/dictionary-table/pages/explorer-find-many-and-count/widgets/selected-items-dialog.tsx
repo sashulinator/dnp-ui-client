@@ -2,7 +2,6 @@ import { useMemo } from 'react'
 
 import { type DictionaryTable } from '~/entities/dictionary-table'
 import Button from '~/shared/button'
-import { type Controller } from '~/shared/controller'
 import Dialog from '~/shared/dialog'
 import Flex from '~/shared/flex'
 import Icon from '~/shared/icon'
@@ -12,10 +11,11 @@ import { createActionColumn } from '~/slices/table'
 import { type Dictionary } from '~/utils/core'
 import { useSubscribeUpdate } from '~/utils/core-hooks'
 import { remove } from '~/utils/dictionary'
+import { type Atom } from '~/utils/store'
 
 export interface Props {
-  dialogController: Controller<boolean>
-  selectedItemsController: Controller<Dictionary<Dictionary>>
+  dialogController: Atom<boolean>
+  selectedItemsController: Atom<Dictionary<Dictionary>>
   dictionaryTable: DictionaryTable | undefined
   idKey: string
 }
