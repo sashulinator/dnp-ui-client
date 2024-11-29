@@ -3,7 +3,7 @@ import { Flex } from '@radix-ui/themes'
 import { JsonEditor } from '~/shared/form'
 import { c } from '~/utils/core'
 
-import { NAME as SLICE } from '../../../constants/name'
+import { SLICE } from '../../../constants/name'
 import { type Store } from '../../../models'
 
 export const NAME = `${SLICE}-Form`
