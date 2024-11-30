@@ -38,11 +38,7 @@ export default function Component(): JSX.Element {
       <Container p='4'>
         <Section size='1' className={c(cssAnimations.Appear)}>
           <Flex width='100%' justify='between'>
-            <Heading.Root
-              route={routes.dictionaryTables_findManyAndCount}
-              backRoute={routes.main}
-              renderIcon={routes.dictionaryTables_findManyAndCount.payload.renderIcon}
-            >
+            <Heading.Root route={routes.dictionaryTables_findManyAndCount} backRoute={routes.main}>
               <Heading.BackToParent />
               <Heading.Name />
             </Heading.Root>

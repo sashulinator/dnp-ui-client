@@ -129,11 +129,7 @@ export default function Component(): JSX.Element {
         {!explorerListFetcher.isError && (
           <Section size='1'>
             <Flex width='100%' justify='between'>
-              <Heading.Root
-                route={routes.targetTables_kn_explorer}
-                backRoute={routes.targetTables}
-                renderIcon={routes.targetTables.payload.renderIcon}
-              >
+              <Heading.Root route={routes.targetTables_kn_explorer} backRoute={routes.targetTables}>
                 <Heading.BackToParent />
                 <Heading.Unique
                   string={explorerListFetcher.data?.targetTable.display ?? nameQueryParam}

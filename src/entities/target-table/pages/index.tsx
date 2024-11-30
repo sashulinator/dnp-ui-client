@@ -34,11 +34,7 @@ export default function Component(): JSX.Element {
       <Container p='var(--space-4)'>
         <Section size='1'>
           <Flex width='100%' justify='between'>
-            <Heading.Root
-              route={routes.targetTables}
-              backRoute={routes.main}
-              renderIcon={routes.targetTables.payload.renderIcon}
-            >
+            <Heading.Root route={routes.targetTables} backRoute={routes.main}>
               <Heading.BackToParent />
               <Heading.Name />
             </Heading.Root>

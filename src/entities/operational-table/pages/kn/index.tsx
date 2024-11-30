@@ -83,11 +83,7 @@ export default function Component(): JSX.Element {
         {!fetcher.isError && (
           <Section size='1'>
             <Flex align='center' justify='between'>
-              <Heading.Root
-                route={routes.operationalTables_kn}
-                backRoute={routes.operationalTables}
-                renderIcon={routes.operationalTables.payload.renderIcon}
-              >
+              <Heading.Root route={routes.operationalTables_kn} backRoute={routes.operationalTables}>
                 <Heading.BackToParent />
                 <Heading.Name />
                 <Heading.Unique string={values.display} tooltipContent='Название' />

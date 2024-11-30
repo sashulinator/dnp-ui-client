@@ -86,7 +86,6 @@ export default function Component(): JSX.Element {
               <Heading.Root
                 route={routes.dictionaryTables_getByKn}
                 backRoute={routes.dictionaryTables_findManyAndCount}
-                renderIcon={routes.dictionaryTables_findManyAndCount.payload.renderIcon}
               >
                 <Heading.BackToParent />
                 <Heading.Name />

@@ -27,7 +27,7 @@ export default function Component(): JSX.Element {
     <main className={NAME}>
       <Container p='4'>
         <Section size='1'>
-          <Heading.Root route={routes.main} backRoute={routes.main} renderIcon={routes.main.payload.renderIcon}>
+          <Heading.Root route={routes.main} backRoute={routes.main}>
             <Button variant='outline' square={true} style={{ marginRight: 'var(--space-4)' }}>
               {React.createElement(routes.main.payload.renderIcon)}
             </Button>

@@ -26,7 +26,6 @@ function Component(props: Props): JSX.Element {
       <Heading.Root
         route={routes.dictionaryTables_explorerFindManyAndCount}
         backRoute={routes.dictionaryTables_findManyAndCount}
-        renderIcon={routes.dictionaryTables_findManyAndCount.payload.renderIcon}
       >
         <Heading.BackToParent />
         <Heading.Unique string={name} tooltipContent={routes.dictionaryTables_explorerFindManyAndCount.getName()} />

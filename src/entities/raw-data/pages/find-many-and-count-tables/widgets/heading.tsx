@@ -13,11 +13,7 @@ function Component(): JSX.Element {
   return (
     <Flex width='100%' justify='between'>
       <RenderCounter name='heading' />
-      <Heading.Root
-        route={routes.rawData_findManyAndCountTables}
-        backRoute={routes.rawData_findManyAndCountTables}
-        renderIcon={routes.rawData_findManyAndCountTables.payload.renderIcon}
-      >
+      <Heading.Root route={routes.rawData_findManyAndCountTables} backRoute={routes.rawData_findManyAndCountTables}>
         <Heading.BackToParent />
         <Heading.Name />
       </Heading.Root>

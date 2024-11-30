@@ -158,11 +158,7 @@ export default function Component(): JSX.Element {
         {!explorerListFetcher.isError && (
           <Section size='1'>
             <Flex width='100%' justify='between'>
-              <Heading.Root
-                route={routes.operationalTables_kn_explorer}
-                backRoute={routes.operationalTables}
-                renderIcon={routes.operationalTables.payload.renderIcon}
-              >
+              <Heading.Root route={routes.operationalTables_kn_explorer} backRoute={routes.operationalTables}>
                 <Heading.BackToParent />
                 <Heading.Unique
                   string={explorerListFetcher.data?.operationalTable.display ?? nameQueryParam}

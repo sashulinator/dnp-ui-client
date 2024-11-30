@@ -43,7 +43,7 @@ export interface BackToParentProps {
 export function BackToParent(props: BackToParentProps): JSX.Element {
   const { className } = props
 
-  const { backRoute, renderIcon } = useContext()
+  const { backRoute } = useContext()
 
   return (
     <Button
@@ -53,7 +53,7 @@ export function BackToParent(props: BackToParentProps): JSX.Element {
       className={c(className)}
       asChild={true}
     >
-      {backRoute && renderIcon && <Link to={backRoute.getUrl()}>{<Icon name='ChevronLeft' />}</Link>}
+      {backRoute && <Link to={backRoute.getUrl()}>{<Icon name='ChevronLeft' />}</Link>}
     </Button>
   )
 }

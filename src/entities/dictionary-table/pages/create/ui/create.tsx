@@ -72,11 +72,7 @@ export default function Component(): JSX.Element {
     <main className={NAME}>
       <Container p='var(--space-4)'>
         <Section size='1'>
-          <Heading.Root
-            route={routes.dictionaryTables_create}
-            backRoute={routes.dictionaryTables_findManyAndCount}
-            renderIcon={routes.dictionaryTables_findManyAndCount.payload.renderIcon}
-          >
+          <Heading.Root route={routes.dictionaryTables_create} backRoute={routes.dictionaryTables_findManyAndCount}>
             <Heading.BackToParent />
             <Heading.Name />
             <Heading.Unique string={values.display} tooltipContent='Название' />

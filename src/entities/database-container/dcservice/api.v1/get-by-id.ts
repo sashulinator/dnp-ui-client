@@ -1,8 +1,16 @@
 import { type UseQueryOptions, type UseQueryResult, useQuery as useReactQuery } from 'react-query'
 
-import { type QueryError, type Response } from '~/shared/api'
+import {
+  NAME,
+  type RequestParams,
+  type Result,
+  url,
+} from '~/common/entities/database-container/dcservice/api.v1/get-by-id'
+import api, { type QueryError, type Response } from '~/shared/api'
 
-import { NAME, type RequestParams, type Result, request } from './request'
+const request = (params: RequestParams): Promise<Response<Result>> => api.post(url, { params })
+
+export { request, type RequestParams, type Result, NAME }
 
 export type Options<TData = Result> = UseQueryOptions<Response<Result>, QueryError, TData, [string, RequestParams]>
 export type QueryResult<TData = Result> = UseQueryResult<TData, QueryError>
@@ -13,7 +21,7 @@ export function useCache<TData = Result>(
 ): QueryResult<TData> {
   const options: Options<TData> = {
     select: (axiosResponse) => axiosResponse.data as TData,
-    enabled: Boolean(requestParams.name),
+    enabled: Boolean(requestParams.id),
     ...preferredOptions,
   }
 

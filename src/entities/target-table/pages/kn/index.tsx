@@ -83,11 +83,7 @@ export default function Component(): JSX.Element {
 
         {!fetcher.isError && (
           <Section size='1'>
-            <Heading.Root
-              route={routes.targetTables_kn}
-              backRoute={routes.targetTables}
-              renderIcon={routes.targetTables.payload.renderIcon}
-            >
+            <Heading.Root route={routes.targetTables_kn} backRoute={routes.targetTables}>
               <Heading.BackToParent />
               <Heading.Name />
               <Heading.Unique string={values.display} tooltipContent='Название' />

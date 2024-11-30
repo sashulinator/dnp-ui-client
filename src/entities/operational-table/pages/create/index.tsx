@@ -72,11 +72,7 @@ export default function Component(): JSX.Element {
     <main className={NAME}>
       <Container p='var(--space-4)'>
         <Section size='1'>
-          <Heading.Root
-            route={routes.operationalTables_create}
-            backRoute={routes.operationalTables}
-            renderIcon={routes.operationalTables.payload.renderIcon}
-          >
+          <Heading.Root route={routes.operationalTables_create} backRoute={routes.operationalTables}>
             <Heading.BackToParent />
             <Heading.Name />
             <Heading.Unique string={values.display} tooltipContent='Название' />

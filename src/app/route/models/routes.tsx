@@ -1,6 +1,7 @@
 import qs from 'qs'
 import { Suspense, lazy } from 'react'
 
+import Dcservice_getById from '~/entities/database-container/dcservice/pages/get-by-id'
 import { Icon as DictionaryTableIcon } from '~/entities/dictionary-table'
 import DictionaryTable_create from '~/entities/dictionary-table/pages/create'
 import DictionaryTable_explorerFindManyAndCount from '~/entities/dictionary-table/pages/explorer-find-many-and-count'
@@ -112,6 +113,26 @@ export const routes = {
       renderNav: Nav,
       navigatable: false,
       rolesAllowed: [roles.nrm_get],
+    },
+  },
+
+  /**
+   * databaseContaner
+   */
+
+  dcservice_getById: {
+    getName: () => 'Сервис',
+    getPath: () => '/database-container/service/:id',
+    getUrl(id: string) {
+      return this.getPath().replace(':id', id)
+    },
+    render: Dcservice_getById,
+    redirect: combineProtections(_protectPrivate, _protectByRole),
+    payload: {
+      renderHeader: Header,
+      renderNav: Nav,
+      navigatable: false,
+      rolesAllowed: [roles.stc_get],
     },
   },
 

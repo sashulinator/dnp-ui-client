@@ -36,11 +36,7 @@ export default function Component() {
     <main>
       <Container p='var(--space-4)'>
         <Section size='1'>
-          <Heading.Root
-            route={routes.processes_kn}
-            backRoute={routes.processes}
-            renderIcon={routes.processes.payload.renderIcon}
-          >
+          <Heading.Root route={routes.processes_kn} backRoute={routes.processes}>
             <Heading.BackToParent />
             <Heading.Name />
             <Heading.Unique string={''} tooltipContent='Название' />
