@@ -1,6 +1,7 @@
 import qs from 'qs'
 import { Suspense, lazy } from 'react'
 
+import Dcservice_findWithTotal from '~/entities/database-container/dcservice/pages/find-with-total'
 import Dcservice_getById from '~/entities/database-container/dcservice/pages/get-by-id'
 import { Icon as DictionaryTableIcon } from '~/entities/dictionary-table'
 import DictionaryTable_create from '~/entities/dictionary-table/pages/create'
@@ -133,6 +134,23 @@ export const routes = {
       renderNav: Nav,
       navigatable: false,
       rolesAllowed: [roles.stc_get],
+    },
+  },
+
+  dcservice_findWithTotal: {
+    getName: () => 'Сервисы',
+    getPath: () => '/database-container/service',
+    getUrl() {
+      return this.getPath()
+    },
+    render: Dcservice_findWithTotal,
+    redirect: combineProtections(_protectPrivate, _protectByRole),
+    payload: {
+      renderHeader: Header,
+      renderNav: Nav,
+      navigatable: true,
+      rolesAllowed: [roles.stc_get],
+      renderIcon: StoreConfigIcon,
     },
   },
 

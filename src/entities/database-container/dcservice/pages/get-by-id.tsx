@@ -5,13 +5,14 @@ import { routes } from '~/app/route'
 import Button from '~/shared/button'
 import Card from '~/shared/card'
 import Container from '~/shared/container'
+import { TICK_MS, cssAnimations } from '~/shared/css-animations'
 import Flex from '~/shared/flex'
 import Form, { useCreateForm } from '~/shared/form'
 import { notify } from '~/shared/notification-list-store'
 import { Heading, Main } from '~/shared/page'
 import Section from '~/shared/section'
 import Separator from '~/shared/separator'
-import { assertDefined } from '~/utils/core'
+import { assertDefined, c } from '~/utils/core'
 
 import { dcserviceApi } from '..'
 import { SLICE } from '../constants.slice'
@@ -68,9 +69,9 @@ export default function Component(): JSX.Element {
         )}
 
         {!fetcher.isError && (
-          <Section size='1'>
+          <Section size='1' className={c(cssAnimations.Appear)}>
             <Flex align='center' justify='between' gap='2'>
-              <Heading.Root route={routes.dcservice_getById} backRoute={routes.dcservice_getById}>
+              <Heading.Root route={routes.dcservice_getById} backRoute={routes.dcservice_findWithTotal}>
                 <Heading.BackToParent />
                 <Heading.Name />
                 <Heading.Unique string={formState.values.display} tooltipContent='Отображение' />
@@ -81,11 +82,11 @@ export default function Component(): JSX.Element {
 
         {fetcher.isSuccess && (
           <Flex direction='column' width='780px'>
-            <Section size='1'>
-              <Form form={form} component={DcserviceForm} />
+            <Section size='1' className={c(cssAnimations.Appear)} style={{ animationDelay: `${TICK_MS * 2}ms` }}>
+              <Form form={form} disabled={fetcher.isLoading} component={DcserviceForm} />
             </Section>
 
-            <Section size='1'>
+            <Section size='1' className={c(cssAnimations.Appear)} style={{ animationDelay: `${TICK_MS * 3}ms` }}>
               <Flex justify='start'>
                 <Card>
                   <Flex gap='2' direction='row' justify='end'>

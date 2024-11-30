@@ -8,6 +8,7 @@ import { type Dcservice, type DcserviceCreateInput } from '../../models'
 
 export interface Props {
   className?: string | undefined
+  disabled?: boolean
 }
 
 export type Values = Pick<Dcservice, 'display' | 'host' | 'port' | 'username' | 'password'>
@@ -15,6 +16,8 @@ export type Values = Pick<Dcservice, 'display' | 'host' | 'port' | 'username' | 
 const NAME = `${APP}-e-${SLICE}-Form`
 
 export default function Component(props: Props): JSX.Element {
+  const { disabled = false } = props
+
   return (
     <Column className={c(props.className, NAME)}>
       <Card>
@@ -23,6 +26,7 @@ export default function Component(props: Props): JSX.Element {
             <TypedField<Values, 'display', string, string, TextFieldProps<string>, HTMLInputElement>
               name='display'
               label='Отображение'
+              disabled={disabled}
               component={TextField}
             />
           </Column>
@@ -36,6 +40,7 @@ export default function Component(props: Props): JSX.Element {
               <TypedField<Values, 'host', string, string, TextFieldProps<string>, HTMLInputElement>
                 label='Хост'
                 name='host'
+                disabled={disabled}
                 component={TextField}
               />
             </Flex>
@@ -44,6 +49,7 @@ export default function Component(props: Props): JSX.Element {
                 label='Порт'
                 name='port'
                 type='number'
+                disabled={disabled}
                 component={TextField}
               />
             </Flex>
@@ -53,11 +59,13 @@ export default function Component(props: Props): JSX.Element {
               <TypedField<Values, 'username', string, string, TextFieldProps<string>, HTMLInputElement>
                 label='Пользователь'
                 name='username'
+                disabled={disabled}
                 component={TextField}
               />
               <TypedField<Values, 'password', string, string, TextFieldProps<string>, HTMLInputElement>
                 label='Пароль'
                 name='password'
+                disabled={disabled}
                 component={TextField}
               />
             </Column>
