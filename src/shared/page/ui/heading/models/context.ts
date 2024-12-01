@@ -5,7 +5,7 @@ import { assertDefined } from '~/utils/core'
 
 export interface Context {
   route: AppRoute
-  backRoute: AppRoute | undefined
+  backRoute: AppRoute
 }
 
 export const context = createContext<Context | undefined>(undefined)

@@ -1,6 +1,7 @@
 import qs from 'qs'
 import { Suspense, lazy } from 'react'
 
+import Dcservice_create from '~/entities/database-container/dcservice/pages/create'
 import Dcservice_findWithTotal from '~/entities/database-container/dcservice/pages/find-with-total'
 import Dcservice_getById from '~/entities/database-container/dcservice/pages/get-by-id'
 import { Icon as DictionaryTableIcon } from '~/entities/dictionary-table'
@@ -120,6 +121,22 @@ export const routes = {
   /**
    * databaseContaner
    */
+
+  dcservice_create: {
+    getName: () => 'Создать сервис',
+    getPath: () => '/database-container/service/create',
+    getUrl() {
+      return this.getPath()
+    },
+    render: Dcservice_create,
+    redirect: combineProtections(_protectPrivate, _protectByRole),
+    payload: {
+      renderHeader: Header,
+      renderNav: Nav,
+      navigatable: false,
+      rolesAllowed: [roles.stc_crt],
+    },
+  },
 
   dcservice_getById: {
     getName: () => 'Сервис',

@@ -1,5 +1,4 @@
-import { useMemo } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import { APP } from '~/app/constants.app'
 import { routes } from '~/app/route'
@@ -13,7 +12,7 @@ import { notify } from '~/shared/notification-list-store'
 import { Heading, Main } from '~/shared/page'
 import Section from '~/shared/section'
 import Separator from '~/shared/separator'
-import { assertDefined, c } from '~/utils/core'
+import { c } from '~/utils/core'
 
 import { dcserviceApi } from '..'
 import { SLICE } from '../constants.slice'
@@ -23,32 +22,22 @@ import TestConnection from '../ui/test-connection'
 const NAME = `${APP}-page-${SLICE}-GetById`
 
 export default function Component(): JSX.Element {
-  const { id = '' } = useParams()
+  const navigate = useNavigate()
 
-  const fetcher = dcserviceApi.getById.useCache(
-    { id },
-    {
-      onSuccess(dcservice) {
-        form.initialize(DcserviceForm.toValues(dcservice))
-      },
-    },
-  )
-
-  const updateMutator = dcserviceApi.update.useMutation({
+  const createMutator = dcserviceApi.create.useMutation({
     onSuccess: (response) => {
       notify({ title: 'Сохранено', type: 'success' })
       form.initialize(DcserviceForm.toValues(response.data))
+      dcserviceApi.getById.setCache({ id: response.data.id }, response.data)
+      navigate(routes.dcservice_getById.getUrl(response.data.id))
     },
     onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
   })
 
   const form = useCreateForm<Values>(
     {
-      initialValues: fetcher.data || {},
       onSubmit: (values) => {
-        assertDefined(fetcher.data)
-        const input = { ...fetcher.data, ...DcserviceForm.toDcservice(values) }
-        updateMutator.mutate({ input })
+        createMutator.mutate({ input: DcserviceForm.toDcservice(values) })
       },
     },
     {
@@ -57,49 +46,32 @@ export default function Component(): JSX.Element {
   )
 
   const formState = form.getState()
-  const isAnimated = useMemo(() => !fetcher.data, [])
 
   return (
     <Main className={NAME} style={{ position: 'relative' }}>
       <Container p='var(--space-4)'>
-        {fetcher.isError && (
-          <Flex width='100%' justify='center' gap='2' align='center'>
-            Ошибка <Button onClick={() => fetcher.refetch()}>Перезагрузить</Button>
+        <Section size='1' className={c(cssAnimations.Appear)}>
+          <Flex align='center' justify='between' gap='2'>
+            <Heading.Root route={routes.dcservice_getById} backRoute={routes.dcservice_findWithTotal}>
+              <Heading.BackToParent />
+              <Heading.Name />
+              <Heading.Unique string={formState.values.display} tooltipContent='Отображение' />
+            </Heading.Root>
           </Flex>
-        )}
-
-        {!fetcher.isError && (
-          <Section size='1' className={c(isAnimated && cssAnimations.Appear)}>
-            <Flex align='center' justify='between' gap='2'>
-              <Heading.Root route={routes.dcservice_getById} backRoute={routes.dcservice_findWithTotal}>
-                <Heading.BackToParent />
-                <Heading.Name />
-                <Heading.Unique string={formState.values.display} tooltipContent='Отображение' />
-              </Heading.Root>
-            </Flex>
-          </Section>
-        )}
+        </Section>
 
         <Flex direction='column' width='780px'>
-          <Section
-            size='1'
-            className={c(isAnimated && cssAnimations.Appear)}
-            style={{ animationDelay: `${TICK_MS * 2}ms` }}
-          >
-            <Form form={form} disabled={fetcher.isLoading} component={DcserviceForm} />
+          <Section size='1' className={c(cssAnimations.Appear)} style={{ animationDelay: `${TICK_MS * 2}ms` }}>
+            <Form form={form} component={DcserviceForm} />
           </Section>
 
-          <Section
-            size='1'
-            className={c(isAnimated && cssAnimations.Appear)}
-            style={{ animationDelay: `${TICK_MS * 3}ms` }}
-          >
+          <Section size='1' className={c(cssAnimations.Appear)} style={{ animationDelay: `${TICK_MS * 3}ms` }}>
             <Flex justify='start'>
               <Card>
                 <Flex gap='2' direction='row' justify='end'>
                   <Flex gap='2' align='center'>
                     <TestConnection
-                      disabled={form.getState().invalid}
+                      disabled={!form.getState().dirty || form.getState().invalid}
                       request={() =>
                         dcserviceApi.testConnection
                           .request({
@@ -117,7 +89,7 @@ export default function Component(): JSX.Element {
                       disabled={!form.getState().dirty || form.getState().invalid}
                       onClick={form.submit}
                     >
-                      Сохранить
+                      Создать
                     </Button>
                     <Separator orientation='vertical' />
                     <Button size='1' variant='ghost' onClick={() => form.reset()} disabled={!form.getState().dirty}>

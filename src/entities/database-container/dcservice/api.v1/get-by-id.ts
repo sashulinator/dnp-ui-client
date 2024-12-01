@@ -7,6 +7,7 @@ import {
   url,
 } from '~/common/entities/database-container/dcservice/api.v1/get-by-id'
 import api, { type QueryError, type Response } from '~/shared/api'
+import { queryClient } from '~/shared/query'
 
 const request = (params: RequestParams): Promise<Response<Result>> => api.post(url, { params })
 
@@ -26,4 +27,9 @@ export function useCache<TData = Result>(
   }
 
   return useReactQuery([NAME, requestParams], () => request(requestParams), options)
+}
+
+export function setCache(requestParams: RequestParams, data: Result): void {
+  const response: Response<Result> = { data }
+  queryClient.setQueryData([NAME, requestParams], response)
 }

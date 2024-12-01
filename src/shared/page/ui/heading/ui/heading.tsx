@@ -1,9 +1,9 @@
 import React from 'react'
 
+import { history } from '~/app/route'
 import Button from '~/shared/button'
 import Heading from '~/shared/heading'
 import Icon from '~/shared/icon'
-import Link from '~/shared/link'
 import { HighlightedText } from '~/shared/text'
 import { c } from '~/utils/core'
 
@@ -43,17 +43,15 @@ export interface BackToParentProps {
 export function BackToParent(props: BackToParentProps): JSX.Element {
   const { className } = props
 
-  const { backRoute } = useContext()
-
   return (
     <Button
       variant='soft'
       style={{ marginRight: 'var(--space-4)' }}
       square={true}
       className={c(className)}
-      asChild={true}
+      onClick={() => history.back()}
     >
-      {backRoute && <Link to={backRoute.getUrl()}>{<Icon name='ChevronLeft' />}</Link>}
+      <Icon name='ChevronLeft' />
     </Button>
   )
 }

@@ -2,10 +2,12 @@ import { NumberParam, useQueryParams, withDefault } from 'use-query-params'
 
 import { APP } from '~/app/constants.app'
 import { routes } from '~/app/route'
+import Button from '~/shared/button'
 import Container from '~/shared/container'
 import { TICK_MS, cssAnimations } from '~/shared/css-animations'
 import { RenderCounter } from '~/shared/debug'
 import Flex from '~/shared/flex'
+import Link from '~/shared/link'
 import { Heading, Main, Pagination } from '~/shared/page'
 import Section from '~/shared/section'
 import { c } from '~/utils/core'
@@ -14,10 +16,6 @@ import { useRenderDelay } from '~/utils/core-hooks/render-delay'
 import { dcserviceApi } from '..'
 import { SLICE } from '../constants.slice'
 import Item from '../ui/item'
-
-export interface Props {
-  className?: string | undefined
-}
 
 const NAME = `${APP}-page-${SLICE}-GetById`
 
@@ -42,9 +40,9 @@ export default function Component(): JSX.Element {
               <Heading.Name />
             </Heading.Root>
             <Flex align='center' gap='2'>
-              {/* <Button asChild>
-                <Link to={routes.dcservice_findWithTotal.getUrl()}>Создать</Link>
-              </Button> */}
+              <Button asChild>
+                <Link to={routes.dcservice_create.getUrl()}>Создать</Link>
+              </Button>
             </Flex>
           </Flex>
         </Section>
