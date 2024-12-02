@@ -1,10 +1,8 @@
-import { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { safeParse } from 'valibot'
 
 import { routes } from '~/app/route'
 import {
-  Form,
   type FormValues,
   create,
   createNormalizationConfigSchema,
@@ -17,12 +15,14 @@ import Button from '~/shared/button'
 import Card from '~/shared/card'
 import Container from '~/shared/container'
 import Flex from '~/shared/flex'
-import FForm, { toNestedErrors, useCreateForm } from '~/shared/form'
+import { toNestedErrors, useCreateForm } from '~/shared/form'
 import Heading from '~/shared/heading'
 import { notify } from '~/shared/notification-list-store'
 import Section from '~/shared/section'
 import { HighlightedText } from '~/shared/text'
 import Tooltip from '~/shared/tooltip'
+
+import DemoForm from './demo-form'
 
 export interface Props {
   className?: string | undefined
@@ -49,7 +49,6 @@ export default function Component(): JSX.Element {
   )
 
   const values = form.getState().values
-  const isCurrent = form.getState().values.last
 
   const createMutator = create.useCache({
     onSuccess: (data) => {
@@ -59,8 +58,6 @@ export default function Component(): JSX.Element {
     },
     onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
   })
-
-  const render = useCallback(() => <Form readonly={!isCurrent} />, [isCurrent])
 
   return (
     <main className={NAME}>
@@ -73,11 +70,12 @@ export default function Component(): JSX.Element {
         </Section>
 
         <Section size='1'>
-          <FForm
+          <DemoForm />
+          {/* <FForm
             form={form}
             // eslint-disable-next-line react-hooks/exhaustive-deps
             render={render}
-          />
+          /> */}
         </Section>
 
         <Card asChild>

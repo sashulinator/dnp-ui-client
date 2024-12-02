@@ -165,7 +165,7 @@ export const routes = {
     payload: {
       renderHeader: Header,
       renderNav: Nav,
-      navigatable: true,
+      navigatable: false,
       rolesAllowed: [roles.stc_get],
       renderIcon: StoreConfigIcon,
     },
