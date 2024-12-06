@@ -41,7 +41,7 @@ export default function Component(props: Props): JSX.Element {
             <Text color='gray' size='1'>
               ID инициатора
             </Text>
-            <HighlightedText tooltipContent='ID инициатора'>{item.trackId}</HighlightedText>
+            <HighlightedText tooltipContent='ID инициатора'>{item.track}</HighlightedText>
           </Flex>
         </Flex>
         <Flex align='start' gap='36px' pr='8px'>

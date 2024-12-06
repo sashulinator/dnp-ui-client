@@ -54,7 +54,7 @@ export default function Component() {
                 <DataList.Root>
                   <DataList.Item align='center'>
                     <DataList.Label>ID Инициатора</DataList.Label>
-                    <DataList.Value>{fetcher.data?.trackId}</DataList.Value>
+                    <DataList.Value>{fetcher.data?.track}</DataList.Value>
                   </DataList.Item>
                   <DataList.Item align='center'>
                     <DataList.Label>Тип Процесса</DataList.Label>
