@@ -5,11 +5,11 @@ import { useEffect, useRef } from 'react'
  * @param value
  * @param initValue
  */
-export const usePrevious = <T, P extends T>(value: T, initValue?: P): T => {
-  const ref = useRef<P>(initValue as P)
+export const usePrevious = <T>(value: T, initValue?: T): T => {
+  const ref = useRef<T>(initValue as T)
 
   useEffect(() => {
-    ref.current = value as P
+    ref.current = value as T
   })
 
   return ref.current

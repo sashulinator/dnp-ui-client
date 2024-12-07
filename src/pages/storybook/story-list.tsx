@@ -21,6 +21,7 @@ import uiFormWJsonEditor from '~/shared/form/ui/json-editor/story'
 import uiFormWKeyValue from '~/shared/form/ui/key-value/story'
 import uiFormWTextArea from '~/shared/form/ui/text-area/story'
 import uiFormWTextField from '~/shared/form/ui/text-field/story'
+import sharedlinkTree from '~/shared/link-tree/story'
 import uiPagination from '~/shared/page/ui/pagination/story'
 import uiPaginationWInfo from '~/shared/page/ui/pagination/widgets/info/story'
 import uiPaginationWSwitcher from '~/shared/page/ui/pagination/widgets/switcher/story'
@@ -63,6 +64,7 @@ export const storyList: Story<any>[] = [
    * shared
    */
 
+  sharedlinkTree,
   uiButton,
   uiTreeVNested,
   uiCard,

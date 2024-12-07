@@ -1,8 +1,10 @@
 import { a, useSpring } from '@react-spring/web'
 
-import React, { CSSProperties, ForwardedRef, forwardRef, useState } from 'react'
+import React, { type CSSProperties, type ForwardedRef, forwardRef, useState } from 'react'
 
-import { XY, c } from '~/utils/core'
+import { type XY, c } from '~/utils/core'
+import { usePrevious } from '~/utils/core-hooks/previous'
+import { useRenderDelay } from '~/utils/core-hooks/render-delay'
 import { useMeasure } from '~/utils/hooks'
 import { setRefs } from '~/utils/react'
 
@@ -14,12 +16,15 @@ export interface Props extends React.HTMLAttributes<HTMLDivElement> {
   containerProps?: React.HTMLAttributes<HTMLDivElement> | undefined
 }
 
-const displayName = 'ui-Collapse'
+const displayName = 'collapse-Collapse'
 
 function Component(props: Props, ref: ForwardedRef<HTMLDivElement>): JSX.Element {
   const { containerProps, duration, to, from, isExpanded, children, ...divProps } = props
   const [refState, setRefState] = useState<Element | null>(null)
   const [measureRef, measure] = useMeasure()
+
+  const isFirstRender = usePrevious(false, true)
+  useRenderDelay(0)
 
   const springProps = useSpring({
     from,
@@ -32,16 +37,13 @@ function Component(props: Props, ref: ForwardedRef<HTMLDivElement>): JSX.Element
       {...divProps}
       style={{ overflow: 'hidden', width: '100%', ...divProps.style, ...springProps }}
       ref={ref}
-      className={c(
-        divProps.className,
-        displayName,
-        props.isExpanded && '--expanded',
-        !props.isExpanded && '--collapsed',
-      )}
+      className={c(divProps.className, displayName, isExpanded && '--expanded', !isExpanded && '--collapsed')}
     >
-      <div {...containerProps} className={c('container')} ref={setRefs(measureRef, setRefState)}>
-        {children}
-      </div>
+      {(isExpanded || !isFirstRender) && (
+        <div {...containerProps} className={c('container')} ref={setRefs(measureRef, setRefState)}>
+          {children}
+        </div>
+      )}
     </a.div>
   )
 }
