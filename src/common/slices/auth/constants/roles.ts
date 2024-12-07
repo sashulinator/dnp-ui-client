@@ -6,6 +6,18 @@ export const roles = {
   approver: 'approver',
 
   /**
+   * user
+   */
+
+  usr_get: 'usr:get',
+
+  /**
+   * nav
+   */
+
+  nav_upd: 'nav:upd',
+
+  /**
    * normalization
    */
 

@@ -13,6 +13,7 @@ import DatabaseSchema from '../widgets/database-schema'
 import DotsVertical from '../widgets/dots-vertical'
 import DoubleChevronLeft from '../widgets/double-chevron-left'
 import DoubleChevronRight from '../widgets/double-chevron-right'
+import ExternalLink from '../widgets/external-link'
 import Filter from '../widgets/filter'
 import InfoCircled from '../widgets/info-circled'
 import Pencil from '../widgets/pencil'
@@ -40,6 +41,7 @@ export const map = {
   DotsVertical,
   DoubleChevronLeft,
   DoubleChevronRight,
+  ExternalLink,
   Filter,
   InfoCircled,
   Plus,

@@ -11,6 +11,9 @@ export function isEmpty(input: unknown): boolean {
   if (isString(input)) {
     return input.length === 0
   }
+  if (input == null) {
+    return true
+  }
 
   return false
 }

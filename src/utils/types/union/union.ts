@@ -1,3 +1,1 @@
-import type { Union } from '@radix-ui/themes/props'
-
-export type { Union }
+export type Union<S = string, T extends string | number = string> = T | Omit<S, T>

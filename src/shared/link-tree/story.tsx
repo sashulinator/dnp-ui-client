@@ -73,13 +73,15 @@ const tree = [
     id: '1',
     name: 'one',
     renderIcon: () => <Icon name='Star' />,
-    link: 'https://google.com',
+    link: {
+      url: 'https://google.com',
+      blank: true,
+    },
     children: [],
   },
   {
     id: '2',
     name: 'two',
-    link: 'https://google.com',
     renderIcon: () => <Icon name='Star' />,
     children: [
       {

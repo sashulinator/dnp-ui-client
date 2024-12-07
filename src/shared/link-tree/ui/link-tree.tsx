@@ -5,12 +5,16 @@ import Collapse from '~/shared/collapse'
 import Flex, { type FlexProps } from '~/shared/flex'
 import Icon from '~/shared/icon'
 import Link from '~/shared/link'
+import Text from '~/shared/text'
 import { c, isEmpty } from '~/utils/core'
 
 export type TreeItem = {
   id: string
   name: string
-  link?: string
+  link?: {
+    url: string
+    blank?: boolean | undefined
+  }
   renderIcon?: (() => JSX.Element) | undefined
   children?: TreeItem[] | undefined
 }
@@ -75,10 +79,14 @@ function _Item(props: _ItemProps) {
       <Flex width='22px' height='22px' align='center' justify='center'>
         {item.renderIcon && createElement(item.renderIcon)}
       </Flex>
-      {item.name}
+      <Text style={{ width: '100%', display: 'block', textAlign: 'left', lineHeight: '1rem', wordBreak: 'break-word' }}>
+        {item.name}
+        {item.link?.blank && <Icon style={{ marginLeft: '5px' }} name='ExternalLink' />}
+      </Text>
       {!isEmpty(item?.children) && (
         <Button
           ml='auto'
+          variant='soft'
           round={true}
           size='1'
           onClick={(e) => {
@@ -97,12 +105,20 @@ function _Item(props: _ItemProps) {
   )
 
   return (
-    <Flex direction='column' pl={`${isRoot ? 0 : offset}px`} mt='2'>
+    <Flex direction='column' pl={`${isRoot ? 0 : offset}px`}>
       <Flex width='100%' align='center'>
         <Flex width='100%'>
-          <Button variant='ghost' asChild={true} style={{ width: '100%', justifyContent: 'flex-start' }}>
+          <Button
+            variant='outline'
+            asChild={true}
+            style={{ width: '100%', justifyContent: 'flex-start', boxShadow: 'none' }}
+          >
             {item.link ? (
-              <Link style={{ width: '100%' }} to={item.link ?? location.href}>
+              <Link
+                style={{ width: '100%' }}
+                to={item.link.url ?? location.href}
+                {...(item.link.blank && { target: '_blank' })}
+              >
                 {text}
               </Link>
             ) : (

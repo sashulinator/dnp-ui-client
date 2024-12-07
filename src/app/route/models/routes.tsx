@@ -86,7 +86,7 @@ export const routes = {
   },
 
   normalizationConfigs_create: {
-    getName: (): string => 'Запуск Обработки',
+    getName: (): string => 'Запуск',
     getPath: (): string => `${routes.normalizationConfigs.getPath()}/create`,
     getUrl() {
       return this.getPath()
@@ -176,7 +176,7 @@ export const routes = {
    */
 
   rawData_findManyAndCountTables: {
-    getName: () => 'Таблицы исходных данных',
+    getName: () => 'Исходные',
     getPath: () => '/raw-data',
     getUrl() {
       return this.getPath()
@@ -195,7 +195,7 @@ export const routes = {
    */
 
   operationalTables: {
-    getName: (): string => 'Таблицы промежуточных данных',
+    getName: (): string => 'Промежуточные',
     getPath: () => '/operational-tables',
     getUrl() {
       return this.getPath()
@@ -264,7 +264,7 @@ export const routes = {
    */
 
   targetTables: {
-    getName: () => 'Таблицы целевых данных',
+    getName: () => 'Целевые',
     getPath: () => '/target-tables',
     getUrl() {
       return this.getPath()
@@ -333,7 +333,7 @@ export const routes = {
    */
 
   dictionaryTables_findManyAndCount: {
-    getName: (): string => 'Таблицы справочников',
+    getName: (): string => 'Справочники',
     getPath: () => '/dictionary-tables',
     getUrl() {
       return this.getPath()
@@ -525,8 +525,8 @@ export const routes = {
   store: {
     getName: () => 'Store',
     getPath: () => '/stores/:name',
-    getUrl() {
-      return this.getPath()
+    getUrl(params: { name: string }) {
+      return this.getPath().replace(':name', params.name)
     },
     render: () => (
       <Suspense fallback='loading...'>
