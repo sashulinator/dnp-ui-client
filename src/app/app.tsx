@@ -10,6 +10,8 @@ import { Controller as RouteController } from '~/app/route'
 import { QueryClientProvider, QueryDevtools, queryClient } from '~/shared/query'
 import { NotificationToastList } from '~/shared/toast'
 
+import './vital-data'
+
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
