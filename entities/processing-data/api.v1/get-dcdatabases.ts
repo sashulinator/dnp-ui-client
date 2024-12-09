@@ -8,7 +8,7 @@ export const url = `${baseUrl}/${NAME}`
 export type RequestParams = never
 
 export type Result = {
-  initial: DcdatabaseBase
+  initial: DcdatabaseBase[]
   operational: DcdatabaseBase
   target: DcdatabaseBase
 }
