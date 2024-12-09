@@ -1,10 +1,10 @@
 import * as v from 'valibot'
 
 /**
- * BaseService
+ * Base
  */
 
-export const dcserviceBaseSchema = v.object({
+export const dcserviceSchema = v.object({
   id: v.pipe(v.string(), v.nonEmpty()),
   display: v.string(),
   host: v.pipe(v.string(), v.nonEmpty()),
@@ -13,38 +13,20 @@ export const dcserviceBaseSchema = v.object({
   password: v.pipe(v.string(), v.nonEmpty()),
 })
 
-export type DcserviceBase = v.InferOutput<typeof dcserviceBaseSchema>
-
-/**
- * Relations
- */
-
-export const dcserviceRelationsSchema = v.object({
-  // Table: v.lazy(() => baseTableSchema),
-})
-
-export type DcserviceRelations = v.InferOutput<typeof dcserviceRelationsSchema>
-
-/**
- * Service
- */
-
-export const dcserviceSchema = v.intersect([dcserviceBaseSchema, dcserviceRelationsSchema])
-
 export type Dcservice = v.InferOutput<typeof dcserviceSchema>
 
 /**
- * CreateService
+ * CreateInput
  */
 
-export const dcserviceCreateInputSchema = v.omit(dcserviceBaseSchema, ['id'])
+export const dcserviceCreateInputSchema = v.omit(dcserviceSchema, ['id'])
 
 export type DcserviceCreateInput = v.InferOutput<typeof dcserviceCreateInputSchema>
 
 /**
- * UpdateService
+ * UpdateInput
  */
 
-export const dcserviceUpdateInputSchema = dcserviceBaseSchema
+export const dcserviceUpdateInputSchema = dcserviceSchema
 
 export type DcserviceUpdateInput = v.InferOutput<typeof dcserviceUpdateInputSchema>
