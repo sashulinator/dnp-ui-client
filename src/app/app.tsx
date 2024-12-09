@@ -7,10 +7,11 @@ import { createPortal } from 'react-dom'
 import { RouteControllerAdapterLayout } from '~/app/layout'
 import { routes } from '~/app/route'
 import { Controller as RouteController } from '~/app/route'
+import { processingDataApi } from '~/entities/processing-data'
 import { QueryClientProvider, QueryDevtools, queryClient } from '~/shared/query'
 import { NotificationToastList } from '~/shared/toast'
 
-import './vital-data'
+processingDataApi.getDcdatabases.prefetchAndStore()
 
 function App() {
   return (
