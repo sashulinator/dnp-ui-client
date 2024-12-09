@@ -45,7 +45,7 @@ export const jdbsDataSchema = v.object({
   password: v.pipe(v.string(), v.nonEmpty()),
   host: v.pipe(v.string(), v.nonEmpty()),
   port: v.pipe(v.string(), v.nonEmpty()),
-  dbName: v.pipe(v.string(), v.nonEmpty()),
+  database: v.pipe(v.string(), v.nonEmpty()),
 })
 
 export type JdbcData = v.InferOutput<typeof jdbsDataSchema>
