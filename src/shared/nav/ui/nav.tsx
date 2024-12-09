@@ -35,9 +35,9 @@ export default function Component(): JSX.Element {
           >
             <Link to={routes.main.getUrl()}>
               <Button variant='outline' size='2' square={true} asChild>
-                <Link to={routes.main.getUrl()}>
+                <span>
                   <Logo height='1rem' width='2rem' />
-                </Link>
+                </span>
               </Button>
               <Text style={{ marginLeft: '8px' }}>НСИ</Text>
             </Link>

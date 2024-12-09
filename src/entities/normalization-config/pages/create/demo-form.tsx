@@ -1,7 +1,17 @@
 import Button, { DangerButton } from '~/shared/button'
 import { Input } from '~/shared/file'
 import Flex from '~/shared/flex'
-import Form, { Card, Column, Field, FieldArray, Row, Select, TypedField, useCreateForm } from '~/shared/form'
+import Form, {
+  Card,
+  Column,
+  Field,
+  FieldArray,
+  Row,
+  Select,
+  SelectMultiple,
+  TypedField,
+  useCreateForm,
+} from '~/shared/form'
 import Icon from '~/shared/icon'
 import { c } from '~/utils/core'
 
@@ -36,7 +46,7 @@ export default function Component(props: Props): JSX.Element {
                     rootProps={{ width: '100%' }}
                     name={`source`}
                     label='Входные данные'
-                    multiple
+                    component={SelectMultiple}
                     options={[
                       {
                         value: 'cars',
@@ -71,7 +81,6 @@ export default function Component(props: Props): JSX.Element {
                         display: 'tableWithoutColumns-4',
                       },
                     ]}
-                    component={Select}
                   />
                 </Flex>
                 <Flex width='100%' maxWidth='50%'>

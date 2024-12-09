@@ -44,7 +44,7 @@ export default function Component(): JSX.Element {
 
   const form = useCreateForm<Values>(
     {
-      initialValues: fetcher.data || {},
+      initialValues: fetcher.data ? DcserviceForm.toValues(fetcher.data) : {},
       onSubmit: (values) => {
         assertDefined(fetcher.data)
         const input = { ...fetcher.data, ...DcserviceForm.toDcservice(values) }

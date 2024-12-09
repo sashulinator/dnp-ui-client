@@ -1,0 +1,77 @@
+import { CheckboxGroup } from '@radix-ui/themes'
+import { type RootProps } from '@radix-ui/themes/dist/esm/components/checkbox-group.d.ts'
+
+import Button, { type ButtonProps } from '~/shared/button'
+import DropdownMenu from '~/shared/dropdown-menu'
+import Flex from '~/shared/flex'
+import Text from '~/shared/text'
+import { emptyFn } from '~/utils/function'
+import { useMeasure } from '~/utils/hooks'
+import { setRefs } from '~/utils/react'
+
+export type Option = { value: string; display: string }
+
+export type Props = RootProps & {
+  defaultValue?: string[]
+  options: Option[]
+  variant?: ButtonProps['variant'] | undefined
+}
+
+const NAME = 'selectMultiple-SelectMultiple'
+
+export default function Component(props: Props): JSX.Element {
+  const { options, value, variant = 'soft', ...checkboxGroupRootProps } = props
+
+  const [setMeasureRef, size] = useMeasure()
+
+  const valueLength = value?.length || 0
+
+  return (
+    <DropdownMenu.Root>
+      <DropdownMenu.Trigger>
+        <Flex asChild={true} width='100%' maxWidth='100%' justify='between'>
+          <Button variant={variant} ref={setRefs(setMeasureRef)}>
+            <Text asChild>
+              <input
+                onChange={emptyFn}
+                className='rt-reset'
+                tabIndex={-1}
+                readOnly={true}
+                style={{ width: '100%' }}
+                value={options.find((option) => option.value === value?.[0])?.display || ''}
+              />
+            </Text>
+            <Flex align='center' gap='2'>
+              {valueLength > 1 && (
+                <Button variant='surface' size='1' asChild={true}>
+                  <Flex>+{valueLength - 1}</Flex>
+                </Button>
+              )}
+              <DropdownMenu.TriggerIcon />
+            </Flex>
+          </Button>
+        </Flex>
+      </DropdownMenu.Trigger>
+      <DropdownMenu.Content style={{ width: `${size.width}px` || 'auto' }} align='center'>
+        <CheckboxGroup.Root value={value} {...checkboxGroupRootProps}>
+          {options.map((option) => (
+            <Flex asChild={true} justify='start' width='100%' key={option.value}>
+              <Button variant='outline' asChild={true} style={{ boxShadow: 'none', color: 'inherit' }}>
+                <Text as='label'>
+                  <CheckboxGroup.Item value={option.value} style={{ alignItems: 'center' }}>
+                    <Text wrap='nowrap'>{option.display}</Text>
+                  </CheckboxGroup.Item>
+                </Text>
+              </Button>
+            </Flex>
+          ))}
+        </CheckboxGroup.Root>
+      </DropdownMenu.Content>
+    </DropdownMenu.Root>
+  )
+}
+
+Component.displayName = NAME
+
+export { Component as SelectMultiple }
+export { type Props as SelectMultipleProps }

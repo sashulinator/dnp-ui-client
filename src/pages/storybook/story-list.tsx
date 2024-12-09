@@ -25,6 +25,7 @@ import sharedlinkTree from '~/shared/link-tree/story'
 import uiPagination from '~/shared/page/ui/pagination/story'
 import uiPaginationWInfo from '~/shared/page/ui/pagination/widgets/info/story'
 import uiPaginationWSwitcher from '~/shared/page/ui/pagination/widgets/switcher/story'
+import sharedSelectMultiple from '~/shared/select-multiple/story'
 import type { Story } from '~/shared/storybook'
 import tableList from '~/shared/table/ui/list/story'
 import uiTagPicker from '~/shared/tag-picker/story/index'
@@ -64,6 +65,7 @@ export const storyList: Story<any>[] = [
    * shared
    */
 
+  sharedSelectMultiple,
   sharedlinkTree,
   uiButton,
   uiTreeVNested,
