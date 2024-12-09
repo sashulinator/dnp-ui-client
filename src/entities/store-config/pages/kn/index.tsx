@@ -153,7 +153,7 @@ export default function Component(): JSX.Element {
                   <Flex>
                     <Button
                       onClick={() => {
-                        setPaths([{ type: fetcher.data.type, name: fetcher.data.data.dbName }])
+                        setPaths([{ type: fetcher.data.type, name: fetcher.data.data.database }])
                       }}
                     >
                       Просмотреть данные

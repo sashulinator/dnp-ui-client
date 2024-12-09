@@ -1,10 +1,11 @@
 import { memo } from 'react'
 
 import Flex from '~/shared/flex'
-import { TextField, TextFieldProps, TypedField, useForm } from '~/shared/form'
+import type { TextFieldProps } from '~/shared/form'
+import { TextField, TypedField, useForm } from '~/shared/form'
 import { c } from '~/utils/core'
 
-import { Values } from '../types/values'
+import type { Values } from '../types/values'
 
 export interface Props {
   className?: string | undefined
@@ -57,10 +58,10 @@ export function Component(props: Props): JSX.Element {
         name='data.password'
         label='Пароль'
       />
-      <TypedField<Values, 'data.dbName', string, string, TextFieldProps<string>, HTMLInputElement>
+      <TypedField<Values, 'data.database', string, string, TextFieldProps<string>, HTMLInputElement>
         component={TextField}
         readOnly={readonly}
-        name='data.dbName'
+        name='data.database'
         label='База данных'
       />
     </Flex>

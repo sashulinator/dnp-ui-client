@@ -1,10 +1,4 @@
 export type {
-  Service,
-  CreateService,
-  UpdateService,
-  Database,
-  DatabaseCreateInput,
-  DatabaseUpdateInput,
   Schema,
   UpdateSchema,
   CreateSchema,
