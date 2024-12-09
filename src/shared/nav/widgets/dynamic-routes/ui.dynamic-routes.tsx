@@ -25,10 +25,22 @@ const NAME = 'nav-Nav-w-DynamicRoutes'
 export default function Component(): JSX.Element {
   const name = 'navMenu'
   const lsName = 'nav-dynamic-expanded'
+  const LINKS_STORAGE_KEY = 'nav-dynamic-links'
 
   const expanded = useMemo(getFromLocalStorage, [])
 
-  const storeFetcher = storeApi.getByName.useCache({ name })
+  const storeFetcher = storeApi.getByName.useCache(
+    { name },
+    {
+      onSuccess: (data) => {
+        localStorage.setItem(LINKS_STORAGE_KEY, JSON.stringify(data))
+      },
+      keepPreviousData: true,
+      initialData: {
+        data: JSON.parse(localStorage.getItem(LINKS_STORAGE_KEY) || '[]'),
+      },
+    },
+  )
 
   const routesTree = useMemo(() => toTreeItem((storeFetcher.data?.data || []) as Item[]), [storeFetcher.data?.data])
 
