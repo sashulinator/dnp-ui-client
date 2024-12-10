@@ -25,6 +25,8 @@ import { HighlightedText } from '~/shared/text'
 import Tooltip from '~/shared/tooltip'
 import { assertString } from '~/utils/core'
 
+import { type ProcessingDataType } from '../../ui/new-form/widgets/table-multiple/ui.table-multiple'
+
 export interface Props {
   className?: string | undefined
 }
@@ -34,7 +36,10 @@ const NAME = 'page-NormalizationConfigs_create'
 export default function Component(): JSX.Element {
   const navigate = useNavigate()
 
-  const processingDataFactorydcdatabaseFetcher = processingDataApi.factory.getDcdatabases.useCache()
+  const processingDataFactorydcdatabaseFetcher = processingDataApi.factory.getDcdatabases.useCache({
+    staleTime: Infinity,
+    keepPreviousData: true,
+  })
 
   const form = useCreateForm<FormValues>(
     {
@@ -106,11 +111,13 @@ export default function Component(): JSX.Element {
    * private
    */
 
-  async function fetchInputTablesOptions() {
-    const initialId = processingDataFactorydcdatabaseFetcher.data?.initial[0].id
-    assertString(initialId)
+  async function fetchInputTablesOptions(inputProcessingDataType: ProcessingDataType) {
+    const dcdatabases = processingDataFactorydcdatabaseFetcher.data?.[inputProcessingDataType]
+    const dcdatabase = Array.isArray(dcdatabases) ? dcdatabases[0] : dcdatabases
+    const dcdatabaseId = dcdatabase?.id
+    assertString(dcdatabaseId)
     const ret = await processingDataApi.initial.findTablesWithTotal.request({
-      dcdatabaseId: initialId,
+      dcdatabaseId: dcdatabaseId,
     })
 
     return ret.data.items.map((item) => ({ value: item.name, display: item.name }))

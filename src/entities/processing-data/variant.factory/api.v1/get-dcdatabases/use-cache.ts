@@ -2,17 +2,18 @@ import { type UseQueryOptions, type UseQueryResult, useQuery as useReactQuery } 
 
 import { type QueryError, type Response } from '~/shared/api'
 
-import { NAME, type Result, request } from './request'
+import { type Result, request, url } from './request'
 
 export type Options<TData = Result> = UseQueryOptions<Response<Result>, QueryError, TData, [string]>
 export type QueryResult<TData = Result> = UseQueryResult<TData, QueryError>
 
 export function useCache<TData = Result>(preferredOptions?: Options<TData>): QueryResult<TData> {
   const options: Options<TData> = {
-    select: (axiosResponse) => axiosResponse.data as TData,
-    enabled: Boolean(),
+    select: (axiosResponse) => {
+      return axiosResponse.data as TData
+    },
     ...preferredOptions,
   }
 
-  return useReactQuery([NAME], request, options)
+  return useReactQuery([url], () => request(), options)
 }
