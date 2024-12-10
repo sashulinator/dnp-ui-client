@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { safeParse } from 'valibot'
 
 import { routes } from '~/app/route'
+import { api } from '~/entities/database-container'
 import {
   type FormValues,
   create,
@@ -23,9 +24,6 @@ import { notify } from '~/shared/notification-list-store'
 import Section from '~/shared/section'
 import { HighlightedText } from '~/shared/text'
 import Tooltip from '~/shared/tooltip'
-import { assertString } from '~/utils/core'
-
-import { type ProcessingDataType } from '../../ui/new-form/widgets/table-multiple/ui.table-multiple'
 
 export interface Props {
   className?: string | undefined
@@ -35,11 +33,6 @@ const NAME = 'page-NormalizationConfigs_create'
 
 export default function Component(): JSX.Element {
   const navigate = useNavigate()
-
-  const processingDataFactorydcdatabaseFetcher = processingDataApi.factory.getDcdatabases.useCache({
-    staleTime: Infinity,
-    keepPreviousData: true,
-  })
 
   const form = useCreateForm<FormValues>(
     {
@@ -78,7 +71,12 @@ export default function Component(): JSX.Element {
         </Section>
 
         <Section size='1'>
-          <Form form={form} component={ProcessingForm} fetchInputTablesOptions={fetchInputTablesOptions} />
+          <Form
+            form={form}
+            component={ProcessingForm}
+            fetchDcdatabaseOptions={fetchDatabaseOptions}
+            fetchTablesOptions={fetchInputTablesOptions}
+          />
         </Section>
 
         <Card asChild>
@@ -111,13 +109,16 @@ export default function Component(): JSX.Element {
    * private
    */
 
-  async function fetchInputTablesOptions(inputProcessingDataType: ProcessingDataType) {
-    const dcdatabases = processingDataFactorydcdatabaseFetcher.data?.[inputProcessingDataType]
-    const dcdatabase = Array.isArray(dcdatabases) ? dcdatabases[0] : dcdatabases
-    const dcdatabaseId = dcdatabase?.id
-    assertString(dcdatabaseId)
+  async function fetchDatabaseOptions() {
+    const ret = await api.dcdatabase.findWithTotal.request({})
+    return ret.data.items.map((item) => ({ value: item.id, display: item.display }))
+  }
+
+  async function fetchInputTablesOptions(dcdatabaseId: string) {
+    if (!dcdatabaseId) return []
+
     const ret = await processingDataApi.initial.findTablesWithTotal.request({
-      dcdatabaseId: dcdatabaseId,
+      dcdatabaseId,
     })
 
     return ret.data.items.map((item) => ({ value: item.name, display: item.name }))

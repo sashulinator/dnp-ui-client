@@ -3,8 +3,7 @@ import Flex from '~/shared/flex'
 import Form, { useCreateForm } from '~/shared/form'
 import { type Props, type Story } from '~/shared/storybook'
 
-import ProcessingForm from './ui.new-form'
-import { type Option } from './widgets/table-multiple'
+import ProcessingForm, { type Option } from './ui.new-form'
 
 interface State {
   //
@@ -20,7 +19,13 @@ export default {
     return (
       <Flex width='100%' p='8' gap='4'>
         <Flex width='50%' direction='column' gap='4'>
-          <Form form={form} component={ProcessingForm} fetchInputTablesOptions={fetchInputTablesOptions} {...state} />
+          <Form
+            form={form}
+            component={ProcessingForm}
+            fetchDcdatabaseOptions={fetchDatabasesOptions}
+            fetchTablesOptions={fetchInputTablesOptions}
+            {...state}
+          />
           <button disabled={!fState.dirty || fState.invalid}>Submit</button>
         </Flex>
         <code style={{ whiteSpace: 'pre-wrap', width: '50%' }}>{JSON.stringify(form.getState()?.values, null, 2)}</code>
@@ -57,6 +62,21 @@ function fetchInputTablesOptions(): Promise<Option[]> {
         { value: 'table5', display: 'Таблица-5' },
         { value: 'table6', display: 'Таблица-6' },
         { value: 'table7', display: 'Таблица-7' },
+      ]
+      resolve(options)
+    }, 1000)
+  })
+}
+
+function fetchDatabasesOptions(): Promise<Option[]> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const options: Option[] = [
+        { value: 'database1', display: 'База-1' },
+        { value: 'database2', display: 'База-2' },
+        { value: 'database3', display: 'База-3' },
+        { value: 'database4', display: 'База-4' },
+        { value: 'database5', display: 'База-5' },
       ]
       resolve(options)
     }, 1000)
