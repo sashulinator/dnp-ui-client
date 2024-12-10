@@ -61,6 +61,7 @@ const tableListMock: Explorer[] = Array(7)
   .fill(undefined)
   .map((_, i) => {
     const tableMock: Explorer = {
+      columns: [],
       paths: [
         { type: 'postgres', name: 'postgres-Mock' },
         { type: 'table', name: `table-${i}` },
@@ -85,6 +86,7 @@ const tableListMock: Explorer[] = Array(7)
 
 const postgresMock: Explorer = {
   total: 1,
+  columns: [],
   paths: [{ type: 'postgres', name: 'postgres-Mock' }],
   name: 'postgres-Mock',
   type: 'postgres',

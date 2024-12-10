@@ -1,5 +1,5 @@
-import * as getDcdatabases from './api.v1/get-dcdatabases'
+import { api as factory } from './variant.factory'
 
 export const processingDataApi = {
-  getDcdatabases,
+  factory,
 }

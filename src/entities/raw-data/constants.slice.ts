@@ -1,1 +1,1 @@
-export * from '~/common/entities/raw-data/constants.slice'
+export const SLICE = 'raw-data'

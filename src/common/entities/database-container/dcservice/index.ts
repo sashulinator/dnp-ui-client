@@ -1,5 +1,5 @@
 export {
-  type Dcservice as DcserviceBase,
+  type Dcservice,
   type DcserviceCreateInput,
   type DcserviceUpdateInput,
   dcserviceSchema,

@@ -11,7 +11,7 @@ import { processingDataApi } from '~/entities/processing-data'
 import { QueryClientProvider, QueryDevtools, queryClient } from '~/shared/query'
 import { NotificationToastList } from '~/shared/toast'
 
-processingDataApi.getDcdatabases.prefetchAndStore()
+processingDataApi.factory.getDcdatabases.prefetchAndStore()
 
 function App() {
   return (
