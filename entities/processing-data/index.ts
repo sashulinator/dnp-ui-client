@@ -1,1 +1,3 @@
-export { INITIAL_STORE, TARGET_STORE, OPERATIONAL_STORE } from '../processing-data/constants.store'
+export const TARGET_STORE = `target-database-id`
+export const OPERATIONAL_STORE = `operational-datatabase-id`
+export const INITIAL_STORE = `initial-database-ids`
