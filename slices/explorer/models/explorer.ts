@@ -12,11 +12,23 @@ export const explorerSchema = v.object({
   total: v.number(),
   // Название ключа в items.data который является id
   idKey: v.union([v.number(), v.string()]),
+  columns: v.array(v.lazy(() => columnSchema)),
 })
 
 export type Explorer<TItem extends Item = Item> = Omit<v.InferOutput<typeof explorerSchema>, 'items'> & {
   items: TItem[]
 }
+
+/**
+ * Column
+ */
+
+export const columnSchema = v.object({
+  name: v.string(),
+  type: v.string(),
+})
+
+export type Column = v.InferOutput<typeof columnSchema>
 
 /**
  * Item
