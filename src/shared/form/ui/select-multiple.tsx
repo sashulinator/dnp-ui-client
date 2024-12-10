@@ -4,7 +4,7 @@ import { type FieldInputProps, type FieldMetaState } from 'react-final-form'
 import Flex, { type FlexProps } from '~/shared/flex'
 import { _checkErrorVisible } from '~/shared/form/lib/_check-error-visible'
 import { _renderHint } from '~/shared/form/lib/_render-hint'
-import SelectMultiple, { type SelectMultipleProps } from '~/shared/select-multiple'
+import SelectMultiple, { type Option, type SelectMultipleProps } from '~/shared/select-multiple'
 import { c, fns } from '~/utils/core'
 
 import { NAME as PARENT_NAME } from './form'
@@ -12,20 +12,22 @@ import Label from './label'
 
 export const NAME = `${PARENT_NAME}-w-TextField`
 
-export type Props<FieldValue> = Omit<SelectMultipleProps, 'name' | 'value'> & {
+export { type Option }
+
+export type Props = Omit<SelectMultipleProps, 'name' | 'value'> & {
   label?: string | undefined | React.ReactElement
   rootProps?: FlexProps | undefined
   input: FieldInputProps<string>
-  meta: FieldMetaState<FieldValue>
+  meta: FieldMetaState<string>
   renderHint?: (props: {
     input: FieldInputProps<string>
-    meta: FieldMetaState<FieldValue>
+    meta: FieldMetaState<string>
     isErrorVisible: boolean
   }) => React.ReactNode
-  checkIsErrorVisible?: (props: { input: FieldInputProps<string>; meta: FieldMetaState<FieldValue> }) => boolean
+  checkIsErrorVisible?: (props: { input: FieldInputProps<string>; meta: FieldMetaState<string> }) => boolean
 }
 
-export default function Component<FieldValue>(props: Props<FieldValue>) {
+export default function Component(props: Props) {
   const {
     input,
     meta,
@@ -54,7 +56,9 @@ export default function Component<FieldValue>(props: Props<FieldValue>) {
         id={id}
         value={value}
         variant={variant}
-        onValueChange={(value) => input.onChange(JSON.stringify(value.reverse() || []))}
+        onValueChange={(value) => {
+          input.onChange(JSON.stringify(value.reverse() || []))
+        }}
         onBlur={fns(input.onBlur, textFieldProps.onBlur)}
         onFocus={fns(input.onFocus, textFieldProps.onFocus)}
       />

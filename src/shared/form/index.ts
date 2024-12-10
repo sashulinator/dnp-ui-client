@@ -52,4 +52,8 @@ export { default as Field, type FieldProps } from './ui/field'
 export { default as Column, type ColumnProps } from './ui/column'
 export { default as Hint, type HintProps } from './ui/hint'
 export { default as TypedField, type TypedFieldProps } from './ui/typed-field'
-export { default as SelectMultiple, type SelectMultipleProps } from './ui/select-multiple'
+export {
+  default as SelectMultiple,
+  type SelectMultipleProps,
+  type Option as SelectMultipleOption,
+} from './ui/select-multiple'
