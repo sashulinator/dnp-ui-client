@@ -1,3 +1,4 @@
-import { baseUrl as parentBaseUrl } from '../../api.v1/constants'
+import { BASE_URL as PARENT_BASE_URL } from '../../api.v1/constants'
+import { NAME } from '../constants'
 
-export const baseUrl = `${parentBaseUrl}/procedure`
+export const BASE_URL = `${PARENT_BASE_URL}/${NAME}`

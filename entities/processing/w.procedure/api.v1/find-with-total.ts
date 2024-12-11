@@ -1,9 +1,7 @@
 import { type Procedure } from '../models'
-import { baseUrl } from './constants'
+import { BASE_URL } from './constants'
 
-export const NAME = 'find-with-total'
-
-export const url = `${baseUrl}/${NAME}`
+export const URL = `${BASE_URL}/find-with-total`
 
 export type RequestParams = {
   skip?: number

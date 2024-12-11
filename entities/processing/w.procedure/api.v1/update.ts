@@ -1,9 +1,7 @@
 import type { Procedure, ProcedureUdateInput } from '../models'
-import { baseUrl } from './constants'
+import { BASE_URL } from './constants'
 
-export const NAME = 'update'
-
-export const url = `${baseUrl}/${NAME}`
+export const URL = `${BASE_URL}/update`
 
 export type RequestParams = {
   input: ProcedureUdateInput

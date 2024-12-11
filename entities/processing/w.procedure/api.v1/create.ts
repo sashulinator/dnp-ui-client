@@ -1,9 +1,7 @@
 import type { Procedure, ProcedureCreateInput } from '../models'
-import { baseUrl } from './constants'
+import { BASE_URL } from './constants'
 
-export const NAME = 'create'
-
-export const url = `${baseUrl}/${NAME}`
+export const URL = `${BASE_URL}/create`
 
 export type RequestParams = {
   input: ProcedureCreateInput

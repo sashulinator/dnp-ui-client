@@ -1,9 +1,7 @@
 import { type Procedure } from '../models'
-import { baseUrl } from './constants'
+import { BASE_URL } from './constants'
 
-export const NAME = 'get-by-id'
-
-export const url = `${baseUrl}/${NAME}`
+export const URL = `${BASE_URL}/get-by-id`
 
 export type RequestParams = {
   id: string
