@@ -9,14 +9,13 @@ export const procedureSchema = v.object({
   name: v.string(),
   display: v.string(),
   description: v.string(),
-  args: v.array(
+  params: v.array(
     v.object({
       name: v.string(),
       display: v.string(),
       description: v.string(),
       component: v.object({
         name: v.string(),
-        key: v.string(),
         props: v.object({}),
       }),
     }),
