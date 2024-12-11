@@ -1,8 +1,8 @@
-export function parseSafe<T>(str: string, assertion?: (() => void) | undefined): null | T {
+export function parseSafe<T>(str: string, assertion?: ((result: unknown) => void) | undefined): null | T {
   try {
-    const json = JSON.parse(str)
-    assertion?.()
-    return json
+    const result = JSON.parse(str)
+    assertion?.(result)
+    return result
   } catch (e) {
     return null
   }

@@ -20,6 +20,7 @@ export default {
       <Flex width='100%' p='8' gap='4'>
         <Flex width='50%' direction='column' gap='4'>
           <Form
+            feftchProcedures={async () => []}
             form={form}
             component={ProcessingForm}
             fetchDcdatabaseOptions={fetchDatabasesOptions}

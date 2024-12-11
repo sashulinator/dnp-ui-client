@@ -9,15 +9,15 @@ import DictionaryTable_create from '~/entities/dictionary-table/pages/create'
 import DictionaryTable_explorerFindManyAndCount from '~/entities/dictionary-table/pages/explorer-find-many-and-count'
 import DictionaryTable_findManyAndCount from '~/entities/dictionary-table/pages/find-many-and-count'
 import DictionaryTable_getByKn from '~/entities/dictionary-table/pages/get-by-kn'
-import { Icon as NormalizationConfigIcon } from '~/entities/normalization-config'
 import NormalizationConfigs from '~/entities/normalization-config/pages'
-import NormalizationConfigs_create from '~/entities/normalization-config/pages/create'
 import NormalizationConfigs_id from '~/entities/normalization-config/pages/id'
 import { Icon as OperationalTableIcon } from '~/entities/operational-table'
 import OperationalTable from '~/entities/operational-table/pages'
 import OperationalTable_create from '~/entities/operational-table/pages/create'
 import OperationalTable_kn_explorer from '~/entities/operational-table/pages/explorer'
 import OperationalTable_kn from '~/entities/operational-table/pages/kn'
+import { NAME as PROCESSING_NAME, Icon as ProcessingIcon } from '~/entities/processing'
+import NormalizationConfigs_create from '~/entities/processing/pages/create'
 import { Icon as RawDataIcon } from '~/entities/raw-data'
 import RawData_getManyAndCountTables from '~/entities/raw-data/pages/find-many-and-count-tables/ui.find-many-and-count-tables'
 import { Icon as StoreConfigIcon } from '~/entities/store-config'
@@ -68,9 +68,9 @@ export const routes = {
    * normaliztionConfigs
    */
 
-  normalizationConfigs: {
+  processing: {
     getName: (): string => 'Обработки',
-    getPath: (): string => '/normalization-configs',
+    getPath: (): string => `/${PROCESSING_NAME}`,
     getUrl() {
       return this.getPath()
     },
@@ -79,15 +79,15 @@ export const routes = {
     payload: {
       renderHeader: Header,
       renderNav: Nav,
-      renderIcon: NormalizationConfigIcon,
+      renderIcon: ProcessingIcon,
       navigatable: false,
       rolesAllowed: [roles.nrm_get],
     },
   },
 
-  normalizationConfigs_create: {
+  processing_create: {
     getName: (): string => 'Запуск',
-    getPath: (): string => `${routes.normalizationConfigs.getPath()}/create`,
+    getPath: (): string => `${PROCESSING_NAME}/create`,
     getUrl() {
       return this.getPath()
     },
@@ -97,14 +97,14 @@ export const routes = {
       renderHeader: Header,
       renderNav: Nav,
       navigatable: true,
-      renderIcon: NormalizationConfigIcon,
+      renderIcon: ProcessingIcon,
       rolesAllowed: [roles.nrm_crt],
     },
   },
 
-  normalizationConfigs_id: {
+  processing_id: {
     getName: (): string => 'Обработки',
-    getPath: () => '/normalization-configs/:id',
+    getPath: () => `/${PROCESSING_NAME}/:id`,
     getUrl(id: string) {
       return this.getPath().replace(':id', id)
     },

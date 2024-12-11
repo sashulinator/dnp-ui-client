@@ -52,7 +52,7 @@ export default function Component(props: Props): JSX.Element {
     <Column className={c(props.className, NAME)}>
       <Row>
         <Column width='50%'>
-          <Field<string, TextFieldProps<string>, HTMLInputElement>
+          <Field<string, TextFieldProps, HTMLInputElement>
             label={
               <Flex gap={'1'}>
                 {strings.tableDisplay}
@@ -66,7 +66,7 @@ export default function Component(props: Props): JSX.Element {
             name={fieldNames.tableDisplay}
             component={TextField}
           ></Field>
-          <Field<string, TextFieldProps<string>, HTMLInputElement>
+          <Field<string, TextFieldProps, HTMLInputElement>
             label={
               <Flex gap={'1'}>
                 {strings.table}

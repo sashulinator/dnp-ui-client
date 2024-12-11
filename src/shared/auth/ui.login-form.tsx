@@ -17,12 +17,12 @@ const NAME = 'auth-LoginForm'
 export default function Component(props: Props): JSX.Element {
   return (
     <Flex direction='column' gap='4' {...props.root} className={c(props.className, NAME)}>
-      <TypedField<Values, 'email', string, string, TextFieldProps<string>, HTMLInputElement>
+      <TypedField<Values, 'email', string, string, TextFieldProps, HTMLInputElement>
         component={TextField}
         name='email'
         label='Email'
       />
-      <TypedField<Values, 'password', string, string, TextFieldProps<string>, HTMLInputElement>
+      <TypedField<Values, 'password', string, string, TextFieldProps, HTMLInputElement>
         component={TextField}
         name='password'
         type='password'

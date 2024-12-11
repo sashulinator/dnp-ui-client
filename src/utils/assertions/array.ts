@@ -1,5 +1,5 @@
 import { BaseError } from '../error'
-import { AssertionProps } from './types/assertion-props'
+import { type AssertionProps } from './types/assertion-props'
 
 /**
  * Checks that the given value is an array.
@@ -8,7 +8,7 @@ import { AssertionProps } from './types/assertion-props'
  * @param {AssertionProps | undefined} [errorProps] - An optional error message to include if the check fails.
  * @throws {Error} if the value is not an array.
  */
-export function assertArray(value: unknown, errorProps?: AssertionProps | undefined): asserts value is number {
+export function assertArray(value: unknown, errorProps?: AssertionProps | undefined): asserts value is unknown[] {
   if (!Array.isArray(value)) {
     const defaultMessage = 'Value is not an array.'
     const defaultCode = 'ERROR_ASRT_ARRAY'

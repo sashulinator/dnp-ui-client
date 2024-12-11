@@ -18,7 +18,7 @@ export default {
       <Flex width='100%' direction={'column'} p='8' gap='4'>
         <Form form={form}>
           {() => (
-            <Field<string, TextFieldProps<string>, HTMLInputElement>
+            <Field<string, TextFieldProps, HTMLInputElement>
               component={TextField}
               label='test'
               name='test'

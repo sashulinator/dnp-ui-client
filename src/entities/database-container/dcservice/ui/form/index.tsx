@@ -23,7 +23,7 @@ export default function Component(props: Props): JSX.Element {
       <Card>
         <Row width='100%'>
           <Column width='50%'>
-            <TypedField<Values, 'display', string, string, TextFieldProps<string>, HTMLInputElement>
+            <TypedField<Values, 'display', string, string, TextFieldProps, HTMLInputElement>
               name='display'
               label='Отображение'
               disabled={disabled}
@@ -37,7 +37,7 @@ export default function Component(props: Props): JSX.Element {
         <Column width='100%'>
           <Row width='100%'>
             <Flex width='100%'>
-              <TypedField<Values, 'host', string, string, TextFieldProps<string>, HTMLInputElement>
+              <TypedField<Values, 'host', string, string, TextFieldProps, HTMLInputElement>
                 label='Хост'
                 name='host'
                 disabled={disabled}
@@ -45,7 +45,7 @@ export default function Component(props: Props): JSX.Element {
               />
             </Flex>
             <Flex width='100px'>
-              <TypedField<Values, 'port', string, string, TextFieldProps<string>, HTMLInputElement>
+              <TypedField<Values, 'port', string, string, TextFieldProps, HTMLInputElement>
                 label='Порт'
                 name='port'
                 type='number'
@@ -56,13 +56,13 @@ export default function Component(props: Props): JSX.Element {
           </Row>
           <Row width='100%'>
             <Column width='50%'>
-              <TypedField<Values, 'username', string, string, TextFieldProps<string>, HTMLInputElement>
+              <TypedField<Values, 'username', string, string, TextFieldProps, HTMLInputElement>
                 label='Пользователь'
                 name='username'
                 disabled={disabled}
                 component={TextField}
               />
-              <TypedField<Values, 'password', string, string, TextFieldProps<string>, HTMLInputElement>
+              <TypedField<Values, 'password', string, string, TextFieldProps, HTMLInputElement>
                 label='Пароль'
                 name='password'
                 disabled={disabled}

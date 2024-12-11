@@ -1,8 +1,8 @@
 /**
  * ui
  */
-import { default as HighlightedText } from './ui/highlighted'
-import { default as Text } from './ui/text'
+import HighlightedText from './ui/highlighted'
+import Text from './ui/text'
 
 export default Text
 export type { TextProps } from './ui/text'

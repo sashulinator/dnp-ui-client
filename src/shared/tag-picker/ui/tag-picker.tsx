@@ -40,7 +40,7 @@ export default function Component(props: Props): JSX.Element {
       <Flex align='center' gap='2'>
         <TextField.Root
           ref={inputRef}
-          autoFocus={true}
+          // autoFocus={true}
           onKeyDown={(e): void => {
             if (e.key !== 'Enter') return
             submitNewTag()

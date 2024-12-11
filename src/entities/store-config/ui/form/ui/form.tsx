@@ -26,39 +26,39 @@ export function Component(props: Props): JSX.Element {
 
   return (
     <Flex className={c(props.className, displayName)} direction='column' style={{ width: '100%' }} gap='4'>
-      <TypedField<Values, 'kn', string, string, TextFieldProps<string>, HTMLInputElement>
+      <TypedField<Values, 'kn', string, string, TextFieldProps, HTMLInputElement>
         component={TextField}
         readOnly={readonly}
         disabled={isCreated}
         name='kn'
         label='Название'
       />
-      <TypedField<Values, 'data.host', string, string, TextFieldProps<string>, HTMLInputElement>
+      <TypedField<Values, 'data.host', string, string, TextFieldProps, HTMLInputElement>
         component={TextField}
         readOnly={readonly}
         name='data.host'
         label='Хост'
       />
-      <TypedField<Values, 'data.port', string, string, TextFieldProps<string>, HTMLInputElement>
+      <TypedField<Values, 'data.port', string, string, TextFieldProps, HTMLInputElement>
         component={TextField}
         readOnly={readonly}
         type='number'
         name='data.port'
         label='Порт'
       />
-      <TypedField<Values, 'data.username', string, string, TextFieldProps<string>, HTMLInputElement>
+      <TypedField<Values, 'data.username', string, string, TextFieldProps, HTMLInputElement>
         component={TextField}
         readOnly={readonly}
         name='data.username'
         label='Пользователь'
       />
-      <TypedField<Values, 'data.password', string, string, TextFieldProps<string>, HTMLInputElement>
+      <TypedField<Values, 'data.password', string, string, TextFieldProps, HTMLInputElement>
         component={TextField}
         readOnly={readonly}
         name='data.password'
         label='Пароль'
       />
-      <TypedField<Values, 'data.database', string, string, TextFieldProps<string>, HTMLInputElement>
+      <TypedField<Values, 'data.database', string, string, TextFieldProps, HTMLInputElement>
         component={TextField}
         readOnly={readonly}
         name='data.database'

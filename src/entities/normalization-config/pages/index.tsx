@@ -33,10 +33,10 @@ export default function Page(): JSX.Element {
       <Container p='var(--space-4)'>
         <Section size='1'>
           <Flex width='100%' justify='between'>
-            <Heading>{routes.normalizationConfigs.getName()}</Heading>
+            <Heading>{routes.processing.getName()}</Heading>
             {auth.hasRole(auth.roles.nrm_crt, 'dnp') && (
               <Button size='1' asChild>
-                <Link to={routes.normalizationConfigs_create.getUrl()}>Создать</Link>
+                <Link to={routes.processing_create.getUrl()}>Создать</Link>
               </Button>
             )}
           </Flex>

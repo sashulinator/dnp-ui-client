@@ -65,7 +65,7 @@ export default function Component(): JSX.Element {
       notify({ title: 'Сохранено', type: 'success' })
       getById.setCache({ id }, data.data)
       if (data.data.v !== form.getState().values.v) {
-        navigate(routes.normalizationConfigs_id.getUrl(data.data.id))
+        navigate(routes.processing_id.getUrl(data.data.id))
       } else {
         form.initialize(toFormValues(data.data))
       }
@@ -104,7 +104,7 @@ export default function Component(): JSX.Element {
         {!fetcher.isError && (
           <Section size='1'>
             <Heading>
-              {routes.normalizationConfigs_id.getName()}{' '}
+              {routes.processing_id.getName()}{' '}
               {values.name && <HighlightedText tooltipContent='Название'>{values.name}</HighlightedText>}{' '}
               {values.v && (
                 <HighlightedText color='yellow' tooltipContent='Версия'>

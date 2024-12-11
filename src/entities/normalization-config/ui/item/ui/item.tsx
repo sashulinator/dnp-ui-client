@@ -27,7 +27,7 @@ export default function Component(props: Props): JSX.Element {
   return (
     <Card key={item.name} asChild={true} className={c(displayName, className)}>
       <Flex justify='between' asChild>
-        <Link to={`${routes.normalizationConfigs_id.getUrl(item.id)}${querify({ name: item.name })}`}>
+        <Link to={`${routes.processing_id.getUrl(item.id)}${querify({ name: item.name })}`}>
           <Flex gap='2'>
             <HighlightedText tooltipContent='Название'>{item.name}</HighlightedText>
             <HighlightedText tooltipContent='Версия' color='yellow'>

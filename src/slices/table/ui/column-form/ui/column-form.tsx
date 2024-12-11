@@ -45,7 +45,7 @@ export default function Component(props: Props) {
         <Flex direction='column' gap='4'>
           <Flex gap='2' width='100%' justify='end' align='center'>
             {isDev() && (
-              <Field<string, TextFieldProps<string>, HTMLInputElement> name={`${name}.id`}>
+              <Field<string, TextFieldProps, HTMLInputElement> name={`${name}.id`}>
                 {({ input }) => {
                   return (
                     <Text color='gray' size='1'>
@@ -94,7 +94,7 @@ export default function Component(props: Props) {
                 </Flex>
               </Label>
               <DataList.Value>
-                <TypedField<Column, 'display', string, string, TextFieldProps<string>, HTMLInputElement>
+                <TypedField<Column, 'display', string, string, TextFieldProps, HTMLInputElement>
                   component={TextField}
                   size='1'
                   variant='soft'
@@ -114,7 +114,7 @@ export default function Component(props: Props) {
                 </Flex>
               </Label>
               <DataList.Value>
-                <TypedField<Column, 'name', string, string, TextFieldProps<string>, HTMLInputElement>
+                <TypedField<Column, 'name', string, string, TextFieldProps, HTMLInputElement>
                   component={TextField}
                   size='1'
                   variant='soft'
@@ -144,7 +144,7 @@ export default function Component(props: Props) {
                       'relation.tableName',
                       string,
                       string,
-                      TextFieldProps<string>,
+                      TextFieldProps,
                       HTMLInputElement
                     >
                       component={TextField}
@@ -162,7 +162,7 @@ export default function Component(props: Props) {
                       'relation.columnName',
                       string,
                       string,
-                      TextFieldProps<string>,
+                      TextFieldProps,
                       HTMLInputElement
                     >
                       component={TextField}
@@ -267,7 +267,7 @@ function _MaxLengthDataListItem(props: _MaxLengthDataListItemProps) {
     <DataList.Item>
       <Label children='Длина' />
       <DataList.Value>
-        <Field<string, TextFieldProps<string>, HTMLInputElement>
+        <Field<string, TextFieldProps, HTMLInputElement>
           component={TextField}
           size='1'
           variant='soft'
@@ -359,7 +359,7 @@ function _DecimalPlacesDataListItem(props: _DecimalPlacesDataListItemProps) {
           </Flex>
         </Label>
         <DataList.Value>
-          <Field<string, TextFieldProps<string>, HTMLInputElement>
+          <Field<string, TextFieldProps, HTMLInputElement>
             component={TextField}
             size='1'
             variant='soft'

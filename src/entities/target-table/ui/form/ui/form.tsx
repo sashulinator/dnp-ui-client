@@ -81,7 +81,7 @@ export default Memoed
  * Private
  */
 
-type _KnFieldProps = Omit<TextFieldProps<string>, 'name' | 'value' | 'type'> & {
+type _KnFieldProps = Omit<TextFieldProps, 'name' | 'value' | 'type'> & {
   input: FieldInputProps<string, HTMLInputElement>
   meta: FieldMetaState<string>
   checkUnique?: ((kn: string) => Promise<boolean>) | undefined

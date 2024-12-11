@@ -23,7 +23,7 @@ export function Component(props: Props): JSX.Element {
 
   return (
     <Flex className={c(props.className, displayName)} direction='column' style={{ width: '100%' }} gap='4'>
-      <TypedField<Values, 'name', string, string, TextFieldProps<string>, HTMLInputElement>
+      <TypedField<Values, 'name', string, string, TextFieldProps, HTMLInputElement>
         component={TextField}
         readOnly={readonly}
         disabled={state.values.id}

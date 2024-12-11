@@ -11,7 +11,7 @@ import TextField, { type TextFieldProps } from '../../..'
 import Hint from '../../../../hint'
 import { NAME as PARENT_NAME } from '../../../ui/text-field'
 
-export type Props = Omit<TextFieldProps<string>, 'name' | 'value' | 'type'> & {
+export type Props = Omit<TextFieldProps, 'name' | 'value' | 'type'> & {
   entityName: string
   checkUnique?: ((kn: string) => Promise<boolean>) | undefined
 }

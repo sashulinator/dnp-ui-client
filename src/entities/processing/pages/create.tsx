@@ -1,24 +1,17 @@
 import { useNavigate } from 'react-router-dom'
-import { safeParse } from 'valibot'
 
+import { APP } from '~/app/constants.app'
 import { routes } from '~/app/route'
 import { api } from '~/entities/database-container'
-import {
-  type FormValues,
-  create,
-  createNormalizationConfigSchema,
-  defaultValues,
-  fromFormValues,
-  getById,
-  toFormValues,
-} from '~/entities/normalization-config'
-import ProcessingForm from '~/entities/normalization-config/ui/new-form'
+import { create, getById } from '~/entities/normalization-config'
+import { procedureApi } from '~/entities/processing'
+import { ProcessingForm, SLICE } from '~/entities/processing'
 import { processingDataApi } from '~/entities/processing-data'
 import Button from '~/shared/button'
 import Card from '~/shared/card'
 import Container from '~/shared/container'
 import Flex from '~/shared/flex'
-import Form, { toNestedErrors, useCreateForm } from '~/shared/form'
+import Form, { useCreateForm } from '~/shared/form'
 import Heading from '~/shared/heading'
 import { notify } from '~/shared/notification-list-store'
 import Section from '~/shared/section'
@@ -29,22 +22,26 @@ export interface Props {
   className?: string | undefined
 }
 
-const NAME = 'page-NormalizationConfigs_create'
+const NAME = `${APP}-${SLICE}-page-Create`
 
 export default function Component(): JSX.Element {
   const navigate = useNavigate()
 
-  const form = useCreateForm<FormValues>(
+  const form = useCreateForm<ProcessingForm.Values>(
     {
       onSubmit: (values) => {
-        createMutator.mutate({ input: fromFormValues(values) })
+        // eslint-disable-next-line no-console
+        console.log('values', ProcessingForm.fromValues(values))
+        // createMutator.mutate({ input: ProcessingForm.fromValues(values) })
       },
-      validate: (values) => {
-        const createNormalizationConfig = fromFormValues(values)
-        const { issues } = safeParse(createNormalizationConfigSchema, createNormalizationConfig)
-        return toNestedErrors(issues)
-      },
-      initialValues: toFormValues(defaultValues),
+      // validate: (values) => {
+      //   // eslint-disable-next-line no-console
+      //   console.log(values)
+      //   return undefined
+      //   // const processingCreateInput = ProcessingForm.fromValues(values)
+      //   // const { issues } = safeParse(createNormalizationConfigSchema, processingCreateInput)
+      //   // return toNestedErrors(issues)
+      // },
     },
     { values: true, initialValues: true },
   )
@@ -55,7 +52,7 @@ export default function Component(): JSX.Element {
     onSuccess: (data) => {
       notify({ title: 'Создано', type: 'success' })
       getById.setCache({ id: data.data.id }, data.data)
-      navigate(routes.normalizationConfigs_id.getUrl(data.data.id))
+      navigate(routes.processing_id.getUrl(data.data.id))
     },
     onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
   })
@@ -65,7 +62,7 @@ export default function Component(): JSX.Element {
       <Container p='var(--space-4)'>
         <Section size='1'>
           <Heading>
-            {routes.normalizationConfigs_create.getName()}{' '}
+            {routes.processing_create.getName()}{' '}
             {values.name && <HighlightedText tooltipContent='Название'>{values.name}</HighlightedText>}
           </Heading>
         </Section>
@@ -73,9 +70,10 @@ export default function Component(): JSX.Element {
         <Section size='1'>
           <Form
             form={form}
-            component={ProcessingForm}
+            component={ProcessingForm.default}
             fetchDcdatabaseOptions={fetchDatabaseOptions}
             fetchTablesOptions={fetchInputTablesOptions}
+            feftchProcedures={feftchProcedures}
           />
         </Section>
 
@@ -109,18 +107,18 @@ export default function Component(): JSX.Element {
    * private
    */
 
+  async function feftchProcedures() {
+    const ret = await procedureApi.findWithTotal.request({})
+    return ret.data.items
+  }
+
   async function fetchDatabaseOptions() {
     const ret = await api.dcdatabase.findWithTotal.request({})
     return ret.data.items.map((item) => ({ value: item.id, display: item.display }))
   }
 
   async function fetchInputTablesOptions(dcdatabaseId: string) {
-    if (!dcdatabaseId) return []
-
-    const ret = await processingDataApi.initial.findTablesWithTotal.request({
-      dcdatabaseId,
-    })
-
+    const ret = await processingDataApi.initial.findTablesWithTotal.request({ dcdatabaseId })
     return ret.data.items.map((item) => ({ value: item.name, display: item.name }))
   }
 }

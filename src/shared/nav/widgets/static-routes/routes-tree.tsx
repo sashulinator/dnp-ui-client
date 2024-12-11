@@ -63,26 +63,26 @@ export function getRoutesTree() {
 
     if (auth.hasRole(roles.nrm_crt, 'dnp')) {
       children.push({
-        id: routes.normalizationConfigs_create.getName(),
-        name: routes.normalizationConfigs_create.getName(),
+        id: routes.processing_create.getName(),
+        name: routes.processing_create.getName(),
         link: {
-          url: routes.normalizationConfigs_create.getPath(),
+          url: routes.processing_create.getPath(),
         },
       })
     }
 
     children.push({
-      id: routes.normalizationConfigs.getName(),
+      id: routes.processing.getName(),
       name: 'Список',
       link: {
-        url: routes.normalizationConfigs.getPath(),
+        url: routes.processing.getPath(),
       },
     })
 
     routsTree.push({
       id: 'processing',
       name: 'Обработки',
-      renderIcon: routes.normalizationConfigs.payload.renderIcon,
+      renderIcon: routes.processing.payload.renderIcon,
       children,
     })
   }

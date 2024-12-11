@@ -22,6 +22,7 @@ export {
   type FieldRenderProps,
   type UseFieldConfig,
   useForm,
+  useField,
 } from 'react-final-form'
 
 export { type FormSubscription, type FormApi, getIn, setIn } from 'final-form'

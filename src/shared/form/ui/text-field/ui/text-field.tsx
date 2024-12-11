@@ -12,23 +12,20 @@ import Label from '../../label/ui/label'
 
 export const NAME = `${PARENT_NAME}-w-TextField`
 
-export type Props<FieldValue> = Omit<RootProps, 'name' | 'value'> & {
+export type Props = Omit<RootProps, 'name' | 'value'> & {
   label?: string | undefined | React.ReactElement
   rootProps?: FlexProps | undefined
-  input: FieldInputProps<string, HTMLInputElement>
-  meta: FieldMetaState<FieldValue>
+  input: FieldInputProps<string, any>
+  meta: FieldMetaState<string>
   renderHint?: (props: {
-    input: FieldInputProps<string, HTMLInputElement>
-    meta: FieldMetaState<FieldValue>
+    input: FieldInputProps<string, any>
+    meta: FieldMetaState<string>
     isErrorVisible: boolean
   }) => React.ReactNode
-  checkIsErrorVisible?: (props: {
-    input: FieldInputProps<string, HTMLInputElement>
-    meta: FieldMetaState<FieldValue>
-  }) => boolean
+  checkIsErrorVisible?: (props: { input: FieldInputProps<string, any>; meta: FieldMetaState<string> }) => boolean
 }
 
-export default function Component<FieldValue>(props: Props<FieldValue>) {
+export default function Component(props: Props) {
   const {
     input,
     meta,

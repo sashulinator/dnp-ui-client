@@ -21,7 +21,7 @@ export default function Component(props: Props): JSX.Element {
     <Flex className={c(props.className, NAME)} direction={'column'} gap='4'>
       {columns.map((item) => {
         return (
-          <Field<string, TextFieldProps<string>, HTMLInputElement>
+          <Field<string, TextFieldProps, HTMLInputElement>
             component={TextField}
             key={item.display}
             name={item.name}
