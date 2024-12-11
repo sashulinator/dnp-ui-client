@@ -12,12 +12,15 @@ export const procedureSchema = v.object({
   params: v.array(
     v.object({
       name: v.string(),
+      isIterableTableName: v.optional(v.boolean()),
       display: v.string(),
       description: v.string(),
-      component: v.object({
-        name: v.string(),
-        props: v.object({}),
-      }),
+      component: v.optional(
+        v.object({
+          name: v.string(),
+          props: v.object({}),
+        }),
+      ),
     }),
   ),
 })
