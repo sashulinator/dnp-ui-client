@@ -32,6 +32,7 @@ import type { Story } from '~/shared/storybook'
 import tableList from '~/shared/table/ui/list/story'
 import uiTagPicker from '~/shared/tag-picker/story/index'
 import uiTagPickerWTag from '~/shared/tag-picker/widgets/tag/story'
+import sharedTextInput from '~/shared/text-input/story'
 import uiTextHighlighter from '~/shared/text/ui/highlighted/story'
 import uiToast from '~/shared/toast/story'
 import uiNotificationToastList from '~/shared/toast/variants/notification/list/story'
@@ -69,6 +70,7 @@ export const storyList: Story<any>[] = [
    * shared
    */
 
+  sharedTextInput,
   sharedSelectMultiple,
   sharedlinkTree,
   uiButton,
