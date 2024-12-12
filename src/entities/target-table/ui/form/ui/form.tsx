@@ -3,8 +3,8 @@ import type { FieldInputProps, FieldMetaState } from 'react-final-form'
 import { useField, useForm } from 'react-final-form'
 
 import Flex from '~/shared/flex'
-import type { SelectProps, TextFieldProps } from '~/shared/form'
-import { Card, Column, LabeledCheckbox, Row, Select, TextField, TypedField } from '~/shared/form'
+import type { SelectProps, StringFieldProps } from '~/shared/form'
+import { Card, Column, LabeledCheckbox, Row, Select, StringField, TypedField } from '~/shared/form'
 import { DatabaseTableForm } from '~/slices/database'
 import { c, generateId } from '~/utils/core'
 
@@ -81,7 +81,7 @@ export default Memoed
  * Private
  */
 
-type _KnFieldProps = Omit<TextFieldProps, 'name' | 'value' | 'type'> & {
+type _KnFieldProps = Omit<StringFieldProps, 'name' | 'value' | 'type'> & {
   input: FieldInputProps<string, HTMLInputElement>
   meta: FieldMetaState<string>
   checkUnique?: ((kn: string) => Promise<boolean>) | undefined
@@ -100,5 +100,5 @@ function _KnField(props: _KnFieldProps) {
     form.change('kn', `${tableNameField.input.value}-${generateId(3)}`)
   }, [tableNameField.input.value])
 
-  return <TextField readOnly={readOnly} {...textFieldProps} />
+  return <StringField readOnly={readOnly} {...textFieldProps} />
 }

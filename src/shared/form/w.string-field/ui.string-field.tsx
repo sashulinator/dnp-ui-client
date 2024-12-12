@@ -1,28 +1,30 @@
-import React, { useId } from 'react'
+import React from 'react'
 import { type FieldInputProps, type FieldMetaState } from 'react-final-form'
 
 import Flex, { type FlexProps } from '~/shared/flex'
 import { _checkErrorVisible } from '~/shared/form/lib/_check-error-visible'
 import { _renderHint } from '~/shared/form/lib/_render-hint'
-import TextField, { type RootProps } from '~/shared/text-field'
+import { LabeledTextInput, type LabeledTextInputProps } from '~/shared/text-input'
 import { c, fns } from '~/utils/core'
 
-import { NAME as PARENT_NAME } from '../../form'
-import Label from '../../label/ui/label'
+import { NAME as PARENT_NAME } from '../ui/form'
 
-export const NAME = `${PARENT_NAME}-w-TextField`
+export const NAME = `${PARENT_NAME}-w-StringField`
 
-export type Props = Omit<RootProps, 'name' | 'value'> & {
+export type Props = Omit<LabeledTextInputProps, 'name' | 'value'> & {
   label?: string | undefined | React.ReactElement
   rootProps?: FlexProps | undefined
-  input: FieldInputProps<string, any>
+  input: FieldInputProps<string, HTMLInputElement>
   meta: FieldMetaState<string>
   renderHint?: (props: {
-    input: FieldInputProps<string, any>
+    input: FieldInputProps<string, HTMLInputElement>
     meta: FieldMetaState<string>
     isErrorVisible: boolean
   }) => React.ReactNode
-  checkIsErrorVisible?: (props: { input: FieldInputProps<string, any>; meta: FieldMetaState<string> }) => boolean
+  checkIsErrorVisible?: (props: {
+    input: FieldInputProps<string, HTMLInputElement>
+    meta: FieldMetaState<string>
+  }) => boolean
 }
 
 export default function Component(props: Props) {
@@ -31,31 +33,28 @@ export default function Component(props: Props) {
     meta,
     className,
     renderHint = _renderHint,
-    label,
     rootProps,
     checkIsErrorVisible = _checkErrorVisible,
     variant = 'soft',
     ...textFieldProps
   } = props
 
-  const id = useId()
   const isErrorVisible = checkIsErrorVisible({ input, meta })
 
   return (
     <Flex className={c(className, rootProps?.className, NAME)} direction='column' width='100%' {...rootProps}>
-      <Label children={label} htmlFor={id} />
-      <TextField.Root
+      <LabeledTextInput
         color={isErrorVisible ? 'red' : undefined}
         {...textFieldProps}
-        id={id}
         variant={variant}
         value={input.value}
         type={input.type as 'text'}
         onChange={fns(input.onChange, textFieldProps.onChange)}
         onBlur={fns(input.onBlur, textFieldProps.onBlur)}
         onFocus={fns(input.onFocus, textFieldProps.onFocus)}
-      />
-      {React.createElement(renderHint, { input, meta, isErrorVisible })}
+      >
+        {React.createElement(renderHint, { input, meta, isErrorVisible })}
+      </LabeledTextInput>
     </Flex>
   )
 }

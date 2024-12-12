@@ -14,7 +14,7 @@ export default {
 
     return (
       <div style={{ padding: '2rem' }}>
-        <LabledTextInput lable='Ваш лабель' {...state}>
+        <LabledTextInput label='Ваш лабель' {...state}>
           <Flex width='100%' direction='column'>
             <Text color='red'>Здесь могла бы быть ваша ошибка</Text>
             <Text color='green'>Ну или суксес</Text>

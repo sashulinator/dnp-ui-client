@@ -6,8 +6,8 @@ import Card from '~/shared/card'
 import SharedCheckbox from '~/shared/checkbox'
 import DataList from '~/shared/data-list'
 import Flex from '~/shared/flex'
-import type { SelectProps, TextFieldProps } from '~/shared/form'
-import { Field, Label, LabeledCheckbox, Select, TextField, TypedField, getIn, useForm } from '~/shared/form'
+import type { SelectProps, StringFieldProps } from '~/shared/form'
+import { Field, Label, LabeledCheckbox, Select, StringField, TypedField, getIn, useForm } from '~/shared/form'
 import Icon from '~/shared/icon'
 import Separator from '~/shared/separator'
 import Text from '~/shared/text'
@@ -45,7 +45,7 @@ export default function Component(props: Props) {
         <Flex direction='column' gap='4'>
           <Flex gap='2' width='100%' justify='end' align='center'>
             {isDev() && (
-              <Field<string, TextFieldProps, HTMLInputElement> name={`${name}.id`}>
+              <Field<string, StringFieldProps, HTMLInputElement> name={`${name}.id`}>
                 {({ input }) => {
                   return (
                     <Text color='gray' size='1'>
@@ -94,8 +94,8 @@ export default function Component(props: Props) {
                 </Flex>
               </Label>
               <DataList.Value>
-                <TypedField<Column, 'display', string, string, TextFieldProps, HTMLInputElement>
-                  component={TextField}
+                <TypedField<Column, 'display', string, string, StringFieldProps, HTMLInputElement>
+                  component={StringField}
                   size='1'
                   variant='soft'
                   name={`${typedName}display`}
@@ -114,8 +114,8 @@ export default function Component(props: Props) {
                 </Flex>
               </Label>
               <DataList.Value>
-                <TypedField<Column, 'name', string, string, TextFieldProps, HTMLInputElement>
-                  component={TextField}
+                <TypedField<Column, 'name', string, string, StringFieldProps, HTMLInputElement>
+                  component={StringField}
                   size='1'
                   variant='soft'
                   name={`${typedName}name`}
@@ -144,10 +144,10 @@ export default function Component(props: Props) {
                       'relation.tableName',
                       string,
                       string,
-                      TextFieldProps,
+                      StringFieldProps,
                       HTMLInputElement
                     >
-                      component={TextField}
+                      component={StringField}
                       size='1'
                       variant='soft'
                       name={`${typedName}relation.tableName`}
@@ -162,10 +162,10 @@ export default function Component(props: Props) {
                       'relation.columnName',
                       string,
                       string,
-                      TextFieldProps,
+                      StringFieldProps,
                       HTMLInputElement
                     >
-                      component={TextField}
+                      component={StringField}
                       size='1'
                       variant='soft'
                       name={`${typedName}relation.columnName`}
@@ -267,8 +267,8 @@ function _MaxLengthDataListItem(props: _MaxLengthDataListItemProps) {
     <DataList.Item>
       <Label children='Длина' />
       <DataList.Value>
-        <Field<string, TextFieldProps, HTMLInputElement>
-          component={TextField}
+        <Field<string, StringFieldProps, HTMLInputElement>
+          component={StringField}
           size='1'
           variant='soft'
           parse={(value) => {
@@ -359,8 +359,8 @@ function _DecimalPlacesDataListItem(props: _DecimalPlacesDataListItemProps) {
           </Flex>
         </Label>
         <DataList.Value>
-          <Field<string, TextFieldProps, HTMLInputElement>
-            component={TextField}
+          <Field<string, StringFieldProps, HTMLInputElement>
+            component={StringField}
             size='1'
             variant='soft'
             name={`${typedName}decimalPlaces`}

@@ -8,10 +8,10 @@ import {
   FieldArray,
   Label,
   Row,
+  StringField,
+  type StringFieldProps,
   TextArea,
   type TextAreaProps,
-  TextField,
-  type TextFieldProps,
 } from '~/shared/form'
 import Icon from '~/shared/icon'
 import Tooltip from '~/shared/tooltip'
@@ -52,7 +52,7 @@ export default function Component(props: Props): JSX.Element {
     <Column className={c(props.className, NAME)}>
       <Row>
         <Column width='50%'>
-          <Field<string, TextFieldProps, HTMLInputElement>
+          <Field<string, StringFieldProps, HTMLInputElement>
             label={
               <Flex gap={'1'}>
                 {strings.tableDisplay}
@@ -64,9 +64,9 @@ export default function Component(props: Props): JSX.Element {
               </Flex>
             }
             name={fieldNames.tableDisplay}
-            component={TextField}
+            component={StringField}
           ></Field>
-          <Field<string, TextFieldProps, HTMLInputElement>
+          <Field<string, StringFieldProps, HTMLInputElement>
             label={
               <Flex gap={'1'}>
                 {strings.table}
@@ -78,7 +78,7 @@ export default function Component(props: Props): JSX.Element {
               </Flex>
             }
             name={fieldNames.table}
-            component={TextField}
+            component={StringField}
           />
         </Column>
         <Column width='50%'>

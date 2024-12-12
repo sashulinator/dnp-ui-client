@@ -4,7 +4,7 @@ import { APP } from '~/app/constants.app'
 import Button from '~/shared/button'
 import Card from '~/shared/card'
 import Flex from '~/shared/flex'
-import { Field, TextField as FormTextField, Label, Select, TypedField, useField } from '~/shared/form'
+import { Field, StringField as FormTextField, Label, Select, TypedField, useField } from '~/shared/form'
 import Icon from '~/shared/icon'
 import TagPicker from '~/shared/tag-picker'
 import Text from '~/shared/text'
@@ -93,7 +93,7 @@ function _Schema(props: _SchemaProps) {
 
         return (
           <Flex key={param.name} width='100%'>
-            <Field label={param.display} component={FormTextField} name={`${name}.params.${param.name}`} />
+            <Field label={param.display} component={FormTextField as any} name={`${name}.params.${param.name}`} />
           </Flex>
         )
       })}

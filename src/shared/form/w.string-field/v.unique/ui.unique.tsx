@@ -7,9 +7,9 @@ import Text from '~/shared/text'
 import { capitalize } from '~/utils/core'
 import { useDebounce } from '~/utils/core-hooks'
 
-import TextField, { type TextFieldProps } from '../../..'
-import Hint from '../../../../hint'
-import { NAME as PARENT_NAME } from '../../../ui/text-field'
+import Hint from '../../ui/hint'
+import TextField, { type Props as TextFieldProps } from '../ui.string-field'
+import { NAME as PARENT_NAME } from '../ui.string-field'
 
 export type Props = Omit<TextFieldProps, 'name' | 'value' | 'type'> & {
   entityName: string

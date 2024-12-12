@@ -1,7 +1,7 @@
 import { memo } from 'react'
 
 import Flex from '~/shared/flex'
-import { JsonEditor, TextField, TextFieldProps, TypedField, useForm } from '~/shared/form'
+import { JsonEditor, StringField, StringFieldProps, TypedField, useForm } from '~/shared/form'
 import { c } from '~/utils/core'
 
 import { Values } from '../types/values'
@@ -23,8 +23,8 @@ export function Component(props: Props): JSX.Element {
 
   return (
     <Flex className={c(props.className, displayName)} direction='column' style={{ width: '100%' }} gap='4'>
-      <TypedField<Values, 'name', string, string, TextFieldProps, HTMLInputElement>
-        component={TextField}
+      <TypedField<Values, 'name', string, string, StringFieldProps, HTMLInputElement>
+        component={StringField}
         readOnly={readonly}
         disabled={state.values.id}
         name='name'

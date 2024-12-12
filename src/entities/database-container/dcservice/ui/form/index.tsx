@@ -1,6 +1,6 @@
 import { APP } from '~/app/constants.app'
 import Flex from '~/shared/flex'
-import { Card, Column, Row, TextField, type TextFieldProps, TypedField } from '~/shared/form'
+import { Card, Column, Row, StringField, type StringFieldProps, TypedField } from '~/shared/form'
 import { c } from '~/utils/core'
 
 import { SLICE } from '../../constants.slice'
@@ -23,11 +23,11 @@ export default function Component(props: Props): JSX.Element {
       <Card>
         <Row width='100%'>
           <Column width='50%'>
-            <TypedField<Values, 'display', string, string, TextFieldProps, HTMLInputElement>
+            <TypedField<Values, 'display', string, string, StringFieldProps, HTMLInputElement>
               name='display'
               label='Отображение'
               disabled={disabled}
-              component={TextField}
+              component={StringField}
             />
           </Column>
           <Column width='50%' />
@@ -37,36 +37,36 @@ export default function Component(props: Props): JSX.Element {
         <Column width='100%'>
           <Row width='100%'>
             <Flex width='100%'>
-              <TypedField<Values, 'host', string, string, TextFieldProps, HTMLInputElement>
+              <TypedField<Values, 'host', string, string, StringFieldProps, HTMLInputElement>
                 label='Хост'
                 name='host'
                 disabled={disabled}
-                component={TextField}
+                component={StringField}
               />
             </Flex>
             <Flex width='100px'>
-              <TypedField<Values, 'port', string, string, TextFieldProps, HTMLInputElement>
+              <TypedField<Values, 'port', string, string, StringFieldProps, HTMLInputElement>
                 label='Порт'
                 name='port'
                 type='number'
                 disabled={disabled}
-                component={TextField}
+                component={StringField}
               />
             </Flex>
           </Row>
           <Row width='100%'>
             <Column width='50%'>
-              <TypedField<Values, 'username', string, string, TextFieldProps, HTMLInputElement>
+              <TypedField<Values, 'username', string, string, StringFieldProps, HTMLInputElement>
                 label='Пользователь'
                 name='username'
                 disabled={disabled}
-                component={TextField}
+                component={StringField}
               />
-              <TypedField<Values, 'password', string, string, TextFieldProps, HTMLInputElement>
+              <TypedField<Values, 'password', string, string, StringFieldProps, HTMLInputElement>
                 label='Пароль'
                 name='password'
                 disabled={disabled}
-                component={TextField}
+                component={StringField}
               />
             </Column>
             <Column width='50%' />

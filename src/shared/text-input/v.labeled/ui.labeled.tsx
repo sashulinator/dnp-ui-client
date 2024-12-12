@@ -8,15 +8,15 @@ import TextInput, { NAME as PARENT_NAME, type TextInputProps } from '../ui.text-
 
 export type Props = TextInputProps & {
   className?: string | undefined
-  lable?: React.ReactNode
-  labledProps?: SharedLabledProps | undefined
+  label?: React.ReactNode
+  labeldProps?: SharedLabledProps | undefined
   children?: React.ReactNode
 }
 
 const NAME = `${PARENT_NAME}-v-Labled`
 
 export function Component(props: Props, forwardedRef: ForwardedRef<HTMLInputElement>): JSX.Element {
-  const { children, lable, className, ...textInputProps } = props
+  const { children, label: lable, className, ...textInputProps } = props
 
   return (
     <Flex width='100%' direction='column' className={c(className, NAME)}>
@@ -32,4 +32,4 @@ const ForwardRef = forwardRef(Component)
 ForwardRef.displayName = NAME
 export default ForwardRef
 
-export { type Props as LabledProps }
+export { type Props as LabeledProps }

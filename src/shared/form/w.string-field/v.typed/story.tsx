@@ -1,13 +1,21 @@
+/* eslint-disable no-console */
 import Flex from '~/shared/flex'
-import Form, { Field, useCreateForm } from '~/shared/form'
-import { Props, type Story } from '~/shared/storybook'
+import Form, { useCreateForm } from '~/shared/form'
+import { type Props, type Story } from '~/shared/storybook'
 
-import TextField, { TextFieldProps } from '..'
+import Typed from '.'
+
+type TestValues = {
+  test1: string
+  test2: {
+    test3: string
+  }
+}
 
 interface State {}
 
 export default {
-  getName: (): string => TextField.displayName || '',
+  getName: (): string => Typed.displayName || '',
 
   render: function Element(props: Props<State>): JSX.Element {
     const { state } = props
@@ -18,10 +26,10 @@ export default {
       <Flex width='100%' direction={'column'} p='8' gap='4'>
         <Form form={form}>
           {() => (
-            <Field<string, TextFieldProps, HTMLInputElement>
-              component={TextField}
+            <Typed<TestValues, 'test2.test3'>
               label='test'
-              name='test'
+              testValueType={Typed.testValueType}
+              name='test2.test3'
               {...state}
             />
           )}

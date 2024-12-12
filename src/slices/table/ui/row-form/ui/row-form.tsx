@@ -1,5 +1,5 @@
 import Flex from '~/shared/flex'
-import { Field, TextField, type TextFieldProps } from '~/shared/form'
+import { Field, StringField, type StringFieldProps } from '~/shared/form'
 import { c } from '~/utils/core'
 
 import { type Column } from '../../../models'
@@ -21,8 +21,8 @@ export default function Component(props: Props): JSX.Element {
     <Flex className={c(props.className, NAME)} direction={'column'} gap='4'>
       {columns.map((item) => {
         return (
-          <Field<string, TextFieldProps, HTMLInputElement>
-            component={TextField}
+          <Field<string, StringFieldProps, HTMLInputElement>
+            component={StringField}
             key={item.display}
             name={item.name}
             label={item.display}
