@@ -28,7 +28,7 @@ export function Component(props: Props): JSX.Element {
         <Row style={{ width: '100%' }}>
           <Column>
             <LabeledCheckbox variant='soft' name='nav' label='Отображать в навигационной панели' />
-            <TypedField<Values, 'defaultView', string, string, SelectProps<string>, HTMLInputElement>
+            <TypedField<Values, 'defaultView', string, string, SelectProps, HTMLInputElement>
               component={Select}
               label='Представление по умолчанию'
               name='defaultView'

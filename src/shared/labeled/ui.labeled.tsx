@@ -6,15 +6,15 @@ import { c } from '~/utils/core'
 export type Props = TextProps & {
   className?: string | undefined
   children: React.ReactElement
-  lable?: React.ReactNode
+  label?: React.ReactNode
 }
 
 const NAME = 'labled-Labled'
 
 export default function Component(props: Props): JSX.Element {
-  const { className, children, lable, ...textProps } = props
+  const { className, children, label, ...textProps } = props
 
-  if (!lable) return children
+  if (!label) return children
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const id = useId()
@@ -30,7 +30,7 @@ export default function Component(props: Props): JSX.Element {
         {...textProps}
         className={c(className, NAME)}
       >
-        {lable}
+        {label}
       </Text>
       {cloneElement(children, { ...children.props, id })}
     </>

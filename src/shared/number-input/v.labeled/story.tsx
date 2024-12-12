@@ -1,7 +1,8 @@
+import Flex from '~/shared/flex'
 import { type Props, type Story } from '~/shared/storybook'
-import TextInput from '~/shared/text-input'
+import Text from '~/shared/text'
 
-import Labled from './ui.labled'
+import LabledTextInput from './ui.labeled'
 
 interface State {
   //
@@ -13,9 +14,12 @@ export default {
 
     return (
       <div style={{ padding: '2rem' }}>
-        <Labled lable='Hello lable' {...state}>
-          <TextInput clearable={true} />
-        </Labled>
+        <LabledTextInput label='Ваш лабель' {...state}>
+          <Flex width='100%' direction='column'>
+            <Text color='red'>Здесь могла бы быть ваша ошибка</Text>
+            <Text color='green'>Ну или суксес</Text>
+          </Flex>
+        </LabledTextInput>
       </div>
     )
   },
@@ -35,5 +39,5 @@ export default {
     // { name: 'name', input: 'checkbox', defaultValue: false },
   ],
 
-  getName: (): string => Labled.displayName,
+  getName: () => LabledTextInput.displayName as string,
 } satisfies Story<State>

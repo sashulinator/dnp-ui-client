@@ -178,7 +178,7 @@ export default function Component(props: Props) {
                 <DataList.Item>
                   <Label children='Тип' />
                   <DataList.Value>
-                    <TypedField<Column, 'type', string, string, SelectProps<string>, HTMLInputElement>
+                    <TypedField<Column, 'type', string, string, SelectProps, HTMLInputElement>
                       component={Select}
                       size='1'
                       name={`${typedName}type`}
