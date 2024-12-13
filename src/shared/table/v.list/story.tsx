@@ -2,8 +2,8 @@ import Flex from '~/shared/flex'
 import type { Props, Story } from '~/shared/storybook'
 import { type Dictionary } from '~/utils/core'
 
-import type { Column } from '../../column/models.column'
-import List, { NAME } from '../ui/list'
+import type { Column } from '../ui/column/models.column'
+import List, { NAME } from './ui.list'
 
 interface State {}
 

@@ -3,7 +3,7 @@ import { type RootProps } from '@radix-ui/themes/dist/esm/components/table.d.ts'
 
 import React from 'react'
 
-import { type TableTypes } from '~/shared/table'
+import { type TableProps } from '~/shared/table'
 import { c } from '~/utils/core'
 
 import { type Item } from '../../../../../models/explorer'
@@ -13,8 +13,8 @@ import { NAME as ROOT_NAME } from '../../root'
 export interface Column<TDataItem extends Record<string, unknown>, TContext extends Record<string, unknown>> {
   accessorKey: keyof TDataItem
   name: string
-  cellProps?: TableTypes.CellProps | undefined
-  headerProps?: TableTypes.CellProps | undefined
+  cellProps?: TableProps.CellProps | undefined
+  headerProps?: TableProps.CellProps | undefined
   context?: TContext | undefined
   renderCell: (props: {
     accessorKey: keyof TDataItem

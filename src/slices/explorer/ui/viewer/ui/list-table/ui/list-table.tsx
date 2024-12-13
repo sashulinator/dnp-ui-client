@@ -1,4 +1,4 @@
-import { type ColumnTypes, ListTable, type ListTableTypes } from '~/shared/table'
+import { type ColumnTypes, ListTable, type ListTableProps } from '~/shared/table'
 import { deserializeItem } from '~/slices/explorer/lib/deserialize-item'
 import { type Dictionary, c, fns } from '~/utils/core'
 
@@ -19,7 +19,7 @@ export type RenderCellProps<TItem extends Dictionary, TContext extends Dictionar
 >
 
 export type Props<TItem extends Dictionary, TContext extends Dictionary> = Omit<
-  ListTableTypes.ListProps<TItem, TContext>,
+  ListTableProps.ListProps<TItem, TContext>,
   'list' | 'error' | 'loading'
 >
 

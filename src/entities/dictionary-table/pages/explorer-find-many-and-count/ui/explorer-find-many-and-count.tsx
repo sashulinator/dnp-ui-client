@@ -20,7 +20,7 @@ import {
   Column,
   type ColumnTypes,
   ListTable,
-  type ListTableTypes,
+  type ListTableProps,
   SearchColumn,
   type SearchColumnTypes,
 } from '~/shared/table'
@@ -44,7 +44,7 @@ import _SelectedcolumnsDialog from '../widgets/selected-items-dialog'
 import _SelectionActions from '../widgets/selection-actions'
 
 type TableContext = SearchColumnTypes.Context<Item['data']> &
-  ListTableTypes.SortTypes.Context<Item['data']> & { idKey: string } & {
+  ListTableProps.SortTypes.Context<Item['data']> & { idKey: string } & {
     selectedItemsController: Atom<Dictionary<Dictionary>>
   }
 
@@ -267,7 +267,7 @@ export default function Component(): JSX.Element {
    * private
    */
 
-  function getTableRowProps({ item, rowIndex }: ListTableTypes.RowProps<Row, TableContext>) {
+  function getTableRowProps({ item, rowIndex }: ListTableProps.RowProps<Row, TableContext>) {
     const value = get(item, explorer?.idKey) as string
     const isRemoving = Boolean(removingcolumns[value])
     return {

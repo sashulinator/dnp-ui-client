@@ -2,37 +2,37 @@ import { createElement } from 'react'
 
 import ErrorBoundary from '~/shared/error-boundary'
 import Flex from '~/shared/flex'
-import Table, { type TableTypes } from '~/shared/table'
 import Text from '~/shared/text'
 import { type Dictionary, c } from '~/utils/core'
 import { getPath, toPath } from '~/utils/dictionary'
 
-import { type Column } from '../../column/models.column'
-import { default as Sort } from '../widgets/sort'
+import { type Column } from '../ui/column/models.column'
+import Table, { type TableProps } from '../ui/table'
+import { default as Sort } from './widgets/sort'
 
 export type RowProps<TItem extends Dictionary, TContext extends Dictionary> = { item: TItem; rowIndex: number } & Props<
   TItem,
   TContext
 >
 
-export type Props<TItem extends Dictionary, TContext extends Dictionary> = TableTypes.RootProps & {
+export type Props<TItem extends Dictionary, TContext extends Dictionary> = TableProps.RootProps & {
   className?: string | undefined
   list: TItem[]
   columns: Column<TItem, TContext>[]
   context: TContext
-  getRowProps?: (params: { item: TItem; rowIndex: number } & Props<TItem, TContext>) => TableTypes.RowProps | undefined
-  getHeaderRowProps?: (params: Props<TItem, TContext>) => TableTypes.RowProps | undefined
-  getHeaderProps?: (params: Props<TItem, TContext>) => TableTypes.HeaderProps | undefined
+  getRowProps?: (params: { item: TItem; rowIndex: number } & Props<TItem, TContext>) => TableProps.RowProps | undefined
+  getHeaderRowProps?: (params: Props<TItem, TContext>) => TableProps.RowProps | undefined
+  getHeaderProps?: (params: Props<TItem, TContext>) => TableProps.HeaderProps | undefined
   getColumnHeaderCellProps?: (
     props: { params: Column<TItem, TContext> } & Props<TItem, TContext>,
-  ) => TableTypes.ColumnHeaderCellProps | undefined
+  ) => TableProps.ColumnHeaderCellProps | undefined
   getCellProps?: (
     params: { item: TItem; rowIndex: number; columnIndex: number; column: Column<TItem, TContext> } & Props<
       TItem,
       TContext
     >,
-  ) => TableTypes.CellProps | undefined
-  getBodyProps?: (params: Props<TItem, TContext>) => TableTypes.BodyProps | undefined
+  ) => TableProps.CellProps | undefined
+  getBodyProps?: (params: Props<TItem, TContext>) => TableProps.BodyProps | undefined
 }
 
 export const NAME = 'table-List'

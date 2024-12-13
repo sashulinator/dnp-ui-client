@@ -11,7 +11,7 @@ import { Pagination } from '~/shared/page'
 import { FetcherStatus } from '~/shared/query'
 import ScrollArea from '~/shared/scroll-area'
 import Section from '~/shared/section'
-import { type ColumnTypes, ListTable, type ListTableTypes, SearchColumn, type SearchColumnTypes } from '~/shared/table'
+import { type ColumnTypes, ListTable, type ListTableProps, SearchColumn, type SearchColumnTypes } from '~/shared/table'
 import Text, { HighlightedText } from '~/shared/text'
 import { JSONParam, NumberParam, useQueryParam, useQueryParams, withDefault } from '~/shared/use-query-params'
 import { type ToSort, useSort } from '~/slices/sort'
@@ -25,7 +25,7 @@ import _RunAnalyticsDialog from './widgets/run-analytics-dialog'
 import _SelectionActions from './widgets/selection-actions'
 
 type TableContext = SearchColumnTypes.Context<FlatTable> &
-  ListTableTypes.SortTypes.Context<FlatTable> & {
+  ListTableProps.SortTypes.Context<FlatTable> & {
     selectedItemsController: Atom<Dictionary<FlatTable>>
     idKey: string
   }

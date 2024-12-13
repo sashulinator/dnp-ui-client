@@ -1,6 +1,6 @@
 import { type Dictionary } from '~/utils/core'
 
-import { type CellProps } from '../table/ui/table'
+import { type TableProps } from '../table'
 
 export interface RenderCellProps<TItem extends Dictionary, TContext extends Dictionary> {
   accessorKey: keyof TItem
@@ -21,8 +21,8 @@ export interface RenderHeaderProps<TItem extends Dictionary, TContext extends Di
 export interface Column<TItem extends Dictionary, TContext extends Dictionary> {
   accessorKey: keyof TItem
   name: string
-  cellProps?: CellProps | undefined
-  headerProps?: CellProps | undefined
+  cellProps?: TableProps.CellProps | undefined
+  headerProps?: TableProps.CellProps | undefined
   renderCell: (props: RenderCellProps<TItem, TContext>) => React.ReactNode
   renderHeader: (props: RenderHeaderProps<TItem, TContext>) => React.ReactNode
 }
