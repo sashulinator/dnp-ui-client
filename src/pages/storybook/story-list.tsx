@@ -28,6 +28,7 @@ import uiPaginationWSwitcher from '~/shared/page/ui/pagination/widgets/switcher/
 import sharedSelectMultiple from '~/shared/select-multiple/story'
 import type { Story } from '~/shared/storybook'
 import tableList from '~/shared/table/v.list/story'
+import eProcessingWProcedureWValuePerColumn from '~/shared/table/v.matrix/story'
 import uiTagPicker from '~/shared/tag-picker/story/index'
 import uiTagPickerWTag from '~/shared/tag-picker/widgets/tag/story'
 import sharedTextInput from '~/shared/text-input/story'
@@ -45,6 +46,7 @@ export const storyList: Story<any>[] = [
    * entities
    */
 
+  eProcessingWProcedureWValuePerColumn,
   eProcessingwProcedureSchemaForm,
   entityProcessingForm,
   explorerViewer,

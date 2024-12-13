@@ -1,5 +1,5 @@
 export { SLICE } from './constants.slice'
 
-export * from './dcservice'
+export * as Dcservice from './dcservice'
 
-export type { Column, Table, Dcdatabase, FlatTable } from './models'
+export type { Table, Dcdatabase, FlatTable } from './models'

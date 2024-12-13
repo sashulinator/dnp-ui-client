@@ -64,7 +64,7 @@ export const routes = {
 
   processing_create: {
     getName: (): string => 'Запуск',
-    getPath: (): string => `${PROCESSING_NAME}/create`,
+    getPath: (): string => `/${PROCESSING_NAME}/create`,
     getUrl() {
       return this.getPath()
     },
