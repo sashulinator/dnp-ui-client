@@ -16,17 +16,11 @@ import { FetcherStatus } from '~/shared/query'
 import ScrollArea from '~/shared/scroll-area'
 import { useSearch } from '~/shared/search'
 import Section from '~/shared/section'
-import {
-  Column,
-  type ColumnTypes,
-  ListTable,
-  type ListTableProps,
-  SearchColumn,
-  type SearchColumnTypes,
-} from '~/shared/table'
+import { ListTable } from '~/shared/table'
 import '~/shared/table'
 import TextField from '~/shared/text-field'
 import { JSONParam } from '~/shared/use-query-params'
+import { toTableColumn } from '~/slices/database'
 import { type Item, Viewer } from '~/slices/explorer'
 import { type ToSort, useSort } from '~/slices/sort'
 import { createActionColumn } from '~/slices/table'
@@ -43,8 +37,8 @@ import _RowFormDialog, { useCreateRowForm } from '../widgets/row-form-dialog'
 import _SelectedcolumnsDialog from '../widgets/selected-items-dialog'
 import _SelectionActions from '../widgets/selection-actions'
 
-type TableContext = SearchColumnTypes.Context<Item['data']> &
-  ListTableProps.SortTypes.Context<Item['data']> & { idKey: string } & {
+type TableContext = ListTable.Search.Context<Item['data']> &
+  ListTable.Sort.Context<Item['data']> & { idKey: string } & {
     selectedItemsController: Atom<Dictionary<Dictionary>>
   }
 
@@ -85,7 +79,7 @@ export default function Component(): JSX.Element {
   const tableRenderDelay = useRenderDelay(TICK_MS * 4)
   const [columnSearchParams, setColumnSearchParams] = useQueryParam<
     string,
-    SearchColumnTypes.ReplaceValueByFilter<Item['data']>
+    ListTable.Search.ReplaceValueByFilter<Item['data']>
   >('columnSearch', JSONParam as Any)
 
   const requestParams = {
@@ -267,7 +261,7 @@ export default function Component(): JSX.Element {
    * private
    */
 
-  function getTableRowProps({ item, rowIndex }: ListTableProps.RowProps<Row, TableContext>) {
+  function getTableRowProps({ item, rowIndex }: ListTable.RowProps<Row, TableContext>) {
     const value = get(item, explorer?.idKey) as string
     const isRemoving = Boolean(removingcolumns[value])
     return {
@@ -302,13 +296,11 @@ export default function Component(): JSX.Element {
     confirmDialogController.set({ open: false })
   }
 
-  function buildUiColumns(): ColumnTypes.Column<Dictionary<Dictionary>, TableContext>[] {
+  function buildUiColumns(): ListTable.ColumnProps<Dictionary<Dictionary>, TableContext>[] {
     if (dictionaryTable?.columns === undefined) return []
 
-    const columns = dictionaryTable.columns.map((column) =>
-      Column.fromDatabaseColumn<Item['data'], TableContext>(column),
-    )
-    const searchColumns = columns.map(SearchColumn.toSearchColumn)
+    const columns = dictionaryTable.columns.map((column) => toTableColumn<Item['data'], TableContext>(column))
+    const searchColumns = columns.map(ListTable.Search.toSearchColumn)
     const sortColumns = searchColumns.map(ListTable.Sort.injectIntoHeader)
 
     const actionsColumn = createActionColumn({
@@ -322,7 +314,7 @@ export default function Component(): JSX.Element {
       },
     })
     const selectionColumn = createSelectionColumn()
-    return [selectionColumn, ...sortColumns, actionsColumn] as ColumnTypes.Column<
+    return [selectionColumn, ...sortColumns, actionsColumn] as ListTable.ColumnProps<
       Dictionary<Dictionary>,
       TableContext
     >[]

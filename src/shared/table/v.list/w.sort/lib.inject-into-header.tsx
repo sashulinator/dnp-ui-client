@@ -3,13 +3,13 @@ import React from 'react'
 import Flex from '~/shared/flex'
 import { type Dictionary } from '~/utils/core'
 
-import { type Column } from '../../../../ui/column/models.column'
-import { type Context } from '../models/contex'
-import { HeaderCell } from '../widgets/_header-cell'
+import { type ColumnProps } from '../ui.list'
+import { type Context } from './models.contex'
+import { HeaderCell } from './w._header-cell'
 
 export function injectIntoHeader<TItem extends Dictionary, TContext extends Context<TItem>>(
-  column: Column<TItem, TContext>,
-): Column<TItem, TContext> {
+  column: ColumnProps<TItem, TContext>,
+): ColumnProps<TItem, TContext> {
   return {
     ...column,
     renderHeader: (props) => {
@@ -20,5 +20,5 @@ export function injectIntoHeader<TItem extends Dictionary, TContext extends Cont
         </Flex>
       )
     },
-  } satisfies Column<TItem, TContext>
+  } satisfies ColumnProps<TItem, TContext>
 }

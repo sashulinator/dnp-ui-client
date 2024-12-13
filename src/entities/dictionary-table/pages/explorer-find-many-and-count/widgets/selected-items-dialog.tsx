@@ -6,7 +6,8 @@ import Dialog from '~/shared/dialog'
 import Flex from '~/shared/flex'
 import Icon from '~/shared/icon'
 import ScrollArea from '~/shared/scroll-area'
-import { Column, ListTable } from '~/shared/table'
+import { ListTable } from '~/shared/table'
+import { toTableColumn } from '~/slices/database'
 import { createActionColumn } from '~/slices/table'
 import { type Dictionary } from '~/utils/core'
 import { useSubscribeUpdate } from '~/utils/core-hooks'
@@ -45,7 +46,7 @@ export default function Component(props: Props): JSX.Element {
         </Dialog.Title>
 
         <ScrollArea scrollbars='horizontal'>
-          <ListTable context={{}} columns={selectedUiColumns} list={Object.values(selectedcolumns)} />
+          <ListTable.default context={{}} columns={selectedUiColumns} list={Object.values(selectedcolumns)} />
         </ScrollArea>
       </Dialog.Content>
     </Dialog.Root>
@@ -58,7 +59,7 @@ export default function Component(props: Props): JSX.Element {
   function buildSelectedUiColumns() {
     if (dictionaryTable?.columns === undefined) return []
 
-    const columns = dictionaryTable.columns.map((column) => Column.fromDatabaseColumn(column))
+    const columns = dictionaryTable.columns.map((column) => toTableColumn(column))
 
     const actionsColumn = createActionColumn({
       renderHeader: () => '',

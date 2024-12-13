@@ -4,11 +4,11 @@ import { type Dictionary, assertDefined } from '~/utils/core'
 import { useSubscribeUpdate } from '~/utils/core-hooks'
 import { add } from '~/utils/dictionary'
 
-import { type RenderHeaderProps } from '../../../../ui/column/models.column'
-import { type Context } from '../models/contex'
+import { type RenderHeaderProps } from '../ui.list'
+import { type Context } from './models.contex'
 
 export function HeaderCell<TItem extends Dictionary, TContext extends Context<TItem>>({
-  accessorKey,
+  name: accessorKey,
   context,
 }: RenderHeaderProps<TItem, TContext>): JSX.Element {
   useSubscribeUpdate(subscribes)

@@ -1,4 +1,4 @@
-import { type ColumnTypes, ListTable, type ListTableProps } from '~/shared/table'
+import { ListTable } from '~/shared/table'
 import { deserializeItem } from '~/slices/explorer/lib/deserialize-item'
 import { type Dictionary, c, fns } from '~/utils/core'
 
@@ -6,20 +6,20 @@ import { type Item } from '../../../../../models/explorer'
 import { useContext } from '../../../models/context'
 import { NAME as ROOT_NAME } from '../../root'
 
-export type Column<TItem extends Dictionary, TContext extends Dictionary> = ColumnTypes.Column<TItem, TContext>
+export type ColumnProps<TItem extends Dictionary, TContext extends Dictionary> = ListTable.ColumnProps<TItem, TContext>
 
-export type RenderHeaderProps<TItem extends Dictionary, TContext extends Dictionary> = ColumnTypes.RenderHeaderProps<
+export type RenderHeaderProps<TItem extends Dictionary, TContext extends Dictionary> = ListTable.RenderHeaderProps<
   TItem,
   TContext
 >
 
-export type RenderCellProps<TItem extends Dictionary, TContext extends Dictionary> = ColumnTypes.RenderCellProps<
+export type RenderCellProps<TItem extends Dictionary, TContext extends Dictionary> = ListTable.RenderCellProps<
   TItem,
   TContext
 >
 
 export type Props<TItem extends Dictionary, TContext extends Dictionary> = Omit<
-  ListTableProps.ListProps<TItem, TContext>,
+  ListTable.ListProps<TItem, TContext>,
   'list' | 'error' | 'loading'
 >
 
@@ -36,7 +36,7 @@ export default function Component<TItem extends Item, TContext extends Dictionar
   const deserializedItemList = items.map(deserializeItem)
 
   return (
-    <ListTable<TItem['data'], TContext>
+    <ListTable.default<TItem['data'], TContext>
       {...listTableProps}
       className={c(props.className, NAME)}
       list={deserializedItemList}

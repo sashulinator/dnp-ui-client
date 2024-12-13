@@ -1,17 +1,17 @@
 // TODO убрать зависимость от common
-import { type Column as DatabaseColumn } from '~/common/slices/table'
+import { type Column } from '~/common/slices/table'
 import { type Dictionary } from '~/utils/core'
 import { toHtml } from '~/utils/md'
 
-import { type Column } from './models.column'
+import { type ColumnProps } from '../../shared/table/v.list/ui.list'
 
-export function fromDatabaseColumn<TItem extends Dictionary, TContext extends Dictionary>(
-  databaseColumn: DatabaseColumn,
-): Column<TItem, TContext> {
+export function toTableColumn<TItem extends Dictionary, TContext extends Dictionary>(
+  databaseColumn: Column,
+): ColumnProps<TItem, TContext> {
   return {
-    accessorKey: databaseColumn.name,
-    name: databaseColumn.display,
-    renderHeader: ({ name }) => toHtml(name),
+    name: databaseColumn.name,
+    display: databaseColumn.display,
+    renderHeader: (item) => (item.display ? toHtml(item.display) : (item.name as string)),
     renderCell: ({ value }) => value as string,
     headerProps: {
       style: {
@@ -26,5 +26,5 @@ export function fromDatabaseColumn<TItem extends Dictionary, TContext extends Di
         verticalAlign: 'middle',
       },
     },
-  } satisfies Column<TItem, TContext>
+  }
 }

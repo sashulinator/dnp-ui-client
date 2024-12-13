@@ -1,12 +1,12 @@
 import { type Dictionary } from '~/utils/core'
 
-import { type Column } from '../column/models.column'
+import { type ColumnProps } from '..'
 import { type Context } from './models.contex'
 import { HeaderCell } from './w._header-cell'
 
 export function toSearchColumn<TItem extends Dictionary, TContext extends Context<TItem>>(
-  column: Column<TItem, TContext>,
-): Column<TItem, TContext> {
+  column: ColumnProps<TItem, TContext>,
+): ColumnProps<TItem, TContext> {
   return {
     ...column,
     renderHeader: HeaderCell,
@@ -26,5 +26,5 @@ export function toSearchColumn<TItem extends Dictionary, TContext extends Contex
         paddingLeft: 'calc((var(--space-1) + var(--space-2))',
       },
     },
-  } satisfies Column<TItem, TContext>
+  } satisfies ColumnProps<TItem, TContext>
 }

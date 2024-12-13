@@ -1,11 +1,11 @@
 import Button, { DangerButton } from '~/shared/button'
 import Flex from '~/shared/flex'
 import Icon from '~/shared/icon'
-import { type ColumnTypes } from '~/shared/table'
+import { type ListTable } from '~/shared/table'
 import Text from '~/shared/text'
 import { type Dictionary } from '~/utils/core'
 
-interface Props<TItem extends Dictionary> extends Partial<ColumnTypes.Column<TItem, Dictionary>> {
+interface Props<TItem extends Dictionary> extends Partial<ListTable.ColumnProps<TItem, Dictionary>> {
   headerTitle?: string
   justify?: 'center' | 'end' | 'start' | undefined
   onTrashClick?: (e: React.MouseEvent, item: TItem) => void
@@ -15,13 +15,13 @@ interface Props<TItem extends Dictionary> extends Partial<ColumnTypes.Column<TIt
 
 export function createActionColumn<TItem extends Dictionary>(
   props: Props<TItem>,
-): ColumnTypes.Column<TItem, Dictionary> {
+): ListTable.ColumnProps<TItem, Dictionary> {
   const headerTitle = props.headerTitle
 
   return {
-    accessorKey: 'action',
-    name: 'Действия',
-    renderHeader: ({ name }) => {
+    name: 'action',
+    display: 'Действия',
+    renderHeader: ({ display: name }) => {
       return (
         <Text size='1' color='gray'>
           {headerTitle ?? name}

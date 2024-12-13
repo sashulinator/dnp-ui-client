@@ -19,6 +19,7 @@ export { type RowFormProps } from '../table/ui/row-form'
  */
 
 export { toColumns, type Context as ColumnContext } from '../table/lib/to-columns'
+export { toTableColumn } from './lib.to-table-column'
 
 /**
  * models

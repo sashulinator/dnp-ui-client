@@ -1,6 +1,6 @@
 import { Checkbox } from '@radix-ui/themes'
 
-import { type ColumnTypes } from '~/shared/table'
+import { type ListTable } from '~/shared/table'
 import { type Dictionary } from '~/utils/core'
 import { useSubscribeUpdate } from '~/utils/core-hooks'
 import { remove } from '~/utils/dictionary'
@@ -12,13 +12,13 @@ export type Context<TItem> = {
   selectedItemsController: Atom<Dictionary<TItem>>
 }
 
-export function createSelectionColumn<TItem extends Dictionary, TContext extends Context<TItem>>(): ColumnTypes.Column<
-  TItem,
-  TContext
-> {
+export function createSelectionColumn<
+  TItem extends Dictionary,
+  TContext extends Context<TItem>,
+>(): ListTable.ColumnProps<TItem, TContext> {
   return {
-    accessorKey: 'action',
-    name: 'Действия',
+    name: 'action',
+    display: 'Действия',
     renderHeader: ({ context, list }) => {
       // eslint-disable-next-line react-hooks/rules-of-hooks
       useSubscribeUpdate((update) => [context.selectedItemsController.subscribe(update)])

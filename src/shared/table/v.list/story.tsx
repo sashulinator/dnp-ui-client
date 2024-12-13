@@ -2,8 +2,7 @@ import Flex from '~/shared/flex'
 import type { Props, Story } from '~/shared/storybook'
 import { type Dictionary } from '~/utils/core'
 
-import type { Column } from '../ui/column/models.column'
-import List, { NAME } from './ui.list'
+import List, { type ColumnProps, NAME } from './ui.list'
 
 interface State {}
 
@@ -62,23 +61,23 @@ const list: User[] = [
   },
 ]
 
-const columns: Column<User, Dictionary<string>>[] = [
+const columns: ColumnProps<User, Dictionary<string>>[] = [
   {
-    accessorKey: 'id',
+    name: 'id',
     renderCell: ({ value }) => value,
     renderHeader: () => 'ID',
-    name: 'ID',
+    display: 'ID',
   },
   {
-    accessorKey: 'username',
+    name: 'username',
     renderHeader: () => 'Имя пользователя',
     renderCell: ({ value }) => value,
-    name: 'Имя пользователя',
+    display: 'Имя пользователя',
   },
   {
-    accessorKey: 'age',
+    name: 'age',
     renderHeader: () => 'Возраст',
     renderCell: ({ value }) => value,
-    name: 'Возраст',
+    display: 'Возраст',
   },
 ]

@@ -6,9 +6,34 @@ import Text from '~/shared/text'
 import { type Dictionary, c } from '~/utils/core'
 import { getPath, toPath } from '~/utils/dictionary'
 
-import { type Column } from '../ui/column/models.column'
 import Table, { type TableProps } from '../ui/table'
-import { default as Sort } from './widgets/sort'
+
+export { type TableProps }
+
+export interface RenderCellProps<TItem extends Dictionary, TContext extends Dictionary> {
+  name: keyof TItem
+  display?: string | undefined
+  value: TItem[keyof TItem]
+  list: TItem[]
+  item: TItem
+  context: TContext
+}
+
+export interface RenderHeaderProps<TItem extends Dictionary, TContext extends Dictionary> {
+  name: keyof TItem
+  context: TContext
+  display?: string | undefined
+  list: TItem[]
+}
+
+export interface ColumnProps<TItem extends Dictionary, TContext extends Dictionary> {
+  name: keyof TItem
+  display?: string | undefined
+  cellProps?: TableProps.CellProps | undefined
+  headerProps?: TableProps.CellProps | undefined
+  renderCell: (props: RenderCellProps<TItem, TContext>) => React.ReactNode
+  renderHeader: (props: RenderHeaderProps<TItem, TContext>) => React.ReactNode
+}
 
 export type RowProps<TItem extends Dictionary, TContext extends Dictionary> = { item: TItem; rowIndex: number } & Props<
   TItem,
@@ -18,16 +43,16 @@ export type RowProps<TItem extends Dictionary, TContext extends Dictionary> = { 
 export type Props<TItem extends Dictionary, TContext extends Dictionary> = TableProps.RootProps & {
   className?: string | undefined
   list: TItem[]
-  columns: Column<TItem, TContext>[]
+  columns: ColumnProps<TItem, TContext>[]
   context: TContext
   getRowProps?: (params: { item: TItem; rowIndex: number } & Props<TItem, TContext>) => TableProps.RowProps | undefined
   getHeaderRowProps?: (params: Props<TItem, TContext>) => TableProps.RowProps | undefined
   getHeaderProps?: (params: Props<TItem, TContext>) => TableProps.HeaderProps | undefined
   getColumnHeaderCellProps?: (
-    props: { params: Column<TItem, TContext> } & Props<TItem, TContext>,
+    props: { column: ColumnProps<TItem, TContext> } & Props<TItem, TContext>,
   ) => TableProps.ColumnHeaderCellProps | undefined
   getCellProps?: (
-    params: { item: TItem; rowIndex: number; columnIndex: number; column: Column<TItem, TContext> } & Props<
+    params: { item: TItem; rowIndex: number; columnIndex: number; column: ColumnProps<TItem, TContext> } & Props<
       TItem,
       TContext
     >,
@@ -65,14 +90,14 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
             <Table.Row {...getHeaderRowProps?.(props)}>
               {columns.map((column, i) => {
                 const mergedProps = {
-                  ...getColumnHeaderCellProps?.({ params: column, ...props }),
+                  ...getColumnHeaderCellProps?.({ column: column, ...props }),
                   ...column.headerProps,
                 }
                 return (
                   <Table.ColumnHeaderCell key={i} {...mergedProps}>
                     {createElement(column.renderHeader, {
-                      accessorKey: column.accessorKey,
                       name: column.name,
+                      display: column.display,
                       list,
                       context: context as TContext,
                     })}
@@ -95,10 +120,10 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
                       return (
                         <Table.Cell key={columnIndex} {...mergedProps}>
                           {createElement(column.renderCell, {
-                            accessorKey: column.accessorKey,
-                            value: getPath(item, toPath(column.accessorKey.toString())),
-                            context: context as TContext,
                             name: column.name,
+                            value: getPath(item, toPath(column.name.toString())),
+                            context: context as TContext,
+                            display: column.display,
                             item,
                             list,
                           })}
@@ -129,4 +154,3 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
 }
 
 Component.displayName = NAME
-Component.Sort = Sort

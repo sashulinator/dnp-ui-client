@@ -11,7 +11,7 @@ import { Pagination } from '~/shared/page'
 import { FetcherStatus } from '~/shared/query'
 import ScrollArea from '~/shared/scroll-area'
 import Section from '~/shared/section'
-import { type ColumnTypes, ListTable, type ListTableProps, SearchColumn, type SearchColumnTypes } from '~/shared/table'
+import { ListTable } from '~/shared/table'
 import Text, { HighlightedText } from '~/shared/text'
 import { JSONParam, NumberParam, useQueryParam, useQueryParams, withDefault } from '~/shared/use-query-params'
 import { type ToSort, useSort } from '~/slices/sort'
@@ -24,8 +24,8 @@ import _Heading from './widgets/heading'
 import _RunAnalyticsDialog from './widgets/run-analytics-dialog'
 import _SelectionActions from './widgets/selection-actions'
 
-type TableContext = SearchColumnTypes.Context<FlatTable> &
-  ListTableProps.SortTypes.Context<FlatTable> & {
+type TableContext = ListTable.Sort.Context<FlatTable> &
+  ListTable.Search.Context<FlatTable> & {
     selectedItemsController: Atom<Dictionary<FlatTable>>
     idKey: string
   }
@@ -43,7 +43,7 @@ export default function Component(): JSX.Element {
 
   const [columnSearchParams, setColumnSearchParams] = useQueryParam<
     string,
-    SearchColumnTypes.ReplaceValueByFilter<FlatTable>
+    ListTable.Search.ReplaceValueByFilter<FlatTable>
   >('columnSearch', JSONParam as Any)
 
   const [{ page = 1, limit = 100 }, setPaginationParams] = useQueryParams(
@@ -105,7 +105,7 @@ export default function Component(): JSX.Element {
                 refetch={tableListFetcher.refetch}
               >
                 <ScrollArea scrollbars='horizontal'>
-                  <ListTable<FlatTable, TableContext>
+                  <ListTable.default<FlatTable, TableContext>
                     className={c(cssAnimations.Appear)}
                     list={tableListFetcher.data?.items ?? []}
                     columns={uiColumns}
@@ -135,54 +135,54 @@ export default function Component(): JSX.Element {
     </>
   )
 
-  function buildUiColumns(): ColumnTypes.Column<FlatTable, TableContext>[] {
+  function buildUiColumns(): ListTable.ColumnProps<FlatTable, TableContext>[] {
     const selectionColumn = createSelectionColumn<FlatTable, TableContext>()
-    const columns: ColumnTypes.Column<FlatTable, TableContext>[] = [
+    const columns: ListTable.ColumnProps<FlatTable, TableContext>[] = [
       {
-        accessorKey: 'serviceDisplay',
-        name: 'Сервис',
+        name: 'serviceDisplay',
+        display: 'Сервис',
         renderCell: (props) => <HighlightedText>{props.item.serviceDisplay}</HighlightedText>,
-        renderHeader: (props) => props.name,
+        renderHeader: (props) => props.display,
       },
       {
-        accessorKey: 'databaseName',
-        name: 'База данных',
+        name: 'databaseName',
+        display: 'База данных',
         renderCell: (props) => <HighlightedText>{props.item.databaseName}</HighlightedText>,
-        renderHeader: (props) => props.name,
+        renderHeader: (props) => props.display,
       },
       {
-        accessorKey: 'databaseDisplay',
-        name: '(бизнес название)',
+        name: 'databaseDisplay',
+        display: '(бизнес название)',
         renderCell: (props) => <Text color='gray'>{props.item.databaseDisplay}</Text>,
-        renderHeader: (props) => props.name,
+        renderHeader: (props) => props.display,
       },
       {
-        accessorKey: 'schemaName',
-        name: 'Схема',
+        name: 'schemaName',
+        display: 'Схема',
         renderCell: (props) => <HighlightedText>{props.item.schemaName}</HighlightedText>,
-        renderHeader: (props) => props.name,
+        renderHeader: (props) => props.display,
       },
       {
-        accessorKey: 'schemaDisplay',
-        name: '(бизнес название)',
+        name: 'schemaDisplay',
+        display: '(бизнес название)',
         renderCell: (props) => <Text color='gray'>{props.item.schemaDisplay}</Text>,
-        renderHeader: (props) => props.name,
+        renderHeader: (props) => props.display,
       },
       {
-        accessorKey: 'name',
-        name: 'Таблица',
+        name: 'name',
+        display: 'Таблица',
         renderCell: (props) => <HighlightedText>{props.item.name}</HighlightedText>,
-        renderHeader: (props) => props.name,
+        renderHeader: (props) => props.display,
       },
       {
-        accessorKey: 'display',
-        name: '(бизнес название)',
+        name: 'display',
+        display: '(бизнес название)',
         renderCell: (props) => <Text color='gray'>{props.item.display}</Text>,
-        renderHeader: (props) => props.name,
+        renderHeader: (props) => props.display,
       },
     ]
 
-    const searchColumns = columns.map(SearchColumn.toSearchColumn)
+    const searchColumns = columns.map(ListTable.Search.toSearchColumn)
     const sortColumns = searchColumns.map(ListTable.Sort.injectIntoHeader)
 
     return [selectionColumn, ...sortColumns]
