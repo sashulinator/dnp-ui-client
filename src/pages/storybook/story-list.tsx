@@ -5,11 +5,8 @@ import entitieAnalyticsFormWSchema from '~/entities/analytics/ui/run-form/widget
 import entitieAnalyticsFormWTable from '~/entities/analytics/ui/run-form/widgets/table/story'
 import eDcserviceForm from '~/entities/database-container/dcservice/ui/form/story'
 import normalizationConfigForm from '~/entities/normalization-config/ui/form/story'
-import operationalTableForm from '~/entities/operational-table/ui/form/story'
 import entityProcessingForm from '~/entities/processing/ui/form/story'
 import eProcessingwProcedureSchemaForm from '~/entities/processing/w.procedure/ui/schema-form/story'
-import storeConfigForm from '~/entities/store-config/ui/form/story'
-import targetTableForm from '~/entities/target-table/ui/form/story'
 import uiButton from '~/shared/button/story'
 import uiCard from '~/shared/card/story'
 import uiCodeEditor from '~/shared/code-editor/story'
@@ -41,8 +38,6 @@ import uiTreeVNested from '~/shared/tree/variants/nested/story'
 import explorerViewer from '~/slices/explorer/ui/viewer/story'
 import linkMenuLinkMenu from '~/slices/link-menu/ui/link-menu/story'
 import sortButton from '~/slices/sort/components/button/story'
-import databasTableColumnForm from '~/slices/table/ui/column-form/story'
-import databasTableDatabaseTableForm from '~/slices/table/ui/table-form/story'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const storyList: Story<any>[] = [
@@ -54,12 +49,7 @@ export const storyList: Story<any>[] = [
   entityProcessingForm,
   explorerViewer,
   normalizationConfigForm,
-  operationalTableForm,
-  databasTableColumnForm,
-  databasTableDatabaseTableForm,
   debugRenderCounter,
-  storeConfigForm,
-  targetTableForm,
   entitiesAnalyticsForm,
   entitieAnalyticsFormWColumn,
   entitieAnalyticsFormWTable,

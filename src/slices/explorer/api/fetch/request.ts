@@ -1,10 +1,9 @@
 import { type Response } from '~/shared/api'
 import api from '~/shared/api'
 
-import { SYSNAME } from '../../constants/name'
 import { type Explorer, type StoreConfig } from '../../models/explorer'
 
-export const NAME = `${SYSNAME}.fetch`
+export const NAME = `explorer.fetch`
 
 export type RequestData = {
   paths: string[]

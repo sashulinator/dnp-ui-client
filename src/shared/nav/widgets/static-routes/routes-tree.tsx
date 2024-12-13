@@ -28,36 +28,6 @@ export function getRoutesTree() {
     })
   }
 
-  if (routes.dictionaryTables_findManyAndCount.payload.rolesAllowed.some((role) => auth.hasRole(role, 'dnp'))) {
-    routsTree.push({
-      id: 'Таблицы',
-      name: 'Таблицы',
-      renderIcon: () => <Icon name='Table' />,
-      children: [
-        {
-          id: routes.dictionaryTables_findManyAndCount.getName(),
-          name: routes.dictionaryTables_findManyAndCount.getName(),
-          link: { url: routes.dictionaryTables_findManyAndCount.getPath() },
-        },
-        {
-          id: routes.rawData_findManyAndCountTables.getName(),
-          name: routes.rawData_findManyAndCountTables.getName(),
-          link: { url: routes.rawData_findManyAndCountTables.getPath() },
-        },
-        {
-          id: routes.operationalTables.getName(),
-          name: routes.operationalTables.getName(),
-          link: { url: routes.operationalTables.getPath() },
-        },
-        {
-          id: routes.targetTables.getName(),
-          name: routes.targetTables.getName(),
-          link: { url: routes.targetTables.getPath() },
-        },
-      ],
-    })
-  }
-
   if (auth.hasRole(roles.nrm_get, 'dnp')) {
     const children: TreeItem[] = []
 
