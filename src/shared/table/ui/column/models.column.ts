@@ -1,6 +1,6 @@
 import { type Dictionary } from '~/utils/core'
 
-import { type CellProps } from '../../table/ui/table'
+import { type CellProps } from '../table/ui/table'
 
 export interface RenderCellProps<TItem extends Dictionary, TContext extends Dictionary> {
   accessorKey: keyof TItem

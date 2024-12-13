@@ -1,4 +1,4 @@
-import { fromDatabaseColumn } from './lib/from-database-column'
+import { fromDatabaseColumn } from './lib.from-database-column'
 
 const Column = {
   fromDatabaseColumn,
@@ -6,4 +6,4 @@ const Column = {
 
 export default Column
 
-export * from './models/column'
+export * from './models.column'

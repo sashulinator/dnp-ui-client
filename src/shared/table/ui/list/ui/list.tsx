@@ -7,7 +7,7 @@ import Text from '~/shared/text'
 import { type Dictionary, c } from '~/utils/core'
 import { getPath, toPath } from '~/utils/dictionary'
 
-import { type Column } from '../../column/models/column'
+import { type Column } from '../../column/models.column'
 import { default as Sort } from '../widgets/sort'
 
 export type RowProps<TItem extends Dictionary, TContext extends Dictionary> = { item: TItem; rowIndex: number } & Props<

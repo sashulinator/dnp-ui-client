@@ -3,7 +3,7 @@ import { type Column as DatabaseColumn } from '~/common/slices/table'
 import { type Dictionary } from '~/utils/core'
 import { toHtml } from '~/utils/md'
 
-import { type Column } from '../models/column'
+import { type Column } from './models.column'
 
 export function fromDatabaseColumn<TItem extends Dictionary, TContext extends Dictionary>(
   databaseColumn: DatabaseColumn,

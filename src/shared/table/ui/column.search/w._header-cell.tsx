@@ -9,8 +9,8 @@ import { type FilterConfig, FilterConfigurator, toFilter, toFilterConfig } from 
 import { type Dictionary, assertDefined } from '~/utils/core'
 import { add } from '~/utils/dictionary'
 
-import { type RenderHeaderProps } from '../../column/models/column'
-import { type Context } from '../models/contex'
+import { type RenderHeaderProps } from '../column/models.column'
+import { type Context } from './models.contex'
 
 export function HeaderCell<TItem extends Dictionary, TContext extends Context<TItem>>({
   accessorKey,

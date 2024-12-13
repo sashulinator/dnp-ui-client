@@ -3,7 +3,7 @@ import React from 'react'
 import Flex from '~/shared/flex'
 import { type Dictionary } from '~/utils/core'
 
-import { type Column } from '../../../../column/models/column'
+import { type Column } from '../../../../column/models.column'
 import { type Context } from '../models/contex'
 import { HeaderCell } from '../widgets/_header-cell'
 
