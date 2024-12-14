@@ -1,14 +1,10 @@
 /**
  * ui
  */
-import { Select } from '@radix-ui/themes'
+import { default as Select } from './ui/select'
 
 export default Select
-export type { RootProps as SelectRootProps } from '@radix-ui/themes/dist/esm/components/select.d.ts'
-export type { GroupProps as SelectGroupProps } from '@radix-ui/themes/dist/esm/components/select.d.ts'
-export type { ItemProps as SelectItemProps } from '@radix-ui/themes/dist/esm/components/select.d.ts'
-export type { ContentProps as SelectContentProps } from '@radix-ui/themes/dist/esm/components/select.d.ts'
-export type { TriggerProps as SelectTriggerProps } from '@radix-ui/themes/dist/esm/components/select.d.ts'
+export type { SelectProps } from './ui/select'
 
 export type Option = {
   value: string
