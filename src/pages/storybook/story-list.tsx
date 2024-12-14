@@ -21,11 +21,13 @@ import uiFormWKeyValue from '~/shared/form/ui/key-value/story'
 import uiFormWTextArea from '~/shared/form/ui/text-area/story'
 import uiFormWTextField from '~/shared/form/w.string-field/story'
 import sharedFormETextInputVShared from '~/shared/form/w.string-field/v.typed/story'
+import sharedFormUnionField from '~/shared/form/w.union-field/v.typed/story'
 import sharedlinkTree from '~/shared/link-tree/story'
 import uiPagination from '~/shared/page/ui/pagination/story'
 import uiPaginationWInfo from '~/shared/page/ui/pagination/widgets/info/story'
 import uiPaginationWSwitcher from '~/shared/page/ui/pagination/widgets/switcher/story'
 import sharedSelectMultiple from '~/shared/select-multiple/story'
+import selectSelectWInput from '~/shared/select/v.labeled/story'
 import type { Story } from '~/shared/storybook'
 import tableList from '~/shared/table/v.list/story'
 import eProcessingWProcedureWValuePerColumn from '~/shared/table/v.matrix/story'
@@ -63,6 +65,7 @@ export const storyList: Story<any>[] = [
    * shared
    */
 
+  selectSelectWInput,
   sharedFormETextInputVShared,
   sharedTextInput,
   sharedSelectMultiple,
@@ -75,6 +78,7 @@ export const storyList: Story<any>[] = [
   uiCollapse,
   tableList,
   sortButton,
+  sharedFormUnionField,
   uiTextHighlighter,
   uiTagPicker,
   uiTagPickerWTag,

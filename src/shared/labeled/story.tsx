@@ -1,7 +1,7 @@
 import { type Props, type Story } from '~/shared/storybook'
 import TextInput from '~/shared/text-input'
 
-import Labled from './ui.labeled'
+import Labeled from './ui.labeled'
 
 interface State {
   //
@@ -13,9 +13,9 @@ export default {
 
     return (
       <div style={{ padding: '2rem' }}>
-        <Labled label='Hello lable' {...state}>
+        <Labeled label='Hello lable' {...state}>
           <TextInput clearable={true} />
-        </Labled>
+        </Labeled>
       </div>
     )
   },
@@ -35,5 +35,5 @@ export default {
     // { name: 'name', input: 'checkbox', defaultValue: false },
   ],
 
-  getName: (): string => Labled.displayName,
+  getName: (): string => Labeled.displayName,
 } satisfies Story<State>

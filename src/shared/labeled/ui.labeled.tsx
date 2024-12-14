@@ -9,7 +9,7 @@ export type Props = TextProps & {
   label?: React.ReactNode
 }
 
-const NAME = 'labled-Labled'
+const NAME = 'labled-Labeled'
 
 export default function Component(props: Props): JSX.Element {
   const { className, children, label, ...textProps } = props
@@ -39,4 +39,4 @@ export default function Component(props: Props): JSX.Element {
 
 Component.displayName = NAME
 
-export { type Props as LabledProps }
+export { type Props as LabeledProps }

@@ -1,8 +1,6 @@
-import Flex from '~/shared/flex'
 import { type Props, type Story } from '~/shared/storybook'
-import Text from '~/shared/text'
 
-import LabeledTextInput from './ui.labeled'
+import SelectInput from './ui.labeled'
 
 interface State {
   //
@@ -14,12 +12,7 @@ export default {
 
     return (
       <div style={{ padding: '2rem' }}>
-        <LabeledTextInput label='Ваш лабель' {...state}>
-          <Flex width='100%' direction='column'>
-            <Text color='red'>Здесь могла бы быть ваша ошибка</Text>
-            <Text color='green'>Ну или суксес</Text>
-          </Flex>
-        </LabeledTextInput>
+        <SelectInput {...state} options={options} label='Ваш лабель' />
       </div>
     )
   },
@@ -39,5 +32,14 @@ export default {
     // { name: 'name', input: 'checkbox', defaultValue: false },
   ],
 
-  getName: () => LabeledTextInput.displayName as string,
+  getName: (): string => SelectInput.displayName,
 } satisfies Story<State>
+
+const options = [
+  { value: 'a', display: 'A' },
+  { value: 'b', display: 'B' },
+  { value: 'c', display: 'C' },
+  { value: 'd', display: 'D' },
+  { value: 'e', display: 'E' },
+  { value: 'f', display: 'F' },
+]

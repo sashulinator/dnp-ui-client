@@ -1,12 +1,10 @@
-import { type ForwardedRef, forwardRef } from 'react'
-
 import Flex from '~/shared/flex'
 import Labeled, { type LabeledProps as SharedLabeledProps } from '~/shared/labeled'
 import { c } from '~/utils/core'
 
-import TextInput, { NAME as PARENT_NAME, type TextInputProps } from '../ui.text-input'
+import SelectInput, { type InputProps, NAME as PARENT_NAME } from '../v.input'
 
-export type Props = TextInputProps & {
+export type Props = InputProps & {
   className?: string | undefined
   label?: React.ReactNode
   labeldProps?: SharedLabeledProps | undefined
@@ -15,21 +13,19 @@ export type Props = TextInputProps & {
 
 const NAME = `${PARENT_NAME}-v-Labeled`
 
-export function Component(props: Props, forwardedRef: ForwardedRef<HTMLInputElement>): JSX.Element {
+export default function Component(props: Props): JSX.Element {
   const { children, label, className, ...textInputProps } = props
 
   return (
     <Flex width='100%' direction='column' className={c(className, NAME)}>
       <Labeled label={label}>
-        <TextInput {...textInputProps} ref={forwardedRef} className={c(props.className, NAME)} />
+        <SelectInput {...textInputProps} className={c(props.className, NAME)} />
       </Labeled>
       {children}
     </Flex>
   )
 }
 
-const ForwardRef = forwardRef(Component)
-ForwardRef.displayName = NAME
-export default ForwardRef
+Component.displayName = NAME
 
 export { type Props as LabeledProps }

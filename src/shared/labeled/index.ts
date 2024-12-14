@@ -1,7 +1,7 @@
 /**
  * ui
  */
-import Labled from './ui.labeled'
+import Labeled from './ui.labeled'
 
-export default Labled
-export { type LabledProps } from './ui.labeled'
+export default Labeled
+export { type LabeledProps } from './ui.labeled'

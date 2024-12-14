@@ -1,7 +1,7 @@
 import { type ForwardedRef, forwardRef } from 'react'
 
 import Flex from '~/shared/flex'
-import Labled, { type LabledProps as SharedLabledProps } from '~/shared/labeled'
+import Labeled, { type LabeledProps as SharedLabeledProps } from '~/shared/labeled'
 import { c } from '~/utils/core'
 
 import TextInput, { NAME as PARENT_NAME, type TextInputProps } from '../ui.number-input'
@@ -9,20 +9,20 @@ import TextInput, { NAME as PARENT_NAME, type TextInputProps } from '../ui.numbe
 export type Props = TextInputProps & {
   className?: string | undefined
   label?: React.ReactNode
-  labeldProps?: SharedLabledProps | undefined
+  labeldProps?: SharedLabeledProps | undefined
   children?: React.ReactNode
 }
 
-const NAME = `${PARENT_NAME}-v-Labled`
+const NAME = `${PARENT_NAME}-v-Labeled`
 
 export function Component(props: Props, forwardedRef: ForwardedRef<HTMLInputElement>): JSX.Element {
   const { children, label: lable, className, ...textInputProps } = props
 
   return (
     <Flex width='100%' direction='column' className={c(className, NAME)}>
-      <Labled label={lable}>
+      <Labeled label={lable}>
         <TextInput {...textInputProps} ref={forwardedRef} className={c(props.className, NAME)} />
-      </Labled>
+      </Labeled>
       {children}
     </Flex>
   )
