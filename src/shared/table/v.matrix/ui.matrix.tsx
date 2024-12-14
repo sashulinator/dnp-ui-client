@@ -6,11 +6,6 @@ import { setPath } from '~/utils/dictionary'
 
 import { defaultRenderCell, defaultRenderHeader } from '../v.list/ui.list'
 
-export type Options = {
-  value: unknown
-  display: string
-}
-
 export type Option = {
   value: string
   display: string
@@ -28,7 +23,6 @@ export type RenderOptionCellProps<TItem extends Dictionary, TContext extends Dic
 > & {
   option: Option
 }
-export type RowProps<TItem extends Dictionary, TContext extends Dictionary> = ListTable.RowProps<TItem, TContext>
 export type ColumnProps<TItem extends Dictionary, TContext extends Dictionary> = ListTable.ColumnProps<TItem, TContext>
 export type RenderHeaderProps<TItem extends Dictionary, TContext extends Dictionary> = ListTable.RenderHeaderProps<
   TItem,

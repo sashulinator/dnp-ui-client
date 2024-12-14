@@ -6,13 +6,15 @@ import { emptyFn } from '~/utils/function'
 
 export const NAME = `select-v-Input`
 
+export type Option = Omit<SelectProps.ItemProps, 'children'> & { display: React.ReactNode }
+
 export type Props = Omit<SelectProps.TriggerProps, 'name' | 'value'> & {
   className?: string | undefined
   rootProps?: SelectProps.RootProps | undefined
   contentProps?: SelectProps.ContentProps | undefined
   value?: string | undefined
   onChange?: (FormEventHandler<HTMLButtonElement> & ((value: string) => void)) | undefined
-  options?: (Omit<SelectProps.ItemProps, 'children'> & { display: React.ReactNode })[]
+  options?: Option[]
 }
 
 export default function Component(props: Props) {

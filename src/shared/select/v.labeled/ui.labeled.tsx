@@ -2,7 +2,9 @@ import Flex from '~/shared/flex'
 import Labeled, { type LabeledProps as SharedLabeledProps } from '~/shared/labeled'
 import { c } from '~/utils/core'
 
-import SelectInput, { type InputProps, NAME as PARENT_NAME } from '../v.input'
+import SelectInput, { type Option as InputOption, type InputProps, NAME as PARENT_NAME } from '../v.input'
+
+export type Option = InputOption
 
 export type Props = InputProps & {
   className?: string | undefined

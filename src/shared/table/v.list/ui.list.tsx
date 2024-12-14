@@ -12,6 +12,18 @@ import Table, { type TableProps } from '../ui/table'
 
 export { type TableProps }
 
+export type CellProps = TableProps.CellProps
+
+export type RootProps = TableProps.RootProps
+
+export type BodyProps = TableProps.BodyProps
+
+export type HeaderProps = TableProps.HeaderProps
+
+export type RowProps = TableProps.RowProps
+
+export type ColumnHeaderCellProps = TableProps.RowProps
+
 export interface RenderCellProps<TItem extends Dictionary, TContext extends Dictionary> {
   name: keyof TItem
   display?: string | undefined
@@ -31,16 +43,11 @@ export interface RenderHeaderProps<TItem extends Dictionary, TContext extends Di
 export interface ColumnProps<TItem extends Dictionary, TContext extends Dictionary> {
   name: keyof TItem
   display?: string | undefined
-  cellProps?: TableProps.CellProps | undefined
-  headerProps?: TableProps.CellProps | undefined
+  cellProps?: CellProps | undefined
+  headerProps?: CellProps | undefined
   renderCell?: (props: RenderCellProps<TItem, TContext>) => React.ReactNode
   renderHeader?: (props: RenderHeaderProps<TItem, TContext>) => React.ReactNode
 }
-
-export type RowProps<TItem extends Dictionary, TContext extends Dictionary> = { item: TItem; rowIndex: number } & Props<
-  TItem,
-  TContext
->
 
 export type GetCellPropsParams<TItem extends Dictionary, TContext extends Dictionary> = {
   item: TItem
@@ -49,19 +56,32 @@ export type GetCellPropsParams<TItem extends Dictionary, TContext extends Dictio
   column: ColumnProps<TItem, TContext>
 } & Props<TItem, TContext>
 
-export type Props<TItem extends Dictionary, TContext extends Dictionary> = TableProps.RootProps & {
+export type GetBodyProps<TItem extends Dictionary, TContext extends Dictionary> = Props<TItem, TContext>
+
+export type GetColumnHeaderCellProps<TItem extends Dictionary, TContext extends Dictionary> = Props<TItem, TContext> & {
+  column: ColumnProps<TItem, TContext>
+}
+
+export type GetHeaderProps<TItem extends Dictionary, TContext extends Dictionary> = Props<TItem, TContext>
+
+export type GetHeaderRowProps<TItem extends Dictionary, TContext extends Dictionary> = Props<TItem, TContext>
+
+export type GetRowProps<TItem extends Dictionary, TContext extends Dictionary> = Props<TItem, TContext> & {
+  item: TItem
+  rowIndex: number
+}
+
+export type Props<TItem extends Dictionary, TContext extends Dictionary> = RootProps & {
   className?: string | undefined
   list: TItem[]
   columns: ColumnProps<TItem, TContext>[]
   context: TContext
-  getRowProps?: (params: { item: TItem; rowIndex: number } & Props<TItem, TContext>) => TableProps.RowProps | undefined
-  getHeaderRowProps?: (params: Props<TItem, TContext>) => TableProps.RowProps | undefined
-  getHeaderProps?: (params: Props<TItem, TContext>) => TableProps.HeaderProps | undefined
-  getColumnHeaderCellProps?: (
-    props: { column: ColumnProps<TItem, TContext> } & Props<TItem, TContext>,
-  ) => TableProps.ColumnHeaderCellProps | undefined
-  getCellProps?: (params: GetCellPropsParams<TItem, TContext>) => TableProps.CellProps | undefined
-  getBodyProps?: (params: Props<TItem, TContext>) => TableProps.BodyProps | undefined
+  getRowProps?: (params: GetRowProps<TItem, TContext>) => RowProps | undefined
+  getHeaderRowProps?: (params: GetHeaderRowProps<TItem, TContext>) => RowProps | undefined
+  getHeaderProps?: (params: GetHeaderProps<TItem, TContext>) => HeaderProps | undefined
+  getCellProps?: (params: GetCellPropsParams<TItem, TContext>) => CellProps | undefined
+  getBodyProps?: (params: GetBodyProps<TItem, TContext>) => BodyProps | undefined
+  getColumnHeaderCellProps?: (props: GetColumnHeaderCellProps<TItem, TContext>) => ColumnHeaderCellProps | undefined
 }
 
 export const NAME = 'table-List'
