@@ -10,7 +10,8 @@ export type Option = MatrixTable.Option
 
 export type ColumnProps<TItem extends Dictionary, TContext extends Dictionary> = MatrixTable.ColumnProps<
   TItem,
-  TContext
+  TContext,
+  unknown
 >
 
 export type Props<TItem extends Dictionary, TContext extends Dictionary> = MatrixTable.MatrixProps<

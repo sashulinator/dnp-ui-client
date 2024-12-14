@@ -22,7 +22,7 @@ export type HeaderProps = TableProps.HeaderProps
 
 export type RowProps = TableProps.RowProps
 
-export type ColumnHeaderCellProps = TableProps.RowProps
+export type ColumnHeaderCellProps = TableProps.ColumnHeaderCellProps
 
 export interface RenderCellProps<TItem extends Dictionary, TContext extends Dictionary> {
   name: keyof TItem

@@ -22,6 +22,7 @@ export default {
       <div style={{ padding: '2rem' }}>
         <MatrixTable
           {...state}
+          context={{}}
           columns={columns}
           options={options}
           values={values}
@@ -76,7 +77,7 @@ const columns = [
   {
     name: 'sex',
   },
-] satisfies ColumnProps<Dictionary, Dictionary>[]
+] satisfies ColumnProps<Dictionary, Dictionary, boolean>[]
 
 const options = [
   {

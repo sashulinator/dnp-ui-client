@@ -6,42 +6,114 @@ import { setPath } from '~/utils/dictionary'
 
 import { defaultRenderCell, defaultRenderHeader } from '../v.list/ui.list'
 
-export type Option = {
-  value: string
-  display: string
-}
+export type CellProps = ListTable.CellProps
 
-export type RenderCellProps<TItem extends Dictionary, TContext extends Dictionary, TValue> = ListTable.RenderCellProps<
-  TItem,
-  TContext
-> & {
+export type RootProps = ListTable.RootProps
+
+export type BodyProps = ListTable.BodyProps
+
+export type HeaderProps = ListTable.HeaderProps
+
+export type RowProps = ListTable.RowProps
+
+export type ColumnHeaderCellProps = ListTable.RowProps
+
+export type Option = { value: string; display: string }
+
+export interface RenderCellProps<TItem extends Dictionary, TContext extends Dictionary, TValue> {
+  name: keyof TItem
+  display?: string | undefined
+  value: TItem[keyof TItem]
+  list: TItem[]
+  item: TItem
+  context: TContext
   onValueChange: (value: TValue) => void
 }
-export type RenderOptionCellProps<TItem extends Dictionary, TContext extends Dictionary> = ListTable.RenderCellProps<
-  TItem,
-  TContext
+
+export interface RenderHeaderProps<TItem extends Dictionary, TContext extends Dictionary> {
+  name: keyof TItem
+  context: TContext
+  display?: string | undefined
+  list: TItem[]
+}
+
+export interface ColumnProps<TItem extends Dictionary, TContext extends Dictionary, TValue> {
+  name: keyof TItem
+  display?: string | undefined
+  cellProps?: CellProps | undefined
+  headerProps?: CellProps | undefined
+  renderCell?: (props: RenderCellProps<TItem, TContext, TValue>) => React.ReactNode
+  renderHeader?: (props: RenderHeaderProps<TItem, TContext>) => React.ReactNode
+}
+
+export type RenderOptionCellProps<TItem extends Dictionary, TContext extends Dictionary, TValue> = Omit<
+  RenderCellProps<TItem, TContext, TValue>,
+  'onValueChange'
 > & {
   option: Option
 }
-export type ColumnProps<TItem extends Dictionary, TContext extends Dictionary> = ListTable.ColumnProps<TItem, TContext>
-export type RenderHeaderProps<TItem extends Dictionary, TContext extends Dictionary> = ListTable.RenderHeaderProps<
+
+export type RenderOptionHeaderProps<TItem extends Dictionary, TContext extends Dictionary> = RenderHeaderProps<
   TItem,
   TContext
 >
-export type RenderOptionHeaderProps<
-  TItem extends Dictionary,
-  TContext extends Dictionary,
-> = ListTable.RenderHeaderProps<TItem, TContext>
+
+export type GetCellPropsParams<TItem extends Dictionary, TContext extends Dictionary, TValue> = {
+  item: TItem
+  rowIndex: number
+  columnIndex: number
+  column: ColumnProps<TItem, TContext, TValue>
+} & Props<TItem, TContext, TValue>
+
+export type GetBodyProps<TItem extends Dictionary, TContext extends Dictionary, TValue> = Props<TItem, TContext, TValue>
+
+export type GetColumnHeaderCellProps<TItem extends Dictionary, TContext extends Dictionary, TValue> = Props<
+  TItem,
+  TContext,
+  TValue
+> & {
+  column: ColumnProps<TItem, TContext, TValue>
+}
+
+export type GetHeaderProps<TItem extends Dictionary, TContext extends Dictionary, TValue> = Props<
+  TItem,
+  TContext,
+  TValue
+>
+
+export type GetHeaderRowProps<TItem extends Dictionary, TContext extends Dictionary, TValue> = Props<
+  TItem,
+  TContext,
+  TValue
+>
+
+export type GetRowProps<TItem extends Dictionary, TContext extends Dictionary, TValue> = Props<
+  TItem,
+  TContext,
+  TValue
+> & {
+  item: TItem
+  rowIndex: number
+}
 
 export interface Props<TItem extends Dictionary, TContext extends Dictionary, TValue> {
   className?: string | undefined
-  columns: ListTable.ColumnProps<TItem, TContext>[]
+  columns: ColumnProps<TItem, TContext, TValue>[]
   options: Option[]
   values: Record<string, Record<string, TValue>>
+  context: TContext
   renderOptionHeader?: (props: RenderOptionHeaderProps<TItem, TContext>) => React.ReactNode
-  renderOptionCell?: (props: RenderOptionCellProps<TItem, TContext>) => React.ReactNode
+  renderOptionCell?: (props: RenderOptionCellProps<TItem, TContext, TValue>) => React.ReactNode
   renderCell?: (props: RenderCellProps<TItem, TContext, TValue>) => React.ReactNode
   onValuesChange: (values: Record<string, Record<string, TValue>>, value: TValue) => void
+  getRowProps?: (params: GetRowProps<TItem, TContext, TValue>) => RowProps | undefined
+  getHeaderRowProps?: (params: GetHeaderRowProps<TItem, TContext, TValue>) => RowProps | undefined
+  getHeaderProps?: (params: GetHeaderProps<TItem, TContext, TValue>) => HeaderProps | undefined
+  getCellProps?: (params: GetCellPropsParams<TItem, TContext, TValue>) => CellProps | undefined
+  getBodyProps?: (params: GetBodyProps<TItem, TContext, TValue>) => BodyProps | undefined
+  getColumnHeaderCellProps?: (
+    props: GetColumnHeaderCellProps<TItem, TContext, TValue>,
+  ) => ColumnHeaderCellProps | undefined
 }
 
 const NAME = `table-MatrixTable`
@@ -58,13 +130,19 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
     renderCell: renderCellProp,
     renderOptionCell: renderOptionCellProp,
     renderOptionHeader: renderOptionHeaderProp,
+    ...tableProps
   } = props
 
   const newColumns = useMemo(_buildColumns, [values, columns])
   const list = useMemo(_buildList, [values, columns])
 
   return (
-    <ListTable.default<Any, Any> context={{}} list={list} columns={newColumns} className={c(props.className, NAME)} />
+    <ListTable.default<Any, Any> // ставим Any так как слишком абстрактные материи
+      {...(tableProps as Any)}
+      list={list as Any}
+      columns={newColumns as Any}
+      className={c(props.className, NAME)}
+    />
   )
 
   /**
@@ -86,12 +164,12 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
     return list
   }
 
-  function _buildColumns() {
+  function _buildColumns(): ColumnProps<TItem, TContext, TValue>[] {
     const firstColumn = { name: FIRST_COLUMN_NAME }
     return [firstColumn, ...columns].map(_injectColumnProps)
   }
 
-  function _injectColumnProps(columns: ListTable.ColumnProps<TItem, TContext>): ListTable.ColumnProps<TItem, TContext> {
+  function _injectColumnProps(columns: ColumnProps<TItem, TContext, TValue>): ColumnProps<TItem, TContext, TValue> {
     return {
       ...columns,
       renderCell(props) {
