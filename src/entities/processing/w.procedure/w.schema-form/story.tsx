@@ -2,7 +2,7 @@ import Form, { useCreateForm } from '~/shared/form'
 import { type Props, type Story } from '~/shared/storybook'
 import Text from '~/shared/text'
 
-import { type Procedure } from '../../models'
+import { type Procedure } from '../models'
 import SchemaForm from './ui.schema-form'
 
 interface State {

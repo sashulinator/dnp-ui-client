@@ -6,7 +6,7 @@ import entitieAnalyticsFormWTable from '~/entities/analytics/ui/run-form/widgets
 import eDcserviceForm from '~/entities/database-container/dcservice/ui/form/story'
 import normalizationConfigForm from '~/entities/normalization-config/ui/form/story'
 import entityProcessingForm from '~/entities/processing/ui/form/story'
-import eProcessingwProcedureSchemaForm from '~/entities/processing/w.procedure/ui/schema-form/story'
+import eProcessingwProcedureSchemaForm from '~/entities/processing/w.procedure/w.schema-form/story'
 import uiButton from '~/shared/button/story'
 import uiCard from '~/shared/card/story'
 import uiCodeEditor from '~/shared/code-editor/story'

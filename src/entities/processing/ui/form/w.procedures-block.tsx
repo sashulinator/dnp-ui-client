@@ -7,7 +7,7 @@ import Flex from '~/shared/flex'
 
 import { SLICE } from '../../constants'
 import { type Procedure as IProcedure } from '../../w.procedure'
-import Procedure from '../../w.procedure/ui/schema-form/ui.schema-form'
+import Procedure from '../../w.procedure/w.schema-form/ui.schema-form'
 
 type Values = {
   name: string

@@ -13,7 +13,7 @@ import { c } from '~/utils/core'
 import { remove, renameKey } from '~/utils/dictionary'
 
 import { type Procedure } from '../..'
-import { SLICE } from '../../../constants'
+import { SLICE } from '../../constants'
 
 export interface Props {
   className?: string | undefined
