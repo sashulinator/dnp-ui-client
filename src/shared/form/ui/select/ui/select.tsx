@@ -2,7 +2,7 @@ import React, { useId } from 'react'
 import { type FieldInputProps, type FieldMetaState } from 'react-final-form'
 
 import Flex, { type FlexProps } from '~/shared/flex'
-import Select, { type SelectProps } from '~/shared/select'
+import Select from '~/shared/select'
 import { c, fns } from '~/utils/core'
 
 import { _checkErrorVisible } from '../../../lib/_check-error-visible'
@@ -12,14 +12,14 @@ import Label from '../../label/ui/label'
 
 export const NAME = `${PARENT_NAME}-w-TextField`
 
-export type Props = Omit<SelectProps.RootProps, 'name' | 'value'> & {
+export type Props = Omit<Select.RootProps, 'name' | 'value'> & {
   className?: string | undefined
   label?: string | undefined
   rootProps?: FlexProps | undefined
   variant?: 'soft'
   input: FieldInputProps<string, HTMLElement>
   meta: FieldMetaState<string>
-  options?: (Omit<SelectProps.ItemProps, 'children'> & { display: React.ReactNode })[]
+  options?: (Omit<Select.ItemProps, 'children'> & { display: React.ReactNode })[]
   renderHint?: (props: {
     input: FieldInputProps<string, HTMLElement>
     meta: FieldMetaState<string>

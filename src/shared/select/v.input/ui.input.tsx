@@ -1,17 +1,17 @@
 import React, { type FormEventHandler } from 'react'
 
-import Select, { type SelectProps } from '~/shared/select'
+import Select from '~/shared/select'
 import { c } from '~/utils/core'
 import { emptyFn } from '~/utils/function'
 
 export const NAME = `select-v-Input`
 
-export type Option = Omit<SelectProps.ItemProps, 'children'> & { display: React.ReactNode }
+export type Option = Omit<Select.ItemProps, 'children'> & { display: React.ReactNode }
 
-export type Props = Omit<SelectProps.TriggerProps, 'name' | 'value'> & {
+export type Props = Omit<Select.TriggerProps, 'name' | 'value'> & {
   className?: string | undefined
-  rootProps?: SelectProps.RootProps | undefined
-  contentProps?: SelectProps.ContentProps | undefined
+  rootProps?: Select.RootProps | undefined
+  contentProps?: Select.ContentProps | undefined
   value?: string | undefined
   onChange?: (FormEventHandler<HTMLButtonElement> & ((value: string) => void)) | undefined
   options?: Option[]

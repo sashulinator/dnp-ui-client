@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import { COMPARISON, IS, MATCH } from '~/common/slices/where'
-import Select, { type SelectProps } from '~/shared/select'
+import Select from '~/shared/select'
 import TextField, { type RootProps } from '~/shared/text-field'
 import { useDebounceCallback } from '~/utils/core-hooks'
 import { fns } from '~/utils/function'
@@ -76,7 +76,7 @@ function _TextInput(props: _TextInputProps) {
  * _TemplateInput
  */
 
-type _TemplateInputProps = SelectProps.TriggerProps
+type _TemplateInputProps = Select.TriggerProps
 
 function _TemplateInput(props: _TemplateInputProps) {
   const { ...textInputProps } = props
