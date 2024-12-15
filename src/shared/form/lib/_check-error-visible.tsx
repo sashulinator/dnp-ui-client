@@ -4,5 +4,5 @@ export function _checkErrorVisible<FieldValue, Element extends HTMLElement>(para
   input: FieldInputProps<FieldValue, Element>
   meta: FieldMetaState<FieldValue>
 }) {
-  return (params.meta.error || params.meta.submitError) && params.meta.touched
+  return (params.meta?.error || params.meta?.submitError) && params.meta?.touched
 }

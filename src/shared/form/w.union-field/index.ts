@@ -1,13 +1,13 @@
 /**
  * ui
  */
-import { default as IntegerField } from './ui.union-field'
+import { default as UnionField } from './ui.union-field'
 
-export default IntegerField
-export type { Props as IntegerFieldProps } from './ui.union-field'
+export default UnionField
+export type { Props as UnionFieldProps } from './ui.union-field'
 
 /**
  * variants
  */
 
-export { default as TypedIntegerField } from './v.typed'
+export { default as TypedUnionField, type TypedProps as TypedUnionFieldProps } from './v.typed'
