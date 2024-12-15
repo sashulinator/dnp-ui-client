@@ -8,21 +8,19 @@ import { type Dictionary, c } from '~/utils/core'
 import { getPath, toPath } from '~/utils/dictionary'
 import { toHtml } from '~/utils/md'
 
-import Table, { type TableProps } from '../ui/table'
+import * as Table from '../ui.table'
 
-export { type TableProps }
+export type CellProps = Table.CellProps
 
-export type CellProps = TableProps.CellProps
+export type RootProps = Table.RootProps
 
-export type RootProps = TableProps.RootProps
+export type BodyProps = Table.BodyProps
 
-export type BodyProps = TableProps.BodyProps
+export type HeaderProps = Table.HeaderProps
 
-export type HeaderProps = TableProps.HeaderProps
+export type RowProps = Table.RowProps
 
-export type RowProps = TableProps.RowProps
-
-export type ColumnHeaderCellProps = TableProps.ColumnHeaderCellProps
+export type ColumnHeaderCellProps = Table.ColumnHeaderCellProps
 
 export interface RenderCellProps<TItem extends Dictionary, TContext extends Dictionary> {
   name: keyof TItem

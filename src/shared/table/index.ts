@@ -1,10 +1,10 @@
 /**
  * ui
  */
-import { default as Table } from './ui/table'
+export * as Table from './ui.table'
 
-export default Table
-export type { TableProps } from './ui/table'
-
+/**
+ * variant
+ */
 export * as ListTable from './v.list'
 export * as MatrixTable from './v.matrix'
