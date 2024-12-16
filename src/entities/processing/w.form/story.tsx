@@ -1,8 +1,14 @@
-import Form, { useCreateForm } from '~/shared/form'
+import { useState } from 'react'
+
+import Flex from '~/shared/flex'
+import Form, { FieldArray, useCreateForm } from '~/shared/form'
+import { LabeledSelect } from '~/shared/select'
 import { type Props, type Story } from '~/shared/storybook'
+import { columns } from '~/shared/table/v.matrix/story'
 import Text from '~/shared/text'
 
-import ProcessingForm, { type ExecutableModel } from './ui.form'
+import { initialValues as executableInitialValues, executableModels } from '../w.executable/w.form/story'
+import ProcessingForm from '../w.executable/w.form/ui.form'
 
 interface State {
   //
@@ -28,8 +34,40 @@ export default {
     return (
       <div style={{ padding: '2rem' }}>
         <Form form={form}>
-          {() => {
-            return <ProcessingForm executableModels={executableModels} name={`configs.0`} {...state} />
+          {({ form }) => {
+            const values = form.getState()?.values
+            const tableOptions = values?.configs.map((c) => ({ display: c.table, value: c.table }))
+            // eslint-disable-next-line react-hooks/rules-of-hooks
+            const [selectedTable, setSelectedTable] = useState(tableOptions[0].value)
+
+            const indexOfSelectedTable = tableOptions.findIndex((t) => t.value === selectedTable)
+
+            return (
+              <Flex direction='column' gap='2'>
+                <LabeledSelect.default
+                  value={selectedTable}
+                  onChange={(v) => {
+                    setSelectedTable(v.toString())
+                  }}
+                  options={tableOptions}
+                />
+                <FieldArray name={`configs[${indexOfSelectedTable}].executables`}>
+                  {({ fields }) =>
+                    fields.map((name) => {
+                      return (
+                        <ProcessingForm
+                          key={selectedTable}
+                          columns={columns}
+                          executableModels={executableModels}
+                          name={name}
+                          {...state}
+                        />
+                      )
+                    })
+                  }
+                </FieldArray>
+              </Flex>
+            )
           }}
         </Form>
         <pre>
@@ -54,49 +92,33 @@ export default {
     // { name: 'name', input: 'checkbox', defaultValue: false },
   ],
 
-  getName: (): string => ProcessingForm.displayName,
+  getName: (): string => `${ProcessingForm.displayName}-test`,
 } satisfies Story<State>
 
-const firstConfig = {
+const firstConfigValue = {
   serviceId: 'storyId',
   database: 'storyDb',
   table: 'storyUsers',
   executables: [
     {
       name: 'dnp-common/artifacts/procedures/DnpTableStats',
-      params: [
-        {
-          name: 'id',
-          stats: [
-            {
-              firstName: ['null-count'],
-              secondName: ['null-count'],
-              age: ['null-count'],
-              sex: ['null-count'],
-            },
-          ],
-        },
-      ],
+      params: executableInitialValues.story.params,
+    },
+  ],
+}
+
+const secondConfigValue = {
+  serviceId: 'storyId',
+  database: 'storyDb',
+  table: 'storySomething',
+  executables: [
+    {
+      name: 'dnp-common/artifacts/procedures/DnpTableStats',
+      params: executableInitialValues.story.params,
     },
   ],
 }
 
 const initialValues = {
-  configs: [firstConfig],
+  configs: [firstConfigValue, secondConfigValue],
 }
-
-const executableModels: ExecutableModel[] = [
-  {
-    name: 'dnp-common/artifacts/procedures/DnpTableStats',
-    display: 'Профилирование',
-    params: [
-      {
-        name: 'id',
-        display: 'ID расчета',
-        component: {
-          name: 'string',
-        },
-      },
-    ],
-  },
-]

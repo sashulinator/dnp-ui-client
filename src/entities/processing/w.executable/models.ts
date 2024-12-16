@@ -1,6 +1,8 @@
 export type ExecutableParamModel = {
   name: string
   display: string
+  // тело функции
+  getInitialValue?: string
   component: {
     name: string
     props?: Record<string, unknown> | undefined

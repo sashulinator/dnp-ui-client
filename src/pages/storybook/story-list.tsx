@@ -8,8 +8,6 @@ import normalizationConfigForm from '~/entities/normalization-config/ui/form/sto
 import entityProcessingForm from '~/entities/processing/ui/form/story'
 import eProcessingWExecutablesWForm from '~/entities/processing/w.executable/w.form/story'
 import eProcessingWForm from '~/entities/processing/w.form/story'
-import eProcessingWProcedureWColumnMatrix from '~/entities/processing/w.procedure/w.column-matrix/story'
-import eProcessingwProcedureSchemaForm from '~/entities/processing/w.procedure/w.schema-form/story'
 import uiButton from '~/shared/button/story'
 import uiCard from '~/shared/card/story'
 import uiCodeEditor from '~/shared/code-editor/story'
@@ -52,7 +50,6 @@ export const storyList: Story<any>[] = [
    */
 
   eProcessingWProcedureWValuePerColumn,
-  eProcessingwProcedureSchemaForm,
   entityProcessingForm,
   explorerViewer,
   normalizationConfigForm,
@@ -63,7 +60,6 @@ export const storyList: Story<any>[] = [
   entitieAnalyticsFormWSchema,
   entitieAnalyticsFormWDatabase,
   eDcserviceForm,
-  eProcessingWProcedureWColumnMatrix,
   eProcessingWForm,
   eProcessingWExecutablesWForm,
 

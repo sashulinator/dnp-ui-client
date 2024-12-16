@@ -6,7 +6,7 @@ import SelectInput, { type Option as InputOption, type InputProps, NAME as PAREN
 
 export type Option = InputOption
 
-export type Props = InputProps & {
+export type Props = Omit<InputProps, 'type'> & {
   className?: string | undefined
   label?: React.ReactNode
   labeldProps?: SharedLabeledProps | undefined

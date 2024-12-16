@@ -64,53 +64,68 @@ export default {
   getName: (): string => MatrixTable.displayName,
 } satisfies Story<State>
 
-const columns = [
+export const columns = [
   {
     name: 'firstName',
+    display: 'firstName',
+    type: 'string',
   },
   {
     name: 'secondName',
+    display: 'firstName',
+    type: 'string',
   },
   {
     name: 'age',
+    display: 'firstName',
+    type: 'number',
   },
   {
     name: 'sex',
+    display: 'firstName',
+    type: 'string',
   },
 ] satisfies ColumnProps<Dictionary, Dictionary, boolean>[]
 
-const options = [
+export const options = [
   {
     display: 'Процент значений',
     value: 'row-1',
+    columnTypes: ['string', 'number'],
   },
   {
     display: 'Кол-во строк',
     value: 'row-2',
+    columnTypes: ['string', 'number'],
   },
   {
     display: 'Количество дубликатов',
     value: 'row-3',
+    columnTypes: ['string', 'number'],
   },
   {
     display: 'Макс',
     value: 'row-4',
+    columnTypes: ['string'],
   },
   {
     display: 'Мин',
     value: 'row-5',
+    columnTypes: ['string'],
   },
   {
     display: 'Медиана',
     value: 'row-6',
+    columnTypes: ['string', 'number'],
   },
   {
     display: 'Сумма',
     value: 'row-7',
+    columnTypes: ['number'],
   },
 ] satisfies Option[]
 
-const initialValues = {
+export const initialValues = {
   [columns[0].name]: { [options[0].value]: true },
   [columns[1].name]: { [options[1].value]: true },
   [columns[2].name]: { [options[1].value]: true },

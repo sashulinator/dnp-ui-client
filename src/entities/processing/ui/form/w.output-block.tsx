@@ -2,9 +2,8 @@ import { useState } from 'react'
 import { useQuery } from 'react-query'
 
 import { APP } from '~/app/constants.app'
-import Card from '~/shared/card'
 import Flex from '~/shared/flex'
-import { Column, Select as FormSelect, Label, TypedField, useForm } from '~/shared/form'
+import { Card, Column, Select as FormSelect, Label, TypedField, useForm } from '~/shared/form'
 import Select, { type Option } from '~/shared/select'
 import Text from '~/shared/text'
 import { c } from '~/utils/core'
@@ -40,7 +39,7 @@ export default function Component(props: Props): JSX.Element {
   return (
     <Card className={c(NAME, className)}>
       <Text size='1' color='gray'>
-        Вход
+        Вывод
       </Text>
       <Column width='100%'>
         <Flex width='100%' direction='column'>

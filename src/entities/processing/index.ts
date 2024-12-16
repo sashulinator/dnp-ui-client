@@ -15,4 +15,4 @@ export { NAME, SLICE } from './constants'
  * widgets
  */
 
-export { api as procedureApi, type Procedure, type ProcedureCreateInput, type ProcedureUdateInput } from './w.procedure'
+export * as Executable from './w.executable'

@@ -4,8 +4,7 @@ import { APP } from '~/app/constants.app'
 import { routes } from '~/app/route'
 import { api } from '~/entities/database-container'
 import { create, getById } from '~/entities/normalization-config'
-import { procedureApi } from '~/entities/processing'
-import { ProcessingForm, SLICE } from '~/entities/processing'
+import { Executable, ProcessingForm, SLICE } from '~/entities/processing'
 import { processingDataApi } from '~/entities/processing-data'
 import Button from '~/shared/button'
 import Card from '~/shared/card'
@@ -15,6 +14,7 @@ import Form, { useCreateForm } from '~/shared/form'
 import Heading from '~/shared/heading'
 import { notify } from '~/shared/notification-list-store'
 import Section from '~/shared/section'
+import { Tabs } from '~/shared/tabs'
 import { HighlightedText } from '~/shared/text'
 import Tooltip from '~/shared/tooltip'
 
@@ -68,13 +68,24 @@ export default function Component(): JSX.Element {
         </Section>
 
         <Section size='1'>
-          <Form
-            form={form}
-            component={ProcessingForm.default}
-            fetchDcdatabaseOptions={fetchDatabaseOptions}
-            fetchTablesOptions={fetchInputTablesOptions}
-            feftchProcedures={feftchProcedures}
-          />
+          <Tabs.Root defaultValue='multi'>
+            <Tabs.List>
+              <Tabs.Trigger value='multi'>Массовая настройка</Tabs.Trigger>
+              <Tabs.Trigger value='single'>Одиночная настройка</Tabs.Trigger>
+            </Tabs.List>
+            <Tabs.Content value='multi' style={{ width: '100%' }}>
+              <Flex width='100%' pt='4' direction='column'>
+                <Form
+                  form={form}
+                  component={ProcessingForm.default}
+                  fetchDcdatabaseOptions={fetchDatabaseOptions}
+                  fetchTablesOptions={fetchInputTablesOptions}
+                  feftchExecutables={feftchExecutables}
+                />
+              </Flex>
+            </Tabs.Content>
+            <Tabs.Content value='single' />
+          </Tabs.Root>
         </Section>
 
         <Card asChild>
@@ -107,8 +118,8 @@ export default function Component(): JSX.Element {
    * private
    */
 
-  async function feftchProcedures() {
-    const ret = await procedureApi.findWithTotal.request({})
+  async function feftchExecutables() {
+    const ret = await Executable.api.findWithTotal.request({})
     return ret.data.items
   }
 

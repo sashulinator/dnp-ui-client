@@ -18,7 +18,7 @@ export type RowProps = ListTable.RowProps
 
 export type ColumnHeaderCellProps = ListTable.RowProps
 
-export type Option = { value: string; display: string }
+export type Option = { value: string; display: string; columnTypes?: string[] }
 
 export interface RenderCellProps<TItem extends Dictionary, TContext extends Dictionary, TValue> {
   name: keyof TItem
@@ -39,6 +39,7 @@ export interface RenderHeaderProps<TItem extends Dictionary, TContext extends Di
 
 export interface ColumnProps<TItem extends Dictionary, TContext extends Dictionary, TValue> {
   name: keyof TItem
+  type?: string
   display?: string | undefined
   cellProps?: CellProps | undefined
   headerProps?: CellProps | undefined
