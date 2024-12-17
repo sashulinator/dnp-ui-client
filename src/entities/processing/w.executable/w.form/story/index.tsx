@@ -4,8 +4,8 @@ import Text from '~/shared/text'
 
 import { type ExecutableModel } from '../../models'
 import ExecutableForm from '../ui.form'
-import { columns } from './columns'
-import { dnpTableStatsExecutableModel } from './executable-model.table-stats'
+import { columns, firstNameColumn } from './columns'
+import { dnpTableStatsExecutableModel, options } from './executable-model.table-stats'
 import { testExecutableModel } from './executable-model.test1'
 
 interface State {
@@ -67,7 +67,7 @@ export const initialValues = {
     params: {
       id: 'name',
       stats: {
-        firstName: ['notNull'],
+        [firstNameColumn.name]: [options[0].value, options[2].value, options[5].value],
       },
     },
   },

@@ -1,15 +1,15 @@
-import { type ReactNode, createElement, useMemo } from 'react'
-import { Field, useForm } from 'react-final-form'
+import { useMemo } from 'react'
+import { useField, useForm } from 'react-final-form'
 
 import Flex from '~/shared/flex'
-import { MatrixField, TypedIntegerField, TypedStringField, useField } from '~/shared/form'
 import { type Option } from '~/shared/select'
 import { LabeledSelect } from '~/shared/select'
 import { type Any, c, generateId } from '~/utils/core'
 import { type Dictionary } from '~/utils/dictionary'
 
-import { type ExecutableModel } from '../models'
+import { type Executable, type ExecutableModel } from '../models'
 import { SLICE } from './constants'
+import Factory from './w.ui.factory'
 
 export interface Props {
   className?: string | undefined
@@ -23,40 +23,29 @@ const NAME = `${SLICE}-Form`
 export default function Component(props: Props): JSX.Element {
   const { name, executableModels, columns } = props
 
-  const options = useMemo(executableModelsToOptions, [props.executableModels])
+  const options = useMemo(executableOptions, [props.executableModels])
 
   const form = useForm()
 
+  const nameField = useField<string>(`${name}.name`, { subscription: { value: true } })
+  const paramsField = useField<Executable['params']>(`${name}.params`)
+
+  const nameFieldValue = nameField.input.value
+
+  const executableModel = useMemo(
+    () => props.executableModels.find((m) => m.name === nameFieldValue),
+    [props.executableModels, nameField.input.value],
+  )
+
   return (
     <Flex className={c(props.className, NAME)} direction='column' gap='4'>
-      <Field<{ name: string; params: Record<string, unknown> }> name={name}>
-        {({ input }) => {
-          return (
-            <LabeledSelect.default
-              options={options}
-              label='Процедура'
-              value={input.value.name}
-              onChange={(value) => {
-                const params: Dictionary<Any> = {}
-                const model = executableModels.find((m) => m.name === value) as ExecutableModel
-                for (let index = 0; index < model?.params.length; index++) {
-                  const param = model?.params[index]
-                  if (param.getInitialValue) {
-                    params[param.name] = new Function('context', param.getInitialValue)({
-                      ...props,
-                      thisParam: param,
-                      formState: form.getState(),
-                      generateId,
-                    }) as Any
-                  }
-                }
-                input.onChange({ name: value, params })
-              }}
-            />
-          )
-        }}
-      </Field>
-      <Factory executableModels={executableModels} name={name} columns={columns} />
+      <LabeledSelect.default
+        options={options}
+        label='Процедура'
+        value={nameFieldValue}
+        onChange={(event) => setInitialValuesOnNameChange(event.toString())}
+      />
+      <Factory executableModel={executableModel} name={name} columns={columns} />
     </Flex>
   )
 
@@ -64,46 +53,34 @@ export default function Component(props: Props): JSX.Element {
    * private
    */
 
-  function executableModelsToOptions(): Option[] {
+  function setInitialValuesOnNameChange(newName: string) {
+    const model = executableModels.find((m) => m.name === newName) as ExecutableModel
+    paramsField.input.onChange(getInitialParamsValues(model))
+    nameField.input.onChange(newName)
+  }
+
+  function getInitialParamsValues(executableModel: ExecutableModel) {
+    const initialParamsValue: Dictionary<Any> = {}
+
+    for (let index = 0; index < executableModel?.params.length; index++) {
+      const param = executableModel?.params[index]
+
+      if (param.getInitialValue) {
+        initialParamsValue[param.name] = new Function('context', param.getInitialValue)({
+          ...props,
+          thisParam: param,
+          formState: form.getState(),
+          generateId,
+        }) as Any
+      }
+    }
+
+    return initialParamsValue
+  }
+
+  function executableOptions(): Option[] {
     return executableModels.map((m) => ({ value: m.name, display: m.display }))
   }
 }
 
 Component.displayName = NAME
-
-type _FactoryProps = {
-  executableModels: ExecutableModel[]
-  columns: { name: string; display: string }[]
-  name: string
-}
-
-function Factory(props: _FactoryProps): ReactNode {
-  const { name, columns } = props
-
-  const field = useField(`${name}.name`, { subscription: { value: true } })
-
-  const executable = useMemo(
-    () => props.executableModels.find((m) => m.name === field.input.value),
-    [props.executableModels, field.input.value],
-  )
-
-  return (
-    executable?.params.map((p, i) => {
-      const component =
-        p.component.name === 'Number'
-          ? TypedIntegerField
-          : p.component.name === 'Matrix'
-            ? MatrixField
-            : TypedStringField
-
-      return createElement(component as Any, {
-        key: i,
-        name: `${name}.params.${p.name}`,
-        label: p.display,
-        columns,
-        ...p.component.props,
-        ...p.component.singleModeProps,
-      })
-    }) ?? null
-  )
-}

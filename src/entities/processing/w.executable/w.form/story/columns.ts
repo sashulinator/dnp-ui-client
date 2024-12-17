@@ -1,5 +1,7 @@
+export const firstNameColumn = { name: 'firstName', display: 'StoreID', type: 'number' }
+
 export const columns = [
-  { name: 'firstName', display: 'StoreID', type: 'number' },
+  firstNameColumn,
   { name: 'Date', display: 'Date', type: 'date' },
   { name: 'ProductId', display: 'ProductId', type: 'number' },
   { name: 'Quantity', display: 'Quantity', type: 'number' },
