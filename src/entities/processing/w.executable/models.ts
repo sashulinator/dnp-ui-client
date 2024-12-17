@@ -6,6 +6,7 @@ export type ExecutableParamModel = {
   component: {
     name: string
     props?: Record<string, unknown> | undefined
+    singleModeProps?: Record<string, unknown> | undefined
   }
 }
 

@@ -1,85 +1,4 @@
-import Form, { useCreateForm } from '~/shared/form'
-import { type Props, type Story } from '~/shared/storybook'
-import Text from '~/shared/text'
-
-import { type ExecutableModel } from '../models'
-import ExecutableForm from './ui.form'
-
-interface State {
-  //
-}
-
-export default {
-  render: function Story(props: Props<State>): JSX.Element {
-    const { state } = props
-
-    const form = useCreateForm(
-      {
-        onSubmit: (value) => {
-          // eslint-disable-next-line no-console
-          console.log('value', value)
-        },
-        initialValues,
-      },
-      {
-        values: true,
-      },
-    )
-
-    return (
-      <div style={{ padding: '2rem' }}>
-        <Form form={form}>
-          {() => {
-            return <ExecutableForm name='story' columns={columns} executableModels={executableModels} {...state} />
-          }}
-        </Form>
-        <pre>
-          <Text size='1'>{JSON.stringify(form.getState()?.values, null, 2)}</Text>
-        </pre>
-      </div>
-    )
-  },
-
-  controls: [
-    // {
-    //   name: 'name',
-    //   input: 'input',
-    //   defaultValue: '',
-    // },
-    // {
-    //   name: 'name',
-    //   input: 'select',
-    //   options: [],
-    //   defaultValue: '',
-    // },
-    // { name: 'name', input: 'checkbox', defaultValue: false },
-  ],
-
-  getName: (): string => ExecutableForm.displayName,
-} satisfies Story<State>
-
-export const initialValues = {
-  story: {
-    name: 'dnp-common/artifacts/procedures/DnpTableStats',
-    params: {
-      id: 'name',
-      stats: {
-        firstName: ['notNull'],
-      },
-    },
-  },
-}
-
-const columns = [
-  { name: 'firstName', display: 'StoreID', type: 'number' },
-  { name: 'Date', display: 'Date', type: 'date' },
-  { name: 'ProductId', display: 'ProductId', type: 'number' },
-  { name: 'Quantity', display: 'Quantity', type: 'number' },
-  { name: 'price', display: 'Цена товара', type: 'number' },
-  { name: 'sum', display: 'Сумма', type: 'number' },
-  { name: 'importer', display: 'Поставщик', type: 'string' },
-  { name: 'sex', display: 'ФИО', type: 'string' },
-]
+import { type ExecutableModel } from '../../models'
 
 export const dnpTableStatsExecutableModel: ExecutableModel = {
   name: 'dnp-common/artifacts/procedures/DnpTableStats',
@@ -91,34 +10,37 @@ export const dnpTableStatsExecutableModel: ExecutableModel = {
       getInitialValue: `return 'unknown'`,
       component: {
         name: 'string',
+        singleModeProps: {
+          readOnly: true,
+        },
       },
     },
     {
       name: 'stats',
       display: 'Метрики',
       getInitialValue: `
-      const { columns, thisParam, options } = context
-      let ret = {}
+        const { columns, thisParam, options } = context
+        let ret = {}
+    
   
-
-      for (let i = 0; i < columns.length; i++) {
-        const column = columns[i]
-        for (let k = 0; k < thisParam.component.props.options.length; k++) {
-          const option = thisParam.component.props.options[k]
-          if (option.columnTypes && !option.columnTypes.includes(column.type)) continue
-          
-          if (ret[column.name]) {
-            ret[column.name]?.push(option.value)
-          } else {
-            ret = { ...ret, [column.name]: [option.value] }
+        for (let i = 0; i < columns.length; i++) {
+          const column = columns[i]
+          for (let k = 0; k < thisParam.component.props.options.length; k++) {
+            const option = thisParam.component.props.options[k]
+            if (option.columnTypes && !option.columnTypes.includes(column.type)) continue
+            
+            if (ret[column.name]) {
+              ret[column.name]?.push(option.value)
+            } else {
+              ret = { ...ret, [column.name]: [option.value] }
+            }
           }
         }
-      }
-  
-      console.log('ret', ret)
-      
-      return ret
-    `,
+    
+        console.log('ret', ret)
+        
+        return ret
+      `,
       component: {
         name: 'Matrix',
         props: {
@@ -297,57 +219,41 @@ export const dnpTableStatsExecutableModel: ExecutableModel = {
   ],
 }
 
-export const testExecutableModel: ExecutableModel = {
-  name: 'dnp-common/artifacts/procedures/Test',
-  display: 'Тест',
-  params: [
-    {
-      name: 'test',
-      display: 'Тест',
-      component: {
-        name: 'string',
-      },
-    },
-  ],
-}
-
-export const executableModels: ExecutableModel[] = [dnpTableStatsExecutableModel, testExecutableModel]
-
 function getSerialize() {
   return `
-    const { values, columns, walk, options } = context
-    let ret = {}
-
-    walk((column, option) => {
-      ret = {
-        ...ret,
-        [column.name]: {
-          ...ret[column.name],
-          [option.value]: values[column.name]?.includes(option.value) || false,
-        },
-      }
-    })
-
-    return ret
-  `
+      const { values, columns, walk, options } = context
+      let ret = {}
+  
+      walk((column, option) => {
+        ret = {
+          ...ret,
+          [column.name]: {
+            ...ret[column.name],
+            [option.value]: values[column.name]?.includes(option.value) || false,
+          },
+        }
+      })
+  
+      return ret
+    `
 }
 
 function getDeserialize() {
   return `
-    const { values, columns, options, walk } = context
-
-    const ret = {} // { [columnName]: optionName[] }
-
-    walk((column, option) => {
-      if (values[column.name][option.value]) {
-        if (ret[column.name]) {
-          ret[column.name].push(option.value)
-        } else {
-          ret[column.name] = [option.value]
+      const { values, columns, options, walk } = context
+  
+      const ret = {} // { [columnName]: optionName[] }
+  
+      walk((column, option) => {
+        if (values[column.name][option.value]) {
+          if (ret[column.name]) {
+            ret[column.name].push(option.value)
+          } else {
+            ret[column.name] = [option.value]
+          }
         }
-      }
-    })
-
-    return ret
-  `
+      })
+  
+      return ret
+    `
 }

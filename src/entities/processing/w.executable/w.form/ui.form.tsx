@@ -1,11 +1,11 @@
 import { type ReactNode, createElement, useMemo } from 'react'
-import { Field } from 'react-final-form'
+import { Field, useForm } from 'react-final-form'
 
 import Flex from '~/shared/flex'
 import { MatrixField, TypedIntegerField, TypedStringField, useField } from '~/shared/form'
 import { type Option } from '~/shared/select'
 import { LabeledSelect } from '~/shared/select'
-import { type Any, c } from '~/utils/core'
+import { type Any, c, generateId } from '~/utils/core'
 import { type Dictionary } from '~/utils/dictionary'
 
 import { type ExecutableModel } from '../models'
@@ -25,6 +25,8 @@ export default function Component(props: Props): JSX.Element {
 
   const options = useMemo(executableModelsToOptions, [props.executableModels])
 
+  const form = useForm()
+
   return (
     <Flex className={c(props.className, NAME)} direction='column' gap='4'>
       <Field<{ name: string; params: Record<string, unknown> }> name={name}>
@@ -43,6 +45,8 @@ export default function Component(props: Props): JSX.Element {
                     params[param.name] = new Function('context', param.getInitialValue)({
                       ...props,
                       thisParam: param,
+                      formState: form.getState(),
+                      generateId,
                     }) as Any
                   }
                 }
@@ -91,12 +95,14 @@ function Factory(props: _FactoryProps): ReactNode {
           : p.component.name === 'Matrix'
             ? MatrixField
             : TypedStringField
+
       return createElement(component as Any, {
         key: i,
         name: `${name}.params.${p.name}`,
         label: p.display,
         columns,
         ...p.component.props,
+        ...p.component.singleModeProps,
       })
     }) ?? null
   )
