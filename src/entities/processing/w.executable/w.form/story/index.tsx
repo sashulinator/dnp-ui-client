@@ -1,12 +1,18 @@
-import Form, { useCreateForm } from '~/shared/form'
+/* eslint-disable react-hooks/rules-of-hooks */
+import { useCallback, useMemo, useState } from 'react'
+
+import Flex from '~/shared/flex'
+import Form, { useCreateForm, useField } from '~/shared/form'
 import { type Props, type Story } from '~/shared/storybook'
 import Text from '~/shared/text'
+import { generateId } from '~/utils/core'
 
-import { type ExecutableModel } from '../../models'
+import { type ExecutableDesign } from '../../models'
+import Factory from '../../w.field-factory/ui.field-factory'
 import ExecutableForm from '../ui.form'
 import { columns, firstNameColumn } from './columns'
-import { dnpTableStatsExecutableModel, options } from './executable-model.table-stats'
-import { testExecutableModel } from './executable-model.test1'
+import { dnpTableStatsExecutableDesign, options } from './executable-model.table-stats'
+import { testExecutableDesign } from './executable-model.test1'
 
 interface State {
   //
@@ -16,13 +22,16 @@ export default {
   render: function Story(props: Props<State>): JSX.Element {
     const { state } = props
 
+    const FORM = 'configs[0].executables[0]'
+    const [contextStore, setContextStore] = useState<Record<string, unknown>>({})
+
     const form = useCreateForm(
       {
         onSubmit: (value) => {
           // eslint-disable-next-line no-console
           console.log('value', value)
         },
-        initialValues,
+        initialValues: initialValues,
       },
       {
         values: true,
@@ -31,11 +40,48 @@ export default {
 
     return (
       <div style={{ padding: '2rem' }}>
-        <Form form={form}>
-          {() => {
-            return <ExecutableForm name='story' columns={columns} executableModels={executableModels} {...state} />
-          }}
-        </Form>
+        <Form
+          form={form}
+          component={useCallback(() => {
+            const nameField = useField<string>(`${FORM}.name`, { subscription: { value: true } })
+
+            const nameFieldValue = nameField.input.value
+
+            const executableDesign = useMemo(
+              () => executableDesigns.find((m) => m.name === nameFieldValue),
+              [nameField.input.value],
+            )
+
+            return (
+              <Flex direction='column'>
+                <ExecutableForm
+                  name={`${FORM}`}
+                  executableDesigns={executableDesigns}
+                  context={{
+                    store: contextStore,
+                    setStore: setContextStore,
+                    columns,
+                    generateId,
+                  }}
+                  {...state}
+                />
+                <Factory
+                  setMultyValue={(value, name) => {
+                    const configs = form.getState().values.configs
+                    configs.forEach((_, i) => {
+                      const targetName = name.replaceAll(/configs\[\d+\]/g, `configs[${i}]`)
+                      form.change(targetName as any, value)
+                    })
+                  }}
+                  isSingleMode={false}
+                  executableDesign={executableDesign}
+                  name={FORM}
+                  columns={columns}
+                />
+              </Flex>
+            )
+          }, [])}
+        />
         <pre>
           <Text size='1'>{JSON.stringify(form.getState()?.values, null, 2)}</Text>
         </pre>
@@ -61,16 +107,36 @@ export default {
   getName: (): string => ExecutableForm.displayName,
 } satisfies Story<State>
 
-export const initialValues = {
-  story: {
-    name: 'dnp-common/artifacts/procedures/DnpTableStats',
-    params: {
-      id: 'name',
-      stats: {
-        [firstNameColumn.name]: [options[0].value, options[2].value, options[5].value],
+export const configInitialValues = {
+  executables: [
+    {
+      name: 'dnp-common/artifacts/procedures/DnpTableStats',
+      params: {
+        id: 'name',
+        stats: {
+          [firstNameColumn.name]: [options[0].value, options[2].value, options[5].value],
+        },
       },
     },
-  },
+  ],
 }
 
-export const executableModels: ExecutableModel[] = [dnpTableStatsExecutableModel, testExecutableModel]
+export const configInitialValues2 = {
+  executables: [
+    {
+      name: 'dnp-common/artifacts/procedures/DnpTableStats',
+      params: {
+        id: 'name',
+        stats: {
+          [firstNameColumn.name]: [options[5].value],
+        },
+      },
+    },
+  ],
+}
+
+const initialValues = {
+  configs: [configInitialValues, configInitialValues2],
+}
+
+export const executableDesigns: ExecutableDesign[] = [dnpTableStatsExecutableDesign, testExecutableDesign]

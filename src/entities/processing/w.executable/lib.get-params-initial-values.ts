@@ -1,0 +1,35 @@
+import { type Any, type Dictionary, type SetterOrUpdater } from '~/utils/core'
+
+import { type ExecutableDesign, type ExecutableParamDesign } from './models'
+
+export type GetParamsInitialValuesParams = {
+  executableDesign: ExecutableDesign
+  context: Omit<Context, 'paramDesign'>
+}
+
+export type Context = {
+  columns: { name: string; display: string }[]
+  store: Record<string, unknown>
+  setStore?: SetterOrUpdater<Record<string, unknown>>
+  generateId: () => string
+  paramDesign: ExecutableParamDesign
+}
+
+export function getParamsInitialValues(params: GetParamsInitialValuesParams) {
+  const { executableDesign, context } = params
+
+  const initialParamsValue: Dictionary<Any> = {}
+
+  for (let index = 0; index < executableDesign?.params.length; index++) {
+    const paramDesign = executableDesign?.params[index]
+
+    if (paramDesign.getInitialValue) {
+      initialParamsValue[paramDesign.name] = new Function('context', paramDesign.getInitialValue)({
+        ...context,
+        paramDesign,
+      }) as Any
+    }
+  }
+
+  return initialParamsValue
+}

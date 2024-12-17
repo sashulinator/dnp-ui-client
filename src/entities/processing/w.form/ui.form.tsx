@@ -3,14 +3,14 @@ import { FieldArray, TypedStringField } from '~/shared/form'
 import { c } from '~/utils/core'
 
 import { SLICE } from '../constants'
-import { type ExecutableModel } from '../w.executable'
+import { type ExecutableDesign } from '../w.executable'
 
-export { ExecutableModel }
+export { ExecutableDesign }
 
 export interface Props {
   name: string
   className?: string | undefined
-  executableModels: ExecutableModel[]
+  executableDesigns: ExecutableDesign[]
 }
 
 const NAME = `${APP}-${SLICE}-w-NewForm`

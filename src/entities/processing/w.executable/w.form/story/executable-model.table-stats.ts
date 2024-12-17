@@ -1,4 +1,5 @@
-import { type ExecutableModel } from '../../models'
+import type { Context } from '../../lib.get-params-initial-values'
+import { type ExecutableDesign } from '../../models'
 
 export const options = [
   {
@@ -167,35 +168,35 @@ export const options = [
   },
 ]
 
-export const dnpTableStatsExecutableModel: ExecutableModel = {
+export const dnpTableStatsExecutableDesign: ExecutableDesign = {
   name: 'dnp-common/artifacts/procedures/DnpTableStats',
   display: 'Профилирование',
   params: [
     {
       name: 'id',
       display: 'ID расчета',
-      getInitialValue: `return 'unknown'`,
+      getInitialValue: `return context.generateId()`,
       component: {
         name: 'string',
-        singleModeProps: {
-          readOnly: true,
-        },
       },
     },
     {
       name: 'stats',
       display: 'Метрики',
-      getInitialValue: `
-        const { columns, thisParam, options } = context
-        let ret = {}
-    
-  
+      unique: true,
+      getInitialValue: function (context: Context) {
+        const { columns, paramDesign } = context
+        let ret: Record<string, string[]> = {}
+
         for (let i = 0; i < columns.length; i++) {
           const column = columns[i]
-          for (let k = 0; k < thisParam.component.props.options.length; k++) {
-            const option = thisParam.component.props.options[k]
+          // @ts-ignore
+          for (let k = 0; k < paramDesign.component.props.options.length; k++) {
+            // @ts-ignore
+            const option = paramDesign.component.props.options[k]
+            // @ts-ignore
             if (option.columnTypes && !option.columnTypes.includes(column.type)) continue
-            
+
             if (ret[column.name]) {
               ret[column.name]?.push(option.value)
             } else {
@@ -203,16 +204,16 @@ export const dnpTableStatsExecutableModel: ExecutableModel = {
             }
           }
         }
-    
-        console.log('ret', ret)
-        
+
         return ret
-      `,
+      }
+        .toString()
+        .match(/function[^{]+\{([\s\S]*)\}$/)?.[1] as string,
       component: {
+        serialize: getSerialize(),
+        deserialize: getDeserialize(),
         name: 'Matrix',
         props: {
-          serialize: getSerialize(),
-          deserialize: getDeserialize(),
           valueType: 'boolean',
           options: options,
         },
@@ -222,40 +223,84 @@ export const dnpTableStatsExecutableModel: ExecutableModel = {
 }
 
 function getSerialize() {
-  return `
-      const { values, columns, walk, options } = context
-      let ret = {}
-  
-      walk((column, option) => {
-        ret = {
-          ...ret,
-          [column.name]: {
-            ...ret[column.name],
-            [option.value]: values[column.name]?.includes(option.value) || false,
-          },
+  return function (context: any) {
+    const { value, columns, paramDesign } = context
+    const options = paramDesign.component.props.options
+
+    let ret = {}
+
+    walk((column, option) => {
+      ret = {
+        ...ret,
+        // @ts-ignore
+        [column.name]: {
+          // @ts-ignore
+          ...ret[column.name],
+          // @ts-ignore
+          [option.value]: value[column.name]?.includes(option.value) || false,
+        },
+      }
+    })
+
+    return ret
+
+    function walk(cb: (...args: unknown[]) => unknown) {
+      for (let i = 0; i < columns.length; i++) {
+        for (let j = 0; j < options.length; j++) {
+          const columnType = columns[i].type
+          const optionColumnTypes = options[j].columnTypes
+
+          if (!optionColumnTypes) {
+            cb(columns[i], options[j])
+          } else if (optionColumnTypes && columnType && optionColumnTypes?.includes(columnType)) {
+            cb(columns[i], options[j])
+          }
         }
-      })
-  
-      return ret
-    `
+      }
+    }
+  }
+    .toString()
+    .match(/function[^{]+\{([\s\S]*)\}$/)?.[1] as string
 }
 
 function getDeserialize() {
-  return `
-      const { values, columns, options, walk } = context
-  
-      const ret = {} // { [columnName]: optionName[] }
-  
-      walk((column, option) => {
-        if (values[column.name][option.value]) {
-          if (ret[column.name]) {
-            ret[column.name].push(option.value)
-          } else {
-            ret[column.name] = [option.value]
+  return function (context: any) {
+    const { value, columns, paramDesign } = context
+    const options = paramDesign.component.props.options
+
+    const ret = {} // { [columnName]: optionName[] }
+
+    walk((column, option) => {
+      // @ts-ignore
+      if (value[column.name][option.value]) {
+        // @ts-ignore
+        if (ret[column.name]) {
+          // @ts-ignore
+          ret[column.name].push(option.value)
+        } else {
+          // @ts-ignore
+          ret[column.name] = [option.value]
+        }
+      }
+    })
+
+    return ret
+
+    function walk(cb: (...args: unknown[]) => unknown) {
+      for (let i = 0; i < columns.length; i++) {
+        for (let j = 0; j < options.length; j++) {
+          const columnType = columns[i].type
+          const optionColumnTypes = options[j].columnTypes
+
+          if (!optionColumnTypes) {
+            cb(columns[i], options[j])
+          } else if (optionColumnTypes && columnType && optionColumnTypes?.includes(columnType)) {
+            cb(columns[i], options[j])
           }
         }
-      })
-  
-      return ret
-    `
+      }
+    }
+  }
+    .toString()
+    .match(/function[^{]+\{([\s\S]*)\}$/)?.[1] as string
 }

@@ -1,6 +1,6 @@
-import { type ExecutableModel } from '../../models'
+import { type ExecutableDesign } from '../../models'
 
-export const testExecutableModel: ExecutableModel = {
+export const testExecutableDesign: ExecutableDesign = {
   name: 'dnp-common/artifacts/procedures/Test',
   display: 'Тест',
   params: [

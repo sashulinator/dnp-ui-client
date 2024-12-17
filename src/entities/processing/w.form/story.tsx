@@ -5,8 +5,9 @@ import Form, { FieldArray, useCreateForm } from '~/shared/form'
 import { LabeledSelect } from '~/shared/select'
 import { type Props, type Story } from '~/shared/storybook'
 import Text from '~/shared/text'
+import { generateId } from '~/utils/core'
 
-import { initialValues as executableInitialValues, executableModels } from '../w.executable/w.form/story'
+import { executableDesigns, configInitialValues2 as executableInitialValues } from '../w.executable/w.form/story'
 import { columns } from '../w.executable/w.form/story/columns'
 import ProcessingForm from '../w.executable/w.form/ui.form'
 
@@ -17,6 +18,8 @@ interface State {
 export default {
   render: function Story(props: Props<State>): JSX.Element {
     const { state } = props
+
+    const [contextStore, setContextStore] = useState<Record<string, unknown>>({})
 
     const form = useCreateForm(
       {
@@ -57,9 +60,14 @@ export default {
                       return (
                         <ProcessingForm
                           key={selectedTable}
-                          columns={columns}
-                          executableModels={executableModels}
+                          executableDesigns={executableDesigns}
                           name={name}
+                          context={{
+                            store: contextStore,
+                            setStore: setContextStore,
+                            generateId,
+                            columns,
+                          }}
                           {...state}
                         />
                       )
@@ -102,7 +110,7 @@ const firstConfigValue = {
   executables: [
     {
       name: 'dnp-common/artifacts/procedures/DnpTableStats',
-      params: executableInitialValues.story.params,
+      params: executableInitialValues.executables[0].params,
     },
   ],
 }
@@ -114,7 +122,7 @@ const secondConfigValue = {
   executables: [
     {
       name: 'dnp-common/artifacts/procedures/DnpTableStats',
-      params: executableInitialValues.story.params,
+      params: executableInitialValues.executables[0].params,
     },
   ],
 }

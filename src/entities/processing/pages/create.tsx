@@ -80,7 +80,7 @@ export default function Component(): JSX.Element {
                   component={ProcessingForm.default}
                   fetchDcdatabaseOptions={fetchDatabaseOptions}
                   fetchTablesOptions={fetchInputTablesOptions}
-                  feftchExecutables={feftchExecutables}
+                  fetchExecutableDesigns={fetchExecutableDesigns}
                 />
               </Flex>
             </Tabs.Content>
@@ -118,7 +118,7 @@ export default function Component(): JSX.Element {
    * private
    */
 
-  async function feftchExecutables() {
+  async function fetchExecutableDesigns() {
     const ret = await Executable.api.findWithTotal.request({})
     return ret.data.items
   }

@@ -3,6 +3,7 @@ import Flex from '~/shared/flex'
 import Form, { useCreateForm } from '~/shared/form'
 import { type Props, type Story } from '~/shared/storybook'
 
+import { executableDesigns } from '../../w.executable/w.form/story'
 import ProcessingForm, { type Option } from './ui.new-form'
 
 interface State {
@@ -20,7 +21,7 @@ export default {
       <Flex width='100%' p='8' gap='4'>
         <Flex width='50%' direction='column' gap='4'>
           <Form
-            feftchExecutables={async () => []}
+            fetchExecutableDesigns={async () => executableDesigns}
             form={form}
             component={ProcessingForm}
             fetchDcdatabaseOptions={fetchDatabasesOptions}
