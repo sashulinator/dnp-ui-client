@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useQuery } from 'react-query'
 
 import { APP } from '~/app/constants.app'
@@ -8,7 +8,7 @@ import { Card, Column, FieldArray, Row, useForm } from '~/shared/form'
 import Icon from '~/shared/icon'
 import { LabeledSelect, type Option } from '~/shared/select'
 import { Tabs } from '~/shared/tabs'
-import { assertDefined, c } from '~/utils/core'
+import { type Any, assertDefined, c, generateId } from '~/utils/core'
 import { emptyFn } from '~/utils/function'
 
 import { SLICE } from '../../constants'
@@ -50,7 +50,7 @@ export const NAME = `${APP}-${SLICE}-Form`
 export default function Component(props: Props): JSX.Element {
   const { fetchTables, fetchDcdatabaseOptions, fetchExecutableDesigns } = props
 
-  const [selectedSingleTableId, setSelectedSingleTableId] = useState<string>()
+  const [selectedSingleTableName, setSelectedSingleTableName] = useState<string>()
 
   const form = useForm<Values>()
   const dcdatabaseId = form.getState().values?.inputDcdatabaseId
@@ -71,9 +71,10 @@ export default function Component(props: Props): JSX.Element {
     enabled: Boolean(dcdatabaseId),
   })
 
-  const selectedSingleTable = tablesFetcher.data?.find((t) => t.name === selectedSingleTableId)
-
-  // console.log('form', form.getState().values)
+  const selectedSingleTable = useMemo(
+    () => tablesFetcher.data?.find((t) => t.name === selectedSingleTableName),
+    [selectedSingleTableName],
+  )
 
   return (
     <Tabs.Root defaultValue='multi'>
@@ -99,31 +100,36 @@ export default function Component(props: Props): JSX.Element {
             </Row>
             <Row>
               <Column width='100%'>
-                {executableDesigns && (
-                  <FieldArray name='multyConfig.executables'>
+                {executableDesigns && dcdatabaseId && (
+                  <FieldArray name='multiConfig.executables'>
                     {({ fields }) => (
                       <Flex direction='column' gap='4'>
-                        {fields.map((name, index) => (
-                          <Card>
+                        {fields.map((formName, index) => (
+                          <Card key={index}>
                             <Flex width='100%' direction='column' gap='4'>
                               <Row justify='between'>
                                 <Column width='50%'>
                                   <ExectableForm
                                     key={index}
-                                    onNameChange={emptyFn}
-                                    name={name}
+                                    onNameChange={(name) => changeExecutableName(name, formName)}
+                                    name={formName}
                                     executableDesigns={executableDesigns}
                                   />
                                 </Column>
-                                <DangerButton round={true}>
+                                <DangerButton
+                                  round={true}
+                                  onClick={() => {
+                                    fields.remove(index)
+                                  }}
+                                >
                                   <Icon name='Trash' />
                                 </DangerButton>
                               </Row>
                               <ParamsFieldFactory
-                                name={name}
+                                name={formName}
                                 columns={[]}
                                 isSingleMode={false}
-                                setMultyValue={emptyFn}
+                                setMultyValue={setMultyParamValue}
                                 executableDesigns={executableDesigns}
                               />
                             </Flex>
@@ -153,12 +159,53 @@ export default function Component(props: Props): JSX.Element {
             <Row width='100%'>
               <Column width='50%'>
                 <LabeledSelect.default
-                  value={selectedSingleTableId}
-                  onChange={(e) => setSelectedSingleTableId(e.toString())}
+                  value={selectedSingleTableName}
+                  onChange={(e) => setSelectedSingleTableName(e.toString())}
                   options={tableOptions}
                 />
               </Column>
             </Row>
+            {selectedSingleTable && (
+              <Row key={selectedSingleTable.name}>
+                <Column width='100%'>
+                  {executableDesigns && (
+                    <FieldArray key={selectedSingleTable.name} name={`configs.${selectedSingleTable.name}.executables`}>
+                      {({ fields }) => (
+                        <Flex direction='column' gap='4'>
+                          {fields.map((formName, index) => (
+                            <Card key={index}>
+                              <Flex width='100%' direction='column' gap='4'>
+                                <Row justify='between'>
+                                  <Column width='50%'>
+                                    <ExectableForm
+                                      key={index}
+                                      readonly={true}
+                                      onNameChange={(name) => changeExecutableName(name, formName)}
+                                      name={formName}
+                                      executableDesigns={executableDesigns}
+                                    />
+                                  </Column>
+                                  <DangerButton round={true} onClick={() => fields.remove(index)}>
+                                    <Icon name='Trash' />
+                                  </DangerButton>
+                                </Row>
+                                <ParamsFieldFactory
+                                  name={formName}
+                                  columns={selectedSingleTable.columns}
+                                  isSingleMode={true}
+                                  setMultyValue={emptyFn}
+                                  executableDesigns={executableDesigns}
+                                />
+                              </Flex>
+                            </Card>
+                          ))}
+                        </Flex>
+                      )}
+                    </FieldArray>
+                  )}
+                </Column>
+              </Row>
+            )}
           </Column>
         </Flex>
       </Tabs.Content>
@@ -171,6 +218,50 @@ export default function Component(props: Props): JSX.Element {
 
   function removeConfigs() {
     form.change(`configs`, {})
+  }
+
+  function setMultyParamValue(value: unknown, formName: string) {
+    form.change(formName as any, value)
+    Object.values(form.getState().values.configs || {}).forEach((config) => {
+      form.change(formName.replace('multiConfig', `configs.${config.inputTable}`) as Any, value)
+    })
+  }
+
+  function changeExecutableName(name: string, formName: string) {
+    const executableDesign = executableDesigns?.find((executableDesign) => executableDesign.name === name)
+
+    const initialValues = executableDesign?.params.reduce<Record<string, unknown>>((acc, paramDesign) => {
+      if (paramDesign.unique) return acc
+      acc[paramDesign.name] = new Function('context', paramDesign.getInitialValue || '')({
+        values: form.getState().values,
+        paramDesign,
+        generateId,
+      })
+      return acc
+    }, {})
+
+    form.change(formName as Any, { name, params: initialValues })
+
+    Object.values(form.getState().values.configs || {}).forEach((config) => {
+      const table = tablesFetcher.data?.find((t) => t.name === config.inputTable)
+
+      const uniqInitialValues = executableDesign?.params.reduce<Record<string, unknown>>((acc, paramDesign) => {
+        if (!paramDesign.unique) return acc
+        acc[paramDesign.name] = new Function('context', paramDesign.getInitialValue || '')({
+          values: form.getState().values,
+          paramDesign,
+          generateId,
+          columns: table?.columns,
+          table,
+        })
+        return acc
+      }, {})
+
+      form.change(formName.replace('multiConfig', `configs.${config.inputTable}`) as Any, {
+        name,
+        params: { ...initialValues, ...uniqInitialValues },
+      })
+    })
   }
 
   function addConfig(tableNames: string[]) {

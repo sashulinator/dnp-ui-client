@@ -1,3 +1,5 @@
+import { ScrollArea } from '@radix-ui/themes'
+
 import Checkbox from '~/shared/checkbox'
 import { MatrixTable } from '~/shared/table'
 import TextInput from '~/shared/text-input'
@@ -13,7 +15,6 @@ export type Props<TItem extends Dictionary, TContext extends Dictionary, TValue>
   value: Record<string, TValue>
   onChange: (value: Record<string, TValue>) => void
   _paramContext: ParamFactoryContext
-  isSingleMode: boolean
 }
 
 const NAME = 'form-w-matrixField-MatrixField'
@@ -21,21 +22,23 @@ const NAME = 'form-w-matrixField-MatrixField'
 export default function Component<TItem extends Dictionary, TContext extends Dictionary, TValue>(
   props: Props<TItem, TContext, TValue>,
 ): JSX.Element | string {
-  const { value, _paramContext, options, isSingleMode, onChange } = props
-  const { columns } = _paramContext
+  const { value, _paramContext, options, onChange } = props
+  const { columns, isSingleMode } = _paramContext
   if (!isSingleMode) return 'матрица не имплементирована'
   const renderCell = props.valueType === 'boolean' ? _renderBooleanCell : _renderTextCell
 
   return (
-    <MatrixTable.default<Dictionary, Dictionary, unknown>
-      className={c(props.className, NAME)}
-      context={{}}
-      columns={columns as Any}
-      options={options as Any}
-      values={value as Any}
-      renderCell={renderCell}
-      onValuesChange={onChange as Any}
-    />
+    <ScrollArea>
+      <MatrixTable.default<Dictionary, Dictionary, unknown>
+        className={c(props.className, NAME)}
+        context={{}}
+        columns={columns as Any}
+        options={options as Any}
+        values={value as Any}
+        renderCell={renderCell}
+        onValuesChange={onChange as Any}
+      />
+    </ScrollArea>
   )
 }
 
