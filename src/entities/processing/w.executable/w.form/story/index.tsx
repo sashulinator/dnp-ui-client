@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useCallback, useMemo } from 'react'
+import { useCallback } from 'react'
 
 import Flex from '~/shared/flex'
-import Form, { useCreateForm, useField } from '~/shared/form'
+import Form, { useCreateForm } from '~/shared/form'
 import { type Props, type Story } from '~/shared/storybook'
 import Text from '~/shared/text'
-import { generateId } from '~/utils/core'
+import { emptyFn } from '~/utils/function'
 
 import { type ExecutableDesign } from '../../models'
 import Factory from '../../w.field-factory/ui.field-factory'
@@ -41,24 +41,12 @@ export default {
         <Form
           form={form}
           component={useCallback(() => {
-            const nameField = useField<string>(`${FORM}.name`, { subscription: { value: true } })
-
-            const nameFieldValue = nameField.input.value
-
-            const executableDesign = useMemo(
-              () => executableDesigns.find((m) => m.name === nameFieldValue),
-              [nameField.input.value],
-            )
-
             return (
               <Flex direction='column'>
                 <ExecutableForm
+                  onNameChange={emptyFn}
                   name={`${FORM}`}
                   executableDesigns={executableDesigns}
-                  context={{
-                    columns,
-                    generateId,
-                  }}
                   {...state}
                 />
                 <Factory
@@ -70,7 +58,7 @@ export default {
                     })
                   }}
                   isSingleMode={false}
-                  executableDesign={executableDesign}
+                  executableDesigns={executableDesigns as any}
                   name={FORM}
                   columns={columns}
                 />

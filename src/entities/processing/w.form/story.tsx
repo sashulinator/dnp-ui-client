@@ -5,10 +5,9 @@ import Form, { FieldArray, useCreateForm } from '~/shared/form'
 import { LabeledSelect } from '~/shared/select'
 import { type Props, type Story } from '~/shared/storybook'
 import Text from '~/shared/text'
-import { generateId } from '~/utils/core'
+import { emptyFn } from '~/utils/function'
 
 import { executableDesigns, configInitialValues2 as executableInitialValues } from '../w.executable/w.form/story'
-import { columns } from '../w.executable/w.form/story/columns'
 import ProcessingForm from '../w.executable/w.form/ui.form'
 
 interface State {
@@ -60,10 +59,7 @@ export default {
                           key={selectedTable}
                           executableDesigns={executableDesigns}
                           name={name}
-                          context={{
-                            generateId,
-                            columns,
-                          }}
+                          onNameChange={emptyFn}
                           {...state}
                         />
                       )

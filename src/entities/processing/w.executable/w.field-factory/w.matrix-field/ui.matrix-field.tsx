@@ -13,15 +13,17 @@ export type Props<TItem extends Dictionary, TContext extends Dictionary, TValue>
   value: Record<string, TValue>
   onChange: (value: Record<string, TValue>) => void
   _paramContext: ParamFactoryContext
+  isSingleMode: boolean
 }
 
 const NAME = 'form-w-matrixField-MatrixField'
 
 export default function Component<TItem extends Dictionary, TContext extends Dictionary, TValue>(
   props: Props<TItem, TContext, TValue>,
-): JSX.Element {
-  const { value, _paramContext, options, onChange } = props
+): JSX.Element | string {
+  const { value, _paramContext, options, isSingleMode, onChange } = props
   const { columns } = _paramContext
+  if (!isSingleMode) return 'матрица не имплементирована'
   const renderCell = props.valueType === 'boolean' ? _renderBooleanCell : _renderTextCell
 
   return (

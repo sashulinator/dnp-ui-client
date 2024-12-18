@@ -16,7 +16,7 @@ const componentMap = {
 }
 
 export interface Props {
-  executableDesign: ExecutableDesign | undefined
+  executableDesigns: ExecutableDesign[] | undefined
   columns: { name: string; display: string; type: string }[]
   name: string
   isSingleMode: boolean
@@ -25,7 +25,15 @@ export interface Props {
 const NAME = `${SLICE}-FieldFactory`
 
 export default function Component(props: Props): ReactNode {
-  const { executableDesign } = props
+  const { executableDesigns } = props
+
+  const nameField = useField<string>(`${props.name}.name`, { subscription: { value: true } })
+
+  const executableDesignName = nameField.input.value
+
+  const executableDesign = useMemo(() => {
+    return executableDesigns?.find((executableDesign) => executableDesign.name === executableDesignName)
+  }, [executableDesignName, executableDesigns])
 
   if (!executableDesign) {
     return <Text color='red'>Такой процедуры не существует</Text>

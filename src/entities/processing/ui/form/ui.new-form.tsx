@@ -2,14 +2,18 @@ import { useState } from 'react'
 import { useQuery } from 'react-query'
 
 import { APP } from '~/app/constants.app'
+import Button, { DangerButton } from '~/shared/button'
 import Flex from '~/shared/flex'
-import { Column, Row, useForm } from '~/shared/form'
+import { Card, Column, FieldArray, Row, useForm } from '~/shared/form'
+import Icon from '~/shared/icon'
 import { LabeledSelect, type Option } from '~/shared/select'
 import { Tabs } from '~/shared/tabs'
-import { assertDefined, c, generateId } from '~/utils/core'
+import { assertDefined, c } from '~/utils/core'
+import { emptyFn } from '~/utils/function'
 
 import { SLICE } from '../../constants'
 import type { ExecutableDesign } from '../../w.executable'
+import ParamsFieldFactory from '../../w.executable/w.field-factory'
 import ExectableForm from '../../w.executable/w.form/ui.form'
 // import { type Procedure } from '../../w.procedure'
 import InputBlock from './w.input-block'
@@ -95,15 +99,48 @@ export default function Component(props: Props): JSX.Element {
             </Row>
             <Row>
               <Column width='100%'>
-                {executableDesigns && selectedSingleTable && (
-                  <ExectableForm
-                    context={{
-                      generateId,
-                      columns: selectedSingleTable?.columns || [],
-                    }}
-                    name='multi'
-                    executableDesigns={executableDesigns}
-                  />
+                {executableDesigns && (
+                  <FieldArray name='multyConfig.executables'>
+                    {({ fields }) => (
+                      <Flex direction='column' gap='4'>
+                        {fields.map((name, index) => (
+                          <Card>
+                            <Flex width='100%' direction='column' gap='4'>
+                              <Row justify='between'>
+                                <Column width='50%'>
+                                  <ExectableForm
+                                    key={index}
+                                    onNameChange={emptyFn}
+                                    name={name}
+                                    executableDesigns={executableDesigns}
+                                  />
+                                </Column>
+                                <DangerButton round={true}>
+                                  <Icon name='Trash' />
+                                </DangerButton>
+                              </Row>
+                              <ParamsFieldFactory
+                                name={name}
+                                columns={[]}
+                                isSingleMode={false}
+                                setMultyValue={emptyFn}
+                                executableDesigns={executableDesigns}
+                              />
+                            </Flex>
+                          </Card>
+                        ))}
+                        <Flex>
+                          <Button
+                            onClick={() => {
+                              fields.push({})
+                            }}
+                          >
+                            Добавить процедуру
+                          </Button>
+                        </Flex>
+                      </Flex>
+                    )}
+                  </FieldArray>
                 )}
               </Column>
             </Row>
