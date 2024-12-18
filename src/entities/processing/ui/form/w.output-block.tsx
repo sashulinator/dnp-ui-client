@@ -31,7 +31,7 @@ const NAME = `${APP}-${SLICE}-Form-w-OutputBlock`
 export default function Component(props: Props): JSX.Element {
   const { className, fetchTables, fetchDcdatabaseOptions } = props
 
-  const dcdatabaseField = useField('outputDcdatabase', { subscription: { value: true } })
+  const dcdatabaseField = useField('outputDcdatabaseId', { subscription: { value: true } })
   const dcdatabaseId = dcdatabaseField.input.value
 
   const databasesOptionsfetcher = useQuery([NAME, 'databasesOptions'], () => fetchDcdatabaseOptions(), {
@@ -58,7 +58,7 @@ export default function Component(props: Props): JSX.Element {
       <Column width='100%'>
         <TypedUnionField
           testValueType={TypedUnionField.testValueType}
-          name='outputDcdatabase'
+          name='outputDcdatabaseId'
           label='База данных'
           onChange={() => {
             form.change(`outputTable`, undefined)
