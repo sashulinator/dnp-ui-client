@@ -2,6 +2,7 @@
 import Flex from '~/shared/flex'
 import Form, { useCreateForm } from '~/shared/form'
 import { type Props, type Story } from '~/shared/storybook'
+import { Any } from '~/utils/core'
 
 import { executableDesigns } from '../../w.executable/w.form/story'
 import ProcessingForm, { type Option } from './ui.new-form'
@@ -25,7 +26,7 @@ export default {
             form={form}
             component={ProcessingForm}
             fetchDcdatabaseOptions={fetchDatabasesOptions}
-            fetchTablesOptions={fetchInputTablesOptions}
+            fetchTables={fetchInputTables}
             {...state}
           />
           <button disabled={!fState.dirty || fState.invalid}>Submit</button>
@@ -53,19 +54,14 @@ export default {
   getName: (): string => ProcessingForm.displayName,
 } satisfies Story<State>
 
-function fetchInputTablesOptions(): Promise<Option[]> {
+function fetchInputTables(): Promise<Any> {
   return new Promise((resolve) => {
     setTimeout(() => {
-      const options: Option[] = [
-        { value: 'table1', display: 'Таблица-1' },
-        { value: 'table2', display: 'Таблица-2' },
-        { value: 'table3', display: 'Таблица-3' },
-        { value: 'table4', display: 'Таблица-4' },
-        { value: 'table5', display: 'Таблица-5' },
-        { value: 'table6', display: 'Таблица-6' },
-        { value: 'table7', display: 'Таблица-7' },
+      const tables = [
+        { name: 'table1', display: 'Таблица-1', columns: { name: 'column1', display: 'Колонка-1', type: 'string' } },
+        { name: 'table2', display: 'Таблица-2', columns: { name: 'column1', display: 'Колонка-1', type: 'string' } },
       ]
-      resolve(options)
+      resolve(tables)
     }, 1000)
   })
 }

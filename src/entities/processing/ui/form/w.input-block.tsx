@@ -1,40 +1,52 @@
-import { useState } from 'react'
+import { useMemo } from 'react'
 import { useQuery } from 'react-query'
 
 import { APP } from '~/app/constants.app'
-import Flex from '~/shared/flex'
-import { Card, Column, Label, SelectMultiple, TypedField, useForm } from '~/shared/form'
-import Select, { type Option } from '~/shared/select'
+import { Card, Column, TypedUnionField, useField, useForm } from '~/shared/form'
+import { type Option } from '~/shared/select'
+import { LabeledSelectMultiple } from '~/shared/select-multiple'
 import Text from '~/shared/text'
 import { c } from '~/utils/core'
 
 import { SLICE } from '../../constants'
+import { type Values } from './ui.new-form'
+
+type Column = { name: string; display: string; type: string }
+type Table = { name: string; display: string; columns: Column[] }
 
 export interface Props {
   className?: string | undefined
-  fetchTablesOptions: (dcdatabaseId: string) => Promise<Option[]>
+  fetchTables: (dcdatabaseId: string) => Promise<Table[]>
   fetchDcdatabaseOptions: () => Promise<Option[]>
+  onTablesChange: (tables: string[]) => void
+  onDcdatabaseIdChange: (id: string) => void
 }
 
 const NAME = `${APP}-${SLICE}-Form-w-InputBlock`
 
 export default function Component(props: Props): JSX.Element {
-  const INPUT_TABLES_NAME = 'inputTables'
+  const { className, fetchTables, fetchDcdatabaseOptions, onTablesChange, onDcdatabaseIdChange } = props
 
-  const { className, fetchTablesOptions, fetchDcdatabaseOptions } = props
-
-  const [dcdatabaseId, setDcdatabaseId] = useState<string>('')
+  const dcdatabaseField = useField('inputDcdatabaseId', { subscription: { value: true } })
+  const dcdatabaseId = dcdatabaseField.input.value
 
   const databasesOptionsfetcher = useQuery([NAME, 'databasesOptions'], () => fetchDcdatabaseOptions(), {
     staleTime: Infinity,
   })
 
-  const tablesOptionsFetcher = useQuery([NAME, dcdatabaseId], () => fetchTablesOptions(dcdatabaseId), {
+  const tablesFetcher = useQuery(['dcdatabaseTables', dcdatabaseId], () => fetchTables(dcdatabaseId as string), {
     staleTime: Infinity,
     enabled: Boolean(dcdatabaseId),
   })
 
-  const form = useForm()
+  const tableOptions = useMemo(
+    () => tablesFetcher.data?.map((item) => ({ value: item.name, display: item.name || item.display })) || [],
+    [tablesFetcher.data],
+  )
+
+  const form = useForm<Values>()
+
+  const tablesValue = Object.values(form.getState().values?.configs || {}).map((c) => c.inputTable) || []
 
   return (
     <Card className={c(NAME, className)}>
@@ -42,34 +54,20 @@ export default function Component(props: Props): JSX.Element {
         Вход
       </Text>
       <Column width='100%'>
-        <Flex width='100%' direction='column'>
-          <Label>База данных</Label>
-          <Select.Root
-            value={dcdatabaseId}
-            onValueChange={(value) => {
-              setDcdatabaseId(value)
-              form.change(INPUT_TABLES_NAME, undefined)
-            }}
-          >
-            <Select.Trigger variant='soft' />
-            <Select.Content>
-              <Select.Group>
-                {databasesOptionsfetcher.data?.map((option, i) => {
-                  return (
-                    <Select.Item key={i} {...option}>
-                      {option.display}
-                    </Select.Item>
-                  )
-                })}
-              </Select.Group>
-            </Select.Content>
-          </Select.Root>
-        </Flex>
-        <TypedField
+        <TypedUnionField<Values, 'inputDcdatabaseId'>
+          testValueType={TypedUnionField.testValueType}
+          name='inputDcdatabaseId'
+          label='База данных'
+          onChange={(e) => {
+            onDcdatabaseIdChange(e.toString())
+          }}
+          options={databasesOptionsfetcher.data || []}
+        />
+        <LabeledSelectMultiple.default
           label='Таблицы'
-          name={INPUT_TABLES_NAME}
-          component={SelectMultiple}
-          options={tablesOptionsFetcher.data || []}
+          value={tablesValue}
+          options={tableOptions}
+          onValueChange={(tables) => onTablesChange(tables)}
         />
       </Column>
     </Card>

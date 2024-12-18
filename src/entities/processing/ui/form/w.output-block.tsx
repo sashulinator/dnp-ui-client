@@ -1,38 +1,52 @@
-import { useState } from 'react'
+import { useMemo } from 'react'
 import { useQuery } from 'react-query'
 
 import { APP } from '~/app/constants.app'
-import Flex from '~/shared/flex'
-import { Card, Column, Select as FormSelect, Label, TypedField, useForm } from '~/shared/form'
-import Select, { type Option } from '~/shared/select'
+import {
+  Card,
+  Column,
+  Select as FormSelect,
+  type SelectMultipleOption as Option,
+  TypedField,
+  TypedUnionField,
+  useField,
+  useForm,
+} from '~/shared/form'
 import Text from '~/shared/text'
 import { c } from '~/utils/core'
 
 import { SLICE } from '../../constants'
 
+type Column = { name: string; display: string; type: string }
+type Table = { name: string; display: string; columns: Column[] }
+
 export interface Props {
   className?: string | undefined
-  fetchTablesOptions: (dcdatabaseId: string) => Promise<Option[]>
+  fetchTables: (dcdatabaseId: string) => Promise<Table[]>
   fetchDcdatabaseOptions: () => Promise<Option[]>
 }
 
 const NAME = `${APP}-${SLICE}-Form-w-OutputBlock`
 
 export default function Component(props: Props): JSX.Element {
-  const OUTPUT_TABLE_NAME = 'outputTable'
+  const { className, fetchTables, fetchDcdatabaseOptions } = props
 
-  const { className, fetchTablesOptions, fetchDcdatabaseOptions } = props
-
-  const [dcdatabaseId, setInputDcdatabaseId] = useState<string>('')
+  const dcdatabaseField = useField('outputDcdatabase', { subscription: { value: true } })
+  const dcdatabaseId = dcdatabaseField.input.value
 
   const databasesOptionsfetcher = useQuery([NAME, 'databasesOptions'], () => fetchDcdatabaseOptions(), {
     staleTime: Infinity,
   })
 
-  const tablesOptionsFetcher = useQuery([NAME, dcdatabaseId], () => fetchTablesOptions(dcdatabaseId), {
+  const tablesFetcher = useQuery(['dcdatabaseTables', dcdatabaseId], () => fetchTables(dcdatabaseId as string), {
     staleTime: Infinity,
     enabled: Boolean(dcdatabaseId),
   })
+
+  const tableOptions = useMemo(
+    () => tablesFetcher.data?.map((item) => ({ value: item.name, display: item.name || item.display })) || [],
+    [tablesFetcher.data],
+  )
 
   const form = useForm()
 
@@ -42,35 +56,16 @@ export default function Component(props: Props): JSX.Element {
         Вывод
       </Text>
       <Column width='100%'>
-        <Flex width='100%' direction='column'>
-          <Label>База данных</Label>
-          <Select.Root
-            value={dcdatabaseId}
-            onValueChange={(value) => {
-              setInputDcdatabaseId(value)
-              form.change(OUTPUT_TABLE_NAME, undefined)
-            }}
-          >
-            <Select.Trigger variant='soft' />
-            <Select.Content>
-              <Select.Group>
-                {databasesOptionsfetcher.data?.map((option, i) => {
-                  return (
-                    <Select.Item key={i} {...option}>
-                      {option.display}
-                    </Select.Item>
-                  )
-                })}
-              </Select.Group>
-            </Select.Content>
-          </Select.Root>
-        </Flex>
-        <TypedField
-          label='Таблица'
-          name={OUTPUT_TABLE_NAME}
-          component={FormSelect}
-          options={tablesOptionsFetcher.data || []}
+        <TypedUnionField
+          testValueType={TypedUnionField.testValueType}
+          name='outputDcdatabase'
+          label='База данных'
+          onChange={() => {
+            form.change(`outputTable`, undefined)
+          }}
+          options={databasesOptionsfetcher.data || []}
         />
+        <TypedField label='Таблица' name='outputTable' component={FormSelect} options={tableOptions} />
       </Column>
     </Card>
   )

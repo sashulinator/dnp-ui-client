@@ -19,8 +19,6 @@ export default {
   render: function Story(props: Props<State>): JSX.Element {
     const { state } = props
 
-    const [contextStore, setContextStore] = useState<Record<string, unknown>>({})
-
     const form = useCreateForm(
       {
         onSubmit: (value) => {
@@ -63,8 +61,6 @@ export default {
                           executableDesigns={executableDesigns}
                           name={name}
                           context={{
-                            store: contextStore,
-                            setStore: setContextStore,
                             generateId,
                             columns,
                           }}

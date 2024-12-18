@@ -1,4 +1,4 @@
-import { type Any, type Dictionary, type SetterOrUpdater } from '~/utils/core'
+import { type Any, type Dictionary } from '~/utils/core'
 
 import { type ExecutableDesign, type ExecutableParamDesign } from './models'
 
@@ -9,8 +9,6 @@ export type GetParamsInitialValuesParams = {
 
 export type Context = {
   columns: { name: string; display: string }[]
-  store: Record<string, unknown>
-  setStore?: SetterOrUpdater<Record<string, unknown>>
   generateId: () => string
   paramDesign: ExecutableParamDesign
 }

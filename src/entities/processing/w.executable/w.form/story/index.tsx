@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo } from 'react'
 
 import Flex from '~/shared/flex'
 import Form, { useCreateForm, useField } from '~/shared/form'
@@ -23,8 +23,6 @@ export default {
     const { state } = props
 
     const FORM = 'configs[0].executables[0]'
-    const [contextStore, setContextStore] = useState<Record<string, unknown>>({})
-
     const form = useCreateForm(
       {
         onSubmit: (value) => {
@@ -58,8 +56,6 @@ export default {
                   name={`${FORM}`}
                   executableDesigns={executableDesigns}
                   context={{
-                    store: contextStore,
-                    setStore: setContextStore,
                     columns,
                     generateId,
                   }}

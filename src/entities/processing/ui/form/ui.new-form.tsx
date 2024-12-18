@@ -1,33 +1,42 @@
+import { useState } from 'react'
 import { useQuery } from 'react-query'
 
 import { APP } from '~/app/constants.app'
-import { Column, Row } from '~/shared/form'
-import { type Option } from '~/shared/select'
-import { c } from '~/utils/core'
+import Flex from '~/shared/flex'
+import { Column, Row, useForm } from '~/shared/form'
+import { LabeledSelect, type Option } from '~/shared/select'
+import { Tabs } from '~/shared/tabs'
+import { assertDefined, c, generateId } from '~/utils/core'
 
 import { SLICE } from '../../constants'
 import type { ExecutableDesign } from '../../w.executable'
+import ExectableForm from '../../w.executable/w.form/ui.form'
 // import { type Procedure } from '../../w.procedure'
 import InputBlock from './w.input-block'
 import OutputBlock from './w.output-block'
 
 export { type Option }
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export type Config = {
   inputTable: string
-  outputTable: string
-  inputDcdatabaseId: string
-  outputDcdatabaseId: string
 }
 
 export type Values = {
   name: string
+  inputDcdatabaseId: string
+  outputDcdatabaseId: string
+  outputTable: string
   configs: Record<string, Config>
+  multiConfig: Config
 }
+
+type Column = { name: string; display: string; type: string }
+type Table = { name: string; display: string; columns: Column[] }
 
 export interface Props {
   className?: string | undefined
-  fetchTablesOptions: (dcdatabaseId: string) => Promise<Option[]>
+  fetchTables: (dcdatabaseId: string) => Promise<Table[]>
   fetchDcdatabaseOptions: () => Promise<Option[]>
   fetchExecutableDesigns: () => Promise<ExecutableDesign[]>
 }
@@ -35,25 +44,122 @@ export interface Props {
 export const NAME = `${APP}-${SLICE}-Form`
 
 export default function Component(props: Props): JSX.Element {
-  const { fetchTablesOptions, fetchDcdatabaseOptions, fetchExecutableDesigns } = props
+  const { fetchTables, fetchDcdatabaseOptions, fetchExecutableDesigns } = props
+
+  const [selectedSingleTableId, setSelectedSingleTableId] = useState<string>()
+
+  const form = useForm<Values>()
+  const dcdatabaseId = form.getState().values?.inputDcdatabaseId
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const executableDesignsFetcher = useQuery([NAME, 'executableDesigns'], fetchExecutableDesigns, {
     staleTime: Infinity,
   })
 
+  const executableDesigns = executableDesignsFetcher.data
+
+  const tableOptions =
+    Object.values(form.getState().values?.configs || {}).map((c) => ({ value: c.inputTable, display: c.inputTable })) ||
+    []
+
+  const tablesFetcher = useQuery(['dcdatabaseTables', dcdatabaseId], () => fetchTables(dcdatabaseId as string), {
+    staleTime: Infinity,
+    enabled: Boolean(dcdatabaseId),
+  })
+
+  const selectedSingleTable = tablesFetcher.data?.find((t) => t.name === selectedSingleTableId)
+
+  // console.log('form', form.getState().values)
+
   return (
-    <Column className={c(props.className, NAME)}>
-      <Row width='100%'>
-        <Column width='50%'>
-          <InputBlock fetchTablesOptions={fetchTablesOptions} fetchDcdatabaseOptions={fetchDcdatabaseOptions} />
-        </Column>
-        <Column width='50%'>
-          <OutputBlock fetchTablesOptions={fetchTablesOptions} fetchDcdatabaseOptions={fetchDcdatabaseOptions} />
-        </Column>
-      </Row>
-    </Column>
+    <Tabs.Root defaultValue='multi'>
+      <Tabs.List>
+        <Tabs.Trigger value='multi'>Массовая настройка</Tabs.Trigger>
+        <Tabs.Trigger value='single'>Одиночная настройка</Tabs.Trigger>
+      </Tabs.List>
+      <Tabs.Content value='multi' style={{ width: '100%' }}>
+        <Flex width='100%' pt='4' direction='column'>
+          <Column className={c(props.className, NAME)}>
+            <Row width='100%'>
+              <Column width='50%'>
+                <InputBlock
+                  onDcdatabaseIdChange={removeConfigs}
+                  onTablesChange={addConfig}
+                  fetchTables={fetchTables}
+                  fetchDcdatabaseOptions={fetchDcdatabaseOptions}
+                />
+              </Column>
+              <Column width='50%'>
+                <OutputBlock fetchTables={fetchTables} fetchDcdatabaseOptions={fetchDcdatabaseOptions} />
+              </Column>
+            </Row>
+            <Row>
+              <Column width='100%'>
+                {executableDesigns && selectedSingleTable && (
+                  <ExectableForm
+                    context={{
+                      generateId,
+                      columns: selectedSingleTable?.columns || [],
+                    }}
+                    name='multi'
+                    executableDesigns={executableDesigns}
+                  />
+                )}
+              </Column>
+            </Row>
+          </Column>
+        </Flex>
+      </Tabs.Content>
+      <Tabs.Content value='single'>
+        <Flex width='100%' pt='4' direction='column'>
+          <Column className={c(props.className, NAME)}>
+            <Row width='100%'>
+              <Column width='50%'>
+                <LabeledSelect.default
+                  value={selectedSingleTableId}
+                  onChange={(e) => setSelectedSingleTableId(e.toString())}
+                  options={tableOptions}
+                />
+              </Column>
+            </Row>
+          </Column>
+        </Flex>
+      </Tabs.Content>
+    </Tabs.Root>
   )
+
+  /**
+   * private
+   */
+
+  function removeConfigs() {
+    form.change(`configs`, {})
+  }
+
+  function addConfig(tableNames: string[]) {
+    const formState = form.getState()
+    const dcdatabaseId = formState.values?.inputDcdatabaseId
+    assertDefined(dcdatabaseId)
+    const currentTableNames = Object.values(form.getState().values?.configs || {}).map((c) => c.inputTable) || []
+    const tablesToRemove = currentTableNames.filter((tableName) => !tableNames.includes(tableName))
+
+    tablesToRemove.forEach((tableName) => {
+      // @ts-ignore
+      form.change(`configs.${tableName}`, undefined)
+    })
+
+    tableNames.forEach((tableName) => {
+      if (formState.values?.configs?.[tableName]) return
+
+      if (!formState.values.multiConfig) {
+        const config: Config = {
+          inputTable: tableName,
+        }
+        // @ts-ignore
+        form.change(`configs.${tableName}`, config)
+      }
+    })
+  }
 }
 
 Component.displayName = NAME

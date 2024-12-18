@@ -14,7 +14,6 @@ import Form, { useCreateForm } from '~/shared/form'
 import Heading from '~/shared/heading'
 import { notify } from '~/shared/notification-list-store'
 import Section from '~/shared/section'
-import { Tabs } from '~/shared/tabs'
 import { HighlightedText } from '~/shared/text'
 import Tooltip from '~/shared/tooltip'
 
@@ -68,24 +67,13 @@ export default function Component(): JSX.Element {
         </Section>
 
         <Section size='1'>
-          <Tabs.Root defaultValue='multi'>
-            <Tabs.List>
-              <Tabs.Trigger value='multi'>Массовая настройка</Tabs.Trigger>
-              <Tabs.Trigger value='single'>Одиночная настройка</Tabs.Trigger>
-            </Tabs.List>
-            <Tabs.Content value='multi' style={{ width: '100%' }}>
-              <Flex width='100%' pt='4' direction='column'>
-                <Form
-                  form={form}
-                  component={ProcessingForm.default}
-                  fetchDcdatabaseOptions={fetchDatabaseOptions}
-                  fetchTablesOptions={fetchInputTablesOptions}
-                  fetchExecutableDesigns={fetchExecutableDesigns}
-                />
-              </Flex>
-            </Tabs.Content>
-            <Tabs.Content value='single' />
-          </Tabs.Root>
+          <Form
+            form={form}
+            component={ProcessingForm.default}
+            fetchDcdatabaseOptions={fetchDatabaseOptions}
+            fetchTables={fetchTables}
+            fetchExecutableDesigns={fetchExecutableDesigns}
+          />
         </Section>
 
         <Card asChild>
@@ -128,9 +116,10 @@ export default function Component(): JSX.Element {
     return ret.data.items.map((item) => ({ value: item.id, display: item.display }))
   }
 
-  async function fetchInputTablesOptions(dcdatabaseId: string) {
+  async function fetchTables(dcdatabaseId: string) {
+    // TODO: запросить через cache
     const ret = await processingDataApi.initial.findTablesWithTotal.request({ dcdatabaseId })
-    return ret.data.items.map((item) => ({ value: item.name, display: item.name }))
+    return ret.data.items
   }
 }
 

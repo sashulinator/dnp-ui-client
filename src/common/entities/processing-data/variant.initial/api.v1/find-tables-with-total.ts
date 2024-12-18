@@ -13,7 +13,9 @@ export type RequestParams = {
   sort?: Record<string, 'asc' | 'desc'> | undefined
 }
 
+type Column = { name: string; display: string; type: string }
+
 export type Result = {
-  items: { name: string; schemaName: string }[]
+  items: { name: string; display: string; schemaName: string; columns: Column[] }[]
   total: number
 }
