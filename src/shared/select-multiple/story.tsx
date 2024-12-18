@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { useState } from 'react'
 
 import { SelectMultiple as SelectMultipleField, TypedField, useCreateForm } from '~/shared/form'
@@ -5,7 +6,7 @@ import { type Props, type Story } from '~/shared/storybook'
 
 import Button from '../button'
 import Form from '../form'
-import SelectMultiple from './index'
+import SelectMultiple from './ui.select-multiple'
 
 interface State {
   //

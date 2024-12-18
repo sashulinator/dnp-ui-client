@@ -13,11 +13,11 @@ export type Option = { value: string; display: string }
 
 export type Props = RootProps & {
   defaultValue?: string[]
-  options: Option[]
+  options?: Option[]
   variant?: ButtonProps['variant'] | undefined
 }
 
-const NAME = 'selectMultiple-SelectMultiple'
+export const NAME = 'selectMultiple-SelectMultiple'
 
 export default function Component(props: Props): JSX.Element {
   const { options, value, variant = 'soft', ...checkboxGroupRootProps } = props
@@ -38,7 +38,7 @@ export default function Component(props: Props): JSX.Element {
                 tabIndex={-1}
                 readOnly={true}
                 style={{ width: '100%' }}
-                value={options.find((option) => option.value === value?.[0])?.display || ''}
+                value={options?.find((option) => option.value === value?.[0])?.display || ''}
               />
             </Text>
             <Flex align='center' gap='2'>
@@ -54,7 +54,7 @@ export default function Component(props: Props): JSX.Element {
       </DropdownMenu.Trigger>
       <DropdownMenu.Content style={{ width: `${size.width}px` || 'auto' }} align='center'>
         <CheckboxGroup.Root value={value} {...checkboxGroupRootProps}>
-          {options.map((option) => (
+          {options?.map((option) => (
             <Flex asChild={true} justify='start' width='100%' key={option.value}>
               <Button variant='outline' asChild={true} style={{ boxShadow: 'none', color: 'inherit' }}>
                 <Text as='label'>
@@ -72,6 +72,3 @@ export default function Component(props: Props): JSX.Element {
 }
 
 Component.displayName = NAME
-
-export { Component as SelectMultiple }
-export { type Props as SelectMultipleProps }
