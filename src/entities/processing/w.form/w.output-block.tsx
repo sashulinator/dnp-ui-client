@@ -1,17 +1,23 @@
-import { useMemo } from 'react'
+import { Tooltip } from '@radix-ui/themes'
+
+import { useMemo, useState } from 'react'
 import { useQuery } from 'react-query'
 
 import { APP } from '~/app/constants.app'
+import Button from '~/shared/button'
 import {
   Card,
   Column,
   Select as FormSelect,
   type SelectMultipleOption as Option,
+  Row,
   TypedField,
+  TypedStringField,
   TypedUnionField,
   useField,
   useForm,
 } from '~/shared/form'
+import Icon from '~/shared/icon'
 import Text from '~/shared/text'
 import { c } from '~/utils/core'
 
@@ -30,6 +36,8 @@ const NAME = `${APP}-${SLICE}-Form-w-OutputBlock`
 
 export default function Component(props: Props): JSX.Element {
   const { className, fetchTables, fetchDcdatabaseOptions } = props
+
+  const [isTextInput, setIsTextInput] = useState(false)
 
   const dcdatabaseField = useField('outputDcdatabaseId', { subscription: { value: true } })
   const dcdatabaseId = dcdatabaseField.input.value
@@ -65,7 +73,18 @@ export default function Component(props: Props): JSX.Element {
           }}
           options={databasesOptionsfetcher.data || []}
         />
-        <TypedField label='Таблица' name='outputTable' component={FormSelect} options={tableOptions} />
+        <Row align='end'>
+          {isTextInput ? (
+            <TypedStringField testValueType={TypedStringField.testValueType} name='outputTable' label='Таблица' />
+          ) : (
+            <TypedField label='Таблица' name='outputTable' component={FormSelect} options={tableOptions} />
+          )}
+          <Tooltip content={`Переключить поле ввода на ${isTextInput ? 'селект' : 'текст'}`}>
+            <Button variant='outline' square={true} onClick={() => setIsTextInput(!isTextInput)}>
+              <Icon name={isTextInput ? 'ChevronDown' : 'Pencil'} />
+            </Button>
+          </Tooltip>
+        </Row>
       </Column>
     </Card>
   )
