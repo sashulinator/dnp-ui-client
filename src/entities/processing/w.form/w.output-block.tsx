@@ -2,14 +2,20 @@ import { useMemo } from 'react'
 import { useQuery } from 'react-query'
 
 import { APP } from '~/app/constants.app'
-import { Card, Column, TypedUnionField, useField, useForm } from '~/shared/form'
-import { type Option } from '~/shared/select'
-import { LabeledSelectMultiple } from '~/shared/select-multiple'
+import {
+  Card,
+  Column,
+  Select as FormSelect,
+  type SelectMultipleOption as Option,
+  TypedField,
+  TypedUnionField,
+  useField,
+  useForm,
+} from '~/shared/form'
 import Text from '~/shared/text'
 import { c } from '~/utils/core'
 
-import { SLICE } from '../../constants'
-import { type Values } from './ui.new-form'
+import { SLICE } from '../constants'
 
 type Column = { name: string; display: string; type: string }
 type Table = { name: string; display: string; columns: Column[] }
@@ -18,16 +24,14 @@ export interface Props {
   className?: string | undefined
   fetchTables: (dcdatabaseId: string) => Promise<Table[]>
   fetchDcdatabaseOptions: () => Promise<Option[]>
-  onTablesChange: (tables: string[]) => void
-  onDcdatabaseIdChange: (id: string) => void
 }
 
-const NAME = `${APP}-${SLICE}-Form-w-InputBlock`
+const NAME = `${APP}-${SLICE}-Form-w-OutputBlock`
 
 export default function Component(props: Props): JSX.Element {
-  const { className, fetchTables, fetchDcdatabaseOptions, onTablesChange, onDcdatabaseIdChange } = props
+  const { className, fetchTables, fetchDcdatabaseOptions } = props
 
-  const dcdatabaseField = useField('inputDcdatabaseId', { subscription: { value: true } })
+  const dcdatabaseField = useField('outputDcdatabaseId', { subscription: { value: true } })
   const dcdatabaseId = dcdatabaseField.input.value
 
   const databasesOptionsfetcher = useQuery([NAME, 'databasesOptions'], () => fetchDcdatabaseOptions(), {
@@ -44,31 +48,24 @@ export default function Component(props: Props): JSX.Element {
     [tablesFetcher.data],
   )
 
-  const form = useForm<Values>()
-
-  const tablesValue = Object.values(form.getState().values?.configs || {}).map((c) => c.inputTable) || []
+  const form = useForm()
 
   return (
     <Card className={c(NAME, className)}>
       <Text size='1' color='gray'>
-        Вход
+        Вывод
       </Text>
       <Column width='100%'>
-        <TypedUnionField<Values, 'inputDcdatabaseId'>
+        <TypedUnionField
           testValueType={TypedUnionField.testValueType}
-          name='inputDcdatabaseId'
+          name='outputDcdatabaseId'
           label='База данных'
-          onChange={(e) => {
-            onDcdatabaseIdChange(e.toString())
+          onChange={() => {
+            form.change(`outputTable`, undefined)
           }}
           options={databasesOptionsfetcher.data || []}
         />
-        <LabeledSelectMultiple.default
-          label='Таблицы'
-          value={tablesValue}
-          options={tableOptions}
-          onValueChange={(tables) => onTablesChange(tables)}
-        />
+        <TypedField label='Таблица' name='outputTable' component={FormSelect} options={tableOptions} />
       </Column>
     </Card>
   )

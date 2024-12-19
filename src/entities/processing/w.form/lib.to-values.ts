@@ -1,4 +1,4 @@
-import { type Proccessing } from '../../models'
+import { type Proccessing } from '../models'
 import { type Config, type Values } from './ui.new-form'
 
 export function toValues(processing: Proccessing): Values {

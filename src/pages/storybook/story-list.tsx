@@ -5,9 +5,7 @@ import entitieAnalyticsFormWSchema from '~/entities/analytics/ui/run-form/widget
 import entitieAnalyticsFormWTable from '~/entities/analytics/ui/run-form/widgets/table/story'
 import eDcserviceForm from '~/entities/database-container/dcservice/ui/form/story'
 import normalizationConfigForm from '~/entities/normalization-config/ui/form/story'
-import entityProcessingForm from '~/entities/processing/ui/form/story'
 import eProcessingWExecutablesWForm from '~/entities/processing/w.executable/w.form/story'
-import eProcessingWForm from '~/entities/processing/w.form/story'
 import uiButton from '~/shared/button/story'
 import uiCard from '~/shared/card/story'
 import uiCodeEditor from '~/shared/code-editor/story'
@@ -50,7 +48,6 @@ export const storyList: Story<any>[] = [
    */
 
   eProcessingWProcedureWValuePerColumn,
-  entityProcessingForm,
   explorerViewer,
   normalizationConfigForm,
   debugRenderCounter,
@@ -60,7 +57,6 @@ export const storyList: Story<any>[] = [
   entitieAnalyticsFormWSchema,
   entitieAnalyticsFormWDatabase,
   eDcserviceForm,
-  eProcessingWForm,
   eProcessingWExecutablesWForm,
 
   /**
