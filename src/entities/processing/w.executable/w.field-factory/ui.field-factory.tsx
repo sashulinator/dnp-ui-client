@@ -5,7 +5,7 @@ import Text from '~/shared/text'
 import { type Any } from '~/utils/core'
 
 import { SLICE } from '../constants'
-import { type ExecutableDesign, type ExecutableParamDesign } from '../models'
+import { type ExecutableDesign, ParamComponentDesign, type ParamDesign } from '../models'
 import { type ParamFactoryContext } from './models'
 import StringField from './ui.string-field'
 import MatrixField from './w.matrix-field'
@@ -41,6 +41,7 @@ export default function Component(props: Props): ReactNode {
 
   return (
     executableDesign?.params.map((paramDesign, i) => {
+      if (!paramDesign.component) return null
       return (
         <ComponentWrapper
           key={i}
@@ -57,20 +58,21 @@ export default function Component(props: Props): ReactNode {
 }
 
 type ComponentWrapperProps = {
-  executableDesign: ExecutableDesign | undefined
+  executableDesign: ExecutableDesign
   columns: { name: string; display: string; type: string }[]
   name: string
-  paramDesign: ExecutableParamDesign
+  paramDesign: ParamDesign
   isSingleMode: boolean
   setMultyValue: (value: unknown, name: string) => void
 }
 
 function ComponentWrapper(props: ComponentWrapperProps) {
   const { isSingleMode, paramDesign, columns, name, setMultyValue } = props
-  const { serialize = '', deserialize = '' } = paramDesign.component
+  const componentDesign = paramDesign.component as ParamComponentDesign
+  const { serialize = '', deserialize = '' } = componentDesign as ParamComponentDesign
 
-  const component = componentMap?.[paramDesign.component.name as 'Matrix'] || StringField
-  const modeProps = isSingleMode ? paramDesign.component.singleModeProps : paramDesign.component.multiModeProps
+  const component = componentMap?.[componentDesign.name as 'Matrix'] || StringField
+  const modeProps = isSingleMode ? componentDesign.singleModeProps : componentDesign.multiModeProps
 
   const _paramContext: ParamFactoryContext = {
     name: `${name}.params.${paramDesign.name}`,
@@ -87,7 +89,7 @@ function ComponentWrapper(props: ComponentWrapperProps) {
   const value = useMemo(() => serializeFn({ value: field.input.value, ...props }), [field.input.value])
 
   return createElement(component as Any, {
-    ...paramDesign.component.props,
+    ...componentDesign.props,
     ...modeProps,
     readOnly: isSingleMode && !paramDesign.unique,
     _paramContext,

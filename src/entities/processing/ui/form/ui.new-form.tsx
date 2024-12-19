@@ -21,9 +21,15 @@ import OutputBlock from './w.output-block'
 
 export { type Option }
 
+type Executables = {
+  name: string
+  params: Record<string, unknown>
+}
+
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type Config = {
   inputTable: string
+  executables: Executables[]
 }
 
 export type Values = {
@@ -282,6 +288,7 @@ export default function Component(props: Props): JSX.Element {
       if (!formState.values.multiConfig) {
         const config: Config = {
           inputTable: tableName,
+          executables: [],
         }
         // @ts-ignore
         form.change(`configs.${tableName}`, config)

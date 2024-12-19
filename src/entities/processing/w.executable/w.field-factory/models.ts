@@ -1,8 +1,8 @@
-import { type ExecutableParamDesign } from '../models'
+import { type ParamDesign } from '../models'
 
 export type ParamFactoryContext = {
   name: string
   columns: { name: string; display: string; type: string }[]
-  paramDesign: ExecutableParamDesign
+  paramDesign: ParamDesign
   isSingleMode: boolean
 }

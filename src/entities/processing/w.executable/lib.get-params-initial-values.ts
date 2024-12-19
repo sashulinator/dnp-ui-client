@@ -1,6 +1,6 @@
 import { type Any, type Dictionary } from '~/utils/core'
 
-import { type ExecutableDesign, type ExecutableParamDesign } from './models'
+import { type ExecutableDesign, type ParamDesign } from './models'
 
 export type GetParamsInitialValuesParams = {
   executableDesign: ExecutableDesign
@@ -10,7 +10,7 @@ export type GetParamsInitialValuesParams = {
 export type Context = {
   columns: { name: string; display: string }[]
   generateId: () => string
-  paramDesign: ExecutableParamDesign
+  paramDesign: ParamDesign
 }
 
 export function getParamsInitialValues(params: GetParamsInitialValuesParams) {

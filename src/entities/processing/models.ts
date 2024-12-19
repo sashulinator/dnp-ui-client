@@ -6,7 +6,12 @@ export type Proccessing = {
   configs: Config[]
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 export type Config = {
   inputTable: string
+  executables: Executable[]
+}
+
+export type Executable = {
+  name: string
+  params: Record<string, unknown>
 }
