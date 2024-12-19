@@ -5,14 +5,16 @@ import * as v from 'valibot'
  */
 
 export const procedureSchema = v.object({
-  id: v.string(),
-  name: v.string(),
+  id: v.pipe(v.string(), v.nonEmpty()),
+  name: v.pipe(v.string(), v.nonEmpty()),
   display: v.string(),
+  sdkConfigName: v.pipe(v.string(), v.nonEmpty()),
+  sdkConfigVersion: v.pipe(v.string(), v.nonEmpty()),
+  version: v.pipe(v.string(), v.nonEmpty()),
   description: v.string(),
   params: v.array(
     v.object({
       name: v.string(),
-      isIterableTableName: v.optional(v.boolean()),
       display: v.string(),
       description: v.string(),
       component: v.optional(
