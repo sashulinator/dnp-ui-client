@@ -5,7 +5,6 @@ import { APP } from '~/app/constants.app'
 import { Card, Column, TypedUnionField, useField, useForm } from '~/shared/form'
 import { type Option } from '~/shared/select'
 import { LabeledSelectMultiple } from '~/shared/select-multiple'
-import Text from '~/shared/text'
 import { c } from '~/utils/core'
 
 import { SLICE } from '../constants'
@@ -49,10 +48,7 @@ export default function Component(props: Props): JSX.Element {
   const tablesValue = Object.values(form.getState().values?.configs || {}).map((c) => c.inputTable) || []
 
   return (
-    <Card className={c(NAME, className)}>
-      <Text size='1' color='gray'>
-        Вход
-      </Text>
+    <Card label='Вход' className={c(NAME, className)}>
       <Column width='100%'>
         <TypedUnionField<Values, 'inputDcdatabaseId'>
           testValueType={TypedUnionField.testValueType}

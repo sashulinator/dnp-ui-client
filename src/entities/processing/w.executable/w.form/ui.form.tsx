@@ -33,7 +33,7 @@ export default function Component(props: Props): JSX.Element {
   if (readonly) {
     return (
       <LabeledTextInput
-        label='Процедура'
+        label='Название'
         readOnly={readonly}
         value={nameFieldValue}
         onChange={(event) => {
@@ -48,7 +48,7 @@ export default function Component(props: Props): JSX.Element {
   return (
     <LabeledSelect.default
       options={options}
-      label='Процедура'
+      label='Название'
       value={nameFieldValue}
       onChange={(event) => {
         const value = event.toString()

@@ -111,7 +111,7 @@ export default function Component(props: Props): JSX.Element {
                     {({ fields }) => (
                       <Flex direction='column' gap='4'>
                         {fields.map((formName, index) => (
-                          <Card key={index}>
+                          <Card label='Процедура' key={index}>
                             <Flex width='100%' direction='column' gap='4'>
                               <Row justify='between'>
                                 <Column width='50%'>
