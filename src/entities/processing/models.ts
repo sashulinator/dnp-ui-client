@@ -13,5 +13,5 @@ export type Config = {
 
 export type Executable = {
   name: string
-  params: Record<string, unknown>
+  params?: Record<string, unknown> | undefined
 }

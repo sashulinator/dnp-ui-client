@@ -14,6 +14,7 @@ export type Option = { value: string; display: string }
 export type Props = RootProps & {
   defaultValue?: string[]
   options?: Option[]
+  disabled?: boolean | undefined
   variant?: ButtonProps['variant'] | undefined
 }
 
@@ -30,12 +31,17 @@ export default function Component(props: Props): JSX.Element {
     <DropdownMenu.Root>
       <DropdownMenu.Trigger>
         <Flex asChild={true} width='100%' maxWidth='100%' justify='between'>
-          <Button variant={variant} ref={setRefs(setMeasureRef)}>
+          <Button
+            variant={variant}
+            color={checkboxGroupRootProps.disabled ? 'gray' : ('' as 'gray')}
+            ref={setRefs(setMeasureRef)}
+          >
             <Text asChild>
               <input
                 onChange={emptyFn}
                 className='rt-reset'
                 tabIndex={-1}
+                disabled={checkboxGroupRootProps.disabled}
                 readOnly={true}
                 style={{ width: '100%' }}
                 value={options?.find((option) => option.value === value?.[0])?.display || ''}

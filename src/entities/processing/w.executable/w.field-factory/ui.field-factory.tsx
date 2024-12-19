@@ -40,7 +40,7 @@ export default function Component(props: Props): ReactNode {
   }
 
   return (
-    executableDesign?.params.map((paramDesign, i) => {
+    executableDesign?.params?.map((paramDesign, i) => {
       if (!paramDesign.component) return null
       return (
         <ComponentWrapper

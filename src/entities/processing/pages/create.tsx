@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import { APP } from '~/app/constants.app'
 import { routes } from '~/app/route'
 import { api } from '~/entities/database-container'
@@ -22,6 +24,8 @@ export interface Props {
 const NAME = `${APP}-${SLICE}-page-Create`
 
 export default function Component(): JSX.Element {
+  const [tabValue, setTabValue] = useState<'multi' | 'single'>('multi')
+
   const form = useCreateForm<ProcessingForm.Values>(
     {
       onSubmit: (values) => {
@@ -63,6 +67,8 @@ export default function Component(): JSX.Element {
 
         <Section size='1'>
           <Form
+            tabValue={tabValue}
+            setTabValue={setTabValue}
             form={form}
             component={ProcessingForm.default}
             fetchDcdatabaseOptions={fetchDatabaseOptions}
@@ -71,28 +77,30 @@ export default function Component(): JSX.Element {
           />
         </Section>
 
-        <Card asChild>
-          <Section size='1'>
-            <Flex gap='2' direction='row' justify='end'>
-              <Flex gap='2' align='center'>
-                <Tooltip content='Сбросить'>
-                  <span>
-                    <Button size='1' variant='outline' onClick={() => form.reset()} disabled={!form.getState().dirty}>
-                      Сбросить изменения
-                    </Button>
-                  </span>
-                </Tooltip>
-                <Button
-                  loading={createMutator.isLoading}
-                  disabled={!form.getState().dirty || form.getState().invalid}
-                  onClick={form.submit}
-                >
-                  Создать
-                </Button>
+        {tabValue === 'multi' && (
+          <Card asChild>
+            <Section size='1'>
+              <Flex gap='2' direction='row' justify='end'>
+                <Flex gap='2' align='center'>
+                  <Tooltip content='Сбросить'>
+                    <span>
+                      <Button size='1' variant='outline' onClick={() => form.reset()} disabled={!form.getState().dirty}>
+                        Сбросить изменения
+                      </Button>
+                    </span>
+                  </Tooltip>
+                  <Button
+                    loading={createMutator.isLoading}
+                    disabled={!form.getState().dirty || form.getState().invalid}
+                    onClick={form.submit}
+                  >
+                    Запустить
+                  </Button>
+                </Flex>
               </Flex>
-            </Flex>
-          </Section>
-        </Card>
+            </Section>
+          </Card>
+        )}
       </Container>
     </main>
   )

@@ -1,4 +1,6 @@
 /* eslint-disable no-console */
+import { useState } from 'react'
+
 import Flex from '~/shared/flex'
 import Form, { useCreateForm } from '~/shared/form'
 import { type Props, type Story } from '~/shared/storybook'
@@ -17,11 +19,14 @@ export default {
 
     const form = useCreateForm({ onSubmit: console.log }, { values: true })
     const fState = form.getState()
+    const [tabValue, setTabValue] = useState<'multi' | 'single'>('multi')
 
     return (
       <Flex width='100%' p='8' gap='4'>
         <Flex width='50%' direction='column' gap='4'>
           <Form
+            tabValue={tabValue}
+            setTabValue={setTabValue}
             fetchExecutableDesigns={async () => executableDesigns}
             form={form}
             component={ProcessingForm}

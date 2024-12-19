@@ -8,7 +8,7 @@ import { Card, Column, FieldArray, Row, useForm } from '~/shared/form'
 import Icon from '~/shared/icon'
 import { LabeledSelect, type Option } from '~/shared/select'
 import { Tabs } from '~/shared/tabs'
-import { type Any, assertDefined, c, generateId } from '~/utils/core'
+import { type Any, type SetterOrUpdater, assertDefined, c, generateId } from '~/utils/core'
 import { emptyFn } from '~/utils/function'
 
 import { SLICE } from '../constants'
@@ -23,7 +23,7 @@ export { type Option }
 
 type Executables = {
   name: string
-  params: Record<string, unknown>
+  params?: Record<string, unknown> | undefined
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -49,14 +49,17 @@ export interface Props {
   fetchTables: (dcdatabaseId: string) => Promise<Table[]>
   fetchDcdatabaseOptions: () => Promise<Option[]>
   fetchExecutableDesigns: () => Promise<ExecutableDesign[]>
+  tabValue: 'multi' | 'single'
+  setTabValue: SetterOrUpdater<'multi' | 'single'>
 }
 
 export const NAME = `${APP}-${SLICE}-Form`
 
 export default function Component(props: Props): JSX.Element {
-  const { fetchTables, fetchDcdatabaseOptions, fetchExecutableDesigns } = props
+  const { fetchTables, fetchDcdatabaseOptions, fetchExecutableDesigns, tabValue, setTabValue } = props
 
   const [selectedSingleTableName, setSelectedSingleTableName] = useState<string>()
+  const [isTextInput, setIsTextInput] = useState(false)
 
   const form = useForm<Values>()
   const dcdatabaseId = form.getState().values?.inputDcdatabaseId
@@ -83,10 +86,10 @@ export default function Component(props: Props): JSX.Element {
   )
 
   return (
-    <Tabs.Root defaultValue='multi'>
+    <Tabs.Root value={tabValue} onValueChange={(v) => setTabValue(v as 'multi')}>
       <Tabs.List>
         <Tabs.Trigger value='multi'>Массовая настройка</Tabs.Trigger>
-        <Tabs.Trigger value='single'>Одиночная настройка</Tabs.Trigger>
+        <Tabs.Trigger value='single'>Потабличная настройка</Tabs.Trigger>
       </Tabs.List>
       <Tabs.Content value='multi' style={{ width: '100%' }}>
         <Flex width='100%' pt='4' direction='column'>
@@ -94,6 +97,7 @@ export default function Component(props: Props): JSX.Element {
             <Row width='100%'>
               <Column width='50%'>
                 <InputBlock
+                  tableDisabled={!!form.getState().values?.multiConfig?.executables?.length}
                   onDcdatabaseIdChange={removeConfigs}
                   onTablesChange={addConfig}
                   fetchTables={fetchTables}
@@ -101,7 +105,12 @@ export default function Component(props: Props): JSX.Element {
                 />
               </Column>
               <Column width='50%'>
-                <OutputBlock fetchTables={fetchTables} fetchDcdatabaseOptions={fetchDcdatabaseOptions} />
+                <OutputBlock
+                  setIsTextInput={setIsTextInput}
+                  isTextInput={isTextInput}
+                  fetchTables={fetchTables}
+                  fetchDcdatabaseOptions={fetchDcdatabaseOptions}
+                />
               </Column>
             </Row>
             <Row>
@@ -123,6 +132,7 @@ export default function Component(props: Props): JSX.Element {
                                   />
                                 </Column>
                                 <DangerButton
+                                  variant='soft'
                                   round={true}
                                   onClick={() => {
                                     fields.remove(index)
@@ -143,6 +153,7 @@ export default function Component(props: Props): JSX.Element {
                         ))}
                         <Flex>
                           <Button
+                            variant='soft'
                             onClick={() => {
                               fields.push({})
                             }}
@@ -236,7 +247,7 @@ export default function Component(props: Props): JSX.Element {
   function changeExecutableName(name: string, formName: string) {
     const executableDesign = executableDesigns?.find((executableDesign) => executableDesign.name === name)
 
-    const initialValues = executableDesign?.params.reduce<Record<string, unknown>>((acc, paramDesign) => {
+    const initialValues = executableDesign?.params?.reduce<Record<string, unknown>>((acc, paramDesign) => {
       if (paramDesign.unique) return acc
       acc[paramDesign.name] = new Function('context', paramDesign.getInitialValue || '')({
         values: form.getState().values,
@@ -251,7 +262,7 @@ export default function Component(props: Props): JSX.Element {
     Object.values(form.getState().values.configs || {}).forEach((config) => {
       const table = tablesFetcher.data?.find((t) => t.name === config.inputTable)
 
-      const uniqInitialValues = executableDesign?.params.reduce<Record<string, unknown>>((acc, paramDesign) => {
+      const uniqInitialValues = executableDesign?.params?.reduce<Record<string, unknown>>((acc, paramDesign) => {
         if (!paramDesign.unique) return acc
         acc[paramDesign.name] = new Function('context', paramDesign.getInitialValue || '')({
           values: form.getState().values,

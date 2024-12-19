@@ -3,7 +3,6 @@ import { useField } from 'react-final-form'
 
 import { type Option } from '~/shared/select'
 import { LabeledSelect } from '~/shared/select'
-import { LabeledTextInput } from '~/shared/text-input'
 
 import { type ExecutableDesign } from '../models'
 import { SLICE } from './constants'
@@ -30,26 +29,13 @@ export default function Component(props: Props): JSX.Element {
 
   const nameFieldValue = nameField.input.value
 
-  if (readonly) {
-    return (
-      <LabeledTextInput
-        label='Название'
-        readOnly={readonly}
-        value={nameFieldValue}
-        onChange={(event) => {
-          const value = event.toString()
-          nameField.input.onChange(value)
-          onNameChange(value)
-        }}
-      />
-    )
-  }
-
   return (
     <LabeledSelect.default
       options={options}
       label='Название'
+      style={{ pointerEvents: readonly ? 'none' : undefined }}
       value={nameFieldValue}
+      disabled={readonly}
       onChange={(event) => {
         const value = event.toString()
         nameField.input.onChange(value)

@@ -18,7 +18,7 @@ export function getParamsInitialValues(params: GetParamsInitialValuesParams) {
 
   const initialParamsValue: Dictionary<Any> = {}
 
-  for (let index = 0; index < executableDesign?.params.length; index++) {
+  for (let index = 0; index < executableDesign?.params?.length; index++) {
     const paramDesign = executableDesign?.params[index]
 
     if (paramDesign.getInitialValue) {

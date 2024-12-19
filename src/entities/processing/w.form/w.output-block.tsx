@@ -1,6 +1,6 @@
 import { Tooltip } from '@radix-ui/themes'
 
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { useQuery } from 'react-query'
 
 import { APP } from '~/app/constants.app'
@@ -18,7 +18,7 @@ import {
   useForm,
 } from '~/shared/form'
 import Icon from '~/shared/icon'
-import { c } from '~/utils/core'
+import { type SetterOrUpdater, c } from '~/utils/core'
 
 import { SLICE } from '../constants'
 
@@ -29,16 +29,17 @@ export interface Props {
   className?: string | undefined
   fetchTables: (dcdatabaseId: string) => Promise<Table[]>
   fetchDcdatabaseOptions: () => Promise<Option[]>
+  isTextInput: boolean
+  setIsTextInput: SetterOrUpdater<boolean>
 }
 
 const NAME = `${APP}-${SLICE}-Form-w-OutputBlock`
 
 export default function Component(props: Props): JSX.Element {
-  const { className, fetchTables, fetchDcdatabaseOptions } = props
-
-  const [isTextInput, setIsTextInput] = useState(false)
+  const { className, fetchTables, fetchDcdatabaseOptions, isTextInput, setIsTextInput } = props
 
   const dcdatabaseField = useField('outputDcdatabaseId', { subscription: { value: true } })
+  const outputTableField = useField('outputTable', { subscription: { value: true } })
   const dcdatabaseId = dcdatabaseField.input.value
 
   const databasesOptionsfetcher = useQuery([NAME, 'databasesOptions'], () => fetchDcdatabaseOptions(), {
@@ -75,8 +76,21 @@ export default function Component(props: Props): JSX.Element {
           ) : (
             <TypedField label='Таблица' name='outputTable' component={FormSelect} options={tableOptions} />
           )}
-          <Tooltip content={isTextInput ? 'Выбрать из существующих' : 'Ввести название вручную'}>
-            <Button variant='outline' square={true} onClick={() => setIsTextInput(!isTextInput)}>
+          <Tooltip
+            content={
+              isTextInput
+                ? outputTableField.input.value
+                  ? 'Очистите поле ввода чтобы сменить тип ввода на "Выбор из существующих'
+                  : 'Выбрать из существующих'
+                : 'Ввести название вручную'
+            }
+          >
+            <Button
+              disabled={isTextInput && outputTableField.input.value}
+              variant='outline'
+              square={true}
+              onClick={() => setIsTextInput(!isTextInput)}
+            >
               <Icon name={isTextInput ? 'ChevronDown' : 'Pencil'} />
             </Button>
           </Tooltip>

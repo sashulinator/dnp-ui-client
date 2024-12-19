@@ -19,12 +19,13 @@ export interface Props {
   fetchDcdatabaseOptions: () => Promise<Option[]>
   onTablesChange: (tables: string[]) => void
   onDcdatabaseIdChange: (id: string) => void
+  tableDisabled: boolean
 }
 
 const NAME = `${APP}-${SLICE}-Form-w-InputBlock`
 
 export default function Component(props: Props): JSX.Element {
-  const { className, fetchTables, fetchDcdatabaseOptions, onTablesChange, onDcdatabaseIdChange } = props
+  const { className, tableDisabled, fetchTables, fetchDcdatabaseOptions, onTablesChange, onDcdatabaseIdChange } = props
 
   const dcdatabaseField = useField('inputDcdatabaseId', { subscription: { value: true } })
   const dcdatabaseId = dcdatabaseField.input.value
@@ -62,6 +63,7 @@ export default function Component(props: Props): JSX.Element {
         <LabeledSelectMultiple.default
           label='Таблицы'
           value={tablesValue}
+          disabled={tableDisabled}
           options={tableOptions}
           onValueChange={(tables) => onTablesChange(tables)}
         />
