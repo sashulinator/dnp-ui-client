@@ -1,6 +1,8 @@
 import { ScrollArea } from '@radix-ui/themes'
 
 import Checkbox from '~/shared/checkbox'
+import Flex from '~/shared/flex'
+import Labeled from '~/shared/labeled'
 import { MatrixTable } from '~/shared/table'
 import TextInput from '~/shared/text-input'
 import { type Any, type Dictionary, c } from '~/utils/core'
@@ -28,17 +30,21 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
   const renderCell = props.valueType === 'boolean' ? _renderBooleanCell : _renderTextCell
 
   return (
-    <ScrollArea>
-      <MatrixTable.default<Dictionary, Dictionary, unknown>
-        className={c(props.className, NAME)}
-        context={{}}
-        columns={columns as Any}
-        options={options as Any}
-        values={value as Any}
-        renderCell={renderCell}
-        onValuesChange={onChange as Any}
-      />
-    </ScrollArea>
+    <Flex direction='column'>
+      <Labeled label={_paramContext.paramDesign.display}>
+        <ScrollArea>
+          <MatrixTable.default<Dictionary, Dictionary, unknown>
+            className={c(props.className, NAME)}
+            context={{}}
+            columns={columns as Any}
+            options={options as Any}
+            values={value as Any}
+            renderCell={renderCell}
+            onValuesChange={onChange as Any}
+          />
+        </ScrollArea>
+      </Labeled>
+    </Flex>
   )
 }
 
