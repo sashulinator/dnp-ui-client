@@ -1,6 +1,6 @@
 import { type AxiosError } from 'axios'
 
-import { history, routes } from '~/app/route'
+import { history, publicRoutes } from '~/app/route'
 import { auth } from '~/shared/auth'
 import { invariant } from '~/utils/core'
 
@@ -13,7 +13,7 @@ export async function _handleUnauthorizedError(error: AxiosError) {
 
   if (refreshTokensPromise === null) {
     refreshTokensPromise = auth.refreshTokens().catch(() => {
-      history.push(routes.login.getPath())
+      history.push(publicRoutes.login.getPath())
       auth.logout()
     })
   }

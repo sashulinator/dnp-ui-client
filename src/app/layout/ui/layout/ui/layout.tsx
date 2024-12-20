@@ -2,7 +2,6 @@ import './layout.scss'
 
 import { createElement } from 'react'
 
-import ScrollArea from '~/shared/scroll-area'
 import { c } from '~/utils/core'
 
 export interface Props {
@@ -17,13 +16,11 @@ export default function Component(props: Props): JSX.Element {
   const { renderHeader, renderNav, renderMain } = props
 
   return (
-    <ScrollArea scrollbars='vertical'>
-      <div className={c(NAME, _buildModificator())}>
-        {renderHeader && createElement(renderHeader)}
-        {renderNav && createElement(renderNav)}
-        {createElement(renderMain)}
-      </div>
-    </ScrollArea>
+    <div className={c(NAME, _buildModificator())}>
+      {renderHeader && createElement(renderHeader)}
+      {renderNav && createElement(renderNav)}
+      {createElement(renderMain)}
+    </div>
   )
 
   /**

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { stringify } from 'qs'
 
-import { history, routes } from '~/app/route'
+import { history, publicRoutes } from '~/app/route'
 import { auth } from '~/shared/auth'
 
 import { _handleUnauthorizedError } from './_handle-unauthorize-error'
@@ -24,7 +24,7 @@ api.interceptors.request.use(async (request) => {
 
   if (refreshTokensPromise === null) {
     refreshTokensPromise = auth.refreshTokens().catch(() => {
-      history.push(routes.login.getPath())
+      history.push(publicRoutes.login.getPath())
       auth.logout()
     })
   }

@@ -3,14 +3,18 @@
  */
 import { default as Controller } from '../../app/route/ui/controller'
 
-export { default as Provider } from '../../app/route/ui/provider'
-export { history } from '../../app/route/ui/provider'
-
 /**
  * models
  */
+import { routes as bussinessRoutes } from './models/bussiness-routes'
+import { publicRoutes } from './models/public-routes'
 
-export { routes } from './models/routes'
+export { bussinessRoutes, publicRoutes }
+export const routes = { ...bussinessRoutes, ...publicRoutes }
+
+export { default as Provider } from '../../app/route/ui/provider'
+export { history } from '../../app/route/ui/provider'
+
 export { type AppRoute } from './models/app-route'
 
 export { Controller }

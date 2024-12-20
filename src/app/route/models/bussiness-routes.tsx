@@ -7,7 +7,8 @@ import NormalizationConfigs from '~/entities/normalization-config/pages'
 import NormalizationConfigs_id from '~/entities/normalization-config/pages/id'
 import { NAME as PROCESSING_NAME, Icon as ProcessingIcon } from '~/entities/processing'
 import NormalizationConfigs_create from '~/entities/processing/pages/create'
-import { LoginPage, auth, roles } from '~/shared/auth'
+import NotFound from '~/pages/not-found'
+import { auth, roles } from '~/shared/auth'
 import Header from '~/shared/header'
 import Icon from '~/shared/icon'
 import Logo from '~/shared/logo-icon'
@@ -20,9 +21,9 @@ import { isDev } from '~/utils/core-client/is-dev'
 
 import Main from '../../../pages/main'
 import { type AppRoute } from './app-route'
+import { publicRoutes } from './public-routes'
 
 // eslint-disable-next-line react-refresh/only-export-components
-const Storybook = lazy(() => import('../../../pages/storybook/index'))
 const Store_getByName = lazy(() => import('../../../slices/store/pages/get-by-name'))
 
 export const routes = {
@@ -189,38 +190,6 @@ export const routes = {
 
   // Misc
 
-  login: {
-    getName: () => 'Login',
-    getPath: () => '/login',
-    getUrl() {
-      return this.getPath()
-    },
-    render: LoginPage,
-    payload: {
-      navigatable: isDev(),
-      renderIcon: (props) => <Icon {...props} name='Star' />,
-      iconColor: 'red',
-    },
-  },
-
-  storybook: {
-    getName: () => 'Storybook',
-    getPath: () => '/storybook',
-    getUrl() {
-      return this.getPath()
-    },
-    render: () => (
-      <Suspense fallback='loading...'>
-        <Storybook />
-      </Suspense>
-    ),
-    payload: {
-      navigatable: isDev(),
-      renderIcon: (props) => <Icon {...props} name='Star' />,
-      iconColor: 'red',
-    },
-  },
-
   store: {
     getName: () => 'Store',
     getPath: () => '/stores/:name',
@@ -265,11 +234,11 @@ export const routes = {
 
   notFound: {
     getName: () => 'Not found',
-    getPath: () => '/not-found',
+    getPath: () => '/*',
     getUrl() {
       return this.getPath()
     },
-    render: () => 'Not Found',
+    render: NotFound,
     payload: {
       navigatable: false,
       renderHeader: Header,
@@ -290,7 +259,7 @@ function _protectByRole(props: { route: AppRoute }): { url: string } | undefined
 
 function _protectPrivate(): { url: string } | undefined {
   if (!auth.isRefreshTokenExpired()) return undefined
-  return { url: `${routes.login.getUrl()}?redirect=${location.href}` }
+  return { url: `${publicRoutes.login.getUrl()}?redirect=${location.href}` }
 }
 
 function combineProtections(...fns: ((props: { route: AppRoute }) => { url: string } | undefined)[]) {
