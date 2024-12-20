@@ -35,6 +35,8 @@ export interface RenderHeaderProps<TItem extends Dictionary, TContext extends Di
   name: keyof TItem
   context: TContext
   display?: string | undefined
+  columns?: ColumnProps<TItem, TContext>[]
+  column?: ColumnProps<TItem, TContext>
   list: TItem[]
 }
 
@@ -108,7 +110,7 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
 
   return (
     <ErrorBoundary fallback={'Неожиданная ошибка! Обратитесь к администратору!'}>
-      <Flex direction={'column'}>
+      <Flex direction={'column'} width='100%'>
         <Table.Root className={c(className, NAME)} {...rootTableProps}>
           <Table.Header {...getHeaderProps?.(props)}>
             <Table.Row {...getHeaderRowProps?.(props)}>
@@ -125,6 +127,8 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
                     {createElement(renderHeader, {
                       name: column.name,
                       display: column.display,
+                      columns,
+                      column,
                       list,
                       context: context as TContext,
                     })}

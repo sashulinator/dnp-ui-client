@@ -1,12 +1,22 @@
 /* eslint-disable no-console */
-import { useState } from 'react'
+import { ScrollArea } from '@radix-ui/themes'
 
+import { useMemo, useState } from 'react'
+
+import Button from '~/shared/button'
 import Checkbox from '~/shared/checkbox'
+import Flex from '~/shared/flex'
+import Icon from '~/shared/icon'
 import { type Props, type Story } from '~/shared/storybook'
 import Text from '~/shared/text'
-import { type Dictionary } from '~/utils/core'
+import { type Any, type Dictionary } from '~/utils/core'
+import { type Atom, createAtom } from '~/utils/store'
 
+import { type Context, generateEmptyValue, toEditableColumn } from '../v.list/w.editable'
 import MatrixTable, { type ColumnProps, type Option } from './ui.matrix'
+
+type Item = Dictionary
+type StoryContext = Context<Item>
 
 interface State {
   //
@@ -17,31 +27,61 @@ export default {
     const { state } = props
 
     const [values, setValues] = useState(initialValues)
+    const [columns, setColumns] = useState(initialColumns)
+
+    const columnNameAtoms = useMemo(() => {
+      return columns.reduce<Record<string, Atom<string>>>((acc, column) => {
+        acc[column.name] = createAtom(column.name)
+        return acc
+      }, {})
+    }, [columns])
+
+    const editableColumns = useMemo(() => {
+      return columns.map(toEditableColumn)
+    }, [columns])
 
     return (
-      <div style={{ padding: '2rem' }}>
-        <MatrixTable
-          {...state}
-          context={{}}
-          columns={columns}
-          options={options}
-          values={values}
-          onValuesChange={setValues}
-          renderOptionHeader={() => (
-            <Text color='red' weight='regular'>
-              Твой кастом
-            </Text>
-          )}
-          renderOptionCell={(props) => props.option.display}
-          renderCell={(props) => (
-            <Checkbox
-              checked={Boolean(props.value)}
-              onCheckedChange={(checked) => {
-                props.onValueChange(!!checked)
+      <div style={{ padding: '2rem', width: '1024px' }}>
+        <ScrollArea scrollbars='horizontal'>
+          <Flex>
+            <MatrixTable<Dictionary, StoryContext, Any>
+              {...state}
+              context={{
+                columnNameAtoms,
+                removeColumn: (columnName) => {
+                  setColumns((s) => s.filter((c) => c.name !== columnName))
+                },
               }}
+              columns={editableColumns as Any}
+              options={options}
+              values={values}
+              onValuesChange={setValues}
+              renderOptionHeader={() => (
+                <Text color='red' weight='regular'>
+                  Твой кастом
+                </Text>
+              )}
+              renderOptionCell={(props) => props.option.display}
+              renderCell={(props) => (
+                <Checkbox
+                  checked={Boolean(props.value)}
+                  onCheckedChange={(checked) => {
+                    props.onValueChange(!!checked)
+                  }}
+                />
+              )}
             />
-          )}
-        />
+            <Flex>
+              <Button
+                onClick={() =>
+                  setColumns((s) => [...s, { name: generateEmptyValue(), display: 'new', type: 'string' }])
+                }
+              >
+                <Icon name='Plus' /> Колонка
+              </Button>
+            </Flex>
+          </Flex>
+        </ScrollArea>
       </div>
     )
   },
@@ -64,7 +104,7 @@ export default {
   getName: (): string => MatrixTable.displayName,
 } satisfies Story<State>
 
-export const columns = [
+export const initialColumns = [
   {
     name: 'firstName',
     display: 'firstName',
@@ -126,8 +166,8 @@ export const options = [
 ] satisfies Option[]
 
 export const initialValues = {
-  [columns[0].name]: { [options[0].value]: true },
-  [columns[1].name]: { [options[1].value]: true },
-  [columns[2].name]: { [options[1].value]: true },
-  [columns[3].name]: { [options[2].value]: true },
+  [initialColumns[0].name]: { [options[0].value]: true },
+  [initialColumns[1].name]: { [options[1].value]: true },
+  [initialColumns[2].name]: { [options[1].value]: true },
+  [initialColumns[3].name]: { [options[2].value]: true },
 }
