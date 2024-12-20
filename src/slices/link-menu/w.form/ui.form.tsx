@@ -1,0 +1,108 @@
+import Button, { DangerButton } from '~/shared/button'
+import Flex from '~/shared/flex'
+import { FieldArray, TextArea, TypedField, TypedStringField } from '~/shared/form'
+import Icon from '~/shared/icon'
+
+import { type TreeItem } from '../ui.item'
+
+export type Values = {
+  name: string
+  icon: string
+  link: { url: string }
+  description: string
+  children?: Values[]
+}
+
+export interface Props {
+  name: string
+  isRoot?: boolean | undefined
+}
+
+export const NAME = 'linkMenu-formMenu-w-Item'
+
+export default function Component(props: Props): JSX.Element {
+  const { name, isRoot = true } = props
+
+  return (
+    <Flex direction={'column'} width='100%' ml={isRoot ? '0' : '8'} p='1'>
+      <FieldArray name={`${name}.children`}>
+        {({ fields }) => {
+          return (
+            <Flex direction={'column'} width='100%'>
+              {fields.map((name, idx) => {
+                const formName = `${name}.` as ''
+
+                return (
+                  <Flex key={name} width='100%'>
+                    <Flex direction='column'>
+                      <Flex width='700px' direction={'column'} position='relative' gap='1'>
+                        <Flex gap='1' direction='column' style={{ top: '0px', right: '-50px' }} position='absolute'>
+                          <DangerButton variant='soft' round={true} onClick={() => fields.remove(idx)}>
+                            <Icon name='Trash' />
+                          </DangerButton>
+                          <Button
+                            disabled={idx === 0}
+                            variant='soft'
+                            round={true}
+                            onClick={() => fields.swap(idx, idx - 1)}
+                          >
+                            <Icon name='ChevronUp' />
+                          </Button>
+                          <Button
+                            disabled={idx === (fields.length || 0) - 1}
+                            variant='soft'
+                            round={true}
+                            onClick={() => fields.swap(idx, idx + 1)}
+                          >
+                            <Icon name='ChevronDown' />
+                          </Button>
+                        </Flex>
+                        <TypedStringField<Values, 'name'>
+                          testValueType={TypedStringField.testValueType}
+                          name={`${formName}name`}
+                          placeholder='Название'
+                        />
+
+                        <TypedStringField<Values, 'link.url'>
+                          testValueType={TypedStringField.testValueType}
+                          name={`${formName}link.url`}
+                          placeholder='Ссылка'
+                        />
+                        <TypedStringField<Values, 'description'>
+                          testValueType={TypedStringField.testValueType}
+                          name={`${formName}description`}
+                          placeholder='Описание'
+                        />
+                        <TypedField<Values, 'icon', string, string>
+                          rows='4'
+                          component={TextArea}
+                          name={`${formName}icon`}
+                        />
+                      </Flex>
+                      <Component isRoot={false} name={name} />
+                    </Flex>
+                  </Flex>
+                )
+              })}
+              <Flex>
+                <Button onClick={() => fields.push({})}>Добавить</Button>
+              </Flex>
+            </Flex>
+          )
+        }}
+      </FieldArray>
+    </Flex>
+  )
+}
+
+Component.toFormValues = (linkMenu: TreeItem[]): { root: { children: Values[] } } => {
+  return {
+    root: { children: linkMenu as Values[] },
+  }
+}
+
+Component.toLinkMenu = (values: { root: { children: Values[] } }): TreeItem[] => {
+  return values.root.children as TreeItem[]
+}
+
+Component.displayName = NAME

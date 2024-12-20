@@ -10,7 +10,8 @@ import { defaultIcon } from './constants.default-icon'
 export type TreeItem = {
   name: string
   icon?: string | undefined
-  link?: string | undefined
+  link?: { url: string | undefined } | undefined
+  description?: string | undefined
   children?: TreeItem[] | undefined
 }
 
@@ -25,9 +26,9 @@ export default function Component(props: Props): JSX.Element {
   if (!props.item.children) {
     return (
       <>
-        {props.item.link ? (
+        {props.item.link?.url ? (
           <DropdownMenu.Item className={c(props.className, NAME)}>
-            <Link style={{ textDecoration: 'none', color: 'inherit' }} to={props.item.link}>
+            <Link style={{ textDecoration: 'none', color: 'inherit' }} to={props.item.link.url}>
               <Flex gap={'2'}>
                 <Button size={'1'} square={true} variant='soft' asChild={true}>
                   <span dangerouslySetInnerHTML={{ __html: props.item.icon ?? defaultIcon }} />
@@ -52,8 +53,8 @@ export default function Component(props: Props): JSX.Element {
   return (
     <DropdownMenu.Sub>
       <DropdownMenu.SubTrigger>
-        {props.item.link ? (
-          <Link className='no-style' to={props.item.link}>
+        {props.item.link?.url ? (
+          <Link className='no-style' to={props.item.link.url}>
             <Flex gap={'2'}>
               <Button size={'1'} square={true} variant='soft' asChild={true}>
                 <span dangerouslySetInnerHTML={{ __html: props.item.icon ?? defaultIcon }} />

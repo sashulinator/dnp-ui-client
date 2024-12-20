@@ -22,7 +22,7 @@ export function getRoutesTree() {
       id: 'nav',
       name: 'Навигационная панель',
       link: {
-        url: routes.store.getUrl({ name: 'navMenu' }),
+        url: routes.linkMenu_edit.getUrl(),
       },
       renderIcon: () => <Icon name='Star' />,
     })

@@ -12,6 +12,7 @@ import Header from '~/shared/header'
 import Icon from '~/shared/icon'
 import Logo from '~/shared/logo-icon'
 import Nav from '~/shared/nav'
+import LinkMenu_edit from '~/slices/link-menu/pages/edit'
 import { Icon as ProcessIcon } from '~/slices/process'
 import Processes from '~/slices/process/pages'
 import Processes_kn from '~/slices/process/pages/kn'
@@ -238,6 +239,27 @@ export const routes = {
       renderHeader: Header,
       renderNav: Nav,
       rolesAllowed: [roles.admin],
+    },
+  },
+
+  linkMenu_edit: {
+    getName: () => 'Редактировать меню навигации',
+    getPath: () => '/link-menu',
+    getUrl() {
+      return this.getPath()
+    },
+    render: () => (
+      <Suspense fallback='loading...'>
+        <LinkMenu_edit />
+      </Suspense>
+    ),
+    payload: {
+      navigatable: isDev(),
+      renderIcon: (props) => <Icon {...props} name='Star' />,
+      iconColor: 'red',
+      renderHeader: Header,
+      renderNav: Nav,
+      // rolesAllowed: [roles.admin],
     },
   },
 

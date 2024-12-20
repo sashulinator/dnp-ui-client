@@ -3,7 +3,7 @@ import DropdownMenu from '~/shared/dropdown-menu'
 import Tooltip from '~/shared/tooltip'
 
 import { defaultIcon } from './constants.default-icon'
-import Item, { type TreeItem } from './widgets.item'
+import Item, { type TreeItem } from './ui.item'
 
 export type Props = {
   tree: TreeItem
