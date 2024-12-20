@@ -17,7 +17,6 @@ import { useSubscribeUpdate } from '~/utils/core-hooks'
 import { map } from '~/utils/dictionary'
 
 const appRoute = {
-  ...publicRoutes,
   ...map(routes, (route) => ({
     ...route,
     render: (...props: unknown[]) => {
@@ -29,6 +28,7 @@ const appRoute = {
       return createElement(route.render, props)
     },
   })),
+  ...publicRoutes,
 }
 
 function App() {

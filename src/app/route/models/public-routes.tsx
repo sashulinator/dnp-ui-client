@@ -2,6 +2,8 @@ import { Suspense, lazy } from 'react'
 
 import NotFound from '~/pages/not-found'
 import { LoginPage } from '~/shared/auth'
+import Header from '~/shared/header'
+import Nav from '~/shared/nav'
 
 import { type Route } from './route'
 
@@ -38,7 +40,11 @@ export const publicRoutes = {
     getUrl() {
       return this.getPath()
     },
-    payload: {},
     render: NotFound,
+    payload: {
+      navigatable: false,
+      renderHeader: Header,
+      renderNav: Nav,
+    },
   },
 } satisfies Record<string, Route>

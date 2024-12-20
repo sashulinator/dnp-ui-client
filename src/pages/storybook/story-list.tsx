@@ -16,6 +16,7 @@ import uiFormWTextField from '~/shared/form/w.string-field/story'
 import sharedFormETextInputVShared from '~/shared/form/w.string-field/v.typed/story'
 import sharedFormUnionField from '~/shared/form/w.union-field/v.typed/story'
 import sharedlinkTree from '~/shared/link-tree/story'
+import linkMenuFormMenu from '~/shared/link-tree/w.form/story'
 import uiPagination from '~/shared/page/ui/pagination/story'
 import uiPaginationWInfo from '~/shared/page/ui/pagination/widgets/info/story'
 import uiPaginationWSwitcher from '~/shared/page/ui/pagination/widgets/switcher/story'
@@ -31,8 +32,6 @@ import uiTextHighlighter from '~/shared/text/ui/highlighted/story'
 import uiToast from '~/shared/toast/story'
 import uiNotificationToastList from '~/shared/toast/variants/notification/list/story'
 import uiTreeVNested from '~/shared/tree/variants/nested/story'
-import linkMenuLinkMenu from '~/slices/link-menu/story'
-import linkMenuFormMenu from '~/slices/link-menu/w.form/story'
 import sortButton from '~/slices/sort/components/button/story'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -84,6 +83,5 @@ export const storyList: Story<any>[] = [
    * slices
    */
 
-  linkMenuLinkMenu,
   linkMenuFormMenu,
 ]

@@ -3,8 +3,6 @@ import Flex from '~/shared/flex'
 import { FieldArray, TextArea, TypedField, TypedStringField } from '~/shared/form'
 import Icon from '~/shared/icon'
 
-import { type TreeItem } from '../ui.item'
-
 export type Values = {
   name: string
   icon: string
@@ -95,14 +93,14 @@ export default function Component(props: Props): JSX.Element {
   )
 }
 
-Component.toFormValues = (linkMenu: TreeItem[]): { root: { children: Values[] } } => {
+Component.toFormValues = (linkMenu: Values[]): { root: { children: Values[] } } => {
   return {
     root: { children: linkMenu as Values[] },
   }
 }
 
-Component.toLinkMenu = (values: { root: { children: Values[] } }): TreeItem[] => {
-  return values.root.children as TreeItem[]
+Component.toLinkMenu = (values: { root: { children: Values[] } }): Values[] => {
+  return values.root.children as Values[]
 }
 
 Component.displayName = NAME

@@ -7,13 +7,12 @@ import NormalizationConfigs from '~/entities/normalization-config/pages'
 import NormalizationConfigs_id from '~/entities/normalization-config/pages/id'
 import { NAME as PROCESSING_NAME, Icon as ProcessingIcon } from '~/entities/processing'
 import NormalizationConfigs_create from '~/entities/processing/pages/create'
-import NotFound from '~/pages/not-found'
+import LinkMenu_edit from '~/pages/link-tree.edit'
 import { auth, roles } from '~/shared/auth'
 import Header from '~/shared/header'
 import Icon from '~/shared/icon'
 import Logo from '~/shared/logo-icon'
 import Nav from '~/shared/nav'
-import LinkMenu_edit from '~/slices/link-menu/pages/edit'
 import { Icon as ProcessIcon } from '~/slices/process'
 import Processes from '~/slices/process/pages'
 import Processes_kn from '~/slices/process/pages/kn'
@@ -229,20 +228,6 @@ export const routes = {
       renderHeader: Header,
       renderNav: Nav,
       // rolesAllowed: [roles.admin],
-    },
-  },
-
-  notFound: {
-    getName: () => 'Not found',
-    getPath: () => '/*',
-    getUrl() {
-      return this.getPath()
-    },
-    render: NotFound,
-    payload: {
-      navigatable: false,
-      renderHeader: Header,
-      renderNav: Nav,
     },
   },
 } satisfies Record<string, AppRoute>

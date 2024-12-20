@@ -4,9 +4,8 @@ import Button from '~/shared/button'
 import Card from '~/shared/card'
 import { useCreateForm } from '~/shared/form'
 import Form from '~/shared/form'
+import { Form as LinkMenuForm } from '~/shared/link-tree'
 import { notify } from '~/shared/notification-list-store'
-import { Form as LinkMenuForm } from '~/slices/link-menu'
-import { type TreeItem } from '~/slices/link-menu'
 import { api } from '~/slices/store'
 
 const NAME = 'store-Page'
@@ -16,7 +15,7 @@ export default function Page(): JSX.Element {
     { name: 'navMenu' },
     {
       onSuccess: (data) => {
-        form.initialize(LinkMenuForm.default.toFormValues(data.data as TreeItem[]))
+        form.initialize(LinkMenuForm.default.toFormValues(data.data as LinkMenuForm.Values[]))
       },
     },
   )
@@ -24,7 +23,7 @@ export default function Page(): JSX.Element {
   const updateMutator = api.update.useCache({
     onSuccess: (data) => {
       notify({ title: 'Сохранено', type: 'success' })
-      form.initialize(LinkMenuForm.default.toFormValues(data.data.data as TreeItem[]))
+      form.initialize(LinkMenuForm.default.toFormValues(data.data.data as LinkMenuForm.Values[]))
     },
     onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
   })

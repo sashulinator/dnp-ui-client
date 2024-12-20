@@ -1,10 +1,10 @@
 import { createElement, useState } from 'react'
+import { NavLink } from 'react-router-dom'
 
 import Button from '~/shared/button'
 import Collapse from '~/shared/collapse'
 import Flex, { type FlexProps } from '~/shared/flex'
 import Icon from '~/shared/icon'
-import Link from '~/shared/link'
 import Text from '~/shared/text'
 import { c, isEmpty } from '~/utils/core'
 
@@ -74,8 +74,8 @@ function _Item(props: _ItemProps) {
 
   const [isExpanded, setExpanded] = useState(expanded[newPath] || false)
 
-  const text = (
-    <>
+  const linkContent = (
+    <Text>
       <Flex width='22px' height='22px' align='center' justify='center'>
         {item.renderIcon && createElement(item.renderIcon)}
       </Flex>
@@ -101,30 +101,43 @@ function _Item(props: _ItemProps) {
           <Icon name={isExpanded ? 'ChevronDown' : 'ChevronRight'} />
         </Button>
       )}
-    </>
+    </Text>
   )
 
   return (
     <Flex direction='column' pl={`${isRoot ? 0 : offset}px`}>
       <Flex width='100%' align='center'>
         <Flex width='100%'>
-          <Button
-            variant='outline'
-            asChild={true}
-            style={{ width: '100%', justifyContent: 'flex-start', boxShadow: 'none' }}
-          >
-            {item.link ? (
-              <Link
-                style={{ width: '100%' }}
-                to={item.link.url ?? location.href}
-                {...(item.link.blank && { target: '_blank' })}
-              >
-                {text}
-              </Link>
-            ) : (
-              <Flex width='100%'>{text}</Flex>
-            )}
-          </Button>
+          {item.link ? (
+            <NavLink
+              style={{ width: '100%' }}
+              to={item.link.url ?? location.href}
+              end
+              {...(item.link.blank && { target: '_blank' })}
+            >
+              {({ isActive }) => {
+                return (
+                  <Button
+                    style={{ width: '100%', boxShadow: 'none', opacity: isActive ? '1' : '0.7' }}
+                    color={isActive ? 'amber' : 'gray'}
+                    variant='outline'
+                    asChild={true}
+                  >
+                    {linkContent}
+                  </Button>
+                )
+              }}
+            </NavLink>
+          ) : (
+            <Button
+              color={'gray'}
+              asChild={true}
+              variant='outline'
+              style={{ width: '100%', boxShadow: 'none', opacity: '0.7' }}
+            >
+              {linkContent}
+            </Button>
+          )}
         </Flex>
       </Flex>
       {!isEmpty(item.children) && (
