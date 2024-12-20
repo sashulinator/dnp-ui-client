@@ -7,8 +7,7 @@ import * as v from 'valibot'
 export const explorerSchema = v.object({
   paths: v.array(v.lazy(() => pathSchema)),
   name: v.pipe(v.string(), v.nonEmpty()),
-  type: v.lazy(() => typeSchema),
-  items: v.array(v.lazy(() => itemSchema)),
+  items: v.array(v.object({})),
   total: v.number(),
   // Название ключа в items.data который является id
   idKey: v.union([v.number(), v.string()]),
@@ -34,17 +33,13 @@ export type Column = v.InferOutput<typeof columnSchema>
  * Item
  */
 
-export const itemSchema = v.object({
-  type: v.lazy(() => typeSchema),
-  data: v.union([v.object({}), v.never()]),
-})
+export const itemSchema = v.object({})
 
 export type Item = v.InferOutput<typeof itemSchema>
 
 /**
  * type
  */
-
 export const typeSchema = v.union([v.literal('postgres'), v.literal('s3'), v.literal('table'), v.literal('row')])
 
 export type Type = v.InferOutput<typeof typeSchema>
@@ -55,7 +50,7 @@ export type Type = v.InferOutput<typeof typeSchema>
 
 export const pathSchema = v.object({
   name: v.pipe(v.string(), v.nonEmpty()),
-  type: v.lazy(() => typeSchema),
+  type: v.lazy(() => v.union([v.literal('postgres'), v.literal('s3'), v.literal('table'), v.literal('row')])),
 })
 
 export type Path = v.InferOutput<typeof pathSchema>
