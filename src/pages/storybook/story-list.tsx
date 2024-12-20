@@ -1,8 +1,3 @@
-import entitiesAnalyticsForm from '~/entities/analytics/ui/run-form/story'
-import entitieAnalyticsFormWColumn from '~/entities/analytics/ui/run-form/widgets/column/story'
-import entitieAnalyticsFormWDatabase from '~/entities/analytics/ui/run-form/widgets/database/story'
-import entitieAnalyticsFormWSchema from '~/entities/analytics/ui/run-form/widgets/schema/story'
-import entitieAnalyticsFormWTable from '~/entities/analytics/ui/run-form/widgets/table/story'
 import eDcserviceForm from '~/entities/database-container/dcservice/ui/form/story'
 import normalizationConfigForm from '~/entities/normalization-config/ui/form/story'
 import uiButton from '~/shared/button/story'
@@ -36,7 +31,6 @@ import uiTextHighlighter from '~/shared/text/ui/highlighted/story'
 import uiToast from '~/shared/toast/story'
 import uiNotificationToastList from '~/shared/toast/variants/notification/list/story'
 import uiTreeVNested from '~/shared/tree/variants/nested/story'
-import explorerViewer from '~/slices/explorer/ui/viewer/story'
 import linkMenuLinkMenu from '~/slices/link-menu/ui/link-menu/story'
 import sortButton from '~/slices/sort/components/button/story'
 
@@ -47,14 +41,8 @@ export const storyList: Story<any>[] = [
    */
 
   eProcessingWProcedureWValuePerColumn,
-  explorerViewer,
   normalizationConfigForm,
   debugRenderCounter,
-  entitiesAnalyticsForm,
-  entitieAnalyticsFormWColumn,
-  entitieAnalyticsFormWTable,
-  entitieAnalyticsFormWSchema,
-  entitieAnalyticsFormWDatabase,
   eDcserviceForm,
 
   /**
