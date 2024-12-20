@@ -1,4 +1,4 @@
-import { type ExecutableDesign } from '../models'
+import { type ExecutableSchema } from '../models'
 import { BASE_URL } from './constants'
 
 export const URL = `${BASE_URL}/get-by-id`
@@ -7,4 +7,4 @@ export type RequestParams = {
   id: string
 }
 
-export type Result = ExecutableDesign
+export type Result = ExecutableSchema

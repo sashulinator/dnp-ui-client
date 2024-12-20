@@ -4,11 +4,11 @@ import { useField } from 'react-final-form'
 import { type Option } from '~/shared/select'
 import { LabeledSelect } from '~/shared/select'
 
-import { type ExecutableDesign } from '../models'
+import { type ExecutableSchema } from '../models'
 import { SLICE } from './constants'
 
 export interface Props {
-  executableDesigns: ExecutableDesign[]
+  executableSchemas: ExecutableSchema[]
   name: string
   onNameChange: (value: string) => void
   readonly?: boolean
@@ -21,9 +21,9 @@ const NAME = `${SLICE}-Form`
  * - Устанавливает InitialValues для выбранной процедуры
  */
 export default function Component(props: Props): JSX.Element {
-  const { name, executableDesigns, onNameChange, readonly } = props
+  const { name, executableSchemas, onNameChange, readonly } = props
 
-  const options = useMemo(executableOptions, [props.executableDesigns])
+  const options = useMemo(executableOptions, [props.executableSchemas])
 
   const nameField = useField<string>(`${name}.name`, { subscription: { value: true } })
 
@@ -49,7 +49,7 @@ export default function Component(props: Props): JSX.Element {
    */
 
   function executableOptions(): Option[] {
-    return executableDesigns.map((m) => ({ value: m.name, display: m.display }))
+    return executableSchemas.map((m) => ({ value: m.name, display: m.display }))
   }
 }
 

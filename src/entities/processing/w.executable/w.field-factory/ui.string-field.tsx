@@ -19,7 +19,7 @@ export default function Component(
 
   return (
     <Flex direction='column'>
-      <Labeled label={_paramContext.paramDesign.display}>
+      <Labeled label={_paramContext.paramSchema.display}>
         <TextInput
           {...textFieldProps}
           className={c(NAME)}

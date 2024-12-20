@@ -31,7 +31,7 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
 
   return (
     <Flex direction='column'>
-      <Labeled label={_paramContext.paramDesign.display}>
+      <Labeled label={_paramContext.paramSchema.display}>
         <ScrollArea>
           <MatrixTable.default<Dictionary, Dictionary, unknown>
             className={c(props.className, NAME)}

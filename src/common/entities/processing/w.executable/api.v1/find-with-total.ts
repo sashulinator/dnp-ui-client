@@ -1,4 +1,4 @@
-import { type ExecutableDesign } from '../models'
+import { type ExecutableSchema } from '../models'
 import { BASE_URL } from './constants'
 
 export const URL = `${BASE_URL}/find-with-total`
@@ -15,6 +15,6 @@ export type RequestParams = {
 }
 
 export type Result = {
-  items: ExecutableDesign[]
+  items: ExecutableSchema[]
   total: number
 }

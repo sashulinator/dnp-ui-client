@@ -73,7 +73,7 @@ export default function Component(): JSX.Element {
             component={ProcessingForm.default}
             fetchDcdatabaseOptions={fetchDatabaseOptions}
             fetchTables={fetchTables}
-            fetchExecutableDesigns={fetchExecutableDesigns}
+            fetchExecutableSchemas={fetchExecutableSchemas}
           />
         </Section>
 
@@ -109,7 +109,7 @@ export default function Component(): JSX.Element {
    * private
    */
 
-  async function fetchExecutableDesigns() {
+  async function fetchExecutableSchemas() {
     const ret = await Executable.api.findWithTotal.request({})
     return ret.data.items
   }

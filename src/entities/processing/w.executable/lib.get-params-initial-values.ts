@@ -1,30 +1,30 @@
 import { type Any, type Dictionary } from '~/utils/core'
 
-import { type ExecutableDesign, type ParamDesign } from './models'
+import { type ExecutableSchema, type ParamSchema } from './models'
 
 export type GetParamsInitialValuesParams = {
-  executableDesign: ExecutableDesign
-  context: Omit<Context, 'paramDesign'>
+  executableSchema: ExecutableSchema
+  context: Omit<Context, 'paramSchema'>
 }
 
 export type Context = {
   columns: { name: string; display: string }[]
   generateId: () => string
-  paramDesign: ParamDesign
+  paramSchema: ParamSchema
 }
 
 export function getParamsInitialValues(params: GetParamsInitialValuesParams) {
-  const { executableDesign, context } = params
+  const { executableSchema, context } = params
 
   const initialParamsValue: Dictionary<Any> = {}
 
-  for (let index = 0; index < executableDesign?.params?.length; index++) {
-    const paramDesign = executableDesign?.params[index]
+  for (let index = 0; index < executableSchema?.params?.length; index++) {
+    const paramSchema = executableSchema?.params[index]
 
-    if (paramDesign.getInitialValue) {
-      initialParamsValue[paramDesign.name] = new Function('context', paramDesign.getInitialValue)({
+    if (paramSchema.getInitialValue) {
+      initialParamsValue[paramSchema.name] = new Function('context', paramSchema.getInitialValue)({
         ...context,
-        paramDesign,
+        paramSchema,
       }) as Any
     }
   }
