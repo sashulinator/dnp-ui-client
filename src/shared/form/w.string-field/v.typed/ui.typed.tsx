@@ -18,7 +18,7 @@ export default function Component<
   props: Omit<TextFieldProps, 'input' | 'meta'> & {
     rootProps?: FlexProps | undefined
     name: TName
-    testValueType: (t: TV) => string
+    testValueType: (t: TV) => string | undefined
     renderHint?: (props: {
       input: FieldInputProps<TV, HTMLInputElement>
       meta: FieldMetaState<TV>
@@ -45,3 +45,4 @@ export default function Component<
 Component.displayName = NAME
 
 Component.testValueType = (t: string): string => t
+Component.testOptionalValueType = (t: string): string | undefined => t

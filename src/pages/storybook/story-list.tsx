@@ -32,6 +32,7 @@ import uiTextHighlighter from '~/shared/text/ui/highlighted/story'
 import uiToast from '~/shared/toast/story'
 import uiNotificationToastList from '~/shared/toast/variants/notification/list/story'
 import uiTreeVNested from '~/shared/tree/variants/nested/story'
+import sharedReactFactory from '~/slices/react-factory/story'
 import sortButton from '~/slices/sort/components/button/story'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -49,6 +50,7 @@ export const storyList: Story<any>[] = [
    * shared
    */
 
+  sharedReactFactory,
   selectSelectWInput,
   sharedFormETextInputVShared,
   sharedTextInput,
