@@ -6,7 +6,7 @@ import { createElement, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 
 import { RouteControllerAdapterLayout } from '~/app/layout'
-import { history, publicRoutes, routes } from '~/app/route'
+import { bussinessRoutes, history, publicRoutes } from '~/app/route'
 import { Controller as RouteController } from '~/app/route'
 import { processingDataApi } from '~/entities/processing-data'
 import { auth } from '~/shared/auth'
@@ -17,7 +17,8 @@ import { useSubscribeUpdate } from '~/utils/core-hooks'
 import { map } from '~/utils/dictionary'
 
 const appRoute = {
-  ...map(routes, (route) => ({
+  ...publicRoutes,
+  ...map(bussinessRoutes, (route) => ({
     ...route,
     render: (...props: unknown[]) => {
       // делаем предзапрос всех важных сущностей
@@ -28,7 +29,6 @@ const appRoute = {
       return createElement(route.render, props)
     },
   })),
-  ...publicRoutes,
 }
 
 function App() {
