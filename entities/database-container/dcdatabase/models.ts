@@ -8,7 +8,7 @@ export const dcdatabaseSchema = v.object({
   id: v.pipe(v.string(), v.nonEmpty()),
   name: v.pipe(v.string(), v.nonEmpty()),
   display: v.string(),
-  serviceId: v.pipe(v.string(), v.nonEmpty()),
+  dcserviceId: v.pipe(v.string(), v.nonEmpty()),
 })
 
 export type Dcdatabase = v.InferOutput<typeof dcdatabaseSchema>

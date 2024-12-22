@@ -8,7 +8,8 @@ export const baseSchemaSchema = v.object({
   id: v.pipe(v.string(), v.nonEmpty()),
   name: v.pipe(v.string(), v.nonEmpty()),
   display: v.string(),
-  databaseId: v.pipe(v.string(), v.nonEmpty()),
+  database: v.pipe(v.string(), v.nonEmpty()),
+  dcserviceId: v.pipe(v.string(), v.nonEmpty()),
 })
 
 export type BaseSchema = v.InferOutput<typeof baseSchemaSchema>

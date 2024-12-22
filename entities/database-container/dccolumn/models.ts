@@ -9,7 +9,7 @@ export const dccolumnSchema = v.object({
   name: v.pipe(v.string(), v.nonEmpty()),
   display: v.pipe(v.string(), v.nonEmpty()),
   type: v.pipe(v.string(), v.nonEmpty()),
-  serviceId: v.pipe(v.string(), v.nonEmpty()),
+  dcserviceId: v.pipe(v.string(), v.nonEmpty()),
   database: v.pipe(v.string(), v.nonEmpty()),
   table: v.pipe(v.string(), v.nonEmpty()),
 })
