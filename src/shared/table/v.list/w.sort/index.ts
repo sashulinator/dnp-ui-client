@@ -1,4 +1,12 @@
-export { injectIntoHeader } from './lib.inject-into-header'
+/**
+ * ui
+ */
+import { default as SortWrapper } from './ui.sort-wrapper'
+
+export default SortWrapper
+export { type Props as SortWrapperProps } from './ui.sort-wrapper'
+
+export { injectIntoColumn } from './lib.inject-into-column'
 
 /**
  * types

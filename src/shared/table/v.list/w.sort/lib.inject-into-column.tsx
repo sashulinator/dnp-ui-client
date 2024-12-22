@@ -7,7 +7,7 @@ import { type ColumnProps, defaultRenderHeader } from '../ui.list'
 import { type Context } from './models.contex'
 import { HeaderCell } from './w._header-cell'
 
-export function injectIntoHeader<TItem extends Dictionary, TContext extends Context<TItem>>(
+export function injectIntoColumn<TItem extends Dictionary, TContext extends Context<TItem>>(
   column: ColumnProps<TItem, TContext>,
 ): ColumnProps<TItem, TContext> {
   return {

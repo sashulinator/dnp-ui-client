@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react'
-import { createElement } from 'react'
+import { createElement, useMemo } from 'react'
 
 import ErrorBoundary from '~/shared/error-boundary'
 import Flex from '~/shared/flex'
@@ -72,7 +72,7 @@ export type GetRowProps<TItem extends Dictionary, TContext extends Dictionary> =
 export type Props<TItem extends Dictionary, TContext extends Dictionary> = RootProps & {
   className?: string | undefined
   list: TItem[]
-  columns: ColumnProps<TItem, TContext>[]
+  columns?: ColumnProps<TItem, TContext>[] | undefined
   context: TContext
   getRowProps?: (params: GetRowProps<TItem, TContext>) => RowProps | undefined
   getHeaderRowProps?: (params: GetHeaderRowProps<TItem, TContext>) => RowProps | undefined
@@ -92,7 +92,7 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
 ): JSX.Element {
   const {
     className,
-    columns,
+    columns: columnsProp,
     context,
     list,
     getBodyProps,
@@ -103,6 +103,8 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
     getRowProps,
     ...rootTableProps
   } = props
+
+  const columns = useMemo(() => columnsProp ?? [], [])
 
   return (
     <ErrorBoundary fallback={'Неожиданная ошибка! Обратитесь к администратору!'}>
@@ -137,7 +139,7 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
                 const rowProps = getRowProps?.({ item, rowIndex, ...props })
                 return (
                   <Table.Row {...rowProps} key={rowProps?.key || rowIndex}>
-                    {props.columns.map((column, columnIndex) => {
+                    {columns.map((column, columnIndex) => {
                       const mergedProps = {
                         ...getCellProps?.({ column, columnIndex, rowIndex, item, ...props }),
                         ...column.cellProps,

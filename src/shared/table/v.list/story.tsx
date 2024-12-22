@@ -1,8 +1,14 @@
+import { useMemo, useState } from 'react'
+
+import Button from '~/shared/button'
 import Flex from '~/shared/flex'
 import type { Props, Story } from '~/shared/storybook'
 import { type Dictionary } from '~/utils/core'
+import { createAtom } from '~/utils/store'
 
 import List, { type ColumnProps, NAME } from './ui.list'
+import SearchWrapper from './w.search'
+import SortWrapper, { type ToSort } from './w.sort'
 
 interface State {}
 
@@ -10,9 +16,28 @@ export default {
   render: function Element(props: Props<State>): JSX.Element {
     const { state } = props
 
+    const [isSort, setIsSort] = useState(true)
+    const [searchFilter, setSearchFilter] = useState({})
+
+    const sortController = useMemo(() => createAtom<ToSort<Dictionary> | undefined>({}), [])
+
+    const rTableList = <List {...state} context={{}} list={list} columns={columns} />
+
     return (
       <Flex width='100%' direction={'column'} p='8' gap='4'>
-        <List {...state} context={{}} list={list} columns={columns} />
+        <Flex>
+          <Button onClick={() => setIsSort((s) => !s)}>isInjectedSortSearch</Button>
+        </Flex>
+        {isSort ? (
+          <SearchWrapper columns={columns} context={{ searchFilter, setSearchFilter }}>
+            <SortWrapper columns={columns} context={{ sortController }}>
+              {rTableList}
+            </SortWrapper>
+          </SearchWrapper>
+        ) : (
+          rTableList
+        )}
+        <pre>{JSON.stringify(searchFilter, null, 2)}</pre>
       </Flex>
     )
   },
