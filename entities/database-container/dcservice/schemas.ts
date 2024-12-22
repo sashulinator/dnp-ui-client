@@ -1,12 +1,12 @@
 import * as v from 'valibot'
 
 /**
- * Base
+ * Dcservice
  */
 
 export const dcserviceSchema = v.object({
   id: v.pipe(v.string(), v.nonEmpty()),
-  display: v.string(),
+  display: v.pipe(v.string(), v.nonEmpty()),
   host: v.pipe(v.string(), v.nonEmpty()),
   port: v.number(),
   username: v.pipe(v.string(), v.nonEmpty()),

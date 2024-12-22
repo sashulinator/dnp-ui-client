@@ -3,7 +3,7 @@ import type * as v from 'valibot'
 import type { dcserviceCreateInputSchema, dcserviceSchema, dcserviceUpdateInputSchema } from './schemas'
 
 /**
- * Base
+ * Dcservice
  */
 
 export type Dcservice = v.InferOutput<typeof dcserviceSchema>
