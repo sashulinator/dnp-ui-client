@@ -7,7 +7,8 @@ import Nav from '~/shared/nav'
 
 import { type Route } from './route'
 
-const Storybook = lazy(() => import('../../../pages/storybook/index'))
+const Storybook = lazy(() => import('~/pages/storybook/index'))
+const StorybookNav = lazy(() => import('~/shared/storybook/widgets/nav'))
 
 export const publicRoutes = {
   login: {
@@ -22,11 +23,17 @@ export const publicRoutes = {
 
   storybook: {
     getName: () => 'Storybook',
-    getPath: () => '/storybook',
+    getPath: () => '/storybook/:name',
     getUrl() {
       return this.getPath()
     },
-    payload: {},
+    payload: {
+      renderNav: () => (
+        <Suspense fallback=''>
+          <StorybookNav />
+        </Suspense>
+      ),
+    },
     render: () => (
       <Suspense fallback='loading...'>
         <Storybook />

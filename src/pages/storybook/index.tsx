@@ -1,4 +1,4 @@
-import { useSearchParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 import Storybook from '~/shared/storybook'
 import { c } from '~/utils/core'
@@ -11,24 +11,15 @@ export interface Props {
 
 const displayName = 'page-Storybook'
 
-const STORY_QUERY = 'story'
-
 /**
  * page-Storybook
  */
 export default function Component(): JSX.Element {
-  const [params, setParams] = useSearchParams()
-  const query = params.get(STORY_QUERY) || ''
+  const { name } = useParams()
 
   return (
     <main className={c(displayName)}>
-      <Storybook
-        stories={storyList}
-        activeStoryName={query}
-        setActiveStoryName={(activeStoryName) => {
-          setParams({ [STORY_QUERY]: activeStoryName })
-        }}
-      />
+      <Storybook stories={storyList} activeStoryName={name} />
     </main>
   )
 }

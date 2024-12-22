@@ -1,1 +1,1 @@
-export const SLICE = 'react-factory'
+export const SLICE = 'reactFactory'

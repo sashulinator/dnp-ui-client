@@ -1,65 +1,78 @@
 import './nav.scss'
 
+import { ScrollArea, Separator } from '@radix-ui/themes'
+
 import { useMemo } from 'react'
 
-import ScrollArea from '~/shared/scroll-area'
-import { Story } from '~/shared/storybook'
+import { routes } from '~/app/route'
+import { storyList } from '~/pages/storybook/story-list'
+import Button from '~/shared/button'
+import Flex from '~/shared/flex'
+import Link from '~/shared/link'
+import LinkTree, { type TreeItem } from '~/shared/link-tree'
+import Logo from '~/shared/logo-icon'
+import Text from '~/shared/text'
 import { c, group } from '~/utils/core'
 
-export interface Props {
-  className?: string | undefined
-  stories: Story<any>[]
-  activeStoryName?: string | undefined
-  setActiveStoryName?: ((name: string) => void) | undefined
-}
-
-const displayName = 'dnp-storybook-Storybook-w-Nav'
+const NAME = 'dnp-nav-Nav'
 
 /**
- * dnp-storybook-Storybook-w-Nav
+ * dnp-nav-Nav
  */
-export default function Component(props: Props): JSX.Element {
-  const { stories } = props
-
-  const groups = useMemo(() => {
-    return Object.entries(
-      group(stories, (item) => {
-        return item.getName().split('-')[0]
-      }),
-    )
-  }, [stories])
+export default function Component(): JSX.Element {
+  const routesTree = useMemo(toTreeItem, [])
 
   return (
-    <div className={c(props.className, displayName)} style={{ height: '100vh' }}>
-      <ScrollArea>
-        <div style={{ paddingBottom: '80px' }}>
-          {groups.map(([groupName, group]) => {
-            return (
-              <div key={groupName}>
-                <div>{groupName}</div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                  {group.map((item) => {
-                    const name = item.getName()
-                    const isActive = props.activeStoryName === name
-
-                    return (
-                      <button
-                        key={name}
-                        onClick={() => props.setActiveStoryName?.(name)}
-                        className={c('nav-link', isActive && '-active--true')}
-                      >
-                        {name.replace(`${groupName}-`, '')}
-                      </button>
-                    )
-                  })}
-                </div>
-              </div>
-            )
-          })}
-        </div>
-      </ScrollArea>
-    </div>
+    <nav className={c(NAME)}>
+      <Flex className='container' direction='column' align='center' gap='2' pt='8px'>
+        <Flex width='100%' pl='1' pr='1'>
+          <Button
+            variant='outline'
+            size='2'
+            asChild
+            style={{ width: '100%', justifyContent: 'flex-start', boxShadow: 'none' }}
+          >
+            <Link to={routes.main.getUrl()}>
+              <Button variant='outline' size='2' square={true} asChild>
+                <span>
+                  <Logo height='1rem' width='2rem' />
+                </span>
+              </Button>
+              <Text style={{ marginLeft: '8px' }}>НСИ</Text>
+            </Link>
+          </Button>
+        </Flex>
+        <Separator />
+        <ScrollArea>
+          <Flex direction='column' width='100%' align='center' gap='2'>
+            <Flex p='1' width='100%'>
+              <LinkTree expanded={{}} offset={0} tree={routesTree} />
+            </Flex>
+          </Flex>
+        </ScrollArea>
+      </Flex>
+    </nav>
   )
+
+  /**
+   * private
+   */
+  function toTreeItem(): TreeItem[] {
+    const groupedStory = group(storyList, (story) => story.getName().split('-')[0])
+    return Object.entries(groupedStory).map(([key, stories]) => {
+      return {
+        id: key,
+        name: key,
+        renderIcon: () => <>·</>,
+        children: stories.map((story) => ({
+          id: story.getName(),
+          name: story.getName(),
+          link: { url: `/storybook/${story.getName()}` },
+          children: [],
+        })),
+      }
+    })
+  }
 }
 
-Component.displayName = displayName
+Component.displayName = NAME
