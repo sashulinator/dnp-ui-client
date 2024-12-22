@@ -1,4 +1,4 @@
-import { type Dcservice } from '../models'
+import { type Dcservice } from '../types'
 import { baseUrl } from './constants'
 
 export const NAME = 'get-by-id'

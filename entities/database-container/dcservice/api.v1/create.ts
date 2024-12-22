@@ -1,4 +1,4 @@
-import type { Dcservice, DcserviceCreateInput } from '../models'
+import type { Dcservice, DcserviceCreateInput } from '../types'
 import { baseUrl } from './constants'
 
 export const NAME = 'create'

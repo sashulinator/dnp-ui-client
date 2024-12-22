@@ -1,8 +1,1 @@
-export {
-  type Dcservice,
-  type DcserviceCreateInput,
-  type DcserviceUpdateInput,
-  dcserviceSchema,
-  dcserviceCreateInputSchema,
-  dcserviceUpdateInputSchema,
-} from './models'
+export type { Dcservice, DcserviceCreateInput, DcserviceUpdateInput } from './types'

@@ -13,20 +13,14 @@ export const dcserviceSchema = v.object({
   password: v.pipe(v.string(), v.nonEmpty()),
 })
 
-export type Dcservice = v.InferOutput<typeof dcserviceSchema>
-
 /**
  * CreateInput
  */
 
 export const dcserviceCreateInputSchema = v.omit(dcserviceSchema, ['id'])
 
-export type DcserviceCreateInput = v.InferOutput<typeof dcserviceCreateInputSchema>
-
 /**
  * UpdateInput
  */
 
 export const dcserviceUpdateInputSchema = dcserviceSchema
-
-export type DcserviceUpdateInput = v.InferOutput<typeof dcserviceUpdateInputSchema>
