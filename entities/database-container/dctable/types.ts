@@ -1,21 +1,21 @@
 import type * as v from 'valibot'
 
-import type { dctableCreateInputSchema, dctableSchema, dctableUpdateInputSchema } from './schemas'
+import type { dctable, dctableCreateInput, dctableUpdateInput } from './schemas'
 
 /**
  * Dctable
  */
 
-export type Dctable = v.InferOutput<typeof dctableSchema>
+export type Dctable = v.InferOutput<typeof dctable>
 
 /**
  * CreateInput
  */
 
-export type DctableCreateInput = v.InferOutput<typeof dctableCreateInputSchema>
+export type DctableCreateInput = v.InferOutput<typeof dctableCreateInput>
 
 /**
  * UpdateInput
  */
 
-export type DctableUpdateInput = v.InferOutput<typeof dctableUpdateInputSchema>
+export type DctableUpdateInput = v.InferOutput<typeof dctableUpdateInput>

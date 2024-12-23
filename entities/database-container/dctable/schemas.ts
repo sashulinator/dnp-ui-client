@@ -4,7 +4,7 @@ import * as v from 'valibot'
  * Base
  */
 
-export const dctableSchema = v.object({
+export const dctable = v.object({
   id: v.pipe(v.string(), v.nonEmpty()),
   name: v.pipe(v.string(), v.nonEmpty()),
   display: v.pipe(v.string(), v.nonEmpty()),
@@ -17,10 +17,10 @@ export const dctableSchema = v.object({
  * CreateInput
  */
 
-export const dctableCreateInputSchema = v.omit(dctableSchema, ['id'])
+export const dctableCreateInput = v.omit(dctable, ['id'])
 
 /**
  * UpdateInput
  */
 
-export const dctableUpdateInputSchema = dctableSchema
+export const dctableUpdateInput = dctable
