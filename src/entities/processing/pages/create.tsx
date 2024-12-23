@@ -9,6 +9,7 @@ import { processingDataApi } from '~/entities/processing-data'
 import Button from '~/shared/button'
 import Card from '~/shared/card'
 import Container from '~/shared/container'
+import Confirm from '~/shared/dialog/ui/confirm'
 import Flex from '~/shared/flex'
 import Form, { useCreateForm } from '~/shared/form'
 import Heading from '~/shared/heading'
@@ -25,12 +26,13 @@ const NAME = `${APP}-${SLICE}-page-Create`
 
 export default function Component(): JSX.Element {
   const [tabValue, setTabValue] = useState<'multi' | 'single'>('multi')
+  const [open, setOpen] = useState(false)
 
   const form = useCreateForm<ProcessingForm.Values>(
     {
       onSubmit: (values) => {
         // eslint-disable-next-line no-console
-        console.log('values', ProcessingForm.fromValues(values))
+        // console.log('values', ProcessingForm.fromValues(values))
         createMutator.mutate({ data: { processing: ProcessingForm.fromValues(values) } })
       },
       // validate: (values) => {
@@ -92,7 +94,8 @@ export default function Component(): JSX.Element {
                   <Button
                     loading={createMutator.isLoading}
                     disabled={!form.getState().dirty || form.getState().invalid}
-                    onClick={form.submit}
+                    onClick={() => setOpen(!open)}
+                    // onClick={form.submit}
                   >
                     Запустить
                   </Button>
@@ -100,6 +103,32 @@ export default function Component(): JSX.Element {
               </Flex>
             </Section>
           </Card>
+        )}
+        {open && (
+          <Confirm
+            controller={{
+              //@ts-ignore
+              get: () => {
+                // console.log('hey')
+                return
+              },
+              //@ts-ignore
+              subscribe: () => {
+                // console.log('hey')
+                return
+              },
+            }}
+            title='Хотите сохранить изменения в файле?'
+            open={open}
+            onClose={() => {
+              setOpen(!open)
+            }}
+            description='Если необходимо выполнить потабличную настройку, пройдите на соответствующую вкладку'
+            onConfirm={() => {
+              form.submit
+              setOpen(!open)
+            }}
+          />
         )}
       </Container>
     </main>
