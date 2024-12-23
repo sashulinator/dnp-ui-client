@@ -1,5 +1,6 @@
 import eDcserviceForm from '~/entities/database-container/dcservice/ui/form/story'
 import normalizationConfigForm from '~/entities/normalization-config/ui/form/story'
+import eExecutableswFackerColConfig from '~/entities/processing/w.executable/w.field-factory/w.facker-col-config/story'
 import uiButton from '~/shared/button/story'
 import uiCard from '~/shared/card/story'
 import uiCodeEditor from '~/shared/code-editor/story'
@@ -50,6 +51,7 @@ export const storyList: Story<any>[] = [
    * shared
    */
 
+  eExecutableswFackerColConfig,
   sharedReactFactory,
   selectSelectWInput,
   sharedFormETextInputVShared,

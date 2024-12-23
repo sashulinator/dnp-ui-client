@@ -8,11 +8,13 @@ import { SLICE } from '../constants'
 import { type ComponentSchema, type ExecutableSchema, type ParamSchema } from '../models'
 import { type ParamFactoryContext } from './models'
 import StringField from './ui.string-field'
+import FackerColConfig from './w.facker-col-config'
 import MatrixField from './w.matrix-field'
 
 const componentMap = {
   string: StringField,
   Matrix: MatrixField,
+  FackerColConfig: FackerColConfig,
 }
 
 export interface Props {
