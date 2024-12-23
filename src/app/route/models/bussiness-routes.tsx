@@ -201,7 +201,6 @@ export const routes = {
       </Suspense>
     ),
     payload: {
-      navigatable: isDev(),
       renderIcon: (props) => <Icon {...props} name='Star' />,
       iconColor: 'red',
       renderHeader: Header,
