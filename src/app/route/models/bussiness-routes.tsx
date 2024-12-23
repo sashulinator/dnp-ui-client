@@ -28,7 +28,7 @@ const Store_getByName = lazy(() => import('../../../slices/store/pages/get-by-na
 export const routes = {
   main: {
     getName: (): string => 'НСИ',
-    getPath: () => '/main',
+    getPath: () => '/',
     getUrl(): string {
       return this.getPath()
     },

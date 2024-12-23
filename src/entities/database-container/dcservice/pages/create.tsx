@@ -92,9 +92,6 @@ export default function Component(): JSX.Element {
                       Создать
                     </Button>
                     <Separator orientation='vertical' />
-                    <Button size='1' variant='ghost' onClick={() => form.reset()} disabled={!form.getState().dirty}>
-                      Сбросить изменения
-                    </Button>
                   </Flex>
                 </Flex>
               </Card>

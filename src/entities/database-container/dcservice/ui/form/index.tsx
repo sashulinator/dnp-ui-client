@@ -1,6 +1,10 @@
+import { Field } from 'react-final-form'
+
 import { APP } from '~/app/constants.app'
 import Flex from '~/shared/flex'
-import { Card, Column, Row, StringField, type StringFieldProps, TypedField } from '~/shared/form'
+import { Card, Column, Row } from '~/shared/form'
+import Labeled from '~/shared/labeled'
+import TextInput from '~/shared/text-input'
 import { c } from '~/utils/core'
 
 import { SLICE } from '../../constants.slice'
@@ -20,54 +24,64 @@ export default function Component(props: Props): JSX.Element {
 
   return (
     <Column className={c(props.className, NAME)}>
-      <Card>
+      <Card label='Основное'>
         <Row width='100%'>
           <Column width='50%'>
-            <TypedField<Values, 'display', string, string, StringFieldProps, HTMLInputElement>
-              name='display'
-              label='Отображение'
-              disabled={disabled}
-              component={StringField}
-            />
+            <Field<string> name={'display' satisfies keyof Values}>
+              {({ input }) => (
+                <Flex direction='column'>
+                  <Labeled label='Отображение'>
+                    <TextInput {...input} clearable={true} disabled={disabled} type='text' />
+                  </Labeled>
+                </Flex>
+              )}
+            </Field>
           </Column>
           <Column width='50%' />
         </Row>
       </Card>
-      <Card>
+      <Card label='Соединение'>
         <Column width='100%'>
           <Row width='100%'>
-            <Flex width='100%'>
-              <TypedField<Values, 'host', string, string, StringFieldProps, HTMLInputElement>
-                label='Хост'
-                name='host'
-                disabled={disabled}
-                component={StringField}
-              />
-            </Flex>
-            <Flex width='100px'>
-              <TypedField<Values, 'port', string, string, StringFieldProps, HTMLInputElement>
-                label='Порт'
-                name='port'
-                type='number'
-                disabled={disabled}
-                component={StringField}
-              />
-            </Flex>
+            <Field<string> name={'host' satisfies keyof Values}>
+              {({ input }) => (
+                <Flex direction='column' width='100%'>
+                  <Labeled label='Хост'>
+                    <TextInput {...input} clearable={true} variant='soft' disabled={disabled} type='text' />
+                  </Labeled>
+                </Flex>
+              )}
+            </Field>
+            <Field<number> name={'port' satisfies keyof Values} type='number' parse={Number}>
+              {({ input }) => (
+                <Flex direction='column' width='100px'>
+                  <Labeled label='Порт'>
+                    <TextInput {...input} clearable={true} variant='soft' disabled={disabled} type='number' />
+                  </Labeled>
+                </Flex>
+              )}
+            </Field>
           </Row>
           <Row width='100%'>
             <Column width='50%'>
-              <TypedField<Values, 'username', string, string, StringFieldProps, HTMLInputElement>
-                label='Пользователь'
-                name='username'
-                disabled={disabled}
-                component={StringField}
-              />
-              <TypedField<Values, 'password', string, string, StringFieldProps, HTMLInputElement>
-                label='Пароль'
-                name='password'
-                disabled={disabled}
-                component={StringField}
-              />
+              <Field<string> name={'username' satisfies keyof Values}>
+                {({ input }) => (
+                  <Flex direction='column'>
+                    <Labeled label='Пользователь'>
+                      <TextInput {...input} clearable={true} variant='soft' disabled={disabled} type='text' />
+                    </Labeled>
+                  </Flex>
+                )}
+              </Field>
+              <Field<string> name={'password' satisfies keyof Values}>
+                {({ input }) => (
+                  <Flex direction='column'>
+                    <Labeled label='Пароль'>
+                      <TextInput {...input} clearable={true} variant='soft' disabled={disabled} type='text' />
+                    </Labeled>
+                  </Flex>
+                )}
+              </Field>
             </Column>
             <Column width='50%' />
           </Row>

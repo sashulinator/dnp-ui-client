@@ -24,6 +24,8 @@ export default function Component(props: Props): JSX.Element {
       disabled={props.disabled}
       color={mutator.isSuccess ? 'green' : mutator.isError ? 'red' : ('' as 'green')}
       onClick={() => mutator.mutate()}
+      size='1'
+      variant='soft'
       className={c(props.className, NAME)}
     >
       {!mutator.isError && !mutator.isSuccess && !mutator.isLoading && 'Тестировать соединение'}
