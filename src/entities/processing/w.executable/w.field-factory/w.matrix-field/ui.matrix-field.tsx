@@ -26,7 +26,7 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
 ): JSX.Element | string {
   const { value, _paramContext, options, onChange } = props
   const { columns, isSingleMode } = _paramContext
-  if (!isSingleMode) return 'матрица не имплементирована'
+  if (!isSingleMode) return 'Для настройки метрик перейдите во вкладку "Потабличная настройка"'
   const renderCell = props.valueType === 'boolean' ? _renderBooleanCell : _renderTextCell
 
   return (

@@ -1,80 +1,146 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import Button from '~/shared/button'
-import Checkbox from '~/shared/checkbox'
 import Flex from '~/shared/flex'
 import Icon from '~/shared/icon'
 import ScrollArea from '~/shared/scroll-area'
-import { MatrixTable } from '~/shared/table'
-import { type Context, generateEmptyValue, toEditableColumn } from '~/shared/table/v.list/w.editable'
+import { InputSelect } from '~/shared/select'
+import { type Option } from '~/shared/select/v.input'
+import { ListTable } from '~/shared/table'
 import TextInput from '~/shared/text-input'
-import type { Any, Dictionary } from '~/utils/core'
-import { type Atom, createAtom } from '~/utils/store'
+import type { Dictionary } from '~/utils/core'
 
-type Item = Dictionary
-type StoryContext = Context<Item>
+import { type ParamSchema } from '../../models'
+import type { ParamFactoryContext } from '../models'
+
+type Item = {
+  name: string
+  sem: string
+  dict: string
+  type: string
+}
+type StoryContext = Dictionary
 
 export interface Props {
   className?: string | undefined
+  value: Item[]
+  onChange: (value: Item[]) => void
+  _paramContext: ParamFactoryContext
 }
 
 const NAME = 'processing-FackerColConfig'
 
-export default function Component(): JSX.Element {
-  const [values, setValues] = useState(initialValues)
-  const [columns, setColumns] = useState(initialColumns)
+export default function Component(props: Props): JSX.Element | string {
+  const { onChange, value, _paramContext } = props
 
-  const columnNameAtoms = useMemo(() => {
-    return columns.reduce<Record<string, Atom<string>>>((acc, column) => {
-      acc[column.name] = createAtom(column.name)
-      return acc
-    }, {})
-  }, [columns])
-
-  const editableColumns = useMemo(() => {
-    return columns.map(toEditableColumn)
-  }, [columns])
+  if (!_paramContext.isSingleMode) {
+    return 'Для настройки колонок перейдите во вкладку "Потабличная настройка"'
+  }
 
   return (
     <ScrollArea scrollbars='horizontal'>
-      <Flex>
-        <MatrixTable.default<Dictionary, StoryContext, Any>
-          context={{
-            columnNameAtoms,
-            removeColumn: () => {
-              // setColumns((s) => s.filter((c) => c.name !== columnName))
-            },
-          }}
-          columns={editableColumns as Any}
-          options={options}
-          values={values}
-          onValuesChange={setValues}
-          renderOptionCell={(props) => props.option.display}
-          renderCell={(props) => {
-            if (props.item['Ыカ'] === 'sem') {
-              return <TextInput variant='soft' size='1' value={props.value as string} />
+      <Flex direction='column'>
+        <ListTable.default<Item, StoryContext>
+          context={{}}
+          columns={initialColumns}
+          list={value}
+          renderCell={(cellProps) => {
+            // eslint-disable-next-line react-hooks/rules-of-hooks
+            const [state, setState] = useState(cellProps.value as string)
+            // eslint-disable-next-line react-hooks/rules-of-hooks
+            useEffect(() => setState(cellProps.value as string), [cellProps.value])
+
+            const params = (_paramContext.paramSchema as any)?.component?.props?.params as ParamSchema[]
+
+            if (cellProps.name === 'type') {
+              const param = params?.find((p) => p.name === 'type')
+              const options = (param?.component?.props as { options: Option[] })?.options
+              return (
+                <InputSelect.default
+                  style={{ width: '100%' }}
+                  options={options}
+                  variant='surface'
+                  size='1'
+                  value={state}
+                  onChange={(v) => {
+                    onChange(
+                      value.map((r) => {
+                        if (r.name === cellProps.item.name) {
+                          return { ...r, type: v.toString() }
+                        }
+                        return r
+                      }),
+                    )
+                  }}
+                />
+              )
             }
-            if (props.item['Ыカ'] === 'dict') {
-              return <TextInput variant='soft' size='1' value={props.value as string} />
+            if (cellProps.name === 'sem') {
+              const param = params?.find((p) => p.name === 'semtype')
+              const options = (param?.component?.props as { options: Option[] })?.options
+              return (
+                <InputSelect.default
+                  style={{ width: '100%' }}
+                  value={state}
+                  options={options}
+                  variant='surface'
+                  size='1'
+                  onChange={(v) => {
+                    onChange(
+                      value.map((r) => {
+                        if (r.name === cellProps.item.name) {
+                          return { ...r, sem: v.toString() }
+                        }
+                        return r
+                      }),
+                    )
+                  }}
+                />
+              )
             }
-            if (props.item['Ыカ'] === 'type') {
-              return <TextInput variant='soft' size='1' value={props.value as string} />
+            if (cellProps.name === 'dict') {
+              return (
+                <TextInput
+                  onBlur={(e) =>
+                    onChange(
+                      value.map((r) => {
+                        if (r.name === cellProps.item.name) {
+                          return { ...r, dict: e.target.value }
+                        }
+                        return r
+                      }),
+                    )
+                  }
+                  onChange={(e) => setState(e.target.value)}
+                  size='1'
+                  value={state}
+                />
+              )
             }
 
-            return (
-              <Checkbox
-                checked={Boolean(props.value)}
-                onCheckedChange={(checked) => {
-                  props.onValueChange(!!checked)
-                }}
-              />
-            )
+            if (cellProps.name === 'name') {
+              return (
+                <TextInput
+                  onBlur={(e) =>
+                    onChange(
+                      value.map((r) => {
+                        if (r.name === cellProps.item.name) {
+                          return { ...r, name: e.target.value }
+                        }
+                        return r
+                      }),
+                    )
+                  }
+                  onChange={(e) => setState(e.target.value)}
+                  size='1'
+                  value={state}
+                />
+              )
+            }
           }}
         />
-        <Flex>
-          <Button
-            onClick={() => setColumns((s) => [...s, { name: generateEmptyValue(), display: 'new', type: 'string' }])}
-          >
+        <Flex mt='2'>
+          <Button onClick={() => onChange([...value, { name: '', dict: '', sem: '', type: '' }])}>
             <Icon name='Plus' /> Колонка
           </Button>
         </Flex>
@@ -87,50 +153,19 @@ Component.displayName = NAME
 
 export const initialColumns = [
   {
-    name: 'firstName',
-    display: 'firstName',
-    type: 'string',
+    display: 'Название колонки',
+    name: 'name',
   },
-  {
-    name: 'secondName',
-    display: 'firstName',
-    type: 'string',
-  },
-  {
-    name: 'age',
-    display: 'firstName',
-    type: 'number',
-  },
-  {
-    name: 'sex',
-    display: 'firstName',
-    type: 'string',
-  },
-] satisfies MatrixTable.ColumnProps<Dictionary, Dictionary, boolean>[]
-
-export const options = [
   {
     display: 'Семантический тип',
-    value: 'sem',
-    columnTypes: ['string', 'number'],
+    name: 'sem',
   },
   {
     display: 'Словарь',
-    value: 'dict',
-    columnTypes: ['string', 'number'],
+    name: 'dict',
   },
   {
     display: 'Тип',
-    value: 'type',
-    columnTypes: ['string', 'number'],
+    name: 'type',
   },
-] satisfies MatrixTable.Option[]
-
-export const initialValues = {
-  [initialColumns[0].name]: { [options[0].value]: 'person.name' },
-  [initialColumns[1].name]: { [options[0].value]: 'person.secondName' },
-  [initialColumns[2].name]: { [options[0].value]: 'person.age' },
-  [initialColumns[3].name]: { [options[0].value]: 'person.sex' },
-
-  [initialColumns[3].name]: { [options[1].value]: 'sex' },
-}
+] satisfies ListTable.ColumnProps<Item, StoryContext>[]

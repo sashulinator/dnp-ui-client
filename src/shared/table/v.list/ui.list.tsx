@@ -79,6 +79,7 @@ export type Props<TItem extends Dictionary, TContext extends Dictionary> = RootP
   getRowProps?: (params: GetRowProps<TItem, TContext>) => RowProps | undefined
   getHeaderRowProps?: (params: GetHeaderRowProps<TItem, TContext>) => RowProps | undefined
   getHeaderProps?: (params: GetHeaderProps<TItem, TContext>) => HeaderProps | undefined
+  renderCell?: (props: RenderCellProps<TItem, TContext>) => React.ReactNode
   getCellProps?: (params: GetCellPropsParams<TItem, TContext>) => CellProps | undefined
   getBodyProps?: (params: GetBodyProps<TItem, TContext>) => BodyProps | undefined
   getColumnHeaderCellProps?: (props: GetColumnHeaderCellProps<TItem, TContext>) => ColumnHeaderCellProps | undefined
@@ -101,6 +102,7 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
     getCellProps,
     getColumnHeaderCellProps,
     getHeaderProps,
+    renderCell: renderCellProp,
     getHeaderRowProps,
     getRowProps,
     ...rootTableProps
@@ -149,7 +151,7 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
                         ...column.cellProps,
                       }
 
-                      const renderCell = column.renderCell || defaultRenderCell
+                      const renderCell = renderCellProp || column.renderCell || defaultRenderCell
 
                       return (
                         <Table.Cell key={columnIndex} {...mergedProps} style={getCellStyles(mergedProps.style)}>

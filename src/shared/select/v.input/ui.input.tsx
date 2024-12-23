@@ -13,6 +13,7 @@ export type Props = Omit<Select.TriggerProps, 'name' | 'value'> & {
   rootProps?: Select.RootProps | undefined
   contentProps?: Select.ContentProps | undefined
   value?: string | undefined
+  size?: '1' | '2'
   onChange?: (FormEventHandler<HTMLButtonElement> & ((value: string) => void)) | undefined
   options?: Option[]
 }
@@ -23,6 +24,7 @@ export default function Component(props: Props) {
     value = '',
     onChange = emptyFn,
     className,
+    size = '2',
     variant = 'soft',
     contentProps,
     ...triggerProps
@@ -30,7 +32,7 @@ export default function Component(props: Props) {
 
   return (
     <Select.Root onValueChange={onChange} value={value}>
-      <Select.Trigger variant={variant} {...triggerProps} className={c(className, NAME)} />
+      <Select.Trigger {...{ size }} variant={variant} {...triggerProps} className={c(className, NAME)} />
       <Select.Content {...contentProps}>
         {options.map((option, i) => {
           return (
