@@ -202,7 +202,7 @@ export default function Component(props: Props): JSX.Element {
                                       executableSchemas={executableSchemas}
                                     />
                                   </Column>
-                                  <DangerButton round={true} onClick={() => fields.remove(index)}>
+                                  <DangerButton variant='soft' round={true} onClick={() => fields.remove(index)}>
                                     <Icon name='Trash' />
                                   </DangerButton>
                                 </Row>

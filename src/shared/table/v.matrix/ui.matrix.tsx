@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 
 import { ListTable } from '~/shared/table'
 import { type Any, type Dictionary, c } from '~/utils/core'
+import { useCurrent } from '~/utils/core-hooks/current'
 import { setPath } from '~/utils/dictionary'
 
 import { defaultRenderCell, defaultRenderHeader } from '../v.list/ui.list'
@@ -134,6 +135,8 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
     ...tableProps
   } = props
 
+  const valuesRef = useCurrent(values)
+
   const newColumns = useMemo(_buildColumns, [values, columns])
   const list = useMemo(_buildList, [values, columns])
 
@@ -187,7 +190,11 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
           ...props,
           onValueChange: (value) => {
             onValuesChange(
-              setPath(values, [columns.name as string, props.item[FIRST_COLUMN_NAME] as string], value),
+              setPath(
+                valuesRef.current as Any,
+                [columns.name as string, props.item[FIRST_COLUMN_NAME] as string],
+                value,
+              ),
               value,
             )
           },
