@@ -3,20 +3,21 @@ import Flex from '~/shared/flex'
 import Text from '~/shared/text'
 import { useSubscribeUpdate } from '~/utils/core-hooks'
 import { type Atom } from '~/utils/store'
-import { type Required } from '~/utils/types/object'
 
 import Dialog from '../../dialog'
 
 export interface BaseProps {
   open: boolean
   title: string
+  confirmText?: string
+  closeText?: string
   description: string
   onClose: () => void
   onConfirm: () => void
 }
 
 export type Props<T extends Partial<BaseProps>> = {
-  controller: Atom<Required<T>>
+  controller: Atom<T>
 } & Omit<BaseProps, keyof T>
 
 Component.displayname = 'dialog-Confirm'
@@ -24,7 +25,15 @@ Component.displayname = 'dialog-Confirm'
 export default function Component<T extends Partial<BaseProps>>(props: Props<T>) {
   const { controller, ...baseProps } = props
   const controllerProps = controller?.get()
-  const { open, title, description, onClose, onConfirm } = { ...baseProps, ...controllerProps } as BaseProps
+  const {
+    open,
+    title,
+    description,
+    onClose,
+    onConfirm,
+    closeText = 'Закрыть',
+    confirmText = 'Ок',
+  } = { ...baseProps, ...controllerProps } as BaseProps
 
   useSubscribeUpdate(subscribes)
 
@@ -37,8 +46,8 @@ export default function Component<T extends Partial<BaseProps>>(props: Props<T>)
             <Text>{description}</Text>
           </Flex>
           <Flex justify='end' gap='4'>
-            <Button onClick={onClose}>Закрыть</Button>
-            <Button onClick={onConfirm}>Ок</Button>
+            <Button onClick={onClose}>{closeText}</Button>
+            <Button onClick={onConfirm}>{confirmText}</Button>
           </Flex>
         </Flex>
       </Dialog.Content>

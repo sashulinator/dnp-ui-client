@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import { APP } from '~/app/constants.app'
 import { routes } from '~/app/route'
@@ -17,6 +17,7 @@ import { notify } from '~/shared/notification-list-store'
 import Section from '~/shared/section'
 import { HighlightedText } from '~/shared/text'
 import Tooltip from '~/shared/tooltip'
+import { createAtom } from '~/utils/store'
 
 export interface Props {
   className?: string | undefined
@@ -26,7 +27,7 @@ const NAME = `${APP}-${SLICE}-page-Create`
 
 export default function Component(): JSX.Element {
   const [tabValue, setTabValue] = useState<'multi' | 'single'>('multi')
-  const [open, setOpen] = useState(false)
+  const modalAtom = useMemo(() => createAtom({ open: false }), [])
 
   const form = useCreateForm<ProcessingForm.Values>(
     {
@@ -94,8 +95,7 @@ export default function Component(): JSX.Element {
                   <Button
                     loading={createMutator.isLoading}
                     disabled={!form.getState().dirty || form.getState().invalid}
-                    onClick={() => setOpen(!open)}
-                    // onClick={form.submit}
+                    onClick={() => modalAtom.set({ open: true })}
                   >
                     Запустить
                   </Button>
@@ -104,32 +104,21 @@ export default function Component(): JSX.Element {
             </Section>
           </Card>
         )}
-        {open && (
-          <Confirm
-            controller={{
-              //@ts-ignore
-              get: () => {
-                // console.log('hey')
-                return
-              },
-              //@ts-ignore
-              subscribe: () => {
-                // console.log('hey')
-                return
-              },
-            }}
-            title='Хотите сохранить изменения в файле?'
-            open={open}
-            onClose={() => {
-              setOpen(!open)
-            }}
-            description='Если необходимо выполнить потабличную настройку, пройдите на соответствующую вкладку'
-            onConfirm={() => {
-              form.submit
-              setOpen(!open)
-            }}
-          />
-        )}
+
+        <Confirm
+          controller={modalAtom}
+          title='Хотите сохранить изменения в файле?'
+          onClose={() => {
+            modalAtom.set({ open: false })
+          }}
+          description='Если необходимо выполнить потабличную настройку, пройдите на соответствующую вкладку'
+          confirmText='Запустить'
+          closeText='Отменить'
+          onConfirm={() => {
+            form.submit()
+            modalAtom.set({ open: false })
+          }}
+        />
       </Container>
     </main>
   )
