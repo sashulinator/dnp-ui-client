@@ -7,6 +7,8 @@ import NormalizationConfigs from '~/entities/normalization-config/pages'
 import NormalizationConfigs_id from '~/entities/normalization-config/pages/id'
 import { NAME as PROCESSING_NAME, Icon as ProcessingIcon } from '~/entities/processing'
 import NormalizationConfigs_create from '~/entities/processing/pages/create'
+import NormalizationConfigs_list from '~/entities/processing/pages/list'
+import NormalizationConfigs_status from '~/entities/processing/pages/status'
 import LinkMenu_edit from '~/pages/link-tree.edit'
 import { auth, roles } from '~/shared/auth'
 import Header from '~/shared/header'
@@ -70,6 +72,38 @@ export const routes = {
       return this.getPath()
     },
     render: NormalizationConfigs_create,
+    redirect: combineProtections(_protectPrivate),
+    payload: {
+      renderHeader: Header,
+      renderNav: Nav,
+      navigatable: true,
+      renderIcon: ProcessingIcon,
+      rolesAllowed: [roles.nrm_crt],
+    },
+  },
+  processing_status: {
+    getName: (): string => 'Статус',
+    getPath: (): string => `/${PROCESSING_NAME}/status`,
+    getUrl() {
+      return this.getPath()
+    },
+    render: NormalizationConfigs_status,
+    redirect: combineProtections(_protectPrivate),
+    payload: {
+      renderHeader: Header,
+      renderNav: Nav,
+      navigatable: true,
+      renderIcon: ProcessingIcon,
+      rolesAllowed: [roles.nrm_crt],
+    },
+  },
+  processing_list: {
+    getName: (): string => 'Перечень',
+    getPath: (): string => `/${PROCESSING_NAME}/list`,
+    getUrl() {
+      return this.getPath()
+    },
+    render: NormalizationConfigs_list,
     redirect: combineProtections(_protectPrivate),
     payload: {
       renderHeader: Header,

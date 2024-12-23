@@ -61,8 +61,8 @@ export default function Component(): JSX.Element {
         id: item.id,
         name: item.name,
         link: {
-          url: item.link.url,
-          blank: item.link.blank,
+          url: item.link?.url,
+          blank: item.link?.blank,
         },
         renderIcon: item.icon ? () => <Icon name={item.icon || ''} /> : undefined,
         children: toTreeItem(item.children || []),
