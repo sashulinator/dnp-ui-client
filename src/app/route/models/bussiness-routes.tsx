@@ -58,7 +58,6 @@ export const routes = {
       renderHeader: Header,
       renderNav: Nav,
       renderIcon: ProcessingIcon,
-      navigatable: false,
       rolesAllowed: [roles.nrm_get],
     },
   },
@@ -90,7 +89,6 @@ export const routes = {
     payload: {
       renderHeader: Header,
       renderNav: Nav,
-      navigatable: true,
       renderIcon: ProcessingIcon,
       rolesAllowed: [roles.nrm_crt],
     },
@@ -106,7 +104,6 @@ export const routes = {
     payload: {
       renderHeader: Header,
       renderNav: Nav,
-      navigatable: true,
       renderIcon: ProcessingIcon,
       rolesAllowed: [roles.nrm_crt],
     },
@@ -196,7 +193,6 @@ export const routes = {
     payload: {
       renderHeader: Header,
       renderNav: Nav,
-      navigatable: true,
       renderIcon: ProcessIcon,
       rolesAllowed: [roles.nrm_get],
     },
