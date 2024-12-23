@@ -3,9 +3,9 @@ import { useMemo, useState } from 'react'
 import { APP } from '~/app/constants.app'
 import { routes } from '~/app/route'
 import { api } from '~/entities/database-container'
-import { create, getById } from '~/entities/normalization-config'
 import { Executable, ProcessingForm, SLICE } from '~/entities/processing'
 import { processingDataApi } from '~/entities/processing-data'
+import * as create from '~/entities/processing/api/create'
 import Button from '~/shared/button'
 import Card from '~/shared/card'
 import Container from '~/shared/container'
@@ -51,9 +51,8 @@ export default function Component(): JSX.Element {
   const values = form.getState().values
 
   const createMutator = create.useCache({
-    onSuccess: (data) => {
+    onSuccess: () => {
       notify({ title: 'Создано', type: 'success' })
-      getById.setCache({ id: data.data.id }, data.data)
     },
     onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
   })

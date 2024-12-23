@@ -1,1 +1,1 @@
-export * from '~/common/entities/database-container/dcservice/models'
+export * from '~/common/entities/database-container/dcservice/types'

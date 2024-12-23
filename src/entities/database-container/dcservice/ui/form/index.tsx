@@ -82,6 +82,7 @@ Component.displayName = NAME
 Component.toDcservice = (values: Values): DcserviceCreateInput => {
   return {
     ...values,
+    client: 'postgres',
     port: Number(values.port),
   }
 }

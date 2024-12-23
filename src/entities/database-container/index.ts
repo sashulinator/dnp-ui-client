@@ -6,6 +6,6 @@ export const api = {
   dcdatabase,
 }
 
-export type { Schema, UpdateSchema, CreateSchema, FlatTable, Table, CreateTable, UpdateTable } from './models'
+export type { Schema, UpdateSchema, CreateSchema, FlatTable } from './models'
 
 export * as Dccolumn from './dccolumn'

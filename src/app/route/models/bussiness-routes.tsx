@@ -3,8 +3,6 @@ import { Suspense, lazy } from 'react'
 import Dcservice_create from '~/entities/database-container/dcservice/pages/create'
 import Dcservice_findWithTotal from '~/entities/database-container/dcservice/pages/find-with-total'
 import Dcservice_getById from '~/entities/database-container/dcservice/pages/get-by-id'
-import NormalizationConfigs from '~/entities/normalization-config/pages'
-import NormalizationConfigs_id from '~/entities/normalization-config/pages/id'
 import { NAME as PROCESSING_NAME, Icon as ProcessingIcon } from '~/entities/processing'
 import NormalizationConfigs_create from '~/entities/processing/pages/create'
 import NormalizationConfigs_list from '~/entities/processing/pages/list'
@@ -54,7 +52,7 @@ export const routes = {
     getUrl() {
       return this.getPath()
     },
-    render: NormalizationConfigs,
+    render: () => 'Обработки',
     redirect: combineProtections(_protectPrivate, _protectByRole),
     payload: {
       renderHeader: Header,
@@ -115,12 +113,12 @@ export const routes = {
   },
 
   processing_id: {
-    getName: (): string => 'Обработки',
+    getName: (): string => 'Обработка',
     getPath: () => `/${PROCESSING_NAME}/:id`,
     getUrl(id: string) {
       return this.getPath().replace(':id', id)
     },
-    render: NormalizationConfigs_id,
+    render: () => 'Обработка',
     redirect: combineProtections(_protectPrivate),
     payload: {
       renderHeader: Header,
