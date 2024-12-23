@@ -1,6 +1,5 @@
-export * from '../dcservice/models'
+export * from '../dcservice/types'
 export * from './schema'
 export * from '../dcdatabase/models'
-export * from './table'
 export * from './flat-table'
 export * from '../dccolumn/models'

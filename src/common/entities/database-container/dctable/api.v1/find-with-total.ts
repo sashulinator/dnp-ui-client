@@ -1,4 +1,4 @@
-import { type Dcservice } from '../types'
+import { type Dctable } from '../types'
 import { baseUrl } from './constants'
 
 export const NAME = 'find-with-total'
@@ -17,6 +17,6 @@ export type RequestParams = {
 }
 
 export type Result = {
-  items: Dcservice[]
+  items: Dctable[]
   total: number
 }

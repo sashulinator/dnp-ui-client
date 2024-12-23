@@ -1,4 +1,4 @@
-import { type Dcservice } from '../types'
+import { type Dctable } from '../types'
 import { baseUrl } from './constants'
 
 export const NAME = 'get-by-id'
@@ -9,4 +9,4 @@ export type RequestParams = {
   id: string
 }
 
-export type Result = Dcservice
+export type Result = Dctable

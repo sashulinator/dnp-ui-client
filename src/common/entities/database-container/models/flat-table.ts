@@ -11,7 +11,7 @@ export type FlatTable = {
   databaseId: string
   databaseName: string
   databaseDisplay: string
-  serviceId: string
+  dcserviceId: string
   serviceDisplay: string
   serviceHost: string
   servicePort: number

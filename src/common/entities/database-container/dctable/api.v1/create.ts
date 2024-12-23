@@ -1,4 +1,4 @@
-import type { Dcservice, DcserviceCreateInput } from '../types'
+import type { Dctable, DctableCreateInput } from '../types'
 import { baseUrl } from './constants'
 
 export const NAME = 'create'
@@ -6,7 +6,7 @@ export const NAME = 'create'
 export const url = `${baseUrl}/${NAME}`
 
 export type RequestParams = {
-  input: DcserviceCreateInput
+  input: DctableCreateInput
 }
 
-export type Result = Dcservice
+export type Result = Dctable

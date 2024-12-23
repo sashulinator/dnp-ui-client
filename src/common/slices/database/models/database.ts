@@ -100,3 +100,12 @@ export type Relation = v.InferOutput<typeof relationSchema>
  */
 
 export type Row = Record<string | number, unknown>
+
+export const connection = v.object({
+  username: v.pipe(v.string(), v.nonEmpty()),
+  password: v.pipe(v.string(), v.nonEmpty()),
+  host: v.pipe(v.string(), v.nonEmpty()),
+  port: v.pipe(v.number(), v.integer()),
+})
+
+export type Connection = v.InferOutput<typeof connection>
