@@ -24,6 +24,7 @@ import uiPaginationWInfo from '~/shared/page/ui/pagination/widgets/info/story'
 import uiPaginationWSwitcher from '~/shared/page/ui/pagination/widgets/switcher/story'
 import sharedSelectMultiple from '~/shared/select-multiple/story'
 import selectSelectWInput from '~/shared/select/v.labeled/story'
+import optionFilter from '~/shared/select/w.option-filter/story'
 import type { Story } from '~/shared/storybook'
 import tableList from '~/shared/table/v.list/story'
 import eProcessingWProcedureWValuePerColumn from '~/shared/table/v.matrix/story'
@@ -55,6 +56,7 @@ export const storyList: Story<any>[] = [
   eExecutableswFackerColConfig,
   sharedReactFactory,
   selectSelectWInput,
+  optionFilter,
   sharedFormETextInputVShared,
   sharedTextInput,
   sharedSelectMultiple,
