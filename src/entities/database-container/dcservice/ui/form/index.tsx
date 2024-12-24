@@ -52,7 +52,11 @@ export default function Component(props: Props): JSX.Element {
                 </Flex>
               )}
             </Field>
-            <Field<number> name={'port' satisfies keyof Values} type='number' parse={Number}>
+            <Field<number>
+              name={'port' satisfies keyof Values}
+              type='number'
+              parse={(v) => (v ? Number(v) : (undefined as unknown as number))}
+            >
               {({ input }) => (
                 <Flex direction='column' width='100px'>
                   <Labeled label='Порт'>

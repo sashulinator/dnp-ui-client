@@ -1,5 +1,4 @@
-import './pagination.scss'
-
+import Flex from '~/shared/flex'
 import { c } from '~/utils/core'
 
 import Info from '../widgets/info'
@@ -15,7 +14,7 @@ export interface Props {
   onChange: (newPage: number) => void
 }
 
-const displayName = 'pagination-Pagination'
+const NAME = 'pagination-Pagination'
 
 /**
  * dnp-pagination-Pagination
@@ -28,7 +27,7 @@ export default function Component(props: Props): JSX.Element {
   const totalPages = totalElements !== undefined && limit !== undefined ? Math.ceil(totalElements / limit) : undefined
 
   return (
-    <div className={c(props.className, displayName)} {...props.root}>
+    <Flex justify='between' align='center' className={c(props.className, NAME)} {...props.root}>
       <Switcher
         loading={props.loading}
         onChange={props.onChange}
@@ -36,8 +35,8 @@ export default function Component(props: Props): JSX.Element {
         totalPages={totalPages || 1}
       />
       <Info totalElements={totalElements} totalPages={totalPages} />
-    </div>
+    </Flex>
   )
 }
 
-Component.displayName = displayName
+Component.displayName = NAME

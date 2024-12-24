@@ -25,6 +25,8 @@ export function Component(props: Props, forwardedRef: ForwardedRef<HTMLInputElem
 
   const inputRef = useRef<HTMLInputElement>(null)
 
+  const hasValue = textInputProps.value !== undefined && textInputProps.value !== ''
+
   return (
     <TextField.Root ref={setRefs(inputRef, forwardedRef)} {...textInputProps} className={c(props.className, NAME)}>
       {left && (
@@ -32,7 +34,7 @@ export function Component(props: Props, forwardedRef: ForwardedRef<HTMLInputElem
           {left}
         </TextField.Slot>
       )}
-      {clearable && (
+      {clearable && hasValue && (
         <TextField.Slot side='right' {...rightProps}>
           <Flex asChild={true} mr={right ? '0' : '1'}>
             <Button

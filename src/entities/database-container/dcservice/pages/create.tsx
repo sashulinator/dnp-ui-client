@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import { APP } from '~/app/constants.app'
 import { routes } from '~/app/route'
 import Button from '~/shared/button'
-import Card from '~/shared/card'
 import Container from '~/shared/container'
 import { TICK_MS, cssAnimations } from '~/shared/css-animations'
 import Flex from '~/shared/flex'
@@ -11,7 +10,6 @@ import Form, { useCreateForm } from '~/shared/form'
 import { notify } from '~/shared/notification-list-store'
 import { Heading, Main } from '~/shared/page'
 import Section from '~/shared/section'
-import Separator from '~/shared/separator'
 import { c } from '~/utils/core'
 
 import { dcserviceApi } from '..'
@@ -67,34 +65,33 @@ export default function Component(): JSX.Element {
 
           <Section size='1' className={c(cssAnimations.Appear)} style={{ animationDelay: `${TICK_MS * 3}ms` }}>
             <Flex justify='start'>
-              <Card>
-                <Flex gap='2' direction='row' justify='end'>
-                  <Flex gap='2' align='center'>
-                    <TestConnection
-                      disabled={!form.getState().dirty || form.getState().invalid}
-                      request={() =>
-                        dcserviceApi.testConnection
-                          .request({
-                            client: 'pg',
-                            host: formState.values.host,
-                            port: formState.values.port,
-                            user: formState.values.username,
-                            password: formState.values.password,
-                          })
-                          .then((ret) => ret.data)
-                      }
-                    />
+              <Flex gap='2' direction='row' justify='end'>
+                <Flex gap='2' direction='column'>
+                  <TestConnection
+                    disabled={form.getState().invalid}
+                    request={() =>
+                      dcserviceApi.testConnection
+                        .request({
+                          client: 'pg',
+                          host: formState.values.host,
+                          port: formState.values.port,
+                          user: formState.values.username,
+                          password: formState.values.password,
+                        })
+                        .then((ret) => ret.data)
+                    }
+                  />
+                  <Flex>
                     <Button
                       // loading={updateMutator.isLoading}
                       disabled={!form.getState().dirty || form.getState().invalid}
                       onClick={form.submit}
                     >
-                      Создать
+                      Сохранить
                     </Button>
-                    <Separator orientation='vertical' />
                   </Flex>
                 </Flex>
-              </Card>
+              </Flex>
             </Flex>
           </Section>
         </Flex>

@@ -1,7 +1,9 @@
+import eDcserviceCardInput from '~/entities/database-container/dcservice/ui/card/story'
 import eDcserviceForm from '~/entities/database-container/dcservice/ui/form/story'
 import eExecutableswFackerColConfig from '~/entities/processing/w.executable/w.field-factory/w.facker-col-config/story'
 import uiButton from '~/shared/button/story'
 import uiCard from '~/shared/card/story'
+import uiCardInput from '~/shared/card/v.input/story'
 import uiCodeEditor from '~/shared/code-editor/story'
 import uiCodeEditorVJson from '~/shared/code-editor/variants/json/story'
 import uiCollapse from '~/shared/collapse/story'
@@ -44,11 +46,12 @@ export const storyList: Story<any>[] = [
   eProcessingWProcedureWValuePerColumn,
   debugRenderCounter,
   eDcserviceForm,
-
+  eDcserviceCardInput,
   /**
    * shared
    */
 
+  uiCardInput,
   eExecutableswFackerColConfig,
   sharedReactFactory,
   selectSelectWInput,
