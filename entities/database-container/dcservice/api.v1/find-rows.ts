@@ -1,23 +1,24 @@
 import type { ToSort } from '~/slices/sort'
-import type { Where } from '~/slices/where'
+import { type Where } from '~/slices/where'
 
-import type { Dctable } from '../../dctable'
 import { baseUrl } from './constants'
 
-export const NAME = 'find-tables'
+export const NAME = 'find-rows'
 
 export const url = `${baseUrl}/${NAME}`
 
 export type RequestParams = {
   id: string
   database: string
+  table: string
   where?: Where
   limit?: number
-  offset?: number
   sort?: ToSort<{ name: string }>
+  offset?: number
 }
 
 export type Result = {
-  items: ({ name: string } & Partial<Dctable>)[]
+  items: Record<string, unknown>[]
   total: number
+  columns: { name: string; display: string }[]
 }
