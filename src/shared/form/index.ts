@@ -46,7 +46,6 @@ export {
   type UniqueStringFieldProps,
   TypedStringField,
 } from './w.string-field'
-export { default as IntegerField, type IntegerFieldProps, TypedIntegerField } from './w.integer-field'
 export {
   default as UnionField,
   type UnionFieldProps,
@@ -58,7 +57,6 @@ export { default as KeyValue, type KeyValueProps } from './ui/key-value'
 export { default as TagPicker, type TagPickerProps } from './ui/tag-picker'
 export { default as Label, type LabelProps } from './ui/label'
 export { default as Select, type SelectProps } from './ui/select'
-export { default as CodeEditor, type CodeEditorProps } from './ui/code-editor'
 export { default as JsonEditor, type JsonEditorProps } from './ui/json-editor'
 export { default as Row, type RowProps } from './ui/row'
 export { default as Card, type CardProps } from './ui/card'
