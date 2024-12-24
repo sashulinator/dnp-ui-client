@@ -37,5 +37,3 @@ export function Component(props: Props, forwardedRef: ForwardedRef<HTMLInputElem
 const ForwardRef = forwardRef(Component)
 ForwardRef.displayName = NAME
 export default ForwardRef
-
-export { type Props as TextInputProps }

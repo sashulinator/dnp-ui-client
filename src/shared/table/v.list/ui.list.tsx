@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react'
-import { createElement, useMemo } from 'react'
+import { createElement } from 'react'
 
 import ErrorBoundary from '~/shared/error-boundary'
 import Flex from '~/shared/flex'
@@ -42,6 +42,7 @@ export interface RenderHeaderProps<TItem extends Dictionary, TContext extends Di
 
 export interface ColumnProps<TItem extends Dictionary, TContext extends Dictionary> {
   name: keyof TItem
+  type?: string | undefined
   display?: string | undefined
   cellProps?: CellProps | undefined
   headerProps?: CellProps | undefined
@@ -95,7 +96,7 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
 ): JSX.Element {
   const {
     className,
-    columns: columnsProp,
+    columns = [],
     context,
     list,
     getBodyProps,
@@ -107,8 +108,6 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
     getRowProps,
     ...rootTableProps
   } = props
-
-  const columns = useMemo(() => columnsProp ?? [], [])
 
   return (
     <ErrorBoundary fallback={'Неожиданная ошибка! Обратитесь к администратору!'}>

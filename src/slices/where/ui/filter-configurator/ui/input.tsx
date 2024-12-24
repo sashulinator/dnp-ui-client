@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 
 import { COMPARISON, IS, MATCH } from '~/common/slices/where'
+import UiInput, { type InputProps } from '~/shared/input'
 import Select from '~/shared/select'
-import TextInput, { type TextInputProps } from '~/shared/text-input'
 import { useDebounceCallback } from '~/utils/core-hooks'
 import { fns } from '~/utils/function'
 
@@ -14,7 +14,7 @@ import { useContext } from '../model/context'
 
 const NAME = 'where-FilterConfigurator-c-Input'
 
-type Props = _TextInputProps | _TemplateInputProps
+type Props = _InputProps | _TemplateInputProps
 
 export function Input(props: Props) {
   const { ...inputProps } = props
@@ -22,7 +22,7 @@ export function Input(props: Props) {
 
   if (isTextMode()) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return <_TextInput {...(inputProps as any)} />
+    return <_Input {...(inputProps as any)} />
   } else {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return <_TemplateInput {...(inputProps as any)} />
@@ -44,9 +44,9 @@ Input.displayName = NAME
  * _TextInputProps
  */
 
-type _TextInputProps = TextInputProps
+type _InputProps = InputProps
 
-function _TextInput(props: _TextInputProps) {
+function _Input(props: _InputProps) {
   const { ...textInputProps } = props
 
   const { filterConfig, onFilterConfigChange } = useContext()
@@ -57,7 +57,7 @@ function _TextInput(props: _TextInputProps) {
   useEffect(() => setValue(filterConfig.value || ''), [filterConfig.value])
 
   return (
-    <TextInput
+    <UiInput
       size='1'
       color='amber'
       variant={value ? 'soft' : 'surface'}

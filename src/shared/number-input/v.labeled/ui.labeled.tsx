@@ -4,7 +4,7 @@ import Flex from '~/shared/flex'
 import Labeled, { type LabeledProps as SharedLabeledProps } from '~/shared/labeled'
 import { c } from '~/utils/core'
 
-import TextInput, { NAME as PARENT_NAME, type TextInputProps } from '../ui.number-input'
+import TextInput, { NAME as PARENT_NAME, type Props as TextInputProps } from '../ui.number-input'
 
 export type Props = TextInputProps & {
   className?: string | undefined

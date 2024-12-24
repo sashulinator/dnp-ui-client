@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { APP } from '~/app/constants.app'
@@ -10,15 +10,28 @@ import Flex from '~/shared/flex'
 import Form, { useCreateForm } from '~/shared/form'
 import { notify } from '~/shared/notification-list-store'
 import { Heading, Main } from '~/shared/page'
+import { queryClient } from '~/shared/query'
 import Section from '~/shared/section'
+import type { ListTable } from '~/shared/table'
 import { Tabs } from '~/shared/tabs'
-import { StringParam, useQueryParam, withDefault } from '~/shared/use-query-params'
-import { assertDefined, c } from '~/utils/core'
+import {
+  JSONParam,
+  NumberParam,
+  StringParam,
+  useQueryParam,
+  useQueryParams,
+  withDefault,
+} from '~/shared/use-query-params'
+import { type ToSort, useSort } from '~/slices/sort'
+import { type Any, type Dictionary, assertDefined, c } from '~/utils/core'
+import { usePrevious } from '~/utils/core-hooks/previous'
+import { createAtom } from '~/utils/store'
 
-import { dcserviceApi } from '..'
-import { SLICE } from '../constants.slice'
-import DcserviceForm, { type Values } from '../ui/form'
-import TestConnection from '../ui/test-connection'
+import { dcserviceApi } from '../..'
+import { SLICE } from '../../constants.slice'
+import DcserviceForm, { type Values } from '../../ui/form'
+import TestConnection from '../../ui/test-connection'
+import DataTab from './data-tab'
 
 const NAME = `${APP}-page-${SLICE}-GetById`
 
@@ -26,6 +39,25 @@ export default function Component(): JSX.Element {
   const { id = '' } = useParams()
 
   const [tab, setTab] = useQueryParam('name', withDefault(StringParam, 'dcservice'))
+  const [database, setDatabase] = useQueryParam('database', withDefault(StringParam, ''))
+  const [table, setTable] = useQueryParam('table', withDefault(StringParam, ''))
+
+  const [{ page = 1, limit = 25 }, setPaginationParams] = useQueryParams(
+    {
+      page: withDefault(NumberParam, 1),
+      limit: withDefault(NumberParam, 25),
+    },
+    { removeDefaultsFromUrl: true },
+  )
+
+  const sortAtom = useMemo(() => createAtom<ToSort<Dictionary> | undefined>(undefined), [])
+  const [sortParam, , setSort] = useSort([sortAtom.set])
+  sortAtom.subscribe((value, prev) => prev !== value && setSort(value))
+
+  const [columnSearchParams, setSearchFilter] = useQueryParam<string, ListTable.Search.ToSort<Dictionary>>(
+    'columnSearch',
+    JSONParam as Any,
+  )
 
   const fetcher = dcserviceApi.getById.useCache(
     { id },
@@ -34,6 +66,27 @@ export default function Component(): JSX.Element {
         form.initialize(DcserviceForm.toValues(dcservice))
       },
     },
+  )
+
+  const databasesFetcher = dcserviceApi.findDatabases.useCache({ id })
+
+  const tablesFetcher = dcserviceApi.findTables.useCache({ id, database })
+
+  const rowParams = {
+    sort: sortParam,
+    limit,
+    offset: (page - 1) * limit,
+    where: { ...columnSearchParams },
+  }
+
+  const prev = usePrevious({ id, database, table, ...rowParams })
+  useEffect(() => {
+    queryClient.setQueryData([dcserviceApi.findRows.NAME, prev], () => undefined)
+  }, [table])
+
+  const rowsFetcher = dcserviceApi.findRows.useCache(
+    { id, database, table, ...rowParams },
+    { keepPreviousData: true, staleTime: 10_000 },
   )
 
   const updateMutator = dcserviceApi.update.useMutation({
@@ -132,6 +185,27 @@ export default function Component(): JSX.Element {
                 </Flex>
               </Flex>
             </Section>
+          </Tabs.Content>
+          <Tabs.Content value='data' style={{ width: '100%' }}>
+            <DataTab
+              paginationProps={{
+                limit,
+                totalElements: rowsFetcher.data?.total,
+                loading: rowsFetcher.isFetching,
+                currentPage: page,
+                onChange: (page) => setPaginationParams({ page, limit }),
+              }}
+              tablesFetcher={tablesFetcher}
+              rowsFetcher={rowsFetcher}
+              databasesFetcher={databasesFetcher}
+              database={database}
+              sortAtom={sortAtom}
+              setSearchFilter={setSearchFilter as any}
+              searchFilter={columnSearchParams}
+              setTable={setTable}
+              table={table}
+              setDatabase={setDatabase}
+            />
           </Tabs.Content>
         </Tabs.Root>
       </Container>

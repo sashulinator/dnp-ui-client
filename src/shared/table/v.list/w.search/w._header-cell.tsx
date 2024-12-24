@@ -5,7 +5,7 @@ import Flex from '~/shared/flex'
 import Icon from '~/shared/icon'
 import Text from '~/shared/text'
 // TODO убрать зависимость от where
-import { type FilterConfig, FilterConfigurator, toFilter, toFilterConfig } from '~/slices/where'
+import { COMPARISON, type FilterConfig, FilterConfigurator, MATCH, toFilter, toFilterConfig } from '~/slices/where'
 import { type Dictionary, assertDefined } from '~/utils/core'
 import { add } from '~/utils/dictionary'
 
@@ -13,12 +13,13 @@ import { type RenderHeaderProps } from '..'
 import { type Context } from './models.contex'
 
 export function HeaderCell<TItem extends Dictionary, TContext extends Context<TItem>>({
-  name: accessorKey,
+  name,
   context,
-  display: name,
+  display,
+  column,
 }: RenderHeaderProps<TItem, TContext>): JSX.Element {
   assertDefined(context)
-  const searchFilter = context.searchFilter?.[accessorKey]
+  const searchFilter = context.searchFilter?.[name]
   const filterConfig = toFilterConfig(searchFilter)
 
   return (
@@ -26,7 +27,11 @@ export function HeaderCell<TItem extends Dictionary, TContext extends Context<TI
       <RenderCounter style={{ transform: 'translateY(0)' }} />
       <FilterConfigurator.Root filterConfig={filterConfig} onFilterConfigChange={handleFilterConfigChange}>
         <Flex width='100%'>
-          <FilterConfigurator.Input placeholder={name} style={{ width: '100%' }} />
+          <FilterConfigurator.Input
+            type={column?.type === 'number' ? ('number' as 'text') : 'text'}
+            placeholder={display || String(name)}
+            style={{ width: '100%' }}
+          />
         </Flex>
 
         <DropdownMenu.Root>
@@ -40,20 +45,24 @@ export function HeaderCell<TItem extends Dictionary, TContext extends Context<TI
               onClick={() => {
                 context?.setSearchFilter((s) => {
                   const clone = { ...s }
-                  delete clone[accessorKey]
+                  delete clone[name]
                   return clone
                 })
               }}
             />
             <FilterConfigurator.NotModeDropdownMenuItem />
-            <DropdownMenu.Label>
-              <Text size='1'>Строковый</Text>
-            </DropdownMenu.Label>
-            <FilterConfigurator.CaseSensitiveModeDropdownMenuItem />
-            <FilterConfigurator.StartsWithTypeDropdownMenuItem />
-            <FilterConfigurator.EndsWithTypeDropdownMenuItem />
-            <FilterConfigurator.ContainsTypeDropdownMenuItem />
-            <FilterConfigurator.MatchTypeDropdownMenuItem />
+            {column?.type !== 'number' && (
+              <>
+                <DropdownMenu.Label>
+                  <Text size='1'>Строковый</Text>
+                </DropdownMenu.Label>
+                <FilterConfigurator.CaseSensitiveModeDropdownMenuItem />
+                <FilterConfigurator.StartsWithTypeDropdownMenuItem />
+                <FilterConfigurator.EndsWithTypeDropdownMenuItem />
+                <FilterConfigurator.ContainsTypeDropdownMenuItem />
+                <FilterConfigurator.MatchTypeDropdownMenuItem />
+              </>
+            )}
             <DropdownMenu.Label>
               <Text size='1'>Числовой</Text>
             </DropdownMenu.Label>
@@ -62,11 +71,15 @@ export function HeaderCell<TItem extends Dictionary, TContext extends Context<TI
             <FilterConfigurator.GteTypeDropdownMenuItem />
             <FilterConfigurator.LtTypeDropdownMenuItem />
             <FilterConfigurator.LteTypeDropdownMenuItem />
-            <DropdownMenu.Label>
-              <Text size='1'>Шаблоны</Text>
-            </DropdownMenu.Label>
-            <FilterConfigurator.EmptyTemplateDropdownMenuItem />
-            <FilterConfigurator.NotEmptyTemplateDropdownMenuItem />
+            {column?.type !== 'number' && (
+              <>
+                <DropdownMenu.Label>
+                  <Text size='1'>Шаблоны</Text>
+                </DropdownMenu.Label>
+                <FilterConfigurator.EmptyTemplateDropdownMenuItem />
+                <FilterConfigurator.NotEmptyTemplateDropdownMenuItem />
+              </>
+            )}
           </DropdownMenu.Content>
         </DropdownMenu.Root>
       </FilterConfigurator.Root>
@@ -78,7 +91,13 @@ export function HeaderCell<TItem extends Dictionary, TContext extends Context<TI
    */
 
   function handleFilterConfigChange(filterConfig: FilterConfig) {
-    const searchFilterToAdd = add({}, accessorKey, toFilter(filterConfig))
-    context?.setSearchFilter((s) => ({ ...s, ...searchFilterToAdd }))
+    if (column?.type === 'number') {
+      filterConfig.type = filterConfig.type === MATCH.startsWith ? COMPARISON.equals : filterConfig.type
+      const searchFilterToAdd = add({}, name, toFilter(filterConfig))
+      context?.setSearchFilter((s) => ({ ...s, ...searchFilterToAdd }))
+    } else {
+      const searchFilterToAdd = add({}, name, toFilter(filterConfig))
+      context?.setSearchFilter((s) => ({ ...s, ...searchFilterToAdd }))
+    }
   }
 }
