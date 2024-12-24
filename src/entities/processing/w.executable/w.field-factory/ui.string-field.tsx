@@ -23,6 +23,7 @@ export default function Component(
         <TextInput
           {...textFieldProps}
           className={c(NAME)}
+          disabled={!(_paramContext.isSingleMode && _paramContext.paramSchema.unique)}
           onChange={(e) => {
             onChange?.(e.target.value)
           }}
