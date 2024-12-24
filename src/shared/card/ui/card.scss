@@ -1,4 +1,4 @@
-.dnp-card-Card {
+.card-Card {
   :is(.dark, .dark-theme) :where(&) {
     --card-border-width: 0;
   }

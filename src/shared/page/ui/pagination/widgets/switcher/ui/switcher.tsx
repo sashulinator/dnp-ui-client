@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 import Button from '~/shared/button'
 import Icon from '~/shared/icon'
 import Spinner from '~/shared/spinner'
-import TextField from '~/shared/text-field'
+import TextInput from '~/shared/text-input'
 import { c } from '~/utils/core'
 
 export interface Props {
@@ -18,7 +18,7 @@ export interface Props {
   root?: React.HTMLAttributes<HTMLDivElement>
 }
 
-const displayName = 'dnp-pagination-Pagination-w-Switcher'
+const displayName = 'pagination-Pagination-w-Switcher'
 
 /**
  * dnp-pagination-Pagination-w-Switcher
@@ -46,7 +46,7 @@ export default function Component(props: Props): JSX.Element {
       >
         <Icon name='ChevronLeft' />
       </Button>
-      <TextField.Root
+      <TextInput
         color={localCurrentPage > totalPages || localCurrentPage < 1 ? 'red' : undefined}
         className='input'
         onKeyUp={(e) => {

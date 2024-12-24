@@ -5,13 +5,12 @@ import { type Props, type Story } from '~/shared/storybook'
 import Switch from '~/shared/switch'
 import Text from '~/shared/text'
 
-import TextField, { TileButton } from '..'
 import Button from '..'
 
 interface State {}
 
 export default {
-  getName: (): string => TextField.displayName || '',
+  getName: (): string => Button.displayName || '',
 
   render: function Element(props: Props<State>): JSX.Element {
     const { state } = props
@@ -38,16 +37,6 @@ export default {
             <Switch size='1' checked={isTransparent} onCheckedChange={(checked) => setTransparent(checked)} />
             transparent
           </Text>
-        </Flex>
-        <Flex direction='row'>
-          <TileButton
-            iconName='Star'
-            text={
-              <>
-                Настройка <h1>таблицы</h1> таблицы Очень большое название
-              </>
-            }
-          />
         </Flex>
       </Flex>
     )

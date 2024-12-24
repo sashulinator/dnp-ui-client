@@ -3,7 +3,7 @@ import { useRef } from 'react'
 import Button from '~/shared/button'
 import Flex from '~/shared/flex'
 import Icon from '~/shared/icon'
-import TextField from '~/shared/text-field'
+import TextInput from '~/shared/text-input'
 import { push, remove, replace } from '~/utils/list'
 
 import Tag from '../widgets/tag'
@@ -14,7 +14,7 @@ export interface Props {
   onChange: ((v: string[] | undefined) => void) | undefined
 }
 
-const displayName = 'ui-TagPicker'
+const displayName = 'tagPicker-TagPicker'
 
 /**
  * Tag-picker
@@ -38,15 +38,15 @@ export default function Component(props: Props): JSX.Element {
       })}
 
       <Flex align='center' gap='2'>
-        <TextField.Root
+        <TextInput
           ref={inputRef}
           // autoFocus={true}
           onKeyDown={(e): void => {
             if (e.key !== 'Enter') return
             submitNewTag()
           }}
-        >
-          <TextField.Slot side='right'>
+          left={'#'}
+          right={
             <Button
               size='1'
               round={true}
@@ -56,9 +56,8 @@ export default function Component(props: Props): JSX.Element {
             >
               <Icon name='Plus' />
             </Button>
-          </TextField.Slot>
-          <TextField.Slot side='left'>#</TextField.Slot>
-        </TextField.Root>
+          }
+        />
       </Flex>
     </Flex>
   )

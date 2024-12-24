@@ -9,7 +9,7 @@ export type Props = TextProps & {
   totalElements: number | string | undefined
 }
 
-const displayName = 'dnp-pagination-Pagination-w-Info'
+const displayName = 'pagination-Pagination-w-Info'
 
 /**
  * dnp-pagination-Pagination-w-Info

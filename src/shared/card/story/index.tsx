@@ -1,13 +1,12 @@
 import Flex from '~/shared/flex'
-import { Props, type Story } from '~/shared/storybook'
+import { type Props, type Story } from '~/shared/storybook'
 
-import TextField from '..'
 import Card from '..'
 
 interface State {}
 
 export default {
-  getName: (): string => TextField.displayName || '',
+  getName: (): string => Card.displayName || '',
 
   render: function Element(props: Props<State>): JSX.Element {
     const { state } = props

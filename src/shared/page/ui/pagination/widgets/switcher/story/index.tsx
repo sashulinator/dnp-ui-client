@@ -4,13 +4,12 @@ import Flex from '~/shared/flex'
 import type { Props } from '~/shared/storybook'
 import { type Story } from '~/shared/storybook'
 
-import TextField from '..'
 import Switcher from '..'
 
 interface State {}
 
 export default {
-  getName: (): string => TextField.displayName || '',
+  getName: (): string => Switcher.displayName || '',
 
   render: function Element(props: Props<State>): JSX.Element {
     const { state } = props

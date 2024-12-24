@@ -1,13 +1,12 @@
 import Flex from '~/shared/flex'
 import { type Props, type Story } from '~/shared/storybook'
 
-import TextField from '..'
 import Info from '..'
 
 interface State {}
 
 export default {
-  getName: (): string => TextField.displayName || '',
+  getName: (): string => Info.displayName || '',
 
   render: function Element(props: Props<State>): JSX.Element {
     const { state } = props

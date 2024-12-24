@@ -1,4 +1,4 @@
-import './button.scss'
+import s from './button.module.scss'
 
 import type { ButtonProps } from '@radix-ui/themes'
 import { Button } from '@radix-ui/themes'
@@ -14,7 +14,7 @@ export interface Props extends Omit<ButtonProps, 'variant'> {
   variant?: ButtonProps['variant'] | undefined
 }
 
-const NAME = 'dnp-button-Button'
+const NAME = 'button-Button'
 
 export function Component(props: Props, ref: ForwardedRef<HTMLButtonElement>): JSX.Element {
   const { round, square, variant = 'solid', ...buttonProps } = props
@@ -24,7 +24,7 @@ export function Component(props: Props, ref: ForwardedRef<HTMLButtonElement>): J
       {...buttonProps}
       variant={variant}
       ref={ref}
-      className={c(props.className, NAME, round && '--round', square && '--square')}
+      className={c(props.className, s[NAME], round && s['--round'], square && s['--square'])}
     />
   )
 }

@@ -15,7 +15,7 @@ export interface Props {
   onChange: (newPage: number) => void
 }
 
-const displayName = 'dnp-pagination-Pagination'
+const displayName = 'pagination-Pagination'
 
 /**
  * dnp-pagination-Pagination

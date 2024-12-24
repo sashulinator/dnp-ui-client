@@ -1,19 +1,20 @@
+import { TextField } from '@radix-ui/themes'
+
 import { type ForwardedRef, forwardRef, useRef } from 'react'
 
 import Button from '~/shared/button'
 import Flex from '~/shared/flex'
 import Icon from '~/shared/icon'
-import TextField, { type RootProps, type SlotProps } from '~/shared/text-field'
 import { c } from '~/utils/core'
 import { setInputValue } from '~/utils/dom-event'
 import { setRefs } from '~/utils/react'
 
-export type Props = RootProps & {
+export type Props = TextField.RootProps & {
   className?: string | undefined
   left?: React.ReactNode | undefined
   right?: React.ReactNode | undefined
-  leftProps?: SlotProps | undefined
-  rightProps?: SlotProps | undefined
+  leftProps?: TextField.SlotProps | undefined
+  rightProps?: TextField.SlotProps | undefined
   clearable?: boolean | undefined
 }
 

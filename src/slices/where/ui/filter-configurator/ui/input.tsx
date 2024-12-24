@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 
 import { COMPARISON, IS, MATCH } from '~/common/slices/where'
 import Select from '~/shared/select'
-import TextField, { type RootProps } from '~/shared/text-field'
+import TextInput, { type TextInputProps } from '~/shared/text-input'
 import { useDebounceCallback } from '~/utils/core-hooks'
 import { fns } from '~/utils/function'
 
@@ -44,7 +44,7 @@ Input.displayName = NAME
  * _TextInputProps
  */
 
-type _TextInputProps = RootProps
+type _TextInputProps = TextInputProps
 
 function _TextInput(props: _TextInputProps) {
   const { ...textInputProps } = props
@@ -57,10 +57,10 @@ function _TextInput(props: _TextInputProps) {
   useEffect(() => setValue(filterConfig.value || ''), [filterConfig.value])
 
   return (
-    <TextField.Root
+    <TextInput
       size='1'
       color='amber'
-      variant={value ? 'soft' : 'borderless'}
+      variant={value ? 'soft' : 'surface'}
       {...textInputProps}
       value={value || ''}
       onChange={fns(textInputProps.onChange, (e) => {

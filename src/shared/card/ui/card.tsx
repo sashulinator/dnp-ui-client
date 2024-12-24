@@ -8,7 +8,7 @@ import { c } from '~/utils/core'
 
 export interface Props extends CardProps {}
 
-export const NAME = 'dnp-card-Card'
+export const NAME = 'card-Card'
 
 export function Component(props: Props, ref: ForwardedRef<HTMLDivElement>): JSX.Element {
   const { ...cardProps } = props

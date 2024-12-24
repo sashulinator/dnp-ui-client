@@ -4,10 +4,10 @@ import React from 'react'
 
 import Button from '~/shared/button'
 import Flex from '~/shared/flex'
-import { Field, FieldRenderProps } from '~/shared/form'
+import { Field, type FieldRenderProps } from '~/shared/form'
 import Icon from '~/shared/icon'
 import Text from '~/shared/text'
-import Input from '~/shared/text-field'
+import TextInput from '~/shared/text-input'
 import { c } from '~/utils/core'
 import { remove, renameKey } from '~/utils/dictionary'
 
@@ -39,7 +39,7 @@ function Component(props: Props): JSX.Element {
                 return (
                   <Flex key={index} width='100%' gap='2' align='center'>
                     <Tooltip content='Ключ'>
-                      <Input.Root
+                      <TextInput
                         style={{ width: '100%' }}
                         placeholder='Ключ'
                         variant='soft'
@@ -50,7 +50,7 @@ function Component(props: Props): JSX.Element {
                       />
                     </Tooltip>
                     <Tooltip content='Значение'>
-                      <Input.Root
+                      <TextInput
                         style={{ width: '100%' }}
                         placeholder='Значение'
                         variant='soft'
