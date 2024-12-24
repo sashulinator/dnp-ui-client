@@ -11,6 +11,8 @@ import Form, { useCreateForm } from '~/shared/form'
 import { notify } from '~/shared/notification-list-store'
 import { Heading, Main } from '~/shared/page'
 import Section from '~/shared/section'
+import { Tabs } from '~/shared/tabs'
+import { StringParam, useQueryParam, withDefault } from '~/shared/use-query-params'
 import { assertDefined, c } from '~/utils/core'
 
 import { dcserviceApi } from '..'
@@ -22,6 +24,8 @@ const NAME = `${APP}-page-${SLICE}-GetById`
 
 export default function Component(): JSX.Element {
   const { id = '' } = useParams()
+
+  const [tab, setTab] = useQueryParam('name', withDefault(StringParam, 'dcservice'))
 
   const fetcher = dcserviceApi.getById.useCache(
     { id },
@@ -78,51 +82,58 @@ export default function Component(): JSX.Element {
           </Section>
         )}
 
-        <Flex direction='column' width='780px'>
-          <Section
-            size='1'
-            className={c(isAnimated && cssAnimations.Appear)}
-            style={{ animationDelay: `${TICK_MS * 2}ms` }}
-          >
-            <Form form={form} disabled={fetcher.isLoading} component={DcserviceForm} />
-          </Section>
+        <Tabs.Root value={tab} onValueChange={(value) => setTab(value)}>
+          <Tabs.List>
+            <Tabs.Trigger value='dcservice'>Сервис</Tabs.Trigger>
+            <Tabs.Trigger value='data'>Просмотр данных</Tabs.Trigger>
+          </Tabs.List>
+          <Tabs.Content value='dcservice' style={{ width: '100%' }}>
+            <Section
+              size='1'
+              width='720px'
+              className={c(isAnimated && cssAnimations.Appear)}
+              style={{ animationDelay: `${TICK_MS * 2}ms` }}
+            >
+              <Form form={form} disabled={fetcher.isLoading} component={DcserviceForm} />
+            </Section>
 
-          <Section
-            size='1'
-            className={c(isAnimated && cssAnimations.Appear)}
-            style={{ animationDelay: `${TICK_MS * 3}ms` }}
-          >
-            <Flex justify='start'>
-              <Flex gap='2' direction='row' justify='end'>
-                <Flex gap='2' direction='column'>
-                  <TestConnection
-                    disabled={form.getState().invalid}
-                    request={() =>
-                      dcserviceApi.testConnection
-                        .request({
-                          client: 'pg',
-                          host: formState.values.host,
-                          port: formState.values.port,
-                          user: formState.values.username,
-                          password: formState.values.password,
-                        })
-                        .then((ret) => ret.data)
-                    }
-                  />
-                  <Flex>
-                    <Button
-                      // loading={updateMutator.isLoading}
-                      disabled={!form.getState().dirty || form.getState().invalid}
-                      onClick={form.submit}
-                    >
-                      Сохранить
-                    </Button>
+            <Section
+              size='1'
+              className={c(isAnimated && cssAnimations.Appear)}
+              style={{ animationDelay: `${TICK_MS * 3}ms` }}
+            >
+              <Flex justify='start'>
+                <Flex gap='2' direction='row' justify='end'>
+                  <Flex gap='2' direction='column'>
+                    <TestConnection
+                      disabled={form.getState().invalid}
+                      request={() =>
+                        dcserviceApi.testConnection
+                          .request({
+                            client: 'pg',
+                            host: formState.values.host,
+                            port: formState.values.port,
+                            user: formState.values.username,
+                            password: formState.values.password,
+                          })
+                          .then((ret) => ret.data)
+                      }
+                    />
+                    <Flex>
+                      <Button
+                        // loading={updateMutator.isLoading}
+                        disabled={!form.getState().dirty || form.getState().invalid}
+                        onClick={form.submit}
+                      >
+                        Сохранить
+                      </Button>
+                    </Flex>
                   </Flex>
                 </Flex>
               </Flex>
-            </Flex>
-          </Section>
-        </Flex>
+            </Section>
+          </Tabs.Content>
+        </Tabs.Root>
       </Container>
     </Main>
   )
