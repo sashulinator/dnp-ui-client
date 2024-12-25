@@ -3,6 +3,7 @@ import { ScrollArea } from '@radix-ui/themes'
 import Checkbox from '~/shared/checkbox'
 import Flex from '~/shared/flex'
 import Labeled from '~/shared/labeled'
+import OptionFilter from '~/shared/select/w.option-filter'
 import { MatrixTable } from '~/shared/table'
 import TextInput from '~/shared/text-input'
 import { type Any, type Dictionary, c } from '~/utils/core'
@@ -33,6 +34,23 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
     <Flex direction='column'>
       <Labeled label={_paramContext.paramSchema.display}>
         <ScrollArea>
+          <OptionFilter
+            onSubmit={(options) => {
+              const value = new Function('context', _paramContext.paramSchema.getInitialValue || '')({
+                columns,
+                paramSchema: { component: { props: { options } } },
+              })
+
+              const serializedValue = _paramContext.serializeFn({
+                columns,
+                paramSchema: { component: { props: { options } } },
+                value,
+              })
+
+              props.onChange(serializedValue)
+            }}
+            options={options}
+          />
           <MatrixTable.default<Dictionary, Dictionary, unknown>
             className={c(props.className, NAME)}
             context={{}}

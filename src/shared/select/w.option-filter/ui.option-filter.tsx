@@ -58,7 +58,7 @@ export default function Component(props: Props): JSX.Element {
             </Select.Content>
           </Select.Root>
           {filterName === EXCEPT || filterName === INCLUDE ? (
-            <Flex ml='1'>
+            <Flex ml='1' width='400px'>
               <SelectMultiple
                 onValueChange={setSelectedOptions}
                 value={selectedOptions}

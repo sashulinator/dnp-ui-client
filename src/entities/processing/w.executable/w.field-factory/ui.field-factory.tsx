@@ -76,17 +76,19 @@ function ComponentWrapper(props: ComponentWrapperProps) {
   const component = componentMap?.[componentDesign.name as 'Matrix'] || StringField
   const modeProps = isSingleMode ? componentDesign.singleModeProps : componentDesign.multiModeProps
 
+  const serializeFn = useMemo(() => (serialize ? new Function('context', serialize) : serializeDeserialize), [])
+  const deserializeFn = useMemo(() => (deserialize ? new Function('context', deserialize) : serializeDeserialize), [])
+
   const _paramContext: ParamFactoryContext = {
     name: `${name}.params.${paramSchema.name}`,
     columns,
     paramSchema,
     isSingleMode,
+    serializeFn: serializeFn as (params: Any) => Any,
+    deserializeFn: deserializeFn as (params: Any) => Any,
   }
 
   const field = useField(`${name}.params.${paramSchema.name}`, { subscription: { value: true } })
-
-  const serializeFn = useMemo(() => (serialize ? new Function('context', serialize) : serializeDeserialize), [])
-  const deserializeFn = useMemo(() => (deserialize ? new Function('context', deserialize) : serializeDeserialize), [])
 
   const value = useMemo(() => serializeFn({ value: field.input.value, ...props }), [field.input.value])
 

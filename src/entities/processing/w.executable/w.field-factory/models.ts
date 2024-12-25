@@ -1,3 +1,5 @@
+import { type Any } from '~/utils/core'
+
 import { type ParamSchema } from '../models'
 
 export type ParamFactoryContext = {
@@ -5,4 +7,6 @@ export type ParamFactoryContext = {
   columns: { name: string; display?: string; type?: string }[]
   paramSchema: ParamSchema
   isSingleMode: boolean
+  serializeFn: (params: Any) => Any
+  deserializeFn: (params: Any) => Any
 }
