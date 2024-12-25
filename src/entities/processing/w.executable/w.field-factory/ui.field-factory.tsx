@@ -23,6 +23,7 @@ export interface Props {
   name: string
   isSingleMode: boolean
   setMultyValue: (value: unknown, name: string) => void
+  setUniqValues?: ((getValue: (currentValue: unknown) => unknown, formName: string) => void) | undefined
 }
 const NAME = `${SLICE}-FieldFactory`
 
@@ -52,6 +53,7 @@ export default function Component(props: Props): ReactNode {
           name={props.name}
           isSingleMode={props.isSingleMode}
           setMultyValue={props.setMultyValue}
+          setUniqValues={props.setUniqValues}
           paramSchema={paramSchema}
         />
       )
@@ -66,10 +68,11 @@ type ComponentWrapperProps = {
   paramSchema: ParamSchema
   isSingleMode: boolean
   setMultyValue: (value: unknown, name: string) => void
+  setUniqValues?: ((getValue: (currentValue: unknown) => unknown, formName: string) => void) | undefined
 }
 
 function ComponentWrapper(props: ComponentWrapperProps) {
-  const { isSingleMode, paramSchema, columns, name, setMultyValue } = props
+  const { isSingleMode, paramSchema, columns, name, setMultyValue, setUniqValues } = props
   const componentDesign = paramSchema.component as ComponentSchema
   const { serialize = '', deserialize = '' } = componentDesign as ComponentSchema
 
@@ -84,6 +87,7 @@ function ComponentWrapper(props: ComponentWrapperProps) {
     columns,
     paramSchema,
     isSingleMode,
+    setUniqValues,
     serializeFn: serializeFn as (params: Any) => Any,
     deserializeFn: deserializeFn as (params: Any) => Any,
   }

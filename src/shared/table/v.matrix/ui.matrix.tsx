@@ -214,8 +214,8 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
 
 Component.displayName = NAME
 
-export function defaultRenderOptionCell(props: { value: unknown }) {
-  return String(props.value)
+export function defaultRenderOptionCell(props: { option: { value: unknown; display?: string | undefined } }) {
+  return String(props.option.display || props.option.value)
 }
 
 export function defaultRenderOptionHeader() {

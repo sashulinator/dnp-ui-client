@@ -27,7 +27,28 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
 ): JSX.Element | string {
   const { value, _paramContext, options, onChange } = props
   const { columns, isSingleMode } = _paramContext
-  if (!isSingleMode) return 'Для настройки метрик перейдите во вкладку "Потабличная настройка"'
+
+  if (!isSingleMode) {
+    return (
+      <Flex direction='column' gap='2'>
+        <Labeled label='Метрики'>
+          <OptionFilter
+            onSubmit={(options) => {
+              props._paramContext?.setUniqValues?.((ctx) => {
+                const value = new Function('context', _paramContext.paramSchema.getInitialValue || '')({
+                  columns: (ctx as any).columns,
+                  paramSchema: { component: { props: { options } } },
+                })
+                return value
+              }, _paramContext.name)
+            }}
+            options={options}
+          />
+        </Labeled>
+      </Flex>
+    )
+  }
+
   const renderCell = props.valueType === 'boolean' ? _renderBooleanCell : _renderTextCell
 
   return (

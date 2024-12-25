@@ -7,6 +7,7 @@ export type ParamFactoryContext = {
   columns: { name: string; display?: string; type?: string }[]
   paramSchema: ParamSchema
   isSingleMode: boolean
+  setUniqValues?: ((getValue: (currentValue: unknown) => unknown, formName: string) => void) | undefined
   serializeFn: (params: Any) => Any
   deserializeFn: (params: Any) => Any
 }

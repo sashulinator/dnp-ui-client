@@ -67,7 +67,7 @@ export default function Component(props: Props): JSX.Element {
             </Flex>
           ) : null}
         </Flex>
-        <Button onClick={handleSubmit}>Запустить</Button>
+        <Button onClick={handleSubmit}>Установить</Button>
       </Flex>
     </div>
   )

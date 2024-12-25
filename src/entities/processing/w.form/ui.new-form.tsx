@@ -145,6 +145,7 @@ export default function Component(props: Props): JSX.Element {
                                 name={formName}
                                 columns={[]}
                                 isSingleMode={false}
+                                setUniqValues={setUniqValues}
                                 setMultyValue={setMultyParamValue}
                                 executableSchemas={executableSchemas}
                               />
@@ -173,15 +174,19 @@ export default function Component(props: Props): JSX.Element {
       <Tabs.Content value='single'>
         <Flex width='100%' pt='4' direction='column'>
           <Column className={c(props.className, NAME)}>
-            <Row width='100%'>
-              <Column width='50%'>
-                <LabeledSelect.default
-                  value={selectedSingleTableName}
-                  onChange={(e) => setSelectedSingleTableName(e.toString())}
-                  options={tableOptions}
-                />
-              </Column>
-            </Row>
+            <Card label='Вход'>
+              <Row width='100%'>
+                <Column width='50%'>
+                  <LabeledSelect.default
+                    label='Таблица'
+                    value={selectedSingleTableName}
+                    onChange={(e) => setSelectedSingleTableName(e.toString())}
+                    options={tableOptions}
+                  />
+                </Column>
+                <Column width='50%' />
+              </Row>
+            </Card>
             {selectedSingleTable && (
               <Row key={selectedSingleTable.name}>
                 <Column width='100%'>
@@ -190,9 +195,9 @@ export default function Component(props: Props): JSX.Element {
                       {({ fields }) => (
                         <Flex direction='column' gap='4'>
                           {fields.map((formName, index) => (
-                            <Card key={index}>
+                            <Card key={index} label='Процедура'>
                               <Flex width='100%' direction='column' gap='4'>
-                                <Row justify='between'>
+                                <Row justify='between' style={{ position: 'relative' }}>
                                   <Column width='50%'>
                                     <ExectableForm
                                       key={index}
@@ -202,7 +207,13 @@ export default function Component(props: Props): JSX.Element {
                                       executableSchemas={executableSchemas}
                                     />
                                   </Column>
-                                  <DangerButton variant='soft' round={true} onClick={() => fields.remove(index)}>
+                                  <Column width='50%' />
+                                  <DangerButton
+                                    variant='soft'
+                                    round={true}
+                                    onClick={() => fields.remove(index)}
+                                    style={{ position: 'absolute', right: 'var(--space-2)', top: 'var(--space-2)' }}
+                                  >
                                     <Icon name='Trash' />
                                   </DangerButton>
                                 </Row>
@@ -235,6 +246,21 @@ export default function Component(props: Props): JSX.Element {
 
   function removeConfigs() {
     form.change(`configs`, {})
+  }
+
+  function setUniqValues(getValue: (currentValue: unknown) => unknown, formName: string) {
+    Object.values(form.getState().values.configs || {}).forEach((config) => {
+      const table = tablesFetcher.data?.find((t) => t.name === config.inputTable)
+
+      const uniqValue = getValue({
+        values: form.getState().values,
+        generateId,
+        columns: table?.columns,
+        table,
+      })
+
+      form.change(formName.replace('multiConfig', `configs.${config.inputTable}`) as Any, uniqValue)
+    })
   }
 
   function setMultyParamValue(value: unknown, formName: string) {

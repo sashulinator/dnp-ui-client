@@ -106,7 +106,7 @@ export default function Component(): JSX.Element {
 
         <Confirm
           controller={modalAtom}
-          title='Хотите сохранить изменения в файле?'
+          title='Запустить обработку?'
           onClose={() => {
             modalAtom.set({ open: false })
           }}
