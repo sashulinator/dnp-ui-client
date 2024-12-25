@@ -2,7 +2,9 @@ import type { Any } from '~/utils/core'
 
 import { BASE_URL } from './constants'
 
-export const URL = `${BASE_URL}/excel-to-table`
+export const NAME = 'excel-to-table'
+
+export const URL = `${BASE_URL}/${NAME}`
 
 export type RequestParams = {
   fileNames: string[]
