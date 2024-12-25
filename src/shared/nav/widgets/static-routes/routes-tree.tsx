@@ -82,7 +82,6 @@ export function getRoutesTree() {
     routsTree.push({
       id: 'tables',
       name: 'Настройка таблиц',
-
       renderIcon: () => <Icon name='User' />,
       children,
     })
@@ -126,6 +125,19 @@ export function getRoutesTree() {
       children,
     })
   }
+
+  /**
+   * Хранилище
+   */
+
+  routsTree.push({
+    id: routes.dcservice_findWithTotal.getName(),
+    name: routes.dcservice_findWithTotal.getName(),
+    renderIcon: () => <Icon name='Database' />,
+    link: {
+      url: routes.dcservice_findWithTotal.getPath(),
+    },
+  })
 
   return routsTree
 }

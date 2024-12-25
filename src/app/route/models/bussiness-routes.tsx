@@ -162,7 +162,7 @@ export const routes = {
   },
 
   dcservice_findWithTotal: {
-    getName: () => 'Сервисы',
+    getName: () => 'Сервисы Баз',
     getPath: () => '/database-container/service',
     getUrl() {
       return this.getPath()

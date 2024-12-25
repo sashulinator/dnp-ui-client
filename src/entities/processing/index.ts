@@ -1,4 +1,10 @@
 /**
+ * api
+ */
+
+export * as api from './api'
+
+/**
  * ui
  */
 

@@ -188,6 +188,7 @@ export default function Component(): JSX.Element {
           </Tabs.Content>
           <Tabs.Content value='data' style={{ width: '100%' }}>
             <DataTab
+              dcserviceId={id}
               paginationProps={{
                 limit,
                 totalElements: rowsFetcher.data?.total,
