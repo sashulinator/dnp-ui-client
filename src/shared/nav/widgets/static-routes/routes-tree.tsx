@@ -104,10 +104,10 @@ export function getRoutesTree() {
     }
 
     children.push({
-      id: routes.processing_status.getName(),
+      id: routes.processes.getName(),
       name: 'Статус',
       link: {
-        url: routes.processing_status.getPath(),
+        url: routes.processes.getPath(),
       },
     })
     children.push({

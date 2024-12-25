@@ -12,6 +12,7 @@ import { Heading } from '~/shared/page'
 import Section from '~/shared/section'
 import Skeleton from '~/shared/skeleton'
 import Text from '~/shared/text'
+import { toHtml } from '~/utils/md'
 
 import * as api from '../../api/get-by-kn'
 import { ProcessStatusBadge } from '../../ui/ProcessStatusBadge'
@@ -88,31 +89,19 @@ export default function Component() {
                       </DataList.Item>
                     </>
                   )} */}
+                  {(fetcher.data.data as any).message && (
+                    <Flex>
+                      <span
+                        style={{ whiteSpace: 'pre-wrap' }}
+                        dangerouslySetInnerHTML={{ __html: toHtml((fetcher.data.data as any).message) }}
+                      />
+                    </Flex>
+                  )}
                 </DataList.Root>
               ) : (
                 <Skeleton width='100%' height='240px' />
               )}
             </Flex>
-            {!!(fetcher.data?.data as any).normalizationConfig && (
-              <Flex p='24px' pt='32px' direction='column' gapY='16px'>
-                <Text weight='bold' size='3'>
-                  JSON конфигурации
-                </Text>
-                <CodeEditor
-                  value={JSON.stringify((fetcher.data as any).data.normalizationConfig)}
-                  className='ui-CodeEditor-v-Json'
-                  mode='json'
-                  readOnly
-                  height='500px'
-                  setOptions={{
-                    maxLines: 46,
-                    minLines: 4,
-                    showPrintMargin: false,
-                    showGutter: true,
-                  }}
-                />
-              </Flex>
-            )}
           </Card>
         </Section>
       </Container>
