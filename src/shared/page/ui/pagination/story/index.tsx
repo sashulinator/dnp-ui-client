@@ -14,12 +14,15 @@ export default {
   render: function Element(props: Props<State>): JSX.Element {
     const { state } = props
     const [page, setPage] = useState(1)
+    const [limit, setLimit] = useState(10)
 
     return (
       <Flex width='100%' direction={'column'} p='8' gap='4'>
+        limit: {limit}
         <Pagination
-          limit='10'
+          limit={limit}
           currentPage={page}
+          onLimitChange={setLimit}
           root={{ style: { border: '1px solid red' } }}
           onChange={setPage}
           totalElements='100'

@@ -190,7 +190,9 @@ export default function Component(): JSX.Element {
             <DataTab
               dcserviceId={id}
               paginationProps={{
+                onLimitChange: (limit) => setPaginationParams({ page: 1, limit }),
                 limit,
+                limitOptions: [10, 25, 50, 100],
                 totalElements: rowsFetcher.data?.total,
                 loading: rowsFetcher.isFetching,
                 currentPage: page,
