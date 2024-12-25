@@ -1,3 +1,4 @@
+import type { ToSort } from '~/slices/sort'
 import type { Where } from '~/slices/where'
 
 import type { Dctable } from '../../dctable'
@@ -13,9 +14,10 @@ export type RequestParams = {
   where?: Where
   limit?: number
   offset?: number
+  sort?: ToSort<{ name: string }>
 }
 
 export type Result = {
-  items: ({ name: string; display?: string } & Partial<Dctable>)[]
+  items: ({ name: string } & Partial<Dctable>)[]
   total: number
 }
