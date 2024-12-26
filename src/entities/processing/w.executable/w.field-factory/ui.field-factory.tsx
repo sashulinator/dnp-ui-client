@@ -76,10 +76,14 @@ function ComponentWrapper(props: ComponentWrapperProps) {
   const componentDesign = paramSchema.component as ComponentSchema
   const { serialize = '', deserialize = '' } = componentDesign as ComponentSchema
 
+  if (paramSchema.multiHidden && !isSingleMode) return null
+
   const component = componentMap?.[componentDesign.name as 'Matrix'] || StringField
   const modeProps = isSingleMode ? componentDesign.singleModeProps : componentDesign.multiModeProps
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const serializeFn = useMemo(() => (serialize ? new Function('context', serialize) : serializeDeserialize), [])
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const deserializeFn = useMemo(() => (deserialize ? new Function('context', deserialize) : serializeDeserialize), [])
 
   const _paramContext: ParamFactoryContext = {
@@ -92,8 +96,10 @@ function ComponentWrapper(props: ComponentWrapperProps) {
     deserializeFn: deserializeFn as (params: Any) => Any,
   }
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const field = useField(`${name}.params.${paramSchema.name}`, { subscription: { value: true } })
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const value = useMemo(() => serializeFn({ value: field.input.value, ...props }), [field.input.value])
 
   return createElement(component as Any, {
