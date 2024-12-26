@@ -2,8 +2,8 @@ import React, { useId } from 'react'
 import { type FieldInputProps, type FieldMetaState } from 'react-final-form'
 
 import Flex, { type FlexProps } from '~/shared/flex'
-import Select from '~/shared/select'
-import { c, fns } from '~/utils/core'
+import { InputSelect } from '~/shared/select'
+import { c } from '~/utils/core'
 
 import { _checkErrorVisible } from '../../../lib/_check-error-visible'
 import { _renderHint } from '../../../lib/_render-hint'
@@ -12,14 +12,13 @@ import Label from '../../label/ui/label'
 
 export const NAME = `${PARENT_NAME}-w-TextField`
 
-export type Props = Omit<Select.RootProps, 'name' | 'value'> & {
+export type Props = Omit<InputSelect.InputProps, 'name' | 'value'> & {
   className?: string | undefined
   label?: string | undefined
   rootProps?: FlexProps | undefined
   variant?: 'soft'
   input: FieldInputProps<string, HTMLElement>
   meta: FieldMetaState<string>
-  options?: (Omit<Select.ItemProps, 'children'> & { display: React.ReactNode })[]
   renderHint?: (props: {
     input: FieldInputProps<string, HTMLElement>
     meta: FieldMetaState<string>
@@ -39,9 +38,7 @@ export default function Component(props: Props) {
     label,
     className,
     rootProps,
-    options = [],
     checkIsErrorVisible = _checkErrorVisible,
-    variant = 'soft',
     ...selectRootProps
   } = props
 
@@ -51,20 +48,7 @@ export default function Component(props: Props) {
   return (
     <Flex className={c(className, rootProps?.className, NAME)} direction='column' width='100%' {...rootProps}>
       <Label children={label} htmlFor={id} />
-      <Select.Root onValueChange={fns(input.onChange)} value={input.value} {...selectRootProps}>
-        <Select.Trigger onBlur={fns(input.onBlur)} variant={variant} />
-        <Select.Content variant={variant}>
-          <Select.Group>
-            {options.map((option, i) => {
-              return (
-                <Select.Item key={i} {...option}>
-                  {option.display}
-                </Select.Item>
-              )
-            })}
-          </Select.Group>
-        </Select.Content>
-      </Select.Root>
+      <InputSelect.default {...(input as any)} onVolumeChange={input.onChange} {...selectRootProps} />
       {React.createElement(renderHint, { input, meta, isErrorVisible })}
     </Flex>
   )

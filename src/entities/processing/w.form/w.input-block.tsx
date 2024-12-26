@@ -55,6 +55,7 @@ export default function Component(props: Props): JSX.Element {
           testValueType={TypedUnionField.testValueType}
           name='inputDcdatabaseId'
           label='База данных'
+          loading={databasesOptionsfetcher.isFetching}
           onChange={(e) => {
             onDcdatabaseIdChange(e.toString())
           }}
@@ -62,6 +63,7 @@ export default function Component(props: Props): JSX.Element {
         />
         <LabeledSelectMultiple.default
           variant='soft'
+          loading={tablesFetcher.isFetching}
           label='Таблицы'
           value={tablesValue}
           disabled={tableDisabled}

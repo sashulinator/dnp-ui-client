@@ -4,6 +4,7 @@ import { type RootProps } from '@radix-ui/themes/dist/esm/components/checkbox-gr
 import Button, { type ButtonProps } from '~/shared/button'
 import DropdownMenu from '~/shared/dropdown-menu'
 import Flex from '~/shared/flex'
+import Spinner from '~/shared/spinner'
 import Text from '~/shared/text'
 import { emptyFn } from '~/utils/function'
 import { useMeasure } from '~/utils/hooks'
@@ -15,6 +16,7 @@ export type Props = Omit<RootProps, 'onChange'> & {
   defaultValue?: string[]
   options?: Option[]
   disabled?: boolean | undefined
+  loading?: boolean | undefined
   variant?: ButtonProps['variant'] | undefined
   onValueChange?: ((values: string[], getValuesAsOptions: () => Option[]) => void) | undefined
 }
@@ -22,7 +24,7 @@ export type Props = Omit<RootProps, 'onChange'> & {
 export const NAME = 'selectMultiple-SelectMultiple'
 
 export default function Component(props: Props): JSX.Element {
-  const { options, value, variant = 'surface', onValueChange, ...checkboxGroupRootProps } = props
+  const { options, value, loading, variant = 'surface', onValueChange, ...checkboxGroupRootProps } = props
 
   const [setMeasureRef, size] = useMeasure()
 
@@ -50,11 +52,12 @@ export default function Component(props: Props): JSX.Element {
               />
             </Text>
             <Flex align='center' gap='2'>
-              {valueLength > 1 && (
+              {!loading && valueLength > 1 && (
                 <Button color='amber' variant='surface' size='1' asChild={true}>
                   <Flex>+{valueLength - 1}</Flex>
                 </Button>
               )}
+              {loading && <Spinner />}
               <DropdownMenu.TriggerIcon />
             </Flex>
           </button>

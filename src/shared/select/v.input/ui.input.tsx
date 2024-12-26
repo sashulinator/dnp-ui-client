@@ -1,3 +1,6 @@
+import { Flex, Spinner } from '@radix-ui/themes'
+import { mergeStyles } from '@radix-ui/themes/helpers'
+
 import React, { type FormEventHandler } from 'react'
 
 import Select from '~/shared/select'
@@ -14,6 +17,7 @@ export type Props = Omit<Select.TriggerProps, 'name' | 'value'> & {
   contentProps?: Select.ContentProps | undefined
   value?: string | undefined
   size?: '1' | '2'
+  loading?: boolean | undefined
   onChange?: (FormEventHandler<HTMLButtonElement> & ((value: string) => void)) | undefined
   options?: Option[]
 }
@@ -26,13 +30,27 @@ export default function Component(props: Props) {
     className,
     size = '2',
     variant = 'soft',
+    loading,
     contentProps,
     ...triggerProps
   } = props
 
   return (
     <Select.Root onValueChange={onChange} value={value}>
-      <Select.Trigger {...{ size }} variant={variant} {...triggerProps} className={c(className, NAME)} />
+      <Flex width='100%' style={{ position: 'relative' }}>
+        {loading && (
+          <Spinner
+            style={{ position: 'absolute', top: '50%', right: 'var(--space-6)', transform: 'translateY(-50%)' }}
+          />
+        )}
+        <Select.Trigger
+          {...{ size }}
+          variant={variant}
+          {...triggerProps}
+          className={c(className, NAME)}
+          style={mergeStyles({ width: '100%' }, props.style)}
+        />
+      </Flex>
       <Select.Content {...contentProps}>
         {options.map((option, i) => {
           return (

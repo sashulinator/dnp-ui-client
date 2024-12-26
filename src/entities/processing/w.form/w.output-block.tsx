@@ -64,6 +64,7 @@ export default function Component(props: Props): JSX.Element {
         <TypedUnionField
           testValueType={TypedUnionField.testValueType}
           name='outputDcdatabaseId'
+          loading={databasesOptionsfetcher.isFetching}
           label='База данных'
           onChange={() => {
             form.change(`outputTable`, undefined)
@@ -74,7 +75,13 @@ export default function Component(props: Props): JSX.Element {
           {isTextInput ? (
             <TypedStringField testValueType={TypedStringField.testValueType} name='outputTable' label='Таблица' />
           ) : (
-            <TypedField label='Таблица' name='outputTable' component={FormSelect} options={tableOptions} />
+            <TypedField
+              loading={tablesFetcher.isFetching}
+              label='Таблица'
+              name='outputTable'
+              component={FormSelect}
+              options={tableOptions}
+            />
           )}
           <Tooltip
             content={
