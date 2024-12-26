@@ -1,6 +1,6 @@
 import { type ReactNode, createElement, useMemo } from 'react'
 
-import { useField } from '~/shared/form'
+import { useField, useForm } from '~/shared/form'
 import Text from '~/shared/text'
 import { type Any } from '~/utils/core'
 
@@ -39,14 +39,18 @@ export default function Component(props: Props): ReactNode {
   }, [executableSchemaName, executableSchemas])
 
   if (!executableSchema) {
-    return <Text color='red'>Такой процедуры не существует</Text>
+    return (
+      <Text size='1' color='red'>
+        Выберите процедуру
+      </Text>
+    )
   }
 
   return (
     executableSchema?.params?.map((paramSchema, i) => {
       if (!paramSchema.component) return null
       return (
-        <ComponentWrapper
+        <PrepareContextAndRender
           key={i}
           executableSchema={executableSchema}
           columns={props.columns}
@@ -61,7 +65,7 @@ export default function Component(props: Props): ReactNode {
   )
 }
 
-type ComponentWrapperProps = {
+type PrepareContextAndRenderProps = {
   executableSchema: ExecutableSchema
   columns: { name: string; display: string; type: string }[]
   name: string
@@ -71,12 +75,12 @@ type ComponentWrapperProps = {
   setUniqValues?: ((getValue: (currentValue: unknown) => unknown, formName: string) => void) | undefined
 }
 
-function ComponentWrapper(props: ComponentWrapperProps) {
+function PrepareContextAndRender(props: PrepareContextAndRenderProps) {
   const { isSingleMode, paramSchema, columns, name, setMultyValue, setUniqValues } = props
   const componentDesign = paramSchema.component as ComponentSchema
   const { serialize = '', deserialize = '' } = componentDesign as ComponentSchema
 
-  if (paramSchema.multiHidden && !isSingleMode) return null
+  const form = useForm()
 
   const component = componentMap?.[componentDesign.name as 'Matrix'] || StringField
   const modeProps = isSingleMode ? componentDesign.singleModeProps : componentDesign.multiModeProps
@@ -92,6 +96,7 @@ function ComponentWrapper(props: ComponentWrapperProps) {
     paramSchema,
     isSingleMode,
     setUniqValues,
+    formState: form.getState().values,
     serializeFn: serializeFn as (params: Any) => Any,
     deserializeFn: deserializeFn as (params: Any) => Any,
   }
@@ -101,6 +106,8 @@ function ComponentWrapper(props: ComponentWrapperProps) {
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const value = useMemo(() => serializeFn({ value: field.input.value, ...props }), [field.input.value])
+
+  if (paramSchema.multiHidden && !isSingleMode) return null
 
   return createElement(component as Any, {
     ...componentDesign.props,

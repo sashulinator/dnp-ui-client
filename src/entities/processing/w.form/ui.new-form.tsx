@@ -278,6 +278,7 @@ export default function Component(props: Props): JSX.Element {
       acc[paramSchema.name] = new Function('context', paramSchema.getInitialValue || '')({
         values: form.getState().values,
         paramSchema,
+        formState: form.getState().values,
         generateId,
       })
       return acc
@@ -294,6 +295,7 @@ export default function Component(props: Props): JSX.Element {
           values: form.getState().values,
           paramSchema,
           generateId,
+          formState: form.getState().values,
           columns: table?.columns,
           table,
         })

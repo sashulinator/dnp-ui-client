@@ -47,6 +47,7 @@ const paramSchema = v.object({
   display: v.pipe(v.string(), v.nonEmpty()),
   description: v.string(),
   unique: v.optional(v.boolean()),
+  multi: v.optional(v.boolean()),
   multiHidden: v.optional(v.boolean()),
   getInitialValue: v.optional(v.string()),
   component: v.optional(v.lazy(() => componentSchema)),

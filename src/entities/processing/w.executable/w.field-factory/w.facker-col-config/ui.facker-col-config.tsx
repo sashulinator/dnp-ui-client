@@ -15,10 +15,10 @@ import type { ParamFactoryContext } from '../models'
 
 type Item = {
   id: string
-  name: string
-  sem: string
+  'column-name': string
+  'semantic-name': string
   dict: string
-  type: string
+  'col-type': string
 }
 type StoryContext = Dictionary
 
@@ -53,30 +53,42 @@ export default function Component(props: Props): JSX.Element | string {
 
             const params = (_paramContext.paramSchema as any)?.component?.props?.params as ParamSchema[]
 
-            if (cellProps.name === 'type') {
+            if (cellProps.name === 'col-type') {
               const param = params?.find((p) => p.name === 'type')
               const options = (param?.component?.props as { options: Option[] })?.options
               return (
-                <InputSelect.default
-                  style={{ width: '100%' }}
-                  options={options}
-                  variant='surface'
-                  size='1'
-                  value={state}
-                  onChange={(v) => {
-                    onChange(
-                      value.map((r) => {
-                        if (r.id === cellProps.item.id) {
-                          return { ...r, type: v.toString() }
-                        }
-                        return r
-                      }),
-                    )
-                  }}
-                />
+                <Flex gap='2'>
+                  <InputSelect.default
+                    style={{ width: '100%' }}
+                    options={options}
+                    variant='surface'
+                    size='1'
+                    value={state}
+                    onChange={(v) => {
+                      onChange(
+                        value.map((r) => {
+                          if (r.id === cellProps.item.id) {
+                            return { ...r, 'col-type': v.toString() }
+                          }
+                          return r
+                        }),
+                      )
+                    }}
+                  />
+                  <Button
+                    size='1'
+                    variant='soft'
+                    round={true}
+                    onClick={() => {
+                      onChange(value.filter((r) => r.id !== cellProps.item.id))
+                    }}
+                  >
+                    <Icon name='Trash' />
+                  </Button>
+                </Flex>
               )
             }
-            if (cellProps.name === 'sem') {
+            if (cellProps.name === 'semantic-name') {
               const param = params?.find((p) => p.name === 'semtype')
               const options = (param?.component?.props as { options: Option[] })?.options
               return (
@@ -90,7 +102,7 @@ export default function Component(props: Props): JSX.Element | string {
                     onChange(
                       value.map((r) => {
                         if (r.id === cellProps.item.id) {
-                          return { ...r, sem: v.toString() }
+                          return { ...r, 'semantic-name': v.toString() }
                         }
                         return r
                       }),
@@ -102,10 +114,11 @@ export default function Component(props: Props): JSX.Element | string {
             if (cellProps.name === 'dict') {
               return (
                 <TextInput
+                  disabled={true}
                   onBlur={(e) =>
                     onChange(
                       value.map((r) => {
-                        if (r.name === cellProps.item.name) {
+                        if (r['column-name'] === cellProps.item['column-name']) {
                           return { ...r, dict: e.target.value }
                         }
                         return r
@@ -119,14 +132,14 @@ export default function Component(props: Props): JSX.Element | string {
               )
             }
 
-            if (cellProps.name === 'name') {
+            if (cellProps.name === 'column-name') {
               return (
                 <TextInput
                   onBlur={(e) =>
                     onChange(
                       value.map((r) => {
                         if (r.id === cellProps.item.id) {
-                          return { ...r, name: e.target.value }
+                          return { ...r, 'column-name': e.target.value }
                         }
                         return r
                       }),
@@ -141,7 +154,14 @@ export default function Component(props: Props): JSX.Element | string {
           }}
         />
         <Flex mt='2'>
-          <Button onClick={() => onChange([...value, { id: generateId(), name: '', dict: '', sem: '', type: '' }])}>
+          <Button
+            onClick={() =>
+              onChange([
+                ...value,
+                { id: generateId(), 'column-name': '', dict: '', 'semantic-name': '', 'col-type': '' },
+              ])
+            }
+          >
             <Icon name='Plus' /> Колонка
           </Button>
         </Flex>
@@ -155,11 +175,11 @@ Component.displayName = NAME
 export const initialColumns = [
   {
     display: 'Название колонки',
-    name: 'name',
+    name: 'column-name',
   },
   {
     display: 'Семантический тип',
-    name: 'sem',
+    name: 'semantic-name',
   },
   {
     display: 'Словарь',
@@ -167,6 +187,6 @@ export const initialColumns = [
   },
   {
     display: 'Тип',
-    name: 'type',
+    name: 'col-type',
   },
 ] satisfies ListTable.ColumnProps<Item, StoryContext>[]
