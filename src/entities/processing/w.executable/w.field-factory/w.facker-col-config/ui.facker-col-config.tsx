@@ -8,12 +8,13 @@ import { InputSelect } from '~/shared/select'
 import { type Option } from '~/shared/select/v.input'
 import { ListTable } from '~/shared/table'
 import TextInput from '~/shared/text-input'
-import type { Dictionary } from '~/utils/core'
+import { type Dictionary, generateId } from '~/utils/core'
 
 import { type ParamSchema } from '../../models'
 import type { ParamFactoryContext } from '../models'
 
 type Item = {
+  id: string
   name: string
   sem: string
   dict: string
@@ -65,7 +66,7 @@ export default function Component(props: Props): JSX.Element | string {
                   onChange={(v) => {
                     onChange(
                       value.map((r) => {
-                        if (r.name === cellProps.item.name) {
+                        if (r.id === cellProps.item.id) {
                           return { ...r, type: v.toString() }
                         }
                         return r
@@ -88,7 +89,7 @@ export default function Component(props: Props): JSX.Element | string {
                   onChange={(v) => {
                     onChange(
                       value.map((r) => {
-                        if (r.name === cellProps.item.name) {
+                        if (r.id === cellProps.item.id) {
                           return { ...r, sem: v.toString() }
                         }
                         return r
@@ -124,7 +125,7 @@ export default function Component(props: Props): JSX.Element | string {
                   onBlur={(e) =>
                     onChange(
                       value.map((r) => {
-                        if (r.name === cellProps.item.name) {
+                        if (r.id === cellProps.item.id) {
                           return { ...r, name: e.target.value }
                         }
                         return r
@@ -140,7 +141,7 @@ export default function Component(props: Props): JSX.Element | string {
           }}
         />
         <Flex mt='2'>
-          <Button onClick={() => onChange([...value, { name: '', dict: '', sem: '', type: '' }])}>
+          <Button onClick={() => onChange([...value, { id: generateId(), name: '', dict: '', sem: '', type: '' }])}>
             <Icon name='Plus' /> Колонка
           </Button>
         </Flex>
