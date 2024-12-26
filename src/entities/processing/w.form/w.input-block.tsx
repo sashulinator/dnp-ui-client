@@ -61,6 +61,7 @@ export default function Component(props: Props): JSX.Element {
           options={databasesOptionsfetcher.data || []}
         />
         <LabeledSelectMultiple.default
+          variant='soft'
           label='Таблицы'
           value={tablesValue}
           disabled={tableDisabled}

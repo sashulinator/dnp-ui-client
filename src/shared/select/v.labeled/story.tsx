@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import { type Props, type Story } from '~/shared/storybook'
 
 import SelectInput from './ui.labeled'
@@ -10,9 +12,17 @@ export default {
   render: function Story(props: Props<State>): JSX.Element {
     const { state } = props
 
+    const [value, setValue] = useState('')
+
     return (
       <div style={{ padding: '2rem' }}>
-        <SelectInput {...state} options={options} label='Ваш лабель' />
+        <SelectInput
+          {...state}
+          value={value}
+          onChange={(v) => setValue(v.toString())}
+          options={options}
+          label='Ваш лабель'
+        />
       </div>
     )
   },

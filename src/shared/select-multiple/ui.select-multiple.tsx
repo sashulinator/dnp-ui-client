@@ -11,17 +11,18 @@ import { setRefs } from '~/utils/react'
 
 export type Option = { value: string; display: string }
 
-export type Props = RootProps & {
+export type Props = Omit<RootProps, 'onChange'> & {
   defaultValue?: string[]
   options?: Option[]
   disabled?: boolean | undefined
   variant?: ButtonProps['variant'] | undefined
+  onValueChange?: ((values: string[], getValuesAsOptions: () => Option[]) => void) | undefined
 }
 
 export const NAME = 'selectMultiple-SelectMultiple'
 
 export default function Component(props: Props): JSX.Element {
-  const { options, value, variant = 'soft', ...checkboxGroupRootProps } = props
+  const { options, value, variant = 'surface', onValueChange, ...checkboxGroupRootProps } = props
 
   const [setMeasureRef, size] = useMeasure()
 
@@ -31,8 +32,9 @@ export default function Component(props: Props): JSX.Element {
     <DropdownMenu.Root>
       <DropdownMenu.Trigger>
         <Flex asChild={true} width='100%' maxWidth='100%' justify='between'>
-          <Button
-            variant={variant}
+          <button
+            // variant={variant}
+            className={`rt-reset rt-SelectTrigger rt-r-size-2 rt-variant-${variant}`}
             color={checkboxGroupRootProps.disabled ? 'gray' : ('' as 'gray')}
             ref={setRefs(setMeasureRef)}
           >
@@ -49,17 +51,21 @@ export default function Component(props: Props): JSX.Element {
             </Text>
             <Flex align='center' gap='2'>
               {valueLength > 1 && (
-                <Button variant='surface' size='1' asChild={true}>
+                <Button color='amber' variant='surface' size='1' asChild={true}>
                   <Flex>+{valueLength - 1}</Flex>
                 </Button>
               )}
               <DropdownMenu.TriggerIcon />
             </Flex>
-          </Button>
+          </button>
         </Flex>
       </DropdownMenu.Trigger>
       <DropdownMenu.Content style={{ width: `${size.width}px` || 'auto' }} align='center'>
-        <CheckboxGroup.Root value={value} {...checkboxGroupRootProps}>
+        <CheckboxGroup.Root
+          value={value}
+          {...checkboxGroupRootProps}
+          onValueChange={(v) => onValueChange?.(v, getValuesAsOptions(v))}
+        >
           {options?.map((option) => (
             <Flex asChild={true} justify='start' width='100%' key={option.value}>
               <Button variant='outline' asChild={true} style={{ boxShadow: 'none', color: 'inherit' }}>
@@ -75,6 +81,10 @@ export default function Component(props: Props): JSX.Element {
       </DropdownMenu.Content>
     </DropdownMenu.Root>
   )
+
+  function getValuesAsOptions(value: string[]) {
+    return () => value?.map((v) => options?.find((o) => o.value === v) as Option) || []
+  }
 }
 
 Component.displayName = NAME

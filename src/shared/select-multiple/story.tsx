@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { useState } from 'react'
 
+import Flex from '~/shared/flex'
 import { SelectMultiple as SelectMultipleField, TypedField, useCreateForm } from '~/shared/form'
 import { type Props, type Story } from '~/shared/storybook'
 
@@ -24,7 +25,7 @@ export default {
     })
 
     return (
-      <div style={{ padding: '2rem' }}>
+      <Flex style={{ padding: '2rem' }} gap='6' direction='column'>
         <SelectMultiple
           onValueChange={setValue}
           value={value}
@@ -67,7 +68,7 @@ export default {
           }}
         </Form>
         <Button onClick={form.submit}> submit</Button>
-      </div>
+      </Flex>
     )
   },
 
