@@ -4,6 +4,7 @@ import type { CSSProperties } from 'react'
 import { useEffect, useState } from 'react'
 
 import Button from '~/shared/button'
+import Flex from '~/shared/flex'
 import Icon from '~/shared/icon'
 import Spinner from '~/shared/spinner'
 import TextInput from '~/shared/text-input'
@@ -34,12 +35,12 @@ export default function Component(props: Props): JSX.Element {
   }
 
   return (
-    <div {...props.root} className={c(props.className, displayName)}>
-      <Button variant='soft' round={true} disabled={props.currentPage === 1} onClick={handleChange(1)}>
+    <Flex {...props.root} className={c(props.className, displayName)} gap='4'>
+      <Button variant='ghost' round={true} disabled={props.currentPage === 1} onClick={handleChange(1)}>
         <Icon name='DoubleChevronLeft' />
       </Button>
       <Button
-        variant='soft'
+        variant='ghost'
         round={true}
         disabled={props.currentPage === 1}
         onClick={handleChange(props.currentPage - 1)}
@@ -70,18 +71,23 @@ export default function Component(props: Props): JSX.Element {
         autoComplete='off'
       />
       <Button
-        variant='soft'
+        variant='ghost'
         round={true}
         disabled={props.currentPage >= totalPages}
         onClick={handleChange(props.currentPage + 1)}
       >
         <Icon name='ChevronRight' />
       </Button>
-      <Button variant='soft' round={true} disabled={props.currentPage >= totalPages} onClick={handleChange(totalPages)}>
+      <Button
+        variant='ghost'
+        round={true}
+        disabled={props.currentPage >= totalPages}
+        onClick={handleChange(totalPages)}
+      >
         <Icon name='DoubleChevronRight' />
       </Button>
       {props.loading && <Spinner size='2' />}
-    </div>
+    </Flex>
   )
 
   function handleChange(newPage: number) {

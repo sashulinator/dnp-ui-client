@@ -18,7 +18,7 @@ export default function Component(props: Props): JSX.Element {
   const { totalPages, totalElements, className, ...textProps } = props
 
   return (
-    <Text size='2' {...textProps} className={c(className, displayName)}>
+    <Text size='1' {...textProps} className={c(className, displayName)}>
       страниц {totalPages || '∞'}, элементов {totalElements || '∞'}
     </Text>
   )
