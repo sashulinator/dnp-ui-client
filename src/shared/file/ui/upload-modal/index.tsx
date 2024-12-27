@@ -12,17 +12,17 @@ import { UploadItem } from '../..'
 import Input, { type InputProps } from '../input'
 
 interface Props extends Omit<InputProps, 'title' | 'onFileChange'> {
-  open: boolean
-  title: React.ReactNode
+  open?: boolean | undefined
+  title?: React.ReactNode
   upload: (file: File) => Promise<unknown>
-  onClose: () => void
+  onClose?: (() => void) | undefined
   onFileChange?: InputProps['onFileChange'] | undefined
 }
 
 const NAME = 'dnp-sh-file-UploadModal'
 
 export function Component(props: Props) {
-  const { open, upload, onClose, title, onFileChange, ...inputProps } = props
+  const { open = false, upload, onClose, title, onFileChange, ...inputProps } = props
 
   const [fileList, setFileList] = useState<FileList | null>(null)
 

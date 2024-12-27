@@ -8,7 +8,7 @@ interface Props extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'
   rootProps?: ButtonProps | undefined
   children?: React.ReactNode
   style?: React.CSSProperties
-  accept: string
+  accept?: string | undefined
   variant?: ButtonProps['variant']
   size?: ButtonProps['size']
   onFileChange: (e: React.ChangeEvent<HTMLInputElement>, file: FileList | null) => void
@@ -22,6 +22,7 @@ function Component(props: Props, ref: ForwardedRef<HTMLInputElement>) {
     rootProps,
     style,
     children = 'Прикрепите файл',
+    accept = '*',
     ...inputProps
   } = props
 
@@ -43,6 +44,7 @@ function Component(props: Props, ref: ForwardedRef<HTMLInputElement>) {
 
       <input
         {...inputProps}
+        accept={accept}
         type='file'
         ref={setRefs(ref, inputRef)}
         style={{ display: 'none' }}

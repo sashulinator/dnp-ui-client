@@ -1,6 +1,6 @@
 import Button, { DangerButton } from '~/shared/button'
 import Flex from '~/shared/flex'
-import { FieldArray, TextArea, TypedField, TypedStringField } from '~/shared/form'
+import { FieldArray, TextArea, TypedField, TypedStringField, useForm } from '~/shared/form'
 import Icon from '~/shared/icon'
 
 export type Values = {
@@ -20,6 +20,7 @@ export const NAME = 'linkMenu-formMenu-w-Item'
 
 export default function Component(props: Props): JSX.Element {
   const { name, isRoot = true } = props
+  const form = useForm()
 
   return (
     <Flex direction={'column'} width='100%' ml={isRoot ? '0' : '8'} p='1'>
@@ -34,7 +35,13 @@ export default function Component(props: Props): JSX.Element {
                   <Flex key={name} width='100%'>
                     <Flex direction='column'>
                       <Flex width='700px' direction={'column'} position='relative' gap='1'>
-                        <Flex gap='1' direction='column' style={{ top: '0px', right: '-50px' }} position='absolute'>
+                        <Flex
+                          gap='1'
+                          direction='column'
+                          style={{ top: '0px', right: '-50px' }}
+                          position='absolute'
+                          align='center'
+                        >
                           <DangerButton variant='soft' round={true} onClick={() => fields.remove(idx)}>
                             <Icon name='Trash' />
                           </DangerButton>
@@ -54,6 +61,18 @@ export default function Component(props: Props): JSX.Element {
                           >
                             <Icon name='ChevronDown' />
                           </Button>
+                          <Flex
+                            style={{
+                              borderRadius: '50%',
+                              border: '1px var(--gray-3) solid',
+                              minWidth: '32px',
+                              minHeight: '32px',
+                            }}
+                            justify='center'
+                            align='center'
+                          >
+                            <Icon name={(form?.getFieldState(`${formName}icon`)?.value as string) || ''} />
+                          </Flex>
                         </Flex>
                         <TypedStringField<Values, 'name'>
                           testValueType={TypedStringField.testValueType}

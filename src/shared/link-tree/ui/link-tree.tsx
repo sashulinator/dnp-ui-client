@@ -76,7 +76,7 @@ function _Item(props: _ItemProps) {
 
   const linkContent = (
     <Text>
-      <Flex width='22px' height='22px' align='center' justify='center'>
+      <Flex minWidth='22px' minHeight='22px' align='center' justify='center'>
         {item.renderIcon && createElement(item.renderIcon)}
       </Flex>
       <Text style={{ width: '100%', display: 'block', textAlign: 'left', lineHeight: '1rem', wordBreak: 'break-word' }}>
@@ -133,6 +133,12 @@ function _Item(props: _ItemProps) {
               color={'gray'}
               asChild={true}
               variant='outline'
+              onClick={() => {
+                setExpanded((s) => {
+                  onExpanded?.(newPath, !s)
+                  return !s
+                })
+              }}
               style={{ width: '100%', boxShadow: 'none', opacity: '0.7' }}
             >
               {linkContent}

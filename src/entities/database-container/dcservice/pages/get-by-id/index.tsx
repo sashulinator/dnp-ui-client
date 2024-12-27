@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 
 import { APP } from '~/app/constants.app'
 import { routes } from '~/app/route'
+import { api as processingApi } from '~/entities/processing'
 import Button from '~/shared/button'
 import Container from '~/shared/container'
 import { TICK_MS, cssAnimations } from '~/shared/css-animations'
@@ -22,6 +23,7 @@ import {
   useQueryParams,
   withDefault,
 } from '~/shared/use-query-params'
+import { api as fileApi } from '~/slices/files'
 import { type ToSort, useSort } from '~/slices/sort'
 import { type Any, type Dictionary, assertDefined, c } from '~/utils/core'
 import { usePrevious } from '~/utils/core-hooks/previous'
@@ -34,6 +36,7 @@ import TestConnection from '../../ui/test-connection'
 import DataTab from './data-tab'
 
 const NAME = `${APP}-page-${SLICE}-GetById`
+const BUCKET_NAME = 'ui-server'
 
 export default function Component(): JSX.Element {
   const { id = '' } = useParams()
@@ -188,7 +191,35 @@ export default function Component(): JSX.Element {
           </Tabs.Content>
           <Tabs.Content value='data' style={{ width: '100%' }}>
             <DataTab
-              dcserviceId={id}
+              uploadModalProps={{
+                upload: async (file) => {
+                  const response = await fileApi.upload.request({ file, fileName: file.name, bucketName: BUCKET_NAME })
+                  processingApi.excelToTable.request({
+                    fileNames: [response.data.fileName],
+                    bucketName: BUCKET_NAME,
+                    dcserviceId: id,
+                    table: table || '',
+                    database: database || '',
+                  })
+                },
+              }}
+              fetcherStatusProps={{
+                isChildrenOnFetchingVisible: true,
+                isLoading: rowsFetcher.isLoading,
+                isFetching: rowsFetcher.isLoading,
+                isError: rowsFetcher.isError,
+                error: rowsFetcher.error as null,
+                refetch: rowsFetcher.refetch,
+              }}
+              listTableProps={{
+                columns: rowsFetcher.data?.columns,
+                list: rowsFetcher.data?.items || [],
+                context: {
+                  setSearchFilter: setSearchFilter as any,
+                  searchFilter: columnSearchParams,
+                  sortController: sortAtom,
+                },
+              }}
               paginationProps={{
                 onLimitChange: (limit) => setPaginationParams({ page: 1, limit }),
                 limit,
@@ -198,16 +229,35 @@ export default function Component(): JSX.Element {
                 currentPage: page,
                 onChange: (page) => setPaginationParams({ page, limit }),
               }}
-              tablesFetcher={tablesFetcher}
-              rowsFetcher={rowsFetcher}
-              databasesFetcher={databasesFetcher}
-              database={database}
-              sortAtom={sortAtom}
-              setSearchFilter={setSearchFilter as any}
-              searchFilter={columnSearchParams}
-              setTable={setTable}
-              table={table}
-              setDatabase={setDatabase}
+              tableSelectProps={{
+                value: table,
+                onChange: (v) => {
+                  setTable(v.toString())
+                  setPaginationParams({ page: 1, limit })
+                  sortAtom.set({})
+                  setSearchFilter({} as any)
+                },
+                options:
+                  tablesFetcher.data?.items?.map((db) => ({
+                    value: db.name,
+                    display: db.display || db.name,
+                  })) || [],
+              }}
+              databaseSelectProps={{
+                value: database,
+                onChange: (v) => {
+                  setDatabase(v.toString())
+                  setPaginationParams({ page: 1, limit })
+                  sortAtom.set({})
+                  setSearchFilter({} as any)
+                  setTable(undefined)
+                },
+                options:
+                  databasesFetcher.data?.items?.map((db) => ({
+                    value: db.name,
+                    display: db.display || db.name,
+                  })) || [],
+              }}
             />
           </Tabs.Content>
         </Tabs.Root>
