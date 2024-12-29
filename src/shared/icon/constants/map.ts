@@ -1,5 +1,6 @@
 import ArrowLeft from '../widgets/arrow-left'
 import ArrowRight from '../widgets/arrow-right'
+import Calendar from '../widgets/calendar'
 import Check from '../widgets/check'
 import ChevronDown from '../widgets/chevron-down'
 import ChevronLeft from '../widgets/chevron-left'
@@ -28,6 +29,7 @@ import User from '../widgets/user'
 export const map = {
   ArrowLeft,
   ArrowRight,
+  Calendar,
   Check,
   ChevronDown,
   ChevronLeft,
