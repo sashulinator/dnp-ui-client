@@ -6,7 +6,11 @@ import { Flex, Theme } from '@radix-ui/themes'
 
 import Calendar, { type CalendarProps } from 'react-calendar'
 
+import dayjs from '~/shared/dayjs'
 import { c } from '~/utils/core'
+
+import Icon from '../icon'
+import Text from '../text'
 
 export interface Props extends CalendarProps {
   className?: string | undefined
@@ -18,9 +22,14 @@ export default function Component(props: Props): JSX.Element {
   return (
     <DropdownMenuPrimitive.Root>
       <DropdownMenuPrimitive.Trigger asChild>
-        <button style={{ width: '100%' }} className={`rt-reset rt-SelectTrigger rt-r-size-2 rt-variant-surface`}>
-          {String(props.value || '')}
-        </button>
+        <Flex asChild={true} justify='between' align='center'>
+          <button style={{ width: '100%' }} className={`rt-reset rt-SelectTrigger rt-r-size-2 rt-variant-surface`}>
+            <span>{props.value ? dayjs(props.value as Date).format('L') : ''}</span>
+            <Text color='gray' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <Icon name='Calendar' />
+            </Text>
+          </button>
+        </Flex>
       </DropdownMenuPrimitive.Trigger>
       <DropdownMenuPrimitive.Portal>
         <Theme asChild>

@@ -8,3 +8,5 @@ dayjs.extend(localizedFormat)
 dayjs.locale(`ru`)
 dayjs.extend(utc)
 dayjs.extend(timezone)
+
+export default dayjs
