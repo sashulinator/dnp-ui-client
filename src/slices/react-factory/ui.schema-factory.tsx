@@ -1,8 +1,7 @@
-import { useEffect, useMemo } from 'react'
+import { useMemo } from 'react'
 
 import { SLICE } from './constants'
-import { emitBinding } from './lib.emit-binding'
-import { emitInitBlocksBindings } from './lib.emit-init-blocks-bindings'
+import { emitBlocksBindings } from './lib.emit-init-blocks-bindings'
 import { initBlocksContext } from './lib.init-blocks-context'
 import type { BlockComponent, BlocksContext, Schema } from './models'
 import { Component as BlockFactory } from './ui.block-factory'
@@ -19,18 +18,14 @@ export const NAME = `${SLICE}-SchemaFactory`
  * ui-ReactFactory'
  */
 export default function Component(props: Props): React.ReactNode {
-  const { schema, context, componentMap } = props
+  const { schema, context: ctx, componentMap } = props
 
+  const context = useMemo(() => ({ ...ctx }), [schema])
   useMemo(() => {
-    context.blocks = {}
-    context.props = {}
-    initBlocksContext(schema.block, context as BlocksContext)
+    initBlocksContext(schema.block, schema.bindings, context as BlocksContext)
   }, [schema])
   useMemo(() => {
-    emitInitBlocksBindings(schema.block, schema.bindings, context as BlocksContext)
-  }, [schema])
-  useEffect(() => {
-    schema.bindings?.forEach((binding) => emitBinding(binding, 'onMountSchema', undefined, context))
+    emitBlocksBindings('onInit', schema.block, schema.bindings, context as BlocksContext, [])
   }, [schema])
 
   return (

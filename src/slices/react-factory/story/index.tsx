@@ -25,8 +25,11 @@ export default {
 
     const form = useCreateForm(
       {
-        // eslint-disable-next-line no-console
-        onSubmit: update,
+        onSubmit: (...args) => {
+          // eslint-disable-next-line no-console
+          console.log(...args)
+          update()
+        },
         // mutators: { ...arrayMutators },
       },
       { values: true },
@@ -92,23 +95,22 @@ export default {
 const initSchema: Schema = {
   bindings: [
     {
-      script: `
-    () => {
-      console.log($)
-     }
-        `,
+      script: `() => {
+        // console.log($)
+      }
+      `,
     },
     {
       selector: ['button1'],
       events: ['onClick'],
       script: `() => {
-      if ($.props?.color === "amber") {
-            $.setProps((s) => ({ ...s, color: 'green' }))
-          } else {
-            $.setProps((s) => ({ ...s, color: 'amber' }))
-          }
-      }
-        `,
+        console.log($.props, $.setProps)
+        if ($.props?.color === "amber") {
+          $.setProps((s) => ({ ...s, color: 'green' }))
+        } else {
+          $.setProps((s) => ({ ...s, color: 'amber' }))
+        }
+      }`,
     },
     {
       selector: ['button1'],
@@ -132,7 +134,9 @@ const initSchema: Schema = {
         props: {
           className: 'story-text',
           children: 'button1click',
-          $onClick: `(e) => console.log('hello', e)`,
+          $onClick: `(e) => {
+            console.log('helloddddd', e)
+          }`,
         },
       },
       {
@@ -142,8 +146,26 @@ const initSchema: Schema = {
       },
       {
         name: 'TextField',
-        id: 'textField1',
-        props: { name: 'textField1', className: 'story-text', children: 'button2' },
+        id: 'common.count',
+        props: {
+          label: 'common.count',
+          name: 'common.count',
+          className: 'story-text',
+          $onChange: `(e) => {
+            console.log('onChange', e)
+          }`,
+          children: 'button2',
+        },
+      },
+      {
+        name: 'TextField',
+        id: 'table.count',
+        props: {
+          label: 'table.count',
+          name: 'single.table.count',
+          className: 'story-text',
+          children: 'button2',
+        },
       },
     ],
   },

@@ -30,6 +30,12 @@ export interface Block {
 export type BlockNode = Block | string
 
 export type BlocksContext = {
-  blocks: Record<string, Block>
-  props: Record<string, { props: Record<string, unknown>; setProps: SetterOrUpdater<Record<string, unknown>> }>
+  map: Record<
+    string,
+    {
+      block: Block
+      props: Record<string, unknown>
+      setProps: SetterOrUpdater<Record<string, unknown>>
+    }
+  >
 }

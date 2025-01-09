@@ -16,12 +16,15 @@ export const NAME = `${SLICE}-BlockFactory`
 export function Component(props: Props): React.ReactNode {
   const { block, componentMap, context, bindings } = props
 
-  const [dynamicProps, setDynamicProps] = useState(typeof block === 'string' ? {} : context.props?.[block.id].props)
+  const [dynamicProps, setDynamicProps] = useState(typeof block === 'string' ? {} : context.map?.[block.id].props)
 
   if (typeof block === 'string') return block
 
+  context.map[block.id].props = dynamicProps
+  context.map[block.id].setProps = setDynamicProps
+
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  useEffect(() => bindings?.forEach((binding) => emitBinding(binding, 'onMountBlock', block, context)), [])
+  useEffect(() => bindings?.forEach((binding) => emitBinding(binding, 'onMount', block, context, [])), [])
 
   const blockComponent = componentMap[block.name as string]
   const renderComponent = blockComponent?.render || block.name
@@ -42,9 +45,6 @@ export function Component(props: Props): React.ReactNode {
     blockComponent,
     props: dynamicProps,
     setProps: setDynamicProps,
-    emit: (eventName: string, eventContext: Record<string, unknown>) => {
-      bindings?.forEach((binding) => emitBinding(binding, eventName, block, { ...blockContext, ...eventContext }))
-    },
   }
 
   if (blockComponent?.passContextProp !== false) {
