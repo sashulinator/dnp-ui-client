@@ -4,7 +4,7 @@ import * as v from 'valibot'
  * Dcservice
  */
 
-export const dcserviceSchema = v.object({
+export const dcservice = v.object({
   id: v.pipe(v.string(), v.nonEmpty()),
   display: v.pipe(v.string(), v.nonEmpty()),
   client: v.pipe(v.string(), v.nonEmpty()),
@@ -18,10 +18,10 @@ export const dcserviceSchema = v.object({
  * CreateInput
  */
 
-export const dcserviceCreateInputSchema = v.omit(dcserviceSchema, ['id'])
+export const dcserviceCreateInput = v.omit(dcservice, ['id'])
 
 /**
  * UpdateInput
  */
 
-export const dcserviceUpdateInputSchema = dcserviceSchema
+export const dcserviceUpdateInput = dcservice
