@@ -8,6 +8,7 @@ import { createAtom } from '~/utils/store'
 
 import List, { type ColumnProps, NAME } from './ui.list'
 import SearchWrapper from './w.search'
+import SelectionWrapper from './w.selection'
 import SortWrapper, { type ToSort } from './w.sort'
 
 interface State {}
@@ -20,6 +21,7 @@ export default {
     const [searchFilter, setSearchFilter] = useState({})
 
     const sortController = useMemo(() => createAtom<ToSort<Dictionary> | undefined>({}), [])
+    const selectedItemsAtom = useMemo(() => createAtom<Dictionary<Dictionary>>({}), [])
 
     const rTableList = <List {...state} context={{}} list={list} columns={columns} />
 
@@ -31,7 +33,9 @@ export default {
         {isSort ? (
           <SearchWrapper columns={columns} context={{ searchFilter, setSearchFilter }}>
             <SortWrapper columns={columns} context={{ sortController }}>
-              {rTableList}
+              <SelectionWrapper columns={columns} context={{ selectedItemsAtom, idKey: 'id' }}>
+                {rTableList}
+              </SelectionWrapper>
             </SortWrapper>
           </SearchWrapper>
         ) : (
@@ -52,35 +56,35 @@ export default {
  */
 
 type User = {
-  id: number
+  id: string
   username: string
   age: number
 }
 
 const list: User[] = [
   {
-    id: 1,
+    id: '1',
     username: 'John',
     age: 30,
   },
   {
-    id: 2,
+    id: '2',
     username: 'Sara',
     age: 45,
   },
 
   {
-    id: 3,
+    id: '3',
     username: 'Alexander',
     age: 45,
   },
   {
-    id: 4,
+    id: '4',
     username: 'Thor',
     age: 45,
   },
   {
-    id: 4,
+    id: '5',
     username: 'Spider-man',
     age: 45,
   },
