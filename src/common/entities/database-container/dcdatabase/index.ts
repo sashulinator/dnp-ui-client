@@ -2,7 +2,7 @@ export {
   type Dcdatabase,
   type DcdatabaseCreateInput,
   type DcdatabaseUpdateInput,
-  dcdatabaseSchema,
-  dcdatabaseCreateInputSchema,
-  dcdatabaseUpdateInputSchema,
+  dcdatabase as dcdatabaseSchema,
+  dcdatabaseCreateInput as dcdatabaseCreateInputSchema,
+  dcdatabaseUpdateInput as dcdatabaseUpdateInputSchema,
 } from './models'
