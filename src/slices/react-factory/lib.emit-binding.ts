@@ -8,7 +8,14 @@ export function emitBinding(
 ) {
   if (block === undefined) return
   if (binding.events && !binding.events?.includes(currentEvent)) return
-  if (binding.ids && !binding.ids?.includes(block.id)) return
-  const fn = new Function('$', binding.data)
-  fn({ ...context, event: currentEvent, binding, block })
+  if (binding.selector && !binding.selector?.includes(block.id)) return
+  const fn = new Function(
+    'context',
+    '...args',
+    `
+      const $ = { ...context, ...context.props['${block.id}'] }
+      return (${binding.script})(...args)
+  `,
+  )
+  fn.call(null, { ...context, event: currentEvent, binding, block })
 }

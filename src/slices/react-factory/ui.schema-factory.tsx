@@ -23,7 +23,7 @@ export default function Component(props: Props): React.ReactNode {
 
   useMemo(() => {
     context.blocks = {}
-    context.blocksProps = {}
+    context.props = {}
     initBlocksContext(schema.block, context as BlocksContext)
   }, [schema])
   useMemo(() => {

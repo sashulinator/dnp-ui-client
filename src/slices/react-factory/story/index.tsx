@@ -92,26 +92,30 @@ export default {
 const initSchema: Schema = {
   bindings: [
     {
-      data: `
-          console.log($.event)
+      script: `
+    () => {
+      console.log($)
+     }
         `,
     },
     {
-      ids: ['button1'],
+      selector: ['button1'],
       events: ['onClick'],
-      data: `
-          if ($.props?.color === "amber") {
+      script: `() => {
+      if ($.props?.color === "amber") {
             $.setProps((s) => ({ ...s, color: 'green' }))
           } else {
             $.setProps((s) => ({ ...s, color: 'amber' }))
           }
+      }
         `,
     },
     {
-      ids: ['button1'],
-      events: ['onBlockInit'],
-      data: `
-          $.setProps((s) => ({ ...s, color: 'pink' }))
+      selector: ['button1'],
+      events: ['onInit'],
+      script: `() => {
+        $.setProps((s) => ({ ...s, color: 'pink' }))
+      }
         `,
     },
   ],
@@ -125,7 +129,11 @@ const initSchema: Schema = {
       {
         name: 'Button',
         id: 'button1',
-        props: { className: 'story-text', children: 'button1' },
+        props: {
+          className: 'story-text',
+          children: 'button1click',
+          $onClick: `(e) => console.log('hello', e)`,
+        },
       },
       {
         name: 'Button',
@@ -158,14 +166,8 @@ const componentMap = {
 type PropsWithContext = { context: Record<string, Any> }
 
 function FactoryButton(props: PropsWithContext): React.ReactNode {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { context, ...buttonProps } = props
 
-  return (
-    <Button
-      {...buttonProps}
-      onClick={(e) => {
-        context.emit('onClick', e)
-      }}
-    />
-  )
+  return <Button {...buttonProps} />
 }

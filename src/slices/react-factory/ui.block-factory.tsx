@@ -16,9 +16,7 @@ export const NAME = `${SLICE}-BlockFactory`
 export function Component(props: Props): React.ReactNode {
   const { block, componentMap, context, bindings } = props
 
-  const [dynamicProps, setDynamicProps] = useState(
-    typeof block === 'string' ? {} : context.blocksProps?.[block.id].props,
-  )
+  const [dynamicProps, setDynamicProps] = useState(typeof block === 'string' ? {} : context.props?.[block.id].props)
 
   if (typeof block === 'string') return block
 

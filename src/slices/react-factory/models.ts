@@ -10,9 +10,9 @@ export interface Schema {
 }
 
 export interface Binding {
-  data: string
+  script: string
   events?: string[] | undefined
-  ids?: string[] | undefined
+  selector?: string[] | undefined
 }
 
 export interface BlockComponent {
@@ -31,5 +31,5 @@ export type BlockNode = Block | string
 
 export type BlocksContext = {
   blocks: Record<string, Block>
-  blocksProps: Record<string, { props: Record<string, unknown>; setProps: SetterOrUpdater<Record<string, unknown>> }>
+  props: Record<string, { props: Record<string, unknown>; setProps: SetterOrUpdater<Record<string, unknown>> }>
 }

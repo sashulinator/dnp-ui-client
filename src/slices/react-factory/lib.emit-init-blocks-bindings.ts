@@ -5,7 +5,7 @@ export function emitInitBlocksBindings(block: BlockNode, bindings: Binding[] | u
   if (typeof block === 'string') return
 
   bindings?.forEach((binding) => {
-    emitBinding(binding, 'onBlockInit', block, { ...context, ...context.blocksProps[block.id] })
+    emitBinding(binding, 'onInit', block, { ...context, ...context.props[block.id] })
   })
 
   if (block.children) block.children.forEach((child) => emitInitBlocksBindings(child, bindings, context))
