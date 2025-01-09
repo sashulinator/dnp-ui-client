@@ -4,27 +4,27 @@ import * as v from 'valibot'
  * Base
  */
 
-export const dcdatabaseSchema = v.object({
+export const dcdatabase = v.object({
   id: v.pipe(v.string(), v.nonEmpty()),
   name: v.pipe(v.string(), v.nonEmpty()),
   display: v.string(),
   dcserviceId: v.pipe(v.string(), v.nonEmpty()),
 })
 
-export type Dcdatabase = v.InferOutput<typeof dcdatabaseSchema>
+export type Dcdatabase = v.InferOutput<typeof dcdatabase>
 
 /**
  * CreateInput
  */
 
-export const dcdatabaseCreateInputSchema = v.omit(dcdatabaseSchema, ['id'])
+export const dcdatabaseCreateInput = v.omit(dcdatabase, ['id'])
 
-export type DcdatabaseCreateInput = v.InferOutput<typeof dcdatabaseCreateInputSchema>
+export type DcdatabaseCreateInput = v.InferOutput<typeof dcdatabaseCreateInput>
 
 /**
  * UpdateInput
  */
 
-export const dcdatabaseUpdateInputSchema = dcdatabaseSchema
+export const dcdatabaseUpdateInput = dcdatabase
 
-export type DcdatabaseUpdateInput = v.InferOutput<typeof dcdatabaseUpdateInputSchema>
+export type DcdatabaseUpdateInput = v.InferOutput<typeof dcdatabaseUpdateInput>
