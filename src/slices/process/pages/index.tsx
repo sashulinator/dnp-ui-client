@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import { NumberParam, withDefault } from 'serialize-query-params'
 import { useQueryParams } from 'use-query-params'
 
@@ -7,11 +8,34 @@ import Flex from '~/shared/flex'
 import Heading from '~/shared/heading'
 import { Pagination } from '~/shared/page'
 import Section from '~/shared/section'
-import { Item, fetchList } from '~/slices/process'
+import List from '~/shared/table/v.list'
+import { fetchList } from '~/slices/process'
+
+import { ProcessStatusBadge } from '../ui/ProcessStatusBadge'
 
 export interface Props {
   className?: string | undefined
 }
+const columns = [
+  {
+    name: 'id',
+    display: 'ID инициатора',
+  },
+  {
+    name: 'track',
+    display: 'Тип процесса',
+  },
+  {
+    name: 'type',
+    display: 'Статус',
+    renderCell: () => <ProcessStatusBadge status='STARTED' />,
+  },
+  {
+    name: 'createdAt',
+    display: 'Запущен',
+  },
+]
+
 const displayName = 'page-Processes'
 
 /**
@@ -25,6 +49,21 @@ export default function Component(): JSX.Element {
 
   const fetcherList = fetchList.useCache({ take, skip: (page - 1) * take })
 
+  const rTableList = (
+    <List
+      context={{}}
+      list={
+        fetcherList.data?.items.map((item) => ({
+          ...item,
+          createdAt: dayjs(item.createdAt).format('DD.MM.YYYY HH:mm'),
+        })) ?? []
+      }
+      columns={columns.map((column) => ({
+        ...column,
+        name: column.name as 'id' | 'track' | 'type' | 'createdAt',
+      }))}
+    />
+  )
   return (
     <main className={displayName}>
       <Container p='var(--space-4)'>
@@ -42,9 +81,7 @@ export default function Component(): JSX.Element {
         </Section>
         <Section size='1'>
           <Flex gap='4' direction={'column'}>
-            {fetcherList.data?.items?.map((item, i) => {
-              return <Item key={item.id} item={item} number={i + 1} />
-            })}
+            {rTableList}
           </Flex>
         </Section>
         <Section></Section>
