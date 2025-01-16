@@ -32,7 +32,7 @@ export default {
         </Flex>
         {isSort ? (
           <SearchWrapper columns={columns} context={{ searchFilter, setSearchFilter }}>
-            <SortWrapper columns={columns} context={{ sortController }}>
+            <SortWrapper columns={columns} context={{ sortAtom: sortController }}>
               <SelectionWrapper columns={columns} context={{ selectedItemsAtom, idKey: 'id' }}>
                 {rTableList}
               </SelectionWrapper>

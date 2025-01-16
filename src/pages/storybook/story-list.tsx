@@ -1,5 +1,7 @@
 import eDcserviceCardInput from '~/entities/database-container/dcservice/ui/card/story'
 import eDcserviceForm from '~/entities/database-container/dcservice/ui/form/story'
+import eDatabaseContanerDctableInput from '~/entities/database-container/dctable/input/story'
+import dctableListTable from '~/entities/database-container/dctable/list-table/story.ts'
 import eExecutableswFackerColConfig from '~/entities/processing/w.executable/w.field-factory/w.facker-col-config/story'
 import uiButton from '~/shared/button/story'
 import uiCalendar from '~/shared/calendar/story'
@@ -45,10 +47,13 @@ export const storyList: Story<any>[] = [
    * entities
    */
 
+  eDatabaseContanerDctableInput,
   eProcessingWProcedureWValuePerColumn,
   debugRenderCounter,
   eDcserviceForm,
   eDcserviceCardInput,
+  dctableListTable,
+
   /**
    * shared
    */

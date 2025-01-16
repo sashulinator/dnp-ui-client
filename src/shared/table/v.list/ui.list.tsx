@@ -201,7 +201,7 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
 }
 
 export function defaultRenderCell(params: { value: unknown }) {
-  return String(params.value)
+  return params.value ? String(params.value) : ''
 }
 
 export function defaultRenderHeader(params: { name: string | number | symbol; display?: string | undefined }) {

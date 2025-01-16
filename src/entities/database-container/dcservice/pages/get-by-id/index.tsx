@@ -217,7 +217,7 @@ export default function Component(): JSX.Element {
                 context: {
                   setSearchFilter: setSearchFilter as any,
                   searchFilter: columnSearchParams,
-                  sortController: sortAtom,
+                  sortAtom: sortAtom,
                 },
               }}
               paginationProps={{

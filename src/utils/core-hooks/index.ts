@@ -1,6 +1,7 @@
 export * from './async'
 export * from './boolean'
 export * from './debounce'
+export { useSubscribe } from './subscribe'
 export * from './debounce-callback'
 export * from './click-outside'
 export * from './closing'

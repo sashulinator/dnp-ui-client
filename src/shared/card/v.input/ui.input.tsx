@@ -12,7 +12,7 @@ export interface Props extends React.HTMLAttributes<HTMLButtonElement> {
   loading?: boolean
 }
 
-const NAME = 'card-v-input-InputCard'
+const NAME = 'card-input-inputCard'
 
 export default function Component(props: Props): JSX.Element {
   const { loading, ...buttonProps } = props

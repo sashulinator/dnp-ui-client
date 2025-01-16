@@ -9,3 +9,4 @@ export const api = {
 export type { Schema, UpdateSchema, CreateSchema, FlatTable } from './models'
 
 export * as Dccolumn from './dccolumn'
+export * as Dctable from './dctable'

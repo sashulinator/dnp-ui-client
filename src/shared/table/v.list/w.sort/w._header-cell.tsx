@@ -14,7 +14,7 @@ export function HeaderCell<TItem extends Dictionary, TContext extends Context<TI
   useSubscribeUpdate(subscribes)
 
   assertDefined(context)
-  const sortValue = context?.sortController.get()?.[accessorKey] as 'asc'
+  const sortValue = context?.sortAtom.get()?.[accessorKey] as 'asc'
 
   return (
     <SortButton
@@ -34,7 +34,7 @@ export function HeaderCell<TItem extends Dictionary, TContext extends Context<TI
          * const sortToAdd = { [accessorKey]: toFilter(filterConfig) }
          * */
         const sortToAdd = add({}, accessorKey, newValue)
-        context?.sortController.set?.(sortToAdd)
+        context?.sortAtom.set?.(sortToAdd)
       }}
       value={sortValue}
     />
@@ -45,7 +45,7 @@ export function HeaderCell<TItem extends Dictionary, TContext extends Context<TI
    */
 
   function subscribes(update: () => void) {
-    const unsubscribe = context?.sortController.subscribe((prevState, nextState) => {
+    const unsubscribe = context?.sortAtom.subscribe((prevState, nextState) => {
       if (prevState?.[accessorKey] !== nextState?.[accessorKey]) update()
     })
     return [unsubscribe]

@@ -8,7 +8,7 @@ import type { Context } from './models.context'
 
 export interface Props {
   columns: ColumnProps<Any, Any>[] | undefined
-  context: Context<Dictionary>
+  context: Context<Any>
   children: React.ReactElement<{ columns: unknown[]; context: Dictionary }>
 }
 

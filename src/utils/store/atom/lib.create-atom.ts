@@ -1,3 +1,5 @@
+import { useMemo } from 'react'
+
 import { type Atom } from './models'
 
 export function createAtom<T>(init: T): Atom<T> {
@@ -15,4 +17,8 @@ export function createAtom<T>(init: T): Atom<T> {
       return () => listeners.delete(cb)
     },
   }
+}
+
+export function useAtom<T>(init: T): Atom<T> {
+  return useMemo(() => createAtom(init), [])
 }
