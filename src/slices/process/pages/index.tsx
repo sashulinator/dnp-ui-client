@@ -12,23 +12,25 @@ import List from '~/shared/table/v.list'
 import { fetchList } from '~/slices/process'
 
 import { ProcessStatusBadge } from '../ui/ProcessStatusBadge'
+import { ProcessTypeBadge } from '../ui/ProcessTypeBadge'
 
 export interface Props {
   className?: string | undefined
 }
 const columns = [
   {
-    name: 'id',
-    display: 'ID инициатора',
-  },
-  {
     name: 'track',
     display: 'Тип процесса',
+    renderCell: ({ item }: { item: { type: string } }) => <ProcessTypeBadge type={item.type} />,
   },
   {
     name: 'type',
     display: 'Статус',
     renderCell: () => <ProcessStatusBadge status='STARTED' />,
+  },
+  {
+    name: 'id',
+    display: 'ID инициатора',
   },
   {
     name: 'createdAt',
