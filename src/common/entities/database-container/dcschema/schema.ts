@@ -13,13 +13,13 @@ export const dcschema = v.object({
 })
 
 /**
- * CreateSchema
+ * CreateInput
  */
 
-export const createDcschema = dcschema
+export const dcschemaCreateInput = dcschema
 
 /**
- * UpdateSchema
+ * UpdateInput
  */
 
-export const updateDcschema = dcschema
+export const dcschemaUpdateInput = dcschema

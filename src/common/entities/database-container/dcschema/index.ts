@@ -1,2 +1,6 @@
-export { dcschema, createDcschema, updateDcschema } from './schema'
-export { type Dcschema, type CreateDcschema, type UpdateDcschema } from './types'
+export { dcschema, dcschemaCreateInput as createDcschema, dcschemaUpdateInput as updateDcschema } from './schema'
+export {
+  type Dcschema,
+  type DcschemaCreateInput as CreateDcschema,
+  type DcschemaUpdateInput as UpdateDcschema,
+} from './types'
