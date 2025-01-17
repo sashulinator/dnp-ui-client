@@ -14,20 +14,14 @@ export const dccolumn = v.object({
   table: v.pipe(v.string(), v.nonEmpty()),
 })
 
-export type Dccolumn = v.InferOutput<typeof dccolumn>
-
 /**
  * CreateInput
  */
 
 export const dccolumnCreateInput = v.omit(dccolumn, ['id'])
 
-export type DccolumnCreateInput = v.InferOutput<typeof dccolumnCreateInput>
-
 /**
  * UpdateInput
  */
 
 export const dccolumnUpdateInput = dccolumn
-
-export type DccolumnUpdateInput = v.InferOutput<typeof dccolumnUpdateInput>

@@ -1,13 +1,15 @@
 import { CheckboxGroup } from '@radix-ui/themes'
-import { type RootProps } from '@radix-ui/themes/dist/esm/components/checkbox-group.d.ts'
+import type { RootProps } from '@radix-ui/themes/dist/esm/components/checkbox-group.d.ts'
+
+import { useRef } from 'react'
 
 import Button, { type ButtonProps } from '~/shared/button'
 import DropdownMenu from '~/shared/dropdown-menu'
 import Flex from '~/shared/flex'
 import Spinner from '~/shared/spinner'
 import Text from '~/shared/text'
+import { useElementSize } from '~/utils/core-hooks'
 import { emptyFn } from '~/utils/function'
-import { useMeasure } from '~/utils/hooks'
 import { setRefs } from '~/utils/react'
 
 export type Option = { value: string; display: string }
@@ -26,7 +28,8 @@ export const NAME = 'selectMultiple-SelectMultiple'
 export default function Component(props: Props): JSX.Element {
   const { options, value, loading, variant = 'surface', onValueChange, ...checkboxGroupRootProps } = props
 
-  const [setMeasureRef, size] = useMeasure()
+  const el = useRef(null)
+  const size = useElementSize(el.current)
 
   const valueLength = value?.length || 0
 
@@ -38,7 +41,7 @@ export default function Component(props: Props): JSX.Element {
             // variant={variant}
             className={`rt-reset rt-SelectTrigger rt-r-size-2 rt-variant-${variant}`}
             color={checkboxGroupRootProps.disabled ? 'gray' : ('' as 'gray')}
-            ref={setRefs(setMeasureRef)}
+            ref={setRefs(el)}
           >
             <Text asChild>
               <input

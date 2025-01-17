@@ -1,1 +1,1 @@
-export type { Dccolumn, DccolumnCreateInput, DccolumnUpdateInput } from './models'
+export type { Dccolumn, DccolumnCreateInput, DccolumnUpdateInput } from './types'

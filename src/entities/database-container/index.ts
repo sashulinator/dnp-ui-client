@@ -1,12 +1,4 @@
-import * as dcdatabase from './dcdatabase/api.v1'
-import * as dcservice from './dcservice/api.v1'
-
-export const api = {
-  dcservice,
-  dcdatabase,
-}
-
-export type { Schema, UpdateSchema, CreateSchema, FlatTable } from './models'
-
 export * as Dccolumn from './dccolumn'
+export * as Dcdatabase from './dcdatabase'
+export * as Dcservice from './dcservice'
 export * as Dctable from './dctable'

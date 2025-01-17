@@ -12,7 +12,7 @@ import { Heading, Main } from '~/shared/page'
 import Section from '~/shared/section'
 import { c } from '~/utils/core'
 
-import { dcserviceApi } from '..'
+import { api } from '..'
 import { SLICE } from '../constants.slice'
 import DcserviceForm, { type Values } from '../ui/form'
 import TestConnection from '../ui/test-connection'
@@ -22,11 +22,11 @@ const NAME = `${APP}-page-${SLICE}-GetById`
 export default function Component(): JSX.Element {
   const navigate = useNavigate()
 
-  const createMutator = dcserviceApi.create.useMutation({
+  const createMutator = api.create.useMutation({
     onSuccess: (response) => {
       notify({ title: 'Сохранено', type: 'success' })
       form.initialize(DcserviceForm.toValues(response.data))
-      dcserviceApi.getById.setCache({ id: response.data.id }, response.data)
+      api.getById.setCache({ id: response.data.id }, response.data)
       navigate(routes.dcservice_getById.getUrl(response.data.id))
     },
     onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
@@ -70,7 +70,7 @@ export default function Component(): JSX.Element {
                   <TestConnection
                     disabled={form.getState().invalid}
                     request={() =>
-                      dcserviceApi.testConnection
+                      api.testConnection
                         .request({
                           client: 'pg',
                           host: formState.values.host,

@@ -3,7 +3,7 @@ import { type ListTable } from '~/shared/table'
 import { type Dictionary } from '~/utils/core'
 import { toHtml } from '~/utils/md'
 
-import { type Dccolumn } from './models'
+import { type Dccolumn } from './types'
 
 export function toUiColumn<TItem extends Dictionary, TContext extends Dictionary>(
   column: Dccolumn,

@@ -6,7 +6,7 @@ import Flex, { type FlexProps } from '~/shared/flex'
 import Link from '~/shared/link'
 import { c } from '~/utils/core'
 
-import { type Dcservice } from '../../../models'
+import { type Dcservice } from '../../../types'
 import DccerviceCard from '../../card/ui.card'
 
 export type Props = FlexProps & {

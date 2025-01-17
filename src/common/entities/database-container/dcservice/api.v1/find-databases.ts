@@ -1,6 +1,6 @@
 import type { Where } from '~/slices/where'
 
-import type { Dcdatabase } from '../../models'
+import type { Dcdatabase } from '../../dcdatabase'
 import { baseUrl } from './constants'
 
 export const NAME = 'find-databases'

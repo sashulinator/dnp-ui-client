@@ -13,7 +13,7 @@ import Section from '~/shared/section'
 import { c } from '~/utils/core'
 import { useRenderDelay } from '~/utils/core-hooks/render-delay'
 
-import { dcserviceApi } from '..'
+import { api } from '..'
 import { SLICE } from '../constants.slice'
 import Item from '../ui/item'
 
@@ -27,7 +27,7 @@ export default function Component(): JSX.Element {
 
   const listRenderDelay = useRenderDelay(TICK_MS * 3)
 
-  const fetcherList = dcserviceApi.findWithTotal.useCache({ take, skip: (page - 1) * take }, { keepPreviousData: true })
+  const fetcherList = api.findWithTotal.useCache({ take, skip: (page - 1) * take }, { keepPreviousData: true })
 
   return (
     <Main className={NAME} style={{ position: 'relative' }}>

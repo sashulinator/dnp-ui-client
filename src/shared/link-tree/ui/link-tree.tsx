@@ -7,6 +7,7 @@ import Flex, { type FlexProps } from '~/shared/flex'
 import Icon from '~/shared/icon'
 import Text from '~/shared/text'
 import { c, isEmpty } from '~/utils/core'
+import { usePrevious } from '~/utils/core-hooks'
 
 export type TreeItem = {
   id: string
@@ -69,6 +70,7 @@ interface _ItemProps {
 
 function _Item(props: _ItemProps) {
   const { isRoot, offset, item, path, expanded, onExpanded } = props
+  const isFirstRender = usePrevious(false, true)
 
   const newPath = isRoot ? item.id : `${path}.${item.id}`
 
@@ -147,7 +149,7 @@ function _Item(props: _ItemProps) {
         </Flex>
       </Flex>
       {!isEmpty(item.children) && (
-        <Collapse isExpanded={isExpanded}>
+        <Collapse from={{ height: isFirstRender && isExpanded ? 'auto' : 0 }} isExpanded={isExpanded}>
           <Flex direction={'column'}>
             {item.children?.map((item, index) => (
               <_Item

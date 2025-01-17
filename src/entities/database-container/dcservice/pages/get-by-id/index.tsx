@@ -29,7 +29,7 @@ import { type Any, type Dictionary, assertDefined, c } from '~/utils/core'
 import { usePrevious } from '~/utils/core-hooks/previous'
 import { createAtom } from '~/utils/store'
 
-import { dcserviceApi } from '../..'
+import { api } from '../..'
 import { SLICE } from '../../constants.slice'
 import DcserviceForm, { type Values } from '../../ui/form'
 import TestConnection from '../../ui/test-connection'
@@ -62,7 +62,7 @@ export default function Component(): JSX.Element {
     JSONParam as Any,
   )
 
-  const fetcher = dcserviceApi.getById.useCache(
+  const fetcher = api.getById.useCache(
     { id },
     {
       onSuccess(dcservice) {
@@ -71,9 +71,9 @@ export default function Component(): JSX.Element {
     },
   )
 
-  const databasesFetcher = dcserviceApi.findDatabases.useCache({ id })
+  const databasesFetcher = api.findDatabases.useCache({ id })
 
-  const tablesFetcher = dcserviceApi.findTables.useCache({ id, database })
+  const tablesFetcher = api.findTables.useCache({ id, database })
 
   const rowParams = {
     sort: sortParam,
@@ -84,15 +84,15 @@ export default function Component(): JSX.Element {
 
   const prev = usePrevious({ id, database, table, ...rowParams })
   useEffect(() => {
-    queryClient.setQueryData([dcserviceApi.findRows.NAME, prev], () => undefined)
+    queryClient.setQueryData([api.findRows.NAME, prev], () => undefined)
   }, [table])
 
-  const rowsFetcher = dcserviceApi.findRows.useCache(
+  const rowsFetcher = api.findRows.useCache(
     { id, database, table, ...rowParams },
     { keepPreviousData: true, staleTime: 10_000 },
   )
 
-  const updateMutator = dcserviceApi.update.useMutation({
+  const updateMutator = api.update.useMutation({
     onSuccess: (response) => {
       notify({ title: 'Сохранено', type: 'success' })
       form.initialize(DcserviceForm.toValues(response.data))
@@ -164,7 +164,7 @@ export default function Component(): JSX.Element {
                     <TestConnection
                       disabled={form.getState().invalid}
                       request={() =>
-                        dcserviceApi.testConnection
+                        api.testConnection
                           .request({
                             client: 'pg',
                             host: formState.values.host,

@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 
 import { APP } from '~/app/constants.app'
 import { routes } from '~/app/route'
-import { api } from '~/entities/database-container'
+import { Dcdatabase } from '~/entities/database-container'
 import { Executable, ProcessingForm, SLICE } from '~/entities/processing'
 import { processingDataApi } from '~/entities/processing-data'
 import * as create from '~/entities/processing/api/create'
@@ -132,7 +132,7 @@ export default function Component(): JSX.Element {
   }
 
   async function fetchDatabaseOptions() {
-    const ret = await api.dcdatabase.findWithTotal.request({})
+    const ret = await Dcdatabase.api.findWithTotal.request({})
     return ret.data.items.map((item) => ({ value: item.id, display: item.display }))
   }
 

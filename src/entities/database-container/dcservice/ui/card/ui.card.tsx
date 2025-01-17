@@ -5,7 +5,7 @@ import Icon from '~/shared/icon'
 import Text from '~/shared/text'
 import { c } from '~/utils/core'
 
-import { type Dcservice } from '../../models'
+import { type Dcservice } from '../../types'
 
 export type CardDcservice = Pick<Dcservice, 'host' | 'port' | 'display'>
 

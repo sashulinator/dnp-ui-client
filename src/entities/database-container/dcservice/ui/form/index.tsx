@@ -8,7 +8,7 @@ import TextInput from '~/shared/text-input'
 import { c } from '~/utils/core'
 
 import { SLICE } from '../../constants.slice'
-import { type Dcservice, type DcserviceCreateInput } from '../../models'
+import { type Dcservice, type DcserviceCreateInput } from '../../types'
 
 export interface Props {
   className?: string | undefined

@@ -1,4 +1,4 @@
-import { type Dcdatabase } from '../models'
+import { type Dcdatabase } from '../types'
 import { baseUrl } from './constants'
 
 export const NAME = 'find-with-total'
