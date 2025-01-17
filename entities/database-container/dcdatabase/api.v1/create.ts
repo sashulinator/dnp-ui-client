@@ -1,4 +1,4 @@
-import type { Dcdatabase, DcdatabaseCreateInput } from '../models'
+import type { Dcdatabase, DcdatabaseCreateInput } from '../types'
 import { baseUrl } from './constants'
 
 export const NAME = 'create'
