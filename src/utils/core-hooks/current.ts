@@ -1,4 +1,4 @@
-import { RefObject, useRef } from 'react'
+import { type RefObject, useRef } from 'react'
 
 /**
  * Хук хранения текущего состояния

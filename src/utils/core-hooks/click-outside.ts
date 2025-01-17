@@ -1,4 +1,4 @@
-import { RefObject, useLayoutEffect } from 'react'
+import { type RefObject, useLayoutEffect } from 'react'
 
 import { useLatest } from './latest'
 
@@ -7,7 +7,7 @@ import { useLatest } from './latest'
  * @param ref
  * @param callback
  */
-export function useOnClickOutside(ref: RefObject<Element>, handler: (e: MouseEvent | TouchEvent) => void) {
+export function useClickOutside(ref: RefObject<Element>, handler: (e: MouseEvent | TouchEvent) => void) {
   const handlerRef = useLatest(handler)
 
   useLayoutEffect(() => {

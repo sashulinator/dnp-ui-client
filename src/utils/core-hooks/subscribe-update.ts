@@ -6,11 +6,18 @@ export type { Update }
 
 /**
  * @example
- * useSubscribeUpdate(subscribes)
+ * const atom = useAtom(0)
+ * useSubscribeUpdate(atom.subscribe)
  *
- * function useSubscribeUpdate(update: () => void) {
- *   return[props.controller.subscribe(update)]
- * }
+ * @example
+ * const atom1 = useAtom(1)
+ * const atom2 = useAtom(2)
+ * useSubscribeUpdate((update) => {
+ *  return [
+ *    atom1.subscribe(update),
+ *    atom2.subscribe(update),
+ *  ]
+ * })
  */
 export function useSubscribeUpdate(
   cb: (update: Update) => ((() => void) | undefined)[] | undefined | (() => void),

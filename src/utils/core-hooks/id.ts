@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { Id, generateId } from '../core'
+import { type Id, generateId } from '../core'
 
 export type GenerateNewId = () => void
 

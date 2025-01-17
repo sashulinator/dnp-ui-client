@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 
-import { ValueOrSetter } from '../core'
+import { type ValueOrSetter } from '../core'
 
 export function useDebounce<T>(defaultValue: T, delay: number) {
   const [value, setValue] = useState(defaultValue)
