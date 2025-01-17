@@ -1,6 +1,6 @@
 import type * as v from 'valibot'
 
-import type { createDcschema, dcschema, updateDcschema } from './schema'
+import type { dcschema, dcschemaCreateInput, dcschemaUpdateInput } from './schema'
 
 /**
  * Schema
@@ -12,10 +12,10 @@ export type Dcschema = v.InferOutput<typeof dcschema>
  * CreateSchema
  */
 
-export type CreateDcschema = v.InferOutput<typeof createDcschema>
+export type DcschemaCreateInput = v.InferOutput<typeof dcschemaCreateInput>
 
 /**
  * UpdateSchema
  */
 
-export type UpdateDcschema = v.InferOutput<typeof updateDcschema>
+export type DcschemaUpdateInput = v.InferOutput<typeof dcschemaUpdateInput>
