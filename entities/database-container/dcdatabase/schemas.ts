@@ -22,3 +22,10 @@ export const dcdatabaseCreateInput = v.omit(dcdatabase, ['id'])
  */
 
 export const dcdatabaseUpdateInput = dcdatabase
+
+/**
+ * Locator
+ * Местонахождение таблицы
+ */
+
+export const dcdatabaseLocator = v.pick(dcdatabase, ['name', 'display', 'dcserviceId'])

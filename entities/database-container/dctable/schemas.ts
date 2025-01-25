@@ -24,3 +24,19 @@ export const dctableCreateInput = v.omit(dctable, ['id'])
  */
 
 export const dctableUpdateInput = dctable
+
+/**
+ * Locator
+ * Местонахождение таблицы
+ */
+
+export const dctableLocator = v.pick(dctable, ['name', 'display', 'dcserviceId', 'database', 'schema'])
+
+/**
+ * Meta
+ */
+
+export const dctableMeta = v.intersect([
+  dctableLocator,
+  v.object({ display: v.optional(v.pipe(v.string(), v.nonEmpty())) }),
+])

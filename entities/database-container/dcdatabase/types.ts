@@ -1,6 +1,6 @@
 import type * as v from 'valibot'
 
-import type { dcdatabase, dcdatabaseCreateInput, dcdatabaseUpdateInput } from './schemas'
+import type { dcdatabase, dcdatabaseCreateInput, dcdatabaseLocator, dcdatabaseUpdateInput } from './schemas'
 
 /**
  * Base
@@ -19,3 +19,9 @@ export type DcdatabaseCreateInput = v.InferOutput<typeof dcdatabaseCreateInput>
  */
 
 export type DcdatabaseUpdateInput = v.InferOutput<typeof dcdatabaseUpdateInput>
+
+/**
+ * Locator
+ */
+
+export type DcdatabaseLocator = v.InferOutput<typeof dcdatabaseLocator>
