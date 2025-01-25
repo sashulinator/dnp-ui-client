@@ -1,1 +1,1 @@
-export type { Dctable, DctableCreateInput, DctableUpdateInput } from './types'
+export type { Dctable, DctableCreateInput, DctableUpdateInput, DctableCursor } from './types'

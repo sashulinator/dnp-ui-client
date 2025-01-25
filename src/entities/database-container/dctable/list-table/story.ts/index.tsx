@@ -26,6 +26,7 @@ export default {
     return (
       <div style={{ padding: '2rem' }}>
         <DctableListTable
+          paginationProps={{} as any}
           searchFilter={searchFilter}
           setSearchFilter={setSearchFilter as any}
           sortAtom={sort}

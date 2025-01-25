@@ -74,7 +74,7 @@ export default function Component(): JSX.Element {
             form={form}
             component={ProcessingForm.default}
             fetchDcdatabaseOptions={fetchDatabaseOptions}
-            fetchTables={fetchTables}
+            fetchTablesByDcdatabaseId={fetchTables}
             fetchExecutableSchemas={fetchExecutableSchemas}
           />
         </Section>

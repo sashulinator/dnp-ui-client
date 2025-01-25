@@ -4,8 +4,7 @@ import { mergeStyles } from '@radix-ui/themes/helpers'
 import React, { type FormEventHandler } from 'react'
 
 import Select from '~/shared/select'
-import { c } from '~/utils/core'
-import { emptyFn } from '~/utils/function'
+import { c, fns } from '~/utils/core'
 
 export const NAME = `select-v-Input`
 
@@ -19,6 +18,7 @@ export type Props = Omit<Select.TriggerProps, 'name' | 'value'> & {
   size?: '1' | '2'
   loading?: boolean | undefined
   onChange?: (FormEventHandler<HTMLButtonElement> & ((value: string) => void)) | undefined
+  onValueChange?: ((value: string) => void) | undefined
   options?: Option[]
 }
 
@@ -26,17 +26,18 @@ export default function Component(props: Props) {
   const {
     options = [],
     value = '',
-    onChange = emptyFn,
+    onChange,
     className,
     size = '2',
     variant = 'soft',
+    onValueChange,
     loading,
     contentProps,
     ...triggerProps
   } = props
 
   return (
-    <Select.Root onValueChange={onChange} value={value}>
+    <Select.Root onValueChange={fns(onChange, (v) => onValueChange?.(v.toString()))} value={value}>
       <Flex width='100%' style={{ position: 'relative' }}>
         {loading && (
           <Spinner

@@ -8,7 +8,6 @@ export function fromValues(values: Values): Proccessing {
     name: values.name,
     configs: Object.values(values.configs),
     outputTable: values.outputTable,
-    inputDcdatabaseId: values.inputDcdatabaseId,
     outputDcdatabaseId: values.outputDcdatabaseId,
   }
 }

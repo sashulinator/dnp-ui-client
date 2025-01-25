@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { useQuery } from 'react-query'
 
 import { APP } from '~/app/constants.app'
+import type { Dctable } from '~/entities/database-container'
 import Button, { DangerButton } from '~/shared/button'
 import Flex from '~/shared/flex'
 import { Card, Column, FieldArray, Row, useForm } from '~/shared/form'
@@ -28,13 +29,12 @@ type Executables = {
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type Config = {
-  inputTable: string
+  inputDctableLocator: Dctable.DctableLocator
   executables: Executables[]
 }
 
 export type Values = {
   name: string
-  inputDcdatabaseId: string
   outputDcdatabaseId: string
   outputTable: string
   configs: Record<string, Config>
@@ -46,7 +46,7 @@ type Table = { name: string; display: string; columns: Column[] }
 
 export interface Props {
   className?: string | undefined
-  fetchTables: (dcdatabaseId: string) => Promise<Table[]>
+  fetchTablesByDcdatabaseId: (dcdatabaseId: string) => Promise<Table[]>
   fetchDcdatabaseOptions: () => Promise<Option[]>
   fetchExecutableSchemas: () => Promise<ExecutableSchema[]>
   tabValue: 'multi' | 'single'
@@ -56,13 +56,12 @@ export interface Props {
 export const NAME = `${APP}-${SLICE}-Form`
 
 export default function Component(props: Props): JSX.Element {
-  const { fetchTables, fetchDcdatabaseOptions, fetchExecutableSchemas, tabValue, setTabValue } = props
+  const { fetchTablesByDcdatabaseId, fetchDcdatabaseOptions, fetchExecutableSchemas, tabValue, setTabValue } = props
 
-  const [selectedSingleTableName, setSelectedSingleTableName] = useState<string>()
+  const [selectedDctableLocator, setSelectedSingleDctableLocator] = useState<Dctable.DctableLocator>()
   const [isTextInput, setIsTextInput] = useState(false)
 
   const form = useForm<Values>()
-  const dcdatabaseId = form.getState().values?.inputDcdatabaseId
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const executableSchemasFetcher = useQuery([NAME, 'executableSchemas'], fetchExecutableSchemas, {
@@ -72,17 +71,17 @@ export default function Component(props: Props): JSX.Element {
   const executableSchemas = executableSchemasFetcher.data
 
   const tableOptions =
-    Object.values(form.getState().values?.configs || {}).map((c) => ({ value: c.inputTable, display: c.inputTable })) ||
-    []
+    Object.values(form.getState().values?.configs || {}).map((c) => ({
+      value: c.inputDctableLocator.name,
+      display: c.inputDctableLocator.name,
+    })) || []
 
-  const tablesFetcher = useQuery(['dcdatabaseTables', dcdatabaseId], () => fetchTables(dcdatabaseId as string), {
-    staleTime: Infinity,
-    enabled: Boolean(dcdatabaseId),
-  })
-
-  const selectedSingleTable = useMemo(
-    () => tablesFetcher.data?.find((t) => t.name === selectedSingleTableName),
-    [selectedSingleTableName],
+  const selectedSingleDctableLocator = useMemo(
+    () =>
+      Object.values(form.getState().values.configs)?.find((c) =>
+        isSameDctableCursor(c.inputDctableLocator, selectedDctableLocator),
+      )?.inputDctableLocator,
+    [selectedDctableLocator],
   )
 
   return (
@@ -100,7 +99,6 @@ export default function Component(props: Props): JSX.Element {
                   tableDisabled={!!form.getState().values?.multiConfig?.executables?.length}
                   onDcdatabaseIdChange={removeConfigs}
                   onTablesChange={addConfig}
-                  fetchTables={fetchTables}
                   fetchDcdatabaseOptions={fetchDcdatabaseOptions}
                 />
               </Column>
@@ -108,14 +106,14 @@ export default function Component(props: Props): JSX.Element {
                 <OutputBlock
                   setIsTextInput={setIsTextInput}
                   isTextInput={isTextInput}
-                  fetchTables={fetchTables}
+                  fetchTablesByDcdatabaseId={fetchTablesByDcdatabaseId}
                   fetchDcdatabaseOptions={fetchDcdatabaseOptions}
                 />
               </Column>
             </Row>
             <Row>
               <Column width='100%'>
-                {executableSchemas && dcdatabaseId && (
+                {executableSchemas && (
                   <FieldArray name='multiConfig.executables'>
                     {({ fields }) => (
                       <Flex direction='column' gap='4'>
@@ -179,19 +177,28 @@ export default function Component(props: Props): JSX.Element {
                 <Column width='50%'>
                   <LabeledSelect.default
                     label='Таблица'
-                    value={selectedSingleTableName}
-                    onChange={(e) => setSelectedSingleTableName(e.toString())}
+                    value={selectedDctableLocator?.name}
+                    onChange={(e) => {
+                      const name = e.toString()
+                      const dctableLocator = Object.values(form.getState().values?.configs || {}).find(
+                        (i) => i.inputDctableLocator.name === name,
+                      )?.inputDctableLocator
+                      setSelectedSingleDctableLocator(dctableLocator)
+                    }}
                     options={tableOptions}
                   />
                 </Column>
                 <Column width='50%' />
               </Row>
             </Card>
-            {selectedSingleTable && (
-              <Row key={selectedSingleTable.name}>
+            {selectedSingleDctableLocator && (
+              <Row key={selectedSingleDctableLocator.name}>
                 <Column width='100%'>
                   {executableSchemas && (
-                    <FieldArray key={selectedSingleTable.name} name={`configs.${selectedSingleTable.name}.executables`}>
+                    <FieldArray
+                      key={selectedSingleDctableLocator.name}
+                      name={`configs.${selectedSingleDctableLocator.name}.executables`}
+                    >
                       {({ fields }) => (
                         <Flex direction='column' gap='4'>
                           {fields.map((formName, index) => (
@@ -337,3 +344,13 @@ export default function Component(props: Props): JSX.Element {
 }
 
 Component.displayName = NAME
+
+/**
+ * private
+ */
+
+function isSameDctableCursor(a: Dctable.DctableLocator | undefined, b: Dctable.DctableLocator | undefined): boolean {
+  return (
+    a?.dcserviceId === b?.dcserviceId && a?.database === b?.database && a?.schema === b?.schema && a?.name === b?.name
+  )
+}

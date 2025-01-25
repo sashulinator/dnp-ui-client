@@ -27,7 +27,7 @@ type Table = { name: string; display: string; columns: Column[] }
 
 export interface Props {
   className?: string | undefined
-  fetchTables: (dcdatabaseId: string) => Promise<Table[]>
+  fetchTablesByDcdatabaseId: (dcdatabaseId: string) => Promise<Table[]>
   fetchDcdatabaseOptions: () => Promise<Option[]>
   isTextInput: boolean
   setIsTextInput: SetterOrUpdater<boolean>
@@ -36,20 +36,24 @@ export interface Props {
 const NAME = `${APP}-${SLICE}-Form-w-OutputBlock`
 
 export default function Component(props: Props): JSX.Element {
-  const { className, fetchTables, fetchDcdatabaseOptions, isTextInput, setIsTextInput } = props
+  const { className, fetchTablesByDcdatabaseId, fetchDcdatabaseOptions, isTextInput, setIsTextInput } = props
 
-  const dcdatabaseField = useField('outputDcdatabaseId', { subscription: { value: true } })
+  const outputDcdatabaseIdField = useField('outputDcdatabaseId', { subscription: { value: true } })
   const outputTableField = useField('outputTable', { subscription: { value: true } })
-  const dcdatabaseId = dcdatabaseField.input.value
+  const dcdatabaseId = outputDcdatabaseIdField.input.value
 
   const databasesOptionsfetcher = useQuery([NAME, 'databasesOptions'], () => fetchDcdatabaseOptions(), {
     staleTime: Infinity,
   })
 
-  const tablesFetcher = useQuery(['dcdatabaseTables', dcdatabaseId], () => fetchTables(dcdatabaseId as string), {
-    staleTime: Infinity,
-    enabled: Boolean(dcdatabaseId),
-  })
+  const tablesFetcher = useQuery(
+    ['dcdatabaseTables', dcdatabaseId],
+    () => fetchTablesByDcdatabaseId(dcdatabaseId as string),
+    {
+      staleTime: Infinity,
+      enabled: Boolean(dcdatabaseId),
+    },
+  )
 
   const tableOptions = useMemo(
     () => tablesFetcher.data?.map((item) => ({ value: item.name, display: item.name || item.display })) || [],

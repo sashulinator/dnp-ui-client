@@ -1,13 +1,14 @@
+import type { DctableLocator } from '../database-container/dctable'
+
 export type Proccessing = {
   name: string
   outputDcdatabaseId: string
   outputTable: string
-  inputDcdatabaseId: string
   configs: Config[]
 }
 
 export type Config = {
-  inputTable: string
+  inputDctableLocator: DctableLocator
   executables: Executable[]
 }
 
