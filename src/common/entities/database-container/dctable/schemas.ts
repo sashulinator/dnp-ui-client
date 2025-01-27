@@ -30,7 +30,7 @@ export const dctableUpdateInput = dctable
  * Местонахождение таблицы
  */
 
-export const dctableLocator = v.pick(dctable, ['name', 'display', 'dcserviceId', 'database', 'schema'])
+export const dctableLocator = v.pick(dctable, ['name', 'dcserviceId', 'database', 'schema'])
 
 /**
  * Meta
