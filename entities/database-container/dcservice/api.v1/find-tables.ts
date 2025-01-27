@@ -2,7 +2,7 @@ import type { ToSort } from '~/slices/sort'
 import type { Where } from '~/slices/where'
 
 import type { DcdatabaseLocator } from '../../dcdatabase'
-import type { Dctable } from '../../dctable'
+import type { DctableMeta } from '../../dctable'
 import { baseUrl } from './constants'
 
 export const NAME = 'find-tables'
@@ -18,6 +18,6 @@ export type RequestParams = {
 }
 
 export type Result = {
-  items: ({ name: string } & Omit<Partial<Dctable>, 'schema'> & { schema: string })[]
+  items: DctableMeta[]
   total: number
 }
