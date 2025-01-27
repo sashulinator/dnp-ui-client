@@ -38,5 +38,14 @@ export const dctableLocator = v.pick(dctable, ['name', 'dcserviceId', 'database'
 
 export const dctableMeta = v.intersect([
   dctableLocator,
-  v.object({ display: v.optional(v.pipe(v.string(), v.nonEmpty())) }),
+  v.object({
+    display: v.optional(v.pipe(v.string(), v.nonEmpty())),
+    columns: v.array(
+      v.object({
+        name: v.pipe(v.string(), v.nonEmpty()),
+        type: v.pipe(v.string(), v.nonEmpty()),
+        display: v.optional(v.pipe(v.string(), v.nonEmpty())),
+      }),
+    ),
+  }),
 ])

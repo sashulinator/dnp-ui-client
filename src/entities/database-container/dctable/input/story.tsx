@@ -22,10 +22,12 @@ export default {
           {...state}
           fetchTableList={async ({ sort, searchFilter, database, page, limit }) => {
             const ret = await api.findTables.request({
-              id: 'workshop',
-              database,
+              dcdatabaseLocator: {
+                dcserviceId: 'workshop',
+                name: database,
+              },
               sort,
-              where: searchFilter,
+              where: searchFilter as any,
               limit,
               offset: (page - 1) * limit,
             })

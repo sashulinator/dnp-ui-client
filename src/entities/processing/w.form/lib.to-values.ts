@@ -1,9 +1,11 @@
+import { Dctable } from '~/entities/database-container'
+
 import { type Proccessing } from '../models'
 import { type Config, type Values } from './ui.new-form'
 
 export function toValues(processing: Proccessing): Values {
   const configs = processing.configs.reduce<Record<string, Config>>((acc, config) => {
-    acc[config.inputTable] = config
+    acc[Dctable.buildFqn(config.inputDctableLocator)] = config
     return acc
   }, {})
 

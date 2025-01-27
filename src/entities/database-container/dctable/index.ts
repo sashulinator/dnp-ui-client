@@ -5,7 +5,7 @@ export * as Input from './input'
  * types
  */
 
-export type { Dctable, DctableCreateInput, DctableUpdateInput, DctableLocator } from './types'
+export type { Dctable, DctableCreateInput, DctableUpdateInput, DctableLocator, DctableMeta } from './types'
 
 /**
  * lib

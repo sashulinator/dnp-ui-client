@@ -20,7 +20,7 @@ import { type Atom, useAtomState } from '~/utils/store'
 
 import { Dctable } from '../..'
 
-export type Value = Dictionary<Omit<Dctable.Dctable, 'id'>>
+export type Value = Dictionary<Dctable.DctableMeta>
 
 const FIGURE_SPACE = ' ' // https://ru.wikipedia.org/wiki/Неразрывный_пробел
 
@@ -36,7 +36,7 @@ export interface Props {
     database: string
     page: number
     limit: number
-  }) => Promise<{ items: { name: string; display?: string; schema: string }[]; total: number }>
+  }) => Promise<{ items: { name: string; display?: string | undefined; schema: string }[]; total: number }>
 }
 
 const NAME = 'dnp-databaseContainer-dctable-input'

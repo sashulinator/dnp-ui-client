@@ -73,7 +73,12 @@ export default function Component(): JSX.Element {
 
   const databasesFetcher = api.findDatabases.useCache({ id })
 
-  const tablesFetcher = api.findTables.useCache({ id, database })
+  const tablesFetcher = api.findTables.useCache({
+    dcdatabaseLocator: {
+      dcserviceId: id,
+      name: database,
+    },
+  })
 
   const rowParams = {
     sort: sortParam,

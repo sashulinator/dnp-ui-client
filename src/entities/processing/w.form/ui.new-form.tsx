@@ -1,15 +1,15 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { useQuery } from 'react-query'
 
 import { APP } from '~/app/constants.app'
-import type { Dctable } from '~/entities/database-container'
+import { Dcservice, Dctable } from '~/entities/database-container'
 import Button, { DangerButton } from '~/shared/button'
 import Flex from '~/shared/flex'
 import { Card, Column, FieldArray, Row, useForm } from '~/shared/form'
 import Icon from '~/shared/icon'
 import { LabeledSelect, type Option } from '~/shared/select'
 import { Tabs } from '~/shared/tabs'
-import { type Any, type SetterOrUpdater, assertDefined, c, generateId } from '~/utils/core'
+import { type Any, type Dictionary, type SetterOrUpdater, assertDefined, c, generateId } from '~/utils/core'
 import { emptyFn } from '~/utils/function'
 
 import { SLICE } from '../constants'
@@ -17,7 +17,7 @@ import type { ExecutableSchema } from '../w.executable'
 import ParamsFieldFactory from '../w.executable/w.field-factory'
 import ExectableForm from '../w.executable/w.form/ui.form'
 // import { type Procedure } from '../../w.procedure'
-import InputBlock from './w.input-block'
+import InputBlock, { type TableLocator } from './w.input-block'
 import OutputBlock from './w.output-block'
 
 export { type Option }
@@ -46,10 +46,10 @@ type Table = { name: string; display: string; columns: Column[] }
 
 export interface Props {
   className?: string | undefined
+  tabValue: 'multi' | 'single'
   fetchTablesByDcdatabaseId: (dcdatabaseId: string) => Promise<Table[]>
   fetchDcdatabaseOptions: () => Promise<Option[]>
   fetchExecutableSchemas: () => Promise<ExecutableSchema[]>
-  tabValue: 'multi' | 'single'
   setTabValue: SetterOrUpdater<'multi' | 'single'>
 }
 
@@ -60,6 +60,8 @@ export default function Component(props: Props): JSX.Element {
 
   const [selectedDctableLocator, setSelectedSingleDctableLocator] = useState<Dctable.DctableLocator>()
   const [isTextInput, setIsTextInput] = useState(false)
+
+  const inputTablesMeta = useRef<Map<string, Dctable.DctableMeta>>(new Map())
 
   const form = useForm<Values>()
 
@@ -78,11 +80,28 @@ export default function Component(props: Props): JSX.Element {
 
   const selectedSingleDctableLocator = useMemo(
     () =>
-      Object.values(form.getState().values.configs)?.find((c) =>
-        isSameDctableCursor(c.inputDctableLocator, selectedDctableLocator),
+      Object.values(form.getState().values.configs || {})?.find((c) =>
+        Dctable.isSameLocator(c.inputDctableLocator, selectedDctableLocator),
       )?.inputDctableLocator,
     [selectedDctableLocator],
   )
+
+  console.log('kkkkk', selectedSingleDctableLocator)
+
+  // работает только для аутпута
+  const tablesFetcher = useQuery(
+    ['dcdatabaseTables', selectedSingleDctableLocator],
+    () => fetchTablesByDcdatabaseId(selectedSingleDctableLocator?.database as string),
+    {
+      staleTime: Infinity,
+      enabled: Boolean(selectedSingleDctableLocator),
+    },
+  )
+
+  const selectedSingleTable = useMemo(() => {
+    if (!selectedSingleDctableLocator) return
+    return inputTablesMeta.current.get(Dctable.buildFqn(selectedSingleDctableLocator))
+  }, [selectedSingleDctableLocator])
 
   return (
     <Tabs.Root value={tabValue} onValueChange={(v) => setTabValue(v as 'multi')}>
@@ -98,8 +117,26 @@ export default function Component(props: Props): JSX.Element {
                 <InputBlock
                   tableDisabled={!!form.getState().values?.multiConfig?.executables?.length}
                   onDcdatabaseIdChange={removeConfigs}
-                  onTablesChange={addConfig}
+                  onInputChange={manageConfigs}
                   fetchDcdatabaseOptions={fetchDcdatabaseOptions}
+                  fetchTableList={async ({ sort, searchFilter, database, page, limit }) => {
+                    const ret = await Dcservice.api.findTables.request({
+                      dcdatabaseLocator: {
+                        dcserviceId: 'workshop',
+                        name: database,
+                      },
+                      sort,
+                      where: searchFilter as any,
+                      limit,
+                      offset: (page - 1) * limit,
+                    })
+
+                    ret.data.items.forEach((i) => {
+                      inputTablesMeta.current.set(Dctable.buildFqn(i), i)
+                    })
+
+                    return ret.data
+                  }}
                 />
               </Column>
               <Column width='50%'>
@@ -113,7 +150,7 @@ export default function Component(props: Props): JSX.Element {
             </Row>
             <Row>
               <Column width='100%'>
-                {executableSchemas && (
+                {Object.values(form.getState().values?.configs || {}).length > 0 && executableSchemas && (
                   <FieldArray name='multiConfig.executables'>
                     {({ fields }) => (
                       <Flex direction='column' gap='4'>
@@ -197,7 +234,7 @@ export default function Component(props: Props): JSX.Element {
                   {executableSchemas && (
                     <FieldArray
                       key={selectedSingleDctableLocator.name}
-                      name={`configs.${selectedSingleDctableLocator.name}.executables`}
+                      name={`configs.${Dctable.buildFqn(selectedSingleDctableLocator)}.executables`}
                     >
                       {({ fields }) => (
                         <Flex direction='column' gap='4'>
@@ -226,7 +263,7 @@ export default function Component(props: Props): JSX.Element {
                                 </Row>
                                 <ParamsFieldFactory
                                   name={formName}
-                                  columns={selectedSingleTable.columns}
+                                  columns={selectedSingleTable?.columns || []}
                                   isSingleMode={true}
                                   setMultyValue={emptyFn}
                                   executableSchemas={executableSchemas}
@@ -257,7 +294,7 @@ export default function Component(props: Props): JSX.Element {
 
   function setUniqValues(getValue: (currentValue: unknown) => unknown, formName: string) {
     Object.values(form.getState().values.configs || {}).forEach((config) => {
-      const table = tablesFetcher.data?.find((t) => t.name === config.inputTable)
+      const table = tablesFetcher.data?.find((t) => t.name === config.inputDctableLocator.name)
 
       const uniqValue = getValue({
         values: form.getState().values,
@@ -266,14 +303,20 @@ export default function Component(props: Props): JSX.Element {
         table,
       })
 
-      form.change(formName.replace('multiConfig', `configs.${config.inputTable}`) as Any, uniqValue)
+      form.change(
+        formName.replace('multiConfig', `configs.${Dctable.buildFqn(config.inputDctableLocator)}`) as Any,
+        uniqValue,
+      )
     })
   }
 
   function setMultyParamValue(value: unknown, formName: string) {
     form.change(formName as any, value)
     Object.values(form.getState().values.configs || {}).forEach((config) => {
-      form.change(formName.replace('multiConfig', `configs.${config.inputTable}`) as Any, value)
+      form.change(
+        formName.replace('multiConfig', `configs.${Dctable.buildFqn(config.inputDctableLocator)}`) as Any,
+        value,
+      )
     })
   }
 
@@ -282,6 +325,7 @@ export default function Component(props: Props): JSX.Element {
 
     const initialValues = executableSchema?.params?.reduce<Record<string, unknown>>((acc, paramSchema) => {
       if (paramSchema.unique) return acc
+
       acc[paramSchema.name] = new Function('context', paramSchema.getInitialValue || '')({
         values: form.getState().values,
         paramSchema,
@@ -294,63 +338,60 @@ export default function Component(props: Props): JSX.Element {
     form.change(formName as Any, { name, params: initialValues })
 
     Object.values(form.getState().values.configs || {}).forEach((config) => {
-      const table = tablesFetcher.data?.find((t) => t.name === config.inputTable)
+      const dctableMeta = inputTablesMeta.current.get(Dctable.buildFqn(config.inputDctableLocator))
 
       const uniqInitialValues = executableSchema?.params?.reduce<Record<string, unknown>>((acc, paramSchema) => {
         if (!paramSchema.unique) return acc
+
         acc[paramSchema.name] = new Function('context', paramSchema.getInitialValue || '')({
           values: form.getState().values,
           paramSchema,
           generateId,
           formState: form.getState().values,
-          columns: table?.columns,
-          table,
+          columns: dctableMeta?.columns,
+          table: dctableMeta,
         })
         return acc
       }, {})
 
-      form.change(formName.replace('multiConfig', `configs.${config.inputTable}`) as Any, {
+      form.change(formName.replace('multiConfig', `configs.${Dctable.buildFqn(config.inputDctableLocator)}`) as Any, {
         name,
         params: { ...initialValues, ...uniqInitialValues },
       })
     })
   }
 
-  function addConfig(tableNames: string[]) {
+  /**
+   * Менеджерит конфиги в форме на основании выбраных/убранных tableLocators
+   * @param {Dictionary<TableLocator>} tableLocators словарь локаторов выбранных пользователем
+   */
+  function manageConfigs(tableLocators: Dictionary<TableLocator>) {
     const formState = form.getState()
-    const dcdatabaseId = formState.values?.inputDcdatabaseId
-    assertDefined(dcdatabaseId)
-    const currentTableNames = Object.values(form.getState().values?.configs || {}).map((c) => c.inputTable) || []
-    const tablesToRemove = currentTableNames.filter((tableName) => !tableNames.includes(tableName))
+    const tableLocatorsList = Object.values(tableLocators)
+    const configInputDctableLocators =
+      Object.values(form.getState().values?.configs || {}).map((c) => c.inputDctableLocator) || []
+    const tableLocatorsToRemove = configInputDctableLocators.filter(
+      (c) => !tableLocatorsList.some((t) => Dctable.isSameLocator(c, t)),
+    )
 
-    tablesToRemove.forEach((tableName) => {
+    tableLocatorsToRemove.forEach((tableLocator) => {
       // @ts-ignore
-      form.change(`configs.${tableName}`, undefined)
+      form.change(`configs.${Dctable.buildFqn(tableLocator)}`, undefined)
     })
 
-    tableNames.forEach((tableName) => {
-      if (formState.values?.configs?.[tableName]) return
+    tableLocatorsList.forEach((dctableLocator) => {
+      assertDefined(dctableLocator)
 
       if (!formState.values.multiConfig) {
         const config: Config = {
-          inputTable: tableName,
+          inputDctableLocator: dctableLocator as any,
           executables: [],
         }
         // @ts-ignore
-        form.change(`configs.${tableName}`, config)
+        form.change(`configs.${Dctable.buildFqn(dctableLocator)}`, config)
       }
     })
   }
 }
 
 Component.displayName = NAME
-
-/**
- * private
- */
-
-function isSameDctableCursor(a: Dctable.DctableLocator | undefined, b: Dctable.DctableLocator | undefined): boolean {
-  return (
-    a?.dcserviceId === b?.dcserviceId && a?.database === b?.database && a?.schema === b?.schema && a?.name === b?.name
-  )
-}

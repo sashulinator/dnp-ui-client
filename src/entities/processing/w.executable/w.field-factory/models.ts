@@ -4,7 +4,7 @@ import { type ParamSchema } from '../models'
 
 export type ParamFactoryContext = {
   name: string
-  columns: { name: string; display?: string; type?: string }[]
+  columns: { name: string; display?: string | undefined; type?: string }[]
   paramSchema: ParamSchema
   isSingleMode: boolean
   formState: any

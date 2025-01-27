@@ -19,7 +19,7 @@ const componentMap = {
 
 export interface Props {
   executableSchemas: ExecutableSchema[] | undefined
-  columns: { name: string; display: string; type: string }[]
+  columns: { name: string; display?: string | undefined; type: string }[]
   name: string
   isSingleMode: boolean
   setMultyValue: (value: unknown, name: string) => void
@@ -67,7 +67,7 @@ export default function Component(props: Props): ReactNode {
 
 type PrepareContextAndRenderProps = {
   executableSchema: ExecutableSchema
-  columns: { name: string; display: string; type: string }[]
+  columns: { name: string; display?: string | undefined; type: string }[]
   name: string
   paramSchema: ParamSchema
   isSingleMode: boolean
