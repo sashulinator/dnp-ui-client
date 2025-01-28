@@ -86,8 +86,6 @@ export default function Component(props: Props): JSX.Element {
     [selectedDctableLocator],
   )
 
-  console.log('kkkkk', selectedSingleDctableLocator)
-
   // работает только для аутпута
   const tablesFetcher = useQuery(
     ['dcdatabaseTables', selectedSingleDctableLocator],
@@ -116,13 +114,11 @@ export default function Component(props: Props): JSX.Element {
               <Column width='50%'>
                 <InputBlock
                   tableDisabled={!!form.getState().values?.multiConfig?.executables?.length}
-                  onDcdatabaseIdChange={removeConfigs}
                   onInputChange={manageConfigs}
-                  fetchDcdatabaseOptions={fetchDcdatabaseOptions}
-                  fetchTableList={async ({ sort, searchFilter, database, page, limit }) => {
+                  fetchTableList={async ({ sort, dcserviceId, searchFilter, database, page, limit }) => {
                     const ret = await Dcservice.api.findTables.request({
                       dcdatabaseLocator: {
-                        dcserviceId: 'workshop',
+                        dcserviceId,
                         name: database,
                       },
                       sort,
@@ -288,13 +284,9 @@ export default function Component(props: Props): JSX.Element {
    * private
    */
 
-  function removeConfigs() {
-    form.change(`configs`, {})
-  }
-
   function setUniqValues(getValue: (currentValue: unknown) => unknown, formName: string) {
     Object.values(form.getState().values.configs || {}).forEach((config) => {
-      const table = tablesFetcher.data?.find((t) => t.name === config.inputDctableLocator.name)
+      const table = inputTablesMeta.current.get(Dctable.buildFqn(config.inputDctableLocator))
 
       const uniqValue = getValue({
         values: form.getState().values,

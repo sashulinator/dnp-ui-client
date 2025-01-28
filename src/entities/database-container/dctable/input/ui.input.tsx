@@ -6,6 +6,7 @@ import { InputCard } from '~/shared/card'
 import Dialog from '~/shared/dialog'
 import Flex from '~/shared/flex'
 import Icon from '~/shared/icon'
+import Labeled from '~/shared/labeled'
 import ScrollArea from '~/shared/scroll-area'
 import { InputSelect } from '~/shared/select'
 import Spinner from '~/shared/spinner'
@@ -29,11 +30,15 @@ export interface Props {
   value: Value
   onChange: (value: Value) => void
   loading?: boolean | undefined
-  fetchDatabaseList: () => Promise<{ items: { name: string; display?: string }[]; total: number }>
+  fetchDatabaseList: (params: {
+    dcserviceId: string
+  }) => Promise<{ items: { name: string; display?: string }[]; total: number }>
+  fetchDcserviceList: () => Promise<{ items: { id: string; display?: string }[]; total: number }>
   fetchTableList: (params: {
     sort: Dctable.ListTable.ItemSort | undefined
     searchFilter: Dctable.ListTable.ItemSearchFilter | undefined
     database: string
+    dcserviceId: string
     page: number
     limit: number
   }) => Promise<{ items: { name: string; display?: string | undefined; schema: string }[]; total: number }>
@@ -46,6 +51,7 @@ export default function Component(props: Props): JSX.Element {
   const [openAtom, , setIsOpen] = useAtomState<boolean>(false)
 
   const [database, setDatabase] = useState('')
+  const [dcserviceId, setDcserviceId] = useState('workshop')
   const [page, setPage] = useState(1)
   const [searchFilter, setSearchFilter] = useState<Dctable.ListTable.ListTableProps['searchFilter'] | undefined>(
     undefined,
@@ -57,10 +63,10 @@ export default function Component(props: Props): JSX.Element {
   useSubscribe(selectedItemsAtom.subscribe as any, onChange)
 
   const fetcher = useQuery(
-    [NAME, 'tableFetcher', { searchFilter, database, sort, page }],
-    () => props.fetchTableList({ sort: sortAtom.get(), searchFilter, database, page, limit }),
+    [NAME, 'tableFetcher', { searchFilter, database, sort, page, dcserviceId }],
+    () => props.fetchTableList({ sort: sortAtom.get(), searchFilter, dcserviceId, database, page, limit }),
     {
-      enabled: Boolean(database),
+      enabled: Boolean(database && dcserviceId),
     },
   )
 
@@ -68,7 +74,10 @@ export default function Component(props: Props): JSX.Element {
     return fetcher.data?.items.map((i) => ({ ...i, id: `${i.name}.${i.schema}` }))
   }, [fetcher.data])
 
-  const databasesFetcher = useQuery([NAME, 'databasesFetcher'], () => props.fetchDatabaseList())
+  const dcservicesFetcher = useQuery([NAME, 'databasesFetcher'], () => props.fetchDcserviceList())
+  const databasesFetcher = useQuery([NAME, 'dcservicesFetcher', { dcserviceId }], () =>
+    props.fetchDatabaseList({ dcserviceId }),
+  )
 
   const valueList = Object.values(value)
 
@@ -108,7 +117,7 @@ export default function Component(props: Props): JSX.Element {
             </Flex>
           </Dialog.Title>
 
-          <Tabs.Root defaultValue='selected'>
+          <Tabs.Root defaultValue={valueList.length > 0 ? 'selected' : 'search'}>
             <Tabs.List>
               <Tabs.Trigger value='selected'>Выделенные</Tabs.Trigger>
               <Tabs.Trigger value='search'>Поиск</Tabs.Trigger>
@@ -124,16 +133,31 @@ export default function Component(props: Props): JSX.Element {
               </ScrollArea>
             </Tabs.Content>
             <Tabs.Content value='search'>
-              <Flex gap='1' align='center' justify='between' mb='4' mt='4'>
-                <Flex width='300px'>
-                  <InputSelect.default
-                    loading={databasesFetcher.isFetching}
-                    onValueChange={(value) => setDatabase(value)}
-                    value={database}
-                    options={
-                      databasesFetcher.data?.items.map((i) => ({ value: i.name, display: i.display || i.name })) || []
-                    }
-                  />
+              <Flex gap='6' align='center' mb='4' mt='4'>
+                <Flex width='300px' gap='2' align='center'>
+                  <Labeled label='Сервисы'>
+                    <InputSelect.default
+                      loading={dcservicesFetcher.isFetching}
+                      onValueChange={(value) => setDcserviceId(value)}
+                      value={dcserviceId}
+                      options={
+                        dcservicesFetcher.data?.items.map((i) => ({ value: i.id, display: i.display || i.display })) ||
+                        []
+                      }
+                    />
+                  </Labeled>
+                </Flex>
+                <Flex width='300px' gap='2' align='center'>
+                  <Labeled label='База данных'>
+                    <InputSelect.default
+                      loading={databasesFetcher.isFetching}
+                      onValueChange={(value) => setDatabase(value)}
+                      value={database}
+                      options={
+                        databasesFetcher.data?.items.map((i) => ({ value: i.name, display: i.display || i.name })) || []
+                      }
+                    />
+                  </Labeled>
                 </Flex>
               </Flex>
 

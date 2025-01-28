@@ -39,6 +39,10 @@ export default {
             const ret = await api.findDatabases.request({ id: 'workshop' })
             return ret.data
           }}
+          fetchDcserviceList={async () => {
+            const ret = await api.findWithTotal.request({})
+            return ret.data
+          }}
         />
 
         <Flex direction='column'>
