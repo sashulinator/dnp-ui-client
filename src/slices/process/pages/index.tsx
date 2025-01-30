@@ -3,16 +3,17 @@ import { NumberParam, withDefault } from 'serialize-query-params'
 import { useQueryParams } from 'use-query-params'
 
 import { routes } from '~/app/route'
+import Button from '~/shared/button'
 import Container from '~/shared/container'
 import Flex from '~/shared/flex'
 import Heading from '~/shared/heading'
+import Link from '~/shared/link'
 import { Pagination } from '~/shared/page'
 import Section from '~/shared/section'
 import List from '~/shared/table/v.list'
 import { fetchList } from '~/slices/process'
 
 import { ProcessStatusBadge } from '../ui/ProcessStatusBadge'
-import { ProcessTypeBadge } from '../ui/ProcessTypeBadge'
 
 export interface Props {
   className?: string | undefined
@@ -21,7 +22,13 @@ const columns = [
   {
     name: 'track',
     display: 'Тип процесса',
-    renderCell: ({ item }: { item: { type: string } }) => <ProcessTypeBadge type={item.type} />,
+    renderCell: ({ item }: { item: { id: string; type: string } }) => {
+      return (
+        <Button variant='ghost' asChild={true}>
+          <Link to={routes.processes_kn.getUrl(item.id)}>Обработка</Link>
+        </Button>
+      )
+    },
   },
   {
     name: 'type',
@@ -29,8 +36,11 @@ const columns = [
     renderCell: () => <ProcessStatusBadge status='STARTED' />,
   },
   {
-    name: 'id',
-    display: 'ID инициатора',
+    name: 'user',
+    display: 'Автор',
+    renderCell: ({ item }: { item: { user?: { username?: string | undefined } } }) => {
+      return item?.user?.username
+    },
   },
   {
     name: 'createdAt',
@@ -60,10 +70,12 @@ export default function Component(): JSX.Element {
           createdAt: dayjs(item.createdAt).format('DD.MM.YYYY HH:mm'),
         })) ?? []
       }
-      columns={columns.map((column) => ({
-        ...column,
-        name: column.name as 'id' | 'track' | 'type' | 'createdAt',
-      }))}
+      columns={
+        columns.map((column) => ({
+          ...column,
+          name: column.name as 'id' | 'track' | 'type' | 'createdAt',
+        })) as any
+      }
     />
   )
   return (

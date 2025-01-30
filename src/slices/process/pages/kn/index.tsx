@@ -1,10 +1,8 @@
 import dayjs from 'dayjs'
-import duration from 'dayjs/plugin/duration'
 import { useParams } from 'react-router-dom'
 
 import { routes } from '~/app/route'
 import Card from '~/shared/card'
-import CodeEditor from '~/shared/code-editor/ui/code-editor'
 import Container from '~/shared/container'
 import DataList from '~/shared/data-list'
 import Flex from '~/shared/flex'
@@ -16,22 +14,11 @@ import { toHtml } from '~/utils/md'
 
 import * as api from '../../api/get-by-kn'
 import { ProcessStatusBadge } from '../../ui/ProcessStatusBadge'
-import { ProcessTypeBadge } from '../../ui/ProcessTypeBadge'
 
 export default function Component() {
   const { kn = '' } = useParams<{ kn: string }>()
 
   const fetcher = api.useCache({ kn })
-
-  // Код для отображения времени выполнения. Заменить на вычисления из событий процесса после склейки с шиной статусов
-  const firstDate = dayjs(Date.now())
-  const secondDate = dayjs(Date.now() - 3424940)
-
-  const diff = firstDate.diff(secondDate)
-
-  dayjs.extend(duration)
-
-  const dur = dayjs.duration(diff).format('HH:mm:ss')
 
   return (
     <main>
@@ -54,14 +41,12 @@ export default function Component() {
               {fetcher.isSuccess ? (
                 <DataList.Root>
                   <DataList.Item align='center'>
-                    <DataList.Label>ID Инициатора</DataList.Label>
-                    <DataList.Value>{fetcher.data?.track}</DataList.Value>
+                    <DataList.Label>Автор</DataList.Label>
+                    <DataList.Value>{fetcher.data?.user.username}</DataList.Value>
                   </DataList.Item>
                   <DataList.Item align='center'>
                     <DataList.Label>Тип Процесса</DataList.Label>
-                    <DataList.Value>
-                      <ProcessTypeBadge type={fetcher.data.type} />
-                    </DataList.Value>
+                    <DataList.Value>{fetcher.data.type}</DataList.Value>
                   </DataList.Item>
                   <DataList.Item align='center'>
                     <DataList.Label>Статус</DataList.Label>
@@ -72,10 +57,6 @@ export default function Component() {
                   <DataList.Item align='center'>
                     <DataList.Label>Запущен</DataList.Label>
                     <DataList.Value>{dayjs(fetcher.data.createdAt).format('DD.MM.YYYY HH:mm')}</DataList.Value>
-                  </DataList.Item>
-                  <DataList.Item align='center'>
-                    <DataList.Label>Время выполнения</DataList.Label>
-                    <DataList.Value>{dur}</DataList.Value>
                   </DataList.Item>
                   {/* {fetcher.data.normalizationConfigId && (
                     <>

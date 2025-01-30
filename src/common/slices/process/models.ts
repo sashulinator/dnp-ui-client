@@ -15,6 +15,9 @@ export const baseProcessSchema = v.object({
   track: v.pipe(v.string(), v.nonEmpty()),
   type: v.pipe(v.string(), v.nonEmpty()),
   data: v.object({}),
+  user: v.object({
+    username: v.pipe(v.string(), v.nonEmpty()),
+  }),
   ...creatableModel.entries,
 })
 
