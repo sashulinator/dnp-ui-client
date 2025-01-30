@@ -19,7 +19,6 @@ export default defineConfig(({ mode }) => {
       port: env.PORT,
       proxy: {
         '/api/v1': env.API_URL,
-        '/realms': env.AUTH_SERVICE_URL,
       },
     },
   }

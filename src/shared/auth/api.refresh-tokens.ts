@@ -13,20 +13,12 @@ export async function request(requestData: RequestData): Promise<{
   data: ResponseData
   response: Response
 }> {
-  const details = [
-    ['refresh_token', requestData.refreshToken],
-    ['client_id', 'dnp'],
-    ['grant_type', 'refresh_token'],
-  ]
-
-  const formBody = details.map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`).join('&')
-
-  const response = await fetch(`/realms/DEVELOPMENT/protocol/openid-connect/token`, {
+  const response = await fetch('/api/v1/auth/refresh', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: formBody,
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      refreshToken: requestData.refreshToken,
+    }),
   })
 
   const data = await response.json()
