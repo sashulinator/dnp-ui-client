@@ -12,6 +12,7 @@ export const dccolumn = v.object({
   dcserviceId: v.pipe(v.string(), v.nonEmpty()),
   database: v.pipe(v.string(), v.nonEmpty()),
   table: v.pipe(v.string(), v.nonEmpty()),
+  schema: v.pipe(v.string(), v.nonEmpty()),
 })
 
 /**
@@ -25,3 +26,21 @@ export const dccolumnCreateInput = v.omit(dccolumn, ['id'])
  */
 
 export const dccolumnUpdateInput = dccolumn
+
+/**
+ * Locator
+ * Местонахождение Колонки
+ */
+
+export const dccolumnLocator = v.pick(dccolumn, ['name', 'dcserviceId', 'database', 'schema', 'table'])
+
+/**
+ * Meta
+ */
+
+export const dccolumnMeta = v.intersect([
+  dccolumnLocator,
+  v.object({
+    display: v.optional(v.pipe(v.string(), v.nonEmpty())),
+  }),
+])
