@@ -119,7 +119,7 @@ export default function Component(props: Props): JSX.Element {
 
           <Tabs.Root defaultValue={valueList.length > 0 ? 'selected' : 'search'}>
             <Tabs.List>
-              <Tabs.Trigger value='selected'>Выделенные</Tabs.Trigger>
+              <Tabs.Trigger value='selected'>Выбрано</Tabs.Trigger>
               <Tabs.Trigger value='search'>Поиск</Tabs.Trigger>
             </Tabs.List>
             <Tabs.Content value='selected'>
@@ -165,6 +165,9 @@ export default function Component(props: Props): JSX.Element {
                 <Dctable.ListTable.default
                   list={tableList || []}
                   searchFilter={searchFilter}
+                  setSearchFilter={setSearchFilter as any}
+                  sortAtom={sortAtom}
+                  selectedItemsAtom={selectedItemsAtom}
                   paginationProps={{
                     limit,
                     onLimitChange: setLimit,
@@ -172,9 +175,6 @@ export default function Component(props: Props): JSX.Element {
                     currentPage: page,
                     onChange: setPage,
                   }}
-                  setSearchFilter={setSearchFilter as any}
-                  sortAtom={sortAtom}
-                  selectedItemsAtom={selectedItemsAtom}
                 />
               </ScrollArea>
             </Tabs.Content>

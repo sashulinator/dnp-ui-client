@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 
+import { Dcservice, Dctable } from '~/entities/database-container'
 import Button from '~/shared/button'
 import Flex from '~/shared/flex'
 import Icon from '~/shared/icon'
@@ -8,16 +9,25 @@ import { InputSelect } from '~/shared/select'
 import { type Option } from '~/shared/select/v.input'
 import { ListTable } from '~/shared/table'
 import TextInput from '~/shared/text-input'
+import { assertDefined } from '~/utils/assertions'
 import { type Dictionary, generateId } from '~/utils/core'
 
 import { type ParamSchema } from '../../models'
 import type { ParamFactoryContext } from '../models'
 
+type ColumnLocator = {
+  database?: string | undefined
+  schema?: string | undefined
+  table?: string | undefined
+  column?: string | undefined
+  url?: string | undefined
+}
+
 type Item = {
   id: string
   'column-name': string
   'semantic-name': string
-  dict: string
+  'column-locator': ColumnLocator
   'col-type': string
 }
 type StoryContext = Dictionary
@@ -30,6 +40,10 @@ export interface Props {
 }
 
 const NAME = 'processing-FackerColConfig'
+
+const ref: Dictionary<{
+  tableLocator: Dctable.DctableMeta
+}> & { services?: Dcservice.Dcservice[] } = {}
 
 export default function Component(props: Props): JSX.Element | string {
   const { onChange, value, _paramContext } = props
@@ -46,10 +60,21 @@ export default function Component(props: Props): JSX.Element | string {
           columns={initialColumns}
           list={value}
           renderCell={(cellProps) => {
+            const id = cellProps.item.id
+            const refState = ref[id]
+            const refTableLocator = refState?.tableLocator
+
             // eslint-disable-next-line react-hooks/rules-of-hooks
-            const [state, setState] = useState(cellProps.value as string)
+            const [state, setState] = useState(
+              ((cellProps as any).value?.column as string) || (cellProps.value as string),
+            )
             // eslint-disable-next-line react-hooks/rules-of-hooks
-            useEffect(() => setState(cellProps.value as string), [cellProps.value])
+            const [tableLocatorState, setColLocatorState] = useState(refTableLocator)
+            // eslint-disable-next-line react-hooks/rules-of-hooks
+            useEffect(
+              () => setState(((cellProps as any).value?.column as string) || (cellProps.value as string)),
+              [cellProps.value],
+            )
 
             const params = (_paramContext.paramSchema as any)?.component?.props?.params as ParamSchema[]
 
@@ -111,24 +136,82 @@ export default function Component(props: Props): JSX.Element | string {
                 />
               )
             }
-            if (cellProps.name === 'dict') {
+            if (cellProps.name === 'column-locator') {
               return (
-                <TextInput
-                  disabled={true}
-                  onBlur={(e) =>
-                    onChange(
-                      value.map((r) => {
-                        if (r['column-name'] === cellProps.item['column-name']) {
-                          return { ...r, dict: e.target.value }
-                        }
-                        return r
-                      }),
-                    )
-                  }
-                  onChange={(e) => setState(e.target.value)}
-                  size='1'
-                  value={state}
-                />
+                <Flex direction='column'>
+                  <Dctable.Input.default
+                    fetchTableList={async ({ sort, dcserviceId, searchFilter, database, page, limit }) => {
+                      const ret = await Dcservice.api.findTables.request({
+                        dcdatabaseLocator: {
+                          dcserviceId,
+                          name: database,
+                        },
+                        sort,
+                        where: searchFilter as any,
+                        limit,
+                        offset: (page - 1) * limit,
+                      })
+
+                      return ret.data
+                    }}
+                    fetchDcserviceList={async () => {
+                      const ret = await Dcservice.api.findWithTotal.request({})
+                      ref.services = ret.data.items
+                      return ret.data
+                    }}
+                    value={
+                      tableLocatorState
+                        ? { [`${tableLocatorState.schema}.${tableLocatorState.name}`]: tableLocatorState }
+                        : {}
+                    }
+                    onChange={(value) => {
+                      ref[id] = {
+                        ...ref[id],
+                        tableLocator: Object.values(value)[0],
+                      }
+                      setColLocatorState(Object.values(value)[0])
+                    }}
+                    fetchDatabaseList={async (params) => {
+                      const ret = await Dcservice.api.findDatabases.request({ id: params.dcserviceId })
+                      return ret.data
+                    }}
+                  />
+                  <InputSelect.default
+                    value={state}
+                    onValueChange={(colValue) => {
+                      setState(colValue)
+                      const service = ref.services?.find((s) => s.id === tableLocatorState.dcserviceId)
+                      assertDefined(service, { message: 'Dcservise is not defined' })
+                      onChange(
+                        value.map((r) => {
+                          if (r['column-locator'] === cellProps.item['column-locator']) {
+                            return {
+                              ...r,
+                              'column-locator': {
+                                database: tableLocatorState.database,
+                                schema: tableLocatorState.schema,
+                                table: tableLocatorState.name,
+                                column: colValue,
+                                url: toDatabaseUrl({
+                                  client: service.client,
+                                  user: service.username,
+                                  password: service.password,
+                                  database: tableLocatorState.database,
+                                  host: service.host,
+                                  port: service.port,
+                                }),
+                              },
+                            }
+                          }
+                          return r
+                        }),
+                      )
+                    }}
+                    options={
+                      tableLocatorState?.columns?.map((i) => ({ value: i.name, display: i.display || i.name })) || []
+                    }
+                  />
+                </Flex>
               )
             }
 
@@ -158,7 +241,13 @@ export default function Component(props: Props): JSX.Element | string {
             onClick={() =>
               onChange([
                 ...value,
-                { id: generateId(), 'column-name': '', dict: '', 'semantic-name': '', 'col-type': '' },
+                {
+                  id: generateId(),
+                  'column-name': '',
+                  'column-locator': {},
+                  'semantic-name': '',
+                  'col-type': '',
+                },
               ])
             }
           >
@@ -183,10 +272,23 @@ export const initialColumns = [
   },
   {
     display: 'Словарь',
-    name: 'dict',
+    name: 'column-locator',
   },
   {
     display: 'Тип',
     name: 'col-type',
   },
 ] satisfies ListTable.ColumnProps<Item, StoryContext>[]
+
+export type ToDatabaseUrlParams = {
+  user: string
+  password: string
+  database: string
+  host: string
+  port: number
+  client: string
+}
+
+export function toDatabaseUrl(params: ToDatabaseUrlParams): string {
+  return `${params.client}://${params.host}:${params.port}/${params.database}?user=${params.user}&password=${params.password}`
+}
