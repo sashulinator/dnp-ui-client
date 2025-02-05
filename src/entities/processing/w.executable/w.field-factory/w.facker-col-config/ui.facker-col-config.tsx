@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+/* eslint-disable react-hooks/rules-of-hooks */
+import { useState } from 'react'
 
 import { Dcservice, Dctable } from '~/entities/database-container'
 import Button from '~/shared/button'
@@ -9,6 +10,7 @@ import { InputSelect } from '~/shared/select'
 import { type Option } from '~/shared/select/v.input'
 import { ListTable } from '~/shared/table'
 import TextInput from '~/shared/text-input'
+import Tooltip from '~/shared/tooltip'
 import { assertDefined } from '~/utils/assertions'
 import { type Dictionary, generateId } from '~/utils/core'
 
@@ -43,6 +45,7 @@ const NAME = 'processing-FackerColConfig'
 
 const ref: Dictionary<{
   tableLocator: Dctable.DctableMeta
+  isTextInput: boolean
 }> & { services?: Dcservice.Dcservice[] } = {}
 
 export default function Component(props: Props): JSX.Element | string {
@@ -63,20 +66,82 @@ export default function Component(props: Props): JSX.Element | string {
             const id = cellProps.item.id
             const refState = ref[id]
             const refTableLocator = refState?.tableLocator
+            const refisTextInput = refState?.isTextInput
 
-            // eslint-disable-next-line react-hooks/rules-of-hooks
-            const [state, setState] = useState(
-              ((cellProps as any).value?.column as string) || (cellProps.value as string),
-            )
-            // eslint-disable-next-line react-hooks/rules-of-hooks
+            const [columnName, setColumnName] = useState(cellProps.item['column-name'])
+            const [isTextInput, setIsTextInput] = useState(refisTextInput || false)
             const [tableLocatorState, setColLocatorState] = useState(refTableLocator)
-            // eslint-disable-next-line react-hooks/rules-of-hooks
-            useEffect(
-              () => setState(((cellProps as any).value?.column as string) || (cellProps.value as string)),
-              [cellProps.value],
-            )
+            const isColType = Boolean(cellProps.item['col-type'])
+            const isColumnLocator = Boolean(cellProps.item['column-locator'])
+            const isSemanticName = Boolean(cellProps.item['semantic-name'])
 
             const params = (_paramContext.paramSchema as any)?.component?.props?.params as ParamSchema[]
+
+            if (cellProps.name === 'column-name') {
+              return (
+                <Flex align='end' gap='1'>
+                  {isTextInput ? (
+                    <TextInput
+                      style={{ width: '100%' }}
+                      onBlur={(e) =>
+                        onChange(
+                          value.map((r) => {
+                            if (r.id === cellProps.item.id) {
+                              return { ...r, 'column-name': e.target.value }
+                            }
+                            return r
+                          }),
+                        )
+                      }
+                      onChange={(e) => setColumnName(e.target.value)}
+                      size='1'
+                      value={columnName}
+                    />
+                  ) : (
+                    <InputSelect.default
+                      size='1'
+                      value={columnName}
+                      onChange={(v) => {
+                        onChange(
+                          value.map((r) => {
+                            if (r.id === cellProps.item.id) {
+                              return { ...r, 'column-name': v.toString() }
+                            }
+                            return r
+                          }),
+                        )
+                      }}
+                      variant='surface'
+                      options={_paramContext.columns.map((c) => ({ display: c.name, value: c.name }))}
+                    />
+                  )}
+                  <Tooltip
+                    content={
+                      isTextInput
+                        ? columnName
+                          ? 'Очистите поле ввода чтобы сменить тип ввода на "Выбор из существующих'
+                          : 'Выбрать из существующих'
+                        : 'Ввести название вручную'
+                    }
+                  >
+                    <Button
+                      disabled={!!columnName}
+                      variant='outline'
+                      square={true}
+                      size='1'
+                      onClick={() =>
+                        setIsTextInput((s) => {
+                          ref[id] = { ...ref[id], isTextInput: !s }
+                          return !s
+                        })
+                      }
+                    >
+                      <Icon name={isTextInput ? 'ChevronDown' : 'Pencil'} />
+                    </Button>
+                  </Tooltip>
+                </Flex>
+              )
+            }
 
             if (cellProps.name === 'col-type') {
               const param = params?.find((p) => p.name === 'type')
@@ -87,8 +152,9 @@ export default function Component(props: Props): JSX.Element | string {
                     style={{ width: '100%' }}
                     options={options}
                     variant='surface'
+                    disabled={isColumnLocator || isSemanticName}
                     size='1'
-                    value={state}
+                    value={cellProps.item['col-type']}
                     onChange={(v) => {
                       onChange(
                         value.map((r) => {
@@ -119,7 +185,8 @@ export default function Component(props: Props): JSX.Element | string {
               return (
                 <InputSelect.default
                   style={{ width: '100%' }}
-                  value={state}
+                  value={cellProps.item['semantic-name']}
+                  disabled={isColumnLocator || isColType}
                   options={options}
                   variant='surface'
                   size='1'
@@ -177,9 +244,9 @@ export default function Component(props: Props): JSX.Element | string {
                     }}
                   />
                   <InputSelect.default
-                    value={state}
+                    value={cellProps.item['column-locator'].column}
                     onValueChange={(colValue) => {
-                      setState(colValue)
+                      setColumnName(colValue)
                       const service = ref.services?.find((s) => s.id === tableLocatorState.dcserviceId)
                       assertDefined(service, { message: 'Dcservise is not defined' })
                       onChange(
@@ -212,26 +279,6 @@ export default function Component(props: Props): JSX.Element | string {
                     }
                   />
                 </Flex>
-              )
-            }
-
-            if (cellProps.name === 'column-name') {
-              return (
-                <TextInput
-                  onBlur={(e) =>
-                    onChange(
-                      value.map((r) => {
-                        if (r.id === cellProps.item.id) {
-                          return { ...r, 'column-name': e.target.value }
-                        }
-                        return r
-                      }),
-                    )
-                  }
-                  onChange={(e) => setState(e.target.value)}
-                  size='1'
-                  value={state}
-                />
               )
             }
           }}
@@ -267,16 +314,16 @@ export const initialColumns = [
     name: 'column-name',
   },
   {
+    display: 'Тип',
+    name: 'col-type',
+  },
+  {
     display: 'Семантический тип',
     name: 'semantic-name',
   },
   {
     display: 'Словарь',
     name: 'column-locator',
-  },
-  {
-    display: 'Тип',
-    name: 'col-type',
   },
 ] satisfies ListTable.ColumnProps<Item, StoryContext>[]
 
