@@ -3,7 +3,7 @@ import { useState } from 'react'
 import Flex from '~/shared/flex'
 import { type Props, type Story } from '~/shared/storybook'
 
-import InputCard, { type InputDcservice } from './v.input/ui.input-card'
+import InputCard, { type InputDcservice } from '../input/ui.input'
 
 interface State {}
 

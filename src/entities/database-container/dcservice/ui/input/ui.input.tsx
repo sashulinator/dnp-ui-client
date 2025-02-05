@@ -4,8 +4,8 @@ import Text from '~/shared/text'
 import { c } from '~/utils/core'
 import { useAsync } from '~/utils/core-hooks'
 
-import { type Dcservice } from '../../../types'
-import DcserviceCard from '../ui.card'
+import { type Dcservice } from '../../types'
+import DcserviceCard from '../card/ui.card'
 
 export type InputDcservice = Pick<Dcservice, 'host' | 'port' | 'display'>
 
