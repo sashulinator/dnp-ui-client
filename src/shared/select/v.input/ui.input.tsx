@@ -3,6 +3,8 @@ import { mergeStyles } from '@radix-ui/themes/helpers'
 
 import React, { type FormEventHandler } from 'react'
 
+import Button from '~/shared/button'
+import Icon from '~/shared/icon'
 import Select from '~/shared/select'
 import { c, fns } from '~/utils/core'
 
@@ -17,6 +19,7 @@ export type Props = Omit<Select.TriggerProps, 'name' | 'value'> & {
   value?: string | undefined
   size?: '1' | '2'
   loading?: boolean | undefined
+  clearable?: boolean | undefined
   onChange?: (FormEventHandler<HTMLButtonElement> & ((value: string) => void)) | undefined
   onValueChange?: ((value: string) => void) | undefined
   options?: Option[]
@@ -26,6 +29,7 @@ export default function Component(props: Props) {
   const {
     options = [],
     value = '',
+    disabled,
     onChange,
     className,
     size = '2',
@@ -33,23 +37,44 @@ export default function Component(props: Props) {
     onValueChange,
     loading,
     contentProps,
+    clearable,
     ...triggerProps
   } = props
+
+  const hasValue = !!value
 
   return (
     <Select.Root onValueChange={fns(onChange, (v) => onValueChange?.(v.toString()))} value={value}>
       <Flex width='100%' style={{ position: 'relative' }}>
-        {loading && (
-          <Spinner
-            style={{ position: 'absolute', top: '50%', right: 'var(--space-6)', transform: 'translateY(-50%)' }}
-          />
-        )}
+        <Flex>
+          {clearable && hasValue && !disabled && !loading && (
+            <Flex style={{ position: 'absolute', top: '50%', right: 'var(--space-6)', transform: 'translateY(-50%)' }}>
+              <Button
+                round={true}
+                size={'1'}
+                variant='ghost'
+                onClick={() => {
+                  onValueChange?.('')
+                  onChange?.('' as any)
+                }}
+              >
+                <Icon name='Cross1' />
+              </Button>
+            </Flex>
+          )}
+          {loading && (
+            <Spinner
+              style={{ position: 'absolute', top: '50%', right: 'var(--space-6)', transform: 'translateY(-50%)' }}
+            />
+          )}
+        </Flex>
         <Select.Trigger
           {...{ size }}
           variant={variant}
           {...triggerProps}
           className={c(className, NAME)}
-          style={mergeStyles({ width: '100%' }, props.style)}
+          style={mergeStyles({ width: '100%', pointerEvents: disabled ? 'none' : undefined }, props.style)}
+          disabled={disabled}
         />
       </Flex>
       <Select.Content {...contentProps}>

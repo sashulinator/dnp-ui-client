@@ -12,7 +12,7 @@ import { ListTable } from '~/shared/table'
 import TextInput from '~/shared/text-input'
 import Tooltip from '~/shared/tooltip'
 import { assertDefined } from '~/utils/assertions'
-import { type Dictionary, generateId } from '~/utils/core'
+import { type Dictionary, generateId, isEmpty } from '~/utils/core'
 
 import { type ParamSchema } from '../../models'
 import type { ParamFactoryContext } from '../models'
@@ -71,9 +71,9 @@ export default function Component(props: Props): JSX.Element | string {
             const [columnName, setColumnName] = useState(cellProps.item['column-name'])
             const [isTextInput, setIsTextInput] = useState(refisTextInput || false)
             const [tableLocatorState, setColLocatorState] = useState(refTableLocator)
-            const isColType = Boolean(cellProps.item['col-type'])
-            const isColumnLocator = Boolean(cellProps.item['column-locator'])
-            const isSemanticName = Boolean(cellProps.item['semantic-name'])
+            const isColType = !!cellProps.item['col-type']
+            const isColumnLocator = !isEmpty(cellProps.item['column-locator'])
+            const isSemanticName = !!cellProps.item['semantic-name']
 
             const params = (_paramContext.paramSchema as any)?.component?.props?.params as ParamSchema[]
 
@@ -99,6 +99,7 @@ export default function Component(props: Props): JSX.Element | string {
                     />
                   ) : (
                     <InputSelect.default
+                      clearable={true}
                       size='1'
                       value={columnName}
                       onChange={(v) => {
@@ -147,36 +148,25 @@ export default function Component(props: Props): JSX.Element | string {
               const param = params?.find((p) => p.name === 'type')
               const options = (param?.component?.props as { options: Option[] })?.options
               return (
-                <Flex gap='2'>
-                  <InputSelect.default
-                    style={{ width: '100%' }}
-                    options={options}
-                    variant='surface'
-                    disabled={isColumnLocator || isSemanticName}
-                    size='1'
-                    value={cellProps.item['col-type']}
-                    onChange={(v) => {
-                      onChange(
-                        value.map((r) => {
-                          if (r.id === cellProps.item.id) {
-                            return { ...r, 'col-type': v.toString() }
-                          }
-                          return r
-                        }),
-                      )
-                    }}
-                  />
-                  <Button
-                    size='1'
-                    variant='soft'
-                    round={true}
-                    onClick={() => {
-                      onChange(value.filter((r) => r.id !== cellProps.item.id))
-                    }}
-                  >
-                    <Icon name='Trash' />
-                  </Button>
-                </Flex>
+                <InputSelect.default
+                  style={{ width: '100%' }}
+                  clearable={true}
+                  options={options}
+                  variant='surface'
+                  disabled={isColumnLocator || isSemanticName}
+                  size='1'
+                  value={cellProps.item['col-type']}
+                  onChange={(v) => {
+                    onChange(
+                      value.map((r) => {
+                        if (r.id === cellProps.item.id) {
+                          return { ...r, 'col-type': v.toString() }
+                        }
+                        return r
+                      }),
+                    )
+                  }}
+                />
               )
             }
             if (cellProps.name === 'semantic-name') {
@@ -187,6 +177,7 @@ export default function Component(props: Props): JSX.Element | string {
                   style={{ width: '100%' }}
                   value={cellProps.item['semantic-name']}
                   disabled={isColumnLocator || isColType}
+                  clearable={true}
                   options={options}
                   variant='surface'
                   size='1'
@@ -205,79 +196,96 @@ export default function Component(props: Props): JSX.Element | string {
             }
             if (cellProps.name === 'column-locator') {
               return (
-                <Flex direction='column'>
-                  <Dctable.Input.default
-                    fetchTableList={async ({ sort, dcserviceId, searchFilter, database, page, limit }) => {
-                      const ret = await Dcservice.api.findTables.request({
-                        dcdatabaseLocator: {
-                          dcserviceId,
-                          name: database,
-                        },
-                        sort,
-                        where: searchFilter as any,
-                        limit,
-                        offset: (page - 1) * limit,
-                      })
+                <Flex width='100%'>
+                  <Flex direction='column' width='100%'>
+                    <Dctable.Input.default
+                      clearable={true}
+                      disabled={isSemanticName || isColType}
+                      fetchTableList={async ({ sort, dcserviceId, searchFilter, database, page, limit }) => {
+                        const ret = await Dcservice.api.findTables.request({
+                          dcdatabaseLocator: {
+                            dcserviceId,
+                            name: database,
+                          },
+                          sort,
+                          where: searchFilter as any,
+                          limit,
+                          offset: (page - 1) * limit,
+                        })
 
-                      return ret.data
-                    }}
-                    fetchDcserviceList={async () => {
-                      const ret = await Dcservice.api.findWithTotal.request({})
-                      ref.services = ret.data.items
-                      return ret.data
-                    }}
-                    value={
-                      tableLocatorState
-                        ? { [`${tableLocatorState.schema}.${tableLocatorState.name}`]: tableLocatorState }
-                        : {}
-                    }
-                    onChange={(value) => {
-                      ref[id] = {
-                        ...ref[id],
-                        tableLocator: Object.values(value)[0],
+                        return ret.data
+                      }}
+                      fetchDcserviceList={async () => {
+                        const ret = await Dcservice.api.findWithTotal.request({})
+                        ref.services = ret.data.items
+                        return ret.data
+                      }}
+                      value={
+                        tableLocatorState
+                          ? { [`${tableLocatorState.schema}.${tableLocatorState.name}`]: tableLocatorState }
+                          : {}
                       }
-                      setColLocatorState(Object.values(value)[0])
-                    }}
-                    fetchDatabaseList={async (params) => {
-                      const ret = await Dcservice.api.findDatabases.request({ id: params.dcserviceId })
-                      return ret.data
-                    }}
-                  />
-                  <InputSelect.default
-                    value={cellProps.item['column-locator'].column}
-                    onValueChange={(colValue) => {
-                      setColumnName(colValue)
-                      const service = ref.services?.find((s) => s.id === tableLocatorState.dcserviceId)
-                      assertDefined(service, { message: 'Dcservise is not defined' })
-                      onChange(
-                        value.map((r) => {
-                          if (r['column-locator'] === cellProps.item['column-locator']) {
-                            return {
-                              ...r,
-                              'column-locator': {
-                                database: tableLocatorState.database,
-                                schema: tableLocatorState.schema,
-                                table: tableLocatorState.name,
-                                column: colValue,
-                                url: toDatabaseUrl({
-                                  client: service.client,
-                                  user: service.username,
-                                  password: service.password,
+                      onChange={(value) => {
+                        ref[id] = {
+                          ...ref[id],
+                          tableLocator: Object.values(value || {})[0],
+                        }
+                        setColLocatorState(Object.values(value || {})[0])
+                      }}
+                      fetchDatabaseList={async (params) => {
+                        const ret = await Dcservice.api.findDatabases.request({ id: params.dcserviceId })
+                        return ret.data
+                      }}
+                    />
+                    <InputSelect.default
+                      value={cellProps.item['column-locator'].column}
+                      disabled={isSemanticName || isColType}
+                      onValueChange={(colValue) => {
+                        setColumnName(colValue)
+                        const service = ref.services?.find((s) => s.id === tableLocatorState.dcserviceId)
+                        assertDefined(service, { message: 'Dcservise is not defined' })
+                        onChange(
+                          value.map((r) => {
+                            if (r['column-locator'] === cellProps.item['column-locator']) {
+                              return {
+                                ...r,
+                                'column-locator': {
                                   database: tableLocatorState.database,
-                                  host: service.host,
-                                  port: service.port,
-                                }),
-                              },
+                                  schema: tableLocatorState.schema,
+                                  table: tableLocatorState.name,
+                                  column: colValue,
+                                  url: toDatabaseUrl({
+                                    client: service.client,
+                                    user: service.username,
+                                    password: service.password,
+                                    database: tableLocatorState.database,
+                                    host: service.host,
+                                    port: service.port,
+                                  }),
+                                },
+                              }
                             }
-                          }
-                          return r
-                        }),
-                      )
-                    }}
-                    options={
-                      tableLocatorState?.columns?.map((i) => ({ value: i.name, display: i.display || i.name })) || []
-                    }
-                  />
+                            return r
+                          }),
+                        )
+                      }}
+                      options={
+                        tableLocatorState?.columns?.map((i) => ({ value: i.name, display: i.display || i.name })) || []
+                      }
+                    />{' '}
+                  </Flex>
+                  <Flex align='center'>
+                    <Button
+                      size='1'
+                      variant='soft'
+                      round={true}
+                      onClick={() => {
+                        onChange(value.filter((r) => r.id !== cellProps.item.id))
+                      }}
+                    >
+                      <Icon name='Trash' />
+                    </Button>
+                  </Flex>
                 </Flex>
               )
             }
