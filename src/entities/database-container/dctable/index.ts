@@ -1,5 +1,5 @@
-export * as ListTable from './list-table'
-export * as Input from './input'
+export * as ListTable from './ui/list-table'
+export * as Input from './ui/input'
 
 /**
  * types

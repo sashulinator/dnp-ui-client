@@ -10,7 +10,7 @@ export interface Props {
   isLoading: boolean
   isFetching: boolean
   isError: boolean
-  error: UiErrorable | Nil
+  error: UiErrorable | unknown | Nil
   isChildrenOnFetchingVisible?: boolean | undefined
   refetch?: (() => void) | undefined
   children?: React.ReactNode
@@ -36,10 +36,13 @@ export default function Component(props: Props): React.ReactNode {
       {!isLoading && isError && (
         <Flex direction='column' gap='1' align='center'>
           <Text size='1' style={{ textTransform: 'uppercase' }} color='red'>
+            {/* @ts-ignore*/}
             {error?.message || 'Неизвестная ошибка'}
           </Text>
+          {/* @ts-ignore*/}
           {error?.description && (
             <Text size='1' color='red'>
+              {/* @ts-ignore*/}
               {error.description}
             </Text>
           )}

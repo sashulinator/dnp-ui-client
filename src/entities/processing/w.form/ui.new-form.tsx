@@ -86,16 +86,6 @@ export default function Component(props: Props): JSX.Element {
     [selectedDctableLocator],
   )
 
-  // работает только для аутпута
-  const tablesFetcher = useQuery(
-    ['dcdatabaseTables', selectedSingleDctableLocator],
-    () => fetchTablesByDcdatabaseId(selectedSingleDctableLocator?.database as string),
-    {
-      staleTime: Infinity,
-      enabled: Boolean(selectedSingleDctableLocator),
-    },
-  )
-
   const selectedSingleTable = useMemo(() => {
     if (!selectedSingleDctableLocator) return
     return inputTablesMeta.current.get(Dctable.buildFqn(selectedSingleDctableLocator))
@@ -357,9 +347,9 @@ export default function Component(props: Props): JSX.Element {
    * Менеджерит конфиги в форме на основании выбраных/убранных tableLocators
    * @param {Dictionary<TableLocator>} tableLocators словарь локаторов выбранных пользователем
    */
-  function manageConfigs(tableLocators: Dictionary<TableLocator>) {
+  function manageConfigs(tableLocators: Dictionary<TableLocator> | undefined) {
     const formState = form.getState()
-    const tableLocatorsList = Object.values(tableLocators)
+    const tableLocatorsList = Object.values(tableLocators || {})
     const configInputDctableLocators =
       Object.values(form.getState().values?.configs || {}).map((c) => c.inputDctableLocator) || []
     const tableLocatorsToRemove = configInputDctableLocators.filter(

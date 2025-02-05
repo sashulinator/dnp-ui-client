@@ -7,6 +7,7 @@ import Dialog from '~/shared/dialog'
 import Flex from '~/shared/flex'
 import Icon from '~/shared/icon'
 import Labeled from '~/shared/labeled'
+import { FetcherStatus } from '~/shared/query'
 import ScrollArea from '~/shared/scroll-area'
 import { InputSelect } from '~/shared/select'
 import Spinner from '~/shared/spinner'
@@ -14,22 +15,21 @@ import { ListTable } from '~/shared/table'
 import { Tabs } from '~/shared/tabs'
 import Text from '~/shared/text'
 import Tooltip from '~/shared/tooltip'
-import { type Dictionary } from '~/utils/core'
+import { type Dictionary, isEmpty } from '~/utils/core'
 import { useSubscribe } from '~/utils/core-hooks'
 import { remove } from '~/utils/dictionary'
 import { type Atom, useAtomState } from '~/utils/store'
 
-import { Dctable } from '../..'
+import { Dctable } from '../../..'
 
 export type Value = Dictionary<Dctable.DctableMeta>
 
 const FIGURE_SPACE = ' ' // https://ru.wikipedia.org/wiki/Неразрывный_пробел
 
-export interface Props {
+export interface Props extends Omit<InputCard.InputProps, 'onChange' | 'children'> {
   className?: string | undefined
-  value: Value
-  onChange: (value: Value) => void
-  loading?: boolean | undefined
+  value: Value | undefined
+  onChange: (value: Value | undefined) => void
   fetchDatabaseList: (params: {
     dcserviceId: string
   }) => Promise<{ items: { name: string; display?: string }[]; total: number }>
@@ -47,8 +47,18 @@ export interface Props {
 const NAME = 'dnp-databaseContainer-dctable-input'
 
 export default function Component(props: Props): JSX.Element {
-  const { loading, value, onChange } = props
+  const {
+    loading,
+    value: propsValue,
+    onChange,
+    fetchDatabaseList,
+    fetchTableList,
+    fetchDcserviceList,
+    ...inputCardProps
+  } = props
   const [openAtom, , setIsOpen] = useAtomState<boolean>(false)
+
+  const value = isEmpty(propsValue) ? undefined : propsValue
 
   const [database, setDatabase] = useState('')
   const [dcserviceId, setDcserviceId] = useState('workshop')
@@ -64,9 +74,11 @@ export default function Component(props: Props): JSX.Element {
 
   const fetcher = useQuery(
     [NAME, 'tableFetcher', { searchFilter, database, sort, page, dcserviceId }],
-    () => props.fetchTableList({ sort: sortAtom.get(), searchFilter, dcserviceId, database, page, limit }),
+    () => fetchTableList({ sort, searchFilter, dcserviceId, database, page, limit }),
     {
       enabled: Boolean(database && dcserviceId),
+      staleTime: 10_000,
+      keepPreviousData: true,
     },
   )
 
@@ -74,16 +86,22 @@ export default function Component(props: Props): JSX.Element {
     return fetcher.data?.items.map((i) => ({ ...i, id: `${i.name}.${i.schema}` }))
   }, [fetcher.data])
 
-  const dcservicesFetcher = useQuery([NAME, 'databasesFetcher'], () => props.fetchDcserviceList())
+  const dcservicesFetcher = useQuery([NAME, 'databasesFetcher'], () => fetchDcserviceList())
   const databasesFetcher = useQuery([NAME, 'dcservicesFetcher', { dcserviceId }], () =>
-    props.fetchDatabaseList({ dcserviceId }),
+    fetchDatabaseList({ dcserviceId }),
   )
 
-  const valueList = Object.values(value)
+  const valueList = Object.values(value || {})
 
   return (
     <>
-      <InputCard.default style={{ width: '100%' }} onClick={() => setIsOpen(true)}>
+      <InputCard.default
+        clearable={Boolean(value)}
+        onClearableClick={() => onChange(undefined)}
+        style={{ width: '100%' }}
+        {...inputCardProps}
+        onClick={() => setIsOpen(true)}
+      >
         <Flex width='100%' justify='between' align='center'>
           <Flex direction='column'>
             <Tooltip content='Отображение'>
@@ -107,15 +125,12 @@ export default function Component(props: Props): JSX.Element {
       </InputCard.default>
 
       <Dialog.Root open={openAtom.get()}>
-        <Dialog.Content maxWidth='1224px'>
-          <Dialog.Title>
-            <Flex gap='1' align='center' justify='between'>
-              <Flex />
-              <Button round={true} variant='ghost' onClick={() => openAtom.set(false)}>
-                <Icon name='Cross1' />
-              </Button>
-            </Flex>
-          </Dialog.Title>
+        <Dialog.Content maxWidth='1224px' style={{ position: 'relative' }}>
+          <Flex position='absolute' top='4' right='6'>
+            <Button round={true} variant='ghost' onClick={() => openAtom.set(false)}>
+              <Icon name='Cross1' />
+            </Button>
+          </Flex>
 
           <Tabs.Root defaultValue={valueList.length > 0 ? 'selected' : 'search'}>
             <Tabs.List>
@@ -162,20 +177,29 @@ export default function Component(props: Props): JSX.Element {
               </Flex>
 
               <ScrollArea scrollbars='horizontal'>
-                <Dctable.ListTable.default
-                  list={tableList || []}
-                  searchFilter={searchFilter}
-                  setSearchFilter={setSearchFilter as any}
-                  sortAtom={sortAtom}
-                  selectedItemsAtom={selectedItemsAtom}
-                  paginationProps={{
-                    limit,
-                    onLimitChange: setLimit,
-                    totalElements: fetcher.data?.total,
-                    currentPage: page,
-                    onChange: setPage,
-                  }}
-                />
+                <FetcherStatus
+                  isError={fetcher.isError}
+                  error={fetcher.error}
+                  isFetching={fetcher.isFetching}
+                  isLoading={fetcher.isLoading}
+                  refetch={fetcher.refetch}
+                  isChildrenOnFetchingVisible={true}
+                >
+                  <Dctable.ListTable.default
+                    list={tableList || []}
+                    searchFilter={searchFilter}
+                    paginationProps={{
+                      limit,
+                      onLimitChange: setLimit,
+                      totalElements: fetcher.data?.total,
+                      currentPage: page,
+                      onChange: setPage,
+                    }}
+                    setSearchFilter={setSearchFilter as any}
+                    sortAtom={sortAtom}
+                    selectedItemsAtom={selectedItemsAtom}
+                  />
+                </FetcherStatus>
               </ScrollArea>
             </Tabs.Content>
             <Tabs.Content value='search'></Tabs.Content>

@@ -19,7 +19,7 @@ export interface Props {
   className?: string | undefined
   tableDisabled: boolean
   // fetchTablesByDcdatabaseLocator: (dcdatabaseLocator: Dcdatabase.DcdatabaseLocator) => Promise<Table[]>
-  onInputChange: (value: Dictionary<TableLocator>) => void
+  onInputChange: (value: Dictionary<TableLocator> | undefined) => void
   fetchTableList: (params: {
     sort: Dctable.ListTable.ItemSort | undefined
     searchFilter: Dctable.ListTable.ItemSearchFilter | undefined
@@ -33,7 +33,7 @@ export interface Props {
 const NAME = `${APP}-${SLICE}-Form-w-InputBlock`
 
 export default function Component(props: Props): JSX.Element {
-  const { className, onInputChange, fetchTableList } = props
+  const { className, onInputChange, fetchTableList, tableDisabled } = props
 
   return (
     <Card label='Вход' className={c(NAME, className)}>
@@ -48,6 +48,7 @@ export default function Component(props: Props): JSX.Element {
 
             return (
               <Dctable.Input.default
+                disabled={tableDisabled}
                 fetchTableList={fetchTableList}
                 fetchDcserviceList={async () => {
                   const ret = await Dcservice.api.findWithTotal.request({})
