@@ -25,6 +25,7 @@ export default function Component(props: Props): JSX.Element {
   return (
     <Card
       style={{
+        padding: 'var(--space-1) var(--space-1)',
         opacity: buttonProps.disabled ? '0.5' : '1',
         pointerEvents: buttonProps.disabled ? 'none' : undefined,
       }}

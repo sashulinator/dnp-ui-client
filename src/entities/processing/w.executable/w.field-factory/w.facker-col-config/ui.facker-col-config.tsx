@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useState } from 'react'
 
-import { Dcservice, Dctable } from '~/entities/database-container'
+import { Dcservice } from '~/entities/database-container'
 import Button from '~/shared/button'
 import Flex from '~/shared/flex'
 import Icon from '~/shared/icon'
@@ -11,25 +11,22 @@ import { type Option } from '~/shared/select/v.input'
 import { ListTable } from '~/shared/table'
 import TextInput from '~/shared/text-input'
 import Tooltip from '~/shared/tooltip'
-import { assertDefined } from '~/utils/assertions'
 import { type Dictionary, generateId, isEmpty } from '~/utils/core'
 
 import { type ParamSchema } from '../../models'
 import type { ParamFactoryContext } from '../models'
+import ColumnInput from './input'
 
 type ColumnLocator = {
-  database?: string | undefined
-  schema?: string | undefined
-  table?: string | undefined
-  column?: string | undefined
-  url?: string | undefined
+  table: string
+  column: string
 }
 
 type Item = {
   id: string
   'column-name': string
   'semantic-name': string
-  'column-locator': ColumnLocator
+  'column-locator': ColumnLocator | undefined
   'col-type': string
 }
 type StoryContext = Dictionary
@@ -44,7 +41,6 @@ export interface Props {
 const NAME = 'processing-FackerColConfig'
 
 const ref: Dictionary<{
-  tableLocator: Dctable.DctableMeta
   isTextInput: boolean
 }> & { services?: Dcservice.Dcservice[] } = {}
 
@@ -65,12 +61,10 @@ export default function Component(props: Props): JSX.Element | string {
           renderCell={(cellProps) => {
             const id = cellProps.item.id
             const refState = ref[id]
-            const refTableLocator = refState?.tableLocator
             const refisTextInput = refState?.isTextInput
 
             const [columnName, setColumnName] = useState(cellProps.item['column-name'])
             const [isTextInput, setIsTextInput] = useState(refisTextInput || false)
-            const [tableLocatorState, setColLocatorState] = useState(refTableLocator)
             const isColType = !!cellProps.item['col-type']
             const isColumnLocator = !isEmpty(cellProps.item['column-locator'])
             const isSemanticName = !!cellProps.item['semantic-name']
@@ -198,7 +192,7 @@ export default function Component(props: Props): JSX.Element | string {
               return (
                 <Flex width='100%'>
                   <Flex direction='column' width='100%'>
-                    <Dctable.Input.default
+                    <ColumnInput
                       clearable={true}
                       disabled={isSemanticName || isColType}
                       fetchTableList={async ({ sort, dcserviceId, searchFilter, database, page, limit }) => {
@@ -215,64 +209,18 @@ export default function Component(props: Props): JSX.Element | string {
 
                         return ret.data
                       }}
-                      fetchDcserviceList={async () => {
-                        const ret = await Dcservice.api.findWithTotal.request({})
-                        ref.services = ret.data.items
-                        return ret.data
-                      }}
-                      value={
-                        tableLocatorState
-                          ? { [`${tableLocatorState.schema}.${tableLocatorState.name}`]: tableLocatorState }
-                          : {}
-                      }
-                      onChange={(value) => {
-                        ref[id] = {
-                          ...ref[id],
-                          tableLocator: Object.values(value || {})[0],
-                        }
-                        setColLocatorState(Object.values(value || {})[0])
-                      }}
-                      fetchDatabaseList={async (params) => {
-                        const ret = await Dcservice.api.findDatabases.request({ id: params.dcserviceId })
-                        return ret.data
-                      }}
-                    />
-                    <InputSelect.default
-                      value={cellProps.item['column-locator'].column}
-                      disabled={isSemanticName || isColType}
-                      onValueChange={(colValue) => {
-                        setColumnName(colValue)
-                        const service = ref.services?.find((s) => s.id === tableLocatorState.dcserviceId)
-                        assertDefined(service, { message: 'Dcservise is not defined' })
+                      value={cellProps.item['column-locator']}
+                      onChange={(newValue) => {
                         onChange(
                           value.map((r) => {
-                            if (r['column-locator'] === cellProps.item['column-locator']) {
-                              return {
-                                ...r,
-                                'column-locator': {
-                                  database: tableLocatorState.database,
-                                  schema: tableLocatorState.schema,
-                                  table: tableLocatorState.name,
-                                  column: colValue,
-                                  url: toDatabaseUrl({
-                                    client: service.client,
-                                    user: service.username,
-                                    password: service.password,
-                                    database: tableLocatorState.database,
-                                    host: service.host,
-                                    port: service.port,
-                                  }),
-                                },
-                              }
+                            if (r.id === cellProps.item.id) {
+                              return { ...r, 'column-locator': newValue }
                             }
                             return r
                           }),
                         )
                       }}
-                      options={
-                        tableLocatorState?.columns?.map((i) => ({ value: i.name, display: i.display || i.name })) || []
-                      }
-                    />{' '}
+                    />
                   </Flex>
                   <Flex align='center'>
                     <Button
@@ -299,7 +247,7 @@ export default function Component(props: Props): JSX.Element | string {
                 {
                   id: generateId(),
                   'column-name': '',
-                  'column-locator': {},
+                  'column-locator': undefined,
                   'semantic-name': '',
                   'col-type': '',
                 },
