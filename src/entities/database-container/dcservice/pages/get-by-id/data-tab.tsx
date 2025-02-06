@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+import { Dcrow } from '~/entities/database-container'
 import Button from '~/shared/button'
 import { UploadModal, type UploadModalProps } from '~/shared/file'
 import Flex from '~/shared/flex'
@@ -22,6 +23,7 @@ export interface Props {
   tableSelectProps: InputSelect.InputProps
   databaseSelectProps: InputSelect.InputProps
   uploadModalProps: UploadModalProps
+  createFormModalProps: Dcrow.FormModal.FormModalProps
 }
 
 const NAME = 'dnp-page-databaseContainer-dcdatabase-GetById-w-DataTab'
@@ -34,6 +36,7 @@ export default function Component(props: Props): JSX.Element {
     fetcherStatusProps,
     tableSelectProps,
     databaseSelectProps,
+    createFormModalProps,
   } = props
 
   const [isImportModalOpen, setImportModalOpen] = useState<boolean>(false)
@@ -86,6 +89,8 @@ export default function Component(props: Props): JSX.Element {
         accept='.csv,.xls,.xlsx'
         onClose={() => setImportModalOpen(false)}
       />
+
+      <Dcrow.FormModal.default {...createFormModalProps} />
     </>
   )
 }

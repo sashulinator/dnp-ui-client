@@ -5,7 +5,7 @@ import { c } from '~/utils/core'
 export type Column = {
   type: string
   name: string
-  display: string
+  display?: string | undefined
 }
 
 export interface Props {

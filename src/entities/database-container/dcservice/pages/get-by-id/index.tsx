@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 
 import { APP } from '~/app/constants.app'
 import { routes } from '~/app/route'
+import { type Dcrow, Dctable } from '~/entities/database-container'
 import { api as processingApi } from '~/entities/processing'
 import Button from '~/shared/button'
 import Container from '~/shared/container'
@@ -27,7 +28,7 @@ import { api as fileApi } from '~/slices/files'
 import { type ToSort, useSort } from '~/slices/sort'
 import { type Any, type Dictionary, assertDefined, c } from '~/utils/core'
 import { usePrevious } from '~/utils/core-hooks/previous'
-import { createAtom } from '~/utils/store'
+import { createAtom, useAtom } from '~/utils/store'
 
 import { api } from '../..'
 import { SLICE } from '../../constants.slice'
@@ -42,8 +43,29 @@ export default function Component(): JSX.Element {
   const { id = '' } = useParams()
 
   const [tab, setTab] = useQueryParam('name', withDefault(StringParam, 'dcservice'))
-  const [database, setDatabase] = useQueryParam('database', withDefault(StringParam, ''))
-  const [table, setTable] = useQueryParam('table', withDefault(StringParam, ''))
+  const [databaseParam, setDatabaseParam] = useQueryParam('database', withDefault(StringParam, ''))
+  const [tableParam, setTableParam] = useQueryParam('table', withDefault(StringParam, ''))
+  const [schemaParam, setSchemaParam] = useQueryParam('schema', withDefault(StringParam, ''))
+
+  const tablesFetcher = api.findTables.useCache({
+    dcdatabaseLocator: {
+      dcserviceId: id,
+      name: databaseParam,
+    },
+  })
+
+  const tableMeta = useMemo(
+    () =>
+      tablesFetcher.data?.items.find((i) =>
+        Dctable.isSameLocator(i, {
+          dcserviceId: id,
+          database: databaseParam,
+          schema: schemaParam,
+          name: tableParam,
+        }),
+      ),
+    [tablesFetcher.data, tableParam],
+  )
 
   const [{ page = 1, limit = 25 }, setPaginationParams] = useQueryParams(
     {
@@ -73,13 +95,6 @@ export default function Component(): JSX.Element {
 
   const databasesFetcher = api.findDatabases.useCache({ id })
 
-  const tablesFetcher = api.findTables.useCache({
-    dcdatabaseLocator: {
-      dcserviceId: id,
-      name: database,
-    },
-  })
-
   const rowParams = {
     sort: sortParam,
     limit,
@@ -87,13 +102,13 @@ export default function Component(): JSX.Element {
     where: { ...columnSearchParams },
   }
 
-  const prev = usePrevious({ id, database, table, ...rowParams })
+  const prev = usePrevious({ id, database: databaseParam, table: tableParam, ...rowParams })
   useEffect(() => {
     queryClient.setQueryData([api.findRows.NAME, prev], () => undefined)
-  }, [table])
+  }, [tableParam])
 
   const rowsFetcher = api.findRows.useCache(
-    { id, database, table, ...rowParams },
+    { id, database: databaseParam, table: tableParam, ...rowParams },
     { keepPreviousData: true, staleTime: 10_000 },
   )
 
@@ -121,6 +136,16 @@ export default function Component(): JSX.Element {
 
   const formState = form.getState()
   const isAnimated = useMemo(() => !fetcher.data, [])
+
+  const isCreateFormModalOpen = useAtom(false)
+  // prettier-ignore
+  const createRowForm = useCreateForm<Dcrow.FormModal.Row>({
+      onSubmit: () => {
+        // explorerCreateMutator.mutateAsync({ kn, input: values }).then((res) => res.data)
+      },
+      initialValues: {},
+    }, { values: true, initialValues: true },
+  )
 
   return (
     <Main className={NAME} style={{ position: 'relative' }}>
@@ -203,10 +228,20 @@ export default function Component(): JSX.Element {
                     fileNames: [response.data.fileName],
                     bucketName: BUCKET_NAME,
                     dcserviceId: id,
-                    table: table || '',
-                    database: database || '',
+                    table: tableParam || '',
+                    database: databaseParam || '',
                   })
                 },
+              }}
+              createFormModalProps={{
+                onClose: () => {
+                  isCreateFormModalOpen.set(false)
+                  createRowForm.initialize({})
+                },
+                open: isCreateFormModalOpen,
+                form: createRowForm,
+                columns: tableMeta?.columns || [],
+                mutator: { isLoading: false },
               }}
               fetcherStatusProps={{
                 isChildrenOnFetchingVisible: true,
@@ -217,6 +252,12 @@ export default function Component(): JSX.Element {
                 refetch: rowsFetcher.refetch,
               }}
               listTableProps={{
+                getRowProps: ({ item }) => ({
+                  onClick: () => {
+                    isCreateFormModalOpen.set(true)
+                    createRowForm.initialize(item)
+                  },
+                }),
                 columns: rowsFetcher.data?.columns,
                 list: rowsFetcher.data?.items || [],
                 context: {
@@ -235,27 +276,29 @@ export default function Component(): JSX.Element {
                 onChange: (page) => setPaginationParams({ page, limit }),
               }}
               tableSelectProps={{
-                value: table,
-                onChange: (v) => {
-                  setTable(v.toString())
+                value: `${schemaParam}.${tableParam}`,
+                onValueChange: (v) => {
+                  const [schemaName, tableName] = v.toString().split('.')
+                  setTableParam(tableName)
+                  setSchemaParam(schemaName)
                   setPaginationParams({ page: 1, limit })
                   sortAtom.set({})
                   setSearchFilter({} as any)
                 },
                 options:
-                  tablesFetcher.data?.items?.map((db) => ({
-                    value: db.name,
-                    display: db.display || db.name,
+                  tablesFetcher.data?.items?.map((t) => ({
+                    value: `${t.schema}.${t.name}`,
+                    display: `${t.schema}.${t.name}`,
                   })) || [],
               }}
               databaseSelectProps={{
-                value: database,
+                value: databaseParam,
                 onChange: (v) => {
-                  setDatabase(v.toString())
+                  setDatabaseParam(v.toString())
                   setPaginationParams({ page: 1, limit })
                   sortAtom.set({})
                   setSearchFilter({} as any)
-                  setTable(undefined)
+                  setTableParam(undefined)
                 },
                 options:
                   databasesFetcher.data?.items?.map((db) => ({
