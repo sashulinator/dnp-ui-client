@@ -2,7 +2,7 @@ import Flex from '~/shared/flex'
 import { Field, StringField, type StringFieldProps } from '~/shared/form'
 import { c } from '~/utils/core'
 
-type Column = {
+export type Column = {
   type: string
   name: string
   display: string
