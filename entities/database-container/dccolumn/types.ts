@@ -1,6 +1,6 @@
 import type * as v from 'valibot'
 
-import type { dccolumn, dccolumnCreateInput, dccolumnUpdateInput } from './schemas'
+import type { dccolumn, dccolumnCreateInput, dccolumnLocator, dccolumnMeta, dccolumnUpdateInput } from './schemas'
 
 /**
  * Dccolumn
@@ -19,3 +19,15 @@ export type DccolumnCreateInput = v.InferOutput<typeof dccolumnCreateInput>
  */
 
 export type DccolumnUpdateInput = v.InferOutput<typeof dccolumnUpdateInput>
+
+/**
+ * Locator
+ */
+
+export type DccolumnLocator = v.InferOutput<typeof dccolumnLocator>
+
+/**
+ * Meta
+ */
+
+export type DccolumnMeta = v.InferOutput<typeof dccolumnMeta>

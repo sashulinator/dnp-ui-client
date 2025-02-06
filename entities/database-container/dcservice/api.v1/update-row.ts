@@ -10,6 +10,7 @@ export type RequestParams = {
   id: string
   database: string
   table: string
+  schema: string
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   where: any
   // TODO подставить тип Row
