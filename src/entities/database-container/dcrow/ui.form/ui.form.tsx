@@ -26,7 +26,7 @@ export default function Component(props: Props): JSX.Element {
             component={StringField}
             key={item.display}
             name={item.name}
-            label={item.display}
+            label={item.display || item.name}
           />
         )
       })}

@@ -137,14 +137,65 @@ export default function Component(): JSX.Element {
   const formState = form.getState()
   const isAnimated = useMemo(() => !fetcher.data, [])
 
+  const updateRowMutator = api.updaterow.useMutation({
+    onSuccess: () => {
+      notify({ title: 'Сохранено', type: 'success' })
+      updateRowForm.initialize({})
+      isUpdateFormModalOpen.set(false)
+      rowsFetcher.refetch()
+    },
+    onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
+  })
+
+  const createRowMutator = api.insertRow.useMutation({
+    onSuccess: () => {
+      notify({ title: 'Сохранено', type: 'success' })
+      createRowForm.initialize({})
+      isCreateFormModalOpen.set(false)
+      rowsFetcher.refetch()
+    },
+    onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
+  })
+
+  const isUpdateFormModalOpen = useAtom(false)
   const isCreateFormModalOpen = useAtom(false)
-  // prettier-ignore
-  const createRowForm = useCreateForm<Dcrow.FormModal.Row>({
-      onSubmit: () => {
-        // explorerCreateMutator.mutateAsync({ kn, input: values }).then((res) => res.data)
+
+  const createRowForm = useCreateForm<Dcrow.FormModal.Row>(
+    {
+      onSubmit: (values) => {
+        createRowMutator
+          .mutateAsync({
+            id,
+            row: values,
+            database: databaseParam,
+            schema: schemaParam,
+            table: tableParam,
+          })
+          .then((res) => res.data)
       },
       initialValues: {},
-    }, { values: true, initialValues: true },
+    },
+    { values: true, initialValues: true },
+  )
+
+  const updateRowForm = useCreateForm<Dcrow.FormModal.Row>(
+    {
+      onSubmit: (values) => {
+        const initialValues = updateRowForm.getState().initialValues
+        updateRowMutator
+          .mutateAsync({
+            id,
+            where: initialValues,
+            row: values,
+            database: databaseParam,
+            schema: schemaParam,
+            table: tableParam,
+          })
+          .then((res) => res.data)
+      },
+      initialValues: {},
+    },
+    { values: true, initialValues: true },
   )
 
   return (
@@ -233,6 +284,16 @@ export default function Component(): JSX.Element {
                   })
                 },
               }}
+              updateFormModalProps={{
+                onClose: () => {
+                  isUpdateFormModalOpen.set(false)
+                  updateRowForm.initialize({})
+                },
+                open: isUpdateFormModalOpen,
+                form: updateRowForm,
+                columns: tableMeta?.columns || [],
+                mutator: updateRowMutator,
+              }}
               createFormModalProps={{
                 onClose: () => {
                   isCreateFormModalOpen.set(false)
@@ -241,7 +302,7 @@ export default function Component(): JSX.Element {
                 open: isCreateFormModalOpen,
                 form: createRowForm,
                 columns: tableMeta?.columns || [],
-                mutator: { isLoading: false },
+                mutator: createRowMutator,
               }}
               fetcherStatusProps={{
                 isChildrenOnFetchingVisible: true,
@@ -254,8 +315,8 @@ export default function Component(): JSX.Element {
               listTableProps={{
                 getRowProps: ({ item }) => ({
                   onClick: () => {
-                    isCreateFormModalOpen.set(true)
-                    createRowForm.initialize(item)
+                    isUpdateFormModalOpen.set(true)
+                    updateRowForm.initialize(item)
                   },
                 }),
                 columns: rowsFetcher.data?.columns,

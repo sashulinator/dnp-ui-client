@@ -10,6 +10,7 @@ export type RequestParams = {
   id: string
   database: string
   table: string
+  schema: string
   // TODO подставить тип Row
   row: Dictionary
 }

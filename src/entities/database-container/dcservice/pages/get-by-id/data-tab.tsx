@@ -23,6 +23,7 @@ export interface Props {
   tableSelectProps: InputSelect.InputProps
   databaseSelectProps: InputSelect.InputProps
   uploadModalProps: UploadModalProps
+  updateFormModalProps: Dcrow.FormModal.FormModalProps
   createFormModalProps: Dcrow.FormModal.FormModalProps
 }
 
@@ -36,6 +37,7 @@ export default function Component(props: Props): JSX.Element {
     fetcherStatusProps,
     tableSelectProps,
     databaseSelectProps,
+    updateFormModalProps,
     createFormModalProps,
   } = props
 
@@ -57,7 +59,12 @@ export default function Component(props: Props): JSX.Element {
               </Labeled>
             </Flex>
           </Flex>
-          <Button onClick={() => setImportModalOpen(true)}>Импорт</Button>
+          <Flex gap='2'>
+            <Button variant='outline' onClick={() => setImportModalOpen(true)}>
+              Импорт
+            </Button>
+            <Button onClick={() => createFormModalProps.open.set(true)}>Создать</Button>
+          </Flex>
         </Flex>
 
         {tableSelectProps.value && databaseSelectProps.value && (
@@ -90,6 +97,7 @@ export default function Component(props: Props): JSX.Element {
         onClose={() => setImportModalOpen(false)}
       />
 
+      <Dcrow.FormModal.default {...updateFormModalProps} />
       <Dcrow.FormModal.default {...createFormModalProps} />
     </>
   )
