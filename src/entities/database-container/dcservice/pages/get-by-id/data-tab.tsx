@@ -1,3 +1,4 @@
+import QueryString from 'qs'
 import { useState } from 'react'
 
 import { Dcrow } from '~/entities/database-container'
@@ -25,6 +26,12 @@ export interface Props {
   uploadModalProps: UploadModalProps
   updateFormModalProps: Dcrow.FormModal.FormModalProps
   createFormModalProps: Dcrow.FormModal.FormModalProps
+  queryParams: {
+    dcserviceId: string
+    database: string
+    schema: string
+    table: string
+  }
 }
 
 const NAME = 'dnp-page-databaseContainer-dcdatabase-GetById-w-DataTab'
@@ -39,9 +46,13 @@ export default function Component(props: Props): JSX.Element {
     databaseSelectProps,
     updateFormModalProps,
     createFormModalProps,
+    queryParams,
   } = props
 
   const [isImportModalOpen, setImportModalOpen] = useState<boolean>(false)
+
+  const isButtonDisabled =
+    !queryParams.dcserviceId || !queryParams.database || !queryParams.schema || !queryParams.table
 
   return (
     <>
@@ -60,7 +71,15 @@ export default function Component(props: Props): JSX.Element {
             </Flex>
           </Flex>
           <Flex gap='2'>
-            <Button variant='outline' onClick={() => setImportModalOpen(true)}>
+            <Button disabled={isButtonDisabled} asChild={true} variant='outline'>
+              <a
+                target='_blanc'
+                href={`/api/v1/converter/table-to-excel?${QueryString.stringify({ ...queryParams, name: queryParams.table })}`}
+              >
+                Экспорт Excel
+              </a>
+            </Button>
+            <Button disabled={isButtonDisabled} variant='outline' onClick={() => setImportModalOpen(true)}>
               Импорт
             </Button>
             <Button onClick={() => createFormModalProps.open.set(true)}>Создать</Button>

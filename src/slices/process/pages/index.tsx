@@ -18,6 +18,13 @@ import { ProcessStatusBadge } from '../ui/ProcessStatusBadge'
 export interface Props {
   className?: string | undefined
 }
+
+const types = {
+  processing: 'Обработка',
+  excelToTable: 'Импорт Excel',
+  tableToExcel: 'Экспорт Excel',
+}
+
 const columns = [
   {
     name: 'track',
@@ -25,7 +32,7 @@ const columns = [
     renderCell: ({ item }: { item: { id: string; type: string } }) => {
       return (
         <Button variant='ghost' asChild={true}>
-          <Link to={routes.processes_kn.getUrl(item.id)}>Обработка</Link>
+          <Link to={routes.processes_kn.getUrl(item.id)}>{(types as any)[item.type]}</Link>
         </Button>
       )
     },

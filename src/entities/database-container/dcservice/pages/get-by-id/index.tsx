@@ -30,7 +30,7 @@ import { type Any, type Dictionary, assertDefined, c } from '~/utils/core'
 import { usePrevious } from '~/utils/core-hooks/previous'
 import { createAtom, useAtom } from '~/utils/store'
 
-import { api } from '../..'
+import { api as dcserviceApi } from '../..'
 import { SLICE } from '../../constants.slice'
 import DcserviceForm, { type Values } from '../../ui/form'
 import TestConnection from '../../ui/test-connection'
@@ -47,7 +47,7 @@ export default function Component(): JSX.Element {
   const [tableParam, setTableParam] = useQueryParam('table', withDefault(StringParam, ''))
   const [schemaParam, setSchemaParam] = useQueryParam('schema', withDefault(StringParam, ''))
 
-  const tablesFetcher = api.findTables.useCache({
+  const tablesFetcher = dcserviceApi.findTables.useCache({
     dcdatabaseLocator: {
       dcserviceId: id,
       name: databaseParam,
@@ -84,7 +84,7 @@ export default function Component(): JSX.Element {
     JSONParam as Any,
   )
 
-  const fetcher = api.getById.useCache(
+  const fetcher = dcserviceApi.getById.useCache(
     { id },
     {
       onSuccess(dcservice) {
@@ -93,7 +93,7 @@ export default function Component(): JSX.Element {
     },
   )
 
-  const databasesFetcher = api.findDatabases.useCache({ id })
+  const databasesFetcher = dcserviceApi.findDatabases.useCache({ id })
 
   const rowParams = {
     sort: sortParam,
@@ -104,15 +104,15 @@ export default function Component(): JSX.Element {
 
   const prev = usePrevious({ id, database: databaseParam, table: tableParam, ...rowParams })
   useEffect(() => {
-    queryClient.setQueryData([api.findRows.NAME, prev], () => undefined)
+    queryClient.setQueryData([dcserviceApi.findRows.NAME, prev], () => undefined)
   }, [tableParam])
 
-  const rowsFetcher = api.findRows.useCache(
+  const rowsFetcher = dcserviceApi.findRows.useCache(
     { id, database: databaseParam, table: tableParam, ...rowParams },
     { keepPreviousData: true, staleTime: 10_000 },
   )
 
-  const updateMutator = api.update.useMutation({
+  const updateMutator = dcserviceApi.update.useMutation({
     onSuccess: (response) => {
       notify({ title: 'Сохранено', type: 'success' })
       form.initialize(DcserviceForm.toValues(response.data))
@@ -137,7 +137,7 @@ export default function Component(): JSX.Element {
   const formState = form.getState()
   const isAnimated = useMemo(() => !fetcher.data, [])
 
-  const updateRowMutator = api.updaterow.useMutation({
+  const updateRowMutator = dcserviceApi.updaterow.useMutation({
     onSuccess: () => {
       notify({ title: 'Сохранено', type: 'success' })
       updateRowForm.initialize({})
@@ -147,7 +147,7 @@ export default function Component(): JSX.Element {
     onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
   })
 
-  const createRowMutator = api.insertRow.useMutation({
+  const createRowMutator = dcserviceApi.insertRow.useMutation({
     onSuccess: () => {
       notify({ title: 'Сохранено', type: 'success' })
       createRowForm.initialize({})
@@ -245,7 +245,7 @@ export default function Component(): JSX.Element {
                     <TestConnection
                       disabled={form.getState().invalid}
                       request={() =>
-                        api.testConnection
+                        dcserviceApi.testConnection
                           .request({
                             client: 'pg',
                             host: formState.values.host,
@@ -272,6 +272,12 @@ export default function Component(): JSX.Element {
           </Tabs.Content>
           <Tabs.Content value='data' style={{ width: '100%' }}>
             <DataTab
+              queryParams={{
+                dcserviceId: id,
+                table: tableParam,
+                database: databaseParam,
+                schema: schemaParam,
+              }}
               uploadModalProps={{
                 upload: async (file) => {
                   const response = await fileApi.upload.request({ file, fileName: file.name, bucketName: BUCKET_NAME })
@@ -281,6 +287,7 @@ export default function Component(): JSX.Element {
                     dcserviceId: id,
                     table: tableParam || '',
                     database: databaseParam || '',
+                    schema: schemaParam || '',
                   })
                 },
               }}

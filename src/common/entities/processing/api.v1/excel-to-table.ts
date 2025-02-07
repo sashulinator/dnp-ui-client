@@ -11,6 +11,7 @@ export type RequestParams = {
   bucketName: string
   dcserviceId: string
   table: string
+  schema: string
   database: string
 }
 
