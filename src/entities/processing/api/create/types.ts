@@ -1,5 +1,7 @@
 import type { Any } from '~/utils/core'
 
-export type RequestData = { data: { processing: Any } }
+import type { Proccessing } from '../../types'
+
+export type RequestData = { data: { processing: Proccessing } }
 
 export type ResponseData = Any

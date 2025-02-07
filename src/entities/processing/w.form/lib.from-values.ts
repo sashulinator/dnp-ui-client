@@ -1,4 +1,4 @@
-import { type Proccessing } from '../models'
+import { type Proccessing } from '../types'
 import { type Values } from './ui.new-form'
 
 export function fromValues(values: Values): Proccessing {

@@ -7,7 +7,6 @@ import { Executable, ProcessingForm, SLICE } from '~/entities/processing'
 import { processingDataApi } from '~/entities/processing-data'
 import * as create from '~/entities/processing/api/create'
 import Button from '~/shared/button'
-import Card from '~/shared/card'
 import Container from '~/shared/container'
 import Confirm from '~/shared/dialog/ui/confirm'
 import Flex from '~/shared/flex'
@@ -16,7 +15,6 @@ import Heading from '~/shared/heading'
 import { notify } from '~/shared/notification-list-store'
 import Section from '~/shared/section'
 import { HighlightedText } from '~/shared/text'
-import Tooltip from '~/shared/tooltip'
 import { createAtom } from '~/utils/store'
 
 export interface Props {
@@ -80,28 +78,13 @@ export default function Component(): JSX.Element {
         </Section>
 
         {tabValue === 'multi' && (
-          <Card asChild>
-            <Section size='1'>
-              <Flex gap='2' direction='row' justify='end'>
-                <Flex gap='2' align='center'>
-                  <Tooltip content='Сбросить'>
-                    <span>
-                      <Button size='1' variant='outline' onClick={() => form.reset()} disabled={!form.getState().dirty}>
-                        Сбросить изменения
-                      </Button>
-                    </span>
-                  </Tooltip>
-                  <Button
-                    loading={createMutator.isLoading}
-                    disabled={!form.getState().dirty || form.getState().invalid}
-                    onClick={() => modalAtom.set({ open: true })}
-                  >
-                    Запустить
-                  </Button>
-                </Flex>
-              </Flex>
-            </Section>
-          </Card>
+          <Section size='1'>
+            <Flex gap='2' align='center' justify='end'>
+              <Button loading={createMutator.isLoading} onClick={() => modalAtom.set({ open: true })}>
+                Запустить
+              </Button>
+            </Flex>
+          </Section>
         )}
 
         <Confirm

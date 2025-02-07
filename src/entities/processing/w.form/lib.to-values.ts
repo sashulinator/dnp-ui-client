@@ -1,6 +1,6 @@
 import { Dctable } from '~/entities/database-container'
 
-import { type Proccessing } from '../models'
+import { type Proccessing } from '../types'
 import { type Config, type Values } from './ui.new-form'
 
 export function toValues(processing: Proccessing): Values {
