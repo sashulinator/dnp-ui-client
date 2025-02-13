@@ -18,6 +18,7 @@ export type Props = Omit<Select.TriggerProps, 'name' | 'value'> & {
   contentProps?: Select.ContentProps | undefined
   value?: string | undefined
   size?: '1' | '2'
+  defaultValue?: string | undefined
   loading?: boolean | undefined
   clearable?: boolean | undefined
   onChange?: (FormEventHandler<HTMLButtonElement> & ((value: string) => void)) | undefined
@@ -37,6 +38,7 @@ export default function Component(props: Props) {
     onValueChange,
     loading,
     contentProps,
+    defaultValue,
     clearable,
     ...triggerProps
   } = props
@@ -44,7 +46,11 @@ export default function Component(props: Props) {
   const hasValue = !!value
 
   return (
-    <Select.Root onValueChange={fns(onChange, (v) => onValueChange?.(v.toString()))} value={value}>
+    <Select.Root
+      disabled={disabled as boolean}
+      onValueChange={fns(onChange, (v) => onValueChange?.(v.toString()))}
+      value={(value || defaultValue) as string}
+    >
       <Flex width='100%' style={{ position: 'relative' }}>
         <Flex>
           {clearable && hasValue && !disabled && !loading && (
@@ -55,7 +61,7 @@ export default function Component(props: Props) {
                 variant='ghost'
                 onClick={() => {
                   onValueChange?.('')
-                  onChange?.('' as any)
+                  onChange?.('')
                 }}
               >
                 <Icon name='Cross1' />
@@ -74,7 +80,6 @@ export default function Component(props: Props) {
           {...triggerProps}
           className={c(className, NAME)}
           style={mergeStyles({ width: '100%', pointerEvents: disabled ? 'none' : undefined }, props.style)}
-          disabled={disabled}
         />
       </Flex>
       <Select.Content {...contentProps}>

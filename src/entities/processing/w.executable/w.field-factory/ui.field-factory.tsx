@@ -7,12 +7,14 @@ import { type Any } from '~/utils/core'
 import { SLICE } from '../constants'
 import { type ComponentSchema, type ExecutableSchema, type ParamSchema } from '../models'
 import { type ParamFactoryContext } from './models'
+import SelectField from './ui.select-field'
 import StringField from './ui.string-field'
 import FackerColConfig from './w.facker-col-config'
 import MatrixField from './w.matrix-field'
 
 const componentMap = {
   string: StringField,
+  select: SelectField,
   Matrix: MatrixField,
   FackerColConfig: FackerColConfig,
 }
