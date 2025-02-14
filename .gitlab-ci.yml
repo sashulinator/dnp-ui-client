@@ -18,7 +18,7 @@ stages:
 variables:
   NODE_IMAGE: "nexus.inno.tech:19120/node:22.2.0-bookworm"
   DOCKER_IMAGE: "nexus.inno.tech:19120/docker:24.0.4"
-  IMAGE_NAME: "dnp-client-ui"
+  APP_NAME: "dnp-client"
   DOCKERFILE: "Dockerfile"
   TAG: "0.${CI_PIPELINE_IID}"
 
@@ -73,13 +73,13 @@ build-image:
     DOCKER_TLS_CERTDIR: ""
     DOCKER_TLS_VERIFY: ""
   script:
-    - docker build -f ${DOCKERFILE} -t ${IMAGE_NAME}:${TAG} .
+    - docker build -f ${DOCKERFILE} -t dnp/${APP_NAME}:${TAG} .
     - mkdir -p images
-    - docker save -o images/${IMAGE_NAME}.tar ${IMAGE_NAME}:${TAG}
+    - docker save -o images/${APP_NAME}.tar dnp/${APP_NAME}:${TAG}
     - echo "DNP_CLIENT_UI_IMAGE_TAG=${TAG}" >> build.env
     - echo "DNP_CLIENT_UI_IMAGE_REF=${CI_COMMIT_REF_NAME}" >> build.env
   artifacts:
-    name: ${IMAGE_NAME}
+    name: ${APP_NAME}
     paths:
       - images/*.tar
     expire_in: 1 week
