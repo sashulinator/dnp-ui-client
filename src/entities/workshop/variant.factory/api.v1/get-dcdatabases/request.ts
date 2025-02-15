@@ -3,7 +3,7 @@ import {
   type RequestParams,
   type Result,
   url,
-} from '~/common/entities/processing-data/variant.factory/api.v1/get-dcdatabases'
+} from '~/common/entities/workshop/variant.factory/api.v1/get-dcdatabases'
 import api, { type Response } from '~/shared/api'
 
 export { url }

@@ -13,9 +13,9 @@ import { type Any, type Dictionary, type SetterOrUpdater, assertDefined, c, gene
 import { emptyFn } from '~/utils/function'
 
 import { SLICE } from '../constants'
-import type { ExecutableSchema } from '../w.executable'
-import ParamsFieldFactory from '../w.executable/w.field-factory'
-import ExectableForm from '../w.executable/w.form/ui.form'
+import type { ExecutableSchema } from '../executable'
+import ParamsFieldFactory from '../executable/w.field-factory'
+import ExectableForm from '../executable/w.form/ui.form'
 // import { type Procedure } from '../../w.procedure'
 import InputBlock, { type TableLocator } from './w.input-block'
 import OutputBlock from './w.output-block'

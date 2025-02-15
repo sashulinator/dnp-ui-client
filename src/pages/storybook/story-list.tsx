@@ -2,7 +2,7 @@ import eDcserviceCardInput from '~/entities/database-container/dcservice/ui/card
 import eDcserviceForm from '~/entities/database-container/dcservice/ui/form/story'
 import eDatabaseContanerDctableInput from '~/entities/database-container/dctable/ui/input/story'
 import dctableListTable from '~/entities/database-container/dctable/ui/list-table/story.ts'
-import eExecutableswFackerColConfig from '~/entities/processing/w.executable/w.field-factory/w.facker-col-config/story'
+import eExecutableswFackerColConfig from '~/entities/processing/executable/w.field-factory/w.facker-col-config/story'
 import uiButton from '~/shared/button/story'
 import uiCalendar from '~/shared/calendar/story'
 import uiCard from '~/shared/card/story'

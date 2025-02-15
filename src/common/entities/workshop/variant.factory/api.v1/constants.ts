@@ -1,1 +1,1 @@
-export const baseUrl = '/api/v1/processing-data/factory'
+export const baseUrl = '/api/v1/workshop/factory'
