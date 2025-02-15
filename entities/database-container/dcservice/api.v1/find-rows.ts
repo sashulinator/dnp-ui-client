@@ -11,6 +11,7 @@ export type RequestParams = {
   id: string
   database: string
   table: string
+  schema: string
   where?: Where
   limit?: number
   sort?: ToSort<{ name: string }> | undefined
