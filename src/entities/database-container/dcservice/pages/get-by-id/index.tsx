@@ -108,7 +108,7 @@ export default function Component(): JSX.Element {
   }, [tableParam])
 
   const rowsFetcher = dcserviceApi.findRows.useCache(
-    { id, database: databaseParam, table: tableParam, ...rowParams },
+    { id, database: databaseParam, table: tableParam, schema: schemaParam, ...rowParams },
     { keepPreviousData: true, staleTime: 10_000 },
   )
 
