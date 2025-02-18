@@ -7,30 +7,6 @@ export function getRoutesTree() {
   const routsTree: TreeItem[] = []
 
   /**
-   * Настройки пользователей
-   */
-  if (auth.hasRole(roles.usr_get, 'dnp')) {
-    const children: TreeItem[] = []
-
-    children.push({
-      id: 'users-settings',
-      name: 'http://10.4.40.11:8084/',
-      link: {
-        url: 'http://10.4.40.11:8084/',
-        blank: true,
-      },
-    })
-
-    routsTree.push({
-      id: 'users',
-      name: 'Пользователи',
-
-      renderIcon: () => <Icon name='User' />,
-      children,
-    })
-  }
-
-  /**
    * Настройки интерфейса
    */
   if (auth.hasRole(roles.nav_upd, 'dnp')) {
