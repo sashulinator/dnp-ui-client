@@ -7,6 +7,7 @@ import { type Any } from '~/utils/core'
 import { SLICE } from '../constants'
 import { type ComponentSchema, type ExecutableSchema, type ParamSchema } from '../models'
 import { type ParamFactoryContext } from './models'
+import DdlExecutor from './ui.ddl-generator-field'
 import SelectField from './ui.select-field'
 import StringField from './ui.string-field'
 import FackerColConfig from './w.facker-col-config'
@@ -16,6 +17,7 @@ const componentMap = {
   string: StringField,
   select: SelectField,
   Matrix: MatrixField,
+  DdlExecutor: DdlExecutor,
   FackerColConfig: FackerColConfig,
 }
 
