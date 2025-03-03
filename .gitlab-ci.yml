@@ -18,7 +18,7 @@ stages:
 variables:
   NODE_IMAGE: "nexus.inno.tech:19120/node:22.2.0-bookworm"
   DOCKER_IMAGE: "nexus.inno.tech:19120/docker:24.0.4"
-  APP_NAME: "dnp-client"
+  APP_NAME: "client"
   DOCKERFILE: "Dockerfile"
   TAG: "0.${CI_PIPELINE_IID}"
 
