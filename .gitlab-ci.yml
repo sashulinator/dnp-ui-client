@@ -73,6 +73,7 @@ build-image:
     DOCKER_TLS_CERTDIR: ""
     DOCKER_TLS_VERIFY: ""
   script:
+    - sed -i "s/%VERSION%/$TAG/g" ./dist/index.html
     - docker build -f ${DOCKERFILE} -t dnp/${APP_NAME}:${TAG} .
     - mkdir -p images
     - docker save -o images/${APP_NAME}.tar dnp/${APP_NAME}:${TAG}

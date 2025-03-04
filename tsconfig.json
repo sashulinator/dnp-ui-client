@@ -28,6 +28,6 @@
       "~/*": ["./*"]
     }
   },
-  "include": ["./src/vite-env.d.ts", "src/**/*"],
+  "include": ["./src/vite-env.d.ts", "./src/window.d.ts", "src/**/*"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
