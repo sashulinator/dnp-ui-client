@@ -9,8 +9,9 @@ import { Card, Column, FieldArray, Row, useForm } from '~/shared/form'
 import Icon from '~/shared/icon'
 import { LabeledSelect, type Option } from '~/shared/select'
 import { Tabs } from '~/shared/tabs'
-import { type Any, type Dictionary, type SetterOrUpdater, assertDefined, c, generateId } from '~/utils/core'
+import { type Any, type Dictionary, type SetterOrUpdater, assertDefined, c, generateId, invariant } from '~/utils/core'
 import { emptyFn } from '~/utils/function'
+import { remove } from '~/utils/list'
 
 import { SLICE } from '../constants'
 import type { ExecutableSchema } from '../executable'
@@ -22,7 +23,7 @@ import OutputBlock from './w.output-block'
 
 export { type Option }
 
-type Executables = {
+type Executable = {
   name: string
   params?: Record<string, unknown> | undefined
 }
@@ -30,7 +31,7 @@ type Executables = {
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type Config = {
   inputDctableLocator: Dctable.DctableLocator
-  executables: Executables[]
+  executables: Executable[]
 }
 
 export type Values = {
@@ -38,7 +39,7 @@ export type Values = {
   outputDcdatabaseId: string
   outputTable: string
   configs: Record<string, Config>
-  multiConfig: Config
+  commonConfig: Config
 }
 
 type Column = { name: string; display: string; type: string }
@@ -103,7 +104,7 @@ export default function Component(props: Props): JSX.Element {
             <Row width='100%'>
               <Column width='50%'>
                 <InputBlock
-                  tableDisabled={!!form.getState().values?.multiConfig?.executables?.length}
+                  tableDisabled={!!form.getState().values?.commonConfig?.executables?.length}
                   onInputChange={manageConfigs}
                   fetchTableList={async ({ sort, dcserviceId, searchFilter, database, page, limit }) => {
                     const ret = await Dcservice.api.findTables.request({
@@ -112,7 +113,7 @@ export default function Component(props: Props): JSX.Element {
                         name: database,
                       },
                       sort,
-                      where: searchFilter as any,
+                      where: searchFilter as Any,
                       limit,
                       offset: (page - 1) * limit,
                     })
@@ -137,7 +138,7 @@ export default function Component(props: Props): JSX.Element {
             <Row>
               <Column width='100%'>
                 {Object.values(form.getState().values?.configs || {}).length > 0 && executableSchemas && (
-                  <FieldArray name='multiConfig.executables'>
+                  <FieldArray name='commonConfig.executables'>
                     {({ fields }) => (
                       <Flex direction='column' gap='4'>
                         {fields.map((formName, index) => (
@@ -147,7 +148,7 @@ export default function Component(props: Props): JSX.Element {
                                 <Column width='50%'>
                                   <ExectableForm
                                     key={index}
-                                    onNameChange={(name) => changeExecutableName(name, formName)}
+                                    onNameChange={(name) => changeExecutableName(name, formName as keyof Values)}
                                     name={formName}
                                     executableSchemas={executableSchemas}
                                   />
@@ -156,7 +157,7 @@ export default function Component(props: Props): JSX.Element {
                                   variant='soft'
                                   round={true}
                                   onClick={() => {
-                                    fields.remove(index)
+                                    removeExecutable(index)
                                   }}
                                 >
                                   <Icon name='Trash' />
@@ -166,8 +167,8 @@ export default function Component(props: Props): JSX.Element {
                                 name={formName}
                                 columns={[]}
                                 isSingleMode={false}
-                                setUniqValues={setUniqValues}
-                                setMultyValue={setMultyParamValue}
+                                setUniqValues={setUniquePath as Any}
+                                setMultyValue={setCommonAndUniquePaths as Any}
                                 executableSchemas={executableSchemas}
                               />
                             </Flex>
@@ -232,20 +233,12 @@ export default function Component(props: Props): JSX.Element {
                                     <ExectableForm
                                       key={index}
                                       readonly={true}
-                                      onNameChange={(name) => changeExecutableName(name, formName)}
+                                      onNameChange={(name) => changeExecutableName(name, formName as keyof Values)}
                                       name={formName}
                                       executableSchemas={executableSchemas}
                                     />
                                   </Column>
                                   <Column width='50%' />
-                                  <DangerButton
-                                    variant='soft'
-                                    round={true}
-                                    onClick={() => fields.remove(index)}
-                                    style={{ position: 'absolute', right: 'var(--space-2)', top: 'var(--space-2)' }}
-                                  >
-                                    <Icon name='Trash' />
-                                  </DangerButton>
                                 </Row>
                                 <ParamsFieldFactory
                                   name={formName}
@@ -274,7 +267,42 @@ export default function Component(props: Props): JSX.Element {
    * private
    */
 
-  function setUniqValues(getValue: (currentValue: unknown) => unknown, formName: string) {
+  function removeExecutable(index: number) {
+    //
+    const state = form.getState().values
+    const executablePath = `commonConfig.executables` as keyof Values
+    form.change(executablePath, remove(index, state.commonConfig.executables) as Any)
+
+    Object.values(form.getState().values.configs || {}).forEach((config) => {
+      setConfigByCommonPath(
+        executablePath,
+        remove(index, state.commonConfig.executables) as Any,
+        config.inputDctableLocator,
+      )
+    })
+  }
+
+  function setCommonAndUniquePaths<T extends keyof Values>(value: Values[T], path: T) {
+    form.change(path, value)
+
+    Object.values(form.getState().values.configs || {}).forEach((config) => {
+      setConfigByCommonPath(path, value as Values[T], config.inputDctableLocator)
+    })
+  }
+
+  function setConfigByCommonPath<T extends keyof Values>(
+    path: T,
+    value: Values[T],
+    dctableLocator: Dctable.DctableLocator,
+  ) {
+    // Проверяем что path начинается с commonConfig
+    invariant(/^commonConfig/.test(path), `Пришедшее значение 'path'='${path}' не начинается с 'commonConfig'`)
+    const fqn = Dctable.buildFqn(dctableLocator)
+    const configPath = path.replace('commonConfig', `configs.${fqn}`)
+    form.change(configPath as keyof Values, value)
+  }
+
+  function setUniquePath<T extends keyof Values>(getValue: (currentValue: unknown) => unknown, path: T) {
     Object.values(form.getState().values.configs || {}).forEach((config) => {
       const table = inputTablesMeta.current.get(Dctable.buildFqn(config.inputDctableLocator))
 
@@ -285,28 +313,17 @@ export default function Component(props: Props): JSX.Element {
         table,
       })
 
-      form.change(
-        formName.replace('multiConfig', `configs.${Dctable.buildFqn(config.inputDctableLocator)}`) as Any,
-        uniqValue,
-      )
+      setConfigByCommonPath(path, uniqValue as Values[T], config.inputDctableLocator)
     })
   }
 
-  function setMultyParamValue(value: unknown, formName: string) {
-    form.change(formName as any, value)
-    Object.values(form.getState().values.configs || {}).forEach((config) => {
-      form.change(
-        formName.replace('multiConfig', `configs.${Dctable.buildFqn(config.inputDctableLocator)}`) as Any,
-        value,
-      )
-    })
-  }
-
-  function changeExecutableName(name: string, formName: string) {
-    const executableSchema = executableSchemas?.find((executableSchema) => executableSchema.name === name)
-
+  function getInitialExecutableCommonValues(executableSchema: ExecutableSchema) {
+    // Получаем initialValue для неуникальных параметров
     const initialValues = executableSchema?.params?.reduce<Record<string, unknown>>((acc, paramSchema) => {
-      if (paramSchema.unique) return acc
+      if (paramSchema.unique) {
+        acc[paramSchema.name] = undefined
+        return acc
+      }
 
       acc[paramSchema.name] = new Function('context', paramSchema.getInitialValue || '')({
         values: form.getState().values,
@@ -317,29 +334,55 @@ export default function Component(props: Props): JSX.Element {
       return acc
     }, {})
 
-    form.change(formName as Any, { name, params: initialValues })
+    return initialValues
+  }
+
+  function getInitialExecutableUniqueValues(executableSchema: ExecutableSchema, config: Config) {
+    // TODO избавиться от костыля
+    // Находим tableMeta
+    const fqn = Dctable.buildFqn(config.inputDctableLocator)
+    const dctableMeta = inputTablesMeta.current.get(fqn)
+    assertDefined(dctableMeta, `DctableMeta c fqn '${fqn}' не найдена`)
+
+    // Получаем initialValue для НЕуникальных параметров
+    const uniqInitialValues = executableSchema?.params?.reduce<Record<string, unknown>>((acc, paramSchema) => {
+      if (!paramSchema.unique) return acc
+
+      acc[paramSchema.name] = new Function('context', paramSchema.getInitialValue || '')({
+        values: form.getState().values,
+        paramSchema,
+        generateId,
+        formState: form.getState().values,
+        columns: dctableMeta?.columns,
+        table: dctableMeta,
+      })
+      return acc
+    }, {})
+
+    return uniqInitialValues
+  }
+
+  function changeExecutableName<T extends keyof Values>(name: string, path: T /** commonConfig.executables[number] */) {
+    // Находим ExecutableSchema с именем @param name
+    const executableSchema = executableSchemas?.find((executableSchema) => executableSchema.name === name)
+    assertDefined(executableSchema, `ExecutableSchema c именем '${name}' не найдена`)
+
+    // Находим initial значения для НЕуникальных параметров
+    const initialExecutableCommonValues = getInitialExecutableCommonValues(executableSchema)
+
+    // Eстанавливаем НЕуникальные параметры в commonConfig
+    form.change(path as keyof Values, { name, params: initialExecutableCommonValues } as Any)
 
     Object.values(form.getState().values.configs || {}).forEach((config) => {
-      const dctableMeta = inputTablesMeta.current.get(Dctable.buildFqn(config.inputDctableLocator))
+      // Находим initial значения для уникальных параметров
+      const initialExecutableUniqueValues = getInitialExecutableUniqueValues(executableSchema, config)
 
-      const uniqInitialValues = executableSchema?.params?.reduce<Record<string, unknown>>((acc, paramSchema) => {
-        if (!paramSchema.unique) return acc
-
-        acc[paramSchema.name] = new Function('context', paramSchema.getInitialValue || '')({
-          values: form.getState().values,
-          paramSchema,
-          generateId,
-          formState: form.getState().values,
-          columns: dctableMeta?.columns,
-          table: dctableMeta,
-        })
-        return acc
-      }, {})
-
-      form.change(formName.replace('multiConfig', `configs.${Dctable.buildFqn(config.inputDctableLocator)}`) as Any, {
-        name,
-        params: { ...initialValues, ...uniqInitialValues },
-      })
+      // Eстанавливаем уникальные параметры в сonfigs
+      setConfigByCommonPath(
+        path,
+        { name, params: { ...initialExecutableCommonValues, ...initialExecutableUniqueValues } } as Any,
+        config.inputDctableLocator,
+      )
     })
   }
 
@@ -364,8 +407,9 @@ export default function Component(props: Props): JSX.Element {
     tableLocatorsList.forEach((dctableLocator) => {
       assertDefined(dctableLocator)
 
-      if (!formState.values.multiConfig) {
+      if (!formState.values.commonConfig) {
         const config: Config = {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           inputDctableLocator: dctableLocator as any,
           executables: [],
         }

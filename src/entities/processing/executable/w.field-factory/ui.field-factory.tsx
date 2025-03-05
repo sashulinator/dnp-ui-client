@@ -90,9 +90,15 @@ function PrepareContextAndRender(props: PrepareContextAndRenderProps) {
   const modeProps = isSingleMode ? componentDesign.singleModeProps : componentDesign.multiModeProps
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const serializeFn = useMemo(() => (serialize ? new Function('context', serialize) : serializeDeserialize), [])
+  const serializeFn = useMemo(
+    () => (serialize ? new Function('context', serialize) : serializeDeserialize),
+    [`${name}.params.${paramSchema.name}`],
+  )
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const deserializeFn = useMemo(() => (deserialize ? new Function('context', deserialize) : serializeDeserialize), [])
+  const deserializeFn = useMemo(
+    () => (deserialize ? new Function('context', deserialize) : serializeDeserialize),
+    [`${name}.params.${paramSchema.name}`],
+  )
 
   const _paramContext: ParamFactoryContext = {
     name: `${name}.params.${paramSchema.name}`,
@@ -109,7 +115,10 @@ function PrepareContextAndRender(props: PrepareContextAndRenderProps) {
   const field = useField(`${name}.params.${paramSchema.name}`, { subscription: { value: true } })
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const value = useMemo(() => serializeFn({ value: field.input.value, ...props }), [field.input.value])
+  const value = useMemo(
+    () => serializeFn({ value: field.input.value, ...props }),
+    [field.input.value, `${name}.params.${paramSchema.name}`],
+  )
 
   if (paramSchema.multiHidden && !isSingleMode) return null
 

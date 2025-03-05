@@ -12,6 +12,6 @@ export function toValues(processing: Proccessing): Values {
   return {
     ...processing,
     configs,
-    multiConfig: configs[0],
+    commonConfig: configs[0],
   }
 }
