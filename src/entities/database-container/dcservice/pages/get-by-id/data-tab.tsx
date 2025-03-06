@@ -7,7 +7,6 @@ import { UploadModal, type UploadModalProps } from '~/shared/file'
 import Flex from '~/shared/flex'
 import { Pagination, type PaginationProps } from '~/shared/page'
 import { FetcherStatus, type FetcherStatusProps } from '~/shared/query'
-import ScrollArea from '~/shared/scroll-area'
 import Section from '~/shared/section'
 import { ListTable } from '~/shared/table'
 import type { Dictionary } from '~/utils/core'
@@ -30,7 +29,8 @@ export interface Props {
     Dictionary,
     ListTable.Sort.Context<Dictionary> &
       ListTable.Search.Context<Dictionary> &
-      ListTable.DropdownMenu.Context & { displayOptions: DisplayOption }
+      ListTable.DropdownMenu.Context &
+      ListTable.Selection.Context<Dictionary> & { displayOptions: DisplayOption }
   >
   fetcherStatusProps: FetcherStatusProps
   paginationProps: PaginationProps
@@ -132,15 +132,15 @@ export default function Component(props: Props): JSX.Element {
         )}
 
         <FetcherStatus {...fetcherStatusProps}>
-          <ScrollArea scrollbars='horizontal'>
-            <ListTable.Search.default columns={listTableProps.columns} context={listTableProps.context}>
-              <ListTable.Sort.default columns={listTableProps.columns} context={listTableProps.context}>
-                <ListTable.DropdownMenu.default columns={listTableProps.columns} context={listTableProps.context}>
+          <ListTable.Search.default columns={listTableProps.columns} context={listTableProps.context}>
+            <ListTable.Sort.default columns={listTableProps.columns} context={listTableProps.context}>
+              <ListTable.DropdownMenu.default columns={listTableProps.columns} context={listTableProps.context}>
+                <ListTable.Selection.default columns={listTableProps.columns} context={listTableProps.context}>
                   <ListTable.default {...listTableProps} />
-                </ListTable.DropdownMenu.default>
-              </ListTable.Sort.default>
-            </ListTable.Search.default>
-          </ScrollArea>
+                </ListTable.Selection.default>
+              </ListTable.DropdownMenu.default>
+            </ListTable.Sort.default>
+          </ListTable.Search.default>
         </FetcherStatus>
       </Flex>
 

@@ -1,6 +1,7 @@
 import { Checkbox } from '@radix-ui/themes'
 
 import { type Dictionary } from '~/utils/core'
+import { stopPropagation } from '~/utils/core-client'
 import { useSubscribeUpdate } from '~/utils/core-hooks'
 import { remove } from '~/utils/dictionary'
 import { toDictionary } from '~/utils/list'
@@ -8,10 +9,14 @@ import { toDictionary } from '~/utils/list'
 import { type Column } from '..'
 import { type Context } from './models.context'
 
+export const COLUMN_NAME = 'ыйыfka;$545322+gdf'
+
+const WIDTH = '32px'
+
 export function createColumn<TItem extends Dictionary, TContext extends Context<TItem>>(): Column<TItem, TContext> {
   return {
     // ыйы достаточно уникальный чтобы не совпадал с возможными ключами item
-    name: 'ыйы',
+    name: COLUMN_NAME,
     display: 'Selection',
     renderHeaderCell: ({ context, list }) => {
       // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -25,7 +30,7 @@ export function createColumn<TItem extends Dictionary, TContext extends Context<
       const selectedValues = Object.values(selectedItems)
 
       const interferedCount = list.reduce((count, item) => {
-        if (selectedIds.includes(item[idKey] as string)) count++
+        if (selectedIds.includes(item[idKey]?.toString() as string)) count++
         return count
       }, 0)
 
@@ -33,6 +38,7 @@ export function createColumn<TItem extends Dictionary, TContext extends Context<
 
       return (
         <Checkbox
+          size='3'
           checked={checked}
           onCheckedChange={(checked) => {
             if (checked === false) {
@@ -55,9 +61,9 @@ export function createColumn<TItem extends Dictionary, TContext extends Context<
     getCellProps() {
       return {
         style: {
-          maxWidth: '32px',
-          minWidth: '32px',
-          width: '32px',
+          maxWidth: WIDTH,
+          minWidth: WIDTH,
+          width: WIDTH,
           textAlign: 'center',
           // calc(var(--space-2) + var(--space-1)) потом что cellPadding + TextInputPadding
           padding: '0',
@@ -71,9 +77,9 @@ export function createColumn<TItem extends Dictionary, TContext extends Context<
     },
     getHeaderCellProps() {
       return {
-        maxWidth: '32px',
-        minWidth: '32px',
-        width: '32px',
+        maxWidth: WIDTH,
+        minWidth: WIDTH,
+        width: WIDTH,
         style: {
           padding: '0',
           textAlign: 'center',
@@ -81,7 +87,7 @@ export function createColumn<TItem extends Dictionary, TContext extends Context<
           left: `0px`,
           background: 'var(--gray-1)',
           position: 'sticky',
-          zIndex: 0,
+          zIndex: 1,
         },
       }
     },
@@ -96,7 +102,9 @@ export function createColumn<TItem extends Dictionary, TContext extends Context<
       const checked = selectedItems[id]
       return (
         <Checkbox
+          size='3'
           checked={Boolean(checked)}
+          onClick={stopPropagation}
           onCheckedChange={(checked) => {
             if (checked) {
               setSelectedItems({ ...selectedItems, [id]: item })
@@ -106,10 +114,6 @@ export function createColumn<TItem extends Dictionary, TContext extends Context<
           }}
         />
       )
-
-      /**
-       * private
-       */
     },
   }
 }
