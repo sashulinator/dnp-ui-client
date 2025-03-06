@@ -4,7 +4,6 @@ import { useState } from 'react'
 
 import Checkbox from '~/shared/checkbox'
 import Flex from '~/shared/flex'
-import { Field } from '~/shared/form'
 import Labeled from '~/shared/labeled'
 import { InputSelect } from '~/shared/select'
 import Text from '~/shared/text'
@@ -17,6 +16,9 @@ export const NAME = `${SLICE}-w-StringField`
 
 type Value = {
   'url-gp': string
+  query?: string | undefined
+  column?: string | undefined
+  before?: string | undefined
 }
 
 export default function Component(props: {
@@ -33,7 +35,7 @@ export default function Component(props: {
     <Flex direction='column' gap='2'>
       <Flex direction='column'>
         <Labeled label='Greenplum URL'>
-          <Field<string> name={`${_paramContext.name}.url-gp`}>{({ input }) => <TextInput {...input} />}</Field>
+          <TextInput value={value['url-gp'] || ''} onValueChange={(v) => onChange({ ...value, 'url-gp': v })} />
         </Labeled>
       </Flex>
       <Flex gap='2' align='center'>
@@ -45,40 +47,34 @@ export default function Component(props: {
       {isLocalSql ? (
         <Flex direction='column'>
           <Labeled label='Query'>
-            <Field<string> name={`${_paramContext.name}.query`}>{({ input }) => <TextArea {...input} />}</Field>
+            <TextArea value={value['query'] || ''} onChange={(e) => onChange({ ...value, query: e.target.value })} />
           </Labeled>
         </Flex>
       ) : (
         <Flex direction='column' gap='2' width='400px'>
           <Flex direction='column'>
-            <Labeled label='Statetment'>
-              <Field<string> name={`${_paramContext.name}.column`}>
-                {({ input }) => (
-                  <InputSelect.default
-                    {...input}
-                    options={[
-                      { value: 'ddl_statetment', display: 'DDL' },
-                      { value: 'pxf_statetment', display: 'PFX' },
-                      { value: 'insert_statetment', display: 'Insert' },
-                    ]}
-                  />
-                )}
-              </Field>
+            <Labeled label='Statement'>
+              <InputSelect.default
+                value={value['column'] || ''}
+                onValueChange={(v) => onChange({ ...value, column: v })}
+                options={[
+                  { value: 'ddl_statement', display: 'DDL' },
+                  { value: 'pxf_statement', display: 'PFX' },
+                  { value: 'insert_statement', display: 'Insert' },
+                ]}
+              />
             </Labeled>
           </Flex>
           <Flex direction='column'>
             <Labeled label='Before'>
-              <Field<string> name={`${_paramContext.name}.before`}>
-                {({ input }) => (
-                  <InputSelect.default
-                    {...input}
-                    options={[
-                      { value: 'drop', display: 'drop' },
-                      { value: 'truncate', display: 'truncate' },
-                    ]}
-                  />
-                )}
-              </Field>
+              <InputSelect.default
+                value={value['before'] || ''}
+                onValueChange={(v) => onChange({ ...value, before: v })}
+                options={[
+                  { value: 'drop', display: 'drop' },
+                  { value: 'truncate', display: 'truncate' },
+                ]}
+              />
             </Labeled>
           </Flex>
         </Flex>

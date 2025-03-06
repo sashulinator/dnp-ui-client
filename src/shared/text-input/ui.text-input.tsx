@@ -5,7 +5,7 @@ import { type ForwardedRef, forwardRef, useRef } from 'react'
 import Button from '~/shared/button'
 import Flex from '~/shared/flex'
 import Icon from '~/shared/icon'
-import { c } from '~/utils/core'
+import { c, fns } from '~/utils/core'
 import { setInputValue } from '~/utils/dom-event'
 import { setRefs } from '~/utils/react'
 
@@ -16,19 +16,25 @@ export type Props = TextField.RootProps & {
   leftProps?: TextField.SlotProps | undefined
   rightProps?: TextField.SlotProps | undefined
   clearable?: boolean | undefined
+  onValueChange?: ((value: string) => void) | undefined
 }
 
 export const NAME = 'textInput-TextInput'
 
 export function Component(props: Props, forwardedRef: ForwardedRef<HTMLInputElement>): JSX.Element {
-  const { clearable, left, right, leftProps, rightProps, ...textInputProps } = props
+  const { clearable, left, right, leftProps, rightProps, onValueChange, onChange, ...textInputProps } = props
 
   const inputRef = useRef<HTMLInputElement>(null)
 
   const hasValue = textInputProps.value !== undefined && textInputProps.value !== ''
 
   return (
-    <TextField.Root ref={setRefs(inputRef, forwardedRef)} {...textInputProps} className={c(props.className, NAME)}>
+    <TextField.Root
+      ref={setRefs(inputRef, forwardedRef)}
+      {...textInputProps}
+      onChange={fns(onChange, (e) => onValueChange?.(e.target.value))}
+      className={c(props.className, NAME)}
+    >
       {left && (
         <TextField.Slot side='left' {...leftProps}>
           {left}
