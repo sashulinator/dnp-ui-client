@@ -20,7 +20,7 @@ api.defaults.headers.common['Accept'] = '*/*'
 let refreshTokensPromise: null | Promise<unknown> = null
 
 api.interceptors.request.use(async (request) => {
-  if (!auth.isAccessTokenExpired()) return request
+  if (!auth.isAccessTokenExpired()) return _setAuthorizationHeader(request)
 
   if (refreshTokensPromise === null) {
     refreshTokensPromise = auth.refreshTokens().catch(() => {
@@ -32,16 +32,13 @@ api.interceptors.request.use(async (request) => {
   if (refreshTokensPromise) {
     await refreshTokensPromise
     refreshTokensPromise = null
-    return request
   }
 
-  return request
+  return _setAuthorizationHeader(request)
 })
 
 // ------------------------------
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
-api.interceptors.request.use(_setAuthorizationHeader as any)
 api.interceptors.response.use(undefined, _handleUnauthorizedError)
 
 export { api }
