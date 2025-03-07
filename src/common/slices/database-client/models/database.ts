@@ -89,8 +89,8 @@ export type Column = v.InferOutput<typeof columnSchema>
  */
 
 export const relationSchema = v.object({
-  tableName: v.string(),
-  columnName: v.string(),
+  table: v.string(),
+  column: v.string(),
 })
 
 export type Relation = v.InferOutput<typeof relationSchema>

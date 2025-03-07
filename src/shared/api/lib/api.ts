@@ -3,6 +3,7 @@ import { stringify } from 'qs'
 
 import { history, publicRoutes } from '~/app/route'
 import { auth } from '~/shared/auth'
+import { notify } from '~/shared/notification-list-store'
 
 import { _handleUnauthorizedError } from './_handle-unauthorize-error'
 import { _setAuthorizationHeader } from './_set-authorization-header'
@@ -26,6 +27,7 @@ api.interceptors.request.use(async (request) => {
     refreshTokensPromise = auth.refreshTokens().catch(() => {
       history.push(publicRoutes.login.getPath())
       auth.logout()
+      notify({ type: 'error', title: 'Ошибка Авторизации' })
     })
   }
 

@@ -1,1 +1,1 @@
-export * from '~/common/slices/database/models'
+export * from '~/common/slices/database-client/models'
