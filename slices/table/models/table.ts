@@ -1,6 +1,6 @@
 import * as v from 'valibot'
 
-import { columnSchema as databaseColumnSchema, relationSchema as databaseRelationSchema } from '../../database'
+import { columnSchema as databaseColumnSchema, relationSchema as databaseRelationSchema } from '../../database-client'
 
 /**
  * Table
