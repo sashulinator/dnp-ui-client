@@ -1,18 +1,19 @@
 import qs from 'qs'
 import { useMutation } from 'react-query'
 
+import { auth } from '~/app/auth'
 import { history, routes } from '~/app/route'
-import { LoginForm, type LoginFormValues, auth } from '~/shared/auth'
 import Button from '~/shared/button'
 import Flex from '~/shared/flex'
 import FForm, { useCreateForm } from '~/shared/form'
 import Logo from '~/shared/logo-icon'
 import Text from '~/shared/text'
 import Tooltip from '~/shared/tooltip'
+import { LoginForm, type LoginFormValues } from '~/slices/auth'
 import { c, fns } from '~/utils/core'
 import { isDev, preventDefault } from '~/utils/core-client'
 
-import { notify } from '../notification-list-store'
+import { notify } from '../../shared/notification-list-store'
 
 const NAME = 'pages-Login'
 

@@ -1,9 +1,9 @@
 import { Suspense, lazy } from 'react'
 
 import NotFound from '~/pages/not-found'
-import { LoginPage } from '~/shared/auth'
 import Header from '~/shared/header'
 import Nav from '~/shared/nav'
+import { LoginPage } from '~/slices/auth'
 
 import { type Route } from './route'
 

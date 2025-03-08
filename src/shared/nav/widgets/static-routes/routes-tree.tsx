@@ -1,5 +1,5 @@
+import { auth, roles } from '~/app/auth'
 import { routes } from '~/app/route'
-import { auth, roles } from '~/shared/auth'
 import Icon from '~/shared/icon'
 import { type TreeItem } from '~/shared/link-tree'
 

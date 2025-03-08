@@ -1,35 +1,47 @@
 import { Emitter } from '../../emitter'
-import { Tokenizer } from './tokenizer'
+import type { TokenManager } from '../types'
 
 export type Events = {
   logout: undefined
   login: undefined
-  tokenChanged: undefined
+  accessTokenChanged: undefined
+  refreshTokenChanged: undefined
 }
 
 export type GetTokenResult = {
   accessToken: string
   refreshToken: string
+  /** Unixtime */
   accessTokenExpiresAt: number
+  /** Unixtime */
   refreshTokenExpiresAt: number
 }
 
-export type Props<TGetTokenParams, TRole extends string> = {
+export type Props<TGetTokenParams, TRole extends string, TAccessDecoded, TRefreshDecoded> = {
   getTokens: (params: TGetTokenParams) => Promise<GetTokenResult>
   refreshTokens: (refreshToken: string) => Promise<GetTokenResult>
   roles: Record<TRole, string>
+  accessTokenManager: TokenManager<TAccessDecoded>
+  refreshTokenManager: TokenManager<TRefreshDecoded>
 }
 
-export abstract class Authenticator<TGetTokenParams, TRole extends string, TParsed> extends Emitter<Events> {
+export abstract class Authenticator<
+  TGetTokenParams,
+  TRole extends string,
+  TAccessDecoded,
+  TRefreshDecoded,
+> extends Emitter<Events> {
   roles: Record<TRole, string>
 
-  private _getTokens: (params: TGetTokenParams) => Promise<GetTokenResult>
+  protected _getTokens: (params: TGetTokenParams) => Promise<GetTokenResult>
 
-  private _refreshTokens: (refreshToken: string) => Promise<GetTokenResult>
+  protected _refreshTokens: (refreshToken: string) => Promise<GetTokenResult>
 
-  tokenizer: Tokenizer<TParsed>
+  accessTokenManager: TokenManager<TAccessDecoded>
 
-  constructor(props: Props<TGetTokenParams, TRole>) {
+  refreshTokenManager: TokenManager<TRefreshDecoded>
+
+  constructor(props: Props<TGetTokenParams, TRole, TAccessDecoded, TRefreshDecoded>) {
     super()
 
     this.roles = props.roles
@@ -38,38 +50,45 @@ export abstract class Authenticator<TGetTokenParams, TRole extends string, TPars
 
     this._getTokens = props.getTokens
 
-    this.tokenizer = new Tokenizer({})
+    this.accessTokenManager = props.accessTokenManager
+    this.refreshTokenManager = props.refreshTokenManager
 
-    this.tokenizer.on('tokenChanged', () => this.emit('tokenChanged'))
+    this.accessTokenManager.on('tokenChanged', () => this.emit('accessTokenChanged'))
+    this.refreshTokenManager.on('tokenChanged', () => this.emit('refreshTokenChanged'))
   }
 
   async refreshTokens() {
-    if (this.tokenizer.refreshToken === null) throw new Error('Refresh token does not exist.')
+    const refreshToken = this.refreshTokenManager.get()
+
+    if (refreshToken === null) throw new Error('Refresh token does not exist.')
     if (this.isRefreshTokenExpired()) throw new Error('Refresh token expired.')
 
-    const ret = await this._refreshTokens(this.tokenizer.refreshToken)
+    const ret = await this._refreshTokens(refreshToken)
 
-    this.tokenizer.setTokens(ret.accessToken, ret.refreshToken, ret.accessTokenExpiresAt, ret.refreshTokenExpiresAt)
+    this.refreshTokenManager.set(ret.refreshToken, ret.refreshTokenExpiresAt)
+    this.accessTokenManager.set(ret.accessToken, ret.accessTokenExpiresAt)
   }
 
   async login(params: TGetTokenParams): Promise<boolean> {
     const ret = await this._getTokens(params)
-    this.tokenizer.setTokens(ret.accessToken, ret.refreshToken, ret.accessTokenExpiresAt, ret.refreshTokenExpiresAt)
+    this.refreshTokenManager.set(ret.refreshToken, ret.refreshTokenExpiresAt)
+    this.accessTokenManager.set(ret.accessToken, ret.accessTokenExpiresAt)
     this.emit('login')
     return true
   }
 
   logout() {
-    this.tokenizer.clear()
+    this.refreshTokenManager.clear()
+    this.accessTokenManager.clear()
     this.emit('logout')
   }
 
   isAccessTokenExpired() {
-    return this.tokenizer.isAccessTokenExpired()
+    return this.accessTokenManager.isExpired()
   }
 
   isRefreshTokenExpired() {
-    return this.tokenizer.isRefreshTokenExpired()
+    return this.refreshTokenManager.isExpired()
   }
 
   abstract hasRole(...args: unknown[]): boolean

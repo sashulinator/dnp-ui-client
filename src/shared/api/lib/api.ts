@@ -1,8 +1,8 @@
 import axios from 'axios'
 import { stringify } from 'qs'
 
+import { auth } from '~/app/auth'
 import { history, publicRoutes } from '~/app/route'
-import { auth } from '~/shared/auth'
 import { notify } from '~/shared/notification-list-store'
 
 import { _handleUnauthorizedError } from './_handle-unauthorize-error'

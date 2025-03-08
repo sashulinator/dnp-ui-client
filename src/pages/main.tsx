@@ -1,7 +1,7 @@
 import React, { createElement } from 'react'
 
+import { auth } from '~/app/auth'
 import { type AppRoute, routes } from '~/app/route'
-import { auth } from '~/shared/auth'
 import Button from '~/shared/button'
 import Card from '~/shared/card'
 import Container from '~/shared/container'

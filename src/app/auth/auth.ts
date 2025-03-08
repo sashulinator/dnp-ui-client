@@ -1,62 +1,17 @@
-import { Authenticator } from '~/utils/token'
+import { ClientTokenKeeper, KeycloakAuthenticator } from '~/slices/auth'
 
 import { request as getTokens } from './api.get-token'
 import { request as refreshTokens } from './api.refresh-tokens'
+import { LOCAL_STORAGE_NAME } from './constant.local-storage-name'
 import { roles } from './constants.roles'
-
-export type LoginParams = {
-  email: string
-  password: string
-}
-
-export interface KeycloakTokenParsed {
-  iss?: string
-  sub?: string
-  aud?: string
-  exp?: number
-  iat?: number
-  auth_time?: number
-  nonce?: string
-  acr?: string
-  amr?: string
-  azp?: string
-  picture: string
-  preferred_username?: string
-  session_state?: string
-  realm_access?: KeycloakRoles
-  resource_access?: KeycloakResourceAccess
-}
-
-export interface KeycloakRoles {
-  roles: string[]
-}
-
-export interface KeycloakResourceAccess {
-  [key: string]: KeycloakRoles
-}
-
-export class KeycloakAuthenticator<TRole extends string> extends Authenticator<
-  LoginParams,
-  TRole,
-  KeycloakTokenParsed
-> {
-  hasRole(role: string, resource: string) {
-    const decoded = this.tokenizer.decoded
-
-    if (!decoded?.resource_access) {
-      return false
-    }
-
-    const access = decoded?.resource_access[resource]
-    return !!access && access.roles.includes(role)
-  }
-}
 
 /**
  * instance
  */
 
 export const auth = new KeycloakAuthenticator({
+  accessTokenManager: new ClientTokenKeeper(LOCAL_STORAGE_NAME.accessToken, LOCAL_STORAGE_NAME.accessTokenExpiresAt),
+  refreshTokenManager: new ClientTokenKeeper(LOCAL_STORAGE_NAME.refreshToken, LOCAL_STORAGE_NAME.refreshTokenExpiresAt),
   roles: roles,
   getTokens: async (params) => {
     const ret = await getTokens(params)
