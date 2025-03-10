@@ -8,7 +8,6 @@ export type LoginParams = {
 }
 
 export class KeycloakAuthenticator<TRole extends string> extends Authenticator<
-  LoginParams,
   TRole,
   KeycloakTokenParsed,
   KeycloakTokenParsed

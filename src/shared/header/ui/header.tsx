@@ -3,6 +3,7 @@ import './header.scss'
 import { Avatar } from '@radix-ui/themes'
 
 import { auth } from '~/app/auth'
+import { history, publicRoutes } from '~/app/route'
 import Button from '~/shared/button'
 import Checkbox from '~/shared/checkbox'
 import Flex from '~/shared/flex'
@@ -109,7 +110,14 @@ export default function Component(): JSX.Element {
               <HighlightedText>{auth.accessTokenManager.decode()?.preferred_username}</HighlightedText>
             </Flex>
           )}
-          <Button variant='ghost' size='1' onClick={() => auth.logout()}>
+          <Button
+            variant='ghost'
+            size='1'
+            onClick={() => {
+              auth.logout()
+              history.push(publicRoutes.login.getPath())
+            }}
+          >
             Выйти
           </Button>
         </Flex>

@@ -24,3 +24,9 @@ export type { KeycloakTokenParsed } from './types'
  */
 
 export { default as LoginPage } from './pages.login'
+
+/**
+ * lib
+ */
+
+export { getDateIn } from './lib/get-date-in'

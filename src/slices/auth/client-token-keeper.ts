@@ -29,7 +29,7 @@ export class ClientTokenKeeper extends Emitter<TokenKeeperEvents> implements Tok
   }
 
   isExpired(): boolean {
-    const dateMs = Number(this.get())
+    const dateMs = Number(localStorage.getItem(this.localStorageNames.tokenExpiresAtName))
     if (dateMs === null) return true
     const now = new Date().getTime()
     return dateMs < now

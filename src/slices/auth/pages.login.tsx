@@ -1,7 +1,6 @@
 import qs from 'qs'
-import { useMutation } from 'react-query'
 
-import { auth } from '~/app/auth'
+import { api, auth } from '~/app/auth'
 import { history, routes } from '~/app/route'
 import Button from '~/shared/button'
 import Flex from '~/shared/flex'
@@ -9,7 +8,7 @@ import FForm, { useCreateForm } from '~/shared/form'
 import Logo from '~/shared/logo-icon'
 import Text from '~/shared/text'
 import Tooltip from '~/shared/tooltip'
-import { LoginForm, type LoginFormValues } from '~/slices/auth'
+import { LoginForm, type LoginFormValues, getDateIn } from '~/slices/auth'
 import { c, fns } from '~/utils/core'
 import { isDev, preventDefault } from '~/utils/core-client'
 
@@ -18,13 +17,19 @@ import { notify } from '../../shared/notification-list-store'
 const NAME = 'pages-Login'
 
 export default function Component(): JSX.Element {
-  const getTokenMutator = useMutation(auth.login.bind(auth), {
-    onSuccess: () => {
+  const getTokenMutator = api.getTokens.useMutation({
+    onSuccess: ({ data }) => {
+      auth.login({
+        accessToken: data.access_token,
+        accessTokenExpiresAt: getDateIn(data.expires_in - 5).getTime(),
+        refreshToken: data.refresh_token,
+        refreshTokenExpiresAt: getDateIn(data.refresh_expires_in - 5).getTime(),
+      })
       const searchQuery = qs.parse(location.search, { ignoreQueryPrefix: true })
       history.push(searchQuery.redirect?.toString() || routes.main.getPath())
     },
-    onError: () => {
-      notify({ title: 'Ошибка', type: 'error' })
+    onError: (e) => {
+      notify({ title: e.response?.data?.translated, type: 'error' })
     },
   })
 
