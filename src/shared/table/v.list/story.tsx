@@ -1,3 +1,5 @@
+import { DropdownMenu } from '@radix-ui/themes'
+
 import { useMemo, useState } from 'react'
 
 import Button from '~/shared/button'
@@ -6,24 +8,34 @@ import type { Props, Story } from '~/shared/storybook'
 import { type Dictionary } from '~/utils/core'
 import { createAtom } from '~/utils/store'
 
-import List, { type ColumnProps, NAME } from './ui.list'
+import List, { type ColumnProps, NAME, type RenderCellProps } from './ui.list'
+import DropdownMenuWrapper from './w.dropdown-menu'
 import SearchWrapper from './w.search'
 import SelectionWrapper from './w.selection'
 import SortWrapper, { type ToSort } from './w.sort'
 
 interface State {}
 
+interface DisplayOption {
+  [columnName: string]: { sql: boolean }
+}
+
+type DisplayOptionContext = {
+  displayOption: DisplayOption
+}
+
 export default {
   render: function Element(props: Props<State>): JSX.Element {
     const { state } = props
 
     const [isSort, setIsSort] = useState(true)
+    const [displayOptions, setDisplayOptions] = useState<DisplayOption>({})
     const [searchFilter, setSearchFilter] = useState({})
 
     const sortController = useMemo(() => createAtom<ToSort<Dictionary> | undefined>({}), [])
     const selectedItemsAtom = useMemo(() => createAtom<Dictionary<Dictionary>>({}), [])
 
-    const rTableList = <List {...state} context={{}} list={list} columns={columns} />
+    const rTableList = <List {...state} context={{ displayOption: displayOptions }} list={list} columns={columns} />
 
     return (
       <Flex width='100%' direction={'column'} p='8' gap='4'>
@@ -33,9 +45,29 @@ export default {
         {isSort ? (
           <SearchWrapper columns={columns} context={{ searchFilter, setSearchFilter }}>
             <SortWrapper columns={columns} context={{ sortAtom: sortController }}>
-              <SelectionWrapper columns={columns} context={{ selectedItemsAtom, idKey: 'id' }}>
-                {rTableList}
-              </SelectionWrapper>
+              <DropdownMenuWrapper
+                columns={columns}
+                context={{
+                  renderDropdownMenuContent: (props) => {
+                    const isSql = Boolean(displayOptions[props.column.name]?.sql)
+                    return (
+                      <DropdownMenu.Content>
+                        <DropdownMenu.Item
+                          onClick={() => {
+                            setDisplayOptions({ ...displayOptions, [props.column.name]: { sql: !isSql } })
+                          }}
+                        >
+                          Подсветить SQL
+                        </DropdownMenu.Item>
+                      </DropdownMenu.Content>
+                    )
+                  },
+                }}
+              >
+                <SelectionWrapper columns={columns} context={{ selectedItemsAtom, idKey: 'id' }}>
+                  {rTableList}
+                </SelectionWrapper>
+              </DropdownMenuWrapper>
             </SortWrapper>
           </SearchWrapper>
         ) : (
@@ -85,28 +117,34 @@ const list: User[] = [
   },
   {
     id: '5',
-    username: 'Spider-man',
+    username: 'SELECT * FROM Customers',
     age: 45,
   },
 ]
 
-const columns: ColumnProps<User, Dictionary<string>>[] = [
+const columns: ColumnProps<User, DisplayOptionContext>[] = [
   {
     name: 'id',
-    renderCell: ({ value }) => value,
-    renderHeader: () => 'ID',
+    renderCell,
     display: 'ID',
   },
   {
     name: 'username',
     renderHeader: () => 'Имя пользователя',
-    renderCell: ({ value }) => value,
+    renderCell,
     display: 'Имя пользователя',
   },
   {
     name: 'age',
     renderHeader: () => 'Возраст',
-    renderCell: ({ value }) => value,
+    renderCell,
     display: 'Возраст',
   },
 ]
+
+function renderCell(props: RenderCellProps<User, DisplayOptionContext>) {
+  if (props.context.displayOption[props.name]?.sql) {
+    return 'sql'
+  }
+  return props.value
+}

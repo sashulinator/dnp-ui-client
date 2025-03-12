@@ -27,3 +27,4 @@ export {
 export * as Sort from './w.sort'
 export * as Search from './w.search'
 export * as Selection from './w.selection'
+export * as DropdownMenu from './w.dropdown-menu'
