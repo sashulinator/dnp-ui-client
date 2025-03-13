@@ -69,8 +69,12 @@ export default function Component(props: Props): JSX.Element {
   const [selectedItemsAtom, selectedItems] = useAtomState<Dictionary<Dctable.ListTable.Item>>({})
   const [sortAtom, sort] = useAtomState<Dctable.ListTable.ItemSort | undefined>(undefined)
   const [limit, setLimit] = useState(10)
+  const [selectedTableItems, setSelectedTableItems] = useState({})
 
-  useSubscribe(selectedItemsAtom.subscribe as any, onChange)
+  const onSave = () => {
+    onChange(selectedTableItems)
+  }
+  useSubscribe(selectedItemsAtom.subscribe as any, setSelectedTableItems)
 
   const fetcher = useQuery(
     [NAME, 'tableFetcher', { searchFilter, database, sort, page, dcserviceId }],
@@ -173,6 +177,27 @@ export default function Component(props: Props): JSX.Element {
                       }
                     />
                   </Labeled>
+                </Flex>
+                <Flex width='300px' gap='2' align='center'>
+                  <Button
+                    variant='classic'
+                    onClick={() => {
+                      onSave()
+                      openAtom.set(false)
+                    }}
+                  >
+                    Выбрать
+                  </Button>
+                  <Button
+                    variant='classic'
+                    onClick={() => {
+                      onSave()
+                      selectedItemsAtom.set({})
+                    }}
+                    style={{ marginLeft: '8px' }}
+                  >
+                    Отмена
+                  </Button>
                 </Flex>
               </Flex>
 
