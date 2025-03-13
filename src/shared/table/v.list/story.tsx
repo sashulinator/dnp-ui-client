@@ -5,6 +5,7 @@ import { useMemo, useState } from 'react'
 import Button from '~/shared/button'
 import Flex from '~/shared/flex'
 import type { Props, Story } from '~/shared/storybook'
+import Editor from '~/slices/monaco-editor'
 import { type Dictionary } from '~/utils/core'
 import { createAtom } from '~/utils/store'
 
@@ -144,7 +145,29 @@ const columns: ColumnProps<User, DisplayOptionContext>[] = [
 
 function renderCell(props: RenderCellProps<User, DisplayOptionContext>) {
   if (props.context.displayOption[props.name]?.sql) {
-    return 'sql'
+    return (
+      <Editor
+        value={props.value.toString()}
+        height='4rem'
+        language='sql'
+        options={{
+          minimap: { enabled: false },
+          lineNumbers: 'off',
+          scrollBeyondLastLine: false,
+          scrollbar: {
+            horizontal: 'hidden',
+            vertical: 'hidden',
+          },
+          overviewRulerLanes: 0, // Remove overview ruler
+          wordWrap: 'on', // or 'off' depending on desired behavior
+          renderLineHighlight: 'none', // Removes line highlight
+          contextmenu: false, // Disable context menu (right-click)
+          folding: false, // Disable code folding
+          glyphMargin: false, // Remove the glyph margin (for breakpoints, etc.)
+          hideCursorInOverviewRuler: true, // Hide cursor in overview ruler
+        }}
+      />
+    )
   }
   return props.value
 }

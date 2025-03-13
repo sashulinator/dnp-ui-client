@@ -21,7 +21,7 @@ export function useCache<TData = Result>(
 ): QueryResult<TData> {
   const options: Options<TData> = {
     select: (axiosResponse) => axiosResponse.data as TData,
-    enabled: Boolean(requestParams.dcdatabaseLocator),
+    enabled: Boolean(requestParams.dcdatabaseLocator.name && requestParams.dcdatabaseLocator.dcserviceId),
     ...preferredOptions,
   }
 
