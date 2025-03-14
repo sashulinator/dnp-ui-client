@@ -16,10 +16,22 @@ import type { Dictionary } from '~/utils/core'
 
 export type DropdownMenuContext = ListTable.DropdownMenu.Context
 
+export interface DisplayOption {
+  [columnName: string]: {
+    column: { type: string }
+    highlight?: {
+      latin?: boolean
+      cyrillic?: boolean
+    }
+  }
+}
+
 export interface Props {
   listTableProps: ListTable.ListProps<
     Dictionary,
-    ListTable.Sort.Context<Dictionary> & ListTable.Search.Context<Dictionary> & ListTable.DropdownMenu.Context
+    ListTable.Sort.Context<Dictionary> &
+      ListTable.Search.Context<Dictionary> &
+      ListTable.DropdownMenu.Context & { displayOptions: DisplayOption }
   >
   fetcherStatusProps: FetcherStatusProps
   paginationProps: PaginationProps

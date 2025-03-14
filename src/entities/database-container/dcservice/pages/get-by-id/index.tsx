@@ -30,20 +30,17 @@ import Editor from '~/slices/monaco-editor'
 import { type ToSort, useSort } from '~/slices/sort'
 import { type Any, type Dictionary, assertDefined, c } from '~/utils/core'
 import { usePrevious } from '~/utils/core-hooks/previous'
+import { setPath } from '~/utils/dictionary'
 import { createAtom, useAtom } from '~/utils/store'
 
 import { api as dcserviceApi } from '../..'
 import { SLICE } from '../../constants.slice'
 import DcserviceForm, { type Values } from '../../ui/form'
 import TestConnection from '../../ui/test-connection'
-import DataTab from './data-tab'
+import DataTab, { type DisplayOption } from './data-tab'
 
 const NAME = `${APP}-page-${SLICE}-GetById`
 const BUCKET_NAME = 'ui-server'
-
-export interface DisplayOption {
-  [columnName: string]: { type: string }
-}
 
 export default function Component(): JSX.Element {
   const { id = '' } = useParams()
@@ -324,6 +321,29 @@ export default function Component(): JSX.Element {
               }}
               listTableProps={{
                 renderCell: useCallback((props) => {
+                  const isLatin = props.context.displayOptions?.[props.column.name]?.highlight?.latin
+                  const isCyrillic = props.context.displayOptions?.[props.column.name]?.highlight?.cyrillic
+                  if (isLatin || isCyrillic) {
+                    let value: HeighlightPart[] = [{ type: undefined, str: String(props.value) }]
+                    value = isLatin
+                      ? value.flatMap((v) => (v.type === undefined ? highlightText(v.str, /[a-zA-Z]+/g, 'latin') : v))
+                      : value
+                    value = isCyrillic
+                      ? value.flatMap((v) =>
+                          v.type === undefined ? highlightText(v.str, /[а-яА-Я]+/g, 'cyrillic') : v,
+                        )
+                      : value
+
+                    return value.map((h, i) =>
+                      h.type === undefined ? (
+                        h.str
+                      ) : (
+                        <span key={i} style={{ color: h.type === 'latin' ? 'red' : 'yellow' }}>
+                          {h.str}
+                        </span>
+                      ),
+                    )
+                  }
                   if (props.column.type === 'sql') {
                     return (
                       <Editor
@@ -350,6 +370,7 @@ export default function Component(): JSX.Element {
                       />
                     )
                   }
+
                   return props.value as string
                 }, []),
                 getRowProps: ({ item }) => ({
@@ -361,11 +382,14 @@ export default function Component(): JSX.Element {
                 columns: mutatedColumns,
                 list: rowsFetcher.data?.items || [],
                 context: {
+                  displayOptions,
                   setSearchFilter: setSearchFilter as any,
                   searchFilter: columnSearchParams,
                   sortAtom: sortAtom,
                   renderDropdownMenuContent: (props) => {
-                    const isSql = Boolean(displayOptions[props.column.name]?.type === 'sql')
+                    const isSql = Boolean(displayOptions[props.column.name]?.column?.type === 'sql')
+                    const isLatin = Boolean(displayOptions[props.column.name]?.highlight?.latin)
+                    const isCyrillic = Boolean(displayOptions[props.column.name]?.highlight?.cyrillic)
                     return (
                       <DropdownMenu.Content>
                         <DropdownMenu.Item
@@ -375,14 +399,40 @@ export default function Component(): JSX.Element {
                               const column = tableMeta?.columns.find((c) => c.name === props.column.name)
                               assertDefined(column, 'Невозможная ошибка')
                               // Возвращаем изначальный тип
-                              setDisplayOptions({ ...displayOptions, [props.column.name]: { type: column.type } })
+                              setDisplayOptions({
+                                ...displayOptions,
+                                [props.column.name]: { column: { type: column.type } },
+                              })
                             } else {
-                              setDisplayOptions({ ...displayOptions, [props.column.name]: { type: 'sql' } })
+                              setDisplayOptions({ ...displayOptions, [props.column.name]: { column: { type: 'sql' } } })
                             }
                           }}
                         >
-                          Подсветить SQL
+                          SQL
                         </DropdownMenu.Item>
+                        <DropdownMenu.Sub>
+                          <DropdownMenu.SubTrigger>Подсветить</DropdownMenu.SubTrigger>
+                          <DropdownMenu.SubContent>
+                            <DropdownMenu.Item
+                              onClick={() => {
+                                setDisplayOptions((s) =>
+                                  setPath(s, [props.column.name, 'highlight', 'cyrillic'], !isCyrillic),
+                                )
+                              }}
+                            >
+                              Кириллицу
+                            </DropdownMenu.Item>
+                            <DropdownMenu.Item
+                              onClick={() => {
+                                setDisplayOptions((s) =>
+                                  setPath(s, [props.column.name, 'highlight', 'latin'], !isLatin),
+                                )
+                              }}
+                            >
+                              Латиницу
+                            </DropdownMenu.Item>
+                          </DropdownMenu.SubContent>
+                        </DropdownMenu.Sub>
                       </DropdownMenu.Content>
                     )
                   },
@@ -442,9 +492,47 @@ export default function Component(): JSX.Element {
   // Мутирует колонки для Формы редактирования строки
   function _mutateColumns() {
     return tableMeta?.columns.map((c) => {
-      return { ...c, ...displayOptions[c.name] }
+      return { ...c, ...displayOptions[c.name]?.column }
     })
   }
 }
 
 Component.displayName = NAME
+
+/**
+ * Private
+ */
+
+type HeighlightPart = {
+  str: string
+  type: string | undefined
+}
+
+function highlightText(code: string, regexp: RegExp, type: string): HeighlightPart[] {
+  const parts: HeighlightPart[] = []
+  let lastIndex = 0
+
+  let match
+  while ((match = regexp.exec(code)) !== null) {
+    const matched = match[0]
+    const startIndex = match.index
+    const endIndex = regexp.lastIndex
+
+    // Add text before the matched word
+    if (startIndex > lastIndex) {
+      parts.push({ type: undefined, str: code.substring(lastIndex, startIndex) })
+    }
+
+    // Add the highlighted matched word
+    parts.push({ type, str: matched })
+
+    lastIndex = endIndex
+  }
+
+  // Add any remaining text after the last matched word
+  if (lastIndex < code.length) {
+    parts.push({ type: undefined, str: code.substring(lastIndex) })
+  }
+
+  return parts
+}
