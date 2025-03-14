@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { APP } from '~/app/constants.app'
@@ -8,6 +8,7 @@ import { api as processingApi } from '~/entities/processing'
 import Button from '~/shared/button'
 import Container from '~/shared/container'
 import { TICK_MS, cssAnimations } from '~/shared/css-animations'
+import DropdownMenu from '~/shared/dropdown-menu'
 import Flex from '~/shared/flex'
 import Form, { useCreateForm } from '~/shared/form'
 import { notify } from '~/shared/notification-list-store'
@@ -25,6 +26,7 @@ import {
   withDefault,
 } from '~/shared/use-query-params'
 import { api as fileApi } from '~/slices/files'
+import Editor from '~/slices/monaco-editor'
 import { type ToSort, useSort } from '~/slices/sort'
 import { type Any, type Dictionary, assertDefined, c } from '~/utils/core'
 import { usePrevious } from '~/utils/core-hooks/previous'
@@ -34,7 +36,7 @@ import { api as dcserviceApi } from '../..'
 import { SLICE } from '../../constants.slice'
 import DcserviceForm, { type Values } from '../../ui/form'
 import TestConnection from '../../ui/test-connection'
-import DataTab from './data-tab'
+import DataTab, { type DisplayOption } from './data-tab'
 
 const NAME = `${APP}-page-${SLICE}-GetById`
 const BUCKET_NAME = 'ui-server'
@@ -46,6 +48,7 @@ export default function Component(): JSX.Element {
   const [databaseParam, setDatabaseParam] = useQueryParam('database', withDefault(StringParam, ''))
   const [tableParam, setTableParam] = useQueryParam('table', withDefault(StringParam, ''))
   const [schemaParam, setSchemaParam] = useQueryParam('schema', withDefault(StringParam, ''))
+  const [displayOptions, setDisplayOptions] = useState<DisplayOption>({})
 
   const tablesFetcher = dcserviceApi.findTables.useCache({
     dcdatabaseLocator: {
@@ -320,6 +323,34 @@ export default function Component(): JSX.Element {
                 refetch: rowsFetcher.refetch,
               }}
               listTableProps={{
+                renderCell: (props) => {
+                  if (props.context.displayOptions[props.name]?.sql) {
+                    return (
+                      <Editor
+                        value={String(props.value)}
+                        height='4rem'
+                        language='sql'
+                        options={{
+                          minimap: { enabled: false },
+                          lineNumbers: 'off',
+                          scrollBeyondLastLine: false,
+                          scrollbar: {
+                            horizontal: 'hidden',
+                            vertical: 'hidden',
+                          },
+                          overviewRulerLanes: 0, // Remove overview ruler
+                          wordWrap: 'on', // or 'off' depending on desired behavior
+                          renderLineHighlight: 'none', // Removes line highlight
+                          contextmenu: false, // Disable context menu (right-click)
+                          folding: false, // Disable code folding
+                          glyphMargin: false, // Remove the glyph margin (for breakpoints, etc.)
+                          hideCursorInOverviewRuler: true, // Hide cursor in overview ruler
+                        }}
+                      />
+                    )
+                  }
+                  return props.value as string
+                },
                 getRowProps: ({ item }) => ({
                   onClick: () => {
                     isUpdateFormModalOpen.set(true)
@@ -332,6 +363,21 @@ export default function Component(): JSX.Element {
                   setSearchFilter: setSearchFilter as any,
                   searchFilter: columnSearchParams,
                   sortAtom: sortAtom,
+                  displayOptions,
+                  renderDropdownMenuContent: (props) => {
+                    const isSql = Boolean(displayOptions[props.column.name]?.sql)
+                    return (
+                      <DropdownMenu.Content>
+                        <DropdownMenu.Item
+                          onClick={() => {
+                            setDisplayOptions({ ...displayOptions, [props.column.name]: { sql: !isSql } })
+                          }}
+                        >
+                          Подсветить SQL
+                        </DropdownMenu.Item>
+                      </DropdownMenu.Content>
+                    )
+                  },
                 },
               }}
               paginationProps={{

@@ -14,10 +14,23 @@ import { InputSelect } from '~/shared/select'
 import { ListTable } from '~/shared/table'
 import type { Dictionary } from '~/utils/core'
 
+export type DropdownMenuContext = ListTable.DropdownMenu.Context & DisplayOptionContext
+
+export interface DisplayOption {
+  [columnName: string]: { sql: boolean }
+}
+
+type DisplayOptionContext = {
+  displayOptions: DisplayOption
+}
+
 export interface Props {
   listTableProps: ListTable.ListProps<
     Dictionary,
-    ListTable.Sort.Context<Dictionary> & ListTable.Search.Context<Dictionary>
+    ListTable.Sort.Context<Dictionary> &
+      ListTable.Search.Context<Dictionary> &
+      ListTable.DropdownMenu.Context &
+      DisplayOptionContext
   >
   fetcherStatusProps: FetcherStatusProps
   paginationProps: PaginationProps
@@ -97,7 +110,9 @@ export default function Component(props: Props): JSX.Element {
             <ScrollArea scrollbars='horizontal'>
               <ListTable.Search.default columns={listTableProps.columns} context={listTableProps.context}>
                 <ListTable.Sort.default columns={listTableProps.columns} context={listTableProps.context}>
-                  <ListTable.default {...listTableProps} />
+                  <ListTable.DropdownMenu.default columns={listTableProps.columns} context={listTableProps.context}>
+                    <ListTable.default {...listTableProps} />
+                  </ListTable.DropdownMenu.default>
                 </ListTable.Sort.default>
               </ListTable.Search.default>
             </ScrollArea>
