@@ -29,6 +29,7 @@ export default function Component(props: Props): JSX.Element {
   const { open, form, columns, mutator, onClose } = props
 
   useSubscribeUpdate(open.subscribe)
+  useSubscribeUpdate((update) => form.subscribe(update, { values: true }))
 
   return (
     <Dialog.Root open={open.get()}>

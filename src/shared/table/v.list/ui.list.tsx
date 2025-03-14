@@ -29,6 +29,7 @@ export interface RenderCellProps<TItem extends Dictionary, TContext extends Dict
   list: TItem[]
   item: TItem
   context: TContext
+  column: ColumnProps<TItem, TContext>
 }
 
 export interface RenderHeaderProps<TItem extends Dictionary, TContext extends Dictionary> {
@@ -160,6 +161,7 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
                             context: context as TContext,
                             display: column.display,
                             item,
+                            column,
                             list,
                           })}
                         </Table.Cell>

@@ -17,7 +17,7 @@ const NAME = 'table-List-w-SortWrapper'
 export default function Component(props: Props): JSX.Element {
   const { context, columns = [], children } = props
 
-  const searchColumns = useMemo(() => columns.map(injectIntoColumn), [])
+  const searchColumns = useMemo(() => columns.map(injectIntoColumn), [columns])
 
   return cloneElement(children, {
     ...children.props,

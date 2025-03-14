@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { APP } from '~/app/constants.app'
@@ -36,10 +36,14 @@ import { api as dcserviceApi } from '../..'
 import { SLICE } from '../../constants.slice'
 import DcserviceForm, { type Values } from '../../ui/form'
 import TestConnection from '../../ui/test-connection'
-import DataTab, { type DisplayOption } from './data-tab'
+import DataTab from './data-tab'
 
 const NAME = `${APP}-page-${SLICE}-GetById`
 const BUCKET_NAME = 'ui-server'
+
+export interface DisplayOption {
+  [columnName: string]: { type: string }
+}
 
 export default function Component(): JSX.Element {
   const { id = '' } = useParams()
@@ -67,8 +71,9 @@ export default function Component(): JSX.Element {
           name: tableParam,
         }),
       ),
-    [tablesFetcher.data, tableParam],
+    [tablesFetcher.data, tableParam, displayOptions],
   )
+  const mutatedColumns = useMemo(_mutateColumns, [tableMeta, tableParam, displayOptions])
 
   const [{ page = 1, limit = 25 }, setPaginationParams] = useQueryParams(
     {
@@ -123,19 +128,14 @@ export default function Component(): JSX.Element {
     onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
   })
 
-  const form = useCreateForm<Values>(
-    {
-      initialValues: fetcher.data ? DcserviceForm.toValues(fetcher.data) : {},
-      onSubmit: (values) => {
-        assertDefined(fetcher.data)
-        const input = { ...fetcher.data, ...DcserviceForm.toDcservice(values) }
-        updateMutator.mutate({ input })
-      },
+  const form = useCreateForm<Values>({
+    initialValues: fetcher.data ? DcserviceForm.toValues(fetcher.data) : {},
+    onSubmit: (values) => {
+      assertDefined(fetcher.data)
+      const input = { ...fetcher.data, ...DcserviceForm.toDcservice(values) }
+      updateMutator.mutate({ input })
     },
-    {
-      values: true,
-    },
-  )
+  })
 
   const formState = form.getState()
   const isAnimated = useMemo(() => !fetcher.data, [])
@@ -178,7 +178,7 @@ export default function Component(): JSX.Element {
       },
       initialValues: {},
     },
-    { values: true, initialValues: true },
+    { initialValues: true },
   )
 
   const updateRowForm = useCreateForm<Dcrow.FormModal.Row>(
@@ -198,7 +198,7 @@ export default function Component(): JSX.Element {
       },
       initialValues: {},
     },
-    { values: true, initialValues: true },
+    { initialValues: true },
   )
 
   return (
@@ -301,7 +301,7 @@ export default function Component(): JSX.Element {
                 },
                 open: isUpdateFormModalOpen,
                 form: updateRowForm,
-                columns: tableMeta?.columns || [],
+                columns: mutatedColumns,
                 mutator: updateRowMutator,
               }}
               createFormModalProps={{
@@ -311,7 +311,7 @@ export default function Component(): JSX.Element {
                 },
                 open: isCreateFormModalOpen,
                 form: createRowForm,
-                columns: tableMeta?.columns || [],
+                columns: mutatedColumns,
                 mutator: createRowMutator,
               }}
               fetcherStatusProps={{
@@ -323,14 +323,15 @@ export default function Component(): JSX.Element {
                 refetch: rowsFetcher.refetch,
               }}
               listTableProps={{
-                renderCell: (props) => {
-                  if (props.context.displayOptions[props.name]?.sql) {
+                renderCell: useCallback((props) => {
+                  if (props.column.type === 'sql') {
                     return (
                       <Editor
                         value={String(props.value)}
                         height='4rem'
                         language='sql'
                         options={{
+                          readOnly: true,
                           minimap: { enabled: false },
                           lineNumbers: 'off',
                           scrollBeyondLastLine: false,
@@ -350,27 +351,34 @@ export default function Component(): JSX.Element {
                     )
                   }
                   return props.value as string
-                },
+                }, []),
                 getRowProps: ({ item }) => ({
                   onClick: () => {
                     isUpdateFormModalOpen.set(true)
                     updateRowForm.initialize(item)
                   },
                 }),
-                columns: rowsFetcher.data?.columns,
+                columns: mutatedColumns,
                 list: rowsFetcher.data?.items || [],
                 context: {
                   setSearchFilter: setSearchFilter as any,
                   searchFilter: columnSearchParams,
                   sortAtom: sortAtom,
-                  displayOptions,
                   renderDropdownMenuContent: (props) => {
-                    const isSql = Boolean(displayOptions[props.column.name]?.sql)
+                    const isSql = Boolean(displayOptions[props.column.name]?.type === 'sql')
                     return (
                       <DropdownMenu.Content>
                         <DropdownMenu.Item
                           onClick={() => {
-                            setDisplayOptions({ ...displayOptions, [props.column.name]: { sql: !isSql } })
+                            if (isSql) {
+                              // Находим изначальную колонку
+                              const column = tableMeta?.columns.find((c) => c.name === props.column.name)
+                              assertDefined(column, 'Невозможная ошибка')
+                              // Возвращаем изначальный тип
+                              setDisplayOptions({ ...displayOptions, [props.column.name]: { type: column.type } })
+                            } else {
+                              setDisplayOptions({ ...displayOptions, [props.column.name]: { type: 'sql' } })
+                            }
                           }}
                         >
                           Подсветить SQL
@@ -426,6 +434,17 @@ export default function Component(): JSX.Element {
       </Container>
     </Main>
   )
+
+  /**
+   * Private
+   */
+
+  // Мутирует колонки для Формы редактирования строки
+  function _mutateColumns() {
+    return tableMeta?.columns.map((c) => {
+      return { ...c, ...displayOptions[c.name] }
+    })
+  }
 }
 
 Component.displayName = NAME
