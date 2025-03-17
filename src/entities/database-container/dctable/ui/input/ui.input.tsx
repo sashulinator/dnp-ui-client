@@ -74,7 +74,10 @@ export default function Component(props: Props): JSX.Element {
   const onSave = () => {
     onChange(selectedTableItems)
   }
-  useSubscribe(selectedItemsAtom.subscribe as any, setSelectedTableItems)
+  useSubscribe(
+    selectedItemsAtom.subscribe as any,
+    setSelectedTableItems,
+  )
 
   const fetcher = useQuery(
     [NAME, 'tableFetcher', { searchFilter, database, sort, page, dcserviceId }],
@@ -131,7 +134,14 @@ export default function Component(props: Props): JSX.Element {
       <Dialog.Root open={openAtom.get()}>
         <Dialog.Content maxWidth='1224px' style={{ position: 'relative' }}>
           <Flex position='absolute' top='4' right='6'>
-            <Button round={true} variant='ghost' onClick={() => openAtom.set(false)}>
+            <Button
+              round={true}
+              variant='ghost'
+              onClick={() => {
+                onSave()
+                openAtom.set(false)
+              }}
+            >
               <Icon name='Cross1' />
             </Button>
           </Flex>
@@ -191,8 +201,10 @@ export default function Component(props: Props): JSX.Element {
                   <Button
                     variant='classic'
                     onClick={() => {
-                      onSave()
                       selectedItemsAtom.set({})
+                      setSelectedTableItems({})
+
+                      onSave()
                     }}
                     style={{ marginLeft: '8px' }}
                   >
