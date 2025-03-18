@@ -199,31 +199,31 @@ export default function Component(): JSX.Element {
   )
 
   return (
-    <Main className={NAME} style={{ position: 'relative' }}>
-      <Container p='var(--space-4)'>
-        {fetcher.isError && (
-          <Flex width='100%' justify='center' gap='2' align='center'>
-            Ошибка <Button onClick={() => fetcher.refetch()}>Перезагрузить</Button>
-          </Flex>
-        )}
-
-        {!fetcher.isError && (
-          <Section size='1' className={c(isAnimated && cssAnimations.Appear)}>
-            <Flex align='center' justify='between' gap='2'>
-              <Heading.Root route={routes.dcservice_getById} backRoute={routes.dcservice_findWithTotal}>
-                <Heading.BackToParent />
-                <Heading.Name />
-                <Heading.Unique string={formState.values.display} tooltipContent='Отображение' />
-              </Heading.Root>
+    <Tabs.Root value={tab} onValueChange={(value) => setTab(value)}>
+      <Main className={NAME} style={{ position: 'relative' }}>
+        <Container p='var(--space-4)'>
+          {fetcher.isError && (
+            <Flex width='100%' justify='center' gap='2' align='center'>
+              Ошибка <Button onClick={() => fetcher.refetch()}>Перезагрузить</Button>
             </Flex>
-          </Section>
-        )}
+          )}
 
-        <Tabs.Root value={tab} onValueChange={(value) => setTab(value)}>
-          <Tabs.List>
-            <Tabs.Trigger value='dcservice'>Сервис</Tabs.Trigger>
-            <Tabs.Trigger value='data'>Просмотр данных</Tabs.Trigger>
-          </Tabs.List>
+          {!fetcher.isError && (
+            <Section size='1' className={c(isAnimated && cssAnimations.Appear)}>
+              <Flex align='center' justify='between' gap='2'>
+                <Heading.Root route={routes.dcservice_getById} backRoute={routes.dcservice_findWithTotal}>
+                  <Heading.BackToParent />
+                  <Heading.Name />
+                  <Heading.Unique string={formState.values.display} tooltipContent='Отображение' />
+                </Heading.Root>
+                <Tabs.List>
+                  <Tabs.Trigger value='dcservice'>Сервис</Tabs.Trigger>
+                  <Tabs.Trigger value='data'>Данные</Tabs.Trigger>
+                </Tabs.List>
+              </Flex>
+            </Section>
+          )}
+
           <Tabs.Content value='dcservice' style={{ width: '100%' }}>
             <Section
               size='1'
@@ -323,14 +323,23 @@ export default function Component(): JSX.Element {
                 renderCell: useCallback((props) => {
                   const isLatin = props.context.displayOptions?.[props.column.name]?.highlight?.latin
                   const isCyrillic = props.context.displayOptions?.[props.column.name]?.highlight?.cyrillic
+                  const isPunctuationMarks =
+                    props.context.displayOptions?.[props.column.name]?.highlight?.punctuationMarks
                   if (isLatin || isCyrillic) {
                     let value: HeighlightPart[] = [{ type: undefined, str: String(props.value) }]
                     value = isLatin
                       ? value.flatMap((v) => (v.type === undefined ? highlightText(v.str, /[a-zA-Z]+/g, 'latin') : v))
                       : value
+
                     value = isCyrillic
                       ? value.flatMap((v) =>
                           v.type === undefined ? highlightText(v.str, /[а-яА-Я]+/g, 'cyrillic') : v,
+                        )
+                      : value
+
+                    value = isPunctuationMarks
+                      ? value.flatMap((v) =>
+                          v.type === undefined ? highlightText(v.str, /.+/g, 'punctuationMarks') : v,
                         )
                       : value
 
@@ -338,7 +347,10 @@ export default function Component(): JSX.Element {
                       h.type === undefined ? (
                         h.str
                       ) : (
-                        <span key={i} style={{ color: h.type === 'latin' ? 'red' : 'yellow' }}>
+                        <span
+                          key={i}
+                          style={{ color: h.type === 'latin' ? 'red' : h.type === 'cyrillic' ? 'green' : 'blue' }}
+                        >
                           {h.str}
                         </span>
                       ),
@@ -390,6 +402,7 @@ export default function Component(): JSX.Element {
                     const isSql = Boolean(displayOptions[props.column.name]?.column?.type === 'sql')
                     const isLatin = Boolean(displayOptions[props.column.name]?.highlight?.latin)
                     const isCyrillic = Boolean(displayOptions[props.column.name]?.highlight?.cyrillic)
+                    const isPunctuationMarks = Boolean(displayOptions[props.column.name]?.highlight?.punctuationMarks)
                     return (
                       <DropdownMenu.Content>
                         <DropdownMenu.Item
@@ -430,6 +443,15 @@ export default function Component(): JSX.Element {
                               }}
                             >
                               Латиницу
+                            </DropdownMenu.Item>
+                            <DropdownMenu.Item
+                              onClick={() => {
+                                setDisplayOptions((s) =>
+                                  setPath(s, [props.column.name, 'highlight', 'punctuationMarks'], !isPunctuationMarks),
+                                )
+                              }}
+                            >
+                              Знаки препинания
                             </DropdownMenu.Item>
                           </DropdownMenu.SubContent>
                         </DropdownMenu.Sub>
@@ -480,9 +502,9 @@ export default function Component(): JSX.Element {
               }}
             />
           </Tabs.Content>
-        </Tabs.Root>
-      </Container>
-    </Main>
+        </Container>
+      </Main>
+    </Tabs.Root>
   )
 
   /**

@@ -22,6 +22,7 @@ export interface DisplayOption {
     highlight?: {
       latin?: boolean
       cyrillic?: boolean
+      punctuationMarks?: boolean
     }
   }
 }
