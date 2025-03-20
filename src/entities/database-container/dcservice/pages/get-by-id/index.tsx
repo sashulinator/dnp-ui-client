@@ -17,6 +17,7 @@ import { queryClient } from '~/shared/query'
 import Section from '~/shared/section'
 import type { ListTable } from '~/shared/table'
 import { Tabs } from '~/shared/tabs'
+import Text from '~/shared/text'
 import {
   JSONParam,
   NumberParam,
@@ -325,7 +326,7 @@ export default function Component(): JSX.Element {
                   const isCyrillic = props.context.displayOptions?.[props.column.name]?.highlight?.cyrillic
                   const isPunctuationMarks =
                     props.context.displayOptions?.[props.column.name]?.highlight?.punctuationMarks
-                  if (isLatin || isCyrillic) {
+                  if (isLatin || isCyrillic || isPunctuationMarks) {
                     let value: HeighlightPart[] = [{ type: undefined, str: String(props.value) }]
                     value = isLatin
                       ? value.flatMap((v) => (v.type === undefined ? highlightText(v.str, /[a-zA-Z]+/g, 'latin') : v))
@@ -339,7 +340,9 @@ export default function Component(): JSX.Element {
 
                     value = isPunctuationMarks
                       ? value.flatMap((v) =>
-                          v.type === undefined ? highlightText(v.str, /.+/g, 'punctuationMarks') : v,
+                          v.type === undefined
+                            ? highlightText(v.str, /[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~\\]/g, 'punctuationMarks')
+                            : v,
                         )
                       : value
 
@@ -347,12 +350,13 @@ export default function Component(): JSX.Element {
                       h.type === undefined ? (
                         h.str
                       ) : (
-                        <span
+                        <Text
+                          size='2'
+                          color={h.type === 'latin' ? 'red' : h.type === 'cyrillic' ? 'green' : 'blue'}
                           key={i}
-                          style={{ color: h.type === 'latin' ? 'red' : h.type === 'cyrillic' ? 'green' : 'blue' }}
                         >
                           {h.str}
-                        </span>
+                        </Text>
                       ),
                     )
                   }
@@ -403,6 +407,7 @@ export default function Component(): JSX.Element {
                     const isLatin = Boolean(displayOptions[props.column.name]?.highlight?.latin)
                     const isCyrillic = Boolean(displayOptions[props.column.name]?.highlight?.cyrillic)
                     const isPunctuationMarks = Boolean(displayOptions[props.column.name]?.highlight?.punctuationMarks)
+
                     return (
                       <DropdownMenu.Content>
                         <DropdownMenu.Item
