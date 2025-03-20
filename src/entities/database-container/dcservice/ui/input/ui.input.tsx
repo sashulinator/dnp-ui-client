@@ -7,7 +7,7 @@ import { useAsync } from '~/utils/core-hooks'
 import { type Dcservice } from '../../types'
 import DcserviceCard from '../card/ui.card'
 
-export type InputDcservice = Pick<Dcservice, 'host' | 'port' | 'display'>
+export type InputDcservice = Pick<Dcservice, 'client' | 'host' | 'port' | 'display'>
 
 export interface Props extends Omit<InputCard.InputProps, 'children' | 'value' | 'onChange'> {
   className?: string | undefined

@@ -12,7 +12,7 @@ export const NAME = `select-v-Input`
 
 export type Option = Omit<Select.ItemProps, 'children'> & { display: React.ReactNode }
 
-export type Props = Omit<Select.TriggerProps, 'name' | 'value'> & {
+export type Props = Omit<Select.TriggerProps, 'name' | 'value' | 'type'> & {
   className?: string | undefined
   rootProps?: Select.RootProps | undefined
   contentProps?: Select.ContentProps | undefined

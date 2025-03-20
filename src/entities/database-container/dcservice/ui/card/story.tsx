@@ -35,7 +35,7 @@ async function fetchValue(id: string): Promise<InputDcservice | undefined> {
 }
 
 const options = [
-  { id: 'first', display: 'Первый сервис', host: '10.12.34.56', port: 5432 },
-  { id: 'second', display: 'Второй сервис', host: '10.12.34.43', port: 5432 },
-  { id: 'third', display: 'Третий сервис', host: '10.12.34.36', port: 5432 },
+  { id: 'first', display: 'Первый сервис', host: '10.12.34.56', port: 5432, client: 'postgres' },
+  { id: 'second', display: 'Второй сервис', host: '10.12.34.43', port: 5432, client: 'postgres' },
+  { id: 'third', display: 'Третий сервис', host: '10.12.34.36', port: 5432, client: 'postgres' },
 ]

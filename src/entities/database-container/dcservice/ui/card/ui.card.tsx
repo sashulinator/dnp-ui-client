@@ -3,11 +3,11 @@ import { Avatar } from '@radix-ui/themes'
 import Flex from '~/shared/flex'
 import Icon from '~/shared/icon'
 import Text from '~/shared/text'
-import { c } from '~/utils/core'
+import { c, capitalize } from '~/utils/core'
 
 import { type Dcservice } from '../../types'
 
-export type CardDcservice = Pick<Dcservice, 'host' | 'port' | 'display'>
+export type CardDcservice = Pick<Dcservice, 'client' | 'host' | 'port' | 'display'>
 
 export interface Props {
   className?: string | undefined
@@ -23,7 +23,12 @@ export default function Component(props: Props): JSX.Element {
   return (
     <Flex className={c(props.className, NAME)} width='100%' align='center'>
       {dcservice && (
-        <Avatar mr='2' size='3' radius='full' fallback={<Icon width='1.4rem' height='1.4rem' name='Postgres' />} />
+        <Avatar
+          mr='2'
+          size='3'
+          radius='full'
+          fallback={<Icon width='1.4rem' height='1.4rem' name={capitalize(dcservice.client)} />}
+        />
       )}
       <Flex direction='column'>
         {dcservice ? dcservice.display : FIGURE_SPACE}

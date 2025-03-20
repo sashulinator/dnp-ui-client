@@ -16,7 +16,7 @@ let refreshTokensPromise: null | Promise<Response<authApi.refreshTokens.Response
 let tryCount = 0
 
 export async function _handleUnauthorizedError(error: AxiosError) {
-  if (isCodable(error.response?.data) && error.response?.data.code !== CODE.unathorized) throw error
+  if (!isCodable(error.response?.data) || error.response?.data.code !== CODE.unathorized) throw error
 
   if (refreshTokensPromise === null) {
     const refreshToken = auth.refreshTokenManager.get()

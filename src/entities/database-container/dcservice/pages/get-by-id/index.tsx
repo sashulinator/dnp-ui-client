@@ -260,7 +260,6 @@ export default function Component(): JSX.Element {
                     <Flex>
                       <Button
                         // loading={updateMutator.isLoading}
-                        disabled={!form.getState().dirty || form.getState().invalid}
                         onClick={form.submit}
                       >
                         Сохранить

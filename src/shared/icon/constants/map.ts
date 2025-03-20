@@ -16,6 +16,7 @@ import DoubleChevronLeft from '../widgets/double-chevron-left'
 import DoubleChevronRight from '../widgets/double-chevron-right'
 import ExternalLink from '../widgets/external-link'
 import Filter from '../widgets/filter'
+import Greenplum from '../widgets/greenplum'
 import InfoCircled from '../widgets/info-circled'
 import Pencil from '../widgets/pencil'
 import Plus from '../widgets/plus'
@@ -44,6 +45,7 @@ export const map = {
   DoubleChevronLeft,
   DoubleChevronRight,
   ExternalLink,
+  Greenplum,
   Filter,
   InfoCircled,
   Plus,

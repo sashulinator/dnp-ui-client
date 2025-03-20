@@ -4,6 +4,7 @@ import { APP } from '~/app/constants.app'
 import Flex from '~/shared/flex'
 import { Card, Column, Row } from '~/shared/form'
 import Labeled from '~/shared/labeled'
+import { InputSelect } from '~/shared/select'
 import TextInput from '~/shared/text-input'
 import { c } from '~/utils/core'
 
@@ -15,7 +16,7 @@ export interface Props {
   disabled?: boolean
 }
 
-export type Values = Pick<Dcservice, 'display' | 'host' | 'port' | 'username' | 'password'>
+export type Values = Pick<Dcservice, 'client' | 'display' | 'host' | 'port' | 'username' | 'password'>
 
 const NAME = `${APP}-e-${SLICE}-Form`
 
@@ -42,6 +43,29 @@ export default function Component(props: Props): JSX.Element {
       </Card>
       <Card label='Соединение'>
         <Column width='100%'>
+          <Row width='100%'>
+            <Column width='50%'>
+              <Flex width='100%' direction='column'>
+                <Field<string> name={'client' satisfies keyof Values}>
+                  {({ input }) => (
+                    <Labeled label='Клиент'>
+                      <InputSelect.default
+                        {...input}
+                        clearable={true}
+                        variant='soft'
+                        disabled={disabled}
+                        options={[
+                          { value: 'postgres', display: 'Postgres' },
+                          { value: 'greenplum', display: 'Greenplum' },
+                        ]}
+                      />
+                    </Labeled>
+                  )}
+                </Field>
+              </Flex>
+            </Column>
+            <Column width='50%' />
+          </Row>
           <Row width='100%'>
             <Field<string> name={'host' satisfies keyof Values}>
               {({ input }) => (
@@ -81,7 +105,7 @@ export default function Component(props: Props): JSX.Element {
                 {({ input }) => (
                   <Flex direction='column'>
                     <Labeled label='Пароль'>
-                      <TextInput {...input} clearable={true} variant='soft' disabled={disabled} type='text' />
+                      <TextInput {...input} clearable={true} variant='soft' disabled={disabled} type='password' />
                     </Labeled>
                   </Flex>
                 )}
@@ -100,7 +124,6 @@ Component.displayName = NAME
 Component.toDcservice = (values: Values): DcserviceCreateInput => {
   return {
     ...values,
-    client: 'postgres',
     port: Number(values.port),
   }
 }
