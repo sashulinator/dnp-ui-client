@@ -11,6 +11,7 @@ export const dctable = v.object({
   dcserviceId: v.pipe(v.string(), v.nonEmpty()),
   database: v.pipe(v.string(), v.nonEmpty()),
   schema: v.pipe(v.string(), v.nonEmpty()),
+  attributes: v.object({}),
 })
 
 /**
