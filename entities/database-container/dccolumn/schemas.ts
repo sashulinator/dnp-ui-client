@@ -13,6 +13,7 @@ export const dccolumn = v.object({
   database: v.pipe(v.string(), v.nonEmpty()),
   table: v.pipe(v.string(), v.nonEmpty()),
   schema: v.pipe(v.string(), v.nonEmpty()),
+  attributes: v.object({}),
 })
 
 /**
