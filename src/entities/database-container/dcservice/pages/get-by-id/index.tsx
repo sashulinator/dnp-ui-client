@@ -3,9 +3,10 @@ import { useParams } from 'react-router-dom'
 
 import { APP } from '~/app/constants.app'
 import { routes } from '~/app/route'
-import { type Dcrow, Dctable } from '~/entities/database-container'
+import { Dccolumn, type Dcrow, Dctable } from '~/entities/database-container'
 import { api as processingApi } from '~/entities/processing'
 import Button from '~/shared/button'
+import Checkbox from '~/shared/checkbox'
 import Container from '~/shared/container'
 import { TICK_MS, cssAnimations } from '~/shared/css-animations'
 import DropdownMenu from '~/shared/dropdown-menu'
@@ -71,7 +72,6 @@ export default function Component(): JSX.Element {
       ),
     [tablesFetcher.data, tableParam, displayOptions],
   )
-  const mutatedColumns = useMemo(_mutateColumns, [tableMeta, tableParam, displayOptions])
 
   const [{ page = 1, limit = 25 }, setPaginationParams] = useQueryParams(
     {
@@ -117,6 +117,8 @@ export default function Component(): JSX.Element {
     { id, database: databaseParam, table: tableParam, schema: schemaParam, ...rowParams },
     { keepPreviousData: true, staleTime: 10_000 },
   )
+
+  const mutatedColumns = useMemo(_mutateColumns, [rowsFetcher.data, tableParam, displayOptions])
 
   const updateMutator = dcserviceApi.update.useMutation({
     onSuccess: (response) => {
@@ -411,6 +413,48 @@ export default function Component(): JSX.Element {
                       <DropdownMenu.Content>
                         <DropdownMenu.Item
                           onClick={() => {
+                            if ((props.column as any)?.attributes?.partitioning) {
+                              Dccolumn.api.upsertByLocator
+                                .request({
+                                  input: {
+                                    name: props.column.name,
+                                    display: '',
+                                    database: databaseParam,
+                                    dcserviceId: id,
+                                    table: tableParam,
+                                    schema: schemaParam,
+                                    attributes: {
+                                      partitioning: false,
+                                    },
+                                  },
+                                })
+                                .then(() => rowsFetcher.refetch())
+                            } else {
+                              Promise.all(
+                                mutatedColumns?.map((column) => {
+                                  Dccolumn.api.upsertByLocator.request({
+                                    input: {
+                                      name: column.name,
+                                      display: '',
+                                      database: databaseParam,
+                                      dcserviceId: id,
+                                      table: tableParam,
+                                      schema: schemaParam,
+                                      attributes: {
+                                        partitioning: column.name === props.column.name,
+                                      },
+                                    },
+                                  })
+                                }) || [],
+                              ).then(() => rowsFetcher.refetch())
+                            }
+                          }}
+                        >
+                          Партицировать по колонке
+                          <Checkbox checked={(props.column as any)?.attributes?.partitioning} />
+                        </DropdownMenu.Item>
+                        <DropdownMenu.Item
+                          onClick={() => {
                             if (isSql) {
                               // Находим изначальную колонку
                               const column = tableMeta?.columns.find((c) => c.name === props.column.name)
@@ -517,7 +561,7 @@ export default function Component(): JSX.Element {
 
   // Мутирует колонки для Формы редактирования строки
   function _mutateColumns() {
-    return tableMeta?.columns.map((c) => {
+    return rowsFetcher?.data?.columns.map((c) => {
       return { ...c, ...displayOptions[c.name]?.column }
     })
   }

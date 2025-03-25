@@ -16,13 +16,15 @@ export function toUiColumn<TItem extends Dictionary, TContext extends Dictionary
     headerProps: {
       style: {
         verticalAlign: 'middle',
-        textAlign: column.type === 'integer' ? 'right' : 'left',
+        // TODO: убрать any
+        textAlign: (column as any).type === 'integer' ? 'right' : 'left',
       },
     },
     cellProps: {
       style: {
         whiteSpace: 'nowrap',
-        textAlign: column.type === 'integer' ? 'right' : 'left',
+        // TODO: убрать any
+        textAlign: (column as any).type === 'integer' ? 'right' : 'left',
         verticalAlign: 'middle',
       },
     },
