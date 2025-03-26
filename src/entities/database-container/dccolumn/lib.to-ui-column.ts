@@ -7,11 +7,11 @@ import { type Dccolumn } from './types'
 
 export function toUiColumn<TItem extends Dictionary, TContext extends Dictionary>(
   column: Dccolumn,
-): ListTable.ColumnProps<TItem, TContext> {
+): ListTable.Column<TItem, TContext> {
   return {
     name: column.name,
     display: column.display,
-    renderHeader: ({ display, name }) => (display ? toHtml(display) : (name as string)),
+    renderHeaderCell: ({ display, name }) => (display ? toHtml(display) : (name as string)),
     renderCell: ({ value }) => value as string,
     headerProps: {
       style: {

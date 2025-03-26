@@ -1,15 +1,15 @@
 import { type Dictionary } from '~/utils/core'
 
-import { type ColumnProps } from '..'
+import { type Column } from '..'
 import { type Context } from './models.contex'
 import { HeaderCell } from './w._header-cell'
 
 export function injectIntoColumn<TItem extends Dictionary, TContext extends Context<TItem>>(
-  column: ColumnProps<TItem, TContext>,
-): ColumnProps<TItem, TContext> {
+  column: Column<TItem, TContext>,
+): Column<TItem, TContext> {
   return {
     ...column,
-    renderHeader: HeaderCell,
+    renderHeaderCell: HeaderCell,
     headerProps: {
       ...column.headerProps,
       style: {
@@ -26,5 +26,5 @@ export function injectIntoColumn<TItem extends Dictionary, TContext extends Cont
         paddingLeft: 'calc((var(--space-1) + var(--space-2))',
       },
     },
-  } satisfies ColumnProps<TItem, TContext>
+  } satisfies Column<TItem, TContext>
 }

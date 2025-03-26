@@ -74,10 +74,7 @@ export default function Component(props: Props): JSX.Element {
   const onSave = () => {
     onChange(selectedTableItems)
   }
-  useSubscribe(
-    selectedItemsAtom.subscribe as any,
-    setSelectedTableItems,
-  )
+  useSubscribe(selectedItemsAtom.subscribe as any, setSelectedTableItems)
 
   const fetcher = useQuery(
     [NAME, 'tableFetcher', { searchFilter, database, sort, page, dcserviceId }],
@@ -251,7 +248,7 @@ Component.displayName = NAME
 
 function buildColumns(params: {
   selectedItemsAtom: Atom<Dictionary<Dctable.ListTable.Item>>
-}): ListTable.ColumnProps<Dctable.ListTable.Item & { action: string }, Dictionary>[] {
+}): ListTable.Column<Dctable.ListTable.Item & { action: string }, Dictionary>[] {
   return [
     {
       name: 'action',

@@ -264,7 +264,7 @@ export default function Component(props: Props): JSX.Element | string {
 
 Component.displayName = NAME
 
-export const initialColumns = [
+export const initialColumns: ListTable.Column<Item, StoryContext>[] = [
   {
     display: 'Название колонки',
     name: 'column-name',
@@ -281,7 +281,7 @@ export const initialColumns = [
     display: 'Словарь',
     name: 'column-locator',
   },
-] satisfies ListTable.ColumnProps<Item, StoryContext>[]
+]
 
 export type ToDatabaseUrlParams = {
   user: string

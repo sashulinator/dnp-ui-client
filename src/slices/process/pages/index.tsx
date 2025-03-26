@@ -10,7 +10,7 @@ import Heading from '~/shared/heading'
 import Link from '~/shared/link'
 import { Pagination } from '~/shared/page'
 import Section from '~/shared/section'
-import List from '~/shared/table/v.list'
+import List from '~/shared/table/-list'
 import { fetchList } from '~/slices/process'
 
 import { ProcessStatusBadge } from '../ui/ProcessStatusBadge'

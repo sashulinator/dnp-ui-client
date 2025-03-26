@@ -49,7 +49,7 @@ export default function Component(props: Props): JSX.Element {
 
 Component.displayName = NAME
 
-function buildColumns(): ListTable.ColumnProps<Item, Dictionary>[] {
+function buildColumns(): ListTable.Column<Item, Dictionary>[] {
   return [
     { name: 'name', display: 'Название' },
     { name: 'schema', display: 'Схема' },

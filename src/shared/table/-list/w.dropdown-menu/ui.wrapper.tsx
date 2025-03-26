@@ -2,12 +2,12 @@ import { cloneElement, useMemo } from 'react'
 
 import type { Any, Dictionary } from '~/utils/core'
 
-import { type ColumnProps } from '../ui.list'
+import { type Column } from '../types.ts'
 import { injectIntoColumn } from './lib.inject-into-column.tsx'
-import type { Context } from './type.contex'
+import type { Context } from './type.contex.ts'
 
 export interface Props {
-  columns: ColumnProps<Any, Any>[] | undefined
+  columns: Column<Any, Any>[] | undefined
   context: Context
   children: React.ReactElement<{ columns: unknown[]; context: Dictionary }>
 }

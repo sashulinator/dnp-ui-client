@@ -12,7 +12,7 @@ import Text from '~/shared/text'
 import { type Any, type Dictionary } from '~/utils/core'
 import { type Atom, createAtom } from '~/utils/store'
 
-import { type Context, generateEmptyValue, toEditableColumn } from '../v.list/w.editable'
+import { type Context, generateEmptyValue, toEditableColumn } from '../-list/w.editable'
 import MatrixTable, { type ColumnProps, type Option } from './ui.matrix'
 
 type Item = Dictionary

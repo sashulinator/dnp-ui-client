@@ -9,7 +9,8 @@ import Editor from '~/slices/monaco-editor'
 import { type Dictionary } from '~/utils/core'
 import { createAtom } from '~/utils/store'
 
-import List, { type ColumnProps, NAME, type RenderCellProps } from './ui.list'
+import type { Column, RenderCellProps } from './types'
+import List, { NAME } from './ui.list'
 import DropdownMenuWrapper from './w.dropdown-menu'
 import SearchWrapper from './w.search'
 import SelectionWrapper from './w.selection'
@@ -123,7 +124,7 @@ const list: User[] = [
   },
 ]
 
-const columns: ColumnProps<User, DisplayOptionContext>[] = [
+const columns: Column<User, DisplayOptionContext>[] = [
   {
     name: 'id',
     renderCell,
@@ -131,13 +132,13 @@ const columns: ColumnProps<User, DisplayOptionContext>[] = [
   },
   {
     name: 'username',
-    renderHeader: () => 'Имя пользователя',
+    renderHeaderCell: () => 'Имя пользователя',
     renderCell,
     display: 'Имя пользователя',
   },
   {
     name: 'age',
-    renderHeader: () => 'Возраст',
+    renderHeaderCell: () => 'Возраст',
     renderCell,
     display: 'Возраст',
   },

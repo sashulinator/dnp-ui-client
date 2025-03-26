@@ -5,18 +5,15 @@ import { useSubscribeUpdate } from '~/utils/core-hooks'
 import { remove } from '~/utils/dictionary'
 import { toDictionary } from '~/utils/list'
 
-import { type ColumnProps } from '..'
+import { type Column } from '..'
 import { type Context } from './models.context'
 
-export function createColumn<TItem extends Dictionary, TContext extends Context<TItem>>(): ColumnProps<
-  TItem,
-  TContext
-> {
+export function createColumn<TItem extends Dictionary, TContext extends Context<TItem>>(): Column<TItem, TContext> {
   return {
-    // Достаточно уникальный чтобы не совпадал с ключами item
+    // ыйы достаточно уникальный чтобы не совпадал с возможными ключами item
     name: 'ыйы',
     display: 'Selection',
-    renderHeader: ({ context, list }) => {
+    renderHeaderCell: ({ context, list }) => {
       // eslint-disable-next-line react-hooks/rules-of-hooks
       useSubscribeUpdate((update) => [context.selectedItemsAtom.subscribe(update)])
 

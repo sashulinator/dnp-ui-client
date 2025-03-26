@@ -4,8 +4,9 @@ import { ListTable } from '~/shared/table'
 import { type Any, type Dictionary, c } from '~/utils/core'
 import { useCurrent } from '~/utils/core-hooks/current'
 import { setPath } from '~/utils/dictionary'
+import { toHtml } from '~/utils/md'
 
-import { defaultRenderCell, defaultRenderHeader } from '../v.list/ui.list'
+import { defaultRenderCell } from '../-list'
 
 export type CellProps = ListTable.CellProps
 
@@ -220,4 +221,8 @@ export function defaultRenderOptionCell(props: { option: { value: unknown; displ
 
 export function defaultRenderOptionHeader() {
   return ''
+}
+
+function defaultRenderHeader(params: { name: string | number | symbol; display?: string | undefined }) {
+  return params.display ? toHtml(params.display) : String(params.name)
 }
