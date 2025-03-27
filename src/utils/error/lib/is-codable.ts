@@ -4,5 +4,5 @@ export interface Codable {
 
 export function isCodable(input: unknown): input is Codable {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return !!(input as any).code
+  return !!(input as any)?.code
 }

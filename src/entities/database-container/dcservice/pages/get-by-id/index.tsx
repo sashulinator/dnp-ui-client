@@ -282,7 +282,8 @@ export default function Component(): JSX.Element {
               }}
               uploadModalProps={{
                 upload: async (file) => {
-                  const response = await fileApi.upload.request({ file, fileName: file.name, bucketName: BUCKET_NAME })
+                  const fileName = file.name.trim().replace(' ', '_')
+                  const response = await fileApi.upload.request({ file, fileName, bucketName: BUCKET_NAME })
                   processingApi.excelToTable.request({
                     fileNames: [response.data.fileName],
                     bucketName: BUCKET_NAME,
