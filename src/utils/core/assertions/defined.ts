@@ -6,7 +6,7 @@
  * @param {string} [msg] - An optional error message to include if the check fails.
  * @throws {Error} if the value is undefined.
  */
-export function assertDefined<T>(val: T | undefined, msg?: string): asserts val is T {
+export function assertDefined<T>(val: T | undefined | void, msg?: string): asserts val is T {
   if (val === undefined) {
     throw new Error(msg || 'Value cannot be undefined.')
   }

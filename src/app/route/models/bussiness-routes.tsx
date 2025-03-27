@@ -1,6 +1,6 @@
 import { Suspense, lazy } from 'react'
 
-import { auth, roles } from '~/app/auth'
+import { auth, notifyError, roles } from '~/app/auth'
 import Dcservice_create from '~/entities/database-container/dcservice/pages/create'
 import Dcservice_findWithTotal from '~/entities/database-container/dcservice/pages/find-with-total'
 import Dcservice_getById from '~/entities/database-container/dcservice/pages/get-by-id'
@@ -271,6 +271,7 @@ function _protectByRole(props: { route: AppRoute }): { url: string } | undefined
 
 function _protectPrivate(): { url: string } | undefined {
   if (!auth.isRefreshTokenExpired()) return undefined
+  notifyError()
   return { url: `${publicRoutes.login.getUrl()}?redirect=${location.href}` }
 }
 
