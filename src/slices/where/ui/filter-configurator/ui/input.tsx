@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react'
 
 import { COMPARISON, IS, MATCH } from '~/common/slices/where'
-import UiInput, { type InputProps } from '~/shared/input'
+import type { NumberInputProps } from '~/shared/number-input'
+import NumberInput from '~/shared/number-input'
 import Select from '~/shared/select'
+import type { TextInputProps } from '~/shared/text-input'
+import TextInput from '~/shared/text-input'
 import { useDebounceCallback } from '~/utils/core-hooks'
 import { fns } from '~/utils/function'
 
@@ -44,7 +47,7 @@ Input.displayName = NAME
  * _TextInputProps
  */
 
-type _InputProps = InputProps
+type _InputProps = TextInputProps | NumberInputProps
 
 function _Input(props: _InputProps) {
   const { ...textInputProps } = props
@@ -56,14 +59,19 @@ function _Input(props: _InputProps) {
 
   useEffect(() => setValue(filterConfig.value || ''), [filterConfig.value])
 
+  const UiInput = textInputProps.type === 'number' ? NumberInput : TextInput
+
   return (
     <UiInput
       size='1'
       color='amber'
       variant={value ? 'soft' : 'surface'}
-      {...textInputProps}
-      value={value || ''}
-      onChange={fns(textInputProps.onChange, (e) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      {...(textInputProps as any)}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      value={(value || '') as any}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      onChange={fns(textInputProps.onChange as any, (e) => {
         const value = e.target.value
         setValue(value)
         onFilterConfigChangeWithDebounce({ ...filterConfig, value: value === '' ? null : value })
