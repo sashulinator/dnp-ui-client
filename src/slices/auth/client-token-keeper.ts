@@ -37,6 +37,10 @@ export class ClientTokenKeeper extends Emitter<TokenKeeperEvents> implements Tok
 
   decode(): KeycloakTokenParsed | null {
     const token = this.get()
-    return token ? decode(token) : null
+    try {
+      return token ? decode(token) : null
+    } catch (e) {
+      return null
+    }
   }
 }

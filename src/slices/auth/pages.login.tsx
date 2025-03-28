@@ -1,7 +1,5 @@
-import qs from 'qs'
-
 import { api, auth } from '~/app/auth'
-import { history, routes } from '~/app/route'
+import { getReturnRedirect, history, routes } from '~/app/route'
 import Button from '~/shared/button'
 import Flex from '~/shared/flex'
 import FForm, { useCreateForm } from '~/shared/form'
@@ -25,8 +23,8 @@ export default function Component(): JSX.Element {
         refreshToken: data.refresh_token,
         refreshTokenExpiresAt: getDateIn(data.refresh_expires_in - 5).getTime(),
       })
-      const searchQuery = qs.parse(location.search, { ignoreQueryPrefix: true })
-      history.push(searchQuery.redirect?.toString() || routes.main.getPath())
+      const redirect = getReturnRedirect()
+      history.push(redirect || routes.main.getPath())
     },
     onError: (e) => {
       notify({ title: e.response?.data?.translated, type: 'error' })

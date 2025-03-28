@@ -1,5 +1,5 @@
 import { auth, api as authApi, notifyError } from '~/app/auth'
-import { history, publicRoutes } from '~/app/route'
+import { history, publicRoutes, setReturnRedirect } from '~/app/route'
 import type { Response } from '~/shared/api'
 import { getDateIn } from '~/slices/auth'
 import { assertNotNull } from '~/utils/core'
@@ -10,6 +10,7 @@ let refreshTokensPromise: null | Promise<Response<authApi.refreshTokens.Response
 export async function _refreshToken() {
   if (refreshTokensPromise === null) {
     if (auth.isRefreshTokenExpired()) {
+      setReturnRedirect()
       history.push(publicRoutes.login.getPath())
       notifyError()
       throw new Error('Refresh token is expired')
@@ -18,6 +19,7 @@ export async function _refreshToken() {
     const refreshToken = auth.refreshTokenManager.get()
 
     if (refreshToken === null) {
+      setReturnRedirect()
       history.push(publicRoutes.login.getPath())
       notifyError()
       throw new Error("Refresh token does't exist")
@@ -40,6 +42,7 @@ export async function _refreshToken() {
     })
   } catch (e) {
     notifyError()
+    setReturnRedirect()
     history.push(publicRoutes.login.getPath())
     throw new BaseError('Could not refresh token', { cause: e })
   } finally {

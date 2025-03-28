@@ -28,3 +28,4 @@ export type { Route } from '../../app/route/models/route'
 
 export { toAbsolute } from './lib/to-absolute'
 export { getCurrent } from './lib/get-current'
+export { getReturnRedirect, setReturnRedirect } from './lib/return-redirect'

@@ -19,6 +19,7 @@ import Processes_kn from '~/slices/process/pages/kn'
 import { isDev } from '~/utils/core-client/is-dev'
 
 import Main from '../../../pages/main'
+import { setReturnRedirect } from '../lib/return-redirect'
 import { type AppRoute } from './app-route'
 import { publicRoutes } from './public-routes'
 
@@ -264,6 +265,7 @@ export const routes = {
  */
 
 function _protectByRole(props: { route: AppRoute }): { url: string } | undefined {
+  if (auth.isRefreshTokenExpired()) return { url: publicRoutes.login.getUrl() }
   if (!props.route?.payload.rolesAllowed) return undefined
   if (props.route?.payload.rolesAllowed.some((role) => auth.hasRole(role, 'dnp'))) return undefined
   return { url: routes.main.getUrl() }
@@ -272,7 +274,8 @@ function _protectByRole(props: { route: AppRoute }): { url: string } | undefined
 function _protectPrivate(): { url: string } | undefined {
   if (!auth.isRefreshTokenExpired()) return undefined
   notifyError()
-  return { url: `${publicRoutes.login.getUrl()}?redirect=${location.href}` }
+  setReturnRedirect()
+  return { url: publicRoutes.login.getUrl() }
 }
 
 function combineProtections(...fns: ((props: { route: AppRoute }) => { url: string } | undefined)[]) {
