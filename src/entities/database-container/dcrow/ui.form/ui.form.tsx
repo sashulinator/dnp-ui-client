@@ -30,9 +30,10 @@ export default function Component(props: Props): JSX.Element {
                   <Editor
                     {...input}
                     value={String(input.value)}
-                    height='4rem'
+                    height='12rem'
                     language='sql'
                     options={{
+                      stickyScroll: { enabled: false },
                       minimap: { enabled: false },
                       lineNumbers: 'off',
                       scrollBeyondLastLine: false,

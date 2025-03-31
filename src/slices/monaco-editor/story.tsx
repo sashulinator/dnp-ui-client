@@ -12,7 +12,14 @@ export default {
     const { state } = props
     return (
       <Flex width='100%' direction={'column'} p='8' gap='4'>
-        <Editor {...state} language='sql' height='5rem' theme='vs-dark' options={{ minimap: { enabled: false } }} />
+        <Editor
+          {...state}
+          language='sql'
+          value='SELECT * FROM table WHERE id=34'
+          height='5rem'
+          theme='vs-dark'
+          options={{ minimap: { enabled: false } }}
+        />
       </Flex>
     )
   },

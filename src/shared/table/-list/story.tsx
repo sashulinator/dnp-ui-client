@@ -149,10 +149,11 @@ function renderCell(props: RenderCellProps<User, DisplayOptionContext>) {
     return (
       <Editor
         value={props.value.toString()}
-        height='4rem'
+        height='10rem'
         language='sql'
         options={{
           minimap: { enabled: false },
+          // stickyScroll: { enabled: false },
           lineNumbers: 'off',
           scrollBeyondLastLine: false,
           scrollbar: {

@@ -366,10 +366,11 @@ export default function Component(): JSX.Element {
                     return (
                       <Editor
                         value={String(props.value)}
-                        height='4rem'
+                        height='10rem'
                         language='sql'
                         options={{
                           readOnly: true,
+                          stickyScroll: { enabled: false },
                           minimap: { enabled: false },
                           lineNumbers: 'off',
                           scrollBeyondLastLine: false,
