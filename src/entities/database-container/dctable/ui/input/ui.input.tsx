@@ -2,10 +2,10 @@ import { useMemo, useState } from 'react'
 import { useQuery } from 'react-query'
 
 import Button from '~/shared/button'
-import { InputCard } from '~/shared/card'
 import Dialog from '~/shared/dialog'
 import Flex from '~/shared/flex'
 import Icon from '~/shared/icon'
+import Input, { type InputProps } from '~/shared/input'
 import Labeled from '~/shared/labeled'
 import { FetcherStatus } from '~/shared/query'
 import ScrollArea from '~/shared/scroll-area'
@@ -24,9 +24,7 @@ import { Dctable } from '../../..'
 
 export type Value = Dictionary<Dctable.DctableMeta>
 
-const FIGURE_SPACE = ' ' // https://ru.wikipedia.org/wiki/Неразрывный_пробел
-
-export interface Props extends Omit<InputCard.InputProps, 'onChange' | 'children'> {
+export interface Props extends Omit<InputProps, 'onChange' | 'children' | 'value'> {
   className?: string | undefined
   value: Value | undefined
   onChange: (value: Value | undefined) => void
@@ -99,34 +97,38 @@ export default function Component(props: Props): JSX.Element {
 
   return (
     <>
-      <InputCard.default
-        clearable={Boolean(value)}
+      <Input
+        size={'2'}
+        hasValue={Boolean(value)}
         onClearableClick={() => onChange(undefined)}
         style={{ width: '100%' }}
+        variant='soft'
         {...inputCardProps}
         onClick={() => setIsOpen(true)}
       >
         <Flex width='100%' justify='between' align='center'>
           <Flex direction='column'>
+            <Tooltip content='Название'>
+              <Text size='2' weight='regular'>
+                {valueList[0]?.name}
+              </Text>
+            </Tooltip>
             <Tooltip content='Отображение'>
               <div>
-                <Text color={valueList[0]?.display ? undefined : 'gray'}>{valueList[0]?.display || FIGURE_SPACE}</Text>
+                <Text color={valueList[0]?.display ? undefined : 'gray'}>{valueList[0]?.display}</Text>
               </div>
             </Tooltip>
-            <Tooltip content='Название'>
-              <Text color='gray'>{valueList[0]?.name || FIGURE_SPACE}</Text>
-            </Tooltip>
           </Flex>
-          <Flex align='center' gap='2' mr='4'>
+          <Flex align='center' gap='2'>
             {!loading && valueList.length > 1 && (
-              <Button color='amber' variant='surface' size='1' asChild={true}>
+              <Button color='amber' variant='surface' size='1' asChild={true} mr='2'>
                 <Flex>+{valueList.length - 1}</Flex>
               </Button>
             )}
             {loading && <Spinner />}
           </Flex>
         </Flex>
-      </InputCard.default>
+      </Input>
 
       <Dialog.Root open={openAtom.get()}>
         <Dialog.Content maxWidth='1224px' style={{ position: 'relative' }}>

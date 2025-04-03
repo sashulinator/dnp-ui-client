@@ -42,9 +42,9 @@ export default function Component(props: Props): JSX.Element {
       )}
     >
       <Flex width='100%'>{children}</Flex>
-      <Flex gap='2' height={'24px'} width='24px' align='center' justify='center'>
+      <Flex gap='2' align='center' justify='center' style={{ height: 'fit-content', width: 'fit-content' }}>
         <>
-          {hasValue && (
+          {hasValue && !props.disabled && (
             <Button
               asChild={true}
               round={true}
