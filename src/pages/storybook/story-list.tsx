@@ -39,6 +39,7 @@ import uiTextHighlighter from '~/shared/text/ui/highlighted/story'
 import uiToast from '~/shared/toast/story'
 import uiNotificationToastList from '~/shared/toast/variants/notification/list/story'
 import uiTreeVNested from '~/shared/tree/variants/nested/story'
+import uiViewWithAvatar from '~/shared/view/with-avatar/story'
 import sliceMonacoEditor from '~/slices/monaco-editor/story'
 import sharedReactFactory from '~/slices/react-factory/story'
 import sortButton from '~/slices/sort/components/button/story'
@@ -60,6 +61,7 @@ export const storyList: Story<any>[] = [
    * shared
    */
 
+  uiViewWithAvatar,
   uiCardInput,
   uiCalendar,
   eExecutableswFackerColConfig,
