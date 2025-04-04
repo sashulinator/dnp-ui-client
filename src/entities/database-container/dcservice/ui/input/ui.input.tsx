@@ -1,11 +1,11 @@
 import { InputCard } from '~/shared/card'
 import Flex from '~/shared/flex'
 import Text from '~/shared/text'
-import { c } from '~/utils/core'
+import { WithAvatar } from '~/shared/view'
+import { c, capitalize } from '~/utils/core'
 import { useAsync } from '~/utils/core-hooks'
 
 import { type Dcservice } from '../../types'
-import DcserviceCard from '../card/ui.card'
 
 export type InputDcservice = Pick<Dcservice, 'client' | 'host' | 'port' | 'display'>
 
@@ -28,7 +28,12 @@ export default function Component(props: Props): JSX.Element {
         {fetcher.isError ? (
           <Text color='red'>Не удалось загрузить</Text>
         ) : (
-          <DcserviceCard dcservice={fetcher.isSuccess ? fetcher.data : undefined} />
+          <WithAvatar
+            loading={fetcher.isPending}
+            iconName={capitalize(fetcher.data?.client || '') as 'Postgres'}
+            title={fetcher.data?.display}
+            subtitle={`${fetcher.data?.host}:${fetcher.data?.port}`}
+          />
         )}
       </Flex>
     </InputCard.default>

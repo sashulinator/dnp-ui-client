@@ -4,10 +4,10 @@ import { routes } from '~/app/route'
 import Card from '~/shared/card'
 import Flex, { type FlexProps } from '~/shared/flex'
 import Link from '~/shared/link'
-import { c } from '~/utils/core'
+import { WithAvatar } from '~/shared/view'
+import { c, capitalize } from '~/utils/core'
 
 import { type Dcservice } from '../../../types'
-import DccerviceCard from '../../card/ui.card'
 
 export type Props = FlexProps & {
   className?: string | undefined
@@ -26,7 +26,11 @@ export default function Component(props: Props): JSX.Element {
     <Flex justify='between' direction='row' asChild={true} {...flexProps}>
       <Card asChild={true} className={c(displayName, className)}>
         <Link to={`${routes.dcservice_getById.getUrl(item.id)}`}>
-          <DccerviceCard dcservice={item} />
+          <WithAvatar
+            iconName={capitalize(item.client) as 'Postgres'}
+            title={item.display}
+            subtitle={`${item.host}:${item.port}`}
+          />
           <Flex gap='4' align='center'></Flex>
         </Link>
       </Card>
