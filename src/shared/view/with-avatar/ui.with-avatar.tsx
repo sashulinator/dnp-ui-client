@@ -22,7 +22,7 @@ export default function Component(props: Props): JSX.Element {
       <Skeleton loading={loading} style={{ borderRadius: '50%' }} width='var(--space-7)' height='var(--space-7)'>
         <Avatar mr='2' radius='full' fallback={<Icon width='1.2rem' height='1.2rem' name={iconName as 'Postgres'} />} />
       </Skeleton>
-      <Flex direction='column' gap={loading ? '1' : '0'}>
+      <Flex direction='column' align='start' gap={loading ? '1' : '0'}>
         <Skeleton loading={loading} width='5rem'>
           <Text size='2'>{title}</Text>
         </Skeleton>

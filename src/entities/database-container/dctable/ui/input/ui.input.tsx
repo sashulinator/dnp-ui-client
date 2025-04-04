@@ -13,8 +13,7 @@ import { InputSelect } from '~/shared/select'
 import Spinner from '~/shared/spinner'
 import { ListTable } from '~/shared/table'
 import { Tabs } from '~/shared/tabs'
-import Text from '~/shared/text'
-import Tooltip from '~/shared/tooltip'
+import { WithAvatar } from '~/shared/view'
 import { type Dictionary, isEmpty } from '~/utils/core'
 import { useSubscribe } from '~/utils/core-hooks'
 import { remove } from '~/utils/dictionary'
@@ -98,27 +97,21 @@ export default function Component(props: Props): JSX.Element {
   return (
     <>
       <Input
-        size={'2'}
+        size={null}
         hasValue={Boolean(value)}
         onClearableClick={() => onChange(undefined)}
-        style={{ width: '100%' }}
+        style={{ width: '100%', padding: 'var(--space-2)' }}
         variant='soft'
         {...inputCardProps}
         onClick={() => setIsOpen(true)}
       >
         <Flex width='100%' justify='between' align='center'>
-          <Flex direction='column'>
-            <Tooltip content='Название'>
-              <Text size='2' weight='regular'>
-                {valueList[0]?.name}
-              </Text>
-            </Tooltip>
-            <Tooltip content='Отображение'>
-              <div>
-                <Text color={valueList[0]?.display ? undefined : 'gray'}>{valueList[0]?.display}</Text>
-              </div>
-            </Tooltip>
-          </Flex>
+          <WithAvatar
+            style={{ maxWidth: '320px', width: '320px', overflow: 'hidden' }}
+            title={valueList[0]?.name}
+            subtitle={valueList[0]?.display}
+            iconName='Table'
+          />
           <Flex align='center' gap='2'>
             {!loading && valueList.length > 1 && (
               <Button color='amber' variant='surface' size='1' asChild={true} mr='2'>
