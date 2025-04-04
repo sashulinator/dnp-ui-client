@@ -124,18 +124,30 @@ export default function Component(props: Props): JSX.Element {
       </Input>
 
       <Dialog.Root open={openAtom.get()}>
-        <Dialog.Content maxWidth='1224px' style={{ position: 'relative' }}>
-          <Flex position='absolute' top='4' right='6'>
-            <Button
-              round={true}
-              variant='ghost'
-              onClick={() => {
-                onSave()
-                openAtom.set(false)
-              }}
-            >
-              <Icon name='Cross1' />
-            </Button>
+        <Dialog.Content maxWidth='1224px' minHeight='500px' style={{ position: 'relative' }}>
+          <Flex position='absolute' top='var(--space-4)' right='var(--space-5)'>
+            <Flex gap='1' align='center'>
+              <Button
+                variant='outline'
+                onClick={() => {
+                  selectedItemsAtom.set({})
+                  setSelectedTableItems({})
+                  onSave()
+                }}
+                style={{ marginLeft: '8px' }}
+              >
+                Отмена
+              </Button>
+              <Button
+                variant='solid'
+                onClick={() => {
+                  onSave()
+                  openAtom.set(false)
+                }}
+              >
+                Выбрать
+              </Button>
+            </Flex>
           </Flex>
 
           <Tabs.Root defaultValue={valueList.length > 0 ? 'selected' : 'search'}>
@@ -179,29 +191,6 @@ export default function Component(props: Props): JSX.Element {
                       }
                     />
                   </Labeled>
-                </Flex>
-                <Flex width='300px' gap='2' align='center'>
-                  <Button
-                    variant='classic'
-                    onClick={() => {
-                      onSave()
-                      openAtom.set(false)
-                    }}
-                  >
-                    Выбрать
-                  </Button>
-                  <Button
-                    variant='classic'
-                    onClick={() => {
-                      selectedItemsAtom.set({})
-                      setSelectedTableItems({})
-
-                      onSave()
-                    }}
-                    style={{ marginLeft: '8px' }}
-                  >
-                    Отмена
-                  </Button>
                 </Flex>
               </Flex>
 
