@@ -143,7 +143,7 @@ export default function Component(props: Props): JSX.Element | string {
               const options = (param?.component?.props as { options: Option[] })?.options
               return (
                 <InputSelect.default
-                  style={{ width: '100%' }}
+                  // style={{ width: '100%' }}
                   clearable={true}
                   options={options}
                   variant='surface'
@@ -190,8 +190,8 @@ export default function Component(props: Props): JSX.Element | string {
             }
             if (cellProps.name === 'column-locator') {
               return (
-                <Flex width='100%'>
-                  <Flex direction='column' width='100%'>
+                <Flex>
+                  <Flex direction='column'>
                     <ColumnInput
                       clearable={true}
                       disabled={isSemanticName || isColType}

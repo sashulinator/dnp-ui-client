@@ -17,6 +17,7 @@ export type Option = { value: string; display: string }
 export type Props = Omit<RootProps, 'onChange'> & {
   defaultValue?: string[]
   options?: Option[]
+  size?: '1' | '2' | '3' | '4'
   disabled?: boolean | undefined
   loading?: boolean | undefined
   variant?: ButtonProps['variant'] | undefined
@@ -26,7 +27,16 @@ export type Props = Omit<RootProps, 'onChange'> & {
 export const NAME = 'selectMultiple-SelectMultiple'
 
 export default function Component(props: Props): JSX.Element {
-  const { options, value, loading, variant = 'surface', onValueChange, ...checkboxGroupRootProps } = props
+  const {
+    options,
+    value,
+    loading,
+    variant = 'surface',
+    size: sizeProp = 2,
+    onValueChange,
+    onBlur,
+    ...checkboxGroupRootProps
+  } = props
 
   const el = useRef(null)
   const size = useElementSize(el.current)
@@ -35,11 +45,11 @@ export default function Component(props: Props): JSX.Element {
 
   return (
     <DropdownMenu.Root>
-      <DropdownMenu.Trigger>
+      <DropdownMenu.Trigger onBlur={(e) => onBlur?.(e as any)}>
         <Flex asChild={true} width='100%' maxWidth='100%' justify='between'>
           <button
             // variant={variant}
-            className={`rt-reset rt-SelectTrigger rt-r-size-2 rt-variant-${variant}`}
+            className={`rt-reset rt-SelectTrigger rt-r-size-${sizeProp} rt-variant-${variant}`}
             color={checkboxGroupRootProps.disabled ? 'gray' : ('' as 'gray')}
             ref={setRefs(el)}
           >

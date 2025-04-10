@@ -8,6 +8,7 @@ import { SLICE } from '../constants'
 import { type ComponentSchema, type ExecutableSchema, type ParamSchema } from '../models'
 import { type ParamFactoryContext } from './models'
 import DdlExecutor from './ui.ddl-generator-field'
+import ScalarFunctions from './ui.scalar-functions'
 import SelectField from './ui.select-field'
 import StringField from './ui.string-field'
 import FackerColConfig from './w.facker-col-config'
@@ -19,6 +20,7 @@ const componentMap = {
   Matrix: MatrixField,
   DdlExecutor: DdlExecutor,
   FackerColConfig: FackerColConfig,
+  ScalarFunctions: ScalarFunctions,
 }
 
 export interface Props {
