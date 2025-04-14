@@ -45,7 +45,7 @@ export default function Component(props: Props): JSX.Element {
 
   return (
     <DropdownMenu.Root>
-      <DropdownMenu.Trigger onBlur={(e) => onBlur?.(e as any)}>
+      <DropdownMenu.Trigger disabled={checkboxGroupRootProps.disabled} onBlur={(e) => onBlur?.(e as any)}>
         <Flex asChild={true} width='100%' maxWidth='100%' justify='between'>
           <button
             // variant={variant}

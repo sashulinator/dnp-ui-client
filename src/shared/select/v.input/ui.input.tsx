@@ -49,7 +49,8 @@ export default function Component(props: Props) {
     <Select.Root
       disabled={disabled as boolean}
       onValueChange={fns(onChange, (v) => onValueChange?.(v.toString()))}
-      value={(value || defaultValue) as string}
+      // КОСТЫЛЬ! Делаем ыf потому что если установить значение а потом сбросить то отображается предыдущее
+      value={(value || defaultValue || 'ыf') as string}
     >
       <Flex width='100%' style={{ position: 'relative' }}>
         <Flex>

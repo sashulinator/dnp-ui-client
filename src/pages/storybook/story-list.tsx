@@ -26,6 +26,7 @@ import uiPagination from '~/shared/page/ui/pagination/story'
 import uiPaginationWInfo from '~/shared/page/ui/pagination/widgets/info/story'
 import uiPaginationWSwitcher from '~/shared/page/ui/pagination/widgets/switcher/story'
 import sharedSelectMultiple from '~/shared/select-multiple/story'
+import uiSelectInput from '~/shared/select/v.input/story'
 import selectSelectWInput from '~/shared/select/v.labeled/story'
 import optionFilter from '~/shared/select/w.option-filter/story'
 import type { Story } from '~/shared/storybook'
@@ -54,6 +55,7 @@ export const storyList: Story<any>[] = [
   debugRenderCounter,
   eDcserviceForm,
   dctableListTable,
+  uiSelectInput,
 
   /**
    * shared

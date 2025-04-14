@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import Button from '~/shared/button'
 import Flex from '~/shared/flex'
@@ -86,14 +86,26 @@ export const initialColumns: ListTable.Column<Item, Props>[] = [
 ]
 
 const renderCell = (cellProps: ListTable.RenderCellProps<Item, Props>) => {
+  type FunctionMeta = { name: string; types: string[] }
   const [outputName, setOutputName] = useState(cellProps.item['output-column'] || '')
-  const [functions, setFunctions] = useState(cellProps.item['functions'])
+  const functions = cellProps.item['functions'] || []
+
   const [isTextInput, setIsTextInput] = useState(false)
 
   const _paramContext = cellProps?.context?._paramContext
   const componentProps = _paramContext.paramSchema?.component?.props
   const onChange = cellProps?.context?.onChange
   const value = cellProps?.context?.value
+
+  const functionMetaList = (componentProps as { functions: FunctionMeta[] })?.functions || []
+  const functionTypes = [...new Set(functionMetaList.flatMap((f) => f.types))]
+
+  const possibleColumns = _paramContext.columns.filter((c) => functionTypes.includes(c.type || ''))
+  const inputColumnMeta = _paramContext.columns.find((c) => c.name === cellProps.item['input-column'])
+  const thisTypeFunctionMetaList = useMemo(
+    () => functionMetaList.filter((fm) => fm.types?.includes(inputColumnMeta?.type || '')),
+    [cellProps.item['input-column']],
+  )
 
   if (cellProps.name === 'output-column') {
     return (
@@ -105,7 +117,7 @@ const renderCell = (cellProps: ListTable.RenderCellProps<Item, Props>) => {
               onChange(
                 value.map((r) => {
                   if (r.id === cellProps.item.id) {
-                    return { ...r, 'column-name': e.target.value }
+                    return { ...r, 'output-name': e.target.value }
                   }
                   return r
                 }),
@@ -119,7 +131,7 @@ const renderCell = (cellProps: ListTable.RenderCellProps<Item, Props>) => {
           <InputSelect.default
             clearable={true}
             size='1'
-            value={cellProps.item['output-column']}
+            value={cellProps.item['output-column'] || undefined}
             onChange={(v) => {
               onChange(
                 value.map((r) => {
@@ -143,7 +155,23 @@ const renderCell = (cellProps: ListTable.RenderCellProps<Item, Props>) => {
               : 'Ввести название вручную'
           }
         >
-          <Button variant='outline' square={true} size='1' onClick={() => setIsTextInput((s) => !s)}>
+          <Button
+            variant='outline'
+            square={true}
+            size='1'
+            onClick={() => {
+              setIsTextInput((s) => !s)
+              setOutputName('')
+              onChange(
+                value.map((r) => {
+                  if (r.id === cellProps.item.id) {
+                    return { ...r, 'output-column': '' }
+                  }
+                  return r
+                }),
+              )
+            }}
+          >
             <Icon name={isTextInput ? 'ChevronDown' : 'Pencil'} />
           </Button>
         </Tooltip>
@@ -156,51 +184,51 @@ const renderCell = (cellProps: ListTable.RenderCellProps<Item, Props>) => {
       <InputSelect.default
         clearable={true}
         size='1'
-        value={cellProps.item['input-column']}
+        value={cellProps.item['input-column'] || undefined}
         onChange={(v) => {
           onChange(
             value.map((r) => {
-              if (r.id === cellProps.item.id) {
-                return { ...r, 'input-column': v.toString() }
+              if (r.id !== cellProps.item.id) return r
+              return {
+                ...r,
+                'input-column': v.toString(),
+                // скидываем functions если изменили входную колонку
+                functions: [],
               }
-              return r
             }),
           )
         }}
         variant='surface'
-        options={_paramContext.columns.map((c) => ({ display: c.name, value: c.name }))}
+        options={possibleColumns.map((c) => ({ display: c.name, value: c.name }))}
       />
     )
   }
 
   if (cellProps.name === 'functions') {
-    const functionOptions = (componentProps as { functionOptions: string[] })?.functionOptions || []
-
     return (
       <Flex gap='1'>
         <SelectMultiple
+          disabled={!cellProps.item['input-column']}
           style={{ width: '100%' }}
           value={functions}
           variant='surface'
-          options={functionOptions.map((name) => ({
-            value: name,
-            display: name,
+          options={thisTypeFunctionMetaList?.map((fm) => ({
+            value: fm.name,
+            display: fm.name,
           }))}
           size='1'
           onBlur={() => {
-            setTimeout(() => {
-              onChange(
-                value.map((r) => {
-                  if (r.id === cellProps.item.id) {
-                    return { ...r, functions }
-                  }
-                  return r
-                }),
-              )
-            })
+            setTimeout(() => {})
           }}
           onValueChange={(v) => {
-            setFunctions(v)
+            onChange(
+              value.map((r) => {
+                if (r.id === cellProps.item.id) {
+                  return { ...r, functions: v }
+                }
+                return r
+              }),
+            )
           }}
         />
         <Flex align='center'>
