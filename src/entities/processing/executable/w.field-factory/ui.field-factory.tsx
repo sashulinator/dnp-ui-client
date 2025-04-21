@@ -8,6 +8,7 @@ import { SLICE } from '../constants'
 import { type ComponentSchema, type ExecutableSchema, type ParamSchema } from '../models'
 import { type ParamFactoryContext } from './models'
 import DdlExecutor from './ui.ddl-generator-field'
+import RegExpFunctions from './ui.regexp-functions'
 import ScalarFunctions from './ui.scalar-functions'
 import SelectField from './ui.select-field'
 import StringField from './ui.string-field'
@@ -21,6 +22,7 @@ const componentMap = {
   DdlExecutor: DdlExecutor,
   FackerColConfig: FackerColConfig,
   ScalarFunctions: ScalarFunctions,
+  RegExpFunctions: RegExpFunctions,
 }
 
 export interface Props {

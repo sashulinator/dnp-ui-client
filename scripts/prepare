@@ -1,4 +1,4 @@
-# !/bin/ush
+# !/bin/bash
 
 echo '🪝  Installing githooks...'
 if husky ; then
