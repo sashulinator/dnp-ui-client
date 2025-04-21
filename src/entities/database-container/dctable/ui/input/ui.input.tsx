@@ -111,16 +111,13 @@ export default function Component(props: Props): JSX.Element {
           <WithAvatar
             disabled={disabled}
             style={{ maxWidth: '320px', width: '320px', overflow: 'hidden' }}
-            title={valueList[0]?.name}
+            title={
+              valueList.length === 1 ? valueList[0]?.name : valueList.length > 1 ? `Выбрано (${valueList.length})` : ''
+            }
             subtitle={valueList[0]?.display}
             iconName='Table'
           />
           <Flex align='center' gap='2'>
-            {!loading && valueList.length > 1 && (
-              <Button color='amber' variant='surface' size='1' asChild={true} mr='2'>
-                <Flex>+{valueList.length - 1}</Flex>
-              </Button>
-            )}
             {loading && <Spinner />}
           </Flex>
         </Flex>
