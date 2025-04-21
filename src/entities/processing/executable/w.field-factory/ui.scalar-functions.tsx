@@ -1,13 +1,15 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
 import Button from '~/shared/button'
+import Dialog from '~/shared/dialog'
 import Flex from '~/shared/flex'
 import Icon from '~/shared/icon'
+import Multiselect, { Picker } from '~/shared/multiselect'
 import ScrollArea from '~/shared/scroll-area'
 import { InputSelect } from '~/shared/select'
-import SelectMultiple from '~/shared/select-multiple'
 import { ListTable } from '~/shared/table'
+import Text from '~/shared/text'
 import TextInput from '~/shared/text-input'
 import Tooltip from '~/shared/tooltip'
 import { generateId } from '~/utils/core'
@@ -28,7 +30,7 @@ export type Props = {
   _paramContext: ParamFactoryContext
 }
 
-const NAME = 'processing-FackerColConfig'
+const NAME = 'processing-ScalarFunctions'
 
 export default function Component(props: Props): JSX.Element | string {
   const { onChange, value, _paramContext } = props
@@ -89,6 +91,8 @@ const renderCell = (cellProps: ListTable.RenderCellProps<Item, Props>) => {
   type FunctionMeta = { name: string; types: string[] }
   const [outputName, setOutputName] = useState(cellProps.item['output-column'] || '')
   const functions = cellProps.item['functions'] || []
+
+  const [isFunctionDialogPickerOpen, setFunctionDialogPickerOpen] = useState(false)
 
   const [isTextInput, setIsTextInput] = useState(false)
 
@@ -207,19 +211,7 @@ const renderCell = (cellProps: ListTable.RenderCellProps<Item, Props>) => {
   if (cellProps.name === 'functions') {
     return (
       <Flex gap='1'>
-        <SelectMultiple
-          disabled={!cellProps.item['input-column']}
-          style={{ width: '100%' }}
-          value={functions}
-          variant='surface'
-          options={thisTypeFunctionMetaList?.map((fm) => ({
-            value: fm.name,
-            display: fm.name,
-          }))}
-          size='1'
-          onBlur={() => {
-            setTimeout(() => {})
-          }}
+        <Multiselect.Root
           onValueChange={(v) => {
             onChange(
               value.map((r) => {
@@ -230,7 +222,55 @@ const renderCell = (cellProps: ListTable.RenderCellProps<Item, Props>) => {
               }),
             )
           }}
-        />
+          value={functions || []}
+        >
+          <Dialog.Root open={isFunctionDialogPickerOpen} onOpenChange={(open) => setFunctionDialogPickerOpen(open)}>
+            <Dialog.Trigger>
+              <Multiselect.Trigger
+                size='1'
+                variant='outline'
+                disabled={!cellProps.item['input-column']}
+                strings={{ selected: 'Выбрано' }}
+                // prettier-ignore
+                renderActionIcon={useCallback(() => <Icon name='ChevronRight' />, [])}
+              />
+            </Dialog.Trigger>
+            <Dialog.Content minWidth='1000px'>
+              <Picker.Root
+                value={functions || []}
+                options={thisTypeFunctionMetaList?.map((fm) => ({
+                  value: fm.name,
+                  display: fm.name,
+                }))}
+                onValueChange={(v) => {
+                  onChange(
+                    value.map((r) => {
+                      if (r.id === cellProps.item.id) {
+                        return { ...r, functions: v }
+                      }
+                      return r
+                    }),
+                  )
+                }}
+              >
+                <Flex width='100%' gap='4'>
+                  <Flex direction='column' width='50%'>
+                    <Text size='3' mb='4'>
+                      Функции
+                    </Text>
+                    <Picker.OptionList width='100%' />
+                  </Flex>
+                  <Flex direction='column' width='50%'>
+                    <Text size='3' mb='4'>
+                      Выбрано ({functions.length})
+                    </Text>
+                    <Picker.ValueList width='100%' />
+                  </Flex>
+                </Flex>
+              </Picker.Root>
+            </Dialog.Content>
+          </Dialog.Root>
+        </Multiselect.Root>
         <Flex align='center'>
           <Button
             size='1'

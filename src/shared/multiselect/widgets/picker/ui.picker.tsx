@@ -81,7 +81,7 @@ export function ValueList(props: ValueListProps): JSX.Element {
                   <Icon name='ChevronDown' />
                 </Button>
               </Flex>
-              <Flex width='100%' style={{ textAlign: 'left' }}>
+              <Flex width='100%' ml='3' style={{ textAlign: 'left' }}>
                 {o?.display}
               </Flex>
             </a>
