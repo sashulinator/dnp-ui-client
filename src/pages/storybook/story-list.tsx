@@ -23,6 +23,7 @@ import uiInput from '~/shared/input/story'
 import sharedlinkTree from '~/shared/link-tree/story'
 import linkMenuFormMenu from '~/shared/link-tree/w.form/story'
 import sharedMultiselect from '~/shared/multiselect/ui/story'
+import uiMultiselectPicker from '~/shared/multiselect/widgets/picker/story'
 import uiPagination from '~/shared/page/ui/pagination/story'
 import uiPaginationWInfo from '~/shared/page/ui/pagination/widgets/info/story'
 import uiPaginationWSwitcher from '~/shared/page/ui/pagination/widgets/switcher/story'
@@ -64,6 +65,7 @@ export const storyList: Story<any>[] = [
 
   uiViewWithAvatar,
   sharedMultiselect,
+  uiMultiselectPicker,
   uiCardInput,
   uiCalendar,
   eExecutableswFackerColConfig,
