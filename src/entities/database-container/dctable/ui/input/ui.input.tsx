@@ -46,6 +46,7 @@ const NAME = 'dnp-databaseContainer-dctable-input'
 export default function Component(props: Props): JSX.Element {
   const {
     loading,
+    disabled,
     value: propsValue,
     onChange,
     fetchDatabaseList,
@@ -103,10 +104,12 @@ export default function Component(props: Props): JSX.Element {
         style={{ width: '100%', padding: 'var(--space-2)' }}
         variant='soft'
         {...inputCardProps}
+        disabled={disabled}
         onClick={() => setIsOpen(true)}
       >
         <Flex width='100%' justify='between' align='center'>
           <WithAvatar
+            disabled={disabled}
             style={{ maxWidth: '320px', width: '320px', overflow: 'hidden' }}
             title={valueList[0]?.name}
             subtitle={valueList[0]?.display}
