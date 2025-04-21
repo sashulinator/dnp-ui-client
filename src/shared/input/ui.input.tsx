@@ -1,12 +1,14 @@
 import './input.scss'
 
-import { createElement } from 'react'
+import type { ForwardedRef } from 'react'
+import { createElement, forwardRef } from 'react'
 
 import type { ButtonProps } from '~/shared/button'
 import Button from '~/shared/button'
 import Flex from '~/shared/flex'
 import Icon from '~/shared/icon'
 import { c } from '~/utils/core'
+import { setRefs } from '~/utils/react'
 
 export type Props = Omit<ButtonProps, 'variant' | 'size' | 'value'> & {
   hasValue?: boolean
@@ -18,7 +20,7 @@ export type Props = Omit<ButtonProps, 'variant' | 'size' | 'value'> & {
 
 const NAME = 'ui-input'
 
-export default function Component(props: Props): JSX.Element {
+export function Component(props: Props, ref: ForwardedRef<HTMLButtonElement>): JSX.Element {
   const {
     children,
     onClearableClick,
@@ -32,6 +34,7 @@ export default function Component(props: Props): JSX.Element {
   return (
     <button
       {...buttonProps}
+      ref={setRefs(ref)}
       data-disabled={props.disabled === true ? props.disabled : undefined}
       className={c(
         props.className,
@@ -68,7 +71,9 @@ export default function Component(props: Props): JSX.Element {
   )
 }
 
-Component.displayName = NAME
+const ForwardRef = forwardRef(Component)
+ForwardRef.displayName = NAME
+export default ForwardRef
 
 function _DefaultActionIcon() {
   return <Icon style={{ minHeight: '15px', minWidth: '15px' }} name='ChevronRight' />
