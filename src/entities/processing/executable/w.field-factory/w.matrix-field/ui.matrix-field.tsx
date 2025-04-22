@@ -1,5 +1,3 @@
-import { ScrollArea } from '@radix-ui/themes'
-
 import Checkbox from '~/shared/checkbox'
 import Flex from '~/shared/flex'
 import Labeled from '~/shared/labeled'
@@ -54,7 +52,7 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
   return (
     <Flex direction='column'>
       <Labeled label={_paramContext.paramSchema.display}>
-        <ScrollArea>
+        <Flex direction='column'>
           <OptionFilter
             onSubmit={(options) => {
               const value = new Function('context', _paramContext.paramSchema.getInitialValue || '')({
@@ -81,7 +79,7 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
             renderCell={renderCell}
             onValuesChange={onChange as Any}
           />
-        </ScrollArea>
+        </Flex>
       </Labeled>
     </Flex>
   )

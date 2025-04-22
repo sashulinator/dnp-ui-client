@@ -39,14 +39,11 @@ export interface RenderHeaderProps<TItem extends Dictionary, TContext extends Di
   list: TItem[]
 }
 
-export interface ColumnProps<TItem extends Dictionary, TContext extends Dictionary, TValue> {
-  name: keyof TItem
-  type?: string
-  display?: string | undefined
-  cellProps?: CellProps | undefined
-  headerProps?: CellProps | undefined
+export type Column<TItem extends Dictionary, TContext extends Dictionary, TValue> = ListTable.Column<
+  TItem,
+  TContext
+> & {
   renderCell?: (props: RenderCellProps<TItem, TContext, TValue>) => React.ReactNode
-  renderHeader?: (props: RenderHeaderProps<TItem, TContext>) => React.ReactNode
 }
 
 export type RenderOptionCellProps<TItem extends Dictionary, TContext extends Dictionary, TValue> = Omit<
@@ -65,7 +62,7 @@ export type GetCellPropsParams<TItem extends Dictionary, TContext extends Dictio
   item: TItem
   rowIndex: number
   columnIndex: number
-  column: ColumnProps<TItem, TContext, TValue>
+  column: Column<TItem, TContext, TValue>
 } & Props<TItem, TContext, TValue>
 
 export type GetBodyProps<TItem extends Dictionary, TContext extends Dictionary, TValue> = Props<TItem, TContext, TValue>
@@ -75,7 +72,7 @@ export type GetColumnHeaderCellProps<TItem extends Dictionary, TContext extends 
   TContext,
   TValue
 > & {
-  column: ColumnProps<TItem, TContext, TValue>
+  column: Column<TItem, TContext, TValue>
 }
 
 export type GetHeaderProps<TItem extends Dictionary, TContext extends Dictionary, TValue> = Props<
@@ -101,7 +98,7 @@ export type GetRowProps<TItem extends Dictionary, TContext extends Dictionary, T
 
 export interface Props<TItem extends Dictionary, TContext extends Dictionary, TValue> {
   className?: string | undefined
-  columns: ColumnProps<TItem, TContext, TValue>[]
+  columns: Column<TItem, TContext, TValue>[]
   options: Option[]
   values: Record<string, Record<string, TValue>>
   context: TContext
@@ -169,12 +166,30 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
     return list
   }
 
-  function _buildColumns(): ColumnProps<TItem, TContext, TValue>[] {
-    const firstColumn = { name: FIRST_COLUMN_NAME }
+  function _buildColumns(): Column<TItem, TContext, TValue>[] {
+    const firstColumn: Column<TItem, TContext, TValue> = {
+      name: FIRST_COLUMN_NAME,
+      getCellProps: () => ({
+        style: {
+          left: '0',
+          position: 'sticky',
+          background: 'var(--gray-1)',
+          zIndex: 1,
+        },
+      }),
+      getHeaderCellProps: () => ({
+        style: {
+          left: '0',
+          position: 'sticky',
+          background: 'var(--gray-1)',
+          zIndex: 1,
+        },
+      }),
+    }
     return [firstColumn, ...columns].map(_injectColumnProps)
   }
 
-  function _injectColumnProps(columns: ColumnProps<TItem, TContext, TValue>): ColumnProps<TItem, TContext, TValue> {
+  function _injectColumnProps(columns: Column<TItem, TContext, TValue>): Column<TItem, TContext, TValue> {
     return {
       ...columns,
       renderCell(props) {
@@ -201,12 +216,12 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
           },
         })
       },
-      renderHeader(props) {
+      renderHeaderCell(props) {
         if (props.name === FIRST_COLUMN_NAME) {
           const renderOptionHeader = renderOptionHeaderProp || defaultRenderOptionHeader
           return renderOptionHeader?.(props)
         }
-        const renderHeader = columns.renderHeader || defaultRenderHeader
+        const renderHeader = columns.renderHeaderCell || defaultRenderHeader
         return renderHeader(props)
       },
     }

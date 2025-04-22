@@ -42,7 +42,7 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
             {columns.map((column, columnIndex) => {
               const mergedProps = {
                 ...getCellProps?.({ column, columnIndex, rowIndex, item, ...props }),
-                ...column.cellProps,
+                ...column.getCellProps?.({ column, columnIndex, rowIndex, item, ...props }),
               }
 
               const render = column.renderCell || renderCell

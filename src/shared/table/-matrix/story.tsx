@@ -13,7 +13,7 @@ import { type Any, type Dictionary } from '~/utils/core'
 import { type Atom, createAtom } from '~/utils/store'
 
 import { type Context, generateEmptyValue, toEditableColumn } from '../-list/w.editable'
-import MatrixTable, { type ColumnProps, type Option } from './ui.matrix'
+import MatrixTable, { type Column, type Option } from './ui.matrix'
 
 type Item = Dictionary
 type StoryContext = Context<Item>
@@ -125,7 +125,7 @@ export const initialColumns = [
     display: 'firstName',
     type: 'string',
   },
-] satisfies ColumnProps<Dictionary, Dictionary, boolean>[]
+] satisfies Column<Dictionary, Dictionary, boolean>[]
 
 export const options = [
   {

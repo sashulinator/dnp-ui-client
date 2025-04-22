@@ -52,26 +52,38 @@ export function createColumn<TItem extends Dictionary, TContext extends Context<
         />
       )
     },
-    cellProps: {
-      style: {
+    getCellProps() {
+      return {
+        style: {
+          maxWidth: '32px',
+          minWidth: '32px',
+          width: '32px',
+          textAlign: 'center',
+          // calc(var(--space-2) + var(--space-1)) потом что cellPadding + TextInputPadding
+          padding: '0',
+          verticalAlign: 'middle',
+          left: `0px`,
+          background: 'var(--gray-1)',
+          position: 'sticky',
+          zIndex: 0,
+        },
+      }
+    },
+    getHeaderCellProps() {
+      return {
         maxWidth: '32px',
         minWidth: '32px',
         width: '32px',
-        textAlign: 'center',
-        // calc(var(--space-2) + var(--space-1)) потом что cellPadding + TextInputPadding
-        padding: '0',
-        verticalAlign: 'middle',
-      },
-    },
-    headerProps: {
-      maxWidth: '32px',
-      minWidth: '32px',
-      width: '32px',
-      style: {
-        padding: '0',
-        textAlign: 'center',
-        verticalAlign: 'middle',
-      },
+        style: {
+          padding: '0',
+          textAlign: 'center',
+          verticalAlign: 'middle',
+          left: `0px`,
+          background: 'var(--gray-1)',
+          position: 'sticky',
+          zIndex: 0,
+        },
+      }
     },
     renderCell: ({ item, context }) => {
       // eslint-disable-next-line react-hooks/rules-of-hooks

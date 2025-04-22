@@ -1,3 +1,5 @@
+import './list.scss'
+
 import { type Dictionary, c } from '~/utils/core'
 
 import * as Table from '../ui.table'

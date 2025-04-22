@@ -88,7 +88,9 @@ export const initialColumns: ListTable.Column<Item, Props>[] = [
   {
     display: '',
     name: 'id',
-    cellProps: { style: { width: '1px' } },
+    getCellProps() {
+      return { style: { width: '1px' } }
+    },
   },
 ]
 

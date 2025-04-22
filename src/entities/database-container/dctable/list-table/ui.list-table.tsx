@@ -1,5 +1,3 @@
-import { useMemo } from 'react'
-
 import Flex from '~/shared/flex'
 import { Pagination, type PaginationProps } from '~/shared/page'
 import { ListTable } from '~/shared/table'
@@ -21,6 +19,7 @@ export interface Props extends Omit<ListTable.ListProps<Item, Dictionary>, 'cont
   className?: string | undefined
   selectedItemsAtom: Atom<Dictionary<Item>>
   sortAtom: Atom<ItemSort | undefined>
+  columns?: ListTable.Column<Item, Dictionary>[]
   searchFilter: ItemSearchFilter | undefined
   setSearchFilter: SetterOrUpdater<Record<keyof Item, ListTable.Search.ReplaceValueByFilter<Item> | undefined>>
   paginationProps: PaginationProps
@@ -29,17 +28,24 @@ export interface Props extends Omit<ListTable.ListProps<Item, Dictionary>, 'cont
 const NAME = 'databaseContainer-w-dctable-w-listTable'
 
 export default function Component(props: Props): JSX.Element {
-  const { selectedItemsAtom, sortAtom, paginationProps, searchFilter, setSearchFilter, ...listTableProps } = props
-
-  const columns = useMemo(buildColumns, [])
+  const {
+    selectedItemsAtom,
+    sortAtom,
+    paginationProps,
+    columns = defaultColumns,
+    searchFilter,
+    setSearchFilter,
+    ...listTableProps
+  } = props
 
   return (
     <Flex direction='column' width='100%'>
       <Pagination {...paginationProps} />
+
       <ListTable.Search.default columns={columns} context={{ searchFilter, setSearchFilter }}>
         <ListTable.Sort.default columns={columns} context={{ sortAtom }}>
           <ListTable.Selection.default columns={columns} context={{ idKey: 'id', selectedItemsAtom }}>
-            <ListTable.default columns={columns} context={{}} {...listTableProps} />
+            <ListTable.default columns={columns as any} context={{}} {...listTableProps} />
           </ListTable.Selection.default>
         </ListTable.Sort.default>
       </ListTable.Search.default>
@@ -49,10 +55,8 @@ export default function Component(props: Props): JSX.Element {
 
 Component.displayName = NAME
 
-function buildColumns(): ListTable.Column<Item, Dictionary>[] {
-  return [
-    { name: 'name', display: 'Название' },
-    { name: 'schema', display: 'Схема' },
-    { name: 'display', display: 'Отображение' },
-  ]
-}
+const defaultColumns = [
+  { name: 'name', display: 'Название' },
+  { name: 'schema', display: 'Схема' },
+  { name: 'display', display: 'Отображение' },
+]

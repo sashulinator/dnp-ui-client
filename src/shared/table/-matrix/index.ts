@@ -5,7 +5,7 @@ import { default as Matrix } from './ui.matrix'
 
 export {
   type Props as MatrixProps,
-  type ColumnProps,
+  type Column as ColumnProps,
   type RenderCellProps,
   type RenderHeaderProps,
   type Option,

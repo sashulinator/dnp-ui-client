@@ -13,20 +13,24 @@ export function toUiColumn<TItem extends Dictionary, TContext extends Dictionary
     display: column.display,
     renderHeaderCell: ({ display, name }) => (display ? toHtml(display) : (name as string)),
     renderCell: ({ value }) => value as string,
-    headerProps: {
-      style: {
-        verticalAlign: 'middle',
-        // TODO: убрать any
-        textAlign: (column as any).type === 'integer' ? 'right' : 'left',
-      },
+    getHeaderCellProps() {
+      return {
+        style: {
+          verticalAlign: 'middle',
+          // TODO: убрать any
+          textAlign: (column as any).type === 'integer' ? 'right' : 'left',
+        },
+      }
     },
-    cellProps: {
-      style: {
-        whiteSpace: 'nowrap',
-        // TODO: убрать any
-        textAlign: (column as any).type === 'integer' ? 'right' : 'left',
-        verticalAlign: 'middle',
-      },
+    getCellProps() {
+      return {
+        style: {
+          whiteSpace: 'nowrap',
+          // TODO: убрать any
+          textAlign: (column as any).type === 'integer' ? 'right' : 'left',
+          verticalAlign: 'middle',
+        },
+      }
     },
   }
 }

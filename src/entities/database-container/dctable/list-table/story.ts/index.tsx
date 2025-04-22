@@ -24,7 +24,7 @@ export default {
     const columnsWithId = useMemo(() => columns.map((c) => ({ ...c, id: `${c.name}.${c.schema}` })), [])
 
     return (
-      <div style={{ padding: '2rem' }}>
+      <div style={{ padding: '2rem', width: '1000px' }}>
         <DctableListTable
           paginationProps={{} as any}
           searchFilter={searchFilter}
@@ -32,10 +32,41 @@ export default {
           sortAtom={sort}
           list={columnsWithId}
           selectedItemsAtom={selectedItemsAtom}
+          columns={[
+            {
+              name: 'name',
+              display: 'Название',
+              getHeaderCellProps: getCellProps as any,
+              getCellProps: getCellProps as any,
+            },
+            { name: 'schema', display: 'Схема' },
+            { name: 'display', display: 'Отображение' },
+            { name: 'display', display: 'Отображение' },
+            { name: 'display', display: 'Отображение' },
+            { name: 'display', display: 'Отображение' },
+            { name: 'display', display: 'Отображение' },
+          ]}
+          getHeaderCellProps={getCellProps as any}
+          getCellProps={getCellProps as any}
           {...state}
         />
       </div>
     )
+
+    function getCellProps(p: { column: { name: string } }) {
+      const pinned = p.column.name === 'name'
+
+      return {
+        style: {
+          left: pinned ? `32px` : undefined,
+          background: pinned ? 'var(--color-background)' : undefined,
+          position: pinned ? 'sticky' : undefined,
+          minWidth: pinned ? '200px' : undefined,
+          maxWidth: pinned ? '200px' : undefined,
+          zIndex: pinned ? 0 : undefined,
+        },
+      }
+    }
   },
 
   controls: [
@@ -53,5 +84,5 @@ export default {
     // { name: 'name', input: 'checkbox', defaultValue: false },
   ],
 
-  getName: (): string => DctableListTable.displayName,
+  getName: (): string => 'dctable-ListTable',
 } satisfies Story<State>

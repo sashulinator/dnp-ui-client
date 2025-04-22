@@ -49,9 +49,8 @@ export interface Column<TItem extends Dictionary, TContext extends Dictionary> {
   name: keyof TItem
   type?: string | undefined
   display?: string | undefined
-  cellProps?: CellProps | undefined
-  // TODO getHeaderProps
-  headerProps?: CellProps | undefined
+  getCellProps?: (params: GetCellPropsParams<TItem, TContext>) => CellProps | undefined
+  getHeaderCellProps?: (params: GetHeaderCellPropsParams<TItem, TContext>) => HeaderCellProps | undefined
   renderCell?: (props: RenderCellProps<TItem, TContext>) => React.ReactNode
   renderHeaderCell?: (props: RenderHeaderCellProps<TItem, TContext>) => React.ReactNode
 }

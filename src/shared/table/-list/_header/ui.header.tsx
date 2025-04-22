@@ -35,7 +35,7 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
         {columns.map((column, columnIndex) => {
           const mergedProps = {
             ...getHeaderCellProps?.({ column, columnIndex, ...props }),
-            ...column.headerProps,
+            ...column.getHeaderCellProps?.({ column, columnIndex, ...props }),
           }
 
           const render = column.renderHeaderCell || renderHeaderCell
