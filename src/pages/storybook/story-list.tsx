@@ -1,3 +1,4 @@
+import dcdatabaseListTable from '~/entities/database-container/dcdatabase/list-table/story.ts'
 import eDcserviceForm from '~/entities/database-container/dcservice/ui/form/story'
 import eDatabaseContanerDctableInput from '~/entities/database-container/dctable/input/story'
 import dctableListTable from '~/entities/database-container/dctable/list-table/story.ts'
@@ -53,6 +54,7 @@ export const storyList: Story<any>[] = [
    * entities
    */
 
+  dcdatabaseListTable,
   eDatabaseContanerDctableInput,
   eProcessingWProcedureWValuePerColumn,
   debugRenderCounter,
