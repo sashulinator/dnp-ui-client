@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 
 import Flex from '~/shared/flex'
-import { Pagination, PaginationProps } from '~/shared/page'
+import { Pagination, type PaginationProps } from '~/shared/page'
 import { ListTable } from '~/shared/table'
 import { type Dictionary, type SetterOrUpdater } from '~/utils/core'
 import { type Atom } from '~/utils/store'

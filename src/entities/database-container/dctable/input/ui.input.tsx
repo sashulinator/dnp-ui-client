@@ -19,7 +19,7 @@ import { useSubscribe } from '~/utils/core-hooks'
 import { remove } from '~/utils/dictionary'
 import { type Atom, useAtomState } from '~/utils/store'
 
-import { Dctable } from '../../..'
+import { Dctable } from '../..'
 
 export type Value = Dictionary<Dctable.DctableMeta>
 
