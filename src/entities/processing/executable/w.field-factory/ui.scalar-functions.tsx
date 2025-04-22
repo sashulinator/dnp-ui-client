@@ -85,6 +85,11 @@ export const initialColumns: ListTable.Column<Item, Props>[] = [
     display: 'Функции',
     name: 'functions',
   },
+  {
+    display: '',
+    name: 'id',
+    cellProps: { style: { width: '1px' } },
+  },
 ]
 
 const renderCell = (cellProps: ListTable.RenderCellProps<Item, Props>) => {
@@ -210,80 +215,81 @@ const renderCell = (cellProps: ListTable.RenderCellProps<Item, Props>) => {
 
   if (cellProps.name === 'functions') {
     return (
-      <Flex gap='1'>
-        <Multiselect.Root
-          onValueChange={(v) => {
-            onChange(
-              value.map((r) => {
-                if (r.id === cellProps.item.id) {
-                  return { ...r, functions: v }
-                }
-                return r
-              }),
-            )
-          }}
-          value={functions || []}
-        >
-          <Dialog.Root open={isFunctionDialogPickerOpen} onOpenChange={(open) => setFunctionDialogPickerOpen(open)}>
-            <Dialog.Trigger>
-              <Multiselect.Trigger
-                size='1'
-                variant='outline'
-                disabled={!cellProps.item['input-column']}
-                strings={{ selected: 'Выбрано' }}
-                // prettier-ignore
-                renderActionIcon={useCallback(() => <Icon name='ChevronRight' />, [])}
-              />
-            </Dialog.Trigger>
-            <Dialog.Content minWidth='1000px'>
-              <Picker.Root
-                value={functions || []}
-                options={thisTypeFunctionMetaList?.map((fm) => ({
-                  value: fm.name,
-                  display: fm.name,
-                }))}
-                onValueChange={(v) => {
-                  onChange(
-                    value.map((r) => {
-                      if (r.id === cellProps.item.id) {
-                        return { ...r, functions: v }
-                      }
-                      return r
-                    }),
-                  )
-                }}
-              >
-                <Flex width='100%' gap='4'>
-                  <Flex direction='column' width='50%'>
-                    <Text size='3' mb='4'>
-                      Функции
-                    </Text>
-                    <Picker.OptionList width='100%' />
-                  </Flex>
-                  <Flex direction='column' width='50%'>
-                    <Text size='3' mb='4'>
-                      Выбрано ({functions.length})
-                    </Text>
-                    <Picker.ValueList width='100%' />
-                  </Flex>
+      <Multiselect.Root
+        onValueChange={(v) => {
+          onChange(
+            value.map((r) => {
+              if (r.id === cellProps.item.id) {
+                return { ...r, functions: v }
+              }
+              return r
+            }),
+          )
+        }}
+        value={functions || []}
+      >
+        <Dialog.Root open={isFunctionDialogPickerOpen} onOpenChange={(open) => setFunctionDialogPickerOpen(open)}>
+          <Dialog.Trigger>
+            <Multiselect.Trigger
+              size='1'
+              variant='outline'
+              disabled={!cellProps.item['input-column']}
+              strings={{ selected: 'Выбрано' }}
+              // prettier-ignore
+              renderActionIcon={useCallback(() => <Icon name='ChevronRight' />, [])}
+            />
+          </Dialog.Trigger>
+          <Dialog.Content minWidth='1000px'>
+            <Picker.Root
+              value={functions || []}
+              options={thisTypeFunctionMetaList?.map((fm) => ({
+                value: fm.name,
+                display: fm.name,
+              }))}
+              onValueChange={(v) => {
+                onChange(
+                  value.map((r) => {
+                    if (r.id === cellProps.item.id) {
+                      return { ...r, functions: v }
+                    }
+                    return r
+                  }),
+                )
+              }}
+            >
+              <Flex width='100%' gap='4'>
+                <Flex direction='column' width='50%'>
+                  <Text size='3' mb='4'>
+                    Функции
+                  </Text>
+                  <Picker.OptionList width='100%' />
                 </Flex>
-              </Picker.Root>
-            </Dialog.Content>
-          </Dialog.Root>
-        </Multiselect.Root>
-        <Flex align='center'>
-          <Button
-            size='1'
-            variant='soft'
-            round={true}
-            onClick={() => {
-              onChange(value.filter((r) => r.id !== cellProps.item.id))
-            }}
-          >
-            <Icon name='Trash' />
-          </Button>
-        </Flex>
-      </Flex>
+                <Flex direction='column' width='50%'>
+                  <Text size='3' mb='4'>
+                    Выбрано ({functions.length})
+                  </Text>
+                  <Picker.ValueList width='100%' />
+                </Flex>
+              </Flex>
+            </Picker.Root>
+          </Dialog.Content>
+        </Dialog.Root>
+      </Multiselect.Root>
+    )
+  }
+
+  if (cellProps.name === 'id') {
+    return (
+      <Button
+        size='1'
+        variant='soft'
+        round={true}
+        onClick={() => {
+          onChange(value.filter((r) => r.id !== cellProps.item.id))
+        }}
+      >
+        <Icon name='Trash' />
+      </Button>
     )
   }
 }

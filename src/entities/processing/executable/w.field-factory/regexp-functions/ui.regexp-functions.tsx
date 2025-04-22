@@ -83,6 +83,11 @@ export const initialColumns: ListTable.Column<Item, Props>[] = [
     display: 'Регулярное выражение',
     name: 'regexp',
   },
+  {
+    display: '',
+    name: 'id',
+    cellProps: { style: { width: '1px' } },
+  },
 ]
 
 const renderCell = (cellProps: ListTable.RenderCellProps<Item, Props>) => {
@@ -204,38 +209,37 @@ const renderCell = (cellProps: ListTable.RenderCellProps<Item, Props>) => {
 
   if (cellProps.name === 'regexp') {
     return (
-      <Flex width={'100%'} gap='4'>
-        <Flex width={'100%'}>
-          <TextInput
-            style={{ width: '100%' }}
-            value={cellProps.item.regexp || ''}
-            placeholder={`Пример: {{firstname}:{{[А-Я{1}]}}/{{secondname}}:{{[а-я]+}}`}
-            size={'1'}
-            onChange={(e) => {
-              onChange?.(
-                value.map((r) => {
-                  if (r.id === cellProps.item.id) {
-                    return { ...r, regexp: `${e.target.value}` }
-                  }
-                  return r
-                }),
-              )
-            }}
-          />
-        </Flex>
-        <Flex align='center'>
-          <Button
-            size='1'
-            variant='soft'
-            round={true}
-            onClick={() => {
-              onChange(value.filter((r) => r.id !== cellProps.item.id))
-            }}
-          >
-            <Icon name='Trash' />
-          </Button>
-        </Flex>
-      </Flex>
+      <TextInput
+        style={{ width: '100%' }}
+        value={cellProps.item.regexp || ''}
+        placeholder={`Пример: {{firstname}:{{[А-Я{1}]}}/{{secondname}}:{{[а-я]+}}`}
+        size={'1'}
+        onChange={(e) => {
+          onChange?.(
+            value.map((r) => {
+              if (r.id === cellProps.item.id) {
+                return { ...r, regexp: `${e.target.value}` }
+              }
+              return r
+            }),
+          )
+        }}
+      />
+    )
+  }
+
+  if (cellProps.name === 'id') {
+    return (
+      <Button
+        size='1'
+        variant='soft'
+        round={true}
+        onClick={() => {
+          onChange(value.filter((r) => r.id !== cellProps.item.id))
+        }}
+      >
+        <Icon name='Trash' />
+      </Button>
     )
   }
 }
