@@ -12,7 +12,7 @@ import { ListTable } from '~/shared/table'
 import TextInput from '~/shared/text-input'
 import { generateId } from '~/utils/core'
 
-import type { ParamFactoryContext } from './models'
+import type { ParamFactoryContext } from '../models'
 
 type Item = {
   id: string

@@ -1,6 +1,7 @@
 import eDcserviceForm from '~/entities/database-container/dcservice/ui/form/story'
 import eDatabaseContanerDctableInput from '~/entities/database-container/dctable/ui/input/story'
 import dctableListTable from '~/entities/database-container/dctable/ui/list-table/story.ts'
+import eExecutableswRegexp from '~/entities/processing/executable/w.field-factory/regexp-functions/story'
 import eExecutableswFackerColConfig from '~/entities/processing/executable/w.field-factory/w.facker-col-config/story'
 import uiButton from '~/shared/button/story'
 import uiCalendar from '~/shared/calendar/story'
@@ -58,6 +59,7 @@ export const storyList: Story<any>[] = [
   eDcserviceForm,
   dctableListTable,
   uiSelectInput,
+  eExecutableswRegexp,
 
   /**
    * shared
