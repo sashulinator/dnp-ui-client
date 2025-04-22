@@ -4,7 +4,7 @@ import Flex from '~/shared/flex'
 import { type Props, type Story } from '~/shared/storybook'
 
 import { api } from '../../dcservice'
-import Input, { type Value } from './ui.input'
+import Input, { type Value } from './ui.picker'
 
 interface State {
   //

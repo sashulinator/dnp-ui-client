@@ -41,7 +41,7 @@ export interface Props extends Omit<InputProps, 'onChange' | 'children' | 'value
   }) => Promise<{ items: { name: string; display?: string | undefined; schema: string }[]; total: number }>
 }
 
-const NAME = 'dnp-databaseContainer-dctable-input'
+const NAME = 'dnp-databaseContainer-dctable-picker'
 
 export default function Component(props: Props): JSX.Element {
   const {
