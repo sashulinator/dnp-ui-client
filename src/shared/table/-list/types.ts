@@ -31,6 +31,7 @@ export type RenderHeaderCellProps<TItem extends Dictionary, TContext extends Dic
   name: keyof TItem
   display?: string | undefined
   column: Column<TItem, TContext>
+  columnIndex: number
 }
 
 export type RenderCellProps<TItem extends Dictionary, TContext extends Dictionary> = RenderHeaderCellProps<
@@ -41,6 +42,7 @@ export type RenderCellProps<TItem extends Dictionary, TContext extends Dictionar
   display?: string | undefined
   value: TItem[keyof TItem]
   item: TItem
+  rowIndex: number
 }
 
 export interface Column<TItem extends Dictionary, TContext extends Dictionary> {

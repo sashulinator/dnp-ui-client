@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { Tooltip } from '@radix-ui/themes'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import Button from '~/shared/button'
 import Flex from '~/shared/flex'
@@ -76,7 +76,7 @@ export const initialColumns: ListTable.Column<Item, Props>[] = [
     name: 'type-operation',
   },
   {
-    display: 'Основная колонка',
+    display: 'Колонка',
     name: 'base-column',
   },
   {
@@ -92,7 +92,17 @@ const renderCell = (cellProps: ListTable.RenderCellProps<Item, Props>) => {
   const [isTextInput, setIsTextInput] = useState(false)
   const [outputName, setOutputName] = useState(cellProps.item['base-column'] || '')
 
-  const possibleColumns = _paramContext.columns.filter((c) => c.type === 'string')
+  const filteredColumns = useMemo(() => {
+    if (cellProps.item['type-operation'] === 'column-concat') return _paramContext.columns
+    return _paramContext.columns.filter((c) => c.type === 'string')
+  }, [_paramContext.columns, cellProps.item['type-operation']])
+
+  const previousColumn = cellProps.list.slice(0, cellProps.rowIndex).reduce<{ name: string }[]>((acc, c) => {
+    if (c['base-column']) acc.push({ name: c['base-column'] })
+    return acc
+  }, [])
+
+  const columnNames = [...new Set([...filteredColumns, ...previousColumn].map((c) => c.name))]
 
   if (cellProps.name === 'base-column') {
     return (
@@ -104,7 +114,7 @@ const renderCell = (cellProps: ListTable.RenderCellProps<Item, Props>) => {
               onChange(
                 value.map((r) => {
                   if (r.id === cellProps.item.id) {
-                    return { ...r, 'output-name': e.target.value }
+                    return { ...r, 'base-column': e.target.value }
                   }
                   return r
                 }),
@@ -130,7 +140,7 @@ const renderCell = (cellProps: ListTable.RenderCellProps<Item, Props>) => {
               )
             }}
             variant='surface'
-            options={possibleColumns.map((c) => ({ display: c.name, value: c.name }))}
+            options={columnNames.map((name) => ({ display: name, value: name }))}
           />
         )}
         <Tooltip

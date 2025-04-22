@@ -59,6 +59,8 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
                     context: context as TContext,
                     display: column.display,
                     item,
+                    rowIndex,
+                    columnIndex,
                     column,
                     list,
                   })}

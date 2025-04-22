@@ -46,7 +46,7 @@ const paramContext = {
       name: 'code',
       tableSchema: 'public',
       tableName: 'countries',
-      type: 'string',
+      type: 'number',
       maxLength: 255,
       nullable: 'NO',
       defaultValue: null,
