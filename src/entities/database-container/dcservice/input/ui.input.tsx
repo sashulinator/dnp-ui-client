@@ -5,7 +5,7 @@ import { WithAvatar } from '~/shared/view'
 import { c, capitalize } from '~/utils/core'
 import { useAsync } from '~/utils/core-hooks'
 
-import { type Dcservice } from '../../types'
+import { type Dcservice } from '../types'
 
 export type InputDcservice = Pick<Dcservice, 'client' | 'host' | 'port' | 'display'>
 

@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 
-import { APP } from '~/app/constants.app'
 import { routes } from '~/app/route'
+import { Dcservice } from '~/entities/database-container'
 import Button from '~/shared/button'
 import Container from '~/shared/container'
 import { TICK_MS, cssAnimations } from '~/shared/css-animations'
@@ -12,30 +12,25 @@ import { Heading, Main } from '~/shared/page'
 import Section from '~/shared/section'
 import { c } from '~/utils/core'
 
-import { api } from '..'
-import { SLICE } from '../constants.slice'
-import DcserviceForm, { type Values } from '../ui/form'
-import TestConnection from '../ui/test-connection'
-
-const NAME = `${APP}-page-${SLICE}-GetById`
+const NAME = `page-GetServiceById`
 
 export default function Component(): JSX.Element {
   const navigate = useNavigate()
 
-  const createMutator = api.create.useMutation({
+  const createMutator = Dcservice.api.create.useMutation({
     onSuccess: (response) => {
       notify({ title: 'Сохранено', type: 'success' })
-      form.initialize(DcserviceForm.toValues(response.data))
-      api.getById.setCache({ id: response.data.id }, response.data)
+      form.initialize(Dcservice.Form.default.toValues(response.data))
+      Dcservice.api.getById.setCache({ id: response.data.id }, response.data)
       navigate(routes.dcservice_getById.getUrl(response.data.id))
     },
     onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
   })
 
-  const form = useCreateForm<Values>(
+  const form = useCreateForm<Dcservice.Form.Values>(
     {
       onSubmit: (values) => {
-        createMutator.mutate({ input: DcserviceForm.toDcservice(values) })
+        createMutator.mutate({ input: Dcservice.Form.default.toDcservice(values) })
       },
     },
     {
@@ -60,17 +55,17 @@ export default function Component(): JSX.Element {
 
         <Flex direction='column' width='780px'>
           <Section size='1' className={c(cssAnimations.Appear)} style={{ animationDelay: `${TICK_MS * 2}ms` }}>
-            <Form form={form} component={DcserviceForm} />
+            <Form form={form} component={Dcservice.Form.default} />
           </Section>
 
           <Section size='1' className={c(cssAnimations.Appear)} style={{ animationDelay: `${TICK_MS * 3}ms` }}>
             <Flex justify='start'>
               <Flex gap='2' direction='row' justify='end'>
                 <Flex gap='2' direction='column'>
-                  <TestConnection
+                  <Dcservice.TestConnection.default
                     disabled={form.getState().invalid}
                     request={() =>
-                      api.testConnection
+                      Dcservice.api.testConnection
                         .request({
                           client: 'pg',
                           host: formState.values.host,

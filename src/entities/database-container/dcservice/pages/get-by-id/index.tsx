@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 
 import { APP } from '~/app/constants.app'
 import { routes } from '~/app/route'
-import { Dccolumn, type Dcrow, Dctable } from '~/entities/database-container'
+import { Dccolumn, type Dcrow, Dcservice, Dctable } from '~/entities/database-container'
 import { api as processingApi } from '~/entities/processing'
 import Button from '~/shared/button'
 import Checkbox from '~/shared/checkbox'
@@ -35,10 +35,8 @@ import { usePrevious } from '~/utils/core-hooks/previous'
 import { setPath } from '~/utils/dictionary'
 import { createAtom, useAtom } from '~/utils/store'
 
-import { api as dcserviceApi } from '../..'
 import { SLICE } from '../../constants.slice'
-import DcserviceForm, { type Values } from '../../ui/form'
-import TestConnection from '../../ui/test-connection'
+import DcserviceForm, { type Values } from '../../form'
 import DataTab, { type DisplayOption } from './data-tab'
 
 const NAME = `${APP}-page-${SLICE}-GetById`
@@ -55,7 +53,7 @@ export default function Component(): JSX.Element {
   const [tableDisplay, setTableDisplay] = useQueryParam('tabledisplay', withDefault(StringParam, ''))
   const [databaseDisplay, setDatabaseDisplay] = useQueryParam('databasedisplay', withDefault(StringParam, ''))
 
-  const tablesFetcher = dcserviceApi.findTables.useCache({
+  const tablesFetcher = Dcservice.api.findTables.useCache({
     dcdatabaseLocator: {
       dcserviceId: id,
       name: databaseParam,
@@ -92,7 +90,7 @@ export default function Component(): JSX.Element {
     JSONParam as Any,
   )
 
-  const fetcher = dcserviceApi.getById.useCache(
+  const fetcher = Dcservice.api.getById.useCache(
     { id },
     {
       onSuccess(dcservice) {
@@ -110,17 +108,17 @@ export default function Component(): JSX.Element {
 
   const prev = usePrevious({ id, database: databaseParam, table: tableParam, ...rowParams })
   useEffect(() => {
-    queryClient.setQueryData([dcserviceApi.findRows.NAME, prev], () => undefined)
+    queryClient.setQueryData([Dcservice.api.findRows.NAME, prev], () => undefined)
   }, [tableParam])
 
-  const rowsFetcher = dcserviceApi.findRows.useCache(
+  const rowsFetcher = Dcservice.api.findRows.useCache(
     { id, database: databaseParam, table: tableParam, schema: schemaParam, ...rowParams },
     { keepPreviousData: true, staleTime: 10_000 },
   )
 
   const mutatedColumns = useMemo(_mutateColumns, [rowsFetcher.data, tableParam, displayOptions])
 
-  const updateMutator = dcserviceApi.update.useMutation({
+  const updateMutator = Dcservice.api.update.useMutation({
     onSuccess: (response) => {
       notify({ title: 'Сохранено', type: 'success' })
       form.initialize(DcserviceForm.toValues(response.data))
@@ -140,7 +138,7 @@ export default function Component(): JSX.Element {
   const formState = form.getState()
   const isAnimated = useMemo(() => !fetcher.data, [])
 
-  const updateRowMutator = dcserviceApi.updaterow.useMutation({
+  const updateRowMutator = Dcservice.api.updaterow.useMutation({
     onSuccess: () => {
       notify({ title: 'Сохранено', type: 'success' })
       updateRowForm.initialize({})
@@ -150,7 +148,7 @@ export default function Component(): JSX.Element {
     onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
   })
 
-  const createRowMutator = dcserviceApi.insertRow.useMutation({
+  const createRowMutator = Dcservice.api.insertRow.useMutation({
     onSuccess: () => {
       notify({ title: 'Сохранено', type: 'success' })
       createRowForm.initialize({})
@@ -245,10 +243,10 @@ export default function Component(): JSX.Element {
               <Flex justify='start'>
                 <Flex gap='2' direction='row' justify='end'>
                   <Flex gap='2' direction='column'>
-                    <TestConnection
+                    <Dcservice.TestConnection.default
                       disabled={form.getState().invalid}
                       request={() =>
-                        dcserviceApi.testConnection
+                        Dcservice.api.testConnection
                           .request({
                             client: 'pg',
                             host: formState.values.host,
@@ -288,7 +286,7 @@ export default function Component(): JSX.Element {
                   setTableParam(undefined)
                 },
                 fetchList: async ({ sort, searchFilter, page, limit }) => {
-                  const ret = await dcserviceApi.findDatabases.request({
+                  const ret = await Dcservice.api.findDatabases.request({
                     id,
                     sort,
                     where: searchFilter as any,
@@ -311,7 +309,7 @@ export default function Component(): JSX.Element {
                   setSearchFilter({} as any)
                 },
                 fetchTableList: async ({ sort, searchFilter, page, limit }) => {
-                  const ret = await dcserviceApi.findTables.request({
+                  const ret = await Dcservice.api.findTables.request({
                     dcdatabaseLocator: {
                       dcserviceId: id,
                       name: databaseParam,

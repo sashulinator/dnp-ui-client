@@ -1,7 +1,7 @@
 import { NumberParam, useQueryParams, withDefault } from 'use-query-params'
 
-import { APP } from '~/app/constants.app'
 import { routes } from '~/app/route'
+import { Dcservice } from '~/entities/database-container'
 import Button from '~/shared/button'
 import Container from '~/shared/container'
 import { TICK_MS, cssAnimations } from '~/shared/css-animations'
@@ -13,11 +13,7 @@ import Section from '~/shared/section'
 import { c } from '~/utils/core'
 import { useRenderDelay } from '~/utils/core-hooks/render-delay'
 
-import { api } from '..'
-import { SLICE } from '../constants.slice'
-import Item from '../ui/item'
-
-const NAME = `${APP}-page-${SLICE}-GetById`
+const NAME = `page-findDcserviceWithTotal`
 
 export default function Component(): JSX.Element {
   const [{ page = 1, take = 10 }, setPaginationParams] = useQueryParams({
@@ -27,7 +23,10 @@ export default function Component(): JSX.Element {
 
   const listRenderDelay = useRenderDelay(TICK_MS * 3)
 
-  const fetcherList = api.findWithTotal.useCache({ take, skip: (page - 1) * take }, { keepPreviousData: true })
+  const fetcherList = Dcservice.api.findWithTotal.useCache(
+    { take, skip: (page - 1) * take },
+    { keepPreviousData: true },
+  )
 
   return (
     <Main className={NAME} style={{ position: 'relative' }}>
@@ -60,7 +59,7 @@ export default function Component(): JSX.Element {
             <Flex gap='4' direction={'column'}>
               {fetcherList.data?.items?.map((item, i) => {
                 return (
-                  <Item
+                  <Dcservice.Item.default
                     style={{ animationDelay: `${Math.pow(i, 0.7) * TICK_MS}ms` }}
                     className={c(cssAnimations.Appear)}
                     key={item.id}

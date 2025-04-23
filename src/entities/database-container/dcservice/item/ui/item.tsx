@@ -7,7 +7,7 @@ import Link from '~/shared/link'
 import { WithAvatar } from '~/shared/view'
 import { c, capitalize } from '~/utils/core'
 
-import { type Dcservice } from '../../../types'
+import { type Dcservice } from '../../types'
 
 export type Props = FlexProps & {
   className?: string | undefined
