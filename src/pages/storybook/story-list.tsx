@@ -2,6 +2,7 @@ import dcdatabaseListTable from '~/entities/database-container/dcdatabase/list-t
 import eDcserviceForm from '~/entities/database-container/dcservice/ui/form/story'
 import dctableInput from '~/entities/database-container/dctable/input/story'
 import dctableListTable from '~/entities/database-container/dctable/list-table/story.ts'
+import eDatabaseContanerDctableOldPicker from '~/entities/database-container/dctable/old-picker/story'
 import eDatabaseContanerDctablePicker from '~/entities/database-container/dctable/picker/story'
 import eExecutableswRegexp from '~/entities/processing/executable/w.field-factory/regexp-functions/story'
 import eExecutableswFackerColConfig from '~/entities/processing/executable/w.field-factory/w.facker-col-config/story'
@@ -58,6 +59,7 @@ export const storyList: Story<any>[] = [
 
   dcdatabaseListTable,
   eDatabaseContanerDctablePicker,
+  eDatabaseContanerDctableOldPicker,
   dctableInput,
   eProcessingWProcedureWValuePerColumn,
   debugRenderCounter,
