@@ -4,9 +4,10 @@ import { useQuery } from '~/shared/query'
 import Spinner from '~/shared/spinner'
 import { WithAvatar } from '~/shared/view'
 
-import type { Dcdatabase } from '../types'
-
-export type Value = Pick<Dcdatabase, 'name' | 'display'>
+export type Value = {
+  name: string
+  display?: string | undefined
+}
 
 export interface Props extends Omit<InputProps, 'onChange' | 'children' | 'value'> {
   className?: string | undefined

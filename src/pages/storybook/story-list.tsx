@@ -1,4 +1,6 @@
+import dnpDcdatabaseInput from '~/entities/database-container/dcdatabase/input/story'
 import dcdatabaseListTable from '~/entities/database-container/dcdatabase/list-table/story.ts'
+import dcdatabasePicker from '~/entities/database-container/dcdatabase/picker/story'
 import eDcserviceForm from '~/entities/database-container/dcservice/ui/form/story'
 import dctableInput from '~/entities/database-container/dctable/input/story'
 import dctableListTable from '~/entities/database-container/dctable/list-table/story.ts'
@@ -60,6 +62,8 @@ export const storyList: Story<any>[] = [
   dcdatabaseListTable,
   eDatabaseContanerDctablePicker,
   eDatabaseContanerDctableOldPicker,
+  dnpDcdatabaseInput,
+  dcdatabasePicker,
   dctableInput,
   eProcessingWProcedureWValuePerColumn,
   debugRenderCounter,
