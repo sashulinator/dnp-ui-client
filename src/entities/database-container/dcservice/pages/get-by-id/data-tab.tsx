@@ -1,7 +1,7 @@
 import QueryString from 'qs'
 import { useCallback, useState } from 'react'
 
-import { Dcrow, Dctable } from '~/entities/database-container'
+import { Dcdatabase, Dcrow, Dctable } from '~/entities/database-container'
 import Button from '~/shared/button'
 import { UploadModal, type UploadModalProps } from '~/shared/file'
 import Flex from '~/shared/flex'
@@ -9,7 +9,6 @@ import { Pagination, type PaginationProps } from '~/shared/page'
 import { FetcherStatus, type FetcherStatusProps } from '~/shared/query'
 import ScrollArea from '~/shared/scroll-area'
 import Section from '~/shared/section'
-import { InputSelect } from '~/shared/select'
 import { ListTable } from '~/shared/table'
 import type { Dictionary } from '~/utils/core'
 
@@ -36,7 +35,7 @@ export interface Props {
   fetcherStatusProps: FetcherStatusProps
   paginationProps: PaginationProps
   tablePickerProps: Omit<Dctable.Picker.PickerProps, 'renderTrigger'>
-  databaseSelectProps: InputSelect.InputProps
+  databasePickerProps: Omit<Dcdatabase.Picker.PickerProps, 'renderTrigger'>
   uploadModalProps: UploadModalProps
   updateFormModalProps: Dcrow.FormModal.FormModalProps
   createFormModalProps: Dcrow.FormModal.FormModalProps
@@ -56,8 +55,8 @@ export default function Component(props: Props): JSX.Element {
     uploadModalProps,
     paginationProps,
     fetcherStatusProps,
-    tablePickerProps: tableSelectProps,
-    databaseSelectProps,
+    tablePickerProps,
+    databasePickerProps,
     updateFormModalProps,
     createFormModalProps,
     queryParams,
@@ -73,14 +72,31 @@ export default function Component(props: Props): JSX.Element {
       <Flex direction='column'>
         <Flex align='end' justify='between'>
           <Flex gap='4'>
-            <Flex direction='column' width='360px'>
-              <InputSelect.default variant='surface' {...databaseSelectProps} />
+            <Flex gap='2' width={'700px'}>
+              <Dcdatabase.Picker.default
+                {...databasePickerProps}
+                renderTrigger={useCallback(({ setIsOpen, value, setValue, enabled }) => {
+                  return (
+                    <Dcdatabase.Input.default
+                      variant='outline'
+                      style={{ width: '50%' }}
+                      hasValue={!!value}
+                      disabled={!enabled}
+                      onClearableClick={() => setValue(undefined)}
+                      fetchValue={() => value}
+                      fetcherDependencies={[value]}
+                      onClick={() => setIsOpen(true)}
+                    />
+                  )
+                }, [])}
+              />
               <Dctable.Picker.default
-                {...tableSelectProps}
+                {...tablePickerProps}
                 renderTrigger={useCallback(({ setIsOpen, value, setValue, enabled }) => {
                   return (
                     <Dctable.Input.default
                       variant='outline'
+                      style={{ width: '50%' }}
                       hasValue={!!value}
                       disabled={!enabled}
                       onClearableClick={() => setValue(undefined)}
@@ -109,7 +125,7 @@ export default function Component(props: Props): JSX.Element {
           </Flex>
         </Flex>
 
-        {tableSelectProps.value && databaseSelectProps.value && (
+        {tablePickerProps.value && databasePickerProps.value && (
           <Section size='1'>
             <Pagination {...paginationProps} />
           </Section>

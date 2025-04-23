@@ -52,6 +52,8 @@ export default function Component(): JSX.Element {
   const [tableParam, setTableParam] = useQueryParam('table', withDefault(StringParam, ''))
   const [schemaParam, setSchemaParam] = useQueryParam('schema', withDefault(StringParam, ''))
   const [displayOptions, setDisplayOptions] = useState<DisplayOption>({})
+  const [tableDisplay, setTableDisplay] = useQueryParam('tabledisplay', withDefault(StringParam, ''))
+  const [databaseDisplay, setDatabaseDisplay] = useQueryParam('databasedisplay', withDefault(StringParam, ''))
 
   const tablesFetcher = dcserviceApi.findTables.useCache({
     dcdatabaseLocator: {
@@ -98,8 +100,6 @@ export default function Component(): JSX.Element {
       },
     },
   )
-
-  const databasesFetcher = dcserviceApi.findDatabases.useCache({ id })
 
   const rowParams = {
     sort: sortParam,
@@ -274,6 +274,56 @@ export default function Component(): JSX.Element {
           </Tabs.Content>
           <Tabs.Content value='data' style={{ width: '100%' }}>
             <DataTab
+              databasePickerProps={{
+                enabled: true,
+                fetcherDependencies: [databaseParam],
+                value: { name: databaseParam, display: databaseDisplay },
+                onChange: (v) => {
+                  setDatabaseParam(v?.name)
+                  setDatabaseDisplay(v?.display)
+                  setTableDisplay(undefined)
+                  setPaginationParams({ page: 1, limit })
+                  sortAtom.set({})
+                  setSearchFilter({} as any)
+                  setTableParam(undefined)
+                },
+                fetchList: async ({ sort, searchFilter, page, limit }) => {
+                  const ret = await dcserviceApi.findDatabases.request({
+                    id,
+                    sort,
+                    where: searchFilter as any,
+                    limit,
+                    offset: (page - 1) * limit,
+                  })
+                  return ret.data
+                },
+              }}
+              tablePickerProps={{
+                fetcherDependencies: [databaseParam],
+                enabled: !!databaseParam,
+                value: { name: tableParam, schema: schemaParam, display: tableDisplay },
+                onChange: (v) => {
+                  setTableParam(v?.name)
+                  setTableDisplay(v?.display)
+                  setSchemaParam(v?.schema)
+                  setPaginationParams({ page: 1, limit })
+                  sortAtom.set({})
+                  setSearchFilter({} as any)
+                },
+                fetchTableList: async ({ sort, searchFilter, page, limit }) => {
+                  const ret = await dcserviceApi.findTables.request({
+                    dcdatabaseLocator: {
+                      dcserviceId: id,
+                      name: databaseParam,
+                    },
+                    sort,
+                    where: searchFilter as any,
+                    limit,
+                    offset: (page - 1) * limit,
+                  })
+                  return ret.data
+                },
+              }}
               queryParams={{
                 dcserviceId: id,
                 table: tableParam,
@@ -518,46 +568,6 @@ export default function Component(): JSX.Element {
                 loading: rowsFetcher.isFetching,
                 currentPage: page,
                 onChange: (page) => setPaginationParams({ page, limit }),
-              }}
-              tablePickerProps={{
-                fetcherDependencies: [databaseParam],
-                enabled: !!databaseParam,
-                value: { name: tableParam, schema: schemaParam },
-                onChange: (v) => {
-                  setTableParam(v?.name)
-                  setSchemaParam(v?.schema)
-                  setPaginationParams({ page: 1, limit })
-                  sortAtom.set({})
-                  setSearchFilter({} as any)
-                },
-                fetchTableList: async ({ sort, searchFilter, page, limit }) => {
-                  const ret = await dcserviceApi.findTables.request({
-                    dcdatabaseLocator: {
-                      dcserviceId: id,
-                      name: databaseParam,
-                    },
-                    sort,
-                    where: searchFilter as any,
-                    limit,
-                    offset: (page - 1) * limit,
-                  })
-                  return ret.data
-                },
-              }}
-              databaseSelectProps={{
-                value: databaseParam,
-                onChange: (v) => {
-                  setDatabaseParam(v.toString())
-                  setPaginationParams({ page: 1, limit })
-                  sortAtom.set({})
-                  setSearchFilter({} as any)
-                  setTableParam(undefined)
-                },
-                options:
-                  databasesFetcher.data?.items?.map((db) => ({
-                    value: db.name,
-                    display: db.display || db.name,
-                  })) || [],
               }}
             />
           </Tabs.Content>
