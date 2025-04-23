@@ -1,0 +1,50 @@
+import Flex from '~/shared/flex'
+import Input, { type InputProps } from '~/shared/input'
+import { useQuery } from '~/shared/query'
+import Spinner from '~/shared/spinner'
+import { WithAvatar } from '~/shared/view'
+
+import type { Dctable } from '../..'
+
+export type Value = Pick<Dctable.DctableMeta, 'name' | 'display'>
+
+export interface Props extends Omit<InputProps, 'onChange' | 'children' | 'value'> {
+  className?: string | undefined
+  fetchValue: () => Value | undefined
+  fetcherDependencies: unknown[]
+}
+
+const NAME = 'dnp-databaseContainer-dctable-input'
+
+export default function Component(props: Props): JSX.Element {
+  const { loading, variant = 'soft', fetcherDependencies, fetchValue, ...inputCardProps } = props
+
+  const valueFetcher = useQuery([NAME, ...fetcherDependencies], fetchValue)
+  const value = valueFetcher.data
+
+  return (
+    <>
+      <Input
+        size={null}
+        style={{ width: '100%', padding: 'var(--space-2)', gap: 'var(--space-2)' }}
+        variant={variant}
+        {...inputCardProps}
+      >
+        <Flex width='100%' justify='between' align='center'>
+          <WithAvatar
+            disabled={props?.disabled}
+            style={{ overflow: 'hidden', width: '100%' }}
+            title={value?.name}
+            subtitle={value?.display}
+            iconName='Table'
+          />
+          <Flex align='center' gap='2'>
+            {loading && <Spinner />}
+          </Flex>
+        </Flex>
+      </Input>
+    </>
+  )
+}
+
+Component.displayName = NAME
