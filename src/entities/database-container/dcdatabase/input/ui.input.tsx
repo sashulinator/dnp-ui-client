@@ -4,9 +4,9 @@ import { useQuery } from '~/shared/query'
 import Spinner from '~/shared/spinner'
 import { WithAvatar } from '~/shared/view'
 
-import type { Dctable } from '../types'
+import type { Dcdatabase } from '../types'
 
-export type Value = Pick<Dctable, 'name' | 'display'>
+export type Value = Pick<Dcdatabase, 'name' | 'display'>
 
 export interface Props extends Omit<InputProps, 'onChange' | 'children' | 'value'> {
   className?: string | undefined
@@ -14,7 +14,7 @@ export interface Props extends Omit<InputProps, 'onChange' | 'children' | 'value
   fetcherDependencies: unknown[]
 }
 
-const NAME = 'dnp-databaseContainer-dctable-input'
+const NAME = 'dnp-databaseContainer-dcdatabase-input'
 
 export default function Component(props: Props): JSX.Element {
   const { loading, variant = 'soft', fetcherDependencies, fetchValue, ...inputCardProps } = props
@@ -36,7 +36,7 @@ export default function Component(props: Props): JSX.Element {
             style={{ overflow: 'hidden', width: '100%' }}
             title={value?.name}
             subtitle={value?.display}
-            iconName='Table'
+            iconName='Database'
           />
           <Flex align='center' gap='2'>
             {loading && <Spinner />}
