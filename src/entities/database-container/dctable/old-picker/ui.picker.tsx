@@ -43,6 +43,9 @@ export interface Props extends Omit<InputProps, 'onChange' | 'children' | 'value
 
 const NAME = 'dnp-databaseContainer-dctable-picker'
 
+/**
+ * @deprecated
+ */
 export default function Component(props: Props): JSX.Element {
   const {
     loading,

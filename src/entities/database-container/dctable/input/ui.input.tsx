@@ -26,9 +26,9 @@ export default function Component(props: Props): JSX.Element {
     <>
       <Input
         size={null}
-        style={{ width: '100%', padding: 'var(--space-2)', gap: 'var(--space-2)' }}
-        variant={variant}
         {...inputCardProps}
+        variant={variant}
+        style={{ width: '100%', padding: 'var(--space-2)', gap: 'var(--space-2)', ...inputCardProps.style }}
       >
         <Flex width='100%' justify='between' align='center'>
           <WithAvatar

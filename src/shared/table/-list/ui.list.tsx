@@ -31,6 +31,7 @@ import type {
 export type Props<TItem extends Dictionary, TContext extends Dictionary> = RootProps &
   BaseProps<TItem, TContext> & {
     className?: string | undefined
+    rowSelectable?: boolean | undefined
     getHeaderProps?: (params: GetHeaderPropsParams<TItem, TContext>) => HeaderProps | undefined
     getHeaderRowProps?: (params: GetHeaderRowPropsParams<TItem, TContext>) => HeaderRowProps | undefined
     getHeaderCellProps?: (params: GetHeaderCellPropsParams<TItem, TContext>) => HeaderCellProps | undefined
@@ -50,6 +51,7 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
     className,
     columns = [],
     list,
+    rowSelectable,
     getHeaderProps,
     getHeaderRowProps,
     getHeaderCellProps,
@@ -62,7 +64,11 @@ export default function Component<TItem extends Dictionary, TContext extends Dic
   } = props
 
   return (
-    <Table.Root style={{ tableLayout: 'auto' }} className={c(className, NAME)} {...rootTableProps}>
+    <Table.Root
+      style={{ tableLayout: 'auto' }}
+      className={c(className, NAME, rowSelectable && '--row-selectable')}
+      {...rootTableProps}
+    >
       {columns.length > 0 ? (
         <_Header
           getHeaderProps={getHeaderProps}

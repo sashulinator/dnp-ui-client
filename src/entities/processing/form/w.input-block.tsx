@@ -47,7 +47,7 @@ export default function Component(props: Props): JSX.Element {
             }, {})
 
             return (
-              <Dctable.Picker.default
+              <Dctable.OldPicker.default
                 disabled={tableDisabled}
                 fetchTableList={fetchTableList}
                 fetchDcserviceList={async () => {

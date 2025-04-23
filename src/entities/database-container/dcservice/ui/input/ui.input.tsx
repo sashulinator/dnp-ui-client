@@ -29,6 +29,7 @@ export default function Component(props: Props): JSX.Element {
           <Text color='red'>Не удалось загрузить</Text>
         ) : (
           <WithAvatar
+            width='100%'
             loading={fetcher.isPending}
             iconName={capitalize(fetcher.data?.client || '') as 'Postgres'}
             title={fetcher.data?.display}

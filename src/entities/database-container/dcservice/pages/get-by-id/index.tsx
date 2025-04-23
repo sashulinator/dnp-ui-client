@@ -519,21 +519,30 @@ export default function Component(): JSX.Element {
                 currentPage: page,
                 onChange: (page) => setPaginationParams({ page, limit }),
               }}
-              tableSelectProps={{
-                value: `${schemaParam}.${tableParam}`,
-                onValueChange: (v) => {
-                  const [schemaName, tableName] = v.toString().split('.')
-                  setTableParam(tableName)
-                  setSchemaParam(schemaName)
+              tablePickerProps={{
+                fetcherDependencies: [databaseParam],
+                enabled: !!databaseParam,
+                value: { name: tableParam, schema: schemaParam },
+                onChange: (v) => {
+                  setTableParam(v?.name)
+                  setSchemaParam(v?.schema)
                   setPaginationParams({ page: 1, limit })
                   sortAtom.set({})
                   setSearchFilter({} as any)
                 },
-                options:
-                  tablesFetcher.data?.items?.map((t) => ({
-                    value: `${t.schema}.${t.name}`,
-                    display: `${t.schema}.${t.name}`,
-                  })) || [],
+                fetchTableList: async ({ sort, searchFilter, page, limit }) => {
+                  const ret = await dcserviceApi.findTables.request({
+                    dcdatabaseLocator: {
+                      dcserviceId: id,
+                      name: databaseParam,
+                    },
+                    sort,
+                    where: searchFilter as any,
+                    limit,
+                    offset: (page - 1) * limit,
+                  })
+                  return ret.data
+                },
               }}
               databaseSelectProps={{
                 value: databaseParam,

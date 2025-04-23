@@ -1,11 +1,10 @@
 import QueryString from 'qs'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 
-import { Dcrow } from '~/entities/database-container'
+import { Dcrow, Dctable } from '~/entities/database-container'
 import Button from '~/shared/button'
 import { UploadModal, type UploadModalProps } from '~/shared/file'
 import Flex from '~/shared/flex'
-import Labeled from '~/shared/labeled'
 import { Pagination, type PaginationProps } from '~/shared/page'
 import { FetcherStatus, type FetcherStatusProps } from '~/shared/query'
 import ScrollArea from '~/shared/scroll-area'
@@ -36,7 +35,7 @@ export interface Props {
   >
   fetcherStatusProps: FetcherStatusProps
   paginationProps: PaginationProps
-  tableSelectProps: InputSelect.InputProps
+  tablePickerProps: Omit<Dctable.Picker.PickerProps, 'renderTrigger'>
   databaseSelectProps: InputSelect.InputProps
   uploadModalProps: UploadModalProps
   updateFormModalProps: Dcrow.FormModal.FormModalProps
@@ -57,7 +56,7 @@ export default function Component(props: Props): JSX.Element {
     uploadModalProps,
     paginationProps,
     fetcherStatusProps,
-    tableSelectProps,
+    tablePickerProps: tableSelectProps,
     databaseSelectProps,
     updateFormModalProps,
     createFormModalProps,
@@ -71,18 +70,27 @@ export default function Component(props: Props): JSX.Element {
 
   return (
     <>
-      <Flex pt='6' direction='column'>
+      <Flex direction='column'>
         <Flex align='end' justify='between'>
           <Flex gap='4'>
-            <Flex direction='column'>
-              <Labeled label='База'>
-                <InputSelect.default style={{ minWidth: '350px' }} variant='surface' {...databaseSelectProps} />
-              </Labeled>
-            </Flex>
-            <Flex direction='column'>
-              <Labeled label='Таблица'>
-                <InputSelect.default style={{ minWidth: '350px' }} variant='surface' {...tableSelectProps} />
-              </Labeled>
+            <Flex direction='column' width='360px'>
+              <InputSelect.default variant='surface' {...databaseSelectProps} />
+              <Dctable.Picker.default
+                {...tableSelectProps}
+                renderTrigger={useCallback(({ setIsOpen, value, setValue, enabled }) => {
+                  return (
+                    <Dctable.Input.default
+                      variant='outline'
+                      hasValue={!!value}
+                      disabled={!enabled}
+                      onClearableClick={() => setValue(undefined)}
+                      fetchValue={() => value}
+                      fetcherDependencies={[value]}
+                      onClick={() => setIsOpen(true)}
+                    />
+                  )
+                }, [])}
+              />
             </Flex>
           </Flex>
           <Flex gap='2'>

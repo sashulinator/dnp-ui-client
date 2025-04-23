@@ -1,10 +1,10 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 
-import Flex from '~/shared/flex'
 import { type Props, type Story } from '~/shared/storybook'
 
 import { api } from '../../dcservice'
-import Input, { type Value } from './ui.picker'
+import Input from '../input'
+import Picker, { type Value } from './ui.picker'
 
 interface State {
   //
@@ -18,13 +18,15 @@ export default {
 
     return (
       <div style={{ padding: '2rem', width: '250px' }}>
-        <Input
+        <Picker
           {...state}
-          fetchTableList={async ({ sort, searchFilter, database, page, limit }) => {
+          fetcherDependencies={['test']}
+          enabled={true}
+          fetchTableList={async ({ sort, searchFilter, page, limit }) => {
             const ret = await api.findTables.request({
               dcdatabaseLocator: {
                 dcserviceId: 'workshop',
-                name: database,
+                name: 'target',
               },
               sort,
               where: searchFilter as any,
@@ -35,20 +37,17 @@ export default {
           }}
           value={value}
           onChange={onChange}
-          fetchDatabaseList={async () => {
-            const ret = await api.findDatabases.request({ id: 'workshop' })
-            return ret.data
-          }}
-          fetchDcserviceList={async () => {
-            const ret = await api.findWithTotal.request({})
-            return ret.data
-          }}
+          renderTrigger={useCallback(({ setIsOpen, value }) => {
+            return (
+              <Input
+                hasValue={!!value}
+                fetchValue={() => value}
+                fetcherDependencies={[value]}
+                onClick={() => setIsOpen(true)}
+              />
+            )
+          }, [])}
         />
-        <Flex direction='column'>
-          {Object.values(value || {}).map((item) => {
-            return <div key={`${item.name}${item.schema}`}>{item.name}</div>
-          })}
-        </Flex>
       </div>
     )
   },

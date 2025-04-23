@@ -27,6 +27,7 @@ export default function Component(props: Props): JSX.Element {
       <Card asChild={true} className={c(displayName, className)}>
         <Link to={`${routes.dcservice_getById.getUrl(item.id)}`}>
           <WithAvatar
+            width='100%'
             iconName={capitalize(item.client) as 'Postgres'}
             title={item.display}
             subtitle={`${item.host}:${item.port}`}
