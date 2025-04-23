@@ -17,7 +17,7 @@ export default {
     const [value, onChange] = useState<Value | undefined>()
 
     return (
-      <div style={{ padding: '2rem' }}>
+      <div style={{ padding: '2rem', width: '250px' }}>
         <Input
           {...state}
           fetchTableList={async ({ sort, searchFilter, database, page, limit }) => {
@@ -55,5 +55,5 @@ export default {
 
   controls: [],
 
-  getName: (): string => Input.displayName,
+  getName: (): string => 'dctable-picker',
 } satisfies Story<State>

@@ -21,6 +21,7 @@ import uiFormWTextArea from '~/shared/form/ui/text-area/story'
 import uiFormWTextField from '~/shared/form/w.string-field/story'
 import sharedFormETextInputVShared from '~/shared/form/w.string-field/v.typed/story'
 import sharedFormUnionField from '~/shared/form/w.union-field/v.typed/story'
+import uiInputBase from '~/shared/input/base/story'
 import uiInput from '~/shared/input/story'
 import sharedlinkTree from '~/shared/link-tree/story'
 import linkMenuFormMenu from '~/shared/link-tree/w.form/story'
@@ -62,7 +63,6 @@ export const storyList: Story<any>[] = [
   dctableListTable,
   uiSelectInput,
   eExecutableswRegexp,
-
   /**
    * shared
    */
@@ -89,6 +89,7 @@ export const storyList: Story<any>[] = [
   uiCollapse,
   tableList,
   sortButton,
+  uiInputBase,
   sharedFormUnionField,
   uiTextHighlighter,
   uiTagPicker,

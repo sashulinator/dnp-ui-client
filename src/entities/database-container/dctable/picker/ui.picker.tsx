@@ -101,7 +101,7 @@ export default function Component(props: Props): JSX.Element {
         size={null}
         hasValue={Boolean(value)}
         onClearableClick={() => onChange(undefined)}
-        style={{ width: '100%', padding: 'var(--space-2)' }}
+        style={{ width: '100%', padding: 'var(--space-2)', gap: 'var(--space-2)' }}
         variant='soft'
         {...inputCardProps}
         disabled={disabled}
@@ -110,7 +110,7 @@ export default function Component(props: Props): JSX.Element {
         <Flex width='100%' justify='between' align='center'>
           <WithAvatar
             disabled={disabled}
-            style={{ maxWidth: '320px', width: '320px', overflow: 'hidden' }}
+            style={{ overflow: 'hidden', width: '100%' }}
             title={
               valueList.length === 1 ? valueList[0]?.name : valueList.length > 1 ? `Выбрано (${valueList.length})` : ''
             }

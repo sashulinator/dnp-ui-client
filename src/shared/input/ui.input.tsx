@@ -1,73 +1,56 @@
-import './input.scss'
+import './ui.input.scss'
 
 import type { ForwardedRef } from 'react'
 import { createElement, forwardRef } from 'react'
 
-import type { ButtonProps } from '~/shared/button'
 import Button from '~/shared/button'
 import Flex from '~/shared/flex'
 import Icon from '~/shared/icon'
 import { c } from '~/utils/core'
 import { setRefs } from '~/utils/react'
 
-export type Props = Omit<ButtonProps, 'variant' | 'size' | 'value'> & {
-  hasValue?: boolean
-  variant?: 'soft' | 'outline' | undefined
-  size?: '1' | '2' | '3' | '4' | null | undefined
+import Base, { type BaseProps } from './base'
+
+export type Props = BaseProps & {
   onClearableClick?: ((e: React.MouseEvent) => void) | undefined
   renderActionIcon?: (() => React.ReactNode) | undefined
+  hasValue?: boolean
 }
 
 const NAME = 'ui-input'
 
 export function Component(props: Props, ref: ForwardedRef<HTMLButtonElement>): JSX.Element {
-  const {
-    children,
-    onClearableClick,
-    hasValue,
-    variant = 'outline',
-    size = '2',
-    renderActionIcon = _DefaultActionIcon,
-    ...buttonProps
-  } = props
+  const { children, onClearableClick, hasValue, renderActionIcon = _DefaultActionIcon, ...baseProps } = props
 
   return (
-    <button
-      {...buttonProps}
+    <Base
       ref={setRefs(ref)}
       data-disabled={props.disabled === true ? props.disabled : undefined}
-      className={c(
-        props.className,
-        NAME,
-        'rt-reset ui-BaseInput ui-Input',
-        `--variant--${variant}`,
-        size && `--size--${size}`,
-      )}
+      {...baseProps}
+      className={c(props.className, NAME)}
     >
-      <Flex width='100%'>{children}</Flex>
+      <Flex>{children}</Flex>
       <Flex gap='2' align='center' justify='center' style={{ height: 'fit-content', width: 'fit-content' }}>
-        <>
-          {hasValue && !props.disabled && (
-            <Button
-              asChild={true}
-              round={true}
-              size={'1'}
-              variant='ghost'
-              onClick={(e) => {
-                e.stopPropagation()
-                onClearableClick?.(e)
-              }}
-            >
-              {/** кнопка не может быть внутри кнопки поэтому делаем ссылкой */}
-              <a role='button'>
-                <Icon name='Cross1' />
-              </a>
-            </Button>
-          )}
-          {createElement(renderActionIcon)}
-        </>
+        {hasValue && !props.disabled && (
+          <Button
+            asChild={true}
+            round={true}
+            size={'1'}
+            variant='ghost'
+            onClick={(e) => {
+              e.stopPropagation()
+              onClearableClick?.(e)
+            }}
+          >
+            {/** кнопка не может быть внутри кнопки поэтому делаем ссылкой */}
+            <a role='button'>
+              <Icon name='Cross1' />
+            </a>
+          </Button>
+        )}
+        {createElement(renderActionIcon)}
       </Flex>
-    </button>
+    </Base>
   )
 }
 

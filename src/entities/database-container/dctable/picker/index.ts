@@ -1,7 +1,7 @@
 /**
  * ui
  */
-import { default as Input } from './ui.picker'
+import { default as Picker } from './ui.picker'
 
-export default Input
-export { type Props as InputProps } from './ui.picker'
+export default Picker
+export { type Props as PickerProps } from './ui.picker'

@@ -1,5 +1,5 @@
 export * as ListTable from './list-table'
-export * as Input from './picker'
+export * as Picker from './picker'
 
 /**
  * types

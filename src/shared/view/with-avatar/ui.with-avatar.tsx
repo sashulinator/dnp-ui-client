@@ -2,7 +2,7 @@ import Avatar from '~/shared/avatar'
 import Flex, { type FlexProps } from '~/shared/flex'
 import Icon, { type IconName } from '~/shared/icon'
 import Skeleton from '~/shared/skeleton'
-import Text from '~/shared/text'
+import Text, { TextOverflow } from '~/shared/text'
 import { c } from '~/utils/core'
 
 export type Props = FlexProps & {
@@ -28,13 +28,15 @@ export default function Component(props: Props): JSX.Element {
           fallback={<Icon width='1.2rem' height='1.2rem' name={iconName as 'Postgres'} />}
         />
       </Skeleton>
-      <Flex direction='column' align='start' gap={loading ? '1' : '0'}>
+      <Flex direction='column' align='stretch' gap={loading ? '1' : '0'} width='100%'>
         <Skeleton loading={loading} width='5rem'>
-          <Text size='2'>{title}</Text>
+          <Text size='2'>
+            <TextOverflow alt={title}>{title}</TextOverflow>
+          </Text>
         </Skeleton>
         <Skeleton loading={loading} width='5rem'>
           <Text size='1' color='gray'>
-            {subtitle}
+            <TextOverflow alt={subtitle}>{subtitle}</TextOverflow>
           </Text>
         </Skeleton>
       </Flex>

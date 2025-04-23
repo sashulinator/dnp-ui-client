@@ -16,11 +16,16 @@ export default {
     const [modalOpen, setModalOpen] = useState(false)
 
     return (
-      <Flex width='100%' {...state} direction={'column'} p='8' gap='4'>
+      <Flex width='200px' {...state} style={{ border: '1px solid red' }} direction={'column'} gap='4'>
         <Flex>
           <button onClick={() => setModalOpen((s) => !s)}>loading</button>
         </Flex>
-        <InputCard title='title' loading={modalOpen} subtitle='subtitle' iconName='Postgres' />
+        <InputCard
+          title='titletitletitletitletitletitletitletitletitletitletitletitle'
+          loading={modalOpen}
+          subtitle='subtitlesubtitlesubtitlesubtitlesubtitle'
+          iconName='Postgres'
+        />
       </Flex>
     )
   },
