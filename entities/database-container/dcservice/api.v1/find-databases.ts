@@ -1,3 +1,4 @@
+import type { ToSort } from '~/slices/sort'
 import type { Where } from '~/slices/where'
 
 import type { Dcdatabase } from '../../dcdatabase'
@@ -12,6 +13,7 @@ export type RequestParams = {
   where?: Where
   limit?: number
   offset?: number
+  sort?: ToSort<{ name: string }> | undefined
 }
 
 export type Result = {
