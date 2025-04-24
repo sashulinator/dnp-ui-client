@@ -4,6 +4,7 @@ import dcdatabasePicker from '~/entities/database-container/dcdatabase/picker/st
 import eDcserviceForm from '~/entities/database-container/dcservice/form/story'
 import dcserviceInput from '~/entities/database-container/dcservice/input/story'
 import dcserviceListTable from '~/entities/database-container/dcservice/list-table/story'
+import dcservicePicker from '~/entities/database-container/dcservice/picker/story'
 import dctableInput from '~/entities/database-container/dctable/input/story'
 import dctableListTable from '~/entities/database-container/dctable/list-table/story'
 import eDatabaseContanerDctableOldPicker from '~/entities/database-container/dctable/old-picker/story'
@@ -62,6 +63,7 @@ export const storyList: Story<any>[] = [
    */
 
   dcserviceListTable,
+  dcservicePicker,
   dcserviceInput,
   dcdatabaseListTable,
   eDatabaseContanerDctablePicker,
