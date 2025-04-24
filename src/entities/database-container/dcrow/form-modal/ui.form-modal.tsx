@@ -9,8 +9,8 @@ import Form, { type FormApi } from '~/shared/form'
 import { useSubscribeUpdate } from '~/utils/core-hooks'
 import type { Atom } from '~/utils/store'
 
+import RowForm, { type Column } from '../form'
 import type { Row } from '../types'
-import RowForm, { type Column } from '../ui.form'
 
 export type { Column }
 export type { Row }

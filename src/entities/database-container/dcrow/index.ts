@@ -1,3 +1,4 @@
-export * as Form from './ui.form'
-export * as FormModal from './ui.form-modal'
+export * as Form from './form'
+export * as FormModal from './form-modal'
+
 export * from './types'
