@@ -50,8 +50,6 @@ export default function Component(props: Props): JSX.Element {
     setDcserviceValue,
   } = props
 
-  console.log('disabled', disabled)
-
   return (
     <Card label='Вход' className={c(NAME, className)}>
       <Column width='100%'>

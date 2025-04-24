@@ -44,6 +44,7 @@ export default function Component(props: Props): JSX.Element {
   const {
     loading,
     disabled,
+    enabled,
     value: propsValue,
     fetcherDependencies,
     onChange,
@@ -72,6 +73,7 @@ export default function Component(props: Props): JSX.Element {
     [NAME, 'tableFetcher', { searchFilter, sort, page }, ...fetcherDependencies],
     () => fetchTableList({ sort, searchFilter, page, limit }),
     {
+      enabled: enabled,
       staleTime: 10_000,
       keepPreviousData: true,
     },
@@ -164,6 +166,7 @@ export default function Component(props: Props): JSX.Element {
                   isChildrenOnFetchingVisible={true}
                 >
                   <Dctable.ListTable.default
+                    rowSelectable={true}
                     list={tableList || []}
                     searchFilter={searchFilter}
                     paginationProps={{
@@ -172,6 +175,13 @@ export default function Component(props: Props): JSX.Element {
                       totalElements: fetcher.data?.total,
                       currentPage: page,
                       onChange: setPage,
+                    }}
+                    getRowProps={({ item }) => {
+                      return {
+                        onClick: () => {
+                          selectedItemsAtom.set({ ...selectedItemsAtom.get(), [item.id]: item })
+                        },
+                      }
                     }}
                     setSearchFilter={setSearchFilter as any}
                     sortAtom={sortAtom}

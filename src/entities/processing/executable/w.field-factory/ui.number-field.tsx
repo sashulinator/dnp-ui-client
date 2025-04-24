@@ -11,7 +11,7 @@ export const NAME = `${SLICE}-w-StringField`
 export default function Component(
   props: Omit<TextInputProps, 'input' | 'meta' | 'onChange'> & {
     _paramContext: ParamFactoryContext
-    onChange: (value: number) => void
+    onChange: (value: number | string) => void
   },
 ) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -25,7 +25,10 @@ export default function Component(
           className={c(NAME)}
           type='number'
           onChange={(e) => {
-            onChange?.(parseFloat(e.target.value))
+            const formatted = e.target.value?.toString()?.replace(/,/g, '.')
+            const number = parseFloat(formatted)
+            const isParsed = number.toString() === formatted.toString()
+            onChange?.(isParsed ? number : formatted)
           }}
         />
       </Labeled>
