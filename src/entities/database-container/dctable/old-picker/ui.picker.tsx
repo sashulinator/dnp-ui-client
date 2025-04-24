@@ -6,10 +6,8 @@ import Dialog from '~/shared/dialog'
 import Flex from '~/shared/flex'
 import Icon from '~/shared/icon'
 import Input, { type InputProps } from '~/shared/input'
-import Labeled from '~/shared/labeled'
 import { FetcherStatus } from '~/shared/query'
 import ScrollArea from '~/shared/scroll-area'
-import { InputSelect } from '~/shared/select'
 import Spinner from '~/shared/spinner'
 import { ListTable } from '~/shared/table'
 import { Tabs } from '~/shared/tabs'
@@ -25,17 +23,13 @@ export type Value = Dictionary<Dctable.DctableMeta>
 
 export interface Props extends Omit<InputProps, 'onChange' | 'children' | 'value'> {
   className?: string | undefined
+  fetcherDependencies: unknown[]
+  enabled: boolean
   value: Value | undefined
   onChange: (value: Value | undefined) => void
-  fetchDatabaseList: (params: {
-    dcserviceId: string
-  }) => Promise<{ items: { name: string; display?: string }[]; total: number }>
-  fetchDcserviceList: () => Promise<{ items: { id: string; display?: string }[]; total: number }>
   fetchTableList: (params: {
     sort: Dctable.ListTable.ItemSort | undefined
     searchFilter: Dctable.ListTable.ItemSearchFilter | undefined
-    database: string
-    dcserviceId: string
     page: number
     limit: number
   }) => Promise<{ items: { name: string; display?: string | undefined; schema: string }[]; total: number }>
@@ -51,18 +45,15 @@ export default function Component(props: Props): JSX.Element {
     loading,
     disabled,
     value: propsValue,
+    fetcherDependencies,
     onChange,
-    fetchDatabaseList,
     fetchTableList,
-    fetchDcserviceList,
     ...inputCardProps
   } = props
   const [openAtom, , setIsOpen] = useAtomState<boolean>(false)
 
   const value = isEmpty(propsValue) ? undefined : propsValue
 
-  const [database, setDatabase] = useState('')
-  const [dcserviceId, setDcserviceId] = useState('workshop')
   const [page, setPage] = useState(1)
   const [searchFilter, setSearchFilter] = useState<Dctable.ListTable.ListTableProps['searchFilter'] | undefined>(
     undefined,
@@ -78,10 +69,9 @@ export default function Component(props: Props): JSX.Element {
   useSubscribe(selectedItemsAtom.subscribe as any, setSelectedTableItems)
 
   const fetcher = useQuery(
-    [NAME, 'tableFetcher', { searchFilter, database, sort, page, dcserviceId }],
-    () => fetchTableList({ sort, searchFilter, dcserviceId, database, page, limit }),
+    [NAME, 'tableFetcher', { searchFilter, sort, page }, ...fetcherDependencies],
+    () => fetchTableList({ sort, searchFilter, page, limit }),
     {
-      enabled: Boolean(database && dcserviceId),
       staleTime: 10_000,
       keepPreviousData: true,
     },
@@ -90,11 +80,6 @@ export default function Component(props: Props): JSX.Element {
   const tableList = useMemo(() => {
     return fetcher.data?.items.map((i) => ({ ...i, id: `${i.name}.${i.schema}` }))
   }, [fetcher.data])
-
-  const dcservicesFetcher = useQuery([NAME, 'databasesFetcher'], () => fetchDcserviceList())
-  const databasesFetcher = useQuery([NAME, 'dcservicesFetcher', { dcserviceId }], () =>
-    fetchDatabaseList({ dcserviceId }),
-  )
 
   const valueList = Object.values(value || {})
 
@@ -169,34 +154,6 @@ export default function Component(props: Props): JSX.Element {
               </ScrollArea>
             </Tabs.Content>
             <Tabs.Content value='search'>
-              <Flex gap='6' align='center' mb='4' mt='4'>
-                <Flex width='300px' gap='2' align='center'>
-                  <Labeled label='Сервисы'>
-                    <InputSelect.default
-                      loading={dcservicesFetcher.isFetching}
-                      onValueChange={(value) => setDcserviceId(value)}
-                      value={dcserviceId}
-                      options={
-                        dcservicesFetcher.data?.items.map((i) => ({ value: i.id, display: i.display || i.display })) ||
-                        []
-                      }
-                    />
-                  </Labeled>
-                </Flex>
-                <Flex width='300px' gap='2' align='center'>
-                  <Labeled label='База данных'>
-                    <InputSelect.default
-                      loading={databasesFetcher.isFetching}
-                      onValueChange={(value) => setDatabase(value)}
-                      value={database}
-                      options={
-                        databasesFetcher.data?.items.map((i) => ({ value: i.name, display: i.display || i.name })) || []
-                      }
-                    />
-                  </Labeled>
-                </Flex>
-              </Flex>
-
               <ScrollArea scrollbars='horizontal'>
                 <FetcherStatus
                   isError={fetcher.isError}

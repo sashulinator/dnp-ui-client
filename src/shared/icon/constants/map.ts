@@ -22,6 +22,7 @@ import Pencil from '../widgets/pencil'
 import Plus from '../widgets/plus'
 import Postgres from '../widgets/postgres'
 import Refresh from '../widgets/refresh'
+import Square from '../widgets/square'
 import Star from '../widgets/star'
 import Table from '../widgets/table'
 import Trash from '../widgets/trash'
@@ -52,6 +53,7 @@ export const map = {
   Postgres,
   Refresh,
   Star,
+  Square,
   Table,
   Trash,
   User,

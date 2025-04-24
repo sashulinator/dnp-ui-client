@@ -2,7 +2,7 @@ import { useMemo, useRef, useState } from 'react'
 import { useQuery } from 'react-query'
 
 import { APP } from '~/app/constants.app'
-import { Dcservice, Dctable } from '~/entities/database-container'
+import { Dcdatabase, Dcservice, Dctable } from '~/entities/database-container'
 import Button, { DangerButton } from '~/shared/button'
 import Flex from '~/shared/flex'
 import { Card, Column, FieldArray, Row, useForm } from '~/shared/form'
@@ -62,6 +62,9 @@ export default function Component(props: Props): JSX.Element {
   const [selectedDctableLocator, setSelectedSingleDctableLocator] = useState<Dctable.DctableLocator>()
   const [isTextInput, setIsTextInput] = useState(false)
 
+  const [databaseValue, setDatabaseValue] = useState<Dcdatabase.Picker.Value | undefined>(undefined)
+  const [serviceValue, setServiceValue] = useState<Dcservice.Picker.Value | undefined>(undefined)
+
   const inputTablesMeta = useRef<Map<string, Dctable.DctableMeta>>(new Map())
 
   const form = useForm<Values>()
@@ -104,7 +107,11 @@ export default function Component(props: Props): JSX.Element {
             <Row width='100%'>
               <Column width='50%'>
                 <InputBlock
-                  tableDisabled={!!form.getState().values?.commonConfig?.executables?.length}
+                  dcdatabase={databaseValue}
+                  setDcdatabase={setDatabaseValue}
+                  dcservice={serviceValue}
+                  setDcserviceValue={setServiceValue}
+                  disabled={!!form.getState().values?.commonConfig?.executables?.length}
                   onInputChange={manageConfigs}
                   fetchTableList={async ({ sort, dcserviceId, searchFilter, database, page, limit }) => {
                     const ret = await Dcservice.api.findTables.request({

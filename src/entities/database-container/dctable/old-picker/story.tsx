@@ -20,11 +20,13 @@ export default {
       <div style={{ padding: '2rem', width: '250px' }}>
         <Input
           {...state}
-          fetchTableList={async ({ sort, searchFilter, database, page, limit }) => {
+          enabled={true}
+          fetcherDependencies={[]}
+          fetchTableList={async ({ sort, searchFilter, page, limit }) => {
             const ret = await api.findTables.request({
               dcdatabaseLocator: {
                 dcserviceId: 'workshop',
-                name: database,
+                name: 'initial',
               },
               sort,
               where: searchFilter as any,
@@ -35,14 +37,6 @@ export default {
           }}
           value={value}
           onChange={onChange}
-          fetchDatabaseList={async () => {
-            const ret = await api.findDatabases.request({ id: 'workshop' })
-            return ret.data
-          }}
-          fetchDcserviceList={async () => {
-            const ret = await api.findWithTotal.request({})
-            return ret.data
-          }}
         />
         <Flex direction='column'>
           {Object.values(value || {}).map((item) => {

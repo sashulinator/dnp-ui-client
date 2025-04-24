@@ -1,5 +1,7 @@
+import { useCallback } from 'react'
+
 import { APP } from '~/app/constants.app'
-import { Dcservice, Dctable } from '~/entities/database-container'
+import { Dcdatabase, Dcservice, Dctable } from '~/entities/database-container'
 import { Card, Column, Field } from '~/shared/form'
 import { c } from '~/utils/core'
 import { type Dictionary } from '~/utils/dictionary'
@@ -17,7 +19,11 @@ export type TableLocator = {
 
 export interface Props {
   className?: string | undefined
-  tableDisabled: boolean
+  disabled: boolean
+  dcdatabase: Dcdatabase.Picker.Value | undefined
+  setDcdatabase: (value: Dcdatabase.Picker.Value | undefined) => void
+  dcservice: Dcservice.Picker.Value | undefined
+  setDcserviceValue: (value: Dcservice.Picker.Value | undefined) => void
   // fetchTablesByDcdatabaseLocator: (dcdatabaseLocator: Dcdatabase.DcdatabaseLocator) => Promise<Table[]>
   onInputChange: (value: Dictionary<TableLocator> | undefined) => void
   fetchTableList: (params: {
@@ -33,7 +39,18 @@ export interface Props {
 const NAME = `${APP}-${SLICE}-Form-w-InputBlock`
 
 export default function Component(props: Props): JSX.Element {
-  const { className, onInputChange, fetchTableList, tableDisabled } = props
+  const {
+    className,
+    onInputChange,
+    fetchTableList,
+    disabled,
+    dcdatabase,
+    dcservice,
+    setDcdatabase,
+    setDcserviceValue,
+  } = props
+
+  console.log('disabled', disabled)
 
   return (
     <Card label='Вход' className={c(NAME, className)}>
@@ -47,22 +64,76 @@ export default function Component(props: Props): JSX.Element {
             }, {})
 
             return (
-              <Dctable.OldPicker.default
-                disabled={tableDisabled}
-                fetchTableList={fetchTableList}
-                fetchDcserviceList={async () => {
-                  const ret = await Dcservice.api.findWithTotal.request({})
-                  return ret.data
-                }}
-                value={value as any}
-                onChange={(value) => {
-                  onInputChange(value)
-                }}
-                fetchDatabaseList={async (params) => {
-                  const ret = await Dcservice.api.findDatabases.request({ id: params.dcserviceId })
-                  return ret.data
-                }}
-              />
+              <>
+                <Dcservice.Picker.default
+                  enabled={!disabled}
+                  fetcherDependencies={[disabled]}
+                  fetchList={async (params) => {
+                    const ret = await Dcservice.api.findWithTotal.request({
+                      take: params.limit,
+                      skip: (params.page - 1) * params.limit,
+                    })
+                    return ret.data
+                  }}
+                  value={dcservice}
+                  onChange={(v) => {
+                    setDcserviceValue(v)
+                    setDcdatabase(undefined)
+                    onInputChange(undefined)
+                  }}
+                  // eslint-disable-next-line react-hooks/rules-of-hooks
+                  renderTrigger={useCallback(({ enabled, setIsOpen, value, setValue }) => {
+                    return (
+                      <Dcservice.Input.default
+                        hasValue={!!value}
+                        disabled={!enabled}
+                        fetchValue={() => value}
+                        fetcherDependencies={[value]}
+                        onClearableClick={() => setValue(undefined)}
+                        onClick={() => setIsOpen(true)}
+                      />
+                    )
+                  }, [])}
+                />
+                <Dcdatabase.Picker.default
+                  fetcherDependencies={[dcservice]}
+                  enabled={!!dcservice && !disabled}
+                  fetchList={async (params) => {
+                    const ret = await Dcservice.api.findDatabases.request({ ...params, id: 'workshop' })
+                    return ret.data
+                  }}
+                  value={dcdatabase}
+                  onChange={(v) => {
+                    setDcdatabase(v)
+                    onInputChange(undefined)
+                  }}
+                  // eslint-disable-next-line react-hooks/rules-of-hooks
+                  renderTrigger={useCallback(({ enabled, setIsOpen, value, setValue }) => {
+                    return (
+                      <Dcdatabase.Input.default
+                        hasValue={!!value}
+                        disabled={!enabled}
+                        fetchValue={() => value}
+                        fetcherDependencies={[value]}
+                        onClearableClick={() => setValue(undefined)}
+                        onClick={() => setIsOpen(true)}
+                      />
+                    )
+                  }, [])}
+                />
+                <Dctable.OldPicker.default
+                  enabled={!!dcdatabase?.name && !disabled}
+                  fetcherDependencies={[dcservice, dcdatabase?.name]}
+                  disabled={disabled || !dcdatabase?.name}
+                  fetchTableList={(params) => {
+                    return fetchTableList({ ...params, database: dcdatabase?.name, dcserviceId: dcservice?.id } as any)
+                  }}
+                  value={value as any}
+                  onChange={(value) => {
+                    onInputChange(value)
+                  }}
+                />
+              </>
             )
           }}
         </Field>

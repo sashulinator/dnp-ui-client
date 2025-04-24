@@ -37,7 +37,7 @@ export default function Component(props: Props): JSX.Element {
             style={{ overflow: 'hidden', width: '100%' }}
             title={value?.display}
             subtitle={value?.host && value?.port ? `${value?.host}:${value?.port}` : ''}
-            iconName={capitalize(value?.client || '') as 'Postgres'}
+            iconName={capitalize(value?.client || 'square') as 'Postgres'}
           />
           <Flex align='center' gap='2'>
             {loading && <Spinner />}
