@@ -1,5 +1,5 @@
 import type { ForwardedRef } from 'react'
-import { forwardRef, useCallback, useMemo, useRef, useState } from 'react'
+import { forwardRef, useCallback, useMemo, useState } from 'react'
 
 import Checkbox from '~/shared/checkbox'
 import DropdownMenu from '~/shared/dropdown-menu'
@@ -49,13 +49,13 @@ type TriggerProps = InputProps & {
   }
 }
 
-function TriggerWithRef(props: TriggerProps, ref: ForwardedRef<HTMLButtonElement>): JSX.Element {
+function TriggerWithRef(props: TriggerProps, forwardedRef: ForwardedRef<HTMLButtonElement>): JSX.Element {
   const { strings, ...inputProps } = props
 
   const { value } = useContext()
 
   return (
-    <DropdownMenu.Trigger ref={setRefs(ref)}>
+    <DropdownMenu.Trigger ref={setRefs(forwardedRef)}>
       <Input
         // prettier-ignore
         renderActionIcon={useCallback(() => <Icon name='ChevronDown' />, [])}
@@ -74,13 +74,12 @@ export const Trigger = forwardRef(TriggerWithRef)
 
 type ContentProps = DropdownMenu.ContentProps
 
-export function Content(props: ContentProps): JSX.Element {
+function ContentWithRef(props: ContentProps, forwardedRef: ForwardedRef<HTMLDivElement>): JSX.Element {
   const { ...contentProps } = props
 
-  const ref = useRef<HTMLElement>(null)
-
-  return <DropdownMenu.Content ref={setRefs(ref)} {...contentProps} />
+  return <DropdownMenu.Content ref={setRefs(forwardedRef)} {...contentProps} />
 }
+export const Content = forwardRef(ContentWithRef)
 
 type ItemProps = DropdownMenu.ItemProps & {
   value: string

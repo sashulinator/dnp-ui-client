@@ -486,7 +486,7 @@
   }
 }
 
-.ui-Input {
+.ui-input-base {
   &:where(.--size--1) {
     gap: var(--space-1);
     font-size: var(--font-size-1);

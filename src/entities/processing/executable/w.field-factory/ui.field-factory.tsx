@@ -9,7 +9,10 @@ import { type ComponentSchema, type ExecutableSchema, type ParamSchema } from '.
 import { type ParamFactoryContext } from './models'
 import RegExpFunctions from './regexp-functions/ui.regexp-functions'
 import DdlExecutor from './ui.ddl-generator-field'
+import NumberField from './ui.number-field'
 import ScalarFunctions from './ui.scalar-functions'
+import SelectColumnField from './ui.select-column-field'
+import SelectColumnsField from './ui.select-columns-field'
 import SelectField from './ui.select-field'
 import StringField from './ui.string-field'
 import FackerColConfig from './w.facker-col-config'
@@ -18,6 +21,9 @@ import MatrixField from './w.matrix-field'
 const componentMap = {
   string: StringField,
   select: SelectField,
+  Number: NumberField,
+  SelectColumn: SelectColumnField,
+  SelectColumns: SelectColumnsField,
   Matrix: MatrixField,
   DdlExecutor: DdlExecutor,
   FackerColConfig: FackerColConfig,
