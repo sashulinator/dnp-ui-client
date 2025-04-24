@@ -59,7 +59,7 @@ export default function Component(props: {
                 onValueChange={(v) => onChange({ ...value, column: v })}
                 options={[
                   { value: 'ddl_statement', display: 'DDL' },
-                  { value: 'pxf_statement', display: 'PFX' },
+                  { value: 'pxf_statement', display: 'PXF' },
                   { value: 'insert_statement', display: 'Insert' },
                 ]}
               />
