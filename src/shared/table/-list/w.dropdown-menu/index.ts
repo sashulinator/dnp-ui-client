@@ -12,4 +12,4 @@ export { injectIntoColumn } from './lib.inject-into-column.tsx'
  * types
  */
 
-export * from './type.contex.ts'
+export { type Context } from './type.contex.ts'

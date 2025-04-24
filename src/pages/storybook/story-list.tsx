@@ -1,6 +1,7 @@
 import dnpDcdatabaseInput from '~/entities/database-container/dcdatabase/input/story'
 import dcdatabaseListTable from '~/entities/database-container/dcdatabase/list-table/story'
 import dcdatabasePicker from '~/entities/database-container/dcdatabase/picker/story'
+import dcrowTableList from '~/entities/database-container/dcrow/list-table/story'
 import eDcserviceForm from '~/entities/database-container/dcservice/form/story'
 import dcserviceInput from '~/entities/database-container/dcservice/input/story'
 import dcserviceListTable from '~/entities/database-container/dcservice/list-table/story'
@@ -71,6 +72,7 @@ export const storyList: Story<any>[] = [
   dnpDcdatabaseInput,
   dcdatabasePicker,
   dctableInput,
+  dcrowTableList,
   eProcessingWProcedureWValuePerColumn,
   debugRenderCounter,
   eDcserviceForm,

@@ -41,7 +41,6 @@ import DataTab, { type DisplayOption } from './data-tab'
 
 const NAME = `${APP}-page-${SLICE}-GetById`
 const BUCKET_NAME = 'ui-server'
-const SELECTION_INDEX_KEY = 'ыыыы'
 
 export default function Component(): JSX.Element {
   const { id = '' } = useParams()
@@ -442,21 +441,23 @@ export default function Component(): JSX.Element {
 
                   return props.value as string
                 }, []),
-                // getRowProps: ({ item }) => ({
-                //   onClick: () => {
-                //     isUpdateFormModalOpen.set(true)
-                //     updateRowForm.initialize(item)
-                //   },
-                // }),
                 columns: mutatedColumns,
                 list: rowsFetcher.data?.items || [],
+                paginationProps: {
+                  onLimitChange: (limit) => setPaginationParams({ page: 1, limit }),
+                  limit,
+                  limitOptions: [10, 25, 50, 100],
+                  totalElements: rowsFetcher.data?.total,
+                  loading: rowsFetcher.isFetching,
+                  currentPage: page,
+                  onChange: (page) => setPaginationParams({ page, limit }),
+                },
                 context: {
                   displayOptions,
                   setSearchFilter: setSearchFilter as any,
                   searchFilter: columnSearchParams,
                   sortAtom: sortAtom,
-                  selectedItemsAtom,
-                  idKey: SELECTION_INDEX_KEY,
+                  // selectedItemsAtom,
                   renderDropdownMenuContent: (props) => {
                     const isSql = Boolean(displayOptions[props.column.name]?.column?.type === 'sql')
                     const isLatin = Boolean(displayOptions[props.column.name]?.highlight?.latin)
@@ -562,15 +563,6 @@ export default function Component(): JSX.Element {
                   },
                 },
               }}
-              paginationProps={{
-                onLimitChange: (limit) => setPaginationParams({ page: 1, limit }),
-                limit,
-                limitOptions: [10, 25, 50, 100],
-                totalElements: rowsFetcher.data?.total,
-                loading: rowsFetcher.isFetching,
-                currentPage: page,
-                onChange: (page) => setPaginationParams({ page, limit }),
-              }}
             />
           </Tabs.Content>
         </Container>
@@ -584,9 +576,11 @@ export default function Component(): JSX.Element {
 
   // Мутирует колонки для Формы редактирования строки
   function _mutateColumns() {
-    return rowsFetcher?.data?.columns.map((c) => {
-      return { ...c, ...displayOptions[c.name]?.column }
-    })
+    return (
+      rowsFetcher?.data?.columns.map((c) => {
+        return { ...c, ...displayOptions[c.name]?.column }
+      }) || []
+    )
   }
 }
 

@@ -17,7 +17,7 @@ const NAME = 'table-List-w-Selection-w-TableWrapper'
 export default function Component(props: Props): JSX.Element {
   const { context, columns = [], children } = props
 
-  const injectedColumns = useMemo(() => [createColumn(), ...columns], [columns])
+  const injectedColumns = useMemo(() => (columns.length > 1 ? [createColumn(), ...columns] : []), [columns])
 
   return cloneElement(children, {
     ...children.props,

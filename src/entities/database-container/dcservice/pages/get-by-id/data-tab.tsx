@@ -5,13 +5,7 @@ import { Dcdatabase, Dcrow, Dctable } from '~/entities/database-container'
 import Button from '~/shared/button'
 import { UploadModal, type UploadModalProps } from '~/shared/file'
 import Flex from '~/shared/flex'
-import { Pagination, type PaginationProps } from '~/shared/page'
 import { FetcherStatus, type FetcherStatusProps } from '~/shared/query'
-import Section from '~/shared/section'
-import { ListTable } from '~/shared/table'
-import type { Dictionary } from '~/utils/core'
-
-export type DropdownMenuContext = ListTable.DropdownMenu.Context
 
 export interface DisplayOption {
   [columnName: string]: {
@@ -25,15 +19,8 @@ export interface DisplayOption {
 }
 
 export interface Props {
-  listTableProps: ListTable.ListProps<
-    Dictionary,
-    ListTable.Sort.Context<Dictionary> &
-      ListTable.Search.Context<Dictionary> &
-      ListTable.DropdownMenu.Context &
-      ListTable.Selection.Context<Dictionary> & { displayOptions: DisplayOption }
-  >
+  listTableProps: Dcrow.ListTable.ListTableProps<{ displayOptions: DisplayOption }>
   fetcherStatusProps: FetcherStatusProps
-  paginationProps: PaginationProps
   tablePickerProps: Omit<Dctable.Picker.PickerProps, 'renderTrigger'>
   databasePickerProps: Omit<Dcdatabase.Picker.PickerProps, 'renderTrigger'>
   uploadModalProps: UploadModalProps
@@ -53,7 +40,6 @@ export default function Component(props: Props): JSX.Element {
   const {
     listTableProps,
     uploadModalProps,
-    paginationProps,
     fetcherStatusProps,
     tablePickerProps,
     databasePickerProps,
@@ -125,23 +111,11 @@ export default function Component(props: Props): JSX.Element {
           </Flex>
         </Flex>
 
-        {tablePickerProps.value && databasePickerProps.value && (
-          <Section size='1'>
-            <Pagination {...paginationProps} />
-          </Section>
-        )}
-
-        <FetcherStatus {...fetcherStatusProps}>
-          <ListTable.Search.default columns={listTableProps.columns} context={listTableProps.context}>
-            <ListTable.Sort.default columns={listTableProps.columns} context={listTableProps.context}>
-              <ListTable.DropdownMenu.default columns={listTableProps.columns} context={listTableProps.context}>
-                <ListTable.Selection.default columns={listTableProps.columns} context={listTableProps.context}>
-                  <ListTable.default {...listTableProps} />
-                </ListTable.Selection.default>
-              </ListTable.DropdownMenu.default>
-            </ListTable.Sort.default>
-          </ListTable.Search.default>
-        </FetcherStatus>
+        <Flex mt='3'>
+          <FetcherStatus {...fetcherStatusProps}>
+            <Dcrow.ListTable.default {...listTableProps} />
+          </FetcherStatus>
+        </Flex>
       </Flex>
 
       {/* MODALS */}
