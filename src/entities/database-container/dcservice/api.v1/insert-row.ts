@@ -5,7 +5,7 @@ import {
   type RequestParams,
   type Result,
   url,
-} from '~/common/entities/database-container/dcservice/api.v1/insert-row'
+} from '~/common/entities/database-container/dcservice/api/insert-row'
 import api, { type QueryError, type Response } from '~/shared/api'
 
 export { type RequestParams, type Result, NAME }

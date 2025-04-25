@@ -5,7 +5,7 @@ import {
   type RequestParams,
   type Result,
   url,
-} from '~/common/entities/database-container/dcservice/api.v1/test-connection'
+} from '~/common/entities/database-container/dcservice/api/test-connection'
 import api, { type QueryError, type Response } from '~/shared/api'
 
 export { type RequestParams, type Result, NAME }

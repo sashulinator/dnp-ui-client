@@ -5,7 +5,7 @@ import {
   type RequestParams,
   type Result,
   url,
-} from '~/common/entities/database-container/dccolumn/api.v1/upsert-by-locator'
+} from '~/common/entities/database-container/dccolumn/api/upsert-by-locator'
 import api, { type QueryError, type Response } from '~/shared/api'
 
 export { type RequestParams, type Result, NAME }

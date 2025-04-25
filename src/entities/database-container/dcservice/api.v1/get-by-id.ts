@@ -5,7 +5,7 @@ import {
   type RequestParams,
   type Result,
   url,
-} from '~/common/entities/database-container/dcservice/api.v1/get-by-id'
+} from '~/common/entities/database-container/dcservice/api/get-by-id'
 import api, { type QueryError, type Response } from '~/shared/api'
 import { queryClient } from '~/shared/query'
 

@@ -5,7 +5,7 @@ import {
   type RequestParams,
   type Result,
   url,
-} from '~/common/entities/database-container/dcservice/api.v1/find-tables'
+} from '~/common/entities/database-container/dcservice/api/find-tables'
 import api, { type QueryError, type Response } from '~/shared/api'
 
 const request = (params: RequestParams): Promise<Response<Result>> => api.post(url, { params })
