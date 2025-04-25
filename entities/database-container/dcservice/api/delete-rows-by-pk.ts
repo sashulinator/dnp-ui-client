@@ -1,4 +1,4 @@
-import type { Row } from '~/slices/database-client'
+import type { Dcrow } from '~/common/entities/database-container'
 
 import { baseUrl } from './constants'
 
@@ -14,4 +14,4 @@ export type RequestParams = {
   pks: (string | number)[]
 }
 
-export type Result = Row[]
+export type Result = Dcrow.Row[]
