@@ -3,7 +3,6 @@ import { useCallback, useState } from 'react'
 
 import { Dcdatabase, Dcrow, Dctable } from '~/entities/database-container'
 import Button from '~/shared/button'
-import { ConfirmDialog, type ConfirmDialogProps } from '~/shared/dialog'
 import { UploadModal, type UploadModalProps } from '~/shared/file'
 import Flex from '~/shared/flex'
 import { FetcherStatus, type FetcherStatusProps } from '~/shared/query'
@@ -23,7 +22,6 @@ export interface DisplayOption {
 
 export interface Props {
   actionBarProps: ActionBarProps
-  confirmDeleteDialogProps: ConfirmDialogProps<{ open: boolean }>
   listTableProps: Dcrow.ListTable.ListTableProps<{ displayOptions: DisplayOption }>
   fetcherStatusProps: FetcherStatusProps
   tablePickerProps: Omit<Dctable.Picker.PickerProps, 'renderTrigger'>
@@ -48,7 +46,6 @@ export default function Component(props: Props): JSX.Element {
     uploadModalProps,
     fetcherStatusProps,
     tablePickerProps,
-    confirmDeleteDialogProps,
     databasePickerProps,
     updateFormModalProps,
     createFormModalProps,
@@ -136,8 +133,6 @@ export default function Component(props: Props): JSX.Element {
         accept='.csv,.xls,.xlsx'
         onClose={() => setImportModalOpen(false)}
       />
-
-      <ConfirmDialog {...confirmDeleteDialogProps} />
 
       <Dcrow.FormModal.default {...updateFormModalProps} />
       <Dcrow.FormModal.default {...createFormModalProps} />

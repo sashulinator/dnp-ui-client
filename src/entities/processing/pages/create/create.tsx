@@ -1,6 +1,7 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 
 import { APP } from '~/app/constants.app'
+import { confirm } from '~/app/controller'
 import { routes } from '~/app/route'
 import { Dcdatabase } from '~/entities/database-container'
 import { Executable, ProcessingForm, SLICE } from '~/entities/processing'
@@ -8,14 +9,12 @@ import * as create from '~/entities/processing/api/create'
 import { processingDataApi } from '~/entities/workshop'
 import Button from '~/shared/button'
 import Container from '~/shared/container'
-import Confirm from '~/shared/dialog/ui/confirm'
 import Flex from '~/shared/flex'
 import Form, { useCreateForm } from '~/shared/form'
 import Heading from '~/shared/heading'
 import { notify } from '~/shared/notification-list-store'
 import Section from '~/shared/section'
 import { HighlightedText } from '~/shared/text'
-import { createAtom } from '~/utils/store'
 
 export interface Props {
   className?: string | undefined
@@ -25,7 +24,6 @@ const NAME = `${APP}-${SLICE}-page-Create`
 
 export default function Component(): JSX.Element {
   const [tabValue, setTabValue] = useState<'multi' | 'single'>('multi')
-  const modalAtom = useMemo(() => createAtom({ open: false }), [])
 
   const form = useCreateForm<ProcessingForm.Values>(
     {
@@ -80,27 +78,21 @@ export default function Component(): JSX.Element {
         {tabValue === 'multi' && (
           <Section size='1'>
             <Flex gap='2' align='center' justify='end'>
-              <Button loading={createMutator.isLoading} onClick={() => modalAtom.set({ open: true })}>
+              <Button
+                loading={createMutator.isLoading}
+                onClick={() => {
+                  confirm({
+                    title: 'Запустить обработку?',
+                    description: 'Если необходимо выполнить потабличную настройку, пройдите на соответствующую вкладку',
+                    onConfirm: () => void form.submit(),
+                  })
+                }}
+              >
                 Запустить
               </Button>
             </Flex>
           </Section>
         )}
-
-        <Confirm
-          controller={modalAtom}
-          title='Запустить обработку?'
-          onClose={() => {
-            modalAtom.set({ open: false })
-          }}
-          description='Если необходимо выполнить потабличную настройку, пройдите на соответствующую вкладку'
-          confirmText='Запустить'
-          closeText='Отменить'
-          onConfirm={() => {
-            form.submit()
-            modalAtom.set({ open: false })
-          }}
-        />
       </Container>
     </main>
   )

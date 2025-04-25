@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
+import { confirm } from '~/app/controller'
 import { routes } from '~/app/route'
 import { Dccolumn, type Dcrow, Dcservice, Dctable } from '~/entities/database-container'
 import { api as processingApi } from '~/entities/processing'
@@ -282,33 +283,29 @@ export default function Component(): JSX.Element {
           </Tabs.Content>
           <Tabs.Content value='data' style={{ width: '100%' }}>
             <DataTab
-              confirmDeleteDialogProps={{
-                title: 'Удалить',
-                description: 'Вы уверены?',
-                controller: confirmDeleteModalController,
-                onClose: () => confirmDeleteModalController.set({ open: false }),
-                onConfirm: () => {
-                  const selected = Object.values(selectedItemsAtom.get() || {})
-                  const pks = selected.map((item) => get(item, primaryKey) as string)
-                  deleteRowsMutator
-                    .mutateAsync({
-                      id,
-                      schema: schemaParam,
-                      database: databaseParam,
-                      table: tableParam,
-                      pks,
-                    })
-                    .then(() => {
-                      selectedItemsAtom.set({})
-                      confirmDeleteModalController.set({ open: false })
-                      rowsFetcher.refetch()
-                    })
-                },
-              }}
               actionBarProps={{
                 selectedItemsState: selectedItemsAtom,
                 onRemoveClick: () => {
-                  confirmDeleteModalController.set({ open: true })
+                  confirm({
+                    title: 'Удалить?',
+                    onConfirm() {
+                      const selected = Object.values(selectedItemsAtom.get() || {})
+                      const pks = selected.map((item) => get(item, primaryKey) as string)
+                      deleteRowsMutator
+                        .mutateAsync({
+                          id,
+                          schema: schemaParam,
+                          database: databaseParam,
+                          table: tableParam,
+                          pks,
+                        })
+                        .then(() => {
+                          selectedItemsAtom.set({})
+                          confirmDeleteModalController.set({ open: false })
+                          rowsFetcher.refetch()
+                        })
+                    },
+                  })
                 },
               }}
               databasePickerProps={{

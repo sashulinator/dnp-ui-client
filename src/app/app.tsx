@@ -16,6 +16,8 @@ import { NotificationToastList } from '~/shared/toast'
 import { useSubscribeUpdate } from '~/utils/core-hooks'
 import { map } from '~/utils/dictionary'
 
+import { ConfirmDialog } from './dialog'
+
 const appRoute = {
   ...publicRoutes,
   ...map(bussinessRoutes, (route) => ({
@@ -37,6 +39,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <ConfirmDialog.Container />
       <NotificationToastList />
       <ScrollArea scrollbars='vertical'>
         <RouteController context={{}} routeMap={appRoute} render={RouteControllerAdapterLayout} />
