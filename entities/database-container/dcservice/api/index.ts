@@ -1,4 +1,5 @@
 export * as getById from './get-by-id'
+export * as getPrimaryKey from './get-primary-key'
 export * as update from './update'
 export * as create from './create'
 export * as deleteRowsByPk from './delete-rows-by-pk'

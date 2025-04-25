@@ -13,8 +13,8 @@ export type Where = Where.ToWhere<Dcrow>
 export type RequestParams = {
   id: string
   database: string
-  table: string
   schema: string
+  table: string
   limit?: number | undefined
   where?: Where.ToWhere<Dcrow> | undefined
   sort?: Sort.ToSort<Dcrow> | undefined
