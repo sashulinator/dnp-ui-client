@@ -3,9 +3,12 @@ import { useCallback, useState } from 'react'
 
 import { Dcdatabase, Dcrow, Dctable } from '~/entities/database-container'
 import Button from '~/shared/button'
+import { ConfirmDialog, type ConfirmDialogProps } from '~/shared/dialog'
 import { UploadModal, type UploadModalProps } from '~/shared/file'
 import Flex from '~/shared/flex'
 import { FetcherStatus, type FetcherStatusProps } from '~/shared/query'
+
+import _ActionBar, { type Props as ActionBarProps } from './_action-bar'
 
 export interface DisplayOption {
   [columnName: string]: {
@@ -19,6 +22,8 @@ export interface DisplayOption {
 }
 
 export interface Props {
+  actionBarProps: ActionBarProps
+  confirmDeleteDialogProps: ConfirmDialogProps<{ open: boolean }>
   listTableProps: Dcrow.ListTable.ListTableProps<{ displayOptions: DisplayOption }>
   fetcherStatusProps: FetcherStatusProps
   tablePickerProps: Omit<Dctable.Picker.PickerProps, 'renderTrigger'>
@@ -38,10 +43,12 @@ const NAME = 'dnp-page-databaseContainer-dcdatabase-GetById-w-DataTab'
 
 export default function Component(props: Props): JSX.Element {
   const {
+    actionBarProps,
     listTableProps,
     uploadModalProps,
     fetcherStatusProps,
     tablePickerProps,
+    confirmDeleteDialogProps,
     databasePickerProps,
     updateFormModalProps,
     createFormModalProps,
@@ -111,7 +118,8 @@ export default function Component(props: Props): JSX.Element {
           </Flex>
         </Flex>
 
-        <Flex mt='3'>
+        <Flex mt='3' direction='column'>
+          <_ActionBar {...actionBarProps} />
           <FetcherStatus {...fetcherStatusProps}>
             <Dcrow.ListTable.default {...listTableProps} />
           </FetcherStatus>
@@ -128,6 +136,8 @@ export default function Component(props: Props): JSX.Element {
         accept='.csv,.xls,.xlsx'
         onClose={() => setImportModalOpen(false)}
       />
+
+      <ConfirmDialog {...confirmDeleteDialogProps} />
 
       <Dcrow.FormModal.default {...updateFormModalProps} />
       <Dcrow.FormModal.default {...createFormModalProps} />

@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { APP } from '~/app/constants.app'
 import { routes } from '~/app/route'
 import { Dccolumn, type Dcrow, Dcservice, Dctable } from '~/entities/database-container'
 import { api as processingApi } from '~/entities/processing'
@@ -32,14 +31,13 @@ import Editor from '~/slices/monaco-editor'
 import { type ToSort, useSort } from '~/slices/sort'
 import { type Any, type Dictionary, assertDefined, c } from '~/utils/core'
 import { usePrevious } from '~/utils/core-hooks/previous'
-import { setPath } from '~/utils/dictionary'
+import { get, setPath } from '~/utils/dictionary'
 import { createAtom, useAtom } from '~/utils/store'
 
-import { SLICE } from '../../constants.slice'
 import DcserviceForm, { type Values } from '../../form'
 import DataTab, { type DisplayOption } from './data-tab'
 
-const NAME = `${APP}-page-${SLICE}-GetById`
+const NAME = `page-GetDcserviceById`
 const BUCKET_NAME = 'ui-server'
 
 export default function Component(): JSX.Element {
@@ -52,6 +50,17 @@ export default function Component(): JSX.Element {
   const [displayOptions, setDisplayOptions] = useState<DisplayOption>({})
   const [tableDisplay, setTableDisplay] = useQueryParam('tabledisplay', withDefault(StringParam, ''))
   const [databaseDisplay, setDatabaseDisplay] = useQueryParam('databasedisplay', withDefault(StringParam, ''))
+  const confirmDeleteModalController = useAtom({ open: false })
+
+  const primaryKeyFetcher = Dcservice.api.getPrimaryKey.useCache({
+    id,
+    schema: schemaParam,
+    database: databaseParam,
+    table: tableParam,
+  })
+  const primaryKey = primaryKeyFetcher.data
+
+  const deleteRowsMutator = Dcservice.api.deleteRowsByPk.useMutation({})
 
   const tablesFetcher = Dcservice.api.findTables.useCache({
     dcdatabaseLocator: {
@@ -160,7 +169,7 @@ export default function Component(): JSX.Element {
 
   const isUpdateFormModalOpen = useAtom(false)
   const isCreateFormModalOpen = useAtom(false)
-  const selectedItemsAtom = useAtom({})
+  const selectedItemsAtom = useAtom<Dictionary<Dcrow.Row>>({})
 
   const createRowForm = useCreateForm<Dcrow.FormModal.Row>(
     {
@@ -273,6 +282,35 @@ export default function Component(): JSX.Element {
           </Tabs.Content>
           <Tabs.Content value='data' style={{ width: '100%' }}>
             <DataTab
+              confirmDeleteDialogProps={{
+                title: 'Удалить',
+                description: 'Вы уверены?',
+                controller: confirmDeleteModalController,
+                onClose: () => confirmDeleteModalController.set({ open: false }),
+                onConfirm: () => {
+                  const selected = Object.values(selectedItemsAtom.get() || {})
+                  const pks = selected.map((item) => get(item, primaryKey) as string)
+                  deleteRowsMutator
+                    .mutateAsync({
+                      id,
+                      schema: schemaParam,
+                      database: databaseParam,
+                      table: tableParam,
+                      pks,
+                    })
+                    .then(() => {
+                      selectedItemsAtom.set({})
+                      confirmDeleteModalController.set({ open: false })
+                      rowsFetcher.refetch()
+                    })
+                },
+              }}
+              actionBarProps={{
+                selectedItemsState: selectedItemsAtom,
+                onRemoveClick: () => {
+                  confirmDeleteModalController.set({ open: true })
+                },
+              }}
               databasePickerProps={{
                 enabled: true,
                 fetcherDependencies: [databaseParam],
@@ -457,7 +495,7 @@ export default function Component(): JSX.Element {
                   setSearchFilter: setSearchFilter as any,
                   searchFilter: columnSearchParams,
                   sortAtom: sortAtom,
-                  // selectedItemsAtom,
+                  selectedItemsAtom,
                   renderDropdownMenuContent: (props) => {
                     const isSql = Boolean(displayOptions[props.column.name]?.column?.type === 'sql')
                     const isLatin = Boolean(displayOptions[props.column.name]?.highlight?.latin)

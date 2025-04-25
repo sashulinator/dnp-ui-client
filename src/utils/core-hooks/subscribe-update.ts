@@ -20,13 +20,13 @@ export type { Update }
  * })
  */
 export function useSubscribeUpdate(
-  cb: (update: Update) => ((() => void) | undefined)[] | undefined | (() => void),
+  cb?: ((update: Update) => ((() => void) | undefined)[] | undefined | (() => void)) | undefined,
   deps: unknown[] = [],
 ) {
   const update = useForceUpdate()
 
   useEffect(() => {
-    const unsubscribes = cb(update)
+    const unsubscribes = cb?.(update)
     return () => {
       if (Array.isArray(unsubscribes)) {
         unsubscribes.forEach((unsubscribe) => unsubscribe?.())
