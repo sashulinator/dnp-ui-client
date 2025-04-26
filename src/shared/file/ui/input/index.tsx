@@ -55,7 +55,7 @@ function Component(props: Props, ref: ForwardedRef<HTMLInputElement>) {
 }
 
 const ForwardRef = forwardRef(Component)
-ForwardRef.displayName = 'dnp-sh-file-Input'
+ForwardRef.displayName = 'ui-file-Input'
 
 export default ForwardRef
 export { type Props as InputProps }

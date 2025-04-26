@@ -1,4 +1,4 @@
-import './nav.scss'
+import './ui.nav.scss'
 
 import { ScrollArea, Separator } from '@radix-ui/themes'
 
@@ -58,7 +58,7 @@ export default function Component(): JSX.Element {
    * private
    */
   function toTreeItem(): TreeItem[] {
-    const groupedStory = group(storyList, (story) => story.getName().split('-')[0])
+    const groupedStory = group(storyList, (story) => story.getName().split('-')[1])
     return Object.entries(groupedStory).map(([key, stories]) => {
       return {
         id: key,

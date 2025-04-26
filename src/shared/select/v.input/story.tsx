@@ -42,7 +42,7 @@ export default {
     // { name: 'name', input: 'checkbox', defaultValue: false },
   ],
 
-  getName: (): string => 'select',
+  getName: (): string => SelectInput.displayName,
 } satisfies Story<State>
 
 const options = [

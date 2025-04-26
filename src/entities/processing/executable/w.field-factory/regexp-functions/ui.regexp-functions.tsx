@@ -28,7 +28,7 @@ export type Props = {
   _paramContext: ParamFactoryContext
 }
 
-const NAME = 'regexp-functions'
+const NAME = 'dnp-processing-executable-regexp-functions'
 
 export default function Component(props: Props): JSX.Element | string {
   const { onChange, value, _paramContext } = props

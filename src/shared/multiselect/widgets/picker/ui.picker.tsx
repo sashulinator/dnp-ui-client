@@ -16,7 +16,7 @@ export interface RootProps {
   children: React.ReactNode
 }
 
-const NAME = 'ui-multiselect-w-picker'
+const NAME = 'ui-multiselect--picker'
 
 export function Root(props: RootProps): JSX.Element {
   const { value, onValueChange, options } = props

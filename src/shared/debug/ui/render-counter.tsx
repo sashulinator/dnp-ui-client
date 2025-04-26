@@ -7,7 +7,7 @@ export interface Props extends React.HTMLAttributes<HTMLDivElement> {
   name?: string | undefined
 }
 
-const NAME = 'debug-RenderCounter'
+const NAME = 'ui-debug-renderCounter'
 
 export default function Component(props: Props): JSX.Element | null {
   const count = useRef(0)

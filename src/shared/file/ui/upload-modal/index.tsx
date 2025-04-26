@@ -19,7 +19,7 @@ interface Props extends Omit<InputProps, 'title' | 'onFileChange'> {
   onFileChange?: InputProps['onFileChange'] | undefined
 }
 
-const NAME = 'dnp-sh-file-UploadModal'
+const NAME = 'ui-file-UploadModal'
 
 export function Component(props: Props) {
   const { open = false, upload, onClose, title, onFileChange, ...inputProps } = props

@@ -8,7 +8,7 @@ export interface Props extends CheckboxProps {
   label?: string | undefined
 }
 
-const NAME = 'dnp-sh-form-LabeledCheckbox'
+const NAME = 'ui-form-LabeledCheckbox'
 
 export default function Component(props: Props): JSX.Element {
   const { className, label, ...checkboxProps } = props

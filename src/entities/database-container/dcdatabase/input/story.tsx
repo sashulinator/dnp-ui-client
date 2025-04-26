@@ -37,5 +37,5 @@ export default {
 
   controls: [],
 
-  getName: (): string => 'dcdatabase-input',
+  getName: (): string => Input.displayName,
 } satisfies Story<State>

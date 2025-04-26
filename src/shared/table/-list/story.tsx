@@ -16,7 +16,9 @@ import SearchWrapper from './w.search'
 import SelectionWrapper from './w.selection'
 import SortWrapper, { type ToSort } from './w.sort'
 
-interface State {}
+interface State {
+  test: string
+}
 
 interface DisplayOption {
   [columnName: string]: { sql: boolean }
@@ -37,10 +39,11 @@ export default {
     const sortController = useMemo(() => createAtom<ToSort<Dictionary> | undefined>({}), [])
     const selectedItemsAtom = useMemo(() => createAtom<Dictionary<Dictionary>>({}), [])
 
-    const rTableList = <List {...state} context={{ displayOption: displayOptions }} list={list} columns={columns} />
+    const rTableList = <List context={{ displayOption: displayOptions }} list={list} columns={columns} />
 
     return (
-      <Flex width='100%' direction={'column'} p='8' gap='4'>
+      <Flex width='100%' direction='column' p='8' gap='4'>
+        <Flex>{state?.test}</Flex>
         <Flex>
           <Button onClick={() => setIsSort((s) => !s)}>isInjectedSortSearch</Button>
         </Flex>
@@ -82,7 +85,14 @@ export default {
 
   getName: (): string => NAME,
 
-  controls: [],
+  controls: [
+    {
+      input: 'TextInput',
+      defaultValue: '',
+      path: ['test'],
+      label: 'test',
+    },
+  ],
 } satisfies Story<State>
 
 /**

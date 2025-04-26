@@ -49,5 +49,5 @@ export default {
 
   controls: [],
 
-  getName: (): string => 'dctable-old-picker',
+  getName: (): string => Input.displayName,
 } satisfies Story<State>

@@ -54,5 +54,5 @@ export default {
 
   controls: [],
 
-  getName: (): string => 'dctable-picker',
+  getName: (): string => Picker.displayName,
 } satisfies Story<State>

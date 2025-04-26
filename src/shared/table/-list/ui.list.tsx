@@ -42,7 +42,7 @@ export type Props<TItem extends Dictionary, TContext extends Dictionary> = RootP
     renderHeaderCell?: (props: RenderHeaderCellProps<TItem, TContext>) => React.ReactNode
   }
 
-export const NAME = 'table--list'
+export const NAME = 'ui-table--list'
 
 export default function Component<TItem extends Dictionary, TContext extends Dictionary>(
   props: Props<TItem, TContext>,

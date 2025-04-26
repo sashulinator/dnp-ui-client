@@ -36,7 +36,7 @@ export interface Props<TContext extends Dictionary = Dictionary>
   context: Context & TContext
 }
 
-const NAME = 'databaseContainer-w-dctable-w-listTable'
+const NAME = 'dnp-databaseContainer-dcrow-listTable'
 
 export default function Component<TContext extends Dictionary = Dictionary>(props: Props<TContext>): JSX.Element {
   const { context, paginationProps, columns, list, ...listTableProps } = props

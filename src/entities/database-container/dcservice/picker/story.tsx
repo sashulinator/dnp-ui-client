@@ -51,5 +51,5 @@ export default {
 
   controls: [],
 
-  getName: (): string => 'dcservice-picker',
+  getName: (): string => Picker.displayName,
 } satisfies Story<State>

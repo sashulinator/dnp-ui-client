@@ -84,5 +84,5 @@ export default {
     // { name: 'name', input: 'checkbox', defaultValue: false },
   ],
 
-  getName: (): string => 'dctable-ListTable',
+  getName: (): string => DctableListTable.displayName,
 } satisfies Story<State>

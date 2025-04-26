@@ -21,7 +21,7 @@ export interface Props extends Omit<ListTable.ListProps<Item, Dictionary>, 'cont
   paginationProps: PaginationProps
 }
 
-const NAME = 'databaseContainer-w-dcservice-w-listTable'
+const NAME = 'dnp-databaseContainer-dcservice-listTable'
 
 export default function Component(props: Props): JSX.Element {
   const {

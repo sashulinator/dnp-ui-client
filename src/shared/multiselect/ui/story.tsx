@@ -50,7 +50,7 @@ export default {
     // { name: 'name', input: 'checkbox', defaultValue: false },
   ],
 
-  getName: (): string => 'Multiselect',
+  getName: (): string => Multiselect.Root.displayName,
 } satisfies Story<State>
 
 const options = [

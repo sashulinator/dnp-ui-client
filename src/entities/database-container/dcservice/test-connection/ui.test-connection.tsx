@@ -12,7 +12,7 @@ export interface Props {
   disabled?: boolean
 }
 
-const NAME = `${APP}-e-${SLICE}-TestConnection`
+const NAME = `${APP}-${SLICE}-TestConnection`
 
 export default function Component(props: Props): JSX.Element {
   const { request } = props

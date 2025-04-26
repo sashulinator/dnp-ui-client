@@ -35,5 +35,5 @@ export default {
 
   controls: [],
 
-  getName: (): string => 'dcservice-input',
+  getName: (): string => Input.displayName,
 } satisfies Story<State>

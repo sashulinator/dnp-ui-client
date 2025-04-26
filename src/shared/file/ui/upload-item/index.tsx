@@ -15,7 +15,7 @@ type Props = FlexProps & {
   children?: React.ReactNode
 }
 
-const NAME = 'dnp-sh-file-UploadItem'
+const NAME = 'ui-file-UploadItem'
 
 export function Component(props: Props): JSX.Element {
   const { children, upload, className } = props

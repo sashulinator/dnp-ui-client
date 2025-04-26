@@ -36,10 +36,6 @@
     grid-template-areas: 'nav main';
     grid-template-rows: 1fr;
     grid-template-columns: var(--dnp-nav-width) 1fr;
-
-    main {
-      padding-top: 18px;
-    }
   }
 
   &.-elements--header-main {

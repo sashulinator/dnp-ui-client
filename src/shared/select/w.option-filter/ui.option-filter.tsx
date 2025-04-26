@@ -18,7 +18,7 @@ const ALL = 'all' // все
 const INCLUDE = 'include' // только лишь
 const EXCEPT = 'except' // все кроме
 
-const NAME = 'select-w-OptionFilter'
+const NAME = 'ui-select--optionFilter'
 
 export default function Component(props: Props): JSX.Element {
   const [filterName, setFilterName] = useState(ALL)

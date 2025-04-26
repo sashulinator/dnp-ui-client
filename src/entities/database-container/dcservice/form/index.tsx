@@ -18,7 +18,7 @@ export interface Props {
 
 export type Values = Pick<Dcservice, 'client' | 'display' | 'host' | 'port' | 'username' | 'password'>
 
-const NAME = `${APP}-e-${SLICE}-Form`
+const NAME = `${APP}-${SLICE}-Form`
 
 export default function Component(props: Props): JSX.Element {
   const { disabled = false } = props

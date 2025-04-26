@@ -1,7 +1,7 @@
-import { Control } from './control'
-import { Props } from './props'
+import type { Control } from './control'
+import type { Props } from './props'
 
-export interface Story<State> {
+export type Story<State> = {
   getName: () => string
 
   getPath?: () => string

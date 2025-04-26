@@ -8,7 +8,7 @@ export type Props<T extends Record<string, unknown>> = CheckboxProps & {
   onTreeCheckedChange: (treeChecked: T) => void
 }
 
-const NAME = 'dnp-sh-Checkbox-v-Tree'
+const NAME = 'ui-Checkbox-v-Tree'
 
 export default function Component<T extends Record<string, unknown>>(props: Props<T>): JSX.Element {
   const { treeChecked, onTreeCheckedChange, ...checkboxProps } = props

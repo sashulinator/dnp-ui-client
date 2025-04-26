@@ -22,7 +22,7 @@ export type RootProps = DropdownMenu.RootProps & {
   children: React.ReactNode
 }
 
-Root.displayName = 'ui-Multiselect'
+Root.displayName = 'ui-multiselect'
 
 export function Root(props: RootProps): JSX.Element {
   const [open, setOpen] = useState(false)

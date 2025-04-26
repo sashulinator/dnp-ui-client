@@ -1,4 +1,4 @@
-.rt-ScrollAreaThumb { 
+.ui-table--list .rt-ScrollAreaThumb { 
   /**
   * КОСТЫЛЬ!
   * Когда пиним колонку, мы обязаны выставить ей zIndex=1 иначе нижние колонки будут просвечивать
@@ -8,7 +8,7 @@
   z-index: 2;
 }
 
-.table--list.--row-selectable {
+.ui-table--list.--row-selectable {
   tbody tr:hover {
     background-color: var(--accent-a3);
   }

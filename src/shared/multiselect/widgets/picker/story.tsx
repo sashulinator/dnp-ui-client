@@ -43,7 +43,7 @@ export default {
     // { name: 'name', input: 'checkbox', defaultValue: false },
   ],
 
-  getName: (): string => 'Multiselect-Picker',
+  getName: (): string => Picker.Root.displayName,
 } satisfies Story<State>
 
 const options = [

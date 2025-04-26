@@ -38,7 +38,7 @@ export interface Props {
   _paramContext: ParamFactoryContext
 }
 
-const NAME = 'processing-FackerColConfig'
+const NAME = 'dnp-processing-executable-FackerColConfig'
 
 const ref: Dictionary<{
   isTextInput: boolean

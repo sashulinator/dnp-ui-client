@@ -1,4 +1,4 @@
-.card-Card {
+.ui-Card {
   :is(.dark, .dark-theme) :where(&) {
     --card-border-width: 0;
   }

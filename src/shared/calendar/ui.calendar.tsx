@@ -16,7 +16,7 @@ export interface Props extends CalendarProps {
   className?: string | undefined
 }
 
-const NAME = 'calendar-Calendar'
+const NAME = 'ui-calendar'
 
 export default function Component(props: Props): JSX.Element {
   return (

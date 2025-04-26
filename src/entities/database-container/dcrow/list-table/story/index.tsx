@@ -59,7 +59,7 @@ export default {
     // { name: 'name', input: 'checkbox', defaultValue: false },
   ],
 
-  getName: (): string => 'dcrow-ListTable',
+  getName: (): string => DcrowListTable.displayName,
 } satisfies Story<State>
 
 const columns = [

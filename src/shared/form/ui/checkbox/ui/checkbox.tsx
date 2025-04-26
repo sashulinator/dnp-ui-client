@@ -8,7 +8,7 @@ export interface Props extends Omit<CheckboxProps, 'name'> {
   name: string
 }
 
-const NAME = 'dnp-sh-form-Checkbox'
+const NAME = 'ui-form-Checkbox'
 
 export default function Component(props: Props): JSX.Element {
   const { className, name, ...checkboxProps } = props

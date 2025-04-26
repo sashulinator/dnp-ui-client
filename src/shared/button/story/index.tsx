@@ -1,9 +1,5 @@
-import { useState } from 'react'
-
 import Flex from '~/shared/flex'
 import { type Props, type Story } from '~/shared/storybook'
-import Switch from '~/shared/switch'
-import Text from '~/shared/text'
 
 import Button from '..'
 
@@ -15,32 +11,31 @@ export default {
   render: function Element(props: Props<State>): JSX.Element {
     const { state } = props
 
-    const [isRound, setRound] = useState(false)
-    const [isSquare, setSquare] = useState(false)
-    const [isTransparent, setTransparent] = useState(false)
-
     return (
       <Flex direction={'column'} p='8' gap='4'>
-        <Button round={isRound} square={isSquare} {...state}>
-          Button
-        </Button>
-        <Flex direction='column'>
-          <Text as='label'>
-            <Switch size='1' checked={isRound} onCheckedChange={(checked) => setRound(checked)} />
-            round
-          </Text>
-          <Text as='label'>
-            <Switch size='1' checked={isSquare} onCheckedChange={(checked) => setSquare(checked)} />
-            square
-          </Text>
-          <Text as='label'>
-            <Switch size='1' checked={isTransparent} onCheckedChange={(checked) => setTransparent(checked)} />
-            transparent
-          </Text>
-        </Flex>
+        <Button {...state} />
       </Flex>
     )
   },
 
-  controls: [],
+  controls: [
+    {
+      input: 'TextInput',
+      defaultValue: 'Button',
+      path: ['children'],
+      label: 'Текст',
+    },
+    {
+      input: 'Switch',
+      defaultValue: false,
+      path: ['round'],
+      label: 'round',
+    },
+    {
+      input: 'Switch',
+      defaultValue: false,
+      path: ['square'],
+      label: 'square',
+    },
+  ],
 } satisfies Story<State>

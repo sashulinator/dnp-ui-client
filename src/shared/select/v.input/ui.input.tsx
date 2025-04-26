@@ -8,7 +8,7 @@ import Icon from '~/shared/icon'
 import Select from '~/shared/select'
 import { c, fns } from '~/utils/core'
 
-export const NAME = `select-v-Input`
+export const NAME = `ui-select--input`
 
 export type Option = Omit<Select.ItemProps, 'children'> & { display: React.ReactNode }
 

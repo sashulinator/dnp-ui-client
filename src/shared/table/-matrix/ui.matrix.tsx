@@ -116,7 +116,7 @@ export interface Props<TItem extends Dictionary, TContext extends Dictionary, TV
   ) => ColumnHeaderCellProps | undefined
 }
 
-const NAME = `table-MatrixTable`
+const NAME = `ui-table--matrix`
 const FIRST_COLUMN_NAME = 'Ыカ' // случайно сгенерированно ибо не должно совпасть с названием колонки
 
 export default function Component<TItem extends Dictionary, TContext extends Dictionary, TValue>(

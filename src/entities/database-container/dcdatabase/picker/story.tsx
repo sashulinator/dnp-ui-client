@@ -52,5 +52,5 @@ export default {
 
   controls: [],
 
-  getName: (): string => 'dcdatabase-picker',
+  getName: (): string => Picker.displayName,
 } satisfies Story<State>
