@@ -5,7 +5,7 @@ import { createElement } from 'react'
 import ScrollArea from '~/shared/scroll-area'
 import type { Dictionary } from '~/utils/core'
 import { useSubscribeUpdate } from '~/utils/core-hooks'
-import { getPath, setPath } from '~/utils/dictionary'
+import { setPath } from '~/utils/dictionary'
 
 import { stateStore, storyStore } from '../store.storybook'
 

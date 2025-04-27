@@ -8,7 +8,7 @@ import { forwardRef } from 'react'
 
 import { c } from '~/utils/core'
 
-export interface Props extends Omit<ButtonProps, 'variant'> {
+export type Props = Omit<ButtonProps, 'variant'> & {
   round?: boolean
   square?: boolean
   variant?: ButtonProps['variant'] | undefined
