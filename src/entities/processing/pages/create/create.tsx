@@ -15,6 +15,7 @@ import Heading from '~/shared/heading'
 import { notify } from '~/shared/notification-list-store'
 import Section from '~/shared/section'
 import { HighlightedText } from '~/shared/text'
+import { type Dictionary } from '~/utils/core'
 
 export interface Props {
   className?: string | undefined
@@ -28,8 +29,8 @@ export default function Component(): JSX.Element {
   const form = useCreateForm<ProcessingForm.Values>(
     {
       onSubmit: (values) => {
+        moveFlatContentUp(values)
         // eslint-disable-next-line no-console
-        // console.log('values', ProcessingForm.fromValues(values))
         createMutator.mutate({ data: { processing: ProcessingForm.fromValues(values) } })
       },
       // validate: (values) => {
@@ -119,3 +120,41 @@ export default function Component(): JSX.Element {
 }
 
 Component.displayName = NAME
+
+/**
+ * Поднимает обьект с ключом <flat> на уровень выше
+ * дано  { "a" : { "<flat>" : { "b": "b", "c":"c"}}}
+ * Результат: { "a": { "b": "b", "c": "c" } }
+ */
+function moveFlatContentUp(obj: Dictionary) {
+  //@ts-ignore
+  function traverseAndMove(currentObj) {
+    if (currentObj && currentObj['<flat>']) {
+      const flatContent = currentObj['<flat>']
+      delete currentObj['<flat>']
+      for (const key in flatContent) {
+        // eslint-disable-next-line no-prototype-builtins
+        if (flatContent.hasOwnProperty(key)) {
+          currentObj[key] = flatContent[key]
+        }
+      }
+    }
+    for (const key in currentObj) {
+      // eslint-disable-next-line no-prototype-builtins
+      if (currentObj.hasOwnProperty(key)) {
+        if (typeof currentObj[key] === 'object' && currentObj[key] !== null) {
+          traverseAndMove(currentObj[key])
+        } else if (Array.isArray(currentObj[key])) {
+          // @ts-ignore
+          currentObj[key].forEach((item) => {
+            if (typeof item === 'object' && item !== null) {
+              traverseAndMove(item)
+            }
+          })
+        }
+      }
+    }
+  }
+  traverseAndMove(obj)
+  return obj
+}

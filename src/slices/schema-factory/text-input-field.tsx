@@ -6,19 +6,22 @@ import Button from '~/shared/button'
 import Flex from '~/shared/flex'
 import { type FieldInputProps, useField } from '~/shared/form'
 import Icon from '~/shared/icon'
+import Labeled from '~/shared/labeled'
 import TextInput, { type TextInputProps } from '~/shared/text-input'
 import { c, fns } from '~/utils/core'
 
-import { type ComponentProps } from './models'
+import { type ComponentProps } from './types'
 
-export type Props = ComponentProps<TextInputProps & { fieldName: string; input: FieldInputProps<string> }>
+export type Props = ComponentProps<
+  TextInputProps & { fieldName: string; input: FieldInputProps<string>; label?: string | undefined }
+>
 
 const NAME = 'dnp-layoutSchema-textInputField'
 
 export const TextInputField = memo((props: Props): React.ReactNode => {
   // prettier-ignore
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { className, input: _, fieldName, onValueChange, children, content, context, block, setProps, blockComponent, ...restProps } = props
+  const { className, input: _, label, fieldName, onValueChange, children, content, context, block, setProps, blockComponent, ...restProps } = props
 
   const { input } = useField(fieldName || 'unknown')
   // @ts-ignore
@@ -35,17 +38,19 @@ export const TextInputField = memo((props: Props): React.ReactNode => {
           </Button>
         </Tooltip>
       )}
-      <TextInput
-        {...input}
-        {...restProps}
-        style={{
-          width: '100%',
-          ...restProps.style,
-        }}
-        type='text'
-        onValueChange={fns(onValueChange, input.onChange)}
-        className={c(className)}
-      />
+      <Labeled label={label}>
+        <TextInput
+          {...input}
+          {...restProps}
+          style={{
+            width: '100%',
+            ...restProps.style,
+          }}
+          type='text'
+          onValueChange={fns(onValueChange, input.onChange)}
+          className={c(className)}
+        />
+      </Labeled>
     </Flex>
   )
 

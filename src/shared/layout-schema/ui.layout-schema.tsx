@@ -1,4 +1,4 @@
-import type { Block, ComponentWithMeta, Context } from './models'
+import type { Block, ComponentWithMeta, Context } from './types'
 import { BlockFactory } from './ui.block-factory'
 
 export interface Props {

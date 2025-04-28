@@ -6,6 +6,7 @@ import { type Any } from '~/utils/core'
 
 import { SLICE } from '../constants'
 import { type ComponentSchema, type ExecutableSchema, type ParamSchema } from '../models'
+import LayoutSchema from './layout-schema'
 import { type ParamFactoryContext } from './models'
 import RegExpFunctions from './regexp-functions/ui.regexp-functions'
 import DdlExecutor from './ui.ddl-generator-field'
@@ -22,6 +23,7 @@ const componentMap = {
   string: StringField,
   select: SelectField,
   Number: NumberField,
+  LayoutSchema: LayoutSchema,
   SelectColumn: SelectColumnField,
   SelectColumns: SelectColumnsField,
   Matrix: MatrixField,

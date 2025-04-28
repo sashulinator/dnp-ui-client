@@ -8,7 +8,7 @@ import { generateId } from '~/utils/core'
 import { useForceUpdate } from '~/utils/core-hooks'
 
 import LayoutSchema from '../../shared/layout-schema'
-import { type Block, type ComponentProps } from '../../shared/layout-schema/models'
+import { type Block, type ComponentProps } from '../../shared/layout-schema/types'
 import { componentMap } from './constants'
 
 interface State {

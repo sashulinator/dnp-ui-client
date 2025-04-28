@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { usePrevious } from '~/utils/core-hooks'
 import { map, remove } from '~/utils/dictionary'
 
-import type { Block, BlockNode, ComponentProps, ComponentWithMeta, Context } from './models'
+import type { Block, BlockNode, ComponentProps, ComponentWithMeta, Context } from './types'
 
 interface Props {
   block: BlockNode

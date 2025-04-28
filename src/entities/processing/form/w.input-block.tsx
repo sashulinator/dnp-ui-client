@@ -97,7 +97,7 @@ export default function Component(props: Props): JSX.Element {
                   fetcherDependencies={[dcservice]}
                   enabled={!!dcservice && !disabled}
                   fetchList={async (params) => {
-                    const ret = await Dcservice.api.findDatabases.request({ ...params, id: 'workshop' })
+                    const ret = await Dcservice.api.findDatabases.request({ ...params, id: dcservice?.id as string })
                     return ret.data
                   }}
                   value={dcdatabase}
@@ -112,7 +112,7 @@ export default function Component(props: Props): JSX.Element {
                         hasValue={!!value}
                         disabled={!enabled}
                         fetchValue={() => value}
-                        fetcherDependencies={[value]}
+                        fetcherDependencies={[value, dcservice]}
                         onClearableClick={() => setValue(undefined)}
                         onClick={() => setIsOpen(true)}
                       />
