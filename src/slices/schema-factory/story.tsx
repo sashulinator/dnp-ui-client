@@ -119,7 +119,8 @@ const rootBlock: Block = {
         content: 'button1click',
         round: true,
         onClick(e: unknown, props: ComponentProps) {
-          props.context.blocks['common.count'].setProps({ value: '' })
+          // @ts-ignore
+          props.context.blocks['common.count'].input.onChange('')
         },
       },
     },

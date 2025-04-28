@@ -4,28 +4,25 @@ import { memo, useEffect } from 'react'
 
 import Button from '~/shared/button'
 import Flex from '~/shared/flex'
-import { useField } from '~/shared/form'
+import { type FieldInputProps, useField } from '~/shared/form'
 import Icon from '~/shared/icon'
-import UiTextInput, { type TextInputProps as UiTextInputProps } from '~/shared/text-input'
+import TextInput, { type TextInputProps } from '~/shared/text-input'
 import { c, fns } from '~/utils/core'
 
 import { type ComponentProps } from './models'
 
-export type Props = ComponentProps<UiTextInputProps & { fieldName: string }>
+export type Props = ComponentProps<TextInputProps & { fieldName: string; input: FieldInputProps<string> }>
 
-const NAME = 'dnp-layoutSchema-textInput'
+const NAME = 'dnp-layoutSchema-textInputField'
 
-export const TextInput = memo((props: Props): React.ReactNode => {
+export const TextInputField = memo((props: Props): React.ReactNode => {
   // prettier-ignore
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { className, fieldName, value, onValueChange, children, content, context, block, setProps, blockComponent, ...restProps } = props
+  const { className, input: _, fieldName, onValueChange, children, content, context, block, setProps, blockComponent, ...restProps } = props
 
   const { input } = useField(fieldName || 'unknown')
-
-  useEffect(() => {
-    if (value === undefined) return
-    input.onChange(value)
-  }, [value])
+  // @ts-ignore
+  useEffect(() => setProps({ input }), [input.value])
 
   const error = validateProps()
 
@@ -38,7 +35,7 @@ export const TextInput = memo((props: Props): React.ReactNode => {
           </Button>
         </Tooltip>
       )}
-      <UiTextInput
+      <TextInput
         {...input}
         {...restProps}
         style={{
@@ -46,7 +43,7 @@ export const TextInput = memo((props: Props): React.ReactNode => {
           ...restProps.style,
         }}
         type='text'
-        onValueChange={fns(onValueChange, (value) => setProps({ value }))}
+        onValueChange={fns(onValueChange, input.onChange)}
         className={c(className)}
       />
     </Flex>
@@ -55,8 +52,8 @@ export const TextInput = memo((props: Props): React.ReactNode => {
   // Private
 
   function validateProps() {
-    if (fieldName === undefined) return 'У компонента TextInput отсутствует обязательный параметр fieldName'
+    if (fieldName === undefined) return 'У компонента TextInputField отсутствует обязательный параметр fieldName'
   }
 })
 
-TextInput.displayName = NAME
+TextInputField.displayName = NAME
