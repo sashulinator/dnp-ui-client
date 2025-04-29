@@ -10,7 +10,7 @@ import Labeled from '~/shared/labeled'
 import TextInput, { type TextInputProps } from '~/shared/text-input'
 import { c, fns } from '~/utils/core'
 
-import { type ComponentProps } from './types'
+import { type ComponentProps } from '../types'
 
 export type Props = ComponentProps<
   TextInputProps & {
@@ -24,7 +24,7 @@ export type Props = ComponentProps<
 
 const NAME = 'dnp-layoutSchema-textInputField'
 
-export const TextInputField = memo((props: Props): React.ReactNode => {
+const TextInputField = memo((props: Props): React.ReactNode => {
   // prettier-ignore
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { className, input: _, label, format, parse, fieldName, onValueChange, children, content, context, block, setProps, blockComponent, ...restProps } = props
@@ -66,5 +66,6 @@ export const TextInputField = memo((props: Props): React.ReactNode => {
     if (fieldName === undefined) return 'У компонента TextInputField отсутствует обязательный параметр fieldName'
   }
 })
+export default TextInputField
 
 TextInputField.displayName = NAME

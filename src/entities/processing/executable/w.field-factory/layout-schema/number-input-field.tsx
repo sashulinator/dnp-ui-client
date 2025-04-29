@@ -1,8 +1,8 @@
 import { memo } from 'react'
 
-import { TextInputField, type Props as TextInputFieldProps } from './text-input-field'
+import { Components } from '~/slices/schema-factory'
 
-export type Props = TextInputFieldProps & {
+export type Props = Components.NumberInputField.Props & {
   context: { isSingleMode: boolean }
   // Десейблить при singleMode
   isSingleModeDisabled?: boolean | undefined
@@ -10,19 +10,24 @@ export type Props = TextInputFieldProps & {
   isMultiModeDisabled?: boolean | undefined
 }
 
-const NAME = 'dnp-layoutSchema-numberInputField'
+const NAME = 'dnp-layoutSchema-textInputField'
 
 export const NumberInputField = memo((props: Props): React.ReactNode => {
+  const { isSingleModeDisabled, disabled, isMultiModeDisabled, context, ...restProps } = props
+
+  const isSingleDisabled = isSingleModeDisabled && context.isSingleMode
+  const multiModeDisabled = isMultiModeDisabled && !context.isSingleMode
+  const isDisabled = disabled || isSingleDisabled || multiModeDisabled
+
   return (
-    <TextInputField
-      {...props}
-      parse={(value) => {
-        const formatted = value?.toString()?.replace(/,/g, '.')
-        const number = parseFloat(formatted)
-        const isParsed = number?.toString() === formatted?.toString()
-        return (isParsed ? number : formatted) as string
-      }}
-      type='number'
+    <Components.NumberInputField.default
+      {...restProps}
+      placeholder={
+        isSingleDisabled ? 'Только массовая настройка' : multiModeDisabled ? 'Только потабличная настройка' : undefined
+      }
+      context={context}
+      disabled={isDisabled}
+      fieldName={`${(props.context as any).parentFieldName}.${props.fieldName}`}
     />
   )
 })

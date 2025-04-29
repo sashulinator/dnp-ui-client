@@ -1,7 +1,7 @@
-import { Button } from './button'
-import { Flex } from './flex'
+import { Button } from './components/button'
+import { Flex } from './components/flex'
 import { Root } from './root'
-import { TextInputField } from './text-input-field'
+import TextInputField from './components/text-input-field'
 
 export const componentMap = {
   Root: {

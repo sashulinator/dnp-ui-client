@@ -18,7 +18,7 @@ export type * from './types'
 
 export { componentMap } from './constants'
 
-export * as TextInputField from './text-input-field'
+export * as Components from './components'
 
 /**
  * lib

@@ -3,7 +3,7 @@ import { memo } from 'react'
 import UiButton, { type ButtonProps as UiButtonProps } from '~/shared/button'
 import { c } from '~/utils/core'
 
-import { type ComponentProps } from './types'
+import { type ComponentProps } from '../types'
 
 export type Props = ComponentProps<UiButtonProps>
 

@@ -3,7 +3,7 @@ import { memo } from 'react'
 import UiFlex, { type FlexProps as UiFlexProps } from '~/shared/flex'
 import { c } from '~/utils/core'
 
-import { type ComponentProps } from './types'
+import { type ComponentProps } from '../types'
 
 export type Props = ComponentProps<UiFlexProps>
 

@@ -1,8 +1,8 @@
 import { memo } from 'react'
 
-import { TextInputField as SliceTextInputField } from '~/slices/schema-factory'
+import { Components } from '~/slices/schema-factory'
 
-export type Props = SliceTextInputField.Props & {
+export type Props = Components.TextInputField.Props & {
   context: { isSingleMode: boolean }
   // Десейблить при singleMode
   isSingleModeDisabled?: boolean | undefined
@@ -20,7 +20,7 @@ export const TextInputField = memo((props: Props): React.ReactNode => {
   const isDisabled = disabled || isSingleDisabled || multiModeDisabled
 
   return (
-    <SliceTextInputField.TextInputField
+    <Components.TextInputField.default
       {...restProps}
       placeholder={
         isSingleDisabled ? 'Только массовая настройка' : multiModeDisabled ? 'Только потабличная настройка' : undefined
