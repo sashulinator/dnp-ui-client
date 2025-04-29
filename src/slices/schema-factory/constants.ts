@@ -1,7 +1,8 @@
 import { Button } from './components/button'
 import { Flex } from './components/flex'
-import { Root } from './root'
+import SelectField from './components/select-field'
 import TextInputField from './components/text-input-field'
+import { Root } from './root'
 
 export const componentMap = {
   Root: {
@@ -15,5 +16,8 @@ export const componentMap = {
   },
   Flex: {
     render: Flex,
+  },
+  SelectField: {
+    render: SelectField,
   },
 }

@@ -10,7 +10,7 @@ export type Props = Components.NumberInputField.Props & {
   isMultiModeDisabled?: boolean | undefined
 }
 
-const NAME = 'dnp-layoutSchema-textInputField'
+const NAME = 'dnp-processing-executables-layoutSchema-textInputField'
 
 export const NumberInputField = memo((props: Props): React.ReactNode => {
   const { isSingleModeDisabled, disabled, isMultiModeDisabled, context, ...restProps } = props

@@ -13,7 +13,7 @@ export interface Props {
   onChange: (value: unknown) => void
 }
 
-const NAME = 'ui-LayoutSchema'
+const NAME = 'dnp-processing-executables-layoutSchema'
 
 export default function Component(props: Props): JSX.Element {
   const { _paramContext, onChange } = props
@@ -51,6 +51,7 @@ export default function Component(props: Props): JSX.Element {
             context={{
               parentFieldName: fieldName,
               isSingleMode: _paramContext.isSingleMode,
+              columns: _paramContext.columns,
             }}
             componentMap={componentMap}
             rootBlock={deserializedRootBlock}
