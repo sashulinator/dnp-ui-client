@@ -5,6 +5,7 @@ import Dialog from '~/shared/dialog'
 import { FetcherStatus } from '~/shared/query'
 import ScrollArea from '~/shared/scroll-area'
 import { isEmpty } from '~/utils/core'
+import { preventDefault } from '~/utils/core-client'
 import { useAtomState } from '~/utils/store'
 
 import ListTable, { type ItemSearchFilter, type ItemSort, type ListTableProps } from '../list-table'
@@ -70,7 +71,12 @@ export default function Component(props: Props): JSX.Element {
     <>
       {createElement(renderTrigger, { setIsOpen, isOpen, setValue: onChange, value, enabled })}
       <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
-        <Dialog.Content maxWidth='1224px' minHeight='500px' style={{ position: 'relative' }}>
+        <Dialog.Content
+          onOpenAutoFocus={preventDefault}
+          maxWidth='1224px'
+          minHeight='500px'
+          style={{ position: 'relative' }}
+        >
           <ScrollArea scrollbars='horizontal'>
             <FetcherStatus
               isError={fetcher.isError}

@@ -111,7 +111,6 @@ export default function Component(props: Props): JSX.Element {
             <Button disabled={isButtonDisabled} variant='outline' onClick={() => setImportModalOpen(true)}>
               Импорт
             </Button>
-            <Button onClick={() => createFormModalProps.open.set(true)}>Создать</Button>
           </Flex>
         </Flex>
 

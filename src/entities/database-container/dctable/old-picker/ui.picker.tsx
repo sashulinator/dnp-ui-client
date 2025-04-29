@@ -13,6 +13,7 @@ import { ListTable } from '~/shared/table'
 import { Tabs } from '~/shared/tabs'
 import { WithAvatar } from '~/shared/view'
 import { type Dictionary, isEmpty } from '~/utils/core'
+import { preventDefault } from '~/utils/core-client'
 import { useSubscribe } from '~/utils/core-hooks'
 import { remove } from '~/utils/dictionary'
 import { type Atom, useAtomState } from '~/utils/store'
@@ -114,7 +115,12 @@ export default function Component(props: Props): JSX.Element {
       </Input>
 
       <Dialog.Root open={openAtom.get()}>
-        <Dialog.Content maxWidth='1224px' minHeight='500px' style={{ position: 'relative' }}>
+        <Dialog.Content
+          onOpenAutoFocus={preventDefault}
+          maxWidth='1224px'
+          minHeight='500px'
+          style={{ position: 'relative' }}
+        >
           <Flex position='absolute' top='var(--space-4)' right='var(--space-5)'>
             <Flex gap='1' align='center'>
               <Button

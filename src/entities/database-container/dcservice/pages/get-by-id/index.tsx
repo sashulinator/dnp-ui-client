@@ -47,7 +47,7 @@ const BUCKET_NAME = 'ui-server'
 export default function Component(): JSX.Element {
   const { id = '' } = useParams()
 
-  const [tab, setTab] = useQueryParam('name', withDefault(StringParam, 'dcservice'))
+  const [tab, setTab] = useQueryParam('name', withDefault(StringParam, 'dcservice' as 'data' | 'dcservice'))
   const [databaseParam, setDatabaseParam] = useQueryParam('database', withDefault(StringParam, ''))
   const [tableParam, setTableParam] = useQueryParam('table', withDefault(StringParam, ''))
   const [schemaParam, setSchemaParam] = useQueryParam('schema', withDefault(StringParam, ''))
@@ -56,12 +56,15 @@ export default function Component(): JSX.Element {
   const [databaseDisplay, setDatabaseDisplay] = useQueryParam('databasedisplay', withDefault(StringParam, ''))
   const confirmDeleteModalController = useAtom({ open: false })
 
-  const primaryKeyFetcher = Dcservice.api.getPrimaryKey.useCache({
-    id,
-    schema: schemaParam,
-    database: databaseParam,
-    table: tableParam,
-  })
+  const primaryKeyFetcher = Dcservice.api.getPrimaryKey.useCache(
+    {
+      id,
+      schema: schemaParam,
+      database: databaseParam,
+      table: tableParam,
+    },
+    { retry: false },
+  )
   const primaryKey = primaryKeyFetcher.data
 
   const deleteRowsMutator = Dcservice.api.deleteRowsByPk.useMutation({})
@@ -230,7 +233,7 @@ export default function Component(): JSX.Element {
                   <Heading.BackToParent />
                   <Heading.Name />
                   <Heading.Unique string={formState.values.display} tooltipContent='Отображение' />
-                  {!primaryKeyFetcher.data && !primaryKeyFetcher.isFetching && (
+                  {tab === 'data' && !primaryKeyFetcher.data && !primaryKeyFetcher.isFetching && (
                     <Flex display='inline-flex' ml='4'>
                       <Tooltip content='Удаление и редактирование недоступно так как у таблицы отсутствует Первичный ключ'>
                         <Button size='1' round={true} color='red'>
@@ -296,6 +299,7 @@ export default function Component(): JSX.Element {
           <Tabs.Content value='data' style={{ width: '100%' }}>
             <DataTab
               actionBarProps={{
+                isCreateFormModalOpen: isCreateFormModalOpen,
                 selectedItemsState: selectedItemsAtom,
                 onRemoveClick: () => {
                   confirm({
@@ -490,6 +494,15 @@ export default function Component(): JSX.Element {
                 }, []),
                 columns: mutatedColumns,
                 list: rowsFetcher.data?.items || [],
+                getRowProps: ({ item }) => {
+                  if (!primaryKeyFetcher.data && !primaryKeyFetcher.isFetching) return {}
+                  return {
+                    onClick: () => {
+                      isUpdateFormModalOpen.set(true)
+                      updateRowForm.initialize(item)
+                    },
+                  }
+                },
                 paginationProps: {
                   onLimitChange: (limit) => setPaginationParams({ page: 1, limit }),
                   limit,

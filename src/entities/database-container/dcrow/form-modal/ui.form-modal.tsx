@@ -6,6 +6,7 @@ import Button from '~/shared/button'
 import Dialog from '~/shared/dialog'
 import Flex from '~/shared/flex'
 import Form, { type FormApi } from '~/shared/form'
+import { preventDefault } from '~/utils/core-client'
 import { useSubscribeUpdate } from '~/utils/core-hooks'
 import type { Atom } from '~/utils/store'
 
@@ -33,7 +34,7 @@ export default function Component(props: Props): JSX.Element {
 
   return (
     <Dialog.Root open={open.get()}>
-      <Dialog.Content maxWidth='450px'>
+      <Dialog.Content onOpenAutoFocus={preventDefault} maxWidth='450px'>
         <Dialog.Title>
           Запись
           {/* <TextHighlighter>{item?.name}</TextHighlighter> */}
