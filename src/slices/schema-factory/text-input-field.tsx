@@ -13,7 +13,13 @@ import { c, fns } from '~/utils/core'
 import { type ComponentProps } from './types'
 
 export type Props = ComponentProps<
-  TextInputProps & { fieldName: string; input: FieldInputProps<string>; label?: string | undefined }
+  TextInputProps & {
+    fieldName: string
+    input: FieldInputProps<string>
+    label?: string | undefined
+    format: (v: string) => string
+    parse: (v: string) => string
+  }
 >
 
 const NAME = 'dnp-layoutSchema-textInputField'
@@ -21,9 +27,9 @@ const NAME = 'dnp-layoutSchema-textInputField'
 export const TextInputField = memo((props: Props): React.ReactNode => {
   // prettier-ignore
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { className, input: _, label, fieldName, onValueChange, children, content, context, block, setProps, blockComponent, ...restProps } = props
+  const { className, input: _, label, format, parse, fieldName, onValueChange, children, content, context, block, setProps, blockComponent, ...restProps } = props
 
-  const { input } = useField(fieldName || 'unknown')
+  const { input } = useField(fieldName || 'unknown', { format, parse })
   // @ts-ignore
   useEffect(() => setProps({ input }), [input.value])
 

@@ -21,7 +21,7 @@ export default function Component(props: Props): JSX.Element {
   const fieldName = _paramContext.name
   const rootBlock = (props._paramContext.paramSchema.component?.props as any).rootBlock
 
-  const deserializedRootBlock = useMemo(() => propToFunction(temp || rootBlock), [rootBlock])
+  const deserializedRootBlock = useMemo(() => propToFunction(rootBlock), [rootBlock])
 
   const form = useCreateForm(
     {
@@ -63,23 +63,3 @@ export default function Component(props: Props): JSX.Element {
 }
 
 Component.displayName = NAME
-
-const temp = {
-  name: 'Flex',
-  id: 'flex1',
-  props: {
-    direction: 'column',
-  },
-  children: [
-    {
-      name: 'TextField',
-      id: 'target-column-data',
-      props: {
-        label: 'target-column-data',
-        fieldName: 'target-column-data',
-        $onValueChange: '(...args) => console.log(...args)',
-        isMultiModeDisabled: true,
-      },
-    },
-  ],
-}

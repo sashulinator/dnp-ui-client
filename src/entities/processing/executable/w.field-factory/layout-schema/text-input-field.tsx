@@ -23,7 +23,7 @@ export const TextInputField = memo((props: Props): React.ReactNode => {
     <SliceTextInputField.TextInputField
       {...restProps}
       placeholder={
-        isSingleDisabled ? 'Только потабличная настройка' : multiModeDisabled ? 'Только массовая настройка' : undefined
+        isSingleDisabled ? 'Только массовая настройка' : multiModeDisabled ? 'Только потабличная настройка' : undefined
       }
       context={context}
       disabled={isDisabled}
