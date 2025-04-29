@@ -2,10 +2,10 @@ import { useMemo, useRef, useState } from 'react'
 import { useQuery } from 'react-query'
 
 import { APP } from '~/app/constants.app'
-import { Dcdatabase, Dcservice, Dctable } from '~/entities/database-container'
+import { type Dcdatabase, Dcservice, Dctable } from '~/entities/database-container'
 import Button, { DangerButton } from '~/shared/button'
 import Flex from '~/shared/flex'
-import { Card, Column, FieldArray, Row, useForm } from '~/shared/form'
+import { Card, Column, FieldArray, Row, getIn, useForm } from '~/shared/form'
 import Icon from '~/shared/icon'
 import { LabeledSelect, type Option } from '~/shared/select'
 import { Tabs } from '~/shared/tabs'
@@ -306,7 +306,12 @@ export default function Component(props: Props): JSX.Element {
     invariant(/^commonConfig/.test(path), `Пришедшее значение 'path'='${path}' не начинается с 'commonConfig'`)
     const fqn = Dctable.buildFqn(dctableLocator)
     const configPath = path.replace('commonConfig', `configs.${fqn}`)
-    form.change(configPath as keyof Values, value)
+    if (/%flat%$/.test(path)) {
+      const state = getIn(form.getState().values, configPath)
+      form.change(configPath as keyof Values, { ...state, ...(value as any) })
+    } else {
+      form.change(configPath as keyof Values, value)
+    }
   }
 
   function setUniquePath<T extends keyof Values>(getValue: (currentValue: unknown) => unknown, path: T) {

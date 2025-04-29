@@ -122,16 +122,16 @@ export default function Component(): JSX.Element {
 Component.displayName = NAME
 
 /**
- * Поднимает обьект с ключом <flat> на уровень выше
- * дано  { "a" : { "<flat>" : { "b": "b", "c":"c"}}}
+ * Поднимает обьект с ключом %flat% на уровень выше
+ * дано  { "a" : { "%flat%" : { "b": "b", "c":"c"}}}
  * Результат: { "a": { "b": "b", "c": "c" } }
  */
 function moveFlatContentUp(obj: Dictionary) {
   //@ts-ignore
   function traverseAndMove(currentObj) {
-    if (currentObj && currentObj['<flat>']) {
-      const flatContent = currentObj['<flat>']
-      delete currentObj['<flat>']
+    if (currentObj && currentObj['%flat%']) {
+      const flatContent = currentObj['%flat%']
+      delete currentObj['%flat%']
       for (const key in flatContent) {
         // eslint-disable-next-line no-prototype-builtins
         if (flatContent.hasOwnProperty(key)) {

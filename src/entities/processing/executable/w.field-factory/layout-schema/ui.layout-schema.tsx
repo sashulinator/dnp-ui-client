@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 
-import Form, { getIn, useCreateForm } from '~/shared/form'
+import { useField } from '~/shared/form'
 import LayoutSchema, { propToFunction } from '~/slices/schema-factory'
 
 import { type ParamFactoryContext } from '../models'
@@ -23,42 +23,21 @@ export default function Component(props: Props): JSX.Element {
 
   const deserializedRootBlock = useMemo(() => propToFunction(rootBlock), [rootBlock])
 
-  const form = useCreateForm(
-    {
-      onSubmit: () => {
-        //
-      },
-      // mutators: { ...arrayMutators },
-    },
-    { values: true },
-  )
+  const field = useField(fieldName, { subscription: { value: true } })
 
   useEffect(() => {
-    form.subscribe(
-      (state) => {
-        onChange(getIn(state.values, `${fieldName.split('.<flat>')[0]}.<flat>`))
-      },
-      { values: true },
-    )
-  }, [])
+    setTimeout(() => onChange(field.input.value))
+  }, [field.input.value])
 
   return (
-    <Form
-      form={form}
-      component={useCallback(
-        (): JSX.Element => (
-          <LayoutSchema
-            context={{
-              parentFieldName: fieldName,
-              isSingleMode: _paramContext.isSingleMode,
-              columns: _paramContext.columns,
-            }}
-            componentMap={componentMap}
-            rootBlock={deserializedRootBlock}
-          />
-        ),
-        [],
-      )}
+    <LayoutSchema
+      context={{
+        parentFieldName: fieldName,
+        isSingleMode: _paramContext.isSingleMode,
+        columns: _paramContext.columns,
+      }}
+      componentMap={componentMap}
+      rootBlock={deserializedRootBlock}
     />
   )
 }

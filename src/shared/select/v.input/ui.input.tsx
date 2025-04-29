@@ -1,12 +1,12 @@
 import { Flex, Spinner } from '@radix-ui/themes'
 import { mergeStyles } from '@radix-ui/themes/helpers'
 
-import React, { type FormEventHandler } from 'react'
+import React, { type FormEventHandler, useEffect, useState } from 'react'
 
 import Button from '~/shared/button'
 import Icon from '~/shared/icon'
 import Select from '~/shared/select'
-import { c, fns } from '~/utils/core'
+import { c, fns, generateId } from '~/utils/core'
 
 export const NAME = `ui-select--input`
 
@@ -38,19 +38,24 @@ export default function Component(props: Props) {
     onValueChange,
     loading,
     contentProps,
-    defaultValue,
     clearable,
     ...triggerProps
   } = props
 
   const hasValue = !!value
 
+  const [key, setKey] = useState(generateId)
+  useEffect(() => {
+    if (!value) setKey(generateId())
+  }, [value])
+
   return (
     <Select.Root
+      key={key}
       disabled={disabled as boolean}
       onValueChange={fns(onChange, (v) => onValueChange?.(v.toString()))}
       // КОСТЫЛЬ! Делаем ыf потому что если установить значение а потом сбросить то отображается предыдущее
-      value={(value || defaultValue || 'ыf') as string}
+      value={value as string}
     >
       <Flex width='100%' style={{ position: 'relative' }}>
         <Flex>
