@@ -1,3 +1,5 @@
+import { Tooltip } from '@radix-ui/themes'
+
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
@@ -12,6 +14,7 @@ import { TICK_MS, cssAnimations } from '~/shared/css-animations'
 import DropdownMenu from '~/shared/dropdown-menu'
 import Flex from '~/shared/flex'
 import Form, { useCreateForm } from '~/shared/form'
+import Icon from '~/shared/icon'
 import { notify } from '~/shared/notification-list-store'
 import { Heading, Main } from '~/shared/page'
 import { queryClient } from '~/shared/query'
@@ -227,6 +230,15 @@ export default function Component(): JSX.Element {
                   <Heading.BackToParent />
                   <Heading.Name />
                   <Heading.Unique string={formState.values.display} tooltipContent='Отображение' />
+                  {!primaryKeyFetcher.data && !primaryKeyFetcher.isFetching && (
+                    <Flex display='inline-flex' ml='4'>
+                      <Tooltip content='Удаление и редактирование недоступно так как у таблицы отсутствует Первичный ключ'>
+                        <Button size='1' round={true} color='red'>
+                          <Icon name='InfoCircled' />
+                        </Button>
+                      </Tooltip>
+                    </Flex>
+                  )}
                 </Heading.Root>
                 <Tabs.List>
                   <Tabs.Trigger value='dcservice'>Сервис</Tabs.Trigger>
@@ -492,7 +504,8 @@ export default function Component(): JSX.Element {
                   setSearchFilter: setSearchFilter as any,
                   searchFilter: columnSearchParams,
                   sortAtom: sortAtom,
-                  selectedItemsAtom,
+                  selectedItemsAtom:
+                    primaryKeyFetcher.data && !primaryKeyFetcher.isFetching ? selectedItemsAtom : undefined,
                   renderDropdownMenuContent: (props) => {
                     const isSql = Boolean(displayOptions[props.column.name]?.column?.type === 'sql')
                     const isLatin = Boolean(displayOptions[props.column.name]?.highlight?.latin)
