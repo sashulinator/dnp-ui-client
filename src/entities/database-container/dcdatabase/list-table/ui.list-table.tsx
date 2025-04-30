@@ -4,10 +4,9 @@ import { ListTable } from '~/shared/table'
 import { type Dictionary, type SetterOrUpdater } from '~/utils/core'
 import { type Atom } from '~/utils/store'
 
-export type Item = {
-  name: string
-  display?: string | undefined
-}
+import type { DatabaseValue } from '../types'
+
+export type Item = DatabaseValue
 
 export type ItemSort = ListTable.Sort.ToSort<Item>
 export type ItemSearchFilter = ListTable.Search.ReplaceValueByFilter<Item>

@@ -9,11 +9,9 @@ import { preventDefault } from '~/utils/core-client'
 import { useAtomState } from '~/utils/store'
 
 import ListTable, { type ItemSearchFilter, type ItemSort, type ListTableProps } from '../list-table'
+import type { DatabaseValue } from '../types'
 
-export type Value = {
-  name: string
-  display?: string | undefined
-}
+export type Value = DatabaseValue
 
 type RenderTriggerProps = {
   isOpen: boolean

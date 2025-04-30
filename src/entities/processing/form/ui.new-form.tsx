@@ -72,10 +72,15 @@ export default function Component(props: Props): JSX.Element {
   const [selectedDctableLocator, setSelectedSingleDctableLocator] = useState<Dctable.DctableLocator>()
   const [isTextInput, setIsTextInput] = useState(false)
 
-  const [databaseValue, setDatabaseValue] = useState<Dcdatabase.Picker.Value | undefined>(undefined)
+  const [dcservice, setDcservice] = useStringStorage<Dcservice.DcserviceValue>(
+    useLocalStorage({ key: `${localStoragePrefix}-dcservice` }),
+    new Params.ObjectParam(),
+  )
 
-  const dcserviceStore = useLocalStorage({ key: `${localStoragePrefix}-dcservice` })
-  const [dcservice, setDcservice] = useStringStorage<Dcservice.DcserviceValue>(dcserviceStore, new Params.ObjectParam())
+  const [database, setDatabase] = useStringStorage<Dcdatabase.DatabaseValue>(
+    useLocalStorage({ key: `${localStoragePrefix}-dcdatabase` }),
+    new Params.ObjectParam(),
+  )
 
   const inputTablesMeta = useRef<Map<string, Dctable.DctableMeta>>(new Map())
 
@@ -119,8 +124,8 @@ export default function Component(props: Props): JSX.Element {
             <Row width='100%'>
               <Column width='50%'>
                 <InputBlock
-                  dcdatabase={databaseValue}
-                  setDcdatabase={setDatabaseValue}
+                  dcdatabase={database}
+                  setDcdatabase={setDatabase}
                   dcservice={dcservice}
                   setDcserviceValue={setDcservice}
                   disabled={!!form.getState().values?.commonConfig?.executables?.length}

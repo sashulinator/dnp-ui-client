@@ -20,8 +20,8 @@ export type TableLocator = {
 export interface Props {
   className?: string | undefined
   disabled: boolean
-  dcdatabase: Dcdatabase.Picker.Value | undefined
-  setDcdatabase: (value: Dcdatabase.Picker.Value | undefined) => void
+  dcdatabase: Dcdatabase.DatabaseValue | undefined
+  setDcdatabase: (value: Dcdatabase.DatabaseValue | undefined) => void
   dcservice: Dcservice.DcserviceValue | undefined
   setDcserviceValue: (value: Dcservice.DcserviceValue | undefined) => void
   // fetchTablesByDcdatabaseLocator: (dcdatabaseLocator: Dcdatabase.DcdatabaseLocator) => Promise<Table[]>

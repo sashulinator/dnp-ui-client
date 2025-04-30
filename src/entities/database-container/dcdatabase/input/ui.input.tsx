@@ -4,10 +4,9 @@ import { useQuery } from '~/shared/query'
 import Spinner from '~/shared/spinner'
 import { WithAvatar } from '~/shared/view'
 
-export type Value = {
-  name: string
-  display?: string | undefined
-}
+import type { DatabaseValue } from '../types'
+
+export type Value = DatabaseValue
 
 export interface Props extends Omit<InputProps, 'onChange' | 'children' | 'value'> {
   className?: string | undefined
