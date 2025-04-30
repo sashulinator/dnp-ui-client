@@ -1,0 +1,1 @@
+export { ObjectParam } from './object'
