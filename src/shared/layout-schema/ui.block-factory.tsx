@@ -28,7 +28,7 @@ export function BlockFactory(props: Omit<Props, 'block'> & { block: Block }): Re
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
       setBlockProps((s) => ({ ...s, ...block.props }))
-    })
+    }, [block.props])
   }
 
   // Получаем функцию компонента

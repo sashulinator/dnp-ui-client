@@ -5,8 +5,8 @@ import Flex from '~/shared/flex'
 import Icon from '~/shared/icon'
 import Tooltip from '~/shared/tooltip'
 
-import { SelectField, type Props as SelectFieldProps } from './select-field'
-import { TextInputField } from './text-input-field'
+import SelectField, { type Props as SelectFieldProps } from './select-field'
+import TextInputField from './text-field'
 
 export type Props = SelectFieldProps & {
   context: { isSingleMode: boolean; parentFieldName: string; columns: { name: string }[] }
@@ -18,9 +18,9 @@ export type Props = SelectFieldProps & {
   isTextInputMode: boolean
 }
 
-const NAME = 'dnp-processing-executables-layoutSchema-selectField'
+const NAME = 'dnp-processing-executables-layoutSchema-components-columnSelectField'
 
-export const ColumnSelectField = memo((props: Props): React.ReactNode => {
+function Component(props: Props): React.ReactNode {
   const { allowTextInput, size = '2', isTextInputMode, ...restProps } = props
 
   const options = useMemo(
@@ -64,6 +64,10 @@ export const ColumnSelectField = memo((props: Props): React.ReactNode => {
       )}
     </Flex>
   )
-})
+}
+
+const ColumnSelectField = memo(Component)
+ColumnSelectField.displayName = NAME
+export default ColumnSelectField
 
 ColumnSelectField.displayName = NAME

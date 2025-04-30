@@ -1,3 +1,5 @@
+import { emptyFn } from '~/utils/function'
+
 import type { Block } from './types'
 
 /**
@@ -21,8 +23,13 @@ export function propToFunction(block: Block): Block {
 
   const ret = entries.reduce((acc, [key, value]) => {
     if (/^\$/.test(key)) {
-      // @ts-ignore
-      acc[key.slice(1)] = new Function('...args', `return (${value})(...args)`)
+      try {
+        // @ts-ignore
+        acc[key.slice(1)] = new Function('...args', `return (${value})(...args)`)
+      } catch (e) {
+        // @ts-ignore
+        acc[key.slice(1)] = emptyFn
+      }
     } else {
       // @ts-ignore
       acc[key] = processValue(value) as any

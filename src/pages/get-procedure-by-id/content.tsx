@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 
 import { Procedure } from '~/entities/processing'
 import Button, { type ButtonProps, DangerButton } from '~/shared/button'
@@ -39,6 +39,10 @@ export default function Component(props: Props): JSX.Element {
 
               const value = parseSafe(input.value) as any
 
+              const rootBlock = value?.params?.[0]?.component?.props?.rootBlock
+              // eslint-disable-next-line react-hooks/rules-of-hooks
+              const deserializedRootBlock = useMemo(() => Procedure.LayoutSchema.propToFunction(rootBlock), [rootBlock])
+
               return (
                 <Flex direction='column' width='100%' gap='4'>
                   <Flex height='100%' width='100%' direction='column'>
@@ -60,7 +64,7 @@ export default function Component(props: Props): JSX.Element {
                             </Row>
                             <Procedure.LayoutSchema.default
                               context={{ columns: [], isEditingMode: true }}
-                              rootBlock={value.params?.[0]?.component?.props?.rootBlock}
+                              rootBlock={deserializedRootBlock}
                             />
                           </Flex>
                         </Card>

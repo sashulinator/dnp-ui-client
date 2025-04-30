@@ -1,19 +1,18 @@
 import { memo } from 'react'
 
 import { Components } from '~/slices/schema-factory'
-import { type Any } from '~/utils/core'
 
-export type Props = Components.SelectField.Props & {
-  context: { isSingleMode: boolean; parentFieldName: string }
+export type Props = Components.TextInputField.Props & {
+  context: { isSingleMode: boolean; isEditing: boolean }
   // Десейблить при singleMode
   isSingleModeDisabled?: boolean | undefined
   // Десейблить при multiMode
   isMultiModeDisabled?: boolean | undefined
 }
 
-const NAME = 'dnp-processing-executables-layoutSchema-selectField'
+const NAME = 'dnp-processing-executables-layoutSchema-components-textField'
 
-export const SelectField = memo((props: Props): React.ReactNode => {
+function Component(props: Props): React.ReactNode {
   const { isSingleModeDisabled, disabled, isMultiModeDisabled, context, ...restProps } = props
 
   const isSingleDisabled = isSingleModeDisabled && context.isSingleMode
@@ -21,21 +20,18 @@ export const SelectField = memo((props: Props): React.ReactNode => {
   const isDisabled = disabled || isSingleDisabled || multiModeDisabled
 
   return (
-    <Components.SelectField.default
+    <Components.TextInputField.default
       {...restProps}
-      variant='surface'
       placeholder={
-        isSingleDisabled
-          ? 'Только массовая настройка'
-          : multiModeDisabled
-            ? 'Только потабличная настройка'
-            : (undefined as Any)
+        isSingleDisabled ? 'Только массовая настройка' : multiModeDisabled ? 'Только потабличная настройка' : undefined
       }
       context={context}
       disabled={isDisabled}
-      fieldName={`${props.context?.parentFieldName}.${props.fieldName}`}
+      fieldName={`${(props.context as any).parentFieldName}.${props.fieldName}`}
     />
   )
-})
+}
 
-SelectField.displayName = NAME
+const TextField = memo(Component)
+TextField.displayName = NAME
+export default TextField

@@ -1,22 +1,22 @@
 import { componentMap as sliceComponentMap } from '~/slices/schema-factory'
 
-import { ColumnSelectField } from './column-select-field'
-import { NumberInputField } from './number-input-field'
-import { SelectField } from './select-field'
-import { TextInputField } from './text-input-field'
+import * as Components from './components'
 
 export const componentMap = {
   ...sliceComponentMap,
   TextField: {
-    render: TextInputField,
+    render: Components.TextField.default,
   },
   NumberField: {
-    render: NumberInputField,
+    render: Components.NumberField.default,
   },
   SelectField: {
-    render: SelectField,
+    render: Components.SelectField.default,
   },
   ColumnSelectField: {
-    render: ColumnSelectField,
+    render: Components.ColumnSelectField.default,
+  },
+  Checkbox: {
+    render: Components.Checkbox.default,
   },
 }
