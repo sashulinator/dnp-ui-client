@@ -38,7 +38,7 @@ import { usePrevious } from '~/utils/core-hooks/previous'
 import { get, setPath } from '~/utils/dictionary'
 import { createAtom, useAtom } from '~/utils/store'
 
-import DcserviceForm, { type Values } from '../../form'
+import DcserviceForm, { type Values } from '../../entities/database-container/dcservice/form'
 import DataTab, { type DisplayOption } from './data-tab'
 
 const NAME = `page-GetDcserviceById`
@@ -54,7 +54,6 @@ export default function Component(): JSX.Element {
   const [displayOptions, setDisplayOptions] = useState<DisplayOption>({})
   const [tableDisplay, setTableDisplay] = useQueryParam('tabledisplay', withDefault(StringParam, ''))
   const [databaseDisplay, setDatabaseDisplay] = useQueryParam('databasedisplay', withDefault(StringParam, ''))
-  const confirmDeleteModalController = useAtom({ open: false })
 
   const primaryKeyFetcher = Dcservice.api.getPrimaryKey.useCache(
     {
@@ -317,7 +316,6 @@ export default function Component(): JSX.Element {
                         })
                         .then(() => {
                           selectedItemsAtom.set({})
-                          confirmDeleteModalController.set({ open: false })
                           rowsFetcher.refetch()
                         })
                     },

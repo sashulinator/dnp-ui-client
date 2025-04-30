@@ -3,11 +3,11 @@ import { Suspense, lazy } from 'react'
 import { auth, notifyError, roles } from '~/app/auth'
 import Dcservice_create from '~/entities/database-container/dcservice/pages/create'
 import Dcservice_findWithTotal from '~/entities/database-container/dcservice/pages/find-with-total'
-import Dcservice_getById from '~/entities/database-container/dcservice/pages/get-by-id'
 import { NAME as PROCESSING_NAME, Icon as ProcessingIcon } from '~/entities/processing'
 import NormalizationConfigs_create from '~/entities/processing/pages/create/create'
 import NormalizationConfigs_list from '~/entities/processing/pages/list'
 import NormalizationConfigs_status from '~/entities/processing/pages/status'
+import getDcserviceById from '~/pages/get-dcservice-by-id'
 import LinkMenu_edit from '~/pages/link-tree.edit'
 import Header from '~/shared/header'
 import Icon from '~/shared/icon'
@@ -152,7 +152,7 @@ export const routes = {
     getUrl(id: string) {
       return this.getPath().replace(':id', id)
     },
-    render: Dcservice_getById,
+    render: getDcserviceById,
     redirect: combineProtections(_protectPrivate, _protectByRole),
     payload: {
       renderHeader: Header,
