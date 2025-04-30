@@ -24,6 +24,13 @@ export function BlockFactory(props: Omit<Props, 'block'> & { block: Block }): Re
 
   const [blockProps, setBlockProps] = useState(block.props)
 
+  if (context.isEditingMode) {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useEffect(() => {
+      setBlockProps((s) => ({ ...s, ...block.props }))
+    })
+  }
+
   // Получаем функцию компонента
   const blockComponent = componentMap[block.name as string]
   const renderComponent = blockComponent?.render || block.name // в name может быть строка div span

@@ -27,4 +27,5 @@ export type ComponentProps<TProps = Dictionary> = {
 
 export type Context = {
   blocks: Dictionary<ComponentProps>
+  isEditingMode?: boolean | undefined
 }

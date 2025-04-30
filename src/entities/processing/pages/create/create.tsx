@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { confirm } from '~/app/controller'
 import { routes } from '~/app/route'
 import { Dcdatabase } from '~/entities/database-container'
-import { Executable, ProcessingForm } from '~/entities/processing'
+import { Procedure, ProcessingForm } from '~/entities/processing'
 import * as create from '~/entities/processing/api/create'
 import { processingDataApi } from '~/entities/workshop'
 import Button from '~/shared/button'
@@ -103,7 +103,7 @@ export default function Component(): JSX.Element {
    */
 
   async function fetchExecutableSchemas() {
-    const ret = await Executable.api.findWithTotal.request({})
+    const ret = await Procedure.api.findWithTotal.request({})
     return ret.data.items
   }
 

@@ -8,6 +8,7 @@ import NormalizationConfigs_create from '~/entities/processing/pages/create/crea
 import NormalizationConfigs_list from '~/entities/processing/pages/list'
 import NormalizationConfigs_status from '~/entities/processing/pages/status'
 import getDcserviceById from '~/pages/get-dcservice-by-id'
+import GetProcedureById from '~/pages/get-procedure-by-id'
 import LinkMenu_edit from '~/pages/link-tree.edit'
 import Header from '~/shared/header'
 import Icon from '~/shared/icon'
@@ -123,6 +124,22 @@ export const routes = {
       renderNav: Nav,
       navigatable: false,
       rolesAllowed: [roles.nrm_get],
+    },
+  },
+
+  getProcedureById: {
+    getName: (): string => 'Процедура',
+    getPath: (): string => `/${PROCESSING_NAME}/procedure/:id`,
+    getUrl() {
+      return this.getPath()
+    },
+    render: GetProcedureById,
+    redirect: combineProtections(_protectPrivate),
+    payload: {
+      renderHeader: Header,
+      renderNav: Nav,
+      renderIcon: ProcessingIcon,
+      rolesAllowed: [roles.nrm_crt],
     },
   },
 

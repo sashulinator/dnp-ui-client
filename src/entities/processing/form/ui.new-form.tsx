@@ -16,7 +16,7 @@ import { remove } from '~/utils/list'
 import { Params, useStringStorage } from '~/utils/string-storage'
 
 import { SLICE } from '../constants'
-import type { ExecutableSchema } from '../executable'
+import type { Procedure } from '../executable'
 import ParamsFieldFactory from '../executable/w.field-factory'
 import ExectableForm from '../executable/w.form/ui.form'
 // import { type Procedure } from '../../w.procedure'
@@ -53,7 +53,7 @@ export interface Props {
   localStoragePrefix: string
   fetchTablesByDcdatabaseId: (dcdatabaseId: string) => Promise<Table[]>
   fetchDcdatabaseOptions: () => Promise<Option[]>
-  fetchExecutableSchemas: () => Promise<ExecutableSchema[]>
+  fetchExecutableSchemas: () => Promise<Procedure[]>
   setTabValue: SetterOrUpdater<'multi' | 'single'>
 }
 
@@ -346,7 +346,7 @@ export default function Component(props: Props): JSX.Element {
     })
   }
 
-  function getInitialExecutableCommonValues(executableSchema: ExecutableSchema) {
+  function getInitialExecutableCommonValues(executableSchema: Procedure) {
     // Получаем initialValue для неуникальных параметров
     const initialValues = executableSchema?.params?.reduce<Record<string, unknown>>((acc, paramSchema) => {
       if (paramSchema.unique) {
@@ -366,7 +366,7 @@ export default function Component(props: Props): JSX.Element {
     return initialValues
   }
 
-  function getInitialExecutableUniqueValues(executableSchema: ExecutableSchema, config: Config) {
+  function getInitialExecutableUniqueValues(executableSchema: Procedure, config: Config) {
     // TODO избавиться от костыля
     // Находим tableMeta
     const fqn = Dctable.buildFqn(config.inputDctableLocator)

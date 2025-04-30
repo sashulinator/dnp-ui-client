@@ -4,11 +4,11 @@ import { useField } from 'react-final-form'
 import { type Option } from '~/shared/select'
 import { LabeledSelect } from '~/shared/select'
 
-import { type ExecutableSchema } from '../models'
+import { type Procedure } from '../models'
 import { SLICE } from './constants'
 
 export interface Props {
-  executableSchemas: ExecutableSchema[]
+  executableSchemas: Procedure[]
   name: string
   onNameChange: (value: string) => void
   readonly?: boolean

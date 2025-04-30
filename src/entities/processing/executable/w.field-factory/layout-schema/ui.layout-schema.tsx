@@ -3,8 +3,8 @@ import { useEffect, useMemo } from 'react'
 import { useField } from '~/shared/form'
 import LayoutSchema, { propToFunction } from '~/slices/schema-factory'
 
+import { componentMap } from '../../layout-schema/constants'
 import { type ParamFactoryContext } from '../models'
-import { componentMap } from './constants'
 
 export interface Props {
   className?: string | undefined

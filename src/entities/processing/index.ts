@@ -21,4 +21,4 @@ export { NAME, SLICE } from './constants'
  * widgets
  */
 
-export * as Executable from './executable'
+export * as Procedure from './executable'

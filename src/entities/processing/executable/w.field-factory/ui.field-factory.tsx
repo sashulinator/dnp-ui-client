@@ -5,7 +5,7 @@ import Text from '~/shared/text'
 import { type Any } from '~/utils/core'
 
 import { SLICE } from '../constants'
-import { type ComponentSchema, type ExecutableSchema, type ParamSchema } from '../models'
+import { type ComponentSchema, type ParamSchema, type Procedure } from '../models'
 import LayoutSchema from './layout-schema'
 import { type ParamFactoryContext } from './models'
 import RegExpFunctions from './regexp-functions/ui.regexp-functions'
@@ -34,7 +34,7 @@ const componentMap = {
 }
 
 export interface Props {
-  executableSchemas: ExecutableSchema[] | undefined
+  executableSchemas: Procedure[] | undefined
   columns: { name: string; display?: string | undefined; type: string }[]
   name: string
   isSingleMode: boolean
@@ -82,7 +82,7 @@ export default function Component(props: Props): ReactNode {
 }
 
 type PrepareContextAndRenderProps = {
-  executableSchema: ExecutableSchema
+  executableSchema: Procedure
   columns: { name: string; display?: string | undefined; type: string }[]
   name: string
   paramSchema: ParamSchema

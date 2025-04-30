@@ -1,9 +1,9 @@
 import { type Any, type Dictionary } from '~/utils/core'
 
-import { type ExecutableSchema, type ParamSchema } from './models'
+import { type ParamSchema, type Procedure } from './models'
 
 export type GetParamsInitialValuesParams = {
-  executableSchema: ExecutableSchema
+  executableSchema: Procedure
   context: Omit<Context, 'paramSchema'>
 }
 

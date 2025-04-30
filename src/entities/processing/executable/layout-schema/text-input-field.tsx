@@ -3,7 +3,7 @@ import { memo } from 'react'
 import { Components } from '~/slices/schema-factory'
 
 export type Props = Components.TextInputField.Props & {
-  context: { isSingleMode: boolean }
+  context: { isSingleMode: boolean; isEditing: boolean }
   // Десейблить при singleMode
   isSingleModeDisabled?: boolean | undefined
   // Десейблить при multiMode
