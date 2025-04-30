@@ -1,1 +1,1 @@
-export * from '~/common/entities/processing/executable/models'
+export * from '~/common/entities/processing/procedure/models'

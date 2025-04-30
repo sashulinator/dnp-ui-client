@@ -1,6 +1,6 @@
 import { type UseQueryOptions, type UseQueryResult, useQuery as useReactQuery } from 'react-query'
 
-import { type RequestParams, type Result, URL } from '~/common/entities/processing/executable/api.v1/get-by-id'
+import { type RequestParams, type Result, URL } from '~/common/entities/processing/procedure/api.v1/get-by-id'
 import api, { type QueryError, type Response } from '~/shared/api'
 import { queryClient } from '~/shared/query'
 
