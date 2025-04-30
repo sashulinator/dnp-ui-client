@@ -1,7 +1,6 @@
 import { Tooltip } from '@radix-ui/themes'
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useParams } from 'react-router-dom'
 
 import { confirm } from '~/app/controller'
 import { routes } from '~/app/route'
@@ -40,26 +39,25 @@ import { createAtom, useAtom } from '~/utils/store'
 
 import DcserviceForm, { type Values } from '../../entities/database-container/dcservice/form'
 import DataTab, { type DisplayOption } from './data-tab'
+import { useContainer } from './use-container'
 
 const NAME = `page-GetDcserviceById`
 const BUCKET_NAME = 'ui-server'
 
 export default function Component(): JSX.Element {
-  const { id = '' } = useParams()
+  const { id, database, setDatabase } = useContainer()
 
   const [tab, setTab] = useQueryParam('name', withDefault(StringParam, 'dcservice' as 'data' | 'dcservice'))
-  const [databaseParam, setDatabaseParam] = useQueryParam('database', withDefault(StringParam, ''))
   const [tableParam, setTableParam] = useQueryParam('table', withDefault(StringParam, ''))
   const [schemaParam, setSchemaParam] = useQueryParam('schema', withDefault(StringParam, ''))
   const [displayOptions, setDisplayOptions] = useState<DisplayOption>({})
   const [tableDisplay, setTableDisplay] = useQueryParam('tabledisplay', withDefault(StringParam, ''))
-  const [databaseDisplay, setDatabaseDisplay] = useQueryParam('databasedisplay', withDefault(StringParam, ''))
 
   const primaryKeyFetcher = Dcservice.api.getPrimaryKey.useCache(
     {
       id,
       schema: schemaParam,
-      database: databaseParam,
+      database: database.name,
       table: tableParam,
     },
     { retry: false },
@@ -71,7 +69,7 @@ export default function Component(): JSX.Element {
   const tablesFetcher = Dcservice.api.findTables.useCache({
     dcdatabaseLocator: {
       dcserviceId: id,
-      name: databaseParam,
+      name: database.name,
     },
   })
 
@@ -80,7 +78,7 @@ export default function Component(): JSX.Element {
       tablesFetcher.data?.items.find((i) =>
         Dctable.isSameLocator(i, {
           dcserviceId: id,
-          database: databaseParam,
+          database: database.name,
           schema: schemaParam,
           name: tableParam,
         }),
@@ -121,13 +119,13 @@ export default function Component(): JSX.Element {
     where: { ...columnSearchParams },
   }
 
-  const prev = usePrevious({ id, database: databaseParam, table: tableParam, ...rowParams })
+  const prev = usePrevious({ id, database: database.name, table: tableParam, ...rowParams })
   useEffect(() => {
     queryClient.setQueryData([Dcservice.api.findRows.NAME, prev], () => undefined)
   }, [tableParam])
 
   const rowsFetcher = Dcservice.api.findRows.useCache(
-    { id, database: databaseParam, table: tableParam, schema: schemaParam, ...rowParams },
+    { id, database: database.name, table: tableParam, schema: schemaParam, ...rowParams },
     { keepPreviousData: true, staleTime: 10_000 },
   )
 
@@ -184,7 +182,7 @@ export default function Component(): JSX.Element {
           .mutateAsync({
             id,
             row: values,
-            database: databaseParam,
+            database: database.name,
             schema: schemaParam,
             table: tableParam,
           })
@@ -204,7 +202,7 @@ export default function Component(): JSX.Element {
             id,
             where: initialValues,
             row: values,
-            database: databaseParam,
+            database: database.name,
             schema: schemaParam,
             table: tableParam,
           })
@@ -310,7 +308,7 @@ export default function Component(): JSX.Element {
                         .mutateAsync({
                           id,
                           schema: schemaParam,
-                          database: databaseParam,
+                          database: database.name,
                           table: tableParam,
                           pks,
                         })
@@ -324,11 +322,10 @@ export default function Component(): JSX.Element {
               }}
               databasePickerProps={{
                 enabled: true,
-                fetcherDependencies: [databaseParam],
-                value: { name: databaseParam, display: databaseDisplay },
-                onChange: (v) => {
-                  setDatabaseParam(v?.name)
-                  setDatabaseDisplay(v?.display)
+                fetcherDependencies: [database.name],
+                value: { name: database.name, display: database.display },
+                onChange: (value) => {
+                  setDatabase(value)
                   setTableDisplay(undefined)
                   setPaginationParams({ page: 1, limit })
                   sortAtom.set({})
@@ -347,8 +344,8 @@ export default function Component(): JSX.Element {
                 },
               }}
               tablePickerProps={{
-                fetcherDependencies: [databaseParam],
-                enabled: !!databaseParam,
+                fetcherDependencies: [database.name],
+                enabled: !!database.name,
                 value: { name: tableParam, schema: schemaParam, display: tableDisplay },
                 onChange: (v) => {
                   setTableParam(v?.name)
@@ -362,7 +359,7 @@ export default function Component(): JSX.Element {
                   const ret = await Dcservice.api.findTables.request({
                     dcdatabaseLocator: {
                       dcserviceId: id,
-                      name: databaseParam,
+                      name: database.name,
                     },
                     sort,
                     where: searchFilter as any,
@@ -375,7 +372,7 @@ export default function Component(): JSX.Element {
               queryParams={{
                 dcserviceId: id,
                 table: tableParam,
-                database: databaseParam,
+                database: database.name,
                 schema: schemaParam,
               }}
               uploadModalProps={{
@@ -387,7 +384,7 @@ export default function Component(): JSX.Element {
                     bucketName: BUCKET_NAME,
                     dcserviceId: id,
                     table: tableParam || '',
-                    database: databaseParam || '',
+                    database: database.name || '',
                     schema: schemaParam || '',
                   })
                 },
@@ -533,7 +530,7 @@ export default function Component(): JSX.Element {
                                   input: {
                                     name: props.column.name,
                                     display: '',
-                                    database: databaseParam,
+                                    database: database.name,
                                     dcserviceId: id,
                                     table: tableParam,
                                     schema: schemaParam,
@@ -550,7 +547,7 @@ export default function Component(): JSX.Element {
                                     input: {
                                       name: column.name,
                                       display: '',
-                                      database: databaseParam,
+                                      database: database.name,
                                       dcserviceId: id,
                                       table: tableParam,
                                       schema: schemaParam,
