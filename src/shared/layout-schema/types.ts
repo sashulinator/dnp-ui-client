@@ -13,6 +13,7 @@ export interface Block {
   id: string
   name: Union<string, keyof ReactHTML>
   props: Record<string, unknown>
+  listeners?: ((props: ComponentProps, oldProps: ComponentProps) => void)[] | undefined
   children?: BlockNode[]
 }
 

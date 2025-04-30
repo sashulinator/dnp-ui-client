@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
 import { Procedure } from '~/entities/processing'
 import Button, { type ButtonProps, DangerButton } from '~/shared/button'
@@ -12,6 +12,7 @@ import { Main } from '~/shared/page'
 import Section from '~/shared/section'
 import TextInput from '~/shared/text-input'
 import Editor, { type EditorProps } from '~/slices/monaco-editor'
+import { generateId } from '~/utils/core'
 import { parseSafe } from '~/utils/json'
 
 export interface Props {
@@ -19,13 +20,15 @@ export interface Props {
   editor: EditorProps
   form: FormProps
   saveButton: ButtonProps
+  formatButton: ButtonProps
 }
 
 const NAME = 'page-getProcedureById-content'
 
 export default function Component(props: Props): JSX.Element {
-  const { editor, saveButton, form } = props
-  //
+  const { editor, saveButton, formatButton, form } = props
+
+  const [renderKey, setRenderKey] = useState(generateId)
   return (
     <Main className={NAME} style={{ position: 'relative' }}>
       <Container p='var(--space-4)'>
@@ -47,7 +50,7 @@ export default function Component(props: Props): JSX.Element {
                 <Flex direction='column' width='100%' gap='4'>
                   <Flex height='100%' width='100%' direction='column'>
                     {value?.params?.[0]?.component?.props?.rootBlock && (
-                      <ErrorBoundary fallback='Недопустимая схема'>
+                      <ErrorBoundary fallback='Недопустимая схема' key={renderKey}>
                         <Card label='Процедура'>
                           <Flex width='100%' direction='column' gap='4'>
                             <Row justify='between'>
@@ -70,6 +73,14 @@ export default function Component(props: Props): JSX.Element {
                         </Card>
                       </ErrorBoundary>
                     )}
+                  </Flex>
+                  <Flex gap='4'>
+                    <Button variant='ghost' {...formatButton}>
+                      Форматировать
+                    </Button>
+                    <Button variant='ghost' onClick={() => setRenderKey(generateId())}>
+                      Перерисовать
+                    </Button>
                   </Flex>
                   <Editor {...input} {...editor} height='45vh' />
                 </Flex>

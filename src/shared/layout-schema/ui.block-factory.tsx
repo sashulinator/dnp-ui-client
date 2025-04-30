@@ -22,7 +22,9 @@ export function BlockStringFactory(props: Props): React.ReactNode {
 export function BlockFactory(props: Omit<Props, 'block'> & { block: Block }): React.ReactNode {
   const { block, componentMap, context } = props
 
-  const [blockProps, setBlockProps] = useState(block.props)
+  const [blockProps, setBlockProps] = useState<ComponentProps>(() => {
+    return block.props as ComponentProps
+  })
 
   if (context.isEditingMode) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -36,8 +38,11 @@ export function BlockFactory(props: Omit<Props, 'block'> & { block: Block }): Re
   const renderComponent = blockComponent?.render || block.name // в name может быть строка div span
 
   const setProps = (v: any) => {
-    if (typeof v === 'function') setBlockProps(v)
-    setBlockProps((s) => ({ ...s, ...v }))
+    setBlockProps((oldProps) => {
+      const newProps = typeof v === 'function' ? v(oldProps) : { ...oldProps, ...v }
+      block.listeners?.forEach((f) => f(newProps, oldProps))
+      return newProps
+    })
   }
 
   const bindedBlockProps = map(blockProps, (prop) => {
@@ -55,7 +60,7 @@ export function BlockFactory(props: Omit<Props, 'block'> & { block: Block }): Re
 
   const prevComponentProps = usePrevious(componentProps)
   useEffect(() => {
-    ;(block.props as any).onPropsChange?.(componentProps, prevComponentProps)
+    block.listeners?.forEach((f) => f(componentProps, prevComponentProps))
   }, [blockProps])
 
   context['blocks'][block.id] = componentProps
