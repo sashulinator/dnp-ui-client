@@ -2,7 +2,7 @@ import type { SetterOrUpdater, ValueOrSetter } from '../core'
 import type { Param } from './types'
 
 export function useStringStorage<TValue>(
-  stateWithSetter: [string | undefined, SetterOrUpdater<string | undefined>],
+  stateWithSetter: [string | undefined, SetterOrUpdater<string | undefined>, ...unknown[]],
   param: Param<TValue>,
 ): [TValue | undefined, SetterOrUpdater<TValue | undefined>] {
   const [state, setState] = stateWithSetter

@@ -10,8 +10,10 @@ import Icon from '~/shared/icon'
 import { LabeledSelect, type Option } from '~/shared/select'
 import { Tabs } from '~/shared/tabs'
 import { type Any, type Dictionary, type SetterOrUpdater, assertDefined, c, generateId, invariant } from '~/utils/core'
+import { useLocalStorage } from '~/utils/core-hooks'
 import { emptyFn } from '~/utils/function'
 import { remove } from '~/utils/list'
+import { Params, useStringStorage } from '~/utils/string-storage'
 
 import { SLICE } from '../constants'
 import type { ExecutableSchema } from '../executable'
@@ -48,6 +50,7 @@ type Table = { name: string; display: string; columns: Column[] }
 export interface Props {
   className?: string | undefined
   tabValue: 'multi' | 'single'
+  localStoragePrefix: string
   fetchTablesByDcdatabaseId: (dcdatabaseId: string) => Promise<Table[]>
   fetchDcdatabaseOptions: () => Promise<Option[]>
   fetchExecutableSchemas: () => Promise<ExecutableSchema[]>
@@ -57,13 +60,22 @@ export interface Props {
 export const NAME = `${APP}-${SLICE}-Form`
 
 export default function Component(props: Props): JSX.Element {
-  const { fetchTablesByDcdatabaseId, fetchDcdatabaseOptions, fetchExecutableSchemas, tabValue, setTabValue } = props
+  const {
+    fetchTablesByDcdatabaseId,
+    localStoragePrefix,
+    fetchDcdatabaseOptions,
+    fetchExecutableSchemas,
+    tabValue,
+    setTabValue,
+  } = props
 
   const [selectedDctableLocator, setSelectedSingleDctableLocator] = useState<Dctable.DctableLocator>()
   const [isTextInput, setIsTextInput] = useState(false)
 
   const [databaseValue, setDatabaseValue] = useState<Dcdatabase.Picker.Value | undefined>(undefined)
-  const [serviceValue, setServiceValue] = useState<Dcservice.Picker.Value | undefined>(undefined)
+
+  const dcserviceStore = useLocalStorage({ key: `${localStoragePrefix}-dcservice` })
+  const [dcservice, setDcservice] = useStringStorage<Dcservice.DcserviceValue>(dcserviceStore, new Params.ObjectParam())
 
   const inputTablesMeta = useRef<Map<string, Dctable.DctableMeta>>(new Map())
 
@@ -109,8 +121,8 @@ export default function Component(props: Props): JSX.Element {
                 <InputBlock
                   dcdatabase={databaseValue}
                   setDcdatabase={setDatabaseValue}
-                  dcservice={serviceValue}
-                  setDcserviceValue={setServiceValue}
+                  dcservice={dcservice}
+                  setDcserviceValue={setDcservice}
                   disabled={!!form.getState().values?.commonConfig?.executables?.length}
                   onInputChange={manageConfigs}
                   fetchTableList={async ({ sort, dcserviceId, searchFilter, database, page, limit }) => {

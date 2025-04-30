@@ -9,9 +9,9 @@ import { preventDefault } from '~/utils/core-client'
 import { useAtomState } from '~/utils/store'
 
 import ListTable, { type ItemSearchFilter, type ItemSort, type ListTableProps } from '../list-table'
-import type { Dcservice } from '../types'
+import type { DcserviceValue } from '../types'
 
-export type Value = Pick<Dcservice, 'display' | 'client' | 'host' | 'port' | 'id'>
+export type Value = DcserviceValue
 
 type RenderTriggerProps = {
   isOpen: boolean

@@ -5,9 +5,9 @@ import Spinner from '~/shared/spinner'
 import { WithAvatar } from '~/shared/view'
 import { capitalize } from '~/utils/core'
 
-import type { Dcservice } from '../types'
+import type { DcserviceValue } from '../types'
 
-export type Value = Pick<Dcservice, 'display' | 'client' | 'host' | 'port'>
+export type Value = DcserviceValue
 
 export interface Props extends Omit<InputProps, 'onChange' | 'children' | 'value'> {
   className?: string | undefined

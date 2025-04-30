@@ -1,10 +1,9 @@
 import { useState } from 'react'
 
-import { APP } from '~/app/constants.app'
 import { confirm } from '~/app/controller'
 import { routes } from '~/app/route'
 import { Dcdatabase } from '~/entities/database-container'
-import { Executable, ProcessingForm, SLICE } from '~/entities/processing'
+import { Executable, ProcessingForm } from '~/entities/processing'
 import * as create from '~/entities/processing/api/create'
 import { processingDataApi } from '~/entities/workshop'
 import Button from '~/shared/button'
@@ -21,7 +20,7 @@ export interface Props {
   className?: string | undefined
 }
 
-const NAME = `${APP}-${SLICE}-page-Create`
+const NAME = `page-createProcessing`
 
 export default function Component(): JSX.Element {
   const [tabValue, setTabValue] = useState<'multi' | 'single'>('multi')
@@ -73,6 +72,7 @@ export default function Component(): JSX.Element {
             fetchDcdatabaseOptions={fetchDatabaseOptions}
             fetchTablesByDcdatabaseId={fetchTables}
             fetchExecutableSchemas={fetchExecutableSchemas}
+            localStoragePrefix={NAME}
           />
         </Section>
 

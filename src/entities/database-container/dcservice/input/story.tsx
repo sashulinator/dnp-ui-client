@@ -18,7 +18,11 @@ export default {
     return (
       <Flex gap='4' style={{ padding: '2rem', width: '250px' }} direction='column'>
         <Flex>
-          <button onClick={() => setValue({ host: '10.11.4.40', port: 3490, client: 'postgres', display: 'workshop' })}>
+          <button
+            onClick={() =>
+              setValue({ id: 'workshop', host: '10.11.4.40', port: 3490, client: 'postgres', display: 'workshop' })
+            }
+          >
             set value
           </button>
         </Flex>

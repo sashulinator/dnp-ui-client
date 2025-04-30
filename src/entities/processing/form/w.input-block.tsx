@@ -22,8 +22,8 @@ export interface Props {
   disabled: boolean
   dcdatabase: Dcdatabase.Picker.Value | undefined
   setDcdatabase: (value: Dcdatabase.Picker.Value | undefined) => void
-  dcservice: Dcservice.Picker.Value | undefined
-  setDcserviceValue: (value: Dcservice.Picker.Value | undefined) => void
+  dcservice: Dcservice.DcserviceValue | undefined
+  setDcserviceValue: (value: Dcservice.DcserviceValue | undefined) => void
   // fetchTablesByDcdatabaseLocator: (dcdatabaseLocator: Dcdatabase.DcdatabaseLocator) => Promise<Table[]>
   onInputChange: (value: Dictionary<TableLocator> | undefined) => void
   fetchTableList: (params: {
