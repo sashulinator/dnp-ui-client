@@ -9,7 +9,7 @@ export type Executable = {
  * ExecutableSchema
  */
 
-export const executableSchema = v.object({
+export const procedure = v.object({
   id: v.pipe(v.string(), v.nonEmpty()),
   name: v.pipe(v.string(), v.nonEmpty()),
   display: v.pipe(v.string(), v.nonEmpty()),
@@ -20,23 +20,23 @@ export const executableSchema = v.object({
   params: v.array(v.lazy(() => paramSchema)),
 })
 
-export type ExecutableSchema = v.InferOutput<typeof executableSchema>
+export type ExecutableSchema = v.InferOutput<typeof procedure>
 
 /**
  * CreateInput
  */
 
-export const executableSchemaCreateInputSchema = v.omit(executableSchema, ['id'])
+export const procedureCreateInput = v.omit(procedure, ['id'])
 
-export type ExecutableSchemaCreateInput = v.InferOutput<typeof executableSchemaCreateInputSchema>
+export type ProcedureCreateInput = v.InferOutput<typeof procedureCreateInput>
 
 /**
  * UpdateInput
  */
 
-export const executableSchemaUdateInputSchema = executableSchema
+export const procedureUdateInput = procedure
 
-export type ExecutableSchemaUdateInput = v.InferOutput<typeof executableSchemaUdateInputSchema>
+export type ProcedureUdateInput = v.InferOutput<typeof procedureUdateInput>
 
 /**
  * ParamSchema
