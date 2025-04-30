@@ -16,11 +16,11 @@ const NumberInputField = memo((props: Props): React.ReactNode => {
   return (
     <TextInputField
       {...props}
-      parse={(value) => {
+      onValueChange={(value) => {
         const formatted = value?.toString()?.replace(/,/g, '.')
-        const number = parseFloat(formatted)
+        const number = parseFloat(formatted || '')
         const isParsed = number?.toString() === formatted?.toString()
-        return (isParsed ? number : formatted) as string
+        props.onValueChange?.((isParsed ? number : formatted) as string)
       }}
       type='number'
     />

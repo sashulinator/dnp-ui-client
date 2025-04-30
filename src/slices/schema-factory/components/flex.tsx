@@ -9,7 +9,7 @@ export type Props = ComponentProps<UiFlexProps & { hidden: boolean }>
 
 const NAME = 'dnp-layoutSchema-flex'
 
-export const Flex = memo((props: Props): React.ReactNode => {
+export default function Component(props: Props): React.ReactNode {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { className, children, content, context, block, hidden, setProps, blockComponent, ...restProps } = props
 
@@ -21,6 +21,8 @@ export const Flex = memo((props: Props): React.ReactNode => {
       {content === null ? null : content || children}
     </UiFlex>
   )
-})
+}
 
+const Flex = memo(Component)
 Flex.displayName = NAME
+// export default Flex

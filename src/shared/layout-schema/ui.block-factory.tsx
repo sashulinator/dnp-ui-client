@@ -23,7 +23,7 @@ export function BlockFactory(props: Omit<Props, 'block'> & { block: Block }): Re
   const { block, componentMap, context } = props
 
   const [blockProps, setBlockProps] = useState<ComponentProps>(() => {
-    return block.props as ComponentProps
+    return context.blocks[block.id]
   })
 
   if (context.isEditingMode) {

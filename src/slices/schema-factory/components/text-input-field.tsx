@@ -8,7 +8,7 @@ import { type FieldInputProps, useField } from '~/shared/form'
 import Icon from '~/shared/icon'
 import Labeled from '~/shared/labeled'
 import TextInput, { type TextInputProps } from '~/shared/text-input'
-import { c, fns } from '~/utils/core'
+import { c } from '~/utils/core'
 
 import { type ComponentProps } from '../types'
 
@@ -17,21 +17,19 @@ export type Props = ComponentProps<
     fieldName: string
     input: FieldInputProps<string>
     label?: string | undefined
-    format: (v: string) => string
-    parse: (v: string) => string
   }
 >
 
 const NAME = 'dnp-layoutSchema-textInputField'
 
-const TextInputField = memo((props: Props): React.ReactNode => {
+export default function Component(props: Props): React.ReactNode {
   // prettier-ignore
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { className, input: _, label, format, parse, fieldName, onValueChange, children, content, context, block, setProps, blockComponent, ...restProps } = props
+  const { className, label, value, fieldName, onValueChange = defaultOnValueChange, children, content, context, block, setProps, blockComponent, ...restProps } = props
 
-  const { input } = useField(fieldName || 'unknown', { format, parse })
+  const { input } = useField(fieldName || 'unknown', { subscription: { value: true } })
+  useEffect(() => input.onChange(value), [value])
   // @ts-ignore
-  useEffect(() => setProps({ input }), [input.value])
 
   const error = validateProps()
 
@@ -48,12 +46,13 @@ const TextInputField = memo((props: Props): React.ReactNode => {
         <TextInput
           {...input}
           {...restProps}
+          value={value || ''}
           style={{
             width: '100%',
             ...restProps.style,
           }}
           type='text'
-          onValueChange={fns(onValueChange, input.onChange)}
+          onValueChange={onValueChange as any}
           className={c(className)}
         />
       </Labeled>
@@ -62,10 +61,15 @@ const TextInputField = memo((props: Props): React.ReactNode => {
 
   // Private
 
+  function defaultOnValueChange(value: string | undefined) {
+    setProps({ value })
+  }
+
   function validateProps() {
     if (fieldName === undefined) return 'У компонента TextInputField отсутствует обязательный параметр fieldName'
   }
-})
-export default TextInputField
+}
 
-TextInputField.displayName = NAME
+const TextField = memo(Component)
+TextField.displayName = NAME
+// export default TextField

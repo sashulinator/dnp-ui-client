@@ -5,18 +5,15 @@ import Flex from '~/shared/flex'
 import Icon from '~/shared/icon'
 import Tooltip from '~/shared/tooltip'
 
+import type { UseFieldProps } from './lib.use-field'
 import SelectField, { type Props as SelectFieldProps } from './select-field'
 import TextInputField from './text-field'
 
-export type Props = SelectFieldProps & {
-  context: { isSingleMode: boolean; parentFieldName: string; columns: { name: string }[] }
-  // Десейблить при singleMode
-  isSingleModeDisabled?: boolean | undefined
-  // Десейблить при multiMode
-  isMultiModeDisabled?: boolean | undefined
-  allowTextInput: boolean
-  isTextInputMode: boolean
-}
+export type Props = SelectFieldProps &
+  UseFieldProps & {
+    allowTextInput: boolean
+    isTextInputMode: boolean
+  }
 
 const NAME = 'dnp-processing-executables-layoutSchema-components-columnSelectField'
 

@@ -9,14 +9,15 @@ import { c, fns } from '~/utils/core'
 import { setInputValue } from '~/utils/dom-event'
 import { setRefs } from '~/utils/react'
 
-export type Props = TextField.RootProps & {
+export type Props = Omit<TextField.RootProps, 'value'> & {
   className?: string | undefined
   left?: React.ReactNode | undefined
   right?: React.ReactNode | undefined
   leftProps?: TextField.SlotProps | undefined
   rightProps?: TextField.SlotProps | undefined
   clearable?: boolean | undefined
-  onValueChange?: ((value: string) => void) | undefined
+  value?: string | undefined
+  onValueChange?: ((value: string | undefined) => void) | undefined
 }
 
 export const NAME = 'textInput-TextInput'
@@ -32,6 +33,7 @@ export function Component(props: Props, forwardedRef: ForwardedRef<HTMLInputElem
     <TextField.Root
       ref={setRefs(inputRef, forwardedRef)}
       {...textInputProps}
+      value={textInputProps.value || ''}
       onChange={fns(onChange, (e) => onValueChange?.(e.target.value))}
       className={c(props.className, NAME)}
     >

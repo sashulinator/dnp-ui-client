@@ -28,7 +28,7 @@ export function Component(props: Props, forwardedRef: ForwardedRef<HTMLInputElem
         props.onChange?.(e, newValue)
         props.onValueChange?.(newValue)
       }}
-      value={value ?? ''}
+      value={value?.toString() ?? ''}
       className={c(props.className, NAME)}
     />
   )

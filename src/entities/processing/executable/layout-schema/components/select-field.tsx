@@ -1,41 +1,17 @@
 import { memo } from 'react'
 
 import { Components } from '~/slices/schema-factory'
-import { type Any } from '~/utils/core'
 
-export type Props = Components.SelectField.Props & {
-  context: { isSingleMode: boolean; parentFieldName: string }
-  // Десейблить при singleMode
-  isSingleModeDisabled?: boolean | undefined
-  // Десейблить при multiMode
-  isMultiModeDisabled?: boolean | undefined
-}
+import { type UseFieldProps, useField } from './lib.use-field'
+
+export type Props = Components.SelectField.Props & UseFieldProps
 
 const NAME = 'dnp-processing-executables-layoutSchema-components-selectField'
 
 function Component(props: Props): React.ReactNode {
-  const { isSingleModeDisabled, disabled, isMultiModeDisabled, context, ...restProps } = props
+  const fieldProps = useField(props)
 
-  const isSingleDisabled = isSingleModeDisabled && context.isSingleMode
-  const multiModeDisabled = isMultiModeDisabled && !context.isSingleMode
-  const isDisabled = disabled || isSingleDisabled || multiModeDisabled
-
-  return (
-    <Components.SelectField.default
-      {...restProps}
-      variant='surface'
-      placeholder={
-        isSingleDisabled
-          ? 'Только массовая настройка'
-          : multiModeDisabled
-            ? 'Только потабличная настройка'
-            : (undefined as Any)
-      }
-      context={context}
-      disabled={isDisabled}
-      fieldName={`${props.context?.parentFieldName}.${props.fieldName}`}
-    />
-  )
+  return <Components.SelectField.default variant='soft' {...props} {...fieldProps} />
 }
 
 const SelectField = memo(Component)

@@ -84,7 +84,14 @@ export default function Component(props: Props): JSX.Element {
               {({ input }) => (
                 <Flex direction='column' width='100px'>
                   <Labeled label='Порт'>
-                    <TextInput {...input} clearable={true} variant='soft' disabled={disabled} type='number' />
+                    <TextInput
+                      {...input}
+                      value={input.value.toString()}
+                      clearable={true}
+                      variant='soft'
+                      disabled={disabled}
+                      type='number'
+                    />
                   </Labeled>
                 </Flex>
               )}

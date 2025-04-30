@@ -5,7 +5,7 @@ import Button, { type ButtonProps, DangerButton } from '~/shared/button'
 import Container from '~/shared/container'
 import ErrorBoundary from '~/shared/error-boundary'
 import Flex from '~/shared/flex'
-import Form, { Card, Column, type FormProps, Row, useField } from '~/shared/form'
+import Form, { Card, Column, type FormProps, Row } from '~/shared/form'
 import Icon from '~/shared/icon'
 import Labeled from '~/shared/labeled'
 import { Main } from '~/shared/page'
@@ -13,7 +13,9 @@ import Section from '~/shared/section'
 import TextInput from '~/shared/text-input'
 import Editor, { type EditorProps } from '~/slices/monaco-editor'
 import { generateId } from '~/utils/core'
+import { useSubscribeUpdate } from '~/utils/core-hooks'
 import { parseSafe } from '~/utils/json'
+import { type Atom } from '~/utils/store'
 
 export interface Props {
   className?: string | undefined
@@ -21,12 +23,13 @@ export interface Props {
   form: FormProps
   saveButton: ButtonProps
   formatButton: ButtonProps
+  procedureState: Atom<string>
 }
 
 const NAME = 'page-getProcedureById-content'
 
 export default function Component(props: Props): JSX.Element {
-  const { editor, saveButton, formatButton, form } = props
+  const { editor, saveButton, procedureState, formatButton, form } = props
 
   const [renderKey, setRenderKey] = useState(generateId)
   return (
@@ -34,13 +37,15 @@ export default function Component(props: Props): JSX.Element {
       <Container p='var(--space-4)'>
         <Section size='1'>
           <Form
+            subscription={{ values: false }}
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             {...(form as any)}
-            component={useCallback(() => {
+            render={useCallback(() => {
               // eslint-disable-next-line react-hooks/rules-of-hooks
-              const { input } = useField('input', { subscription: { value: true } })
-
-              const value = parseSafe(input.value) as any
+              useSubscribeUpdate(procedureState.subscribe)
+              const string = procedureState.get()
+              // eslint-disable-next-line react-hooks/rules-of-hooks
+              const value = parseSafe(string) as any
 
               const rootBlock = value?.params?.[0]?.component?.props?.rootBlock
               // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -66,7 +71,7 @@ export default function Component(props: Props): JSX.Element {
                               </DangerButton>
                             </Row>
                             <Procedure.LayoutSchema.default
-                              context={{ columns: [], isEditingMode: true }}
+                              context={{ columns: [], parentFieldName: undefined, isEditingMode: true }}
                               rootBlock={deserializedRootBlock}
                             />
                           </Flex>
@@ -78,11 +83,20 @@ export default function Component(props: Props): JSX.Element {
                     <Button variant='ghost' {...formatButton}>
                       Форматировать
                     </Button>
-                    <Button variant='ghost' onClick={() => setRenderKey(generateId())}>
+                    <Button variant='ghost' onClick={() => form.form.submit()}>
+                      Вывести в консоль значение
+                    </Button>
+                    <Button
+                      variant='ghost'
+                      onClick={() => {
+                        setRenderKey(generateId())
+                        form.form.reset()
+                      }}
+                    >
                       Перерисовать
                     </Button>
                   </Flex>
-                  <Editor {...input} {...editor} height='45vh' />
+                  <Editor value={string} onChange={(v) => procedureState.set(v || '')} {...editor} height='45vh' />
                 </Flex>
               )
             }, [])}

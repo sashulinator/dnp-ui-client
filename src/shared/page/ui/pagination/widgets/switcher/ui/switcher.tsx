@@ -63,7 +63,7 @@ export default function Component(props: Props): JSX.Element {
           handleChange(Number((e.target as any).value))()
         }}
         style={{ width: '50px', textAlign: 'center', '--text-field-border-width': '0' } as CSSProperties}
-        value={localCurrentPage}
+        value={localCurrentPage.toString()}
         onFocus={(): void => {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
           ;(document.activeElement as any)?.select()

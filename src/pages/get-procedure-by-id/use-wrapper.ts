@@ -3,10 +3,13 @@ import { useParams } from 'react-router-dom'
 import { Procedure } from '~/entities/processing'
 import { type FormApi, useCreateForm } from '~/shared/form'
 import { notify } from '~/shared/notification-list-store'
+import { type Atom, useAtom } from '~/utils/store'
 
 export type Result = {
   id: string
   procedureFetcher: Procedure.api.getById.QueryResult
+  updateProcedureMutator: Procedure.api.update.UseMutationResult
+  procedureState: Atom<string>
   form: FormApi
 }
 
@@ -17,7 +20,7 @@ export function useWrapper(): Result {
     { id },
     {
       onSuccess(data) {
-        form.initialize({ input: JSON.stringify(data, null, 2) })
+        procedureState.set(JSON.stringify(data, null, 2))
       },
     },
   )
@@ -31,12 +34,19 @@ export function useWrapper(): Result {
     },
   })
 
-  const form = useCreateForm({
-    // eslint-disable-next-line no-console
-    onSubmit(values) {
-      updateProcedureMutator.mutate({ input: JSON.parse(values.input) })
+  const form = useCreateForm(
+    {
+      onSubmit(values) {
+        // eslint-disable-next-line no-console
+        console.log(values)
+      },
     },
-  })
+    {
+      values: false,
+    },
+  )
 
-  return { id, procedureFetcher, form }
+  const procedureState = useAtom<string>('')
+
+  return { id, procedureFetcher, updateProcedureMutator, procedureState, form }
 }

@@ -15,7 +15,7 @@ import { type ParamFactoryContext } from './models'
 export const NAME = `${SLICE}-w-StringField`
 
 type Value = {
-  'url-gp': string
+  'url-gp': string | undefined
   query?: string | undefined
   column?: string | undefined
   before?: string | undefined

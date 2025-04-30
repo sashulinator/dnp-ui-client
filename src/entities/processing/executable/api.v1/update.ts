@@ -1,4 +1,4 @@
-import { type MutationOptions, type UseMutationResult, useMutation as useQueryMutation } from 'react-query'
+import * as Rq from 'react-query'
 
 import { type RequestParams, type Result, URL } from '~/common/entities/processing/procedure/api.v1/update'
 import api, { type QueryError, type Response } from '~/shared/api'
@@ -7,8 +7,10 @@ export { type RequestParams, type Result, URL }
 
 export const request = (params: RequestParams): Promise<Response<Result>> => api.post(URL, { params })
 
+export type UseMutationResult = Rq.UseMutationResult<Response<Result>, QueryError, RequestParams>
+
 export function useMutation(
-  options: MutationOptions<Response<Result>, QueryError, RequestParams>,
-): UseMutationResult<Response<Result>, QueryError, RequestParams> {
-  return useQueryMutation<Response<Result>, QueryError, RequestParams>(URL, (params) => request(params), options)
+  options: Rq.MutationOptions<Response<Result>, QueryError, RequestParams>,
+): Rq.UseMutationResult<Response<Result>, QueryError, RequestParams> {
+  return Rq.useMutation<Response<Result>, QueryError, RequestParams>(URL, (params) => request(params), options)
 }
