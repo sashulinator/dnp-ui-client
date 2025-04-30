@@ -20,7 +20,7 @@ export const procedure = v.object({
   params: v.array(v.lazy(() => paramSchema)),
 })
 
-export type ExecutableSchema = v.InferOutput<typeof procedure>
+export type Procedure = v.InferOutput<typeof procedure>
 
 /**
  * CreateInput
