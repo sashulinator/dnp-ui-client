@@ -6,21 +6,11 @@ import { useQuery } from 'react-query'
 import { APP } from '~/app/constants.app'
 import Button from '~/shared/button'
 import Flex from '~/shared/flex'
-import {
-  Card,
-  Column,
-  Field,
-  Select as FormSelect,
-  type SelectMultipleOption as Option,
-  Row,
-  TypedField,
-  TypedStringField,
-  useField,
-  useForm,
-} from '~/shared/form'
+import { Card, Column, Field, Row, useField, useForm } from '~/shared/form'
 import Icon from '~/shared/icon'
 import Labeled from '~/shared/labeled'
 import { InputSelect } from '~/shared/select'
+import TextInput from '~/shared/text-input'
 import { type SetterOrUpdater, c } from '~/utils/core'
 
 import { SLICE } from '../constants'
@@ -31,7 +21,7 @@ type Table = { name: string; display: string; columns: Column[] }
 export interface Props {
   className?: string | undefined
   fetchTablesByDcdatabaseId: (dcdatabaseId: string) => Promise<Table[]>
-  fetchDcdatabaseOptions: () => Promise<Option[]>
+  fetchDcdatabaseOptions: () => Promise<InputSelect.Option[]>
   isTextInput: boolean
   setIsTextInput: SetterOrUpdater<boolean>
 }
@@ -88,17 +78,22 @@ export default function Component(props: Props): JSX.Element {
         </Field>
 
         <Row align='end'>
-          {isTextInput ? (
-            <TypedStringField testValueType={TypedStringField.testValueType} name='outputTable' label='Таблица' />
-          ) : (
-            <TypedField
-              loading={tablesFetcher.isFetching}
-              label='Таблица'
-              name='outputTable'
-              component={FormSelect}
-              options={tableOptions}
-            />
-          )}
+          <Field name='outputTable'>
+            {({ input }) => {
+              return (
+                <Flex direction='column' width='100%'>
+                  <Labeled label='Таблица'>
+                    {isTextInput ? (
+                      <TextInput variant='soft' {...input} />
+                    ) : (
+                      <InputSelect.default {...input} loading={tablesFetcher.isFetching} options={tableOptions} />
+                    )}
+                  </Labeled>
+                </Flex>
+              )
+            }}
+          </Field>
+
           <Tooltip
             content={
               isTextInput

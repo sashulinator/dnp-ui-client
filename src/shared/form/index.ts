@@ -50,7 +50,6 @@ export { default as TextArea, type TextAreaProps } from './ui/text-area'
 export { default as KeyValue, type KeyValueProps } from './ui/key-value'
 export { default as TagPicker, type TagPickerProps } from './ui/tag-picker'
 export { default as Label, type LabelProps } from './ui/label'
-export { default as Select, type SelectProps } from './ui/select'
 export { default as JsonEditor, type JsonEditorProps } from './ui/json-editor'
 export { default as Row, type RowProps } from './ui/row'
 export { default as Card, type CardProps } from './ui/card'
@@ -58,8 +57,3 @@ export { default as Field, type FieldProps } from './ui/field'
 export { default as Column, type ColumnProps } from './ui/column'
 export { default as Hint, type HintProps } from './ui/hint'
 export { default as TypedField, type TypedFieldProps } from './ui/typed-field'
-export {
-  default as SelectMultiple,
-  type SelectMultipleProps,
-  type Option as SelectMultipleOption,
-} from './ui/select-multiple'
