@@ -19,4 +19,7 @@ export const componentMap = {
   Checkbox: {
     render: Components.Checkbox.default,
   },
+  DcservicePickerField: {
+    render: Components.DcservicePickerField.default,
+  },
 }

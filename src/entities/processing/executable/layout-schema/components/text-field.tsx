@@ -2,16 +2,16 @@ import { memo } from 'react'
 
 import { Components } from '~/slices/layout-schema'
 
-import { type UseFieldProps, useField } from './lib.use-field'
+import { type UseFieldProps, useFieldProps } from './lib.use-field'
 
-export type Props = Components.TextInputField.Props & UseFieldProps
+export type Props = Components.TextInputField.Props & UseFieldProps<string>
 
 const NAME = 'dnp-processing-executables-layoutSchema-components-textField'
 
 export default function Component(props: Props): React.ReactNode {
-  const fieldProps = useField(props)
+  const fieldProps = useFieldProps(props)
 
-  return <Components.TextInputField.default variant='soft' {...props} {...fieldProps} />
+  return <Components.TextInputField.default variant='soft' {...(fieldProps as any)} />
 }
 
 const TextField = memo(Component)

@@ -32,7 +32,7 @@ export default {
             return ret.data
           }}
           value={value}
-          onChange={onChange}
+          onValueChange={onChange}
           renderTrigger={useCallback(({ setIsOpen, value, setValue }) => {
             return (
               <Input

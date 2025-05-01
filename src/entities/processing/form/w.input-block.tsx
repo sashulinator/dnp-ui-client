@@ -74,7 +74,7 @@ export default function Component(props: Props): JSX.Element {
                     return ret.data
                   }}
                   value={dcservice}
-                  onChange={(v) => {
+                  onValueChange={(v) => {
                     setDcserviceValue(v)
                     setDcdatabase(undefined)
                     onInputChange(undefined)

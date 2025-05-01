@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 import type { SetterOrUpdater } from '../core/types/setter-or-updater'
 
-type Params = { key: string; initialValue?: string | undefined }
+type Params = { key: string | undefined; initialValue?: string | undefined }
 
 /** Hook that help to use localStorage browser API */
 export const useLocalStorage = ({
@@ -12,6 +12,7 @@ export const useLocalStorage = ({
 }: Params): [string | undefined, SetterOrUpdater<string | undefined>, (key: string) => void, () => void] => {
   /** Handler for read value from localStorage */
   const readValue = (): string | undefined => {
+    if (key === undefined) return
     try {
       const item = window.localStorage.getItem(key)
 
@@ -27,6 +28,8 @@ export const useLocalStorage = ({
 
   /** Handler for set value to localStorage */
   const setValue = (value: string | unknown | undefined) => {
+    if (key === undefined) return
+
     try {
       const valueToStore = value instanceof Function ? value(storedValue) : value
 
@@ -44,6 +47,8 @@ export const useLocalStorage = ({
 
   /** Handler for remove value from localStorage */
   const removeValue = (key: string) => {
+    if (key === undefined) return
+
     try {
       window.localStorage.removeItem(key)
 
@@ -55,6 +60,8 @@ export const useLocalStorage = ({
 
   /** Handler for clear all values from localStorage */
   const clearAllValues = () => {
+    if (key === undefined) return
+
     try {
       window.localStorage.clear()
 

@@ -10,7 +10,7 @@ import SelectField, { type Props as SelectFieldProps } from './select-field'
 import TextInputField from './text-field'
 
 export type Props = SelectFieldProps &
-  UseFieldProps & {
+  UseFieldProps<string> & {
     allowTextInput: boolean
     isTextInputMode: boolean
   }

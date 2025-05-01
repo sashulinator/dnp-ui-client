@@ -27,7 +27,7 @@ export interface Props {
   enabled: boolean
   fetcherDependencies: unknown[]
   renderTrigger: (props: RenderTriggerProps) => React.ReactNode
-  onChange: (value: Value | undefined) => void
+  onValueChange: (value: Value | undefined) => void
   fetchList: (params: {
     sort: ItemSort | undefined
     searchFilter: ItemSearchFilter | undefined
@@ -39,7 +39,14 @@ export interface Props {
 const NAME = 'dnp-databaseContainer-dcservice-picker'
 
 export default function Component(props: Props): JSX.Element {
-  const { fetcherDependencies, value: propsValue, renderTrigger, enabled = true, onChange, fetchList } = props
+  const {
+    fetcherDependencies,
+    value: propsValue,
+    renderTrigger,
+    enabled = true,
+    onValueChange: onChange,
+    fetchList,
+  } = props
   const [, isOpen, setIsOpen] = useAtomState<boolean>(false)
 
   const value = isEmpty(propsValue) ? undefined : propsValue
