@@ -5,19 +5,22 @@ import { useQuery } from 'react-query'
 
 import { APP } from '~/app/constants.app'
 import Button from '~/shared/button'
+import Flex from '~/shared/flex'
 import {
   Card,
   Column,
+  Field,
   Select as FormSelect,
   type SelectMultipleOption as Option,
   Row,
   TypedField,
   TypedStringField,
-  TypedUnionField,
   useField,
   useForm,
 } from '~/shared/form'
 import Icon from '~/shared/icon'
+import Labeled from '~/shared/labeled'
+import { InputSelect } from '~/shared/select'
 import { type SetterOrUpdater, c } from '~/utils/core'
 
 import { SLICE } from '../constants'
@@ -65,16 +68,25 @@ export default function Component(props: Props): JSX.Element {
   return (
     <Card label='Вывод' className={c(NAME, className)}>
       <Column width='100%'>
-        <TypedUnionField
-          testValueType={TypedUnionField.testValueType}
-          name='outputDcdatabaseId'
-          loading={databasesOptionsfetcher.isFetching}
-          label='База данных'
-          onChange={() => {
-            form.change(`outputTable`, undefined)
+        <Field name='outputDcdatabaseId'>
+          {({ input }) => {
+            return (
+              <Flex direction='column'>
+                <Labeled label='База данных'>
+                  <InputSelect.default
+                    {...input}
+                    loading={databasesOptionsfetcher.isFetching}
+                    onValueChange={() => {
+                      form.change(`outputTable`, undefined)
+                    }}
+                    options={databasesOptionsfetcher.data || []}
+                  />
+                </Labeled>
+              </Flex>
+            )
           }}
-          options={databasesOptionsfetcher.data || []}
-        />
+        </Field>
+
         <Row align='end'>
           {isTextInput ? (
             <TypedStringField testValueType={TypedStringField.testValueType} name='outputTable' label='Таблица' />

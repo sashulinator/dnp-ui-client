@@ -46,12 +46,6 @@ export {
   type UniqueStringFieldProps,
   TypedStringField,
 } from './w.string-field'
-export {
-  default as UnionField,
-  type UnionFieldProps,
-  TypedUnionField,
-  type TypedUnionFieldProps,
-} from './w.union-field'
 export { default as TextArea, type TextAreaProps } from './ui/text-area'
 export { default as KeyValue, type KeyValueProps } from './ui/key-value'
 export { default as TagPicker, type TagPickerProps } from './ui/tag-picker'
