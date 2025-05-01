@@ -1,8 +1,10 @@
 import { useMemo } from 'react'
 
 import type { Dictionary, ValueOrSetter } from '~/utils/core'
-import { emptyFn } from '~/utils/function'
+import { map } from '~/utils/dictionary'
+import { createAtom } from '~/utils/store'
 
+import { COMPONENT_PROPS } from './constants'
 import type { Block, ComponentProps, ComponentWithMeta, Context } from './types'
 import { BlockFactory } from './ui.block-factory'
 
@@ -20,9 +22,16 @@ export const NAME = `ui-layoutSchema`
 export default function Component(props: Props): React.ReactNode {
   const { rootBlock, context, componentMap } = props
 
-  useMemo(() => init(rootBlock, context as Context), [rootBlock, componentMap])
+  const componentPropsMap = useMemo(() => init(rootBlock, context as Context), [context, rootBlock, componentMap])
 
-  const content = <BlockFactory context={context as Context} componentMap={componentMap} block={rootBlock} />
+  const content = (
+    <BlockFactory
+      context={context as Context}
+      componentMap={componentMap}
+      block={rootBlock}
+      componentPropsMap={componentPropsMap}
+    />
+  )
 
   return content
 }
@@ -30,40 +39,56 @@ export default function Component(props: Props): React.ReactNode {
 Component.displayName = NAME
 
 function init(rootBlock: Block, context: Context) {
-  const blockMap: Dictionary<ComponentProps> = {}
-  traverse(rootBlock, blockMap, context)
+  const componentPropsMap: Dictionary<ComponentProps> = {}
 
-  context['blocks'] = blockMap as any
+  traverse(rootBlock, componentPropsMap, context)
 
-  Object.values(blockMap).forEach((item) => {
+  Object.values(componentPropsMap).forEach((item) => {
     item.setProps(item)
   })
-  // initBlockProps(blockMap)
+
+  return componentPropsMap
 }
 
-function traverse(block: Block | string, map: Dictionary<ComponentProps>, context: Context) {
+function traverse(block: Block | string, componentPropsMap: Dictionary<ComponentProps>, context: Context) {
   if (typeof block === 'string') return
 
-  map[block.id] = {
-    ...block.props,
+  // Допрокидываем вторым аргументов во все функции componentProps
+  const bindedBlockProps = map(block.props, (prop) => {
+    if (typeof prop !== 'function') return prop
+    return (...args: unknown[]) => prop(...args, componentProps)
+  })
+
+  const propsState = createAtom<Dictionary>(bindedBlockProps)
+
+  const baseComponentProps: ComponentProps = {
     block,
     context,
-    setProps: emptyFn,
-    blockComponent: {} as any,
+    propsState,
+    [COMPONENT_PROPS]: {},
+  } as ComponentProps
+
+  const componentProps: ComponentProps = {
+    ...propsState.get(),
+    ...bindedBlockProps,
+    ...baseComponentProps,
+  } as ComponentProps
+
+  componentProps.setProps = (v: ValueOrSetter<Dictionary<unknown>>) => {
+    const componentProps = componentPropsMap[block.id]
+    const newProps = typeof v === 'function' ? v(componentProps) : { ...propsState.get(), ...v }
+    const newComponentProps = {
+      ...newProps,
+      ...baseComponentProps,
+      [COMPONENT_PROPS]: componentPropsMap,
+    }
+
+    block.listeners?.forEach((f) => f(newComponentProps, componentProps))
+    propsState.set(newProps)
   }
 
-  map[block.id].setProps = (v: ValueOrSetter<Dictionary<unknown>>) => {
-    const oldProps = map[block.id]
-    const newProps = typeof v === 'function' ? v(oldProps) : { ...oldProps, ...v }
-    block.listeners?.forEach((f) => f(newProps as any, oldProps))
-    map[block.id] = newProps as any
-  }
+  componentProps[COMPONENT_PROPS][block.id] = componentProps
+  componentPropsMap[block.id] = componentProps
 
-  block.children?.forEach((child) => traverse(child, map, context))
+  block.children?.forEach((child) => traverse(child, componentPropsMap, context))
 }
-
-// function initBlockProps(map: Dictionary<{ block: Block }>) {
-//   Object.values(map).forEach((item) => {
-//     item.props = item.block.props
-//   })
-// }

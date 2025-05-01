@@ -70,6 +70,7 @@ export function useFieldProps<TValue>(props: UseFieldProps<TValue>) {
     value,
     disabled: isDisabled,
     placeholder,
+    setProps,
     fieldName: retFieldName,
     onValueChange: fns(onValueChange, (v) => setLocalStorageValue(v)),
   }

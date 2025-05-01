@@ -31,11 +31,14 @@ export default function Component(props: Props): JSX.Element {
 
   return (
     <LayoutSchema
-      context={{
-        parentFieldName: fieldName,
-        isSingleMode: _paramContext.isSingleMode,
-        columns: _paramContext.columns,
-      }}
+      context={useMemo(
+        () => ({
+          parentFieldName: fieldName,
+          isSingleMode: _paramContext.isSingleMode,
+          columns: _paramContext.columns,
+        }),
+        [],
+      )}
       componentMap={componentMap}
       rootBlock={deserializedRootBlock}
     />

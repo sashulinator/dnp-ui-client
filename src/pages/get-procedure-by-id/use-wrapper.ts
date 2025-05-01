@@ -34,12 +34,13 @@ export function useWrapper(): Result {
     },
   })
 
-  const form = useCreateForm(
+  const form = useCreateForm<any>(
     {
       onSubmit(values) {
         // eslint-disable-next-line no-console
         console.log(values)
       },
+      initialValues: { query: 'kkkklklklklklk' },
     },
     {
       values: false,

@@ -2,6 +2,7 @@ import type { ReactHTML } from 'react'
 
 import type { Dictionary, SetterOrUpdater } from '~/utils/core'
 import type { Any } from '~/utils/core'
+import type { Atom } from '~/utils/store'
 import type { Union } from '~/utils/types/union'
 
 export interface ComponentWithMeta {
@@ -21,12 +22,12 @@ export type BlockNode = Block | string
 
 export type ComponentProps<TProps = Dictionary> = {
   block: Block
-  blockComponent: ComponentWithMeta
   setProps: SetterOrUpdater<Partial<TProps>>
   context: Context
+  propsState: Atom<TProps>
+  blocks: Dictionary<ComponentProps>
 } & TProps
 
 export type Context = {
-  blocks: Dictionary<ComponentProps>
   isEditingMode?: boolean | undefined
 }

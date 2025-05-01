@@ -20,7 +20,7 @@ const NAME = 'dnp-layoutSchema-checkbox'
 const TextInputField = memo((props: Props): React.ReactNode => {
   // prettier-ignore
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { className, checked, label, value, content, context, onValueChange = defaultOnValueChange, onCheckedChange, block, setProps, blockComponent, ...restProps } = props
+  const { className, propsState, checked, label, value, content, context, onValueChange = defaultOnValueChange, onCheckedChange, block, setProps, ...restProps } = props
 
   return (
     <Flex position='relative' width='fit-content' gap='2' direction='row-reverse'>

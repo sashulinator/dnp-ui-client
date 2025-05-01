@@ -105,7 +105,7 @@ const rootBlock: Block = {
         className: 'story-text',
         children: 'button2',
         onPropsChange: (props: ComponentProps<{ value: string }>, prevProps: ComponentProps<{ value: string }>) => {
-          props?.context?.blocks['flex3'].setProps({
+          props?.blocks['flex3'].setProps({
             content: `new Value: ${props?.value}||| prev Value: ${prevProps?.value}`,
           })
         },

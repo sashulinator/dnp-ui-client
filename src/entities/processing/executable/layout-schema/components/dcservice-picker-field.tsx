@@ -3,9 +3,7 @@ import { memo, useCallback, useEffect } from 'react'
 
 import { Dcservice } from '~/entities/database-container'
 import { useField } from '~/shared/form'
-import { fns } from '~/utils/core'
-import { useLocalStorage } from '~/utils/core-hooks'
-import { Params, useStringStorage } from '~/utils/string-storage'
+import { useSyncStates } from '~/utils/hooks/sync-states'
 
 import { type ComponentProps } from '../types'
 import { type UseFieldProps, useFieldProps } from './lib.use-field'
@@ -30,16 +28,13 @@ function Component(props: Props): React.ReactNode {
     block,
     setProps,
     localStorageKey,
-    blockComponent,
     ...restProps
   } = props
 
   const fieldProps = useFieldProps<Dcservice.DcserviceValue>(props)
 
-  const { input } = useField(fieldName || 'unknown', { subscription: { value: false } })
-  useEffect(() => setProps({ input }), [input.value])
-
-  // const error = validateProps()
+  const { input } = useField(fieldName)
+  useSyncStates([input.value, (v) => input.onChange(v), input.value], [value, (v) => setProps?.({ value: v })])
 
   return (
     <Dcservice.Picker.default

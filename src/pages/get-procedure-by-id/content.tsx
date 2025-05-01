@@ -50,12 +50,17 @@ export default function Component(props: Props): JSX.Element {
               const rootBlock = value?.params?.[0]?.component?.props?.rootBlock
               // eslint-disable-next-line react-hooks/rules-of-hooks
               const deserializedRootBlock = useMemo(() => Procedure.LayoutSchema.propToFunction(rootBlock), [rootBlock])
+              // eslint-disable-next-line react-hooks/rules-of-hooks
+              const context = useMemo(
+                () => ({ columns: [], parentFieldName: undefined, isEditingMode: true }),
+                [deserializedRootBlock],
+              )
 
               return (
-                <Flex direction='column' width='100%' gap='4'>
+                <Flex direction='column' width='100%' gap='4' key={renderKey}>
                   <Flex height='100%' width='100%' direction='column'>
                     {value?.params?.[0]?.component?.props?.rootBlock && (
-                      <ErrorBoundary fallback='Недопустимая схема' key={renderKey}>
+                      <ErrorBoundary fallback='Недопустимая схема'>
                         <Card label='Процедура'>
                           <Flex width='100%' direction='column' gap='4'>
                             <Row justify='between'>
@@ -70,10 +75,7 @@ export default function Component(props: Props): JSX.Element {
                                 <Icon name='Trash' />
                               </DangerButton>
                             </Row>
-                            <Procedure.LayoutSchema.default
-                              context={{ columns: [], parentFieldName: undefined, isEditingMode: true }}
-                              rootBlock={deserializedRootBlock}
-                            />
+                            <Procedure.LayoutSchema.default context={context} rootBlock={deserializedRootBlock} />
                           </Flex>
                         </Card>
                       </ErrorBoundary>
@@ -94,6 +96,9 @@ export default function Component(props: Props): JSX.Element {
                       }}
                     >
                       Перерисовать
+                    </Button>
+                    <Button variant='ghost' onClick={() => form.form.change('query', 'hello' as any)}>
+                      установить новые значения
                     </Button>
                   </Flex>
                   <Editor value={string} onChange={(v) => procedureState.set(v || '')} {...editor} height='45vh' />

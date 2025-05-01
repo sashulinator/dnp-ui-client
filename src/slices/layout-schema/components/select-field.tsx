@@ -1,6 +1,6 @@
 import { Tooltip } from '@radix-ui/themes'
 
-import { memo, useEffect } from 'react'
+import { memo } from 'react'
 
 import Button from '~/shared/button'
 import Flex from '~/shared/flex'
@@ -9,6 +9,7 @@ import Icon from '~/shared/icon'
 import Labeled from '~/shared/labeled'
 import { SelectInput } from '~/shared/select'
 import { c, fns } from '~/utils/core'
+import { useSyncStates } from '~/utils/hooks/sync-states'
 
 import { type ComponentProps } from '../types'
 
@@ -27,11 +28,10 @@ const NAME = 'dnp-layoutSchema-selectField'
 const TextInputField = memo((props: Props): React.ReactNode => {
   // prettier-ignore
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { className, input: _, label, format, parse, fieldName, onValueChange, children, content, context, block, setProps, blockComponent, ...restProps } = props
+  const { className, input: _, label, value, format, parse, propsState, fieldName, onValueChange, children, content, context, block, setProps, ...restProps } = props
 
-  const { input } = useField(fieldName || 'unknown', { format, parse })
-  // @ts-ignore
-  useEffect(() => setProps({ input }), [input.value])
+  const { input } = useField(fieldName)
+  useSyncStates([value, (v) => setProps?.({ value: v })], [input.value, (v) => input.onChange(v)])
 
   const error = validateProps()
 

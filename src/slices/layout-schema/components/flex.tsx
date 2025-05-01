@@ -11,7 +11,7 @@ const NAME = 'dnp-layoutSchema-flex'
 
 export default function Component(props: Props): React.ReactNode {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { className, children, content, context, block, hidden, setProps, blockComponent, ...restProps } = props
+  const { className, propsState, children, content, context, block, hidden, setProps, ...restProps } = props
 
   if (hidden) return null
 
