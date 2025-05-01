@@ -1,4 +1,4 @@
-import LayoutSchema, { type LayoutSchemaProps } from '~/slices/schema-factory'
+import LayoutSchema, { type LayoutSchemaProps } from '~/slices/layout-schema'
 
 import { componentMap } from './constants'
 

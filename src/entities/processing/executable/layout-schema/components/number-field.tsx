@@ -1,6 +1,6 @@
 import { memo } from 'react'
 
-import { Components } from '~/slices/schema-factory'
+import { Components } from '~/slices/layout-schema'
 
 import { type UseFieldProps, useField } from './lib.use-field'
 

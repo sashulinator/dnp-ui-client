@@ -1,6 +1,6 @@
 import { memo } from 'react'
 
-import { Components } from '~/slices/schema-factory'
+import { Components } from '~/slices/layout-schema'
 
 export type Props = Components.Checkbox.Props
 

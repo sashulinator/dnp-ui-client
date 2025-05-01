@@ -1,4 +1,4 @@
-import { componentMap as sliceComponentMap } from '~/slices/schema-factory'
+import { componentMap as sliceComponentMap } from '~/slices/layout-schema'
 
 import * as Components from './components'
 

@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from 'react'
 
 import { useField } from '~/shared/form'
-import LayoutSchema, { propToFunction } from '~/slices/schema-factory'
+import LayoutSchema, { propToFunction } from '~/slices/layout-schema'
 
 import { componentMap } from '../../layout-schema/constants'
 import { type ParamFactoryContext } from '../models'

@@ -53,9 +53,8 @@ import uiToast from '~/shared/toast/story'
 import uiNotificationToastList from '~/shared/toast/variants/notification/list/story'
 import uiTreeVNested from '~/shared/tree/variants/nested/story'
 import uiViewWithAvatar from '~/shared/view/with-avatar/story'
+import uiComponentFactory from '~/slices/layout-schema/story'
 import sliceMonacoEditor from '~/slices/monaco-editor/story'
-import sharedReactFactory from '~/slices/react-factory/story'
-import uiComponentFactory from '~/slices/schema-factory/story'
 import sortButton from '~/slices/sort/components/button/story'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -92,7 +91,6 @@ export const storyList: Story<any>[] = [
   uiCardInput,
   uiCalendar,
   eExecutableswFackerColConfig,
-  sharedReactFactory,
   selectSelectWInput,
   optionFilter,
   uiInput,
