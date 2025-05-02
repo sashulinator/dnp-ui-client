@@ -5,4 +5,5 @@ export * as Flex from './flex'
 export * as Checkbox from './checkbox'
 export * as SelectField from './select-field'
 
+export { savePropToLocalStorage } from './lib.save-prop-to-local-storage'
 export { syncFieldStatesBinding } from './lib.sync-field-states-binding'

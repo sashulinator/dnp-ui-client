@@ -22,6 +22,7 @@ export const componentMap = {
     render: Components.Checkbox.default,
   },
   DcservicePickerField: {
+    bindings: Components.DcservicePickerField.binding,
     render: Components.DcservicePickerField.default,
   },
 } satisfies Dictionary<ComponentWithMeta>

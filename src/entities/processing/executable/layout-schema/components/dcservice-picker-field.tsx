@@ -10,7 +10,7 @@ import { type ComponentProps } from '../types'
 import { type UseFieldProps, useFieldProps } from './lib.use-field'
 
 // eslint-disable-next-line react-refresh/only-export-components
-export const binding = [Components.syncFieldStatesBinding]
+export const binding = [Components.syncFieldStatesBinding, Components.savePropToLocalStorage]
 
 export type Props = Dcservice.Picker.PickerProps &
   Dcservice.Input.InputProps &

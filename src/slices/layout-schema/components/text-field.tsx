@@ -8,10 +8,11 @@ import { fns } from '~/utils/core'
 
 import { splitProps } from '../lib.split-props'
 import { type ComponentProps } from '../types'
+import { savePropToLocalStorage } from './lib.save-prop-to-local-storage'
 import { syncFieldStatesBinding } from './lib.sync-field-states-binding'
 
 // eslint-disable-next-line react-refresh/only-export-components
-export const bindings = [syncFieldStatesBinding]
+export const bindings = [syncFieldStatesBinding, savePropToLocalStorage]
 
 export type Props = ComponentProps<
   TextInputProps & {

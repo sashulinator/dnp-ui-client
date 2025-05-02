@@ -26,8 +26,9 @@ export const syncFieldStatesBinding = {
         componentProps.setProps({ ...props, value })
       },
       { value: true },
-      { initialValue: propsState.get().value },
     )
+
+    context.form.getState()
 
     propsState.subscribe((newProps) => {
       const formValue = getIn(context.form.getState().values, newProps.fieldName)

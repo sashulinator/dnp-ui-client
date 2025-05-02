@@ -62,7 +62,7 @@ function init(
   Object.values(componentPropsMap).forEach((item) => {
     componentMap[item.block.name as string]?.bindings?.forEach((binding) => {
       try {
-        binding.fn(item)
+        binding.fn(rebuldComponentProps(item.block.id, componentPropsMap))
       } catch (e) {
         onError && onError(new BaseError(`${(e as Error).message}`, { cause: e, componentProps: item, binding }))
       }
@@ -72,6 +72,8 @@ function init(
     } catch (e) {
       onError && onError(new BaseError(`${(e as Error).message}`, { cause: e, componentProps: item }))
     }
+
+    rebuldComponentProps(item.block.id, componentPropsMap)
   })
 
   return componentPropsMap
@@ -108,12 +110,10 @@ function traverse(
 
   componentProps.setProps = (v: ValueOrSetter<Dictionary<unknown>>) => {
     const componentProps = componentPropsMap[block.id]
-    const newProps = typeof v === 'function' ? v(componentProps) : { ...propsState.get(), ...v }
-    const newComponentProps = {
-      ...newProps,
-      ...baseComponentProps,
-      [COMPONENT_PROPS]: componentPropsMap,
-    }
+    const newProps = typeof v === 'function' ? v({ ...propsState.get() }) : { ...propsState.get(), ...v }
+
+    const newComponentProps = rebuldComponentProps(block.id, componentPropsMap, newProps)
+    propsState.set(newProps)
 
     block.listeners?.forEach((listener, i) => {
       try {
@@ -129,12 +129,27 @@ function traverse(
           )
       }
     })
-
-    propsState.set(newProps)
   }
 
   componentProps[COMPONENT_PROPS][block.id] = componentProps
   componentPropsMap[block.id] = componentProps
 
   block.children?.forEach((child) => traverse(child, componentPropsMap, context, onError))
+}
+
+function rebuldComponentProps(blockId: string, componentPropsMap: Dictionary<ComponentProps>, state?: Dictionary) {
+  const current = componentPropsMap[blockId]
+
+  const componentProps = {
+    block: current.block,
+    context: current.context,
+    [COMPONENT_PROPS]: componentPropsMap,
+    setProps: current.setProps,
+    propsState: current.propsState,
+    ...(state || current.propsState.get()),
+  }
+
+  componentPropsMap[blockId] = componentProps
+
+  return componentProps
 }

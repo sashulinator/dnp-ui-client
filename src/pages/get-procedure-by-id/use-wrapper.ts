@@ -40,7 +40,7 @@ export function useWrapper(): Result {
         // eslint-disable-next-line no-console
         console.log(values)
       },
-      initialValues: { query: 'kkkklklklklklk' },
+      // initialValues: { query: 'kkkklklklklklk' },
     },
     {
       values: false,
