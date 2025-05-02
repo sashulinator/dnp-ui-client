@@ -1,10 +1,10 @@
 import { memo } from 'react'
 
-import Checkbox, { type CheckboxProps } from '~/shared/checkbox'
+import UiCheckbox, { type CheckboxProps } from '~/shared/checkbox'
 import Flex from '~/shared/flex'
 import Labeled from '~/shared/labeled'
-import { c, fns } from '~/utils/core'
 
+import { splitProps } from '../lib.split-props'
 import { type ComponentProps } from '../types'
 
 export type Props = ComponentProps<
@@ -17,28 +17,22 @@ export type Props = ComponentProps<
 
 const NAME = 'dnp-layoutSchema-checkbox'
 
-const TextInputField = memo((props: Props): React.ReactNode => {
-  // prettier-ignore
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { className, propsState, checked, label, value, content, context, onValueChange = defaultOnValueChange, onCheckedChange, block, setProps, ...restProps } = props
+function Component(props: Props): React.ReactNode {
+  const [{ label, value, checked, onValueChange = defaultOnValueChange, ...restProps }] = splitProps(props)
 
   return (
     <Flex position='relative' width='fit-content' gap='2' direction='row-reverse'>
       <Labeled label={label}>
-        <Checkbox
-          {...restProps}
-          onCheckedChange={fns(onCheckedChange, onValueChange)}
-          checked={checked || value || false}
-          className={c(className)}
-        />
+        <UiCheckbox {...restProps} onCheckedChange={onValueChange} checked={checked || value || false} />
       </Labeled>
     </Flex>
   )
 
   function defaultOnValueChange(value: boolean) {
-    setProps({ value })
+    props.setProps({ value })
   }
-})
-export default TextInputField
+}
 
-TextInputField.displayName = NAME
+const Checkbox = memo(Component)
+Checkbox.displayName = NAME
+export default Checkbox

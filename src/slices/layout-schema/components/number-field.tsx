@@ -1,6 +1,10 @@
 import { memo } from 'react'
 
+import { syncFieldStatesBinding } from './lib.sync-field-states-binding'
 import TextInputField, { type Props as TextInputFieldProps } from './text-field'
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const bindings = [syncFieldStatesBinding]
 
 export type Props = TextInputFieldProps & {
   context: { isSingleMode: boolean }
@@ -12,7 +16,7 @@ export type Props = TextInputFieldProps & {
 
 const NAME = 'dnp-layoutSchema-numberInputField'
 
-const NumberInputField = memo((props: Props): React.ReactNode => {
+function Component(props: Props): React.ReactNode {
   return (
     <TextInputField
       {...props}
@@ -25,7 +29,8 @@ const NumberInputField = memo((props: Props): React.ReactNode => {
       type='number'
     />
   )
-})
-export default NumberInputField
+}
 
-NumberInputField.displayName = NAME
+const NumberField = memo(Component)
+NumberField.displayName = NAME
+export default NumberField

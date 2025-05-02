@@ -25,3 +25,4 @@ export * as Components from './components'
  */
 
 export { propToFunction } from './lib.prop-to-function'
+export { splitProps } from './lib.split-props'

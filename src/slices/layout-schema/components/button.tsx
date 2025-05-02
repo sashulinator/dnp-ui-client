@@ -9,7 +9,7 @@ export type Props = ComponentProps<UiButtonProps>
 
 const NAME = 'dnp-layoutSchema-button'
 
-export const Button = memo((props: Props): React.ReactNode => {
+function Component(props: Props): React.ReactNode {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { className, propsState, children, content, context, block, setProps, ...restProps } = props
 
@@ -19,6 +19,8 @@ export const Button = memo((props: Props): React.ReactNode => {
       {content || children}
     </UiButton>
   )
-})
+}
 
+const Button = memo(Component)
 Button.displayName = NAME
+export default Button

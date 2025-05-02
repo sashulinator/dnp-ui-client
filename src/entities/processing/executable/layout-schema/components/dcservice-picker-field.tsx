@@ -3,12 +3,17 @@ import { memo, useCallback, useEffect } from 'react'
 
 import { Dcservice } from '~/entities/database-container'
 import { useField } from '~/shared/form'
-import { useSyncStates } from '~/utils/hooks/sync-states'
+import { Components } from '~/slices/layout-schema'
+import { fns } from '~/utils/core'
 
 import { type ComponentProps } from '../types'
 import { type UseFieldProps, useFieldProps } from './lib.use-field'
 
+// eslint-disable-next-line react-refresh/only-export-components
+export const binding = [Components.syncFieldStatesBinding]
+
 export type Props = Dcservice.Picker.PickerProps &
+  Dcservice.Input.InputProps &
   ComponentProps &
   UseFieldProps<Dcservice.DcserviceValue> & {
     onValueChange: (e: Dcservice.DcserviceValue | undefined) => void
@@ -22,19 +27,19 @@ function Component(props: Props): React.ReactNode {
     className,
     // label,
     value,
+    propsState,
     fieldName,
     onValueChange,
     context,
     block,
     setProps,
     localStorageKey,
-    ...restProps
+    ...inputProps
   } = props
 
   const fieldProps = useFieldProps<Dcservice.DcserviceValue>(props)
 
   const { input } = useField(fieldName)
-  useSyncStates([input.value, (v) => input.onChange(v), input.value], [value, (v) => setProps?.({ value: v })])
 
   return (
     <Dcservice.Picker.default
@@ -52,8 +57,11 @@ function Component(props: Props): React.ReactNode {
       renderTrigger={useCallback(({ enabled, setIsOpen, value, setValue }) => {
         return (
           <Dcservice.Input.default
+            {...inputProps}
             hasValue={!!value}
             disabled={!enabled}
+            onBlur={fns(inputProps.onBlur, input.onBlur)}
+            onFocus={fns(inputProps.onFocus, input.onFocus)}
             fetchValue={() => value}
             fetcherDependencies={[value]}
             onClearableClick={() => setValue(undefined)}

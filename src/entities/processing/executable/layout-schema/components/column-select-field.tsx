@@ -4,10 +4,14 @@ import Button from '~/shared/button'
 import Flex from '~/shared/flex'
 import Icon from '~/shared/icon'
 import Tooltip from '~/shared/tooltip'
+import { Components } from '~/slices/layout-schema'
 
 import type { UseFieldProps } from './lib.use-field'
 import SelectField, { type Props as SelectFieldProps } from './select-field'
 import TextInputField from './text-field'
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const binding = [Components.syncFieldStatesBinding]
 
 export type Props = SelectFieldProps &
   UseFieldProps<string> & {

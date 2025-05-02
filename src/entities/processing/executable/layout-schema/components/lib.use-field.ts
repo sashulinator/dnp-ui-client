@@ -1,8 +1,4 @@
-import { useEffect } from 'react'
-
-import { fns } from '~/utils/core'
-import { useLocalStorage } from '~/utils/core-hooks'
-import { Params, useStringStorage } from '~/utils/string-storage'
+import { Params } from '~/utils/string-storage'
 
 import { type ComponentProps, type Context } from '../types'
 
@@ -34,7 +30,6 @@ export function useFieldProps<TValue>(props: UseFieldProps<TValue>) {
     isSingleModeDisabled,
     setProps,
     onValueChange = defaultOnValueChange,
-    localStorage,
     disabled,
     fieldName,
     isMultiModeDisabled,
@@ -43,15 +38,15 @@ export function useFieldProps<TValue>(props: UseFieldProps<TValue>) {
     ...restProps
   } = props
 
-  const [localStorageValue, setLocalStorageValue] = useStringStorage<TValue>(
-    useLocalStorage({ key: localStorage?.key }),
-    new PARAMS_MAP[localStorage?.type || 'string']() as any,
-  )
+  // const [localStorageValue, setLocalStorageValue] = useStringStorage<TValue>(
+  //   useLocalStorage({ key: localStorage?.key }),
+  //   new PARAMS_MAP[localStorage?.type || 'string']() as any,
+  // )
 
-  useEffect(() => {
-    if (!localStorageValue) return
-    setProps({ value: localStorageValue })
-  }, [])
+  // useEffect(() => {
+  //   if (!localStorageValue) return
+  //   setProps({ value: localStorageValue })
+  // }, [])
 
   const isSingleDisabled = isSingleModeDisabled && context.isSingleMode
   const multiModeDisabled = isMultiModeDisabled && !context.isSingleMode
@@ -72,7 +67,7 @@ export function useFieldProps<TValue>(props: UseFieldProps<TValue>) {
     placeholder,
     setProps,
     fieldName: retFieldName,
-    onValueChange: fns(onValueChange, (v) => setLocalStorageValue(v)),
+    onValueChange,
   }
 
   // Private

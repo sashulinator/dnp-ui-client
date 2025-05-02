@@ -4,14 +4,17 @@ import { Components } from '~/slices/layout-schema'
 
 import { type UseFieldProps, useFieldProps } from './lib.use-field'
 
-export type Props = Components.NumberInputField.Props & UseFieldProps<number>
+// eslint-disable-next-line react-refresh/only-export-components
+export const binding = Components.NumberField.bindings
+
+export type Props = Components.NumberField.Props & UseFieldProps<number>
 
 const NAME = 'dnp-processing-executables-layoutSchema-components-numberField'
 
 function Component(props: Props): React.ReactNode {
   const fieldProps = useFieldProps(props)
 
-  return <Components.NumberInputField.default {...(fieldProps as any)} />
+  return <Components.NumberField.default {...(fieldProps as any)} />
 }
 
 const NumberField = memo(Component)

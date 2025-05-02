@@ -1,17 +1,17 @@
-import { Tooltip } from '@radix-ui/themes'
-
 import { memo } from 'react'
 
-import Button from '~/shared/button'
 import Flex from '~/shared/flex'
 import { type FieldInputProps, useField } from '~/shared/form'
-import Icon from '~/shared/icon'
 import Labeled from '~/shared/labeled'
 import { SelectInput } from '~/shared/select'
-import { c, fns } from '~/utils/core'
-import { useSyncStates } from '~/utils/hooks/sync-states'
+import { fns } from '~/utils/core'
 
+import { splitProps } from '../lib.split-props'
 import { type ComponentProps } from '../types'
+import { syncFieldStatesBinding } from './lib.sync-field-states-binding'
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const bindings = [syncFieldStatesBinding]
 
 export type Props = ComponentProps<
   SelectInput.InputProps & {
@@ -25,35 +25,24 @@ export type Props = ComponentProps<
 
 const NAME = 'dnp-layoutSchema-selectField'
 
-const TextInputField = memo((props: Props): React.ReactNode => {
-  // prettier-ignore
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { className, input: _, label, value, format, parse, propsState, fieldName, onValueChange, children, content, context, block, setProps, ...restProps } = props
+function Component(props: Props): React.ReactNode {
+  const [{ label, fieldName = 'unknown', onValueChange = defaultOnValueChange, ...restProps }] = splitProps(props)
 
   const { input } = useField(fieldName)
-  useSyncStates([value, (v) => setProps?.({ value: v })], [input.value, (v) => input.onChange(v)])
-
-  const error = validateProps()
 
   return (
     <Flex direction='column' position='relative' width='100%'>
-      {error && (
-        <Tooltip content={error}>
-          <Button size='1' round={true} style={{ position: 'absolute' }} variant='solid' color='red'>
-            <Icon name='InfoCircled' />
-          </Button>
-        </Tooltip>
-      )}
       <Labeled label={label}>
         <SelectInput.default
-          {...input}
           {...restProps}
           style={{
             width: '100%',
             ...restProps.style,
           }}
+          value={input.value}
           onValueChange={fns(onValueChange, input.onChange)}
-          className={c(className)}
+          onBlur={fns(restProps.onBlur, input.onBlur)}
+          onFocus={fns(restProps.onFocus, input.onFocus)}
         />
       </Labeled>
     </Flex>
@@ -61,10 +50,11 @@ const TextInputField = memo((props: Props): React.ReactNode => {
 
   // Private
 
-  function validateProps() {
-    if (fieldName === undefined) return 'У компонента SelectField отсутствует обязательный параметр fieldName'
+  function defaultOnValueChange(value: string | undefined) {
+    props.setProps({ value })
   }
-})
-export default TextInputField
+}
 
-TextInputField.displayName = NAME
+const SelectField = memo(Component)
+SelectField.displayName = NAME
+export default SelectField
