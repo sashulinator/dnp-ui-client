@@ -29,10 +29,11 @@ function Component(props: Props): React.ReactNode {
     value,
     propsState,
     fieldName,
-    onValueChange,
     context,
     block,
     setProps,
+    parse,
+    format,
     localStorageKey,
     ...inputProps
   } = props

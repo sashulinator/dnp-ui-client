@@ -17,6 +17,8 @@ export type UseFieldProps<TValue> = ComponentProps<{
       key: string | undefined
       type: keyof typeof PARAMS_MAP
     }
+    parse: (v: TValue) => TValue
+    format: (v: TValue) => TValue
   }
 
 const PARAMS_MAP = {
@@ -35,8 +37,12 @@ export function useFieldProps<TValue>(props: UseFieldProps<TValue>) {
     isMultiModeDisabled,
     context,
     value,
+    parse = defaultParse,
+    format = defaultFormat,
     ...restProps
   } = props
+
+  console.log('props', props)
 
   // const [localStorageValue, setLocalStorageValue] = useStringStorage<TValue>(
   //   useLocalStorage({ key: localStorage?.key }),
@@ -62,17 +68,26 @@ export function useFieldProps<TValue>(props: UseFieldProps<TValue>) {
 
   return {
     ...restProps,
-    value,
+    value: parse(value as TValue),
     disabled: isDisabled,
     placeholder,
     setProps,
     fieldName: retFieldName,
-    onValueChange,
+    // @ts-ignore
+    onValueChange: (v: any, ...args: any[]) => onValueChange?.(format(v), ...args),
   }
 
   // Private
 
   function defaultOnValueChange(value: TValue | undefined) {
     setProps({ value })
+  }
+
+  function defaultParse<T>(v: T): T {
+    return v
+  }
+
+  function defaultFormat<T>(v: T): T {
+    return v
   }
 }
