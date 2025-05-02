@@ -12,8 +12,9 @@ export function createAtom<T>(init: T): Atom<T> {
   return {
     get: () => state,
     set: (newState: T) => {
-      listeners.forEach((listener) => listener(newState, state))
+      const oldState = state
       state = newState
+      listeners.forEach((listener) => listener(newState, oldState))
     },
     subscribe: (cb: (state: T, prevState: T) => void) => {
       listeners.add(cb)
