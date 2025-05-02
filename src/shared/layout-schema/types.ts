@@ -5,9 +5,14 @@ import type { Any } from '~/utils/core'
 import type { Atom } from '~/utils/store'
 import type { Union } from '~/utils/types/union'
 
+export type Binding = {
+  id: string
+  fn: (props: ComponentProps) => void
+}
+
 export interface ComponentWithMeta {
   render: React.ComponentType<Any>
-  bindings?: ((props: ComponentProps) => void)[] | undefined
+  bindings?: Binding[] | undefined
 }
 
 export interface Block {

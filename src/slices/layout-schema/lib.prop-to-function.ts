@@ -27,7 +27,7 @@ export function propToFunction(block: Block): Block {
       acc[key.slice(1)] = value?.map((fn) => {
         try {
           // @ts-ignore
-          return new Function('...args', `return (${fn})(...args)`)
+          return new Function('...args', `return (${Array.isArray(fn) ? fn.join('\n') : fn})(...args)`)
         } catch (e) {
           // @ts-ignore
           return emptyFn

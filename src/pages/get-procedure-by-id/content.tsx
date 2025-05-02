@@ -8,6 +8,7 @@ import Flex from '~/shared/flex'
 import Form, { Card, Column, type FormProps, Row } from '~/shared/form'
 import Icon from '~/shared/icon'
 import Labeled from '~/shared/labeled'
+import { notify } from '~/shared/notification-list-store'
 import { Main } from '~/shared/page'
 import Section from '~/shared/section'
 import TextInput from '~/shared/text-input'
@@ -75,7 +76,23 @@ export default function Component(props: Props): JSX.Element {
                                 <Icon name='Trash' />
                               </DangerButton>
                             </Row>
-                            <Procedure.LayoutSchema.default context={context} rootBlock={deserializedRootBlock} />
+                            <Procedure.LayoutSchema.default
+                              onError={(e) => {
+                                const { message, ...rest } = e
+                                const err = rest as any
+                                notify({
+                                  type: 'error',
+                                  description: `Ошибка в блоке "${(err as any).componentProps.block.id}" ${err.binding.id ? `В binding "${err.binding.id}"` : ''} ${err.listenerIndex ? `В listeners[${err.listenerIndex}]` : ''}`,
+                                  title: message,
+                                })
+                                // eslint-disable-next-line no-console
+                                console.log(e.message)
+                                // eslint-disable-next-line no-console
+                                console.log(rest)
+                              }}
+                              context={context}
+                              rootBlock={deserializedRootBlock}
+                            />
                           </Flex>
                         </Card>
                       </ErrorBoundary>

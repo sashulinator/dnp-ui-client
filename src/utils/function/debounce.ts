@@ -3,7 +3,11 @@
  * @param callback
  * @param delay
  */
-export const debounce = <T extends unknown[]>(callback: (...args: T) => void, delay = 0): ((...args: T) => void) => {
+export const debounce = <T extends unknown[]>(
+  callback: ((...args: T) => void) | undefined,
+  delay = 0,
+): ((...args: T) => void) => {
+  if (callback === undefined) return () => {}
   let timeoutId: NodeJS.Timeout | null
   return (...args) => {
     if (timeoutId) {
