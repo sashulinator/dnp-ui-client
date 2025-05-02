@@ -3,10 +3,10 @@ import React, { useEffect } from 'react'
 import type { Dictionary } from '~/utils/core'
 import { useSubscribeUpdate } from '~/utils/core-hooks'
 
-import type { Block, BlockNode, ComponentProps, ComponentWithMeta, Context } from './types'
+import type { Block, ComponentProps, ComponentWithMeta, Context } from './types'
 
 interface Props {
-  block: BlockNode
+  block: Block
   context: Context
   componentMap: Record<string, ComponentWithMeta>
   componentPropsMap: Dictionary<ComponentProps>

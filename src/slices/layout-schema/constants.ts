@@ -1,8 +1,11 @@
+import type { Dictionary } from '~/utils/core'
+
 import { Button } from './components/button'
 import Flex from './components/flex'
 import SelectField from './components/select-field'
-import TextInputField from './components/text-input-field'
+import * as TextInputField from './components/text-field'
 import { Root } from './root'
+import type { ComponentWithMeta } from './types'
 
 export const componentMap = {
   Root: {
@@ -12,7 +15,8 @@ export const componentMap = {
     render: Button,
   },
   TextField: {
-    render: TextInputField,
+    render: TextInputField.default,
+    bindings: TextInputField.bindings,
   },
   Flex: {
     render: Flex,
@@ -20,4 +24,4 @@ export const componentMap = {
   SelectField: {
     render: SelectField,
   },
-}
+} satisfies Dictionary<ComponentWithMeta>

@@ -1,6 +1,6 @@
 import { memo } from 'react'
 
-import TextInputField, { type Props as TextInputFieldProps } from './text-input-field'
+import TextInputField, { type Props as TextInputFieldProps } from './text-field'
 
 export type Props = TextInputFieldProps & {
   context: { isSingleMode: boolean }

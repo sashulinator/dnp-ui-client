@@ -7,7 +7,7 @@ import type { Union } from '~/utils/types/union'
 
 export interface ComponentWithMeta {
   render: React.ComponentType<Any>
-  // Добавим мета информацию, например defaultProps
+  bindings?: ((props: ComponentProps) => void)[] | undefined
 }
 
 export interface Block {
@@ -15,10 +15,8 @@ export interface Block {
   name: Union<string, keyof ReactHTML>
   props: Record<string, unknown>
   listeners?: ((props: ComponentProps, oldProps: ComponentProps) => void)[] | undefined
-  children?: BlockNode[]
+  children?: Block[]
 }
-
-export type BlockNode = Block | string
 
 export type ComponentProps<TProps = Dictionary> = {
   block: Block

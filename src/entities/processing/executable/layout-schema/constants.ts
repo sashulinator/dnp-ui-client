@@ -1,4 +1,5 @@
-import { componentMap as sliceComponentMap } from '~/slices/layout-schema'
+import { type ComponentWithMeta, componentMap as sliceComponentMap } from '~/slices/layout-schema'
+import type { Dictionary } from '~/utils/core'
 
 import * as Components from './components'
 
@@ -6,6 +7,7 @@ export const componentMap = {
   ...sliceComponentMap,
   TextField: {
     render: Components.TextField.default,
+    bindings: sliceComponentMap.TextField.bindings,
   },
   NumberField: {
     render: Components.NumberField.default,
@@ -22,4 +24,4 @@ export const componentMap = {
   DcservicePickerField: {
     render: Components.DcservicePickerField.default,
   },
-}
+} satisfies Dictionary<ComponentWithMeta>

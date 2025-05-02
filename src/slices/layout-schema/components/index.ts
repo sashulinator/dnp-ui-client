@@ -1,5 +1,5 @@
-export * as TextInputField from './text-input-field'
-export * as NumberInputField from './number-input-field'
+export * as TextInputField from './text-field'
+export * as NumberInputField from './number-field'
 export * as Button from './button'
 export * as Flex from './flex'
 export * as Checkbox from './checkbox'

@@ -52,7 +52,7 @@ export default function Component(props: Props): JSX.Element {
               const deserializedRootBlock = useMemo(() => Procedure.LayoutSchema.propToFunction(rootBlock), [rootBlock])
               // eslint-disable-next-line react-hooks/rules-of-hooks
               const context = useMemo(
-                () => ({ columns: [], parentFieldName: undefined, isEditingMode: true }),
+                () => ({ columns: [], parentFieldName: undefined, form: form.form, isEditingMode: true }),
                 [deserializedRootBlock],
               )
 

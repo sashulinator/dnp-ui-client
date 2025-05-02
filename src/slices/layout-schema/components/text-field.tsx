@@ -5,9 +5,9 @@ import { type FieldInputProps, useField } from '~/shared/form'
 import Labeled from '~/shared/labeled'
 import TextInput, { type TextInputProps } from '~/shared/text-input'
 import { c, fns } from '~/utils/core'
-import { useSyncStates } from '~/utils/hooks/sync-states'
 
 import { type ComponentProps } from '../types'
+import { syncFieldStatesBinding } from './lib.sync-field-states-binding'
 
 export type Props = ComponentProps<
   TextInputProps & {
@@ -17,9 +17,12 @@ export type Props = ComponentProps<
   }
 >
 
+// eslint-disable-next-line react-refresh/only-export-components
+export const bindings = [syncFieldStatesBinding]
+
 const NAME = 'dnp-layoutSchema-textInputField'
 
-export default function Component(props: Props): React.ReactNode {
+function Component(props: Props): React.ReactNode {
   const {
     children,
     context,
@@ -35,7 +38,6 @@ export default function Component(props: Props): React.ReactNode {
   } = props
 
   const { input } = useField(fieldName)
-  useSyncStates([input.value, (v) => input.onChange(v), input.value], [value, (v) => setProps?.({ value: v })])
 
   return (
     <Flex direction='column' position='relative' width='100%'>
@@ -66,4 +68,4 @@ export default function Component(props: Props): React.ReactNode {
 
 const TextField = memo(Component)
 TextField.displayName = NAME
-// export default TextField
+export default TextField
