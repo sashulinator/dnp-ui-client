@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { memo, useCallback, useEffect } from 'react'
+import { memo } from 'react'
 
 import { Dcservice } from '~/entities/database-container'
 import Flex from '~/shared/flex'
@@ -76,7 +76,7 @@ function Component(props: Props): React.ReactNode {
 
   async function fetchDisplay(params: { id: string | undefined }): Promise<undefined | Dcservice.api.getById.Result> {
     if (!params.id) return undefined
-    return Dcservice.api.getById.request({ id: params.id }).then((r) => r.data)
+    return context.api.dcservice.getById.request({ id: params.id }).then(({ data }) => data)
   }
 
   async function fetchList(params: {
@@ -85,7 +85,7 @@ function Component(props: Props): React.ReactNode {
     page: number
     limit: number
   }) {
-    const ret = await Dcservice.api.findWithTotal.request({
+    const ret = await context.api.dcservice.findWithTotal.request({
       take: params.limit,
       skip: (params.page - 1) * params.limit,
     })

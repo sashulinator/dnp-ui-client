@@ -4,11 +4,17 @@ import {
   NAME,
   type RequestParams,
   type Result,
-  url,
+  URL,
 } from '~/common/entities/database-container/dcservice/api/find-with-total'
 import api, { type QueryError, type Response } from '~/shared/api'
 
-const request = (params: RequestParams): Promise<Response<Result>> => api.post(url, { params })
+import * as getById from './get-by-id'
+
+async function request(params: RequestParams): Promise<Response<Result>> {
+  const ret = await api.post<Result>(URL, { params })
+  ret.data.items.forEach((item) => getById.setCache({ id: item.id }, item))
+  return ret
+}
 
 export { request, type RequestParams, type Result, NAME }
 
@@ -24,5 +30,5 @@ export function useCache<TData = Result>(
     ...preferredOptions,
   }
 
-  return useReactQuery([NAME, requestParams], () => request(requestParams), options)
+  return useReactQuery([URL, requestParams], () => request(requestParams), options)
 }

@@ -4,12 +4,18 @@ import {
   NAME,
   type RequestParams,
   type Result,
-  url,
+  URL,
 } from '~/common/entities/database-container/dcservice/api/get-by-id'
 import api, { type QueryError, type Response } from '~/shared/api'
 import { queryClient } from '~/shared/query'
 
-const request = (params: RequestParams): Promise<Response<Result>> => api.post(url, { params })
+async function request(params: RequestParams): Promise<Response<Result>> {
+  const cache = getCache(params)
+  if (cache) return cache
+  const ret = await api.post(URL, { params })
+  setCache(params, ret.data)
+  return ret
+}
 
 export { request, type RequestParams, type Result, NAME }
 
@@ -32,4 +38,12 @@ export function useCache<TData = Result>(
 export function setCache(requestParams: RequestParams, data: Result): void {
   const response: Response<Result> = { data }
   queryClient.setQueryData([NAME, requestParams], response)
+}
+
+export function clearCache(requestParams: RequestParams): void {
+  queryClient.invalidateQueries([NAME, requestParams])
+}
+
+export function getCache(requestParams: RequestParams): { data: Result } | undefined {
+  return queryClient.getQueryData<{ data: Result }>([NAME, requestParams])
 }

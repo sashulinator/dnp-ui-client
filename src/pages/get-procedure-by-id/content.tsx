@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from 'react'
 
+import { Dcservice } from '~/entities/database-container'
 import { Procedure } from '~/entities/processing'
 import Button, { type ButtonProps, DangerButton } from '~/shared/button'
 import Container from '~/shared/container'
@@ -53,7 +54,15 @@ export default function Component(props: Props): JSX.Element {
               const deserializedRootBlock = useMemo(() => Procedure.LayoutSchema.propToFunction(rootBlock), [rootBlock])
               // eslint-disable-next-line react-hooks/rules-of-hooks
               const context = useMemo(
-                () => ({ columns: [], parentFieldName: undefined, form: form.form, isEditingMode: true }),
+                () => ({
+                  columns: [],
+                  parentFieldName: undefined,
+                  form: form.form,
+                  api: {
+                    dcservice: Dcservice.api,
+                  },
+                  isEditingMode: true,
+                }),
                 [deserializedRootBlock],
               )
 
