@@ -4,36 +4,38 @@ import { useQuery } from 'react-query'
 import Dialog from '~/shared/dialog'
 import { FetcherStatus } from '~/shared/query'
 import ScrollArea from '~/shared/scroll-area'
-import { isEmpty } from '~/utils/core'
+import { type Id, isEmpty } from '~/utils/core'
 import { preventDefault } from '~/utils/core-client'
 import { useAtomState } from '~/utils/store'
 
 import ListTable, { type ItemSearchFilter, type ItemSort, type ListTableProps } from '../list-table'
-import type { DcserviceValue } from '../types'
+import type { DcserviceDisplay, DcserviceDisplayWithId } from '../types'
 
-export type Value = DcserviceValue
+export type Display = DcserviceDisplay
+export type DisplayWithId = DcserviceDisplayWithId
 
 type RenderTriggerProps = {
   isOpen: boolean
-  value: Value | undefined
+  value: DisplayWithId['id'] | undefined
   setIsOpen: (isOpen: boolean) => void
-  setValue: (value: Value | undefined) => void
+  setValue: (value: DisplayWithId | undefined) => void
   enabled: boolean
 }
 
 export interface Props {
   className?: string | undefined
-  value: Value | undefined
+  value: DisplayWithId['id'] | undefined
   enabled: boolean
   fetcherDependencies: unknown[]
   renderTrigger: (props: RenderTriggerProps) => React.ReactNode
-  onValueChange: (value: Value | undefined) => void
+  onValueChange: (value: DisplayWithId | undefined) => void
+  fetchDisplay: (params: { id: Id }) => Promise<Display | undefined>
   fetchList: (params: {
     sort: ItemSort | undefined
     searchFilter: ItemSearchFilter | undefined
     page: number
     limit: number
-  }) => Promise<{ items: Value[]; total: number }>
+  }) => Promise<{ items: DisplayWithId[]; total: number }>
 }
 
 const NAME = 'dnp-databaseContainer-dcservice-picker'
@@ -104,7 +106,7 @@ export default function Component(props: Props): JSX.Element {
                   onChange: setPage,
                 }}
                 getRowProps={({ item }) => {
-                  const selected = item.id === value?.id
+                  const selected = item.id === value
                   return {
                     style: {
                       background: selected ? 'var(--accent-a5)' : undefined,

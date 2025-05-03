@@ -15,8 +15,8 @@ export const binding = [Components.syncFieldStatesBinding, Components.savePropTo
 export type Props = Dcservice.Picker.PickerProps &
   Dcservice.Input.InputProps &
   ComponentProps &
-  UseFieldProps<Dcservice.DcserviceValue> & {
-    onValueChange: (e: Dcservice.DcserviceValue | undefined) => void
+  UseFieldProps<Dcservice.DcserviceDisplay> & {
+    onValueChange: (value: string | undefined) => void
     localStorageKey?: string | undefined
   }
 
@@ -38,7 +38,7 @@ function Component(props: Props): React.ReactNode {
     ...inputProps
   } = props
 
-  const fieldProps = useFieldProps<Dcservice.DcserviceValue>(props)
+  const fieldProps = useFieldProps<string>(props as any)
 
   const { input } = useField(fieldName)
 
@@ -46,6 +46,10 @@ function Component(props: Props): React.ReactNode {
     <Dcservice.Picker.default
       {...fieldProps}
       enabled={!fieldProps.disabled}
+      fetchDisplay={async (params) => {
+        if (!params.id) return undefined
+        return Dcservice.api.getById.request({ id: params.id }).then((r) => r.data)
+      }}
       fetcherDependencies={[fieldProps.disabled]}
       fetchList={async (params) => {
         const ret = await Dcservice.api.findWithTotal.request({
@@ -63,7 +67,10 @@ function Component(props: Props): React.ReactNode {
             disabled={!enabled}
             onBlur={fns(inputProps.onBlur, input.onBlur)}
             onFocus={fns(inputProps.onFocus, input.onFocus)}
-            fetchValue={() => value}
+            fetchValue={async () => {
+              if (!value) return undefined
+              return Dcservice.api.getById.request({ id: value }).then((r) => r.data)
+            }}
             fetcherDependencies={[value]}
             onClearableClick={() => setValue(undefined)}
             onClick={() => setIsOpen(true)}

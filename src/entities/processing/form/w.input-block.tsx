@@ -22,8 +22,8 @@ export interface Props {
   disabled: boolean
   dcdatabase: Dcdatabase.DatabaseValue | undefined
   setDcdatabase: (value: Dcdatabase.DatabaseValue | undefined) => void
-  dcservice: Dcservice.DcserviceValue | undefined
-  setDcserviceValue: (value: Dcservice.DcserviceValue | undefined) => void
+  dcservice: Dcservice.DcserviceDisplayWithId | undefined
+  setDcserviceValue: (value: Dcservice.DcserviceDisplayWithId | undefined) => void
   // fetchTablesByDcdatabaseLocator: (dcdatabaseLocator: Dcdatabase.DcdatabaseLocator) => Promise<Table[]>
   onInputChange: (value: Dictionary<TableLocator> | undefined) => void
   fetchTableList: (params: {
@@ -73,7 +73,11 @@ export default function Component(props: Props): JSX.Element {
                     })
                     return ret.data
                   }}
-                  value={dcservice}
+                  fetchDisplay={async (params) => {
+                    if (!params.id) return
+                    return Dcservice.api.getById.request({ id: params?.id }).then((d) => d.data)
+                  }}
+                  value={dcservice?.id}
                   onValueChange={(v) => {
                     setDcserviceValue(v)
                     setDcdatabase(undefined)
@@ -85,7 +89,10 @@ export default function Component(props: Props): JSX.Element {
                       <Dcservice.Input.default
                         hasValue={!!value}
                         disabled={!enabled}
-                        fetchValue={() => value}
+                        fetchValue={async () => {
+                          if (!dcservice?.id) return
+                          return Dcservice.api.getById.request({ id: dcservice?.id }).then((d) => d.data)
+                        }}
                         fetcherDependencies={[value]}
                         onClearableClick={() => setValue(undefined)}
                         onClick={() => setIsOpen(true)}

@@ -7,4 +7,10 @@ export * as Input from './input'
 export * as ListTable from './list-table'
 export * as TestConnection from './test-connection'
 
-export type { Dcservice, DcserviceCreateInput, DcserviceUpdateInput, DcserviceValue } from './types'
+export type {
+  Dcservice,
+  DcserviceCreateInput,
+  DcserviceUpdateInput,
+  DcserviceDisplay,
+  DcserviceDisplayWithId,
+} from './types'

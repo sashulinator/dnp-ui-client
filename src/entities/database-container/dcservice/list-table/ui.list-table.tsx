@@ -4,9 +4,9 @@ import { ListTable } from '~/shared/table'
 import { type Dictionary, type SetterOrUpdater } from '~/utils/core'
 import { type Atom } from '~/utils/store'
 
-import type { DcserviceValue } from '../types'
+import type { DcserviceDisplayWithId } from '../types'
 
-export type Item = DcserviceValue
+export type Item = DcserviceDisplayWithId
 
 export type ItemSort = ListTable.Sort.ToSort<Item>
 export type ItemSearchFilter = ListTable.Search.ReplaceValueByFilter<Item>

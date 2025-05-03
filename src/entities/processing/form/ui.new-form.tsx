@@ -72,7 +72,7 @@ export default function Component(props: Props): JSX.Element {
   const [selectedDctableLocator, setSelectedSingleDctableLocator] = useState<Dctable.DctableLocator>()
   const [isTextInput, setIsTextInput] = useState(false)
 
-  const [dcservice, setDcservice] = useStringStorage<Dcservice.DcserviceValue>(
+  const [dcservice, setDcservice] = useStringStorage<Dcservice.DcserviceDisplayWithId>(
     useLocalStorage({ key: `${localStoragePrefix}-dcservice` }),
     new Params.ObjectParam(),
   )

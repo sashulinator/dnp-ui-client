@@ -5,13 +5,13 @@ import Spinner from '~/shared/spinner'
 import { WithAvatar } from '~/shared/view'
 import { capitalize } from '~/utils/core'
 
-import type { DcserviceValue } from '../types'
+import type { DcserviceDisplay } from '../types'
 
-export type Value = DcserviceValue
+export type Display = DcserviceDisplay
 
 export interface Props extends Omit<InputProps, 'onChange' | 'children' | 'value'> {
   className?: string | undefined
-  fetchValue: () => Value | undefined
+  fetchValue: () => Promise<Display | undefined>
   fetcherDependencies: unknown[]
 }
 
