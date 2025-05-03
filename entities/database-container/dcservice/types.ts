@@ -25,10 +25,11 @@ export type DcserviceUpdateInput = v.InferOutput<typeof dcserviceUpdateInput>
  * Для таких компонентов как picker
  */
 
-export type DcserviceValue = {
-  id: string
+export type DcserviceDisplay = {
   display: string | undefined
   client?: string | undefined
   host?: string | undefined
   port?: number | undefined
 }
+
+export type DcserviceDisplayWithId = DcserviceDisplay & { id: string }
