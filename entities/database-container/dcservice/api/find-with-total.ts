@@ -3,7 +3,7 @@ import { baseUrl } from './constants'
 
 export const NAME = 'find-with-total'
 
-export const url = `${baseUrl}/${NAME}`
+export const URL = `${baseUrl}/${NAME}`
 
 export type RequestParams = {
   skip?: number

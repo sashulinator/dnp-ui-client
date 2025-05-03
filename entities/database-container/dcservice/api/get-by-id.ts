@@ -5,7 +5,7 @@ import { baseUrl } from './constants'
 
 export const NAME = 'get-by-id'
 
-export const url = `${baseUrl}/${NAME}`
+export const URL = `${baseUrl}/${NAME}`
 
 export type RequestParams = {
   id: Id
