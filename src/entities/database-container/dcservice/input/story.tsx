@@ -25,7 +25,7 @@ export default {
         <Input
           {...state}
           hasValue={!!value}
-          fetchValue={async () => value}
+          fetchDisplay={async () => value}
           fetcherDependencies={[value]}
           onClearableClick={() => setValue(undefined)}
         />
@@ -35,5 +35,5 @@ export default {
 
   controls: [],
 
-  getName: (): string => Input.displayName,
+  getName: (): string => Input.displayName || '',
 } satisfies Story<State>

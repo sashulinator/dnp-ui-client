@@ -77,7 +77,7 @@ export default function Component(props: Props): JSX.Element {
                     if (!params.id) return
                     return Dcservice.api.getById.request({ id: params?.id }).then((d) => d.data)
                   }}
-                  value={dcservice?.id}
+                  value={{ id: dcservice?.id }}
                   onValueChange={(v) => {
                     setDcserviceValue(v)
                     setDcdatabase(undefined)
@@ -89,7 +89,7 @@ export default function Component(props: Props): JSX.Element {
                       <Dcservice.Input.default
                         hasValue={!!value}
                         disabled={!enabled}
-                        fetchValue={async () => {
+                        fetchDisplay={async () => {
                           if (!dcservice?.id) return
                           return Dcservice.api.getById.request({ id: dcservice?.id }).then((d) => d.data)
                         }}

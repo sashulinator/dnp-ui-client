@@ -33,14 +33,14 @@ export default {
             })
             return ret.data
           }}
-          value={item?.id}
+          value={{ id: item?.id }}
           fetchDisplay={async () => itemRef.current}
           onValueChange={onItemChange}
           renderTrigger={useCallback(({ setIsOpen, value, setValue }) => {
             return (
               <Input
                 hasValue={!!value}
-                fetchValue={async () => itemRef.current}
+                fetchDisplay={async () => itemRef.current}
                 fetcherDependencies={[value]}
                 onClearableClick={() => setValue(undefined)}
                 onClick={() => setIsOpen(true)}

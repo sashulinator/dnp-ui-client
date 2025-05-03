@@ -1,3 +1,5 @@
+import { type ForwardedRef, forwardRef } from 'react'
+
 import Flex from '~/shared/flex'
 import Input, { type InputProps } from '~/shared/input'
 import { useQuery } from '~/shared/query'
@@ -11,14 +13,14 @@ export type Display = DcserviceDisplay
 
 export interface Props extends Omit<InputProps, 'onChange' | 'children' | 'value'> {
   className?: string | undefined
-  fetchValue: () => Promise<Display | undefined>
+  fetchDisplay: () => Promise<Display | undefined>
   fetcherDependencies: unknown[]
 }
 
 const NAME = 'dnp-databaseContainer-dcservice-input'
 
-export default function Component(props: Props): JSX.Element {
-  const { loading, variant = 'soft', fetcherDependencies, fetchValue, ...inputCardProps } = props
+function Component(props: Props, ref: ForwardedRef<HTMLButtonElement>): JSX.Element {
+  const { loading, variant = 'soft', fetcherDependencies, fetchDisplay: fetchValue, ...inputCardProps } = props
 
   const valueFetcher = useQuery([NAME, ...fetcherDependencies], fetchValue)
   const value = valueFetcher.data
@@ -26,6 +28,7 @@ export default function Component(props: Props): JSX.Element {
   return (
     <>
       <Input
+        ref={ref}
         size={null}
         {...inputCardProps}
         variant={variant}
@@ -48,4 +51,6 @@ export default function Component(props: Props): JSX.Element {
   )
 }
 
-Component.displayName = NAME
+const ForwardRef = forwardRef(Component)
+ForwardRef.displayName = NAME
+export default ForwardRef

@@ -1,10 +1,9 @@
-import { createElement, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 
 import Dialog from '~/shared/dialog'
 import { FetcherStatus } from '~/shared/query'
 import ScrollArea from '~/shared/scroll-area'
-import { type Id, isEmpty } from '~/utils/core'
 import { preventDefault } from '~/utils/core-client'
 import { useAtomState } from '~/utils/store'
 
@@ -14,9 +13,12 @@ import type { DcserviceDisplay, DcserviceDisplayWithId } from '../types'
 export type Display = DcserviceDisplay
 export type DisplayWithId = DcserviceDisplayWithId
 
+export { ItemSearchFilter }
+export { ItemSort }
+
 type RenderTriggerProps = {
   isOpen: boolean
-  value: DisplayWithId['id'] | undefined
+  value: { id: string | undefined } | undefined
   setIsOpen: (isOpen: boolean) => void
   setValue: (value: DisplayWithId | undefined) => void
   enabled: boolean
@@ -24,12 +26,12 @@ type RenderTriggerProps = {
 
 export interface Props {
   className?: string | undefined
-  value: DisplayWithId['id'] | undefined
+  value: { id: string | undefined } | undefined
   enabled: boolean
   fetcherDependencies: unknown[]
   renderTrigger: (props: RenderTriggerProps) => React.ReactNode
   onValueChange: (value: DisplayWithId | undefined) => void
-  fetchDisplay: (params: { id: Id }) => Promise<Display | undefined>
+  fetchDisplay: (params: { id: DisplayWithId['id'] }) => Promise<Display | undefined>
   fetchList: (params: {
     sort: ItemSort | undefined
     searchFilter: ItemSearchFilter | undefined
@@ -41,17 +43,8 @@ export interface Props {
 const NAME = 'dnp-databaseContainer-dcservice-picker'
 
 export default function Component(props: Props): JSX.Element {
-  const {
-    fetcherDependencies,
-    value: propsValue,
-    renderTrigger,
-    enabled = true,
-    onValueChange: onChange,
-    fetchList,
-  } = props
+  const { fetcherDependencies, value, renderTrigger, enabled = true, onValueChange: onChange, fetchList } = props
   const [, isOpen, setIsOpen] = useAtomState<boolean>(false)
-
-  const value = isEmpty(propsValue) ? undefined : propsValue
 
   const [page, setPage] = useState(1)
   const [searchFilter, setSearchFilter] = useState<ListTableProps['searchFilter'] | undefined>(undefined)
@@ -76,7 +69,7 @@ export default function Component(props: Props): JSX.Element {
 
   return (
     <>
-      {createElement(renderTrigger, { setIsOpen, isOpen, setValue: onChange, value, enabled })}
+      {renderTrigger({ setIsOpen, isOpen, setValue: onChange, value, enabled })}
       <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
         <Dialog.Content
           onOpenAutoFocus={preventDefault}
@@ -106,7 +99,7 @@ export default function Component(props: Props): JSX.Element {
                   onChange: setPage,
                 }}
                 getRowProps={({ item }) => {
-                  const selected = item.id === value
+                  const selected = item.id === value?.id
                   return {
                     style: {
                       background: selected ? 'var(--accent-a5)' : undefined,
