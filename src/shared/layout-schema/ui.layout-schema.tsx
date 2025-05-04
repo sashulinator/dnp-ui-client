@@ -68,7 +68,7 @@ function init(
       }
     })
     try {
-      item.setProps(item.block.props)
+      item.setProps(item.block?.props || {})
     } catch (e) {
       onError && onError(new BaseError(`${(e as Error).message}`, { cause: e, componentProps: item }))
     }
@@ -88,7 +88,7 @@ function traverse(
   if (typeof block === 'string') return
 
   // Допрокидываем вторым аргументов во все функции componentProps
-  const bindedBlockProps = map(block.props, (prop) => {
+  const bindedBlockProps = map(block.props || {}, (prop) => {
     if (typeof prop !== 'function') return prop
     return (...args: unknown[]) => prop(...args, componentProps)
   })

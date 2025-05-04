@@ -42,8 +42,6 @@ export function useFieldProps<TValue>(props: UseFieldProps<TValue>) {
     ...restProps
   } = props
 
-  console.log('props', props)
-
   // const [localStorageValue, setLocalStorageValue] = useStringStorage<TValue>(
   //   useLocalStorage({ key: localStorage?.key }),
   //   new PARAMS_MAP[localStorage?.type || 'string']() as any,

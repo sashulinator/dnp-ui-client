@@ -15,7 +15,6 @@ function Component(props: Props): React.ReactNode {
 
   if (hidden) return null
 
-  // @ts-ignore
   return <UiFlex {...restProps}>{content === null ? null : content || children}</UiFlex>
 }
 

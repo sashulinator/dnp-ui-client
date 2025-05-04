@@ -29,7 +29,7 @@ export const savePropToLocalStorage = {
 
     if (!key || !prop) return
 
-    delete componentProps.block.props['localStorage']
+    delete componentProps.block.props?.['localStorage']
 
     propsState.subscribe((newProps) => {
       if (newProps.localStorage) {

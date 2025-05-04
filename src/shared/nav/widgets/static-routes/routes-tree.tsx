@@ -31,37 +31,33 @@ export function getRoutesTree() {
   /**
    * Настройка таблиц
    */
-  if (auth.hasRole(roles.usr_get, 'dnp')) {
-    const children: TreeItem[] = []
+  // if (auth.hasRole(roles.usr_get, 'dnp')) {
+  //   const children: TreeItem[] = []
 
-    children.push({
-      id: 'tables-directories',
-      name: 'Справочники',
-    })
-    children.push({
-      id: 'tables-source',
-      name: 'Исходные',
-    })
-    children.push({
-      id: 'tables-intermediate',
-      name: 'Промежуточные',
-    })
-    children.push({
-      id: 'tables-target',
-      name: 'Целевые',
-    })
-    children.push({
-      id: 'tables-data',
-      name: 'Хранилища',
-    })
+  //   children.push({
+  //     id: 'tables-directories',
+  //     name: 'Справочники',
+  //   })
+  //   children.push({
+  //     id: 'tables-source',
+  //     name: 'Исходные',
+  //   })
+  //   children.push({
+  //     id: 'tables-intermediate',
+  //     name: 'Промежуточные',
+  //   })
+  //   children.push({
+  //     id: 'tables-target',
+  //     name: 'Целевые',
+  //   })
 
-    routsTree.push({
-      id: 'tables',
-      name: 'Настройка таблиц',
-      renderIcon: () => <Icon name='User' />,
-      children,
-    })
-  }
+  //   routsTree.push({
+  //     id: 'tables',
+  //     name: 'Настройка таблиц',
+  //     renderIcon: () => <Icon name='User' />,
+  //     children,
+  //   })
+  // }
 
   /**
    * Обработки

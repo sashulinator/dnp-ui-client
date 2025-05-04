@@ -83,13 +83,13 @@ export default function Component(): JSX.Element {
                 loading={createMutator.isLoading}
                 onClick={() => {
                   confirm({
-                    title: 'Запустить обработку?',
+                    title: 'Сохранить обработку?',
                     description: 'Если необходимо выполнить потабличную настройку, пройдите на соответствующую вкладку',
                     onConfirm: () => void form.submit(),
                   })
                 }}
               >
-                Запустить
+                Сохранить
               </Button>
             </Flex>
           </Section>

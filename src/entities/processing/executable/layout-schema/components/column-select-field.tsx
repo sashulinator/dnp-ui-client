@@ -6,7 +6,7 @@ import Icon from '~/shared/icon'
 import Tooltip from '~/shared/tooltip'
 import { Components } from '~/slices/layout-schema'
 
-import type { UseFieldProps } from './lib.use-field'
+import { type UseFieldProps, useFieldProps } from './lib.use-field'
 import SelectField, { type Props as SelectFieldProps } from './select-field'
 import TextInputField from './text-field'
 
@@ -23,6 +23,8 @@ const NAME = 'dnp-processing-executables-layoutSchema-components-columnSelectFie
 
 function Component(props: Props): React.ReactNode {
   const { allowTextInput, size = '2', isTextInputMode, ...restProps } = props
+
+  const fieldProps = useFieldProps(props)
 
   const options = useMemo(
     () =>
@@ -44,7 +46,7 @@ function Component(props: Props): React.ReactNode {
         <Tooltip
           content={
             isTextInputMode
-              ? props.input.value
+              ? props.input?.value
                 ? 'Очистите поле ввода чтобы сменить тип ввода на "Выбор из существующих'
                 : 'Выбрать из существующих'
               : 'Ввести название вручную'
@@ -52,11 +54,12 @@ function Component(props: Props): React.ReactNode {
         >
           <Button
             variant='outline'
+            disabled={fieldProps.disabled}
             square={true}
             size={size}
             onClick={() => {
               props.setProps({ isTextInputMode: !isTextInputMode } as any)
-              props.input.onChange('')
+              props.input?.onChange('')
             }}
           >
             <Icon name={isTextInputMode ? 'ChevronDown' : 'Pencil'} />

@@ -8,6 +8,7 @@ import Flex from '~/shared/flex'
 import { Card, Column, FieldArray, Row, getIn, useForm } from '~/shared/form'
 import Icon from '~/shared/icon'
 import { LabeledSelect, type Option } from '~/shared/select'
+import Separator from '~/shared/separator'
 import { Tabs } from '~/shared/tabs'
 import { type Any, type Dictionary, type SetterOrUpdater, assertDefined, c, generateId, invariant } from '~/utils/core'
 import { useLocalStorage } from '~/utils/core-hooks'
@@ -177,16 +178,20 @@ export default function Component(props: Props): JSX.Element {
                                     executableSchemas={executableSchemas}
                                   />
                                 </Column>
-                                <DangerButton
-                                  variant='soft'
-                                  round={true}
-                                  onClick={() => {
-                                    removeExecutable(index)
-                                  }}
-                                >
-                                  <Icon name='Trash' />
-                                </DangerButton>
+                                <Column flexBasis='50%'>
+                                  <DangerButton
+                                    variant='soft'
+                                    style={{ alignSelf: 'end' }}
+                                    round={true}
+                                    onClick={() => {
+                                      removeExecutable(index)
+                                    }}
+                                  >
+                                    <Icon name='Trash' />
+                                  </DangerButton>
+                                </Column>
                               </Row>
+                              <Separator style={{ width: '100%' }} />
                               <ParamsFieldFactory
                                 name={formName}
                                 columns={[]}

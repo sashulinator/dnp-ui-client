@@ -18,7 +18,7 @@ export interface ComponentWithMeta {
 export interface Block {
   id: string
   name: Union<string, keyof ReactHTML>
-  props: Record<string, unknown>
+  props?: Record<string, unknown> | undefined
   listeners?: ((props: ComponentProps, oldProps: ComponentProps) => void)[] | undefined
   children?: Block[]
 }

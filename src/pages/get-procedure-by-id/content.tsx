@@ -12,6 +12,7 @@ import Labeled from '~/shared/labeled'
 import { notify } from '~/shared/notification-list-store'
 import { Main } from '~/shared/page'
 import Section from '~/shared/section'
+import Separator from '~/shared/separator'
 import TextInput from '~/shared/text-input'
 import Editor, { type EditorProps } from '~/slices/monaco-editor'
 import { generateId } from '~/utils/core'
@@ -44,6 +45,8 @@ export default function Component(props: Props): JSX.Element {
             {...(form as any)}
             render={useCallback(() => {
               // eslint-disable-next-line react-hooks/rules-of-hooks
+              const [isSingleMode, setIsSingleMode] = useState(false)
+              // eslint-disable-next-line react-hooks/rules-of-hooks
               useSubscribeUpdate(procedureState.subscribe)
               const string = procedureState.get()
               // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -55,7 +58,8 @@ export default function Component(props: Props): JSX.Element {
               // eslint-disable-next-line react-hooks/rules-of-hooks
               const context = useMemo(
                 () => ({
-                  columns: [],
+                  columns: [{ name: 'firstname' }, { name: 'lastname' }, { name: 'age' }, { name: 'sex' }],
+                  isSingleMode,
                   parentFieldName: undefined,
                   form: form.form,
                   api: {
@@ -63,35 +67,43 @@ export default function Component(props: Props): JSX.Element {
                   },
                   isEditingMode: true,
                 }),
-                [deserializedRootBlock],
+                [deserializedRootBlock, isSingleMode],
               )
 
               return (
                 <Flex direction='column' width='100%' gap='4' key={renderKey}>
+                  <Flex>
+                    <Button variant='ghost' onClick={() => setIsSingleMode((s) => !s)}>
+                      Включена {isSingleMode ? 'Потабличная' : 'Массовая'} настройка
+                    </Button>
+                  </Flex>
                   <Flex height='100%' width='100%' direction='column'>
                     {value?.params?.[0]?.component?.props?.rootBlock && (
                       <ErrorBoundary fallback='Недопустимая схема'>
                         <Card label='Процедура'>
                           <Flex width='100%' direction='column' gap='4'>
-                            <Row justify='between'>
-                              <Column width='50%'>
+                            <Row width='100%'>
+                              <Column flexBasis='50%'>
                                 <Flex direction='column'>
                                   <Labeled label='Название'>
                                     <TextInput value={value.name} disabled={true} />
                                   </Labeled>
                                 </Flex>
                               </Column>
-                              <DangerButton variant='soft' round={true}>
-                                <Icon name='Trash' />
-                              </DangerButton>
+                              <Column flexBasis='50%'>
+                                <DangerButton variant='soft' round={true} style={{ alignSelf: 'end' }}>
+                                  <Icon name='Trash' />
+                                </DangerButton>
+                              </Column>
                             </Row>
+                            <Separator style={{ width: '100%' }} />
                             <Procedure.LayoutSchema.default
                               onError={(e) => {
                                 const { message, ...rest } = e
                                 const err = rest as any
                                 notify({
                                   type: 'error',
-                                  description: `Ошибка в блоке "${(err as any).componentProps.block.id}" ${err.binding.id ? `В binding "${err.binding.id}"` : ''} ${err.listenerIndex ? `В listeners[${err.listenerIndex}]` : ''}`,
+                                  description: `Ошибка в блоке "${(err as any).componentProps.block.id}" ${err.binding?.id ? `В binding "${err.binding.id}"` : ''} ${err.listenerIndex ? `В listeners[${err.listenerIndex}]` : ''}`,
                                   title: message,
                                 })
                                 // eslint-disable-next-line no-console
