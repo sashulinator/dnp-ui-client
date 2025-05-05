@@ -12,7 +12,7 @@ import Heading from '~/shared/heading'
 import { notify } from '~/shared/notification-list-store'
 import Section from '~/shared/section'
 import { HighlightedText } from '~/shared/text'
-import { type Dictionary } from '~/utils/core'
+import { type Dictionary, generateId } from '~/utils/core'
 
 export interface Props {
   className?: string | undefined
@@ -30,14 +30,9 @@ export default function Component(): JSX.Element {
         // eslint-disable-next-line no-console
         createMutator.mutate({ data: { processing: ProcessingForm.fromValues(values) } })
       },
-      // validate: (values) => {
-      //   // eslint-disable-next-line no-console
-      //   console.log(values)
-      //   return undefined
-      //   // const processingCreateInput = ProcessingForm.fromValues(values)
-      //   // const { issues } = safeParse(createNormalizationConfigSchema, processingCreateInput)
-      //   // return toNestedErrors(issues)
-      // },
+      initialValues: {
+        name: generateId(),
+      },
     },
     { values: true, initialValues: true },
   )

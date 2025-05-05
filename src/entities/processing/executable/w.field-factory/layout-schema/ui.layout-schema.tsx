@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react'
 
-import { useField } from '~/shared/form'
+import { useField, useForm } from '~/shared/form'
 import LayoutSchema, { propToFunction } from '~/slices/layout-schema'
 
 import { componentMap } from '../../layout-schema/constants'
@@ -24,6 +24,7 @@ export default function Component(props: Props): JSX.Element {
   const deserializedRootBlock = useMemo(() => propToFunction(rootBlock), [rootBlock])
 
   const field = useField(fieldName, { subscription: { value: true } })
+  const form = useForm()
 
   useEffect(() => {
     setTimeout(() => onChange(field.input.value))
@@ -36,6 +37,7 @@ export default function Component(props: Props): JSX.Element {
           parentFieldName: fieldName,
           isSingleMode: _paramContext.isSingleMode,
           columns: _paramContext.columns,
+          form,
         }),
         [],
       )}

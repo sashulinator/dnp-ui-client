@@ -25,7 +25,8 @@ export type Props = ComponentProps<
 const NAME = 'dnp-layoutSchema-textField'
 
 function Component(props: Props): React.ReactNode {
-  const [{ label, fieldName = 'unknown', onValueChange = defaultOnValueChange, ...restProps }] = splitProps(props)
+  const [{ label, fieldName = 'unknown', onValueChange = defaultOnValueChange, value, ...restProps }] =
+    splitProps(props)
 
   const { input } = useField(fieldName)
 
@@ -39,7 +40,7 @@ function Component(props: Props): React.ReactNode {
             width: '100%',
             ...restProps.style,
           }}
-          value={input.value}
+          value={value}
           onValueChange={onValueChange}
           onBlur={fns(restProps.onBlur, input.onBlur)}
           onFocus={fns(restProps.onFocus, input.onFocus)}

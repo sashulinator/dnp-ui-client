@@ -5,11 +5,13 @@ import { APP } from '~/app/constants.app'
 import { type Dcdatabase, Dcservice, Dctable } from '~/entities/database-container'
 import Button, { DangerButton } from '~/shared/button'
 import Flex from '~/shared/flex'
-import { Card, Column, FieldArray, Row, getIn, useForm } from '~/shared/form'
+import { Card, Column, Field, FieldArray, Row, getIn, useForm } from '~/shared/form'
 import Icon from '~/shared/icon'
+import Labeled from '~/shared/labeled'
 import { LabeledSelect, type Option } from '~/shared/select'
 import Separator from '~/shared/separator'
 import { Tabs } from '~/shared/tabs'
+import TextInput from '~/shared/text-input'
 import { type Any, type Dictionary, type SetterOrUpdater, assertDefined, c, generateId, invariant } from '~/utils/core'
 import { useLocalStorage } from '~/utils/core-hooks'
 import { emptyFn } from '~/utils/function'
@@ -119,7 +121,24 @@ export default function Component(props: Props): JSX.Element {
         <Tabs.Trigger value='single'>Потабличная настройка</Tabs.Trigger>
       </Tabs.List>
       <Tabs.Content value='multi' style={{ width: '100%' }}>
-        <Flex width='100%' pt='4' direction='column'>
+        <Flex width='100%' pt='4' direction='column' gap='2'>
+          <Card>
+            <Row>
+              <Column flexBasis='50%'>
+                <Field validate={(v) => !v} name='name'>
+                  {({ input, meta }) => (
+                    <Flex direction='column'>
+                      <Labeled color={meta.error ? 'red' : undefined} label='Название'>
+                        <TextInput color={meta.error ? 'red' : undefined} {...input} style={{ width: '100%' }} />
+                      </Labeled>
+                    </Flex>
+                  )}
+                </Field>
+              </Column>
+              <Column flexBasis='50%' />
+            </Row>
+          </Card>
+
           <Column className={c(props.className, NAME)}>
             <Row width='100%'>
               <Column width='50%'>

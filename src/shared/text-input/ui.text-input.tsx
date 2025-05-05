@@ -42,7 +42,7 @@ export function Component(props: Props, forwardedRef: ForwardedRef<HTMLInputElem
           {left}
         </TextField.Slot>
       )}
-      {clearable && hasValue && (
+      {clearable && hasValue && !textInputProps.disabled && (
         <TextField.Slot side='right' {...rightProps}>
           <Flex asChild={true} mr={right ? '0' : '1'}>
             <Button

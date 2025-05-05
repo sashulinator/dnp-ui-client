@@ -171,7 +171,7 @@ export default function Component(props: Props): JSX.Element {
                                           <Flex asChild={true} justify='center' align='center'>
                                             <Text
                                               style={{
-                                                color: 'var(--accent-11)',
+                                                color: enabled ? 'var(--accent-11)' : 'var(--gray-11)',
                                                 padding: 'var(--space-3)',
                                               }}
                                             >
@@ -179,6 +179,7 @@ export default function Component(props: Props): JSX.Element {
                                             </Text>
                                           </Flex>
                                         }
+                                        disabled={!enabled}
                                         ref={tableRef}
                                         clearable={true}
                                         variant='soft'
@@ -194,7 +195,7 @@ export default function Component(props: Props): JSX.Element {
                                           <Flex asChild={true} justify='center' align='center'>
                                             <Text
                                               style={{
-                                                color: 'var(--accent-11)',
+                                                color: enabled ? 'var(--accent-11)' : 'var(--gray-11)',
                                                 padding: 'var(--space-3)',
                                               }}
                                             >
@@ -202,6 +203,7 @@ export default function Component(props: Props): JSX.Element {
                                             </Text>
                                           </Flex>
                                         }
+                                        disabled={!enabled}
                                         ref={tableRef}
                                         clearable={true}
                                         variant='soft'
@@ -229,6 +231,7 @@ export default function Component(props: Props): JSX.Element {
                                     <Button
                                       variant='outline'
                                       square={true}
+                                      disabled={!enabled}
                                       onClick={() => {
                                         setIsTextInput(!isTextInput)
 
