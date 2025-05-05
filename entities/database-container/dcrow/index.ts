@@ -1,1 +1,1 @@
-export { Dcrow } from './types'
+export type { Dcrow, Row } from './types'

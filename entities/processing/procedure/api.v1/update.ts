@@ -1,10 +1,10 @@
-import type { ExecutableSchema } from '../models'
+import type { Procedure } from '../models'
 import { BASE_URL } from './constants'
 
 export const URL = `${BASE_URL}/update`
 
 export type RequestParams = {
-  input: ExecutableSchema
+  input: Procedure
 }
 
-export type Result = ExecutableSchema
+export type Result = Procedure

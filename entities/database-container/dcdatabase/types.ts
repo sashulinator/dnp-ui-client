@@ -25,3 +25,20 @@ export type DcdatabaseUpdateInput = v.InferOutput<typeof dcdatabaseUpdateInput>
  */
 
 export type DcdatabaseLocator = v.InferOutput<typeof dcdatabaseLocator>
+
+/**
+ * Value
+ * Для таких компонентов как picker
+ * 🔴 У Dcdatabase уникален id, у Database уникален name
+ */
+
+export type DatabaseValue = {
+  name: string
+  display?: string | undefined
+}
+
+export type DcdatabaseValue = {
+  id: string
+  name?: string | undefined
+  display?: string | undefined
+}
