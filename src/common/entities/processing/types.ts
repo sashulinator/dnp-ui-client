@@ -2,8 +2,7 @@ import type { DctableLocator } from '../database-container/dctable'
 
 export type Proccessing = {
   name: string
-  outputDcdatabaseId: string
-  outputTable: string
+  outputDctableLocator: DctableLocator
   configs: Config[]
 }
 

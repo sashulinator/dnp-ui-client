@@ -39,47 +39,46 @@ export type Config = {
 
 export type Values = {
   name: string
-  outputDcdatabaseId: string
-  outputTable: string
+  outputDctableLocator: Dctable.DctableLocator
   configs: Record<string, Config>
   commonConfig: Config
 }
 
 type Column = { name: string; display: string; type: string }
-type Table = { name: string; display: string; columns: Column[] }
 
 export interface Props {
   className?: string | undefined
   tabValue: 'multi' | 'single'
   localStoragePrefix: string
-  fetchTablesByDcdatabaseId: (dcdatabaseId: string) => Promise<Table[]>
-  fetchDcdatabaseOptions: () => Promise<Option[]>
-  fetchExecutableSchemas: () => Promise<Procedure[]>
+  fetchProcedures: () => Promise<Procedure[]>
   setTabValue: SetterOrUpdater<'multi' | 'single'>
 }
 
 export const NAME = `${APP}-${SLICE}-Form`
 
 export default function Component(props: Props): JSX.Element {
-  const {
-    fetchTablesByDcdatabaseId,
-    localStoragePrefix,
-    fetchDcdatabaseOptions,
-    fetchExecutableSchemas,
-    tabValue,
-    setTabValue,
-  } = props
+  const { localStoragePrefix, fetchProcedures, tabValue, setTabValue } = props
 
   const [selectedDctableLocator, setSelectedSingleDctableLocator] = useState<Dctable.DctableLocator>()
-  const [isTextInput, setIsTextInput] = useState(false)
+  const [isOutputTextInput, setIsOutputTextInput] = useState(false)
 
-  const [dcservice, setDcservice] = useStringStorage<Dcservice.DcserviceDisplayWithId>(
-    useLocalStorage({ key: `${localStoragePrefix}-dcservice` }),
+  const [inputdcservice, setInputDcservice] = useStringStorage<Dcservice.DcserviceDisplayWithId>(
+    useLocalStorage({ key: `${localStoragePrefix}-dcservice-input` }),
     new Params.ObjectParam(),
   )
 
-  const [database, setDatabase] = useStringStorage<Dcdatabase.DatabaseValue>(
-    useLocalStorage({ key: `${localStoragePrefix}-dcdatabase` }),
+  const [outputDcservice, setOutputDcservice] = useStringStorage<Dcservice.DcserviceDisplayWithId>(
+    useLocalStorage({ key: `${localStoragePrefix}-dcservice-output` }),
+    new Params.ObjectParam(),
+  )
+
+  const [inputDatabase, setInputDatabase] = useStringStorage<Dcdatabase.DatabaseValue>(
+    useLocalStorage({ key: `${localStoragePrefix}-dcdatabase-input` }),
+    new Params.ObjectParam(),
+  )
+
+  const [outputDatabase, setOutputDatabase] = useStringStorage<Dcdatabase.DatabaseValue>(
+    useLocalStorage({ key: `${localStoragePrefix}-dcdatabase-output` }),
     new Params.ObjectParam(),
   )
 
@@ -88,7 +87,7 @@ export default function Component(props: Props): JSX.Element {
   const form = useForm<Values>()
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const executableSchemasFetcher = useQuery([NAME, 'executableSchemas'], fetchExecutableSchemas, {
+  const executableSchemasFetcher = useQuery([NAME, 'executableSchemas'], fetchProcedures, {
     staleTime: Infinity,
   })
 
@@ -125,10 +124,10 @@ export default function Component(props: Props): JSX.Element {
             <Row width='100%'>
               <Column width='50%'>
                 <InputBlock
-                  dcdatabase={database}
-                  setDcdatabase={setDatabase}
-                  dcservice={dcservice}
-                  setDcserviceValue={setDcservice}
+                  dcdatabase={inputDatabase}
+                  setDcdatabase={setInputDatabase}
+                  dcservice={inputdcservice}
+                  setDcserviceValue={setInputDcservice}
                   disabled={!!form.getState().values?.commonConfig?.executables?.length}
                   onInputChange={manageConfigs}
                   fetchTableList={async ({ sort, dcserviceId, searchFilter, database, page, limit }) => {
@@ -153,10 +152,30 @@ export default function Component(props: Props): JSX.Element {
               </Column>
               <Column width='50%'>
                 <OutputBlock
-                  setIsTextInput={setIsTextInput}
-                  isTextInput={isTextInput}
-                  fetchTablesByDcdatabaseId={fetchTablesByDcdatabaseId}
-                  fetchDcdatabaseOptions={fetchDcdatabaseOptions}
+                  setIsTextInput={setIsOutputTextInput}
+                  dcdatabase={outputDatabase}
+                  setDcdatabase={setOutputDatabase}
+                  dcservice={outputDcservice}
+                  isTextInput={isOutputTextInput}
+                  setDcserviceValue={setOutputDcservice}
+                  fetchTableList={async ({ sort, dcserviceId, searchFilter, database, page, limit }) => {
+                    const ret = await Dcservice.api.findTables.request({
+                      dcdatabaseLocator: {
+                        dcserviceId,
+                        name: database,
+                      },
+                      sort,
+                      where: searchFilter as Any,
+                      limit,
+                      offset: (page - 1) * limit,
+                    })
+
+                    ret.data.items.forEach((i) => {
+                      inputTablesMeta.current.set(Dctable.buildFqn(i), i)
+                    })
+
+                    return ret.data
+                  }}
                 />
               </Column>
             </Row>

@@ -41,7 +41,7 @@ export default {
             return (
               <Input
                 hasValue={!!value}
-                fetchValue={() => value}
+                fetchValue={() => value as any}
                 fetcherDependencies={[value]}
                 onClick={() => setIsOpen(true)}
               />

@@ -2,10 +2,8 @@ import { useState } from 'react'
 
 import { confirm } from '~/app/controller'
 import { routes } from '~/app/route'
-import { Dcdatabase } from '~/entities/database-container'
 import { Procedure, ProcessingForm } from '~/entities/processing'
 import * as create from '~/entities/processing/api/create'
-import { processingDataApi } from '~/entities/workshop'
 import Button from '~/shared/button'
 import Container from '~/shared/container'
 import Flex from '~/shared/flex'
@@ -69,9 +67,7 @@ export default function Component(): JSX.Element {
             setTabValue={setTabValue}
             form={form}
             component={ProcessingForm.default}
-            fetchDcdatabaseOptions={fetchDatabaseOptions}
-            fetchTablesByDcdatabaseId={fetchTables}
-            fetchExecutableSchemas={fetchExecutableSchemas}
+            fetchProcedures={fetchExecutableSchemas}
             localStoragePrefix={NAME}
           />
         </Section>
@@ -104,17 +100,6 @@ export default function Component(): JSX.Element {
 
   async function fetchExecutableSchemas() {
     const ret = await Procedure.api.findWithTotal.request({})
-    return ret.data.items
-  }
-
-  async function fetchDatabaseOptions() {
-    const ret = await Dcdatabase.api.findWithTotal.request({})
-    return ret.data.items.map((item) => ({ value: item.id, display: item.display }))
-  }
-
-  async function fetchTables(dcdatabaseId: string) {
-    // TODO: запросить через cache
-    const ret = await processingDataApi.initial.findTablesWithTotal.request({ dcdatabaseId })
     return ret.data.items
   }
 }

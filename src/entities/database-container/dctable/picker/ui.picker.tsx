@@ -11,8 +11,8 @@ import { useAtomState } from '~/utils/store'
 import { Dctable } from '../..'
 
 export type Value = {
-  name: string
-  schema: string
+  name: string | undefined
+  schema: string | undefined
   display?: string | undefined
 }
 
@@ -92,7 +92,7 @@ export default function Component(props: Props): JSX.Element {
               isChildrenOnFetchingVisible={true}
             >
               <Dctable.ListTable.default
-                list={tableList || []}
+                list={(tableList as any) || []}
                 searchFilter={searchFilter}
                 rowSelectable={true}
                 paginationProps={{

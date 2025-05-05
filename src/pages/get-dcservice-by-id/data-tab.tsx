@@ -90,7 +90,7 @@ export default function Component(props: Props): JSX.Element {
                       hasValue={!!value?.name}
                       disabled={!enabled}
                       onClearableClick={() => setValue(undefined)}
-                      fetchValue={() => value}
+                      fetchValue={() => value as any}
                       fetcherDependencies={[value]}
                       onClick={() => setIsOpen(true)}
                     />
