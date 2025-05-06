@@ -66,7 +66,7 @@ export default function Component(): JSX.Element {
     take: withDefault(NumberParam, 10),
   })
 
-  const fetcherList = fetchList.useCache({ take, skip: (page - 1) * take })
+  const fetcherList = fetchList.useCache({ take, skip: (page - 1) * take, include: { user: true } })
 
   const rTableList = (
     <List

@@ -1,4 +1,4 @@
-import { RequestData } from './types'
+import type { RequestData } from './types'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function getKeys(requestData: RequestData): unknown[] {

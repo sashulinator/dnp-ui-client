@@ -1,3 +1,5 @@
+import { includes } from 'valibot'
+
 import { List } from '~/shared/api'
 import { StringFilter } from '~/shared/api/types/string-filter'
 
@@ -10,6 +12,7 @@ export type RequestData = {
     name?: string | StringFilter | undefined
   }
   select?: Partial<Record<keyof Process, boolean>> | undefined
+  include?: { user?: boolean | undefined } | undefined
 }
 
 export type ResponseData = List<Process>
