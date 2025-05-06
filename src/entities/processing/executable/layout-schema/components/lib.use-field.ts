@@ -72,7 +72,11 @@ export function useFieldProps<TValue>(props: UseFieldProps<TValue>) {
     setProps,
     fieldName: retFieldName,
     // @ts-ignore
-    onValueChange: (v: any, ...args: any[]) => onValueChange?.(format(v), ...args),
+    onValueChange: (v: any, ...args: any[]) => {
+      const formated = format(v)
+      // @ts-ignore
+      onValueChange?.(formated, ...args)
+    },
   }
 
   // Private

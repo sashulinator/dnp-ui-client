@@ -11,7 +11,7 @@ import SelectField, { type Props as SelectFieldProps } from './select-field'
 import TextInputField from './text-field'
 
 // eslint-disable-next-line react-refresh/only-export-components
-export const binding = [Components.syncFieldStatesBinding]
+export const bindings = [Components.syncFieldStatesBinding]
 
 export type Props = SelectFieldProps &
   UseFieldProps<string> & {

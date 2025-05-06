@@ -5,7 +5,7 @@ import { Components } from '~/slices/layout-schema'
 import { type UseFieldProps, useFieldProps } from './lib.use-field'
 
 // eslint-disable-next-line react-refresh/only-export-components
-export const binding = Components.TextField.bindings
+export const bindings = Components.TextField.bindings
 
 export type Props = Components.TextField.Props & UseFieldProps<string>
 

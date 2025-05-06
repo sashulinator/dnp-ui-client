@@ -5,9 +5,16 @@ import * as Components from './components'
 
 export const componentMap = {
   ...sliceComponentMap,
+  Checkbox: {
+    render: Components.Checkbox.default,
+  },
+  CheckboxField: {
+    render: Components.CheckboxField.default,
+    bindings: Components.CheckboxField.bindings,
+  },
   TextField: {
     render: Components.TextField.default,
-    bindings: sliceComponentMap.TextField.bindings,
+    bindings: Components.TextField.bindings,
   },
   NumberField: {
     render: Components.NumberField.default,
@@ -17,9 +24,6 @@ export const componentMap = {
   },
   ColumnSelectField: {
     render: Components.ColumnSelectField.default,
-  },
-  Checkbox: {
-    render: Components.Checkbox.default,
   },
   DcservicePickerField: {
     bindings: Components.DcservicePickerField.binding,

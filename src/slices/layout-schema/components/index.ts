@@ -3,6 +3,7 @@ export * as NumberField from './number-field'
 export * as Button from './button'
 export * as Flex from './flex'
 export * as Checkbox from './checkbox'
+export * as CheckboxField from './checkbox-field'
 export * as SelectField from './select-field'
 
 export { savePropToLocalStorage } from './lib.save-prop-to-local-storage'

@@ -1,6 +1,8 @@
 import type { Dictionary } from '~/utils/core'
 
 import * as Button from './components/button'
+import * as Checkbox from './components/checkbox'
+import * as CheckboxField from './components/checkbox-field'
 import * as Column from './components/column'
 import * as Flex from './components/flex'
 import * as NumberField from './components/number-field'
@@ -11,6 +13,13 @@ import * as TextField from './components/text-field'
 import type { ComponentWithMeta } from './types'
 
 export const componentMap = {
+  Checkbox: {
+    render: Checkbox.default,
+  },
+  CheckboxField: {
+    render: CheckboxField.default,
+    bindings: CheckboxField.bindings,
+  },
   Root: {
     render: Root.default,
   },
