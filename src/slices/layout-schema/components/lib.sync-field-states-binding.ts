@@ -7,7 +7,7 @@ import type { Binding, ComponentProps } from '../types'
 export const syncFieldStatesBinding = {
   id: 'syncFieldStates',
   fn(componentProps: ComponentProps): void {
-    const context = componentProps.context as { form: FormApi }
+    const context = componentProps.context as { form: FormApi; parentFieldName: string }
     const propsState = componentProps.propsState as unknown as Atom<{
       value: unknown
       fieldName: string
@@ -33,7 +33,10 @@ export const syncFieldStatesBinding = {
     propsState.subscribe((newProps) => {
       const formValue = getIn(context.form.getState().values, newProps.fieldName)
       if (newProps.value === formValue) return
-      context.form.change(newProps.fieldName, newProps.value)
+      context.form.change(
+        context.parentFieldName ? `${context.parentFieldName}.${newProps.fieldName}` : newProps.fieldName,
+        newProps.value,
+      )
     })
   },
 } satisfies Binding
