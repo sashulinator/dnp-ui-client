@@ -121,7 +121,7 @@ export default function Component(props: Props): JSX.Element {
         <Tabs.Trigger value='single'>Потабличная настройка</Tabs.Trigger>
       </Tabs.List>
       <Tabs.Content value='multi' style={{ width: '100%' }}>
-        <Flex width='100%' pt='4' direction='column' gap='2'>
+        <Flex width='100%' pt='4' direction='column' gap='4'>
           <Card>
             <Row>
               <Column flexBasis='50%'>
@@ -129,7 +129,12 @@ export default function Component(props: Props): JSX.Element {
                   {({ input, meta }) => (
                     <Flex direction='column'>
                       <Labeled color={meta.error ? 'red' : undefined} label='Название'>
-                        <TextInput color={meta.error ? 'red' : undefined} {...input} style={{ width: '100%' }} />
+                        <TextInput
+                          variant='soft'
+                          color={meta.error ? 'red' : undefined}
+                          {...input}
+                          style={{ width: '100%' }}
+                        />
                       </Labeled>
                     </Flex>
                   )}

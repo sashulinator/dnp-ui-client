@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react'
 
-import { useField, useForm } from '~/shared/form'
+import { getIn, useCreateForm } from '~/shared/form'
 import LayoutSchema, { propToFunction } from '~/slices/layout-schema'
 
 import { componentMap } from '../../layout-schema/constants'
@@ -23,12 +23,17 @@ export default function Component(props: Props): JSX.Element {
 
   const deserializedRootBlock = useMemo(() => propToFunction(rootBlock), [rootBlock])
 
-  const field = useField(fieldName, { subscription: { value: true } })
-  const form = useForm()
+  // const field = useField(fieldName, { subscription: { value: true } })
+  const form = useCreateForm({ onSubmit: () => {} })
 
   useEffect(() => {
-    setTimeout(() => onChange(field.input.value))
-  }, [field.input.value])
+    form.subscribe(
+      (state) => {
+        onChange(getIn(state.values, fieldName))
+      },
+      { values: true },
+    )
+  }, [])
 
   return (
     <LayoutSchema

@@ -15,28 +15,30 @@ export const syncFieldStatesBinding = {
     }>
 
     const errMsg = `Отсутствует свойство "fieldName" в блоке ${componentProps.block.id}`
-
     assertDefined(propsState.get().fieldName, errMsg)
 
+    const fieldName = context.parentFieldName
+      ? `${context.parentFieldName}.${propsState.get().fieldName}`
+      : propsState.get().fieldName
+
     context.form.registerField(
-      propsState.get().fieldName,
+      fieldName,
       ({ value }) => {
+        // console.log('fieldSub', propsState.get().fieldName, value)
+        if (value === undefined) return
         const props = propsState.get()
         if (value === props.value) return
         componentProps.setProps({ ...props, value })
       },
       { value: true },
+      { initialValue: propsState.get().value, defaultValue: propsState.get().value },
     )
-
-    context.form.getState()
 
     propsState.subscribe((newProps) => {
       const formValue = getIn(context.form.getState().values, newProps.fieldName)
       if (newProps.value === formValue) return
-      context.form.change(
-        context.parentFieldName ? `${context.parentFieldName}.${newProps.fieldName}` : newProps.fieldName,
-        newProps.value,
-      )
+      // console.log('propsSub', propsState.get().fieldName, newProps.value)
+      context.form.change(fieldName, newProps.value)
     })
   },
 } satisfies Binding
