@@ -5,7 +5,7 @@ import { APP } from '~/app/constants.app'
 import { type Dcdatabase, Dcservice, Dctable } from '~/entities/database-container'
 import Button, { DangerButton } from '~/shared/button'
 import Flex from '~/shared/flex'
-import { Card, Column, Field, FieldArray, Row, getIn, useForm } from '~/shared/form'
+import { Card, Column, Field, FieldArray, Row, useForm } from '~/shared/form'
 import Icon from '~/shared/icon'
 import Labeled from '~/shared/labeled'
 import { LabeledSelect, type Option } from '~/shared/select'
@@ -372,8 +372,9 @@ export default function Component(props: Props): JSX.Element {
     const fqn = Dctable.buildFqn(dctableLocator)
     const configPath = path.replace('commonConfig', `configs.${fqn}`)
     if (/%flat%$/.test(path)) {
-      const state = getIn(form.getState().values, configPath)
-      form.change(configPath as keyof Values, { ...state, ...(value as any) })
+      Object.entries(value).forEach(([key, v]) => {
+        form.change(`${configPath}.${key}` as keyof Values, v)
+      })
     } else {
       form.change(configPath as keyof Values, value)
     }

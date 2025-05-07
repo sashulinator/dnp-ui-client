@@ -19,6 +19,7 @@ export interface Block {
   id: string
   name: Union<string, keyof ReactHTML>
   props?: Record<string, unknown> | undefined
+  bindings?: ((props: ComponentProps) => void)[]
   listeners?: ((props: ComponentProps, oldProps: ComponentProps) => void)[] | undefined
   children?: Block[]
 }

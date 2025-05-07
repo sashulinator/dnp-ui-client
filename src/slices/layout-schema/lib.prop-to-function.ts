@@ -22,7 +22,7 @@ export function propToFunction(block: Block): Block {
   const entries = Object.entries(block || {})
 
   const ret = entries.reduce((acc, [key, value]) => {
-    if (key === '$listeners') {
+    if (key === '$listeners' || key === '$bindings') {
       // @ts-ignore
       acc[key.slice(1)] = value?.map((fn) => {
         try {

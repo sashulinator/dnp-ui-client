@@ -1,5 +1,5 @@
 import { type FormApi, getIn } from '~/shared/form'
-import { assertDefined } from '~/utils/core'
+import { assertDefined, has } from '~/utils/core'
 import type { Atom } from '~/utils/store'
 
 import type { Binding, ComponentProps } from '../types'
@@ -14,12 +14,19 @@ export const syncFieldStatesBinding = {
       onValueChange: (value: unknown) => void
     }>
 
-    const errMsg = `Отсутствует свойство "fieldName" в блоке ${componentProps.block.id}`
-    assertDefined(propsState.get().fieldName, errMsg)
-
     const fieldName = context.parentFieldName
       ? `${context.parentFieldName}.${propsState.get().fieldName}`
       : propsState.get().fieldName
+
+    // Валидируем наличие обязательных пропсов
+    const errMsg = `Отсутствует свойство "fieldName" в блоке ${componentProps.block.id}`
+    assertDefined(propsState.get().fieldName, errMsg)
+
+    // Если в стейте формы есть значения то берем их и сетаем в пропсы
+    const formValues = context.form.getState()?.values
+    if (has(formValues, propsState.get().fieldName)) {
+      propsState.set({ ...propsState.get(), value: getIn(formValues, propsState.get().fieldName) })
+    }
 
     context.form.registerField(
       fieldName,
@@ -31,7 +38,6 @@ export const syncFieldStatesBinding = {
         componentProps.setProps({ ...props, value })
       },
       { value: true },
-      { initialValue: propsState.get().value, defaultValue: propsState.get().value },
     )
 
     propsState.subscribe((newProps) => {

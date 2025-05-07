@@ -15,6 +15,7 @@ export interface Props {
   context: Record<string, unknown>
   componentMap: Dictionary<ComponentWithMeta>
   onError?: ((e: BaseError<Dictionary>) => void) | undefined
+  bindings?: ((props: ComponentProps) => void)[]
 }
 
 export const NAME = `ui-layoutSchema`
@@ -23,7 +24,7 @@ export const NAME = `ui-layoutSchema`
  * ui-ReactFactory'
  */
 export default function Component(props: Props): React.ReactNode {
-  const { rootBlock, context, componentMap, onError } = props
+  const { rootBlock, context, bindings, componentMap, onError } = props
 
   const componentPropsMap = useMemo(
     // onError вызывается во время рендеринга схемы
@@ -31,8 +32,8 @@ export default function Component(props: Props): React.ReactNode {
     // иначе может быть ошибка в консоле от реакта о том что мы пытаемся
     // вызвать перерендеринг будучи в рендеринге
     // плюс сокращаем количество ошибок до 1
-    () => init(rootBlock, context as Context, componentMap, debounce(onError, 0)),
-    [context, rootBlock, componentMap],
+    () => init(rootBlock, context as Context, componentMap, bindings, debounce(onError, 0)),
+    [context, bindings, rootBlock, componentMap],
   )
 
   const content = (
@@ -53,6 +54,7 @@ function init(
   rootBlock: Block,
   context: Context,
   componentMap: Dictionary<ComponentWithMeta>,
+  bindings: ((props: ComponentProps) => void)[] | undefined,
   onError: ((e: BaseError<Dictionary>) => void) | undefined,
 ) {
   const componentPropsMap = strict<Dictionary<ComponentProps>>({})
@@ -62,18 +64,40 @@ function init(
   Object.values(componentPropsMap).forEach((item) => {
     componentMap[item.block.name as string]?.bindings?.forEach((binding) => {
       try {
-        binding.fn(rebuldComponentProps(item.block.id, componentPropsMap))
+        binding.fn(_rebuldComponentProps(item.block.id, componentPropsMap))
       } catch (e) {
         onError && onError(new BaseError(`${(e as Error).message}`, { cause: e, componentProps: item, binding }))
       }
     })
+
+    item.block.bindings?.forEach((binding, index) => {
+      try {
+        binding(_rebuldComponentProps(item.block.id, componentPropsMap))
+      } catch (e) {
+        onError &&
+          onError(
+            new BaseError(`${(e as Error).message}`, { cause: e, componentProps: item, binding, bindingIndex: index }),
+          )
+      }
+    })
+    bindings?.forEach((binding, index) => {
+      try {
+        binding(_rebuldComponentProps(item.block.id, componentPropsMap))
+      } catch (e) {
+        onError &&
+          onError(
+            new BaseError(`${(e as Error).message}`, { cause: e, componentProps: item, binding, bindingIndex: index }),
+          )
+      }
+    })
     try {
-      item.setProps(item.block?.props || {})
+      // В propsState сейчас стейт который был положен при запуске bindings поэтому он идет последним
+      item.setProps({ ...item.block?.props, ...item.propsState.get() })
     } catch (e) {
       onError && onError(new BaseError(`${(e as Error).message}`, { cause: e, componentProps: item }))
     }
 
-    rebuldComponentProps(item.block.id, componentPropsMap)
+    _rebuldComponentProps(item.block.id, componentPropsMap)
   })
 
   return componentPropsMap
@@ -112,7 +136,7 @@ function traverse(
     const componentProps = componentPropsMap[block.id]
     const newProps = typeof v === 'function' ? v({ ...propsState.get() }) : { ...propsState.get(), ...v }
 
-    const newComponentProps = rebuldComponentProps(block.id, componentPropsMap, newProps)
+    const newComponentProps = _rebuldComponentProps(block.id, componentPropsMap, newProps)
     propsState.set(newProps)
 
     block.listeners?.forEach((listener, i) => {
@@ -137,7 +161,7 @@ function traverse(
   block.children?.forEach((child) => traverse(child, componentPropsMap, context, onError))
 }
 
-function rebuldComponentProps(blockId: string, componentPropsMap: Dictionary<ComponentProps>, state?: Dictionary) {
+function _rebuldComponentProps(blockId: string, componentPropsMap: Dictionary<ComponentProps>, state?: Dictionary) {
   const current = componentPropsMap[blockId]
 
   const componentProps = {
