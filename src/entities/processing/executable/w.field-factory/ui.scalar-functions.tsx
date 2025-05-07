@@ -114,7 +114,10 @@ const renderCell = (cellProps: ListTable.RenderCellProps<Item, Props>) => {
   const possibleColumns = _paramContext.columns.filter((c) => functionTypes.includes(c.type || ''))
   const inputColumnMeta = _paramContext.columns.find((c) => c.name === cellProps.item['input-column'])
   const thisTypeFunctionMetaList = useMemo(
-    () => functionMetaList.filter((fm) => fm.types?.includes(inputColumnMeta?.type || '')),
+    () =>
+      inputColumnMeta
+        ? functionMetaList.filter((fm) => fm.types?.includes(inputColumnMeta?.type || ''))
+        : functionMetaList,
     [cellProps.item['input-column']],
   )
 
@@ -128,7 +131,7 @@ const renderCell = (cellProps: ListTable.RenderCellProps<Item, Props>) => {
               onChange(
                 value.map((r) => {
                   if (r.id === cellProps.item.id) {
-                    return { ...r, 'output-name': e.target.value }
+                    return { ...r, 'output-column': e.target.value }
                   }
                   return r
                 }),
@@ -192,26 +195,73 @@ const renderCell = (cellProps: ListTable.RenderCellProps<Item, Props>) => {
 
   if (cellProps.name === 'input-column') {
     return (
-      <InputSelect.default
-        clearable={true}
-        size='1'
-        value={cellProps.item['input-column'] || undefined}
-        onChange={(v) => {
-          onChange(
-            value.map((r) => {
-              if (r.id !== cellProps.item.id) return r
-              return {
-                ...r,
-                'input-column': v.toString(),
-                // скидываем functions если изменили входную колонку
-                functions: [],
-              }
-            }),
-          )
-        }}
-        variant='surface'
-        options={possibleColumns.map((c) => ({ display: c.name, value: c.name }))}
-      />
+      <Flex align='end' gap='1'>
+        {isTextInput ? (
+          <TextInput
+            style={{ width: '100%' }}
+            onBlur={(e) =>
+              onChange(
+                value.map((r) => {
+                  if (r.id === cellProps.item.id) {
+                    return { ...r, 'input-column': e.target.value }
+                  }
+                  return r
+                }),
+              )
+            }
+            onChange={(e) => setOutputName(e.target.value)}
+            size='1'
+            value={outputName}
+          />
+        ) : (
+          <InputSelect.default
+            clearable={true}
+            size='1'
+            value={cellProps.item['input-column'] || undefined}
+            onChange={(v) => {
+              onChange(
+                value.map((r) => {
+                  if (r.id === cellProps.item.id) {
+                    return { ...r, 'input-column': v.toString() }
+                  }
+                  return r
+                }),
+              )
+            }}
+            variant='surface'
+            options={possibleColumns.map((c) => ({ display: c.name, value: c.name }))}
+          />
+        )}
+        <Tooltip
+          content={
+            isTextInput
+              ? outputName
+                ? 'Очистите поле ввода чтобы сменить тип ввода на "Выбор из существующих'
+                : 'Выбрать из существующих'
+              : 'Ввести название вручную'
+          }
+        >
+          <Button
+            variant='outline'
+            square={true}
+            size='1'
+            onClick={() => {
+              setIsTextInput((s) => !s)
+              setOutputName('')
+              onChange(
+                value.map((r) => {
+                  if (r.id === cellProps.item.id) {
+                    return { ...r, 'input-column': '' }
+                  }
+                  return r
+                }),
+              )
+            }}
+          >
+            <Icon name={isTextInput ? 'ChevronDown' : 'Pencil'} />
+          </Button>
+        </Tooltip>
+      </Flex>
     )
   }
 
