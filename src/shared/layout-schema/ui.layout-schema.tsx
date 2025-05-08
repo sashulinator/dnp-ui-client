@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 
 import { type Dictionary, type ValueOrSetter } from '~/utils/core'
-import { map, strict } from '~/utils/dictionary'
+import { map } from '~/utils/dictionary'
 import { BaseError } from '~/utils/error'
 import { debounce } from '~/utils/function'
 import { createAtom } from '~/utils/store'
@@ -57,7 +57,7 @@ function init(
   bindings: ((props: ComponentProps) => void)[] | undefined,
   onError: ((e: BaseError<Dictionary>) => void) | undefined,
 ) {
-  const componentPropsMap = strict<Dictionary<ComponentProps>>({})
+  const componentPropsMap = _strict<Dictionary<ComponentProps>>({})
 
   traverse(rootBlock, componentPropsMap, context, onError)
 
@@ -176,4 +176,38 @@ function _rebuldComponentProps(blockId: string, componentPropsMap: Dictionary<Co
   componentPropsMap[blockId] = componentProps
 
   return componentProps
+}
+
+type Config = {
+  ignore: string[]
+}
+
+const defIgnore = ['toJSON', 'valueOf', 'inspect']
+
+function _strict<T extends Dictionary>(obj: T, config?: Config): T {
+  return new Proxy(obj, {
+    get: (target, key) => {
+      const ignore = config?.ignore || defIgnore
+      const v = target[key as string]
+
+      if (typeof key !== 'string') return v
+
+      if (v !== undefined) {
+        // @ts-ignore
+        if (v.propsState) {
+          return _rebuldComponentProps(key as string, target as any)
+        }
+        return v
+      }
+
+      if (ignore.includes(key)) {
+        return v
+      }
+
+      const msg = `Property '${key as string}' is undefined`
+      const err = new ReferenceError(msg)
+
+      throw err
+    },
+  })
 }
