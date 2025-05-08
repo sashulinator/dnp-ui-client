@@ -1,11 +1,11 @@
 import type { ToSort } from '~/slices/sort'
 import { type Where } from '~/slices/where'
 
-import { baseUrl } from './constants'
+import { BASE_URL } from './constants'
 
 export const NAME = 'find-rows'
 
-export const url = `${baseUrl}/${NAME}`
+export const url = `${BASE_URL}/${NAME}`
 
 export type RequestParams = {
   id: string

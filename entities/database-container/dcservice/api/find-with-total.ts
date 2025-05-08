@@ -1,9 +1,9 @@
 import { type Dcservice } from '../types'
-import { baseUrl } from './constants'
+import { BASE_URL } from './constants'
 
 export const NAME = 'find-with-total'
 
-export const URL = `${baseUrl}/${NAME}`
+export const URL = `${BASE_URL}/${NAME}`
 
 export type RequestParams = {
   skip?: number

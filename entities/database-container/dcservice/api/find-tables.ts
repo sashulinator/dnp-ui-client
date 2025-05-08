@@ -3,11 +3,11 @@ import type { Where } from '~/slices/where'
 
 import type { DcdatabaseLocator } from '../../dcdatabase'
 import type { DctableMeta } from '../../dctable'
-import { baseUrl } from './constants'
+import { BASE_URL } from './constants'
 
 export const NAME = 'find-tables'
 
-export const url = `${baseUrl}/${NAME}`
+export const url = `${BASE_URL}/${NAME}`
 
 export type RequestParams = {
   dcdatabaseLocator: DcdatabaseLocator

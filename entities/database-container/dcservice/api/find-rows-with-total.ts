@@ -1,11 +1,11 @@
 import type { Sort, Where } from '~/common/slices/database-client'
 
 import type { Dcrow } from '../../dcrow'
-import { baseUrl } from './constants'
+import { BASE_URL } from './constants'
 
 export const NAME = 'find-rows-with-total'
 
-export const url = `${baseUrl}/${NAME}`
+export const url = `${BASE_URL}/${NAME}`
 
 export type Sort = Sort.ToSort<Dcrow>
 export type Where = Where.ToWhere<Dcrow>

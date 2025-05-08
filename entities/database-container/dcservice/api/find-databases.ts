@@ -2,11 +2,11 @@ import type { ToSort } from '~/slices/sort'
 import type { Where } from '~/slices/where'
 
 import type { Dcdatabase } from '../../dcdatabase'
-import { baseUrl } from './constants'
+import { BASE_URL } from './constants'
 
 export const NAME = 'find-databases'
 
-export const url = `${baseUrl}/${NAME}`
+export const url = `${BASE_URL}/${NAME}`
 
 export type RequestParams = {
   id: string
