@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { type MutationOptions, type UseMutationResult, useMutation as useQueryMutation } from 'react-query'
 
-import type { QueryError, Response } from '~/shared/api'
+import type { QueryError, Response } from '~/app/api'
 
 export type Params = {
   email: string

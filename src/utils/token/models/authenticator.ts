@@ -7,7 +7,7 @@ export type Events = {
   refreshTokens: undefined
 }
 
-export type GetTokenResult = {
+export type RefreshTokenParams = {
   accessToken: string
   refreshToken: string
   /** Unixtime */
@@ -38,13 +38,13 @@ export abstract class Authenticator<TRole extends string, TAccessDecoded, TRefre
     this.refreshTokenManager = props.refreshTokenManager
   }
 
-  async refreshTokens(ret: GetTokenResult) {
+  async refreshTokens(ret: RefreshTokenParams) {
     this.refreshTokenManager.set(ret.refreshToken, ret.refreshTokenExpiresAt)
     this.accessTokenManager.set(ret.accessToken, ret.accessTokenExpiresAt)
     this.emit('refreshTokens')
   }
 
-  async login(ret: GetTokenResult): Promise<boolean> {
+  async login(ret: RefreshTokenParams): Promise<boolean> {
     this.refreshTokenManager.set(ret.refreshToken, ret.refreshTokenExpiresAt)
     this.accessTokenManager.set(ret.accessToken, ret.accessTokenExpiresAt)
     this.emit('login')

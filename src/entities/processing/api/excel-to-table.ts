@@ -1,7 +1,7 @@
 import { type MutationOptions, type UseMutationResult, useMutation as useQueryMutation } from 'react-query'
 
+import api, { type QueryError, type Response } from '~/app/api'
 import { NAME, type RequestParams, type Result, URL } from '~/common/entities/processing/api.v1/excel-to-table'
-import api, { type QueryError, type Response } from '~/shared/api'
 
 export { type RequestParams, type Result, NAME }
 

@@ -1,7 +1,7 @@
 import { type MutationOptions, type UseMutationResult, useMutation as useQueryMutation } from 'react-query'
 
+import api, { type QueryError, type Response } from '~/app/api'
 import { type RequestParams, type Result, URL } from '~/common/entities/processing/procedure/api.v1/create'
-import api, { type QueryError, type Response } from '~/shared/api'
 
 export { type RequestParams, type Result, URL }
 

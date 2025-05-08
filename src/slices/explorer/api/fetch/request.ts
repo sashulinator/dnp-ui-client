@@ -1,5 +1,5 @@
-import { type Response } from '~/shared/api'
-import api from '~/shared/api'
+import { type Response } from '~/app/api'
+import api from '~/app/api'
 
 import { type Explorer, type StoreConfig } from '../../models/explorer'
 

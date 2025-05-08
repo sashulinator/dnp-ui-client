@@ -1,8 +1,8 @@
-import { Response } from '~/shared/api'
+import type { Response } from '~/app/api'
 import { queryClient } from '~/shared/react-query'
 
 import { getKeys } from './get-keys'
-import { RequestData, ResponseData } from './types'
+import type { RequestData, ResponseData } from './types'
 
 export function setCache(requestData: RequestData, data: ResponseData): void {
   const response: Response<ResponseData> = { data }

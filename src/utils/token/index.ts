@@ -10,7 +10,7 @@ export { decode } from './lib/decode'
 
 export {
   Authenticator,
-  type GetTokenResult,
+  type RefreshTokenParams,
   type Events as AuthenticatorEvents,
   type Props as AuthenticatorProps,
 } from './models/authenticator'

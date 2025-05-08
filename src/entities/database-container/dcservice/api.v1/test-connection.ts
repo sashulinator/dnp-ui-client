@@ -1,12 +1,12 @@
 import { type MutationOptions, type UseMutationResult, useMutation as useQueryMutation } from 'react-query'
 
+import api, { type QueryError, type Response } from '~/app/api'
 import {
   NAME,
   type RequestParams,
   type Result,
   url,
 } from '~/common/entities/database-container/dcservice/api/test-connection'
-import api, { type QueryError, type Response } from '~/shared/api'
 
 export { type RequestParams, type Result, NAME }
 

@@ -1,10 +1,10 @@
+import api, { type Response } from '~/app/api'
 import {
   NAME,
   type RequestParams,
   type Result,
   url,
 } from '~/common/entities/workshop/variant.factory/api.v1/get-dcdatabases'
-import api, { type Response } from '~/shared/api'
 
 export { url }
 

@@ -1,6 +1,6 @@
 import { type MutationOptions, type UseMutationResult, useMutation as useQueryMutation } from 'react-query'
 
-import type { QueryError, Response } from '~/shared/api'
+import type { QueryError, Response } from '~/app/api'
 
 import { type RequestParams, type Result, request } from './request'
 

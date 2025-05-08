@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import type { Response } from '~/shared/api'
+import type { Response } from '~/app/api'
 
 export type RequestData = {
   refreshToken: string

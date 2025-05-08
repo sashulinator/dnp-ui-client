@@ -1,7 +1,7 @@
 import { type UseQueryOptions, type UseQueryResult, useQuery as useReactQuery } from 'react-query'
 
-import { type Response } from '~/shared/api'
-import type { QueryError } from '~/shared/api'
+import { type Response } from '~/app/api'
+import type { QueryError } from '~/app/api'
 
 import { getKeys } from './get-keys'
 import { request } from './request'

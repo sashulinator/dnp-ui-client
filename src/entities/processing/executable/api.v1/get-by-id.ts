@@ -1,7 +1,7 @@
 import { type UseQueryOptions, type UseQueryResult, useQuery as useReactQuery } from 'react-query'
 
+import api, { type QueryError, type Response } from '~/app/api'
 import { type RequestParams, type Result, URL } from '~/common/entities/processing/procedure/api.v1/get-by-id'
-import api, { type QueryError, type Response } from '~/shared/api'
 import { queryClient } from '~/shared/query'
 
 const request = (params: RequestParams): Promise<Response<Result>> => api.post(URL, { params })

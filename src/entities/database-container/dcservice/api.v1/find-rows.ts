@@ -1,12 +1,12 @@
 import { type UseQueryOptions, type UseQueryResult, useQuery as useReactQuery } from 'react-query'
 
+import api, { type QueryError, type Response } from '~/app/api'
 import {
   NAME,
   type RequestParams,
   type Result,
   url,
 } from '~/common/entities/database-container/dcservice/api/find-rows'
-import api, { type QueryError, type Response } from '~/shared/api'
 
 const request = (params: RequestParams): Promise<Response<Result>> => api.post(url, { params })
 

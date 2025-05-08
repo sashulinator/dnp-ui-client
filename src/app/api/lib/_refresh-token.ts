@@ -1,9 +1,10 @@
 import { auth, api as authApi, notifyError } from '~/app/auth'
 import { history, publicRoutes, setReturnRedirect } from '~/app/route'
-import type { Response } from '~/shared/api'
 import { getDateIn } from '~/slices/auth'
 import { assertNotNull } from '~/utils/core'
 import { BaseError } from '~/utils/error'
+
+import type { Response } from '../types/response'
 
 let refreshTokensPromise: null | Promise<Response<authApi.refreshTokens.ResponseData>> = null
 

@@ -1,12 +1,12 @@
 import { type UseQueryOptions, type UseQueryResult, useQuery as useReactQuery } from 'react-query'
 
+import api, { type QueryError, type Response } from '~/app/api'
 import {
   NAME,
   type RequestParams,
   type Result,
   url,
 } from '~/common/entities/workshop/variant.initial/api.v1/find-tables-with-total'
-import api, { type QueryError, type Response } from '~/shared/api'
 import { queryClient } from '~/shared/query'
 
 const request = (params: RequestParams): Promise<Response<Result>> => api.post(url, { params })

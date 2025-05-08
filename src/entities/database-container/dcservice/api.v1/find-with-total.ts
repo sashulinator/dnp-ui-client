@@ -1,12 +1,12 @@
 import { type UseQueryOptions, type UseQueryResult, useQuery as useReactQuery } from 'react-query'
 
+import api, { type QueryError, type Response } from '~/app/api'
 import {
   NAME,
   type RequestParams,
   type Result,
   URL,
 } from '~/common/entities/database-container/dcservice/api/find-with-total'
-import api, { type QueryError, type Response } from '~/shared/api'
 
 import * as getById from './get-by-id'
 
