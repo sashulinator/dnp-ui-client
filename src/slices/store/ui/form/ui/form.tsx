@@ -1,6 +1,7 @@
 import { Flex } from '@radix-ui/themes'
 
-import { JsonEditor } from '~/shared/form'
+import { Field } from '~/shared/form'
+import Editor from '~/slices/monaco-editor'
 import { c } from '~/utils/core'
 
 import { SLICE } from '../../../constants/name'
@@ -25,7 +26,7 @@ export interface Props {
 export default function Component(props: Props): JSX.Element {
   return (
     <Flex className={c(props.className, NAME)} direction='column' width='100%' gap='6'>
-      <JsonEditor label='data' name='data' />
+      <Field<Values['data']> name='data'>{({ input }) => <Editor language='json' {...input} />}</Field>
     </Flex>
   )
 }

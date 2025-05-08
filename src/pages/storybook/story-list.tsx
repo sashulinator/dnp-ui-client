@@ -16,15 +16,11 @@ import uiButton from '~/shared/button/story'
 import uiCalendar from '~/shared/calendar/story'
 import uiCard from '~/shared/card/story'
 import uiCardInput from '~/shared/card/v.input/story'
-import uiCodeEditor from '~/shared/code-editor/story'
-import uiCodeEditorVJson from '~/shared/code-editor/variants/json/story'
 import uiCollapse from '~/shared/collapse/story'
 import debugRenderCounter from '~/shared/debug/story'
 import sharedFileInput from '~/shared/file/ui/input/story'
 import sharedFileUploadModal from '~/shared/file/ui/upload-modal/story'
-import uiFormWJsonEditor from '~/shared/form/ui/json-editor/story'
 import uiFormWKeyValue from '~/shared/form/ui/key-value/story'
-import uiFormWTextArea from '~/shared/form/ui/text-area/story'
 import uiInputBase from '~/shared/input/base/story'
 import uiInput from '~/shared/input/story'
 import sharedlinkTree from '~/shared/link-tree/story'
@@ -96,8 +92,6 @@ export const storyList: Story<any>[] = [
   uiButton,
   uiTreeVNested,
   uiCard,
-  uiCodeEditor,
-  uiCodeEditorVJson,
   uiCollapse,
   tableList,
   sortButton,
@@ -105,9 +99,7 @@ export const storyList: Story<any>[] = [
   uiTextHighlighter,
   uiTagPicker,
   uiTagPickerWTag,
-  uiFormWJsonEditor,
   uiFormWKeyValue,
-  uiFormWTextArea,
   uiPagination,
   uiPaginationWInfo,
   uiPaginationWSwitcher,
