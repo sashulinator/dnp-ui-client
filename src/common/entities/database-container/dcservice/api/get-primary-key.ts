@@ -1,8 +1,8 @@
-import { baseUrl } from './constants'
+import { BASE_URL } from './constants'
 
 export const NAME = 'get-primary-key'
 
-export const url = `${baseUrl}/${NAME}`
+export const url = `${BASE_URL}/${NAME}`
 
 export type RequestParams = {
   id: string

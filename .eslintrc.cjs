@@ -14,7 +14,7 @@ module.exports = {
     'plugin:prettier/recommended',
   ],
   plugins: ['react-refresh'],
-  ignorePatterns: ['dist', '.eslintrc.cjs'],
+  ignorePatterns: ['dist', '.eslintrc.cjs', 'vite.config.ts'],
   rules: {
     '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/consistent-type-imports': ['error'],

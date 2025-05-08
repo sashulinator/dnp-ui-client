@@ -1,8 +1,8 @@
-import { baseUrl } from './constants'
+import { BASE_URL } from './constants'
 
 export const NAME = 'test-connection'
 
-export const url = `${baseUrl}/${NAME}`
+export const url = `${BASE_URL}/${NAME}`
 
 export type RequestParams = {
   client: 'pg'

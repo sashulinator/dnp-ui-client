@@ -1,1 +1,1 @@
-export const baseUrl = '/api/v1/database-container/service'
+export const BASE_URL = '/api/v1/database-container/service'
