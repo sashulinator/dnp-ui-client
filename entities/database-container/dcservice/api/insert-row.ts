@@ -1,10 +1,10 @@
 import type { Dictionary } from '~/utils/core'
 
-import { baseUrl } from './constants'
+import { BASE_URL } from './constants'
 
 export const NAME = 'insert-row'
 
-export const url = `${baseUrl}/${NAME}`
+export const url = `${BASE_URL}/${NAME}`
 
 export type RequestParams = {
   id: string

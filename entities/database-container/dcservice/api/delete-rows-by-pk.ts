@@ -1,10 +1,10 @@
 import type { Dcrow } from '~/common/entities/database-container'
 
-import { baseUrl } from './constants'
+import { BASE_URL } from './constants'
 
 export const NAME = 'delete-rows-by-pk'
 
-export const url = `${baseUrl}/${NAME}`
+export const url = `${BASE_URL}/${NAME}`
 
 export type RequestParams = {
   id: string
