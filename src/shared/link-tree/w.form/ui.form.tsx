@@ -1,7 +1,9 @@
 import Button, { DangerButton } from '~/shared/button'
 import Flex from '~/shared/flex'
-import { FieldArray, TextArea, TypedField, TypedStringField, useForm } from '~/shared/form'
+import { Field, FieldArray, useForm } from '~/shared/form'
 import Icon from '~/shared/icon'
+import TextArea from '~/shared/text-area'
+import TextInput from '~/shared/text-input'
 
 export type Values = {
   name: string
@@ -74,27 +76,21 @@ export default function Component(props: Props): JSX.Element {
                             <Icon name={(form?.getFieldState(`${formName}icon`)?.value as string) || ''} />
                           </Flex>
                         </Flex>
-                        <TypedStringField<Values, 'name'>
-                          testValueType={TypedStringField.testValueType}
-                          name={`${formName}name`}
-                          placeholder='Название'
-                        />
+                        <Field<Values['name']> name={`${formName}name`}>
+                          {({ input }) => <TextInput placeholder='Название' {...input} />}
+                        </Field>
 
-                        <TypedStringField<Values, 'link.url'>
-                          testValueType={TypedStringField.testValueType}
-                          name={`${formName}link.url`}
-                          placeholder='Ссылка'
-                        />
-                        <TypedStringField<Values, 'description'>
-                          testValueType={TypedStringField.testValueType}
-                          name={`${formName}description`}
-                          placeholder='Описание'
-                        />
-                        <TypedField<Values, 'icon', string, string>
-                          rows='4'
-                          component={TextArea}
-                          name={`${formName}icon`}
-                        />
+                        <Field<Values['link']['url']> name={`${formName}link.url`}>
+                          {({ input }) => <TextInput placeholder='Ссылка' {...input} />}
+                        </Field>
+
+                        <Field<Values['description']> name={`${formName}description`}>
+                          {({ input }) => <TextInput placeholder='Описание' {...input} />}
+                        </Field>
+
+                        <Field<Values['icon']> name={`${formName}icon`}>
+                          {({ input }) => <TextArea rows='5' placeholder='Описание' {...input} />}
+                        </Field>
                       </Flex>
                       <Component isRoot={false} name={name} />
                     </Flex>

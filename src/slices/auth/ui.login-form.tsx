@@ -1,5 +1,7 @@
+import { Field } from 'react-final-form'
+
 import Flex, { type FlexProps } from '~/shared/flex'
-import { StringField, type StringFieldProps, TypedField } from '~/shared/form'
+import TextInput from '~/shared/text-input'
 import { c } from '~/utils/core'
 
 export type Values = {
@@ -16,18 +18,13 @@ const NAME = 'auth-LoginForm'
 
 export default function Component(props: Props): JSX.Element {
   return (
-    <Flex direction='column' gap='4' {...props.root} className={c(props.className, NAME)}>
-      <TypedField<Values, 'email', string, string, StringFieldProps, HTMLInputElement>
-        component={StringField}
-        name='email'
-        label='Email'
-      />
-      <TypedField<Values, 'password', string, string, StringFieldProps, HTMLInputElement>
-        component={StringField}
-        name='password'
-        type='password'
-        label='Пароль'
-      />
+    <Flex align='stretch' direction='column' gap='4' {...props.root} className={c(props.className, NAME)}>
+      <Field<Values['email']> name='email'>
+        {({ input }) => <TextInput variant='soft' placeholder='Логин' {...input} type='text' />}
+      </Field>
+      <Field<Values['password']> name='password'>
+        {({ input }) => <TextInput variant='soft' placeholder='Пароль' {...input} type='text' />}
+      </Field>
     </Flex>
   )
 }

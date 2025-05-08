@@ -1,5 +1,7 @@
 import Flex from '~/shared/flex'
-import { Field, StringField, type StringFieldProps } from '~/shared/form'
+import { Field } from '~/shared/form'
+import Labeled from '~/shared/labeled'
+import TextInput from '~/shared/text-input'
 import Editor from '~/slices/monaco-editor'
 import { c } from '~/utils/core'
 
@@ -56,12 +58,15 @@ export default function Component(props: Props): JSX.Element {
           )
         }
         return (
-          <Field<string, StringFieldProps, HTMLInputElement>
-            component={StringField}
-            key={item.name}
-            name={item.name}
-            label={item.display || item.name}
-          />
+          <Flex key={item.name} direction='column'>
+            <Field name={item.name}>
+              {({ input }) => (
+                <Labeled label={item.display || item.name}>
+                  <TextInput {...input} />
+                </Labeled>
+              )}
+            </Field>
+          </Flex>
         )
       })}
     </Flex>

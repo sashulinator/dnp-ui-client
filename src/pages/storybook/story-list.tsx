@@ -26,8 +26,6 @@ import sharedFormCheckbox from '~/shared/form/ui/checkbox/story'
 import uiFormWJsonEditor from '~/shared/form/ui/json-editor/story'
 import uiFormWKeyValue from '~/shared/form/ui/key-value/story'
 import uiFormWTextArea from '~/shared/form/ui/text-area/story'
-import uiFormWTextField from '~/shared/form/w.string-field/story'
-import sharedFormETextInputVShared from '~/shared/form/w.string-field/v.typed/story'
 import uiInputBase from '~/shared/input/base/story'
 import uiInput from '~/shared/input/story'
 import sharedlinkTree from '~/shared/link-tree/story'
@@ -93,7 +91,6 @@ export const storyList: Story<any>[] = [
   selectSelectWInput,
   optionFilter,
   uiInput,
-  sharedFormETextInputVShared,
   sharedTextInput,
   sharedSelectMultiple,
   sharedlinkTree,
@@ -111,7 +108,6 @@ export const storyList: Story<any>[] = [
   uiTagPickerWTag,
   uiFormWJsonEditor,
   uiFormWKeyValue,
-  uiFormWTextField,
   uiFormWTextArea,
   uiPagination,
   uiPaginationWInfo,

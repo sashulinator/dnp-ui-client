@@ -38,14 +38,6 @@ export { type FieldArrayRenderProps, type RenderableProps, FieldArray } from 're
 export { default as Checkbox, type CheckboxProps } from './ui/checkbox'
 export { default as TreeCheckbox, type TreeCheckboxProps } from './ui/tree-checkbox'
 export { default as LabeledCheckbox, type LabeledCheckboxProps } from './ui/labeled-checkbox'
-
-export {
-  default as StringField,
-  type StringFieldProps,
-  UniqueStringField as UniqueTextField,
-  type UniqueStringFieldProps,
-  TypedStringField,
-} from './w.string-field'
 export { default as TextArea, type TextAreaProps } from './ui/text-area'
 export { default as KeyValue, type KeyValueProps } from './ui/key-value'
 export { default as TagPicker, type TagPickerProps } from './ui/tag-picker'
