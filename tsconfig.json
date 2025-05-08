@@ -25,7 +25,8 @@
     /* Resolve */
     "baseUrl": "./src",
     "paths": {
-      "~/*": ["./*"]
+      "~/*": ["./*"],
+      "~rpc": ["./app/rpc"]
     }
   },
   "include": ["./src/vite-env.d.ts", "./src/window.d.ts", "src/**/*"],

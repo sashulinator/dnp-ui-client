@@ -1,4 +1,4 @@
-export * as api from './api.v1'
+export * as api from './api'
 
 export * as Form from './form'
 export * as Item from './item'
