@@ -12,6 +12,7 @@ export const dcservice = v.object({
   port: v.number(),
   username: v.pipe(v.string(), v.nonEmpty()),
   password: v.pipe(v.string(), v.nonEmpty()),
+  entryDatabase: v.pipe(v.string(), v.nonEmpty()),
 })
 
 /**
