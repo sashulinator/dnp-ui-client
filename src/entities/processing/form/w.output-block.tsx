@@ -63,7 +63,11 @@ export default function Component(props: Props): JSX.Element {
 
   useEffect(() => {
     if (dcservice) {
-      form.change('outputDctableLocator', { ...dcservice, database: dcdatabase?.name })
+      form.change('outputDctableLocator', {
+        ...dcservice,
+        ...form.getState().values['outputDctableLocator'],
+        database: dcdatabase?.name,
+      })
     }
   }, [])
 
