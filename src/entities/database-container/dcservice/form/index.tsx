@@ -16,7 +16,7 @@ export interface Props {
   disabled?: boolean
 }
 
-export type Values = Pick<Dcservice, 'client' | 'display' | 'host' | 'port' | 'username' | 'password'>
+export type Values = Pick<Dcservice, 'client' | 'display' | 'host' | 'port' | 'username' | 'password' | 'entryDatabase'>
 
 const NAME = `${APP}-${SLICE}-Form`
 
@@ -113,6 +113,20 @@ export default function Component(props: Props): JSX.Element {
                   <Flex direction='column'>
                     <Labeled label='Пароль'>
                       <TextInput {...input} clearable={true} variant='soft' disabled={disabled} type='password' />
+                    </Labeled>
+                  </Flex>
+                )}
+              </Field>
+            </Column>
+            <Column width='50%' />
+          </Row>
+          <Row width='100%'>
+            <Column width='50%'>
+              <Field<Values['entryDatabase']> name={'entryDatabase' satisfies keyof Values}>
+                {({ input }) => (
+                  <Flex direction='column'>
+                    <Labeled label='База данных'>
+                      <TextInput {...input} clearable={true} variant='soft' disabled={disabled} type='text' />
                     </Labeled>
                   </Flex>
                 )}

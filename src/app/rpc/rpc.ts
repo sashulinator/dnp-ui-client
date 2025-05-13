@@ -9,9 +9,7 @@ type RpcParams = {
 
 export function rpc(rpcParams: RpcParams) {
   return api.post(rpcParams.url, {
-    data: {
-      id: generateId(),
-      params: rpcParams.params,
-    },
+    requestId: generateId(),
+    params: rpcParams.params,
   })
 }

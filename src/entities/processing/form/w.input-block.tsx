@@ -90,8 +90,8 @@ export default function Component(props: Props): JSX.Element {
                         hasValue={!!value?.id}
                         disabled={!enabled}
                         fetchDisplay={async () => {
-                          if (!dcservice?.id) return
-                          return Dcservice.api.getById.request({ id: dcservice?.id }).then((d) => d.data)
+                          if (!value?.id) return
+                          return Dcservice.api.getById.request({ id: value?.id }).then((d) => d.data)
                         }}
                         fetcherDependencies={[value]}
                         onClearableClick={() => setValue(undefined)}

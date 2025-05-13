@@ -67,11 +67,12 @@ export default function Component(): JSX.Element {
                     request={() =>
                       Dcservice.api.testConnection
                         .request({
-                          client: 'pg',
+                          client: formState.values.client,
                           host: formState.values.host,
                           port: formState.values.port,
                           user: formState.values.username,
                           password: formState.values.password,
+                          database: formState.values.entryDatabase,
                         })
                         .then((ret) => ret.data)
                     }

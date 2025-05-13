@@ -266,20 +266,21 @@ export default function Component(): JSX.Element {
               <Flex justify='start'>
                 <Flex gap='2' direction='row' justify='end'>
                   <Flex gap='2' direction='column'>
-                    <Dcservice.TestConnection.default
+                    {/* <Dcservice.TestConnection.default
                       disabled={form.getState().invalid}
                       request={() =>
                         Dcservice.api.testConnection
                           .request({
-                            client: 'pg',
+                            client: formState.values.client,
                             host: formState.values.host,
                             port: formState.values.port,
                             user: formState.values.username,
                             password: formState.values.password,
+                            database: formState.values.entryDatabase,
                           })
                           .then((ret) => ret.data)
                       }
-                    />
+                    /> */}
                     <Flex>
                       <Button
                         // loading={updateMutator.isLoading}
