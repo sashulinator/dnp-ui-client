@@ -1,10 +1,11 @@
 import { memo } from 'react'
 
+import { savePropToLocalStorage } from './lib.save-prop-to-local-storage'
 import { syncFieldStatesBinding } from './lib.sync-field-states-binding'
 import TextInputField, { type Props as TextInputFieldProps } from './text-field'
 
 // eslint-disable-next-line react-refresh/only-export-components
-export const bindings = [syncFieldStatesBinding]
+export const bindings = [syncFieldStatesBinding, savePropToLocalStorage]
 
 export type Props = TextInputFieldProps & {
   context: { isSingleMode: boolean }

@@ -17,12 +17,15 @@ export const componentMap = {
     bindings: Components.TextField.bindings,
   },
   NumberField: {
+    bindings: Components.NumberField.bindings,
     render: Components.NumberField.default,
   },
   SelectField: {
+    bindings: Components.SelectField.bindings,
     render: Components.SelectField.default,
   },
   ColumnSelectField: {
+    bindings: Components.ColumnSelectField.bindings,
     render: Components.ColumnSelectField.default,
   },
   DcservicePickerField: {

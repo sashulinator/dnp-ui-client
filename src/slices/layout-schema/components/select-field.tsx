@@ -8,10 +8,11 @@ import { fns } from '~/utils/core'
 
 import { splitProps } from '../lib.split-props'
 import { type ComponentProps } from '../types'
+import { savePropToLocalStorage } from './lib.save-prop-to-local-storage'
 import { syncFieldStatesBinding } from './lib.sync-field-states-binding'
 
 // eslint-disable-next-line react-refresh/only-export-components
-export const bindings = [syncFieldStatesBinding]
+export const bindings = [syncFieldStatesBinding, savePropToLocalStorage]
 
 export type Props = ComponentProps<
   SelectInput.InputProps & {
@@ -26,7 +27,8 @@ export type Props = ComponentProps<
 const NAME = 'dnp-layoutSchema-selectField'
 
 function Component(props: Props): React.ReactNode {
-  const [{ label, fieldName = 'unknown', onValueChange = defaultOnValueChange, ...restProps }] = splitProps(props)
+  const [{ label, value, fieldName = 'unknown', onValueChange = defaultOnValueChange, ...restProps }] =
+    splitProps(props)
 
   const { input } = useField(fieldName)
 
@@ -39,7 +41,7 @@ function Component(props: Props): React.ReactNode {
             width: '100%',
             ...restProps.style,
           }}
-          value={input.value}
+          value={value}
           onValueChange={fns(onValueChange, input.onChange)}
           onBlur={fns(restProps.onBlur, input.onBlur)}
           onFocus={fns(restProps.onFocus, input.onFocus)}

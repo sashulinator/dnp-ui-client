@@ -1,4 +1,4 @@
-import { memo, useMemo } from 'react'
+import { memo, useEffect, useMemo } from 'react'
 
 import Button from '~/shared/button'
 import Flex from '~/shared/flex'
@@ -11,7 +11,7 @@ import SelectField, { type Props as SelectFieldProps } from './select-field'
 import TextInputField from './text-field'
 
 // eslint-disable-next-line react-refresh/only-export-components
-export const bindings = [Components.syncFieldStatesBinding]
+export const bindings = [Components.syncFieldStatesBinding, Components.savePropToLocalStorage]
 
 export type Props = SelectFieldProps &
   UseFieldProps<string> & {
@@ -23,6 +23,14 @@ const NAME = 'dnp-processing-executables-layoutSchema-components-columnSelectFie
 
 function Component(props: Props): React.ReactNode {
   const { allowTextInput, size = '2', isTextInputMode, ...restProps } = props
+
+  useEffect(() => {
+    if (!props.value) return
+    console.log('props.options', props.options, props.value)
+
+    const option = props.context.columns?.find((o) => o.name === props.value)
+    props.setProps({ isTextInputMode: !option } as any)
+  }, [])
 
   const fieldProps = useFieldProps(props)
 
@@ -58,8 +66,7 @@ function Component(props: Props): React.ReactNode {
             square={true}
             size={size}
             onClick={() => {
-              props.setProps({ isTextInputMode: !isTextInputMode } as any)
-              props.input?.onChange('')
+              props.setProps({ isTextInputMode: !isTextInputMode, value: undefined } as any)
             }}
           >
             <Icon name={isTextInputMode ? 'ChevronDown' : 'Pencil'} />
