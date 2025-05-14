@@ -2,9 +2,8 @@ import { cloneElement, useMemo } from 'react'
 
 import type { Any, Dictionary } from '~/utils/core'
 
-import { type Column } from '../types'
 import { injectIntoColumn } from './lib.inject-into-column'
-import type { Context } from './models.contex'
+import type { Column, Context } from './types'
 
 export interface Props {
   columns: Column<Any, Any>[] | undefined

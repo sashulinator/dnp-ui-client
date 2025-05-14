@@ -13,6 +13,9 @@ const ORIGINAL_RENDER_HEADER_CELL = 'sort_renderHeaderCell'
 export function injectIntoColumn<TItem extends Dictionary, TContext extends Context<TItem>>(
   column: Column<TItem, TContext>,
 ): Column<TItem, TContext> {
+  // @ts-ignore
+  if (column.sortable === false) return column
+
   return {
     ...column,
     // @ts-ignore

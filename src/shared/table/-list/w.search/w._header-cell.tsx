@@ -10,7 +10,7 @@ import { type Dictionary, assertDefined } from '~/utils/core'
 import { add } from '~/utils/dictionary'
 
 import { type RenderHeaderProps } from '..'
-import { type Context } from './models.contex'
+import { type Context } from './types'
 
 export function HeaderCell<TItem extends Dictionary, TContext extends Context<TItem>>({
   name,

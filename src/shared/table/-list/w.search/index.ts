@@ -12,5 +12,4 @@ export { injectIntoColumn } from './lib.inject-into-column'
  * types
  */
 
-export * from './models.where'
-export * from './models.contex'
+export type * from './types'

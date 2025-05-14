@@ -1,12 +1,15 @@
 import { type Dictionary } from '~/utils/core'
 
-import { type Column } from '..'
-import { type Context } from './models.contex'
+import { type Context } from './types'
+import { type Column } from './types'
 import { HeaderCell } from './w._header-cell'
 
 export function injectIntoColumn<TItem extends Dictionary, TContext extends Context<TItem>>(
   column: Column<TItem, TContext>,
 ): Column<TItem, TContext> {
+  // @ts-ignore
+  if (column.searchable === false) return column
+
   return {
     ...column,
     renderHeaderCell: HeaderCell,

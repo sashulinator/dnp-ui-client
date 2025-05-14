@@ -61,5 +61,5 @@ Component.displayName = NAME
 
 const defaultColumns = [
   { name: 'name', display: 'Название' },
-  { name: 'display', display: 'Отображение' },
+  { name: 'display', display: 'Отображение', searchable: false, sortable: false },
 ]

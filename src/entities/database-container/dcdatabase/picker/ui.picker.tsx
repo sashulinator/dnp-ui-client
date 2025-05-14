@@ -51,7 +51,7 @@ export default function Component(props: Props): JSX.Element {
 
   useEffect(() => {
     setPage(1)
-  }, fetcherDependencies)
+  }, [sort, searchFilter, limit, ...fetcherDependencies])
 
   const fetcher = useQuery(
     [NAME, 'tableFetcher', { searchFilter, sort, page }, ...fetcherDependencies],
