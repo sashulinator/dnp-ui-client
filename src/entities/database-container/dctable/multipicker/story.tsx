@@ -1,10 +1,10 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 
-import Flex from '~/shared/flex'
 import { type Props, type Story } from '~/shared/storybook'
 
 import { api } from '../../dcservice'
-import Input, { type Value } from './ui.picker'
+import Input from '../input'
+import Multipicker, { type Value } from './ui.multipicker'
 
 interface State {
   //
@@ -14,19 +14,21 @@ export default {
   render: function Story(props: Props<State>): JSX.Element {
     const { state } = props
 
-    const [value, onChange] = useState<Value | undefined>()
+    const [value, onChange] = useState<Value[] | undefined>()
+
+    console.log('value', value)
 
     return (
       <div style={{ padding: '2rem', width: '250px' }}>
-        <Input
+        <Multipicker
           {...state}
+          fetcherDependencies={['test']}
           enabled={true}
-          fetcherDependencies={[]}
           fetchTableList={async ({ sort, searchFilter, page, limit }) => {
             const ret = await api.findTables.request({
               dcdatabaseLocator: {
                 dcserviceId: 'workshop',
-                name: 'initial',
+                name: 'target',
               },
               sort,
               where: searchFilter as any,
@@ -37,17 +39,23 @@ export default {
           }}
           value={value}
           onChange={onChange}
+          renderTrigger={useCallback(({ setIsOpen, setValue, value }) => {
+            return (
+              <Input
+                hasValue={!!value}
+                fetchValue={async () => value as any}
+                fetcherDependencies={[value]}
+                onClick={() => setIsOpen(true)}
+                onClearableClick={() => setValue(undefined)}
+              />
+            )
+          }, [])}
         />
-        <Flex direction='column'>
-          {Object.values(value || {}).map((item) => {
-            return <div key={`${item.name}${item.schema}`}>{item.name}</div>
-          })}
-        </Flex>
       </div>
     )
   },
 
   controls: [],
 
-  getName: (): string => Input.displayName,
+  getName: (): string => Multipicker.displayName,
 } satisfies Story<State>

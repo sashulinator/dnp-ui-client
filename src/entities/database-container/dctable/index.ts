@@ -1,6 +1,6 @@
 export * as ListTable from './list-table'
-export * as OldPicker from './old-picker'
 export * as Picker from './picker'
+export * as Multipicker from './multipicker'
 export * as Input from './input'
 
 /**

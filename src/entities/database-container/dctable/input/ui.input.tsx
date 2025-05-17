@@ -49,7 +49,7 @@ export default function Component(props: Props): JSX.Element {
 
   function buildValue(): Value | undefined {
     if (!Array.isArray(valueFetcher.data)) return valueFetcher.data
-    if (valueFetcher.data.length > 1) return { name: `Выбрано ${valueFetcher.data.length}` }
+    if (valueFetcher.data.length > 1) return { name: `Выбрано (${valueFetcher.data.length})` }
     if (valueFetcher.data.length === 1) return valueFetcher.data[0]
     return undefined
   }

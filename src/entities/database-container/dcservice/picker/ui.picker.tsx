@@ -49,11 +49,9 @@ export default function Component(props: Props): JSX.Element {
   const [page, setPage] = useState(1)
   const [searchFilter, setSearchFilter] = useState<ListTableProps['searchFilter'] | undefined>(undefined)
   const [sortAtom, sort] = useAtomState<ItemSort | undefined>(undefined)
-  const [limit, setLimit] = useState(10)
+  const [limit, setLimit] = useState(25)
 
-  useEffect(() => {
-    setPage(1)
-  }, fetcherDependencies)
+  useEffect(() => setPage(1), fetcherDependencies)
 
   const fetcher = useQuery(
     [NAME, 'tableFetcher', { searchFilter, sort, page }, ...fetcherDependencies],
@@ -74,6 +72,7 @@ export default function Component(props: Props): JSX.Element {
         <Dialog.Content
           onOpenAutoFocus={preventDefault}
           maxWidth='1224px'
+          height='75vh'
           minHeight='500px'
           style={{ position: 'relative' }}
         >

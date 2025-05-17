@@ -5,6 +5,7 @@ import { Dcdatabase, Dcservice, Dctable } from '~/entities/database-container'
 import { Card, Column, Field } from '~/shared/form'
 import { c } from '~/utils/core'
 import { type Dictionary } from '~/utils/dictionary'
+import { toDictionary } from '~/utils/list'
 
 import { SLICE } from '../constants'
 import { type Config } from './ui.new-form'
@@ -126,16 +127,33 @@ export default function Component(props: Props): JSX.Element {
                     )
                   }, [])}
                 />
-                <Dctable.OldPicker.default
+                <Dctable.Multipicker.default
                   enabled={!!dcdatabase?.name && !disabled}
                   fetcherDependencies={[dcservice, dcdatabase?.name]}
-                  disabled={disabled || !dcdatabase?.name}
                   fetchTableList={(params) => {
                     return fetchTableList({ ...params, database: dcdatabase?.name, dcserviceId: dcservice?.id } as any)
                   }}
-                  value={value as any}
+                  value={Object.values(value)}
                   onChange={(value) => {
-                    onInputChange(value)
+                    const newValue = value?.map((item) => ({
+                      ...item,
+                      name: item.name as string,
+                      schema: item.schema as string,
+                      database: dcdatabase?.name as string,
+                      dcserviceId: dcservice?.id as string,
+                    }))
+                    onInputChange(toDictionary((item) => `${item.name}.${item.schema}`, newValue) || {})
+                  }}
+                  renderTrigger={({ setIsOpen, setValue, value }) => {
+                    return (
+                      <Dctable.Input.default
+                        hasValue={!!value}
+                        fetchValue={async () => value as any}
+                        fetcherDependencies={[value]}
+                        onClick={() => setIsOpen(true)}
+                        onClearableClick={() => setValue(undefined)}
+                      />
+                    )
                   }}
                 />
               </>

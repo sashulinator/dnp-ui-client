@@ -8,7 +8,7 @@ import dcserviceListTable from '~/entities/database-container/dcservice/list-tab
 import dcservicePicker from '~/entities/database-container/dcservice/picker/story'
 import dctableInput from '~/entities/database-container/dctable/input/story'
 import dctableListTable from '~/entities/database-container/dctable/list-table/story'
-import eDatabaseContanerDctableOldPicker from '~/entities/database-container/dctable/old-picker/story'
+import dctableMultipicker from '~/entities/database-container/dctable/multipicker/story'
 import eDatabaseContanerDctablePicker from '~/entities/database-container/dctable/picker/story'
 import eExecutableswRegexp from '~/entities/processing/executable/w.field-factory/regexp-functions/story'
 import eExecutableswFackerColConfig from '~/entities/processing/executable/w.field-factory/w.facker-col-config/story'
@@ -60,7 +60,6 @@ export const storyList: Story<any>[] = [
   dcserviceInput,
   dcdatabaseListTable,
   eDatabaseContanerDctablePicker,
-  eDatabaseContanerDctableOldPicker,
   dnpDcdatabaseInput,
   dcdatabasePicker,
   dctableInput,
@@ -71,6 +70,7 @@ export const storyList: Story<any>[] = [
   dctableListTable,
   uiSelectInput,
   eExecutableswRegexp,
+  dctableMultipicker,
 
   /**
    * shared
