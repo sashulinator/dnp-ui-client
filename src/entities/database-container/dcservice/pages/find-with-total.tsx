@@ -1,5 +1,6 @@
 import { NumberParam, useQueryParams, withDefault } from 'use-query-params'
 
+import { auth } from '~/app/auth'
 import { history, routes } from '~/app/route'
 import { Dcservice } from '~/entities/database-container'
 import Button from '~/shared/button'
@@ -39,9 +40,11 @@ export default function Component(): JSX.Element {
               <Heading.Name />
             </Heading.Root>
             <Flex align='center' gap='2'>
-              <Button asChild>
-                <Link to={routes.dcservice_create.getUrl()}>Создать</Link>
-              </Button>
+              {auth.hasRole(auth.roles.stc_crt, 'dnp') && (
+                <Button asChild>
+                  <Link to={routes.dcservice_create.getUrl()}>Создать</Link>
+                </Button>
+              )}
             </Flex>
           </Flex>
         </Section>

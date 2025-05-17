@@ -1,3 +1,5 @@
+import type { AxiosResponse } from 'axios'
+
 import { type Dictionary, generateId } from '~/utils/core'
 
 import api from '../api'
@@ -7,8 +9,8 @@ type RpcParams = {
   params?: Dictionary | undefined
 }
 
-export function rpc(rpcParams: RpcParams) {
-  return api.post(rpcParams.url, {
+export function rpc<TResult>(rpcParams: RpcParams): Promise<AxiosResponse<TResult>> {
+  return api.post<TResult>(rpcParams.url, {
     requestId: generateId(),
     params: rpcParams.params,
   })

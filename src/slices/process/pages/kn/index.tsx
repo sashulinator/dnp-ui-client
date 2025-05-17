@@ -41,10 +41,6 @@ export default function Component() {
               {fetcher.isSuccess ? (
                 <DataList.Root>
                   <DataList.Item align='center'>
-                    <DataList.Label>Автор</DataList.Label>
-                    <DataList.Value>{fetcher.data?.user.username}</DataList.Value>
-                  </DataList.Item>
-                  <DataList.Item align='center'>
                     <DataList.Label>Тип Процесса</DataList.Label>
                     <DataList.Value>{fetcher.data.type}</DataList.Value>
                   </DataList.Item>

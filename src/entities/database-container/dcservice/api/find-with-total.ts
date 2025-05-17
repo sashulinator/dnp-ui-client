@@ -7,6 +7,7 @@ import {
   type Result,
   URL,
 } from '~/common/entities/database-container/dcservice/api/find-with-total'
+import { queryClient } from '~rpc'
 
 import * as getById from './get-by-id'
 
@@ -31,4 +32,17 @@ export function useCache<TData = Result>(
   }
 
   return useReactQuery([URL, requestParams], () => request(requestParams), options)
+}
+
+export function setCache(requestParams: RequestParams, data: Result): void {
+  const response: Response<Result> = { data }
+  queryClient.setQueryData([URL, requestParams], response)
+}
+
+export function clearCache(requestParams: RequestParams): void {
+  queryClient.invalidateQueries([URL, requestParams])
+}
+
+export function getCache(requestParams: RequestParams): { data: Result } | undefined {
+  return queryClient.getQueryData<{ data: Result }>([URL, requestParams])
 }

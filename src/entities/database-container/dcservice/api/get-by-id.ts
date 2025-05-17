@@ -12,7 +12,7 @@ import {
 async function request(params: RequestParams): Promise<Response<Result>> {
   const cache = getCache(params)
   if (cache) return cache
-  const ret = await rpc({ url: URL, params })
+  const ret = await rpc<Result>({ url: URL, params })
   setCache(params, ret.data)
   return ret
 }

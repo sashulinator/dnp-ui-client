@@ -2,6 +2,7 @@ import { Tooltip } from '@radix-ui/themes'
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
+import { auth } from '~/app/auth'
 import { confirm } from '~/app/controller'
 import { history, routes } from '~/app/route'
 import { Dccolumn, type Dcrow, Dcservice, Dctable } from '~/entities/database-container'
@@ -139,6 +140,17 @@ export default function Component(): JSX.Element {
     onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
   })
 
+  const removeMutator = Dcservice.api.removeById.useMutation({
+    onSuccess: (response) => {
+      notify({ title: 'Удалено', type: 'success' })
+      form.initialize(DcserviceForm.toValues(response.data))
+      history.push(routes.dcservice_findWithTotal.getUrl())
+    },
+    onError: () => {
+      notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' })
+    },
+  })
+
   const form = useCreateForm<Values>({
     initialValues: fetcher.data ? DcserviceForm.toValues(fetcher.data) : {},
     onSubmit: (values) => {
@@ -255,6 +267,22 @@ export default function Component(): JSX.Element {
               className={c(isAnimated && cssAnimations.Appear)}
               style={{ animationDelay: `${TICK_MS * 2}ms` }}
             >
+              <Flex p='2' width='100%' justify='end'>
+                {auth.hasRole(auth.roles.dcsrv_rmv, 'dnp') && (
+                  <Button
+                    loading={removeMutator.isLoading}
+                    onClick={() =>
+                      confirm({
+                        title: 'Удалить?',
+                        onConfirm: () => removeMutator.mutate({ id: id }),
+                      })
+                    }
+                    variant='ghost'
+                  >
+                    Удалить
+                  </Button>
+                )}
+              </Flex>
               <Form form={form} disabled={fetcher.isLoading} component={DcserviceForm} />
             </Section>
 
