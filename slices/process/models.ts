@@ -12,12 +12,9 @@ import { getKeys } from '../dictionary'
 export const baseProcessSchema = v.object({
   id: v.pipe(v.string(), v.nonEmpty()),
   // можно положить id сущности которая вызвала процесс
-  track: v.pipe(v.string(), v.nonEmpty()),
+  track: v.nullable(v.pipe(v.string(), v.nonEmpty())),
   type: v.pipe(v.string(), v.nonEmpty()),
   data: v.object({}),
-  user: v.object({
-    username: v.pipe(v.string(), v.nonEmpty()),
-  }),
   ...creatableModel.entries,
 })
 
