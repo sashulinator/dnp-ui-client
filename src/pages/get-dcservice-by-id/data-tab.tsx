@@ -68,7 +68,6 @@ export default function Component(props: Props): JSX.Element {
                 renderTrigger={useCallback(({ setIsOpen, value, setValue, enabled }) => {
                   return (
                     <Dcdatabase.Input.default
-                      variant='outline'
                       style={{ width: '50%' }}
                       hasValue={!!value?.name}
                       disabled={!enabled}
@@ -85,7 +84,6 @@ export default function Component(props: Props): JSX.Element {
                 renderTrigger={useCallback(({ setIsOpen, value, setValue, enabled }) => {
                   return (
                     <Dctable.Input.default
-                      variant='outline'
                       style={{ width: '50%' }}
                       hasValue={!!value?.name}
                       disabled={!enabled}

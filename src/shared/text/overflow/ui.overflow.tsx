@@ -19,7 +19,13 @@ export default function Component(props: Props): JSX.Element {
       {...rootProps}
       className={c(NAME, className)}
       ref={setRefs(ref)}
-      style={{ width: '100%', height: '100%', position: 'relative', ...rootProps.style }}
+      style={{
+        width: '100%',
+        height: '100%',
+        position: 'relative',
+        ...rootProps.style,
+        visibility: measure.width ? 'visible' : 'hidden',
+      }}
     >
       {' '}
       <div

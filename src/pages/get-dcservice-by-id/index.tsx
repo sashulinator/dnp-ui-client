@@ -3,7 +3,7 @@ import { Tooltip } from '@radix-ui/themes'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { confirm } from '~/app/controller'
-import { routes } from '~/app/route'
+import { history, routes } from '~/app/route'
 import { Dccolumn, type Dcrow, Dcservice, Dctable } from '~/entities/database-container'
 import { api as processingApi } from '~/entities/processing'
 import Button from '~/shared/button'
@@ -227,7 +227,7 @@ export default function Component(): JSX.Element {
             <Section size='1' className={c(isAnimated && cssAnimations.Appear)}>
               <Flex align='center' justify='between' gap='2'>
                 <Heading.Root route={routes.dcservice_getById} backRoute={routes.dcservice_findWithTotal}>
-                  <Heading.BackToParent />
+                  <Heading.BackToParent onClick={() => history.push(routes.dcservice_findWithTotal.getUrl())} />
                   <Heading.Name />
                   <Heading.Unique string={formState.values.display} tooltipContent='Отображение' />
                   {tab === 'data' && !primaryKeyFetcher.data && !primaryKeyFetcher.isFetching && (

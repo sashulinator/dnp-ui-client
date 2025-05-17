@@ -17,7 +17,6 @@ import Nav from '~/shared/nav'
 import { Icon as ProcessIcon } from '~/slices/process'
 import Processes from '~/slices/process/pages'
 import Processes_kn from '~/slices/process/pages/kn'
-import { isDev } from '~/utils/core-client/is-dev'
 
 import Main from '../../../pages/main'
 import { setReturnRedirect } from '../lib/return-redirect'
@@ -267,9 +266,8 @@ export const routes = {
       </Suspense>
     ),
     payload: {
-      navigatable: isDev(),
+      navigatable: true,
       renderIcon: (props) => <Icon {...props} name='Star' />,
-      iconColor: 'red',
       renderHeader: Header,
       renderNav: Nav,
       // rolesAllowed: [roles.admin],

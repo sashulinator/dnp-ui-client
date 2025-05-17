@@ -38,10 +38,11 @@ Root.displayName = NAME
 
 export interface BackToParentProps {
   className?: string | undefined
+  onClick?: (e: React.MouseEvent) => void
 }
 
 export function BackToParent(props: BackToParentProps): JSX.Element {
-  const { className } = props
+  const { className, onClick } = props
 
   return (
     <Button
@@ -49,7 +50,7 @@ export function BackToParent(props: BackToParentProps): JSX.Element {
       style={{ marginRight: 'var(--space-4)' }}
       square={true}
       className={c(className)}
-      onClick={() => history.back()}
+      onClick={(e) => (onClick ? onClick(e) : history.back())}
     >
       <Icon name='ChevronLeft' />
     </Button>

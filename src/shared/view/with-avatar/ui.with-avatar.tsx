@@ -15,6 +15,11 @@ export type Props = FlexProps & {
 
 const NAME = 'ui-view-withAvatar'
 
+export const description = `
+На подобие айтема списка пользователей как во ВКонтаке 
+Используется для отображение привязанной сущности
+`
+
 export default function Component(props: Props): JSX.Element {
   const { className, iconName = '', disabled, title, subtitle, loading = false, ...flexProps } = props
 
@@ -29,13 +34,13 @@ export default function Component(props: Props): JSX.Element {
         />
       </Skeleton>
       <Flex direction='column' align='stretch' gap={loading ? '1' : '0'} width='100%'>
-        <Skeleton loading={loading} width='5rem'>
-          <Text size='2'>
+        <Skeleton loading={loading} width='75%'>
+          <Text size='2' style={{ color: disabled ? 'var(--gray-8)' : 'var(--gray-11)' }}>
             <TextOverflow alt={title}>{title}</TextOverflow>
           </Text>
         </Skeleton>
-        <Skeleton loading={loading} width='5rem'>
-          <Text size='1' color='gray'>
+        <Skeleton loading={loading} width='50%'>
+          <Text size='1' style={{ color: disabled ? 'var(--gray-7)' : 'var(--gray-10)' }}>
             <TextOverflow alt={subtitle}>{subtitle}</TextOverflow>
           </Text>
         </Skeleton>

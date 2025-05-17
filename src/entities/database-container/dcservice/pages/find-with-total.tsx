@@ -1,6 +1,6 @@
 import { NumberParam, useQueryParams, withDefault } from 'use-query-params'
 
-import { routes } from '~/app/route'
+import { history, routes } from '~/app/route'
 import { Dcservice } from '~/entities/database-container'
 import Button from '~/shared/button'
 import Container from '~/shared/container'
@@ -35,7 +35,7 @@ export default function Component(): JSX.Element {
         <Section size='1' className={c(cssAnimations.Appear)}>
           <Flex width='100%' justify='between'>
             <Heading.Root route={routes.dcservice_findWithTotal} backRoute={routes.main}>
-              <Heading.BackToParent />
+              <Heading.BackToParent onClick={() => history.push(routes.main.getUrl())} />
               <Heading.Name />
             </Heading.Root>
             <Flex align='center' gap='2'>
