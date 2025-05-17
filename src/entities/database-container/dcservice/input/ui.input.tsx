@@ -40,7 +40,7 @@ function Component(props: Props, ref: ForwardedRef<HTMLButtonElement>): JSX.Elem
             style={{ overflow: 'hidden', width: '100%' }}
             title={value?.display}
             subtitle={value?.host && value?.port ? `${value?.host}:${value?.port}` : ''}
-            iconName={capitalize(value?.client || 'square') as 'Postgres'}
+            iconName={capitalize(value?.client || 'Logo') as 'Postgres'}
           />
           <Flex align='center' gap='2'>
             {loading && <Spinner />}

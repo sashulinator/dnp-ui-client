@@ -11,7 +11,7 @@ export type Value = {
 
 export interface Props extends Omit<InputProps, 'onChange' | 'children' | 'value'> {
   className?: string | undefined
-  fetchValue: () => Value | undefined
+  fetchValue: () => Promise<Value[] | Value | undefined>
   fetcherDependencies: unknown[]
 }
 
@@ -21,7 +21,7 @@ export default function Component(props: Props): JSX.Element {
   const { loading, variant = 'soft', fetcherDependencies, fetchValue, ...inputCardProps } = props
 
   const valueFetcher = useQuery([NAME, ...fetcherDependencies], fetchValue)
-  const value = valueFetcher.data
+  const value = buildValue()
 
   return (
     <>
@@ -40,12 +40,19 @@ export default function Component(props: Props): JSX.Element {
             iconName='Table'
           />
           <Flex align='center' gap='2'>
-            {loading && <Spinner />}
+            {(loading || valueFetcher.isFetching) && <Spinner />}
           </Flex>
         </Flex>
       </Input>
     </>
   )
+
+  function buildValue(): Value | undefined {
+    if (!Array.isArray(valueFetcher.data)) return valueFetcher.data
+    if (valueFetcher.data.length > 1) return { name: `Выбрано ${valueFetcher.data.length}` }
+    if (valueFetcher.data.length === 1) return valueFetcher.data[0]
+    return undefined
+  }
 }
 
 Component.displayName = NAME

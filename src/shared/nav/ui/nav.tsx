@@ -5,8 +5,8 @@ import { ScrollArea, Separator } from '@radix-ui/themes'
 import { routes } from '~/app/route'
 import Button from '~/shared/button'
 import Flex from '~/shared/flex'
+import Icon from '~/shared/icon'
 import Link from '~/shared/link'
-import Logo from '~/shared/logo-icon'
 import Text from '~/shared/text'
 import { c } from '~/utils/core'
 
@@ -31,15 +31,11 @@ export default function Component(): JSX.Element {
             variant='outline'
             size='2'
             asChild
-            style={{ width: '100%', justifyContent: 'flex-start', boxShadow: 'none' }}
+            style={{ width: '100%', paddingLeft: 'var(--space-4)', justifyContent: 'flex-start', boxShadow: 'none' }}
           >
             <Link to={routes.main.getUrl()}>
-              <Button variant='outline' size='2' square={true} asChild>
-                <span>
-                  <Logo height='1rem' width='2rem' />
-                </span>
-              </Button>
-              <Text style={{ marginLeft: '8px' }}>НСИ</Text>
+              <Icon name='Logo' />
+              <Text style={{ marginLeft: '2px' }}>НСИ</Text>
             </Link>
           </Button>
         </Flex>

@@ -18,6 +18,7 @@ import ExternalLink from '../widgets/external-link'
 import Filter from '../widgets/filter'
 import Greenplum from '../widgets/greenplum'
 import InfoCircled from '../widgets/info-circled'
+import Logo from '../widgets/logo'
 import Pencil from '../widgets/pencil'
 import Plus from '../widgets/plus'
 import Postgres from '../widgets/postgres'
@@ -49,6 +50,7 @@ export const map = {
   Greenplum,
   Filter,
   InfoCircled,
+  Logo,
   Plus,
   Postgres,
   Refresh,

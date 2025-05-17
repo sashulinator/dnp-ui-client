@@ -21,7 +21,7 @@ export const description = `
 `
 
 export default function Component(props: Props): JSX.Element {
-  const { className, iconName = '', disabled, title, subtitle, loading = false, ...flexProps } = props
+  const { className, iconName = 'Logo', disabled, title, subtitle, loading = false, ...flexProps } = props
 
   return (
     <Flex className={c(className, NAME)} align='center' {...flexProps}>
@@ -30,19 +30,21 @@ export default function Component(props: Props): JSX.Element {
           color={disabled ? 'gray' : (undefined as unknown as 'gray')}
           mr='2'
           radius='full'
-          fallback={<Icon width='1.2rem' height='1.2rem' name={iconName as 'Postgres'} />}
+          fallback={<Icon width='1.2rem' height='1.2rem' name={iconName} />}
         />
       </Skeleton>
       <Flex direction='column' align='stretch' gap={loading ? '1' : '0'} width='100%'>
         <Skeleton loading={loading} width='75%'>
-          <Text size='2' style={{ color: disabled ? 'var(--gray-8)' : 'var(--gray-11)' }}>
+          <Text size='2' style={{ color: disabled ? 'var(--gray-8)' : 'var(--gray-12)' }}>
             <TextOverflow alt={title}>{title}</TextOverflow>
           </Text>
         </Skeleton>
         <Skeleton loading={loading} width='50%'>
-          <Text size='1' style={{ color: disabled ? 'var(--gray-7)' : 'var(--gray-10)' }}>
-            <TextOverflow alt={subtitle}>{subtitle}</TextOverflow>
-          </Text>
+          {subtitle && (
+            <Text size='1' style={{ color: disabled ? 'var(--gray-7)' : 'var(--gray-10)' }}>
+              <TextOverflow alt={subtitle}>{subtitle}</TextOverflow>
+            </Text>
+          )}
         </Skeleton>
       </Flex>
     </Flex>
