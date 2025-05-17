@@ -6,6 +6,12 @@ export const roles = {
   approver: 'approver',
 
   /**
+   * dcservice
+   */
+
+  dcsrv_rmv: 'dcsrv:rmv',
+
+  /**
    * user
    */
 
