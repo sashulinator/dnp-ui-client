@@ -9,8 +9,7 @@ import Tooltip from '~/shared/tooltip'
 import { LoginForm, type LoginFormValues, getDateIn } from '~/slices/auth'
 import { c, fns } from '~/utils/core'
 import { isDev, preventDefault } from '~/utils/core-client'
-
-import { notify } from '../../shared/notification-list-store'
+import { notifyError } from '~notification'
 
 const NAME = 'pages-Login'
 
@@ -26,8 +25,8 @@ export default function Component(): JSX.Element {
       const redirect = getReturnRedirect()
       history.push(redirect || routes.main.getPath())
     },
-    onError: (e) => {
-      notify({ title: e.response?.data?.translated, type: 'error' })
+    onError: (error) => {
+      notifyError({ type: 'error', error })
     },
   })
 

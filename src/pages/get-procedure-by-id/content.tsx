@@ -9,7 +9,6 @@ import Flex from '~/shared/flex'
 import Form, { Card, Column, type FormProps, Row } from '~/shared/form'
 import Icon from '~/shared/icon'
 import Labeled from '~/shared/labeled'
-import { notify } from '~/shared/notification-list-store'
 import { Main } from '~/shared/page'
 import Section from '~/shared/section'
 import Separator from '~/shared/separator'
@@ -19,6 +18,7 @@ import { generateId } from '~/utils/core'
 import { useSubscribeUpdate } from '~/utils/core-hooks'
 import { parseSafe } from '~/utils/json'
 import { type Atom } from '~/utils/store'
+import { notifyError } from '~notification'
 
 export interface Props {
   className?: string | undefined
@@ -101,8 +101,7 @@ export default function Component(props: Props): JSX.Element {
                               onError={(e) => {
                                 const { message, ...rest } = e
                                 const err = rest as any
-                                notify({
-                                  type: 'error',
+                                notifyError({
                                   description: `Ошибка в блоке "${(err as any).componentProps.block.id}" ${err.binding?.id ? `В binding "${err.binding.id}"` : ''} ${err.listenerIndex ? `В listeners[${err.listenerIndex}]` : ''}`,
                                   title: message,
                                 })

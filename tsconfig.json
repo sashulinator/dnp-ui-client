@@ -26,7 +26,8 @@
     "baseUrl": "./src",
     "paths": {
       "~/*": ["./*"],
-      "~rpc": ["./app/rpc"]
+      "~rpc": ["./app/rpc"],
+      "~notification": ["./app/notification"],
     }
   },
   "include": ["./src/vite-env.d.ts", "./src/window.d.ts", "src/**/*"],

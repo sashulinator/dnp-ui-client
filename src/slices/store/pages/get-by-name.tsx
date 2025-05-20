@@ -6,8 +6,8 @@ import Button from '~/shared/button'
 import Card from '~/shared/card'
 import { useCreateForm } from '~/shared/form'
 import UiForm from '~/shared/form'
-import { notify } from '~/shared/notification-list-store'
 import { api } from '~/slices/store'
+import { notifyError, notifySuccess } from '~notification'
 
 import Form, { type Values } from '../ui/form'
 
@@ -27,10 +27,10 @@ export default function Page(): JSX.Element {
 
   const updateMutator = api.update.useCache({
     onSuccess: (data) => {
-      notify({ title: 'Сохранено', type: 'success' })
+      notifySuccess({ title: 'Сохранено' })
       form.initialize(Form.toFormValues(data.data))
     },
-    onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
+    onError: () => notifyError({ title: 'Ошибка', description: 'Что-то пошло не так' }),
   })
 
   const form = useCreateForm<Values>(

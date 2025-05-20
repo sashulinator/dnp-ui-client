@@ -1,6 +1,6 @@
-import { notify } from '~/shared/notification-list-store'
 import { type Props, type Story } from '~/shared/storybook'
 import { generateId } from '~/utils/core'
+import { notifySuccess } from '~notification'
 
 import ToastList from '../ui/list'
 
@@ -14,7 +14,7 @@ export default {
 
     return (
       <div style={{ padding: '2rem' }}>
-        <button onClick={() => notify({ title: `id: ${generateId()}` })}>add toast</button>
+        <button onClick={() => notifySuccess({ title: `id: ${generateId()}` })}>add toast</button>
         <ToastList {...state} />
       </div>
     )

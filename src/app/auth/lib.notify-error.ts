@@ -1,4 +1,4 @@
-import { notify } from '~/shared/notification-list-store'
+import { notifyError as notificationNotifyError } from '~notification'
 
 let timeoutId: null | number = null
 
@@ -7,7 +7,7 @@ let timeoutId: null | number = null
 export function notifyError() {
   if (timeoutId === null) {
     // prettier-ignore
-    notify({ type: 'error', title: 'Ошибка Авторизации' })
+    notificationNotifyError({ title: 'Ошибка Авторизации' })
     timeoutId = window.setTimeout(() => {
       timeoutId = null
     }, 1_000)

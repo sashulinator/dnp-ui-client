@@ -1,6 +1,6 @@
 import { type Procedure } from '~/entities/processing'
-import { notify } from '~/shared/notification-list-store'
 import { parseSafe } from '~/utils/json'
+import { notifyError } from '~notification'
 
 import Content from './content'
 import { useWrapper } from './use-wrapper'
@@ -26,7 +26,7 @@ export default function Component(): JSX.Element {
         onClick() {
           const parsed = parseSafe<Procedure.Procedure>(procedureState.get())
           if (parsed) updateProcedureMutator.mutate({ input: parsed })
-          else notify({ type: 'error', title: 'Невалидное значение' })
+          else notifyError({ title: 'Невалидное значение' })
         },
       }}
       formatButton={{

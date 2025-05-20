@@ -7,10 +7,10 @@ import Container from '~/shared/container'
 import { TICK_MS, cssAnimations } from '~/shared/css-animations'
 import Flex from '~/shared/flex'
 import Form, { useCreateForm } from '~/shared/form'
-import { notify } from '~/shared/notification-list-store'
 import { Heading, Main } from '~/shared/page'
 import Section from '~/shared/section'
 import { c } from '~/utils/core'
+import { notifyError, notifySuccess } from '~notification'
 
 const NAME = `page-GetServiceById`
 
@@ -19,12 +19,12 @@ export default function Component(): JSX.Element {
 
   const createMutator = Dcservice.api.create.useMutation({
     onSuccess: (response) => {
-      notify({ title: 'Сохранено', type: 'success' })
+      notifySuccess({ title: 'Сохранено' })
       form.initialize(Dcservice.Form.default.toValues(response.data))
       Dcservice.api.getById.setCache({ id: response.data.id }, response.data)
       navigate(routes.dcservice_getById.getUrl(response.data.id))
     },
-    onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
+    onError: (error) => notifyError({ error }),
   })
 
   const form = useCreateForm<Dcservice.Form.Values>(

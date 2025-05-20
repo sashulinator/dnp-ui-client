@@ -9,10 +9,10 @@ import Container from '~/shared/container'
 import Flex from '~/shared/flex'
 import Form, { useCreateForm } from '~/shared/form'
 import Heading from '~/shared/heading'
-import { notify } from '~/shared/notification-list-store'
 import Section from '~/shared/section'
 import { HighlightedText } from '~/shared/text'
 import { type Dictionary, generateId } from '~/utils/core'
+import { notifyError, notifySuccess } from '~notification'
 
 export interface Props {
   className?: string | undefined
@@ -41,9 +41,9 @@ export default function Component(): JSX.Element {
 
   const createMutator = create.useCache({
     onSuccess: () => {
-      notify({ title: 'Создано', type: 'success' })
+      notifySuccess({ title: 'Создано', type: 'success' })
     },
-    onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
+    onError: (error) => notifyError({ type: 'error', error: error }),
   })
 
   return (

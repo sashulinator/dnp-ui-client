@@ -2,8 +2,8 @@ import { useParams } from 'react-router-dom'
 
 import { Procedure } from '~/entities/processing'
 import { type FormApi, useCreateForm } from '~/shared/form'
-import { notify } from '~/shared/notification-list-store'
 import { type Atom, useAtom } from '~/utils/store'
+import { notifyError, notifySuccess } from '~notification'
 
 export type Result = {
   id: string
@@ -27,10 +27,10 @@ export function useWrapper(): Result {
 
   const updateProcedureMutator = Procedure.api.update.useMutation({
     onSuccess() {
-      notify({ type: 'success', title: 'Успешно' })
+      notifySuccess({ type: 'success', title: 'Успешно' })
     },
     onError() {
-      notify({ type: 'error', title: 'Неизвестная ошибка' })
+      notifyError({ type: 'error', title: 'Неизвестная ошибка' })
     },
   })
 

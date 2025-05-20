@@ -15,7 +15,6 @@ import DropdownMenu from '~/shared/dropdown-menu'
 import Flex from '~/shared/flex'
 import Form, { useCreateForm } from '~/shared/form'
 import Icon from '~/shared/icon'
-import { notify } from '~/shared/notification-list-store'
 import { Heading, Main } from '~/shared/page'
 import { queryClient } from '~/shared/query'
 import Section from '~/shared/section'
@@ -37,6 +36,7 @@ import { type Any, type Dictionary, assertDefined, c } from '~/utils/core'
 import { usePrevious } from '~/utils/core-hooks/previous'
 import { get, setPath } from '~/utils/dictionary'
 import { createAtom, useAtom } from '~/utils/store'
+import { notifyError, notifySuccess } from '~notification'
 
 import DcserviceForm, { type Values } from '../../entities/database-container/dcservice/form'
 import DataTab, { type DisplayOption } from './data-tab'
@@ -134,20 +134,20 @@ export default function Component(): JSX.Element {
 
   const updateMutator = Dcservice.api.update.useMutation({
     onSuccess: (response) => {
-      notify({ title: 'Сохранено', type: 'success' })
+      notifySuccess({ title: 'Сохранено' })
       form.initialize(DcserviceForm.toValues(response.data))
     },
-    onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
+    onError: (error) => notifyError({ error }),
   })
 
   const removeMutator = Dcservice.api.removeById.useMutation({
     onSuccess: (response) => {
-      notify({ title: 'Удалено', type: 'success' })
+      notifySuccess({ title: 'Удалено' })
       form.initialize(DcserviceForm.toValues(response.data))
       history.push(routes.dcservice_findWithTotal.getUrl())
     },
-    onError: () => {
-      notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' })
+    onError: (error) => {
+      notifyError({ error })
     },
   })
 
@@ -165,22 +165,22 @@ export default function Component(): JSX.Element {
 
   const updateRowMutator = Dcservice.api.updaterow.useMutation({
     onSuccess: () => {
-      notify({ title: 'Сохранено', type: 'success' })
+      notifySuccess({ title: 'Сохранено', type: 'success' })
       updateRowForm.initialize({})
       isUpdateFormModalOpen.set(false)
       rowsFetcher.refetch()
     },
-    onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
+    onError: (error) => notifyError({ error }),
   })
 
   const createRowMutator = Dcservice.api.insertRow.useMutation({
     onSuccess: () => {
-      notify({ title: 'Сохранено', type: 'success' })
+      notifySuccess({ title: 'Сохранено', type: 'success' })
       createRowForm.initialize({})
       isCreateFormModalOpen.set(false)
       rowsFetcher.refetch()
     },
-    onError: () => notify({ title: 'Ошибка', description: 'Что-то пошло не так', type: 'error' }),
+    onError: (error) => notifyError({ error }),
   })
 
   const isUpdateFormModalOpen = useAtom(false)
