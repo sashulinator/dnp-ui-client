@@ -147,7 +147,7 @@ export default function Component(props: Props): JSX.Element {
                   renderTrigger={({ setIsOpen, setValue, value }) => {
                     return (
                       <Dctable.Input.default
-                        hasValue={!!value}
+                        hasValue={!!value?.length}
                         fetchValue={async () => value as any}
                         fetcherDependencies={[value]}
                         onClick={() => setIsOpen(true)}

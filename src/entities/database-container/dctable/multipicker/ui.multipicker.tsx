@@ -18,8 +18,8 @@ import { useAtomState } from '~/utils/store'
 import { Dctable } from '../..'
 
 export type Value = {
-  name: string | undefined
-  schema: string | undefined
+  name: string
+  schema: string
   display?: string | undefined
 }
 
@@ -78,9 +78,7 @@ export default function Component(props: Props): JSX.Element {
     },
   )
 
-  const tableList = useMemo(() => {
-    return fetcher.data?.items.map((i) => ({ ...i, id: `${i.name}.${i.schema}` }))
-  }, [fetcher.data])
+  const tableList = useMemo(() => fetcher.data?.items.map(buildWithId), [fetcher.data])
 
   return (
     <>
@@ -120,7 +118,7 @@ export default function Component(props: Props): JSX.Element {
               <Flex direction='column' gap='2'>
                 {Object.entries(selectedItemsAtom.get()).map(([key, item]) => {
                   return (
-                    <Card>
+                    <Card key={key}>
                       <Flex width='100%' justify='between' align='center' pr='2'>
                         <WithAvatar width='100%' iconName='Table' title={item.name} subtitle={item.schema} />
                         <Button
@@ -186,6 +184,13 @@ export default function Component(props: Props): JSX.Element {
       </Dialog.Root>
     </>
   )
+
+  /**
+   * Так как поле name не может быть уникальным из-за наличия schema, надо сгенерировать уникальный id
+   */
+  function buildWithId<T extends { name: string; schema: string }>(item: T): T & { id: string } {
+    return { ...item, id: `${item.name}.${item.schema}` }
+  }
 }
 
 Component.displayName = NAME

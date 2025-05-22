@@ -41,11 +41,11 @@ export function _notify(item: NotificationToastProps & { id?: Id | undefined }) 
 export function notifyError(item: Omit<NotificationToastProps, 'error'> & { id?: Id | undefined; error?: any }) {
   const asError = item.error
 
-  if (asError.code === 'ERR_NETWORK') return _notify({ type: 'error', ...item, title: 'Отсутствует интернет' })
+  if (asError?.code === 'ERR_NETWORK') return _notify({ type: 'error', ...item, title: 'Отсутствует интернет' })
 
-  if (asError.status === 'ERR_BAD_RESPONSE') return _notify({ type: 'error', ...item, title: 'Ошибка сервера' })
+  if (asError?.status === 'ERR_BAD_RESPONSE') return _notify({ type: 'error', ...item, title: 'Ошибка сервера' })
 
-  _notify({ type: 'error', ...item, title: 'Ошибка', description: (asError as any).translated })
+  _notify({ type: 'error', ...item, title: 'Ошибка', description: (asError as any)?.translated })
 }
 
 export function notifySuccess(item: Omit<NotificationToastProps, 'error'> & { id?: Id | undefined }) {

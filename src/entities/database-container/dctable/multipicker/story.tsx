@@ -16,8 +16,6 @@ export default {
 
     const [value, onChange] = useState<Value[] | undefined>()
 
-    console.log('value', value)
-
     return (
       <div style={{ padding: '2rem', width: '250px' }}>
         <Multipicker
