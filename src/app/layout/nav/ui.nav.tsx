@@ -1,4 +1,5 @@
-import './nav.scss'
+import './ui.nav.scss'
+import 'react-resizable/css/styles.css'
 
 import { ScrollArea, Separator } from '@radix-ui/themes'
 
@@ -9,9 +10,11 @@ import Icon from '~/shared/icon'
 import Link from '~/shared/link'
 import Text from '~/shared/text'
 import { c } from '~/utils/core'
+import { useSubscribeUpdate } from '~/utils/core-hooks'
 
-import DynamicRoutes from '../widgets/dynamic-routes'
-import StaticRoutes from '../widgets/static-routes'
+import DynamicRoutes from './dynamic-routes'
+import { navWidthAtom } from './state.nav-width'
+import StaticRoutes from './static-routes'
 
 export interface Props {
   className?: string | undefined
@@ -23,6 +26,8 @@ const NAME = 'dnp-nav-Nav'
  * dnp-nav-Nav
  */
 export default function Component(): JSX.Element {
+  useSubscribeUpdate(navWidthAtom.subscribe)
+
   return (
     <nav className={c(NAME)}>
       <Flex className='container' direction='column' align='center' gap='2' pt='8px'>

@@ -1,4 +1,4 @@
-import { ToStringable } from '../core'
+import type { ToStringable } from '../core'
 
 export function getCSSVar(name: string, element = document.documentElement) {
   return window.getComputedStyle(element).getPropertyValue(`--${name}`)

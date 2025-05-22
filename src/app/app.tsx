@@ -1,5 +1,3 @@
-import './layout/ui/reset/reset.css'
-
 import '@radix-ui/themes/styles.css'
 
 import { createElement, useEffect } from 'react'
