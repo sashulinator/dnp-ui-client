@@ -1,6 +1,6 @@
 import { type FieldInputProps, type FieldMetaState } from 'react-final-form'
 
-import Hint from '../ui/hint'
+import Hint from '../hint'
 
 export function _renderHint<FieldValue, Element extends HTMLElement>(params: {
   input: FieldInputProps<FieldValue, Element>

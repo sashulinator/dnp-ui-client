@@ -1,10 +1,10 @@
 /**
  * ui
  */
-import { default as Form } from './ui/form'
+import { default as Form } from './ui.form'
 
 export default Form
-export type { Props as FormProps } from './ui/form'
+export type { Props as FormProps } from './ui.form'
 
 /**
  * lib
@@ -35,9 +35,9 @@ export { type FieldArrayRenderProps, type RenderableProps, FieldArray } from 're
  */
 
 // checkbox
-export { default as KeyValue, type KeyValueProps } from './ui/key-value'
-export { default as Row, type RowProps } from './ui/row'
-export { default as Card, type CardProps } from './ui/card'
-export { default as Field, type FieldProps } from './ui/field'
-export { default as Column, type ColumnProps } from './ui/column'
-export { default as Hint, type HintProps } from './ui/hint'
+export { default as KeyValue, type KeyValueProps } from './key-value'
+export { default as Row, type RowProps } from './row'
+export { default as Card, type CardProps } from './card'
+export * as Field from './field'
+export { default as Column, type ColumnProps } from './column'
+export { default as Hint, type HintProps } from './hint'

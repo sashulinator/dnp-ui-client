@@ -26,7 +26,7 @@ export interface Props {
 export default function Component(props: Props): JSX.Element {
   return (
     <Flex className={c(props.className, NAME)} direction='column' width='100%' gap='6'>
-      <Field<Values['data']> name='data'>{({ input }) => <Editor language='json' {...input} />}</Field>
+      <Field.default<Values['data']> name='data'>{({ input }) => <Editor language='json' {...input} />}</Field.default>
     </Flex>
   )
 }

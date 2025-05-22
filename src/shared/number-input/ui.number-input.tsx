@@ -1,3 +1,5 @@
+import { Union } from '@radix-ui/themes/props'
+
 import { type ForwardedRef, forwardRef, useRef } from 'react'
 
 import { c } from '~/utils/core'
@@ -5,8 +7,9 @@ import { setRefs } from '~/utils/react'
 
 import TextInput, { type TextInputProps } from '../text-input'
 
-export type Props = Omit<TextInputProps, 'value' | 'onChange'> & {
+export type Props = Omit<TextInputProps, 'value' | 'onChange' | 'type'> & {
   value?: number | undefined
+  type?: Union<string, 'number'> | undefined
   onChange?: (e: React.ChangeEvent<HTMLInputElement>, value: number | undefined) => void
   onValueChange?: (value: number | undefined) => void
 }

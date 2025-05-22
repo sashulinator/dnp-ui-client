@@ -76,21 +76,21 @@ export default function Component(props: Props): JSX.Element {
                             <Icon name={(form?.getFieldState(`${formName}icon`)?.value as string) || ''} />
                           </Flex>
                         </Flex>
-                        <Field<Values['name']> name={`${formName}name`}>
+                        <Field.default<Values['name']> name={`${formName}name`}>
                           {({ input }) => <TextInput placeholder='Название' {...input} />}
-                        </Field>
+                        </Field.default>
 
-                        <Field<Values['link']['url']> name={`${formName}link.url`}>
+                        <Field.default<Values['link']['url']> name={`${formName}link.url`}>
                           {({ input }) => <TextInput placeholder='Ссылка' {...input} />}
-                        </Field>
+                        </Field.default>
 
-                        <Field<Values['description']> name={`${formName}description`}>
+                        <Field.default<Values['description']> name={`${formName}description`}>
                           {({ input }) => <TextInput placeholder='Описание' {...input} />}
-                        </Field>
+                        </Field.default>
 
-                        <Field<Values['icon']> name={`${formName}icon`}>
-                          {({ input }) => <TextArea rows='5' placeholder='Описание' {...input} />}
-                        </Field>
+                        <Field.default<Values['icon']> name={`${formName}icon`}>
+                          {({ input }) => <TextArea rows={5} placeholder='Описание' {...input} />}
+                        </Field.default>
                       </Flex>
                       <Component isRoot={false} name={name} />
                     </Flex>

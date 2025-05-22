@@ -26,7 +26,7 @@ export default function Component(props: Props): JSX.Element {
       {columns.map((item) => {
         if (item.type === 'sql') {
           return (
-            <Field name={item.name} key={item.name}>
+            <Field.default<string> name={item.name} key={item.name}>
               {({ input }) => {
                 return (
                   <Editor
@@ -54,18 +54,18 @@ export default function Component(props: Props): JSX.Element {
                   />
                 )
               }}
-            </Field>
+            </Field.default>
           )
         }
         return (
           <Flex key={item.name} direction='column'>
-            <Field name={item.name}>
+            <Field.default<string> name={item.name}>
               {({ input }) => (
                 <Labeled label={item.display || item.name}>
                   <TextInput {...input} />
                 </Labeled>
               )}
-            </Field>
+            </Field.default>
           </Flex>
         )
       })}

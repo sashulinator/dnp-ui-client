@@ -125,7 +125,7 @@ export default function Component(props: Props): JSX.Element {
           <Card>
             <Row>
               <Column flexBasis='50%'>
-                <Field validate={(v) => !v} name='name'>
+                <Field.default validate={(v) => !v} name='name'>
                   {({ input, meta }) => (
                     <Flex direction='column'>
                       <Labeled color={meta.error ? 'red' : undefined} label='Название'>
@@ -138,7 +138,7 @@ export default function Component(props: Props): JSX.Element {
                       </Labeled>
                     </Flex>
                   )}
-                </Field>
+                </Field.default>
               </Column>
               <Column flexBasis='50%' />
             </Row>

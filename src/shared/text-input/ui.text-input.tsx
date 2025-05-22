@@ -8,8 +8,9 @@ import Icon from '~/shared/icon'
 import { c, fns } from '~/utils/core'
 import { setInputValue } from '~/utils/dom-event'
 import { setRefs } from '~/utils/react'
+import type { Union } from '~/utils/types/union'
 
-export type Props = Omit<TextField.RootProps, 'value'> & {
+export type Props = Omit<TextField.RootProps, 'value' | 'type'> & {
   className?: string | undefined
   left?: React.ReactNode | undefined
   right?: React.ReactNode | undefined
@@ -17,13 +18,14 @@ export type Props = Omit<TextField.RootProps, 'value'> & {
   rightProps?: TextField.SlotProps | undefined
   clearable?: boolean | undefined
   value?: string | undefined
+  type?: Union<string, 'password' | 'text'> | undefined
   onValueChange?: ((value: string | undefined) => void) | undefined
 }
 
 export const NAME = 'textInput-TextInput'
 
 export function Component(props: Props, forwardedRef: ForwardedRef<HTMLInputElement>): JSX.Element {
-  const { clearable, left, right, leftProps, rightProps, onValueChange, onChange, ...textInputProps } = props
+  const { clearable, left, right, type, leftProps, rightProps, onValueChange, onChange, ...textInputProps } = props
 
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -33,6 +35,7 @@ export function Component(props: Props, forwardedRef: ForwardedRef<HTMLInputElem
     <TextField.Root
       ref={setRefs(inputRef, forwardedRef)}
       {...textInputProps}
+      type={type === 'password' ? 'password' : 'text'}
       value={textInputProps.value || ''}
       onChange={fns(onChange, (e) => onValueChange?.(e.target.value))}
       className={c(props.className, NAME)}

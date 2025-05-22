@@ -1,8 +1,8 @@
 import Flex from '~/shared/flex'
 import Form, { useCreateForm } from '~/shared/form'
-import { Props, type Story } from '~/shared/storybook'
+import type { Props, Story } from '~/shared/storybook'
 
-import KeyValue from '..'
+import KeyValue from '.'
 
 interface State {}
 

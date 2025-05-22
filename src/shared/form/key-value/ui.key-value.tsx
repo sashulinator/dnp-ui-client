@@ -24,7 +24,12 @@ const displayName = 'ui-Form-w-KeyValue'
  */
 function Component(props: Props): JSX.Element {
   return (
-    <Field<Record<string, string>, FieldRenderProps<Record<string, string>, HTMLElement, Record<string, string>>>
+    <Field.default<
+      Record<string, string>,
+      HTMLInputElement,
+      Record<string, string>,
+      FieldRenderProps<Record<string, string>, HTMLElement, Record<string, string>>
+    >
       name={props.name}
     >
       {({ input }) => {
@@ -83,7 +88,7 @@ function Component(props: Props): JSX.Element {
           </Flex>
         )
       }}
-    </Field>
+    </Field.default>
   )
 }
 

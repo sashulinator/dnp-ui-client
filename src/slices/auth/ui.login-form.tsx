@@ -1,6 +1,5 @@
-import { Field } from 'react-final-form'
-
 import Flex, { type FlexProps } from '~/shared/flex'
+import { Field } from '~/shared/form'
 import TextInput from '~/shared/text-input'
 import { c } from '~/utils/core'
 
@@ -19,12 +18,12 @@ const NAME = 'auth-LoginForm'
 export default function Component(props: Props): JSX.Element {
   return (
     <Flex align='stretch' direction='column' gap='4' {...props.root} className={c(props.className, NAME)}>
-      <Field<Values['email']> name='email'>
+      <Field.default<Values['email']> name='email'>
         {({ input }) => <TextInput variant='soft' placeholder='Логин' {...input} type='text' />}
-      </Field>
-      <Field<Values['password']> name='password'>
+      </Field.default>
+      <Field.default<Values['password']> name='password'>
         {({ input }) => <TextInput variant='soft' placeholder='Пароль' {...input} type='text' />}
-      </Field>
+      </Field.default>
     </Flex>
   )
 }

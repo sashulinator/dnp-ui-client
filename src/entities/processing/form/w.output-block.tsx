@@ -1,11 +1,10 @@
 import { useCallback, useEffect, useRef } from 'react'
-import { Field, useForm } from 'react-final-form'
 
 import { APP } from '~/app/constants.app'
 import { Dcdatabase, Dcservice, Dctable } from '~/entities/database-container'
 import Button from '~/shared/button'
 import Flex from '~/shared/flex'
-import { Card, Column } from '~/shared/form'
+import { Card, Column, Field, useForm } from '~/shared/form'
 import Icon from '~/shared/icon'
 import Text from '~/shared/text'
 import TextInput from '~/shared/text-input'
@@ -74,7 +73,7 @@ export default function Component(props: Props): JSX.Element {
   return (
     <Card label='Вывод' className={c(NAME, className)}>
       <Column>
-        <Field<
+        <Field.default<
           Dcservice.Picker.DisplayWithId & { dcserviceId?: string; name?: string; schema?: string; database?: string }
         >
           name='outputDctableLocator'
@@ -164,7 +163,7 @@ export default function Component(props: Props): JSX.Element {
                     renderTrigger={useCallback(
                       ({ enabled, setIsOpen, value, setValue }) => {
                         return (
-                          <Field name='outputTable'>
+                          <Field.default name='outputTable'>
                             {({ input }) => {
                               return (
                                 <Flex gap='2' width='100%'>
@@ -255,7 +254,7 @@ export default function Component(props: Props): JSX.Element {
                                 </Flex>
                               )
                             }}
-                          </Field>
+                          </Field.default>
                         )
                       },
                       [isTextInput],
@@ -265,7 +264,7 @@ export default function Component(props: Props): JSX.Element {
               </>
             )
           }}
-        </Field>
+        </Field.default>
       </Column>
     </Card>
   )

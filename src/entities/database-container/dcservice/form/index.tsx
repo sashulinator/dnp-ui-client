@@ -1,9 +1,8 @@
-import { Field } from 'react-final-form'
-
 import { APP } from '~/app/constants.app'
 import Flex from '~/shared/flex'
-import { Card, Column, Row } from '~/shared/form'
+import { Card, Column, Field, Row } from '~/shared/form'
 import Labeled from '~/shared/labeled'
+import NumberInput from '~/shared/number-input'
 import { InputSelect } from '~/shared/select'
 import TextInput from '~/shared/text-input'
 import { c } from '~/utils/core'
@@ -28,7 +27,7 @@ export default function Component(props: Props): JSX.Element {
       <Card label='Основное'>
         <Row width='100%'>
           <Column width='50%'>
-            <Field<string> name={'display' satisfies keyof Values}>
+            <Field.default<string> name={'display' satisfies keyof Values}>
               {({ input }) => (
                 <Flex direction='column'>
                   <Labeled label='Отображение'>
@@ -36,7 +35,7 @@ export default function Component(props: Props): JSX.Element {
                   </Labeled>
                 </Flex>
               )}
-            </Field>
+            </Field.default>
           </Column>
           <Column width='50%' />
         </Row>
@@ -46,7 +45,7 @@ export default function Component(props: Props): JSX.Element {
           <Row width='100%'>
             <Column width='50%'>
               <Flex width='100%' direction='column'>
-                <Field<string> name={'client' satisfies keyof Values}>
+                <Field.default<string> name={'client' satisfies keyof Values}>
                   {({ input }) => (
                     <Labeled label='Клиент'>
                       <InputSelect.default
@@ -61,13 +60,13 @@ export default function Component(props: Props): JSX.Element {
                       />
                     </Labeled>
                   )}
-                </Field>
+                </Field.default>
               </Flex>
             </Column>
             <Column width='50%' />
           </Row>
           <Row width='100%'>
-            <Field<string> name={'host' satisfies keyof Values}>
+            <Field.default<string> name={'host' satisfies keyof Values}>
               {({ input }) => (
                 <Flex direction='column' width='100%'>
                   <Labeled label='Хост'>
@@ -75,8 +74,8 @@ export default function Component(props: Props): JSX.Element {
                   </Labeled>
                 </Flex>
               )}
-            </Field>
-            <Field<number>
+            </Field.default>
+            <Field.default<number>
               name={'port' satisfies keyof Values}
               type='number'
               parse={(v) => (v ? Number(v) : (undefined as unknown as number))}
@@ -84,31 +83,24 @@ export default function Component(props: Props): JSX.Element {
               {({ input }) => (
                 <Flex direction='column' width='100px'>
                   <Labeled label='Порт'>
-                    <TextInput
-                      {...input}
-                      value={input.value.toString()}
-                      clearable={true}
-                      variant='soft'
-                      disabled={disabled}
-                      type='number'
-                    />
+                    <NumberInput {...input} value={input.value} clearable={true} variant='soft' disabled={disabled} />
                   </Labeled>
                 </Flex>
               )}
-            </Field>
+            </Field.default>
           </Row>
           <Row width='100%'>
             <Column width='50%'>
-              <Field<string> name={'username' satisfies keyof Values}>
+              <Field.default<string> name={'username' satisfies keyof Values}>
                 {({ input }) => (
                   <Flex direction='column'>
                     <Labeled label='Пользователь'>
-                      <TextInput {...input} clearable={true} variant='soft' disabled={disabled} type='text' />
+                      <TextInput {...input} clearable={true} variant='soft' disabled={disabled} />
                     </Labeled>
                   </Flex>
                 )}
-              </Field>
-              <Field<string> name={'password' satisfies keyof Values}>
+              </Field.default>
+              <Field.default<string> name={'password' satisfies keyof Values}>
                 {({ input }) => (
                   <Flex direction='column'>
                     <Labeled label='Пароль'>
@@ -116,21 +108,21 @@ export default function Component(props: Props): JSX.Element {
                     </Labeled>
                   </Flex>
                 )}
-              </Field>
+              </Field.default>
             </Column>
             <Column width='50%' />
           </Row>
           <Row width='100%'>
             <Column width='50%'>
-              <Field<Values['entryDatabase']> name={'entryDatabase' satisfies keyof Values}>
+              <Field.default<Values['entryDatabase']> name={'entryDatabase' satisfies keyof Values}>
                 {({ input }) => (
                   <Flex direction='column'>
                     <Labeled label='База данных'>
-                      <TextInput {...input} clearable={true} variant='soft' disabled={disabled} type='text' />
+                      <TextInput {...input} clearable={true} variant='soft' disabled={disabled} />
                     </Labeled>
                   </Flex>
                 )}
-              </Field>
+              </Field.default>
             </Column>
             <Column width='50%' />
           </Row>

@@ -54,7 +54,7 @@ export default function Component(props: Props): JSX.Element {
   return (
     <Card label='Вход' className={c(NAME, className)}>
       <Column width='100%'>
-        <Field name='configs' subscription={{ value: true }}>
+        <Field.default name='configs' subscription={{ value: true }}>
           {({ input }) => {
             const inputValue = input.value as Dictionary<Config>
             const value = Object.values(inputValue).reduce<Dictionary<Dctable.DctableLocator>>((acc, item) => {
@@ -159,7 +159,7 @@ export default function Component(props: Props): JSX.Element {
               </>
             )
           }}
-        </Field>
+        </Field.default>
       </Column>
     </Card>
   )
