@@ -1,15 +1,25 @@
 import * as v from 'valibot'
 
 /**
+ * DatabaseClientConfig
+ */
+
+export const databaseClientConfig = v.object({
+  client: v.pipe(v.string(), v.nonEmpty()),
+  username: v.pipe(v.string(), v.nonEmpty()),
+  password: v.pipe(v.string(), v.nonEmpty()),
+  host: v.pipe(v.string(), v.nonEmpty()),
+  port: v.pipe(v.number(), v.integer()),
+})
+
+/**
  * Table
  */
 
-export const tableSchema = v.object({
-  name: v.string(),
-  columns: v.array(v.lazy(() => columnSchema)),
+export const table = v.object({
+  name: v.pipe(v.string(), v.nonEmpty()),
+  schema: v.pipe(v.string(), v.nonEmpty()),
 })
-
-export type Table = v.InferOutput<typeof tableSchema>
 
 /**
  * Column
@@ -69,7 +79,7 @@ const _columnTypeSchema = v.variant('type', [
   }),
 ])
 
-export const columnSchema = v.intersect([
+export const column = v.intersect([
   _columnTypeSchema,
   v.object({
     name: v.string(),
@@ -78,34 +88,15 @@ export const columnSchema = v.intersect([
     primary: v.optional(v.boolean()),
     nullable: v.optional(v.boolean()),
     unique: v.optional(v.boolean()),
-    relation: v.optional(v.lazy(() => relationSchema)),
+    relation: v.optional(v.lazy(() => relation)),
   }),
 ])
-
-export type Column = v.InferOutput<typeof columnSchema>
 
 /**
  * Relation
  */
 
-export const relationSchema = v.object({
+export const relation = v.object({
   table: v.string(),
   column: v.string(),
 })
-
-export type Relation = v.InferOutput<typeof relationSchema>
-
-/**
- * Row
- */
-
-export type Row = Record<string | number, unknown>
-
-export const connection = v.object({
-  username: v.pipe(v.string(), v.nonEmpty()),
-  password: v.pipe(v.string(), v.nonEmpty()),
-  host: v.pipe(v.string(), v.nonEmpty()),
-  port: v.pipe(v.number(), v.integer()),
-})
-
-export type Connection = v.InferOutput<typeof connection>

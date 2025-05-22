@@ -5,6 +5,7 @@ export * as create from './create'
 export * as removeById from './remove-by-id'
 export * as testConnection from './test-connection'
 export * as findWithTotal from './find-with-total'
+export * as findDctablesWithTables from './find-dctables-with-tables'
 // Database
 export * as findDatabases from './find-databases'
 // Table

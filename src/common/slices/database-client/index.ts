@@ -8,7 +8,8 @@ export { SLICE } from './constants/name'
  * models
  */
 
-export { tableSchema, columnSchema, relationSchema, type Row, type Column, type Table, type Relation } from './models'
+export { type Row, type Column, type Table, type Relation } from './types'
+export * as Schema from './schemas'
 
 /**
  * widgets
