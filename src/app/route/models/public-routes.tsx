@@ -7,7 +7,7 @@ import { LoginPage } from '~/slices/auth'
 
 import { type Route } from './route'
 
-const Storybook = lazy(() => import('~/pages/storybook/index'))
+const Storybook = lazy(() => import('~/pages/storybook'))
 const StorybookNavLazy = lazy(() => import('~/shared/storybook/nav'))
 
 function StorybookNav() {

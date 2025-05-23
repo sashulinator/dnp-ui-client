@@ -20,9 +20,9 @@ export interface Props extends Omit<InputProps, 'onChange' | 'children' | 'value
 const NAME = 'dnp-databaseContainer-dcservice-input'
 
 function Component(props: Props, ref: ForwardedRef<HTMLButtonElement>): JSX.Element {
-  const { loading, variant = 'soft', fetcherDependencies, fetchDisplay: fetchValue, ...inputCardProps } = props
+  const { loading, variant = 'soft', fetcherDependencies, fetchDisplay, ...inputCardProps } = props
 
-  const valueFetcher = useQuery([NAME, ...fetcherDependencies], fetchValue)
+  const valueFetcher = useQuery([NAME, ...fetcherDependencies], fetchDisplay)
   const value = valueFetcher.data
 
   return (

@@ -12,11 +12,13 @@ import NormalizationConfigs_status from '~/entities/processing/pages/status'
 import getDcserviceById from '~/pages/get-dcservice-by-id'
 import GetProcedureById from '~/pages/get-procedure-by-id'
 import LinkMenu_edit from '~/pages/link-tree.edit'
+import ManageDatabaseContainers from '~/pages/manage-database-containers'
 import Icon from '~/shared/icon'
 import Logo from '~/shared/logo-icon'
 import { Icon as ProcessIcon } from '~/slices/process'
 import Processes from '~/slices/process/pages'
 import Processes_kn from '~/slices/process/pages/kn'
+import { isDev } from '~/utils/core-client'
 
 import Main from '../../../pages/main'
 import { setReturnRedirect } from '../lib/return-redirect'
@@ -174,6 +176,23 @@ export const routes = {
       renderHeader: Header,
       renderNav: Nav,
       navigatable: false,
+      rolesAllowed: [roles.stc_get],
+    },
+  },
+
+  manageDatabaseContainers: {
+    getName: () => 'Просмотр сервиса баз',
+    getPath: () => '/database-container/manager',
+    getUrl() {
+      return this.getPath()
+    },
+    render: ManageDatabaseContainers,
+    redirect: combineProtections(_protectPrivate, _protectByRole),
+    payload: {
+      renderHeader: Header,
+      renderNav: Nav,
+      renderIcon: (props) => <Icon {...props} name='Star' />,
+      navigatable: isDev(),
       rolesAllowed: [roles.stc_get],
     },
   },
