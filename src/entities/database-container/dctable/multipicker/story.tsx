@@ -40,7 +40,6 @@ export default {
           renderTrigger={useCallback(({ setIsOpen, setValue, value }) => {
             return (
               <Input
-                hasValue={!!value}
                 fetchValue={async () => value as any}
                 fetcherDependencies={[value]}
                 onClick={() => setIsOpen(true)}

@@ -37,7 +37,6 @@ export default {
           renderTrigger={useCallback(({ setIsOpen, value, setValue }) => {
             return (
               <Input
-                hasValue={!!value}
                 fetchValue={() => value}
                 fetcherDependencies={[value]}
                 onClearableClick={() => setValue(undefined)}

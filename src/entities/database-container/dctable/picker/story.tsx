@@ -39,12 +39,7 @@ export default {
           onChange={onChange}
           renderTrigger={useCallback(({ setIsOpen, value }) => {
             return (
-              <Input
-                hasValue={!!value}
-                fetchValue={() => value as any}
-                fetcherDependencies={[value]}
-                onClick={() => setIsOpen(true)}
-              />
+              <Input fetchValue={() => value as any} fetcherDependencies={[value]} onClick={() => setIsOpen(true)} />
             )
           }, [])}
         />

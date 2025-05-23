@@ -33,7 +33,6 @@ export default {
         </Flex>
         <Input
           {...state}
-          hasValue={!!value}
           fetchValue={async () => value?.[0]}
           fetcherDependencies={[value]}
           onClearableClick={() => setValue(undefined)}
@@ -42,7 +41,6 @@ export default {
           async
           <Input
             {...state}
-            hasValue={!!value}
             fetchValue={() =>
               new Promise((resolve) => {
                 if (!value?.[0]) resolve(undefined)
@@ -59,7 +57,6 @@ export default {
           async multiselect
           <Input
             {...state}
-            hasValue={!!value}
             fetchValue={() =>
               new Promise((resolve) => {
                 if (!value) resolve(undefined)

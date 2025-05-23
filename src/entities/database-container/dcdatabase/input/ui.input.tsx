@@ -8,7 +8,7 @@ import type { DatabaseValue } from '../types'
 
 export type Value = DatabaseValue
 
-export interface Props extends Omit<InputProps, 'onChange' | 'children' | 'value'> {
+export interface Props extends Omit<InputProps, 'onChange' | 'children' | 'value' | 'hasValue'> {
   className?: string | undefined
   fetchValue: () => Value | undefined
   fetcherDependencies: unknown[]
@@ -28,6 +28,7 @@ export default function Component(props: Props): JSX.Element {
         size={null}
         {...inputCardProps}
         variant={variant}
+        hasValue={!!value?.name}
         style={{ width: '100%', padding: 'var(--space-2)', gap: 'var(--space-2)', ...inputCardProps.style }}
       >
         <Flex width='100%' justify='between' align='center'>

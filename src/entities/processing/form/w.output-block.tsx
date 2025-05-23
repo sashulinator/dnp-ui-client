@@ -134,7 +134,6 @@ export default function Component(props: Props): JSX.Element {
                   renderTrigger={useCallback(({ enabled, setIsOpen, value, setValue }) => {
                     return (
                       <Dcdatabase.Input.default
-                        hasValue={!!value?.name}
                         disabled={!enabled}
                         fetchValue={() => value}
                         fetcherDependencies={[value, input.value.id]}
@@ -221,7 +220,6 @@ export default function Component(props: Props): JSX.Element {
                                   ) : (
                                     <Flex width='100%' align='end'>
                                       <Dctable.Input.default
-                                        hasValue={!!value?.name}
                                         disabled={!enabled}
                                         fetchValue={() => value as any}
                                         fetcherDependencies={[value, input.value.id]}

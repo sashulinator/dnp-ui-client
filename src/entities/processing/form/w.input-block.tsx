@@ -117,7 +117,6 @@ export default function Component(props: Props): JSX.Element {
                   renderTrigger={useCallback(({ enabled, setIsOpen, value, setValue }) => {
                     return (
                       <Dcdatabase.Input.default
-                        hasValue={!!value?.name}
                         disabled={!enabled}
                         fetchValue={() => value}
                         fetcherDependencies={[value, dcservice]}
@@ -147,7 +146,6 @@ export default function Component(props: Props): JSX.Element {
                   renderTrigger={({ setIsOpen, setValue, value }) => {
                     return (
                       <Dctable.Input.default
-                        hasValue={!!value?.length}
                         fetchValue={async () => value as any}
                         fetcherDependencies={[value]}
                         onClick={() => setIsOpen(true)}

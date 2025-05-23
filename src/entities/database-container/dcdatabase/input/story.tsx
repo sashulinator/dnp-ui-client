@@ -26,7 +26,6 @@ export default {
         </Flex>
         <Input
           {...state}
-          hasValue={!!value}
           fetchValue={() => value}
           fetcherDependencies={[value]}
           onClearableClick={() => setValue(undefined)}

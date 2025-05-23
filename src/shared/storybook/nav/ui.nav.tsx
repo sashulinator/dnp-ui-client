@@ -58,15 +58,19 @@ export default function Component(): JSX.Element {
    * private
    */
   function toTreeItem(): TreeItem[] {
-    const groupedStory = group(storyList, (story) => story.getName().split('-')[1])
+    const groupedStory = group(storyList, (story) => {
+      return story.getName().split('-').slice(0, 2).join('-')
+    })
     return Object.entries(groupedStory).map(([key, stories]) => {
+      const [, slice] = key.split('-')
+
       return {
         id: key,
-        name: key,
+        name: slice,
         renderIcon: () => <>·</>,
         children: stories.map((story) => ({
           id: story.getName(),
-          name: story.getName(),
+          name: story.getName().replace(`${key}-`, ''),
           link: { url: `/storybook/${story.getName()}` },
           children: [],
         })),

@@ -69,7 +69,6 @@ export default function Component(props: Props): JSX.Element {
                   return (
                     <Dcdatabase.Input.default
                       style={{ width: '50%' }}
-                      hasValue={!!value?.name}
                       disabled={!enabled}
                       onClearableClick={() => setValue(undefined)}
                       fetchValue={() => value}
@@ -85,7 +84,6 @@ export default function Component(props: Props): JSX.Element {
                   return (
                     <Dctable.Input.default
                       style={{ width: '50%' }}
-                      hasValue={!!value?.name}
                       disabled={!enabled}
                       onClearableClick={() => setValue(undefined)}
                       fetchValue={() => value as any}

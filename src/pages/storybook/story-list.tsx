@@ -1,17 +1,17 @@
-import dnpDcdatabaseInput from '~/entities/database-container/dcdatabase/input/story'
+import dcdatabaseInput from '~/entities/database-container/dcdatabase/input/story'
 import dcdatabaseListTable from '~/entities/database-container/dcdatabase/list-table/story'
 import dcdatabasePicker from '~/entities/database-container/dcdatabase/picker/story'
 import dcrowTableList from '~/entities/database-container/dcrow/list-table/story'
-import eDcserviceForm from '~/entities/database-container/dcservice/form/story'
+import dcserviceForm from '~/entities/database-container/dcservice/form/story'
 import dcserviceInput from '~/entities/database-container/dcservice/input/story'
 import dcserviceListTable from '~/entities/database-container/dcservice/list-table/story'
 import dcservicePicker from '~/entities/database-container/dcservice/picker/story'
 import dctableInput from '~/entities/database-container/dctable/input/story'
 import dctableListTable from '~/entities/database-container/dctable/list-table/story'
 import dctableMultipicker from '~/entities/database-container/dctable/multipicker/story'
-import eDatabaseContanerDctablePicker from '~/entities/database-container/dctable/picker/story'
-import eExecutableswRegexp from '~/entities/processing/executable/w.field-factory/regexp-functions/story'
-import eExecutableswFackerColConfig from '~/entities/processing/executable/w.field-factory/w.facker-col-config/story'
+import dctablePicker from '~/entities/database-container/dctable/picker/story'
+import processingExecutableRegexp from '~/entities/processing/executable/w.field-factory/regexp-functions/story'
+import processingExecutableFackerColConfig from '~/entities/processing/executable/w.field-factory/w.facker-col-config/story'
 import uiButton from '~/shared/button/story'
 import uiCalendar from '~/shared/calendar/story'
 import uiCard from '~/shared/card/story'
@@ -36,7 +36,7 @@ import selectSelectWInput from '~/shared/select/v.labeled/story'
 import optionFilter from '~/shared/select/w.option-filter/story'
 import type { Story } from '~/shared/storybook'
 import tableList from '~/shared/table/-list/story'
-import eProcessingWProcedureWValuePerColumn from '~/shared/table/-matrix/story'
+import uiTableVMatrix from '~/shared/table/-matrix/story'
 import uiTagPicker from '~/shared/tag-picker/story/index'
 import uiTagPickerWTag from '~/shared/tag-picker/widgets/tag/story'
 import sharedTextInput from '~/shared/text-input/story'
@@ -55,22 +55,26 @@ export const storyList: Story<any>[] = [
    * entities
    */
 
+  // dcservice
   dcserviceListTable,
   dcservicePicker,
   dcserviceInput,
+  // dcdatabase
   dcdatabaseListTable,
-  eDatabaseContanerDctablePicker,
-  dnpDcdatabaseInput,
+  // dctable
+  dctablePicker,
+  dcdatabaseInput,
   dcdatabasePicker,
   dctableInput,
+  dctableMultipicker,
   dcrowTableList,
-  eProcessingWProcedureWValuePerColumn,
-  debugRenderCounter,
-  eDcserviceForm,
+  uiTableVMatrix,
+  dcserviceForm,
   dctableListTable,
   uiSelectInput,
-  eExecutableswRegexp,
-  dctableMultipicker,
+  processingExecutableRegexp,
+
+  debugRenderCounter,
 
   /**
    * shared
@@ -82,7 +86,7 @@ export const storyList: Story<any>[] = [
   uiMultiselectPicker,
   uiCardInput,
   uiCalendar,
-  eExecutableswFackerColConfig,
+  processingExecutableFackerColConfig,
   selectSelectWInput,
   optionFilter,
   uiInput,
