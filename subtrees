@@ -1,1 +1,3 @@
-src/common                       common                     git@gitlab.inno.tech:dnp_team/ui-common.git
+#                                     |                                     |
+# common                                src/common                            git@gitlab.inno.tech:dnp_team/ui-common.git
+utils-core/main                       src/utils/core                        git@github.com:sashulinator/utils-core.git

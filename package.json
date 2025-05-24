@@ -10,10 +10,14 @@
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "prepare": "scripts/prepare",
+    "prepare": "scripts/prepare && npm run subtrees:add-remote",
     "test": "echo 'there is no test'",
     "prepack": "pinst --disable",
-    "postpack": "pinst --enable"
+    "postpack": "pinst --enable",
+    "subtrees:list": "node ./scripts/subtrees/list.mjs",
+    "subtrees:add-remote": "node ./scripts/subtrees/add-remote.mjs",
+    "subtrees:diff": "node ./scripts/subtrees/diff.mjs",
+    "subtrees:push": "node ./scripts/subtrees/push.mjs"
   },
   "dependencies": {
     "@atlaskit/tree": "8.9.0",
